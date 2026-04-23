@@ -32,7 +32,7 @@ class EditScheduleMainInfoPage extends StatefulWidget {
 class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   late TextEditingController _nameController;
   late TextEditingController _doseController;
-  late TextEditingController _intervalDaysController;
+  late List<int> _selectedDaysOfWeek;
   late Date _startDate;
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
@@ -44,8 +44,8 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       MedicationSchedule.validateName(context.l10n, _nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _intervalDaysError => MedicationSchedule.validateIntervalDays(
-      context.l10n, _intervalDaysController.text);
+  String? get _daysOfWeekError =>
+      _selectedDaysOfWeek.isEmpty ? 'Please select at least one day' : null;
   String? get _startDateError =>
       MedicationSchedule.validateStartDate(context.l10n, _startDate);
   String? get _moleculeError =>
@@ -62,7 +62,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
-      _intervalDaysError == null &&
+      _daysOfWeekError == null &&
       _startDateError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
@@ -113,7 +113,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     final updatedSchedule = widget.schedule.copyWith(
       name: _nameController.text,
       dose: _doseController.text.toDecimal,
-      intervalDays: _intervalDaysController.text.toInt,
+      daysOfWeek: _selectedDaysOfWeek, // Save the updated list of days
       startDate: _startDate,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
@@ -138,6 +138,91 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     }
   }
 
+  Widget _buildDaysOfWeekSelector() {
+    const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+    Widget buildChip(int index) {
+      final dayInt = index + 1; // 1 = Monday, 7 = Sunday
+      final isSelected = _selectedDaysOfWeek.contains(dayInt);
+
+      return ActionChip(
+        label: Text(days[index]),
+        backgroundColor: isSelected
+            ? Theme.of(context).colorScheme.primaryContainer
+            : Theme.of(context).colorScheme.surface,
+        side: BorderSide(
+          color: isSelected
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.outlineVariant,
+        ),
+        onPressed: () {
+          setState(() {
+            if (isSelected) {
+              _selectedDaysOfWeek.remove(dayInt);
+            } else {
+              _selectedDaysOfWeek.add(dayInt);
+            }
+            _selectedDaysOfWeek.sort();
+          });
+        },
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Days of the week',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+          const SizedBox(height: 12),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildChip(0),
+                  const SizedBox(width: 8),
+                  buildChip(1),
+                  const SizedBox(width: 8),
+                  buildChip(2),
+                  const SizedBox(width: 8),
+                  buildChip(3),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildChip(4),
+                  const SizedBox(width: 8),
+                  buildChip(5),
+                  const SizedBox(width: 8),
+                  buildChip(6),
+                ],
+              ),
+            ],
+          ),
+          if (_daysOfWeekError != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                _daysOfWeekError!,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.error,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -148,8 +233,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     _nameController = TextEditingController(text: widget.schedule.name);
     _doseController =
         TextEditingController(text: widget.schedule.dose.toString());
-    _intervalDaysController =
-        TextEditingController(text: widget.schedule.intervalDays.toString());
+    _selectedDaysOfWeek = List<int>.from(widget.schedule.daysOfWeek);
     _startDate = widget.schedule.startDate;
     _molecule = widget.schedule.molecule;
     _administrationRoute = widget.schedule.administrationRoute;
@@ -160,7 +244,6 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   void dispose() {
     _nameController.dispose();
     _doseController.dispose();
-    _intervalDaysController.dispose();
     super.dispose();
   }
 
@@ -215,15 +298,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           errorText: _doseError,
           regexFormatter: r'[0-9.,]',
         ),
-        FormTextField(
-          controller: _intervalDaysController,
-          label: localizations.every,
-          suffixText: localizations.days,
-          onChanged: _refresh,
-          inputType: TextInputType.number,
-          errorText: _intervalDaysError,
-          regexFormatter: r'[0-9]',
-        ),
+        _buildDaysOfWeekSelector(),
         FormDateField(
           date: _startDate,
           label: localizations.startDate,

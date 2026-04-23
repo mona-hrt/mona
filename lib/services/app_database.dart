@@ -47,7 +47,7 @@ class AppDatabase {
 
     return await openDatabase(
       path,
-      version: 4,
+      version: 5,
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -88,7 +88,7 @@ class AppDatabase {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       dose TEXT NOT NULL,
-      intervalDays INTEGER NOT NULL,
+      daysOfWeek INTEGER NOT NULL,
       startDate TEXT NOT NULL,
       moleculeJson TEXT NOT NULL,
       administrationRouteName TEXT NOT NULL,
@@ -270,6 +270,53 @@ class AppDatabase {
           );
         }
       }
+    }
+
+    if (oldVersion < 5) {
+      await db.execute('''
+      CREATE TABLE medication_schedules_new(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        dose TEXT NOT NULL,
+        daysOfWeek TEXT NOT NULL,
+        startDate TEXT NOT NULL,
+        moleculeJson TEXT NOT NULL,
+        administrationRouteName TEXT NOT NULL,
+        esterName TEXT,
+        notificationTimes TEXT NOT NULL
+      )
+      ''');
+
+      final schedules = await db.query('medication_schedules');
+
+      for (final row in schedules) {
+        final intervalDays = row['intervalDays'] as int;
+        final startDateRaw = row['startDate'] as String;
+        final startDate = DateTime.parse(startDateRaw);
+
+        String daysOfWeekJson;
+        if (intervalDays == 1) {
+          daysOfWeekJson = '[1,2,3,4,5,6,7]';
+        } else {
+          daysOfWeekJson = '[${startDate.weekday}]';
+        }
+
+        await db.insert('medication_schedules_new', {
+          'id': row['id'],
+          'name': row['name'],
+          'dose': row['dose'],
+          'daysOfWeek': daysOfWeekJson,
+          'startDate': row['startDate'],
+          'moleculeJson': row['moleculeJson'],
+          'administrationRouteName': row['administrationRouteName'],
+          'esterName': row['esterName'],
+          'notificationTimes': row['notificationTimes'] ?? '[]',
+        });
+      }
+
+      await db.execute('DROP TABLE medication_schedules');
+      await db.execute(
+          'ALTER TABLE medication_schedules_new RENAME TO medication_schedules');
     }
   }
 

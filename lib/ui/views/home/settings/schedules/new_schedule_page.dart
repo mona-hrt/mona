@@ -26,7 +26,7 @@ class NewSchedulePage extends StatefulWidget {
 class _NewSchedulePageState extends State<NewSchedulePage> {
   late TextEditingController _nameController;
   late TextEditingController _doseController;
-  late TextEditingController _intervalDaysController;
+  final List<int> _selectedDaysOfWeek = [];
   late Date _startDate;
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
@@ -37,8 +37,8 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
       MedicationSchedule.validateName(context.l10n, _nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _intervalDaysError => MedicationSchedule.validateIntervalDays(
-      context.l10n, _intervalDaysController.text);
+  String? get _daysOfWeekError =>
+      _selectedDaysOfWeek.isEmpty ? 'Please select at least one day' : null;
   String? get _startDateError =>
       MedicationSchedule.validateStartDate(context.l10n, _startDate);
   String? get _moleculeError =>
@@ -55,7 +55,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
-      _intervalDaysError == null &&
+      _daysOfWeekError == null &&
       _startDateError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
@@ -104,13 +104,12 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
   void _addSchedule() {
     final name = _nameController.text;
     final dose = _doseController.text.toDecimal;
-    final intervalDays = _intervalDaysController.text.toInt;
     final startDate = _startDate;
 
     final schedule = MedicationSchedule(
       name: name,
       dose: dose,
-      intervalDays: intervalDays,
+      daysOfWeek: _selectedDaysOfWeek,
       startDate: startDate,
       molecule: _molecule!,
       administrationRoute: _administrationRoute!,
@@ -131,6 +130,91 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     );
   }
 
+  Widget _buildDaysOfWeekSelector() {
+    const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+    Widget buildChip(int index) {
+      final dayInt = index + 1;
+      final isSelected = _selectedDaysOfWeek.contains(dayInt);
+
+      return ActionChip(
+        label: Text(days[index]),
+        backgroundColor: isSelected
+            ? Theme.of(context).colorScheme.primaryContainer
+            : Theme.of(context).colorScheme.surface,
+        side: BorderSide(
+          color: isSelected
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.outlineVariant,
+        ),
+        onPressed: () {
+          setState(() {
+            if (isSelected) {
+              _selectedDaysOfWeek.remove(dayInt);
+            } else {
+              _selectedDaysOfWeek.add(dayInt);
+            }
+            _selectedDaysOfWeek.sort();
+          });
+        },
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Days of the week',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+          const SizedBox(height: 12),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildChip(0),
+                  const SizedBox(width: 8),
+                  buildChip(1),
+                  const SizedBox(width: 8),
+                  buildChip(2),
+                  const SizedBox(width: 8),
+                  buildChip(3),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildChip(4),
+                  const SizedBox(width: 8),
+                  buildChip(5),
+                  const SizedBox(width: 8),
+                  buildChip(6),
+                ],
+              ),
+            ],
+          ),
+          if (_daysOfWeekError != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                _daysOfWeekError!,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.error,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -138,7 +222,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
         Provider.of<PreferencesService>(context, listen: false);
     _nameController = TextEditingController();
     _doseController = TextEditingController();
-    _intervalDaysController = TextEditingController();
     _startDate = Date.today();
   }
 
@@ -146,7 +229,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
   void dispose() {
     _nameController.dispose();
     _doseController.dispose();
-    _intervalDaysController.dispose();
     super.dispose();
   }
 
@@ -198,14 +280,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: '[0-9.,]',
         ),
-        FormTextField(
-          controller: _intervalDaysController,
-          label: localizations.every,
-          suffixText: localizations.days,
-          onChanged: _refresh,
-          inputType: TextInputType.number,
-          regexFormatter: '[0-9]',
-        ),
+        _buildDaysOfWeekSelector(),
         FormDateField(
           date: _startDate,
           label: localizations.startDate,

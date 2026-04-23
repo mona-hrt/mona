@@ -14,7 +14,7 @@ class MedicationSchedule {
   final int id;
   final String name;
   final Decimal dose;
-  final int intervalDays;
+  final List<int> daysOfWeek;
   final Date startDate;
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
@@ -25,7 +25,7 @@ class MedicationSchedule {
     int? id,
     required this.name,
     required this.dose,
-    required this.intervalDays,
+    required this.daysOfWeek,
     Date? startDate,
     required this.molecule,
     required this.administrationRoute,
@@ -39,7 +39,7 @@ class MedicationSchedule {
       id: map['id'] as int,
       name: map['name'] as String,
       dose: (map['dose'] as String).toDecimal,
-      intervalDays: map['intervalDays'] as int,
+      daysOfWeek: List<int>.from(jsonDecode(map['daysOfWeek'] as String)),
       startDate: (map['startDate'] as String).toDate,
       molecule: Molecule.fromJson(jsonDecode(map['moleculeJson'] as String)),
       administrationRoute: AdministrationRoute.fromName(
@@ -55,18 +55,14 @@ class MedicationSchedule {
   /// - If today falls exactly on a scheduled injection date, returns today.
   /// - Otherwise, returns the next scheduled date after today.
   Date get nextDate {
-    if (!startDate.isBeforeToday) {
-      return startDate;
+    if (!startDate.isBeforeToday) return startDate;
+    if (daysOfWeek.isEmpty) return Date.today(); // Fallback
+
+    DateTime current = DateTime.now();
+    while (!daysOfWeek.contains(current.weekday)) {
+      current = current.add(const Duration(days: 1));
     }
-
-    final daysSinceStart = startDate.daysAwayFromToday;
-
-    if (daysSinceStart % intervalDays == 0) {
-      return Date.today();
-    }
-
-    return Date.today()
-        .add(Duration(days: intervalDays - (daysSinceStart % intervalDays)));
+    return Date(current);
   }
 
   /// Returns the last scheduled injection date relative to [referenceDate] (or today if null).
@@ -75,34 +71,28 @@ class MedicationSchedule {
   /// - If today falls exactly on a scheduled injection date, returns the scheduled date before today.
   /// - Otherwise, returns the last scheduled date before today.
   Date? get previousDate {
-    if (!startDate.isBeforeToday) {
-      return null;
+    if (!startDate.isBeforeToday || daysOfWeek.isEmpty) return null;
+
+    DateTime current = DateTime.now().subtract(const Duration(days: 1));
+    while (!daysOfWeek.contains(current.weekday)) {
+      current = current.subtract(const Duration(days: 1));
     }
 
-    final daysSinceStart = startDate.daysAwayFromToday;
-
-    if (daysSinceStart % intervalDays == 0) {
-      return Date.today().subtract(Duration(days: intervalDays));
-    }
-
-    return Date.today().subtract(Duration(days: daysSinceStart % intervalDays));
+    final prevDate = Date(current);
+    return prevDate.isBefore(startDate) ? null : prevDate;
   }
 
   List<Date> getNextDates(int count) {
-    if (count < 0) {
-      throw ArgumentError('Count must be a positive integer');
-    }
-
-    if (count == 0) {
-      return [];
-    }
+    if (count <= 0 || daysOfWeek.isEmpty) return [];
 
     final dates = <Date>[];
-    Date nextDate = this.nextDate;
+    DateTime current = nextDate.toDateTime();
 
-    for (int i = 0; i < count; i++) {
-      dates.add(nextDate);
-      nextDate = nextDate.add(Duration(days: intervalDays));
+    while (dates.length < count) {
+      if (daysOfWeek.contains(current.weekday)) {
+        dates.add(Date(current));
+      }
+      current = current.add(const Duration(days: 1));
     }
     return dates;
   }
@@ -130,7 +120,7 @@ class MedicationSchedule {
       'id': id,
       'name': name,
       'dose': dose.toString(),
-      'intervalDays': intervalDays,
+      'daysOfWeek': jsonEncode(daysOfWeek),
       'startDate': startDate.toString(),
       'moleculeJson': jsonEncode(molecule.toJson()),
       'administrationRouteName': administrationRoute.name,
@@ -143,7 +133,7 @@ class MedicationSchedule {
     int? id,
     String? name,
     Decimal? dose,
-    int? intervalDays,
+    List<int>? daysOfWeek,
     Date? startDate,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
@@ -155,7 +145,7 @@ class MedicationSchedule {
       id: id ?? this.id,
       name: name ?? this.name,
       dose: dose ?? this.dose,
-      intervalDays: intervalDays ?? this.intervalDays,
+      daysOfWeek: daysOfWeek ?? this.daysOfWeek,
       startDate: startDate ?? this.startDate,
       molecule: molecule ?? this.molecule,
       administrationRoute: administrationRoute ?? this.administrationRoute,
@@ -169,9 +159,6 @@ class MedicationSchedule {
 
   static String? validateDose(AppLocalizations l10n, String? value) =>
       requiredStrictlyPositiveDecimal(l10n, value);
-
-  static String? validateIntervalDays(AppLocalizations l10n, String? value) =>
-      requiredPositiveInt(l10n, value);
 
   static String? validateStartDate(AppLocalizations l10n, Date? value) =>
       requiredDate(l10n, value);
@@ -219,13 +206,22 @@ class MedicationSchedule {
   @override
   int get hashCode => id.hashCode;
 
+  String formatFrequency() {
+    if (daysOfWeek.length == 7) return "every day";
+    if (daysOfWeek.isEmpty) return "no days selected";
+
+    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final selectedDays = daysOfWeek.map((d) => weekdays[d - 1]).join(', ');
+    return "Every $selectedDays";
+  }
+
   @override
   String toString() {
     final times =
         notificationTimes.map((t) => '${t.hour}:${t.minute}').join(', ');
     return 'MedicationSchedule(id: $id, name: $name, dose: $dose ${molecule.unit}, '
         'molecule: ${molecule.name}, ester: ${ester?.name}, '
-        'route: ${administrationRoute.name}, intervalDays: $intervalDays, '
+        'route: ${administrationRoute.name}, Frequency: $formatFrequency(), '
         'startDate: $startDate, notificationTimes: [$times])';
   }
 }
