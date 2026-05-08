@@ -30,23 +30,23 @@ class BloodTest {
     final estradiolUnitName = map['estradiolUnit'] as String?;
     final estradiolUnit = estradiolUnitName != null
         ? EstradiolUnit.parse(estradiolUnitName)
-        : EstradiolUnit.pg_mL;
+        : null;
     final testosteroneLevels =
         (map['testosteroneLevels'] as String?).toDecimalOrNull;
     final testosteroneUnitName = map['testosteroneUnit'] as String?;
     final testosteroneUnit = testosteroneUnitName != null
         ? TestosteroneUnit.parse(testosteroneUnitName)
-        : TestosteroneUnit.ng_dL;
+        : null;
 
     return BloodTest(
         id: map['id'] as int?,
         dateTime: (map['dateTime'] as String).toDateTime,
         timeZone: map['timeZone'] as String,
         estradiolLevels: estradiolLevels != null
-            ? UnitValue(estradiolLevels, estradiolUnit)
+            ? UnitValue(estradiolLevels, estradiolUnit!)
             : null,
         testosteroneLevels: testosteroneLevels != null
-            ? UnitValue(testosteroneLevels, testosteroneUnit)
+            ? UnitValue(testosteroneLevels, testosteroneUnit!)
             : null);
   }
 

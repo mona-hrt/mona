@@ -1,4 +1,3 @@
-// ignore_for_file: constant_identifier_names
 import 'package:decimal/decimal.dart';
 
 abstract interface class Unit<T> implements Enum {
@@ -10,7 +9,9 @@ abstract interface class Unit<T> implements Enum {
 }
 
 enum EstradiolUnit implements Unit<EstradiolUnit> {
+  // ignore: constant_identifier_names
   pg_mL("pg/mL"),
+  // ignore: constant_identifier_names
   pmol_L("pmol/L");
 
   @override
@@ -33,12 +34,18 @@ enum EstradiolUnit implements Unit<EstradiolUnit> {
   }
 
   factory EstradiolUnit.parse(String value) {
-    return EstradiolUnit.values.firstWhere((unit) => unit.name == value);
+    try {
+      return EstradiolUnit.values.firstWhere((unit) => unit.name == value);
+    } on StateError {
+      throw ArgumentError("failed to parse $value");
+    }
   }
 }
 
 enum TestosteroneUnit implements Unit<TestosteroneUnit> {
+  // ignore: constant_identifier_names
   ng_dL("ng/dL"),
+  // ignore: constant_identifier_names
   nmol_L("nmol/L");
 
   @override
@@ -47,7 +54,11 @@ enum TestosteroneUnit implements Unit<TestosteroneUnit> {
   const TestosteroneUnit(this.name);
 
   factory TestosteroneUnit.parse(String value) {
-    return TestosteroneUnit.values.firstWhere((unit) => unit.name == value);
+    try {
+      return TestosteroneUnit.values.firstWhere((unit) => unit.name == value);
+    } on StateError {
+      throw ArgumentError("failed to parse $value");
+    }
   }
 
   @override
@@ -66,8 +77,10 @@ enum TestosteroneUnit implements Unit<TestosteroneUnit> {
 }
 
 enum Units {
+  // ignore: constant_identifier_names
   pg_mL_ng_dL(
       estradiol: EstradiolUnit.pg_mL, testosterone: TestosteroneUnit.ng_dL),
+  // ignore: constant_identifier_names
   pmol_L_nmol_L(
       estradiol: EstradiolUnit.pmol_L, testosterone: TestosteroneUnit.nmol_L);
 
