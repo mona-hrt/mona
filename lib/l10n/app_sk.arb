@@ -84,6 +84,7 @@
   "dataManagement": "Správa dát",
   "exportDataTitle": "Export dát",
   "exportDataSubtitle": "Ulož svoje dáta do JSON súboru",
+  "units": "Jednotky",
 
   "updateNoCompatibleApk": "Pre tvoje zariadenie nebola nájdená kompatibilná aktualizácia.",
   "updateAppUpToDate": "Tvoja apka má najnovšiu aktualizáciu!",

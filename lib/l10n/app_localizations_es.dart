@@ -265,6 +265,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exportDataSubtitle => 'Guarda tus datos en un archivo JSON';
 
   @override
+  String get units => 'Unidades';
+
+  @override
   String get updateNoCompatibleApk =>
       'No se encontró ninguna actualización compatible con tu dispositivo.';
 

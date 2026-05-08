@@ -535,6 +535,12 @@ abstract class AppLocalizations {
   /// **'Save your data to a JSON file'**
   String get exportDataSubtitle;
 
+  /// No description provided for @units.
+  ///
+  /// In en, this message translates to:
+  /// **'Units'**
+  String get units;
+
   /// No description provided for @updateNoCompatibleApk.
   ///
   /// In en, this message translates to:

@@ -265,6 +265,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get exportDataSubtitle => 'Зберегти дані в JSON файл';
 
   @override
+  String get units => 'Одиниці виміру';
+
+  @override
   String get updateNoCompatibleApk =>
       'Сумісних оновлень для вашого пристрою не знайдено.';
 

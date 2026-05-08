@@ -276,6 +276,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get exportDataSubtitle => 'Ulož svoje dáta do JSON súboru';
 
   @override
+  String get units => 'Jednotky';
+
+  @override
   String get updateNoCompatibleApk =>
       'Pre tvoje zariadenie nebola nájdená kompatibilná aktualizácia.';
 

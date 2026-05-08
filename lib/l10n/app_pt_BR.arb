@@ -84,6 +84,7 @@
     "dataManagement": "Gerenciamento de dados",
     "exportDataTitle": "Exportar dados",
     "exportDataSubtitle": "Salve seus dados em um arquivo JSON",
+    "units": "Unidades",
 
     "updateNoCompatibleApk": "Nenhuma atualização compatível com seu dispositivo foi encontrada.",
     "updateAppUpToDate": "Seu app está atualizado!",
