@@ -164,7 +164,14 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String schedulesCreated(num count) {
-    return '$count створено';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Створено $count розкладів',
+      few: 'Створено $count розклади',
+      one: 'Створено $count розклад',
+    );
+    return '$_temp0';
   }
 
   @override

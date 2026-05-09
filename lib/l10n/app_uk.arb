@@ -55,7 +55,7 @@
   "general": "Загальне",
   "schedules": "Розклад",
   "noSchedules": "Розкладів немає",
-  "schedulesCreated": "{count} створено",
+  "schedulesCreated": "{count, plural, one{Створено {count} розклад} few{Створено {count} розклади} other{Створено {count} розкладів}}",
   "language": "Мова",
   "languageFollowDevice": "Мова пристрою",
   "selectLanguage": "Вибрати мову",

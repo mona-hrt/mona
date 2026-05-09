@@ -55,7 +55,7 @@
   "general": "Général",
   "schedules": "Plannings",
   "noSchedules": "Aucun planning",
-  "schedulesCreated": "{count} créés",
+  "schedulesCreated": "{count, plural, =1{{count} créé} other{{count} créés}}",
   "language": "Langue",
   "languageFollowDevice": "Suivre la langue de l’appareil",
   "selectLanguage": "Sélectionner la langue",

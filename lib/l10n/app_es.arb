@@ -55,7 +55,7 @@
     "general": "General",
     "schedules": "Horarios",
     "noSchedules": "Sin horarios",
-    "schedulesCreated": "{count} creados",
+    "schedulesCreated": "{count, plural, =1{{count} creado} other{{count} creados}}",
     "language": "Idioma",
     "languageFollowDevice": "Seguir el idioma del dispositivo",
     "selectLanguage": "Seleccionar idioma",
