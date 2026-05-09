@@ -10,6 +10,8 @@ import 'package:mona/services/db/upgrade/v7.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+const int currentDatabaseVersion = 7;
+
 class AppDatabase {
   static AppDatabase? _instance;
   static Database? _database;
@@ -32,9 +34,7 @@ class AppDatabase {
       databaseFactory = databaseFactoryFfi;
     }
 
-    _database = inMemory
-        ? await _initInMemoryDB()
-        : await _initFileDB('app_database.db');
+    _database = inMemory ? await _initInMemoryDB() : await _initFileDB();
     return _database!;
   }
 
@@ -47,15 +47,23 @@ class AppDatabase {
     );
   }
 
-  Future<Database> _initFileDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
+  Future<String> _filePath() async {
+    return join(await getDatabasesPath(), 'app_database.db');
+  }
 
+  Future<String> deleteFile() async {
+    final path = await _filePath();
+    await close();
+    await deleteDatabase(path);
+    return path;
+  }
+
+  Future<Database> _initFileDB() async {
     return await openDatabase(
-      path,
-      version: 7,
+      await _filePath(),
+      version: currentDatabaseVersion,
       onCreate: _createDB,
-      onUpgrade: _upgradeDB,
+      onUpgrade: applyAppUpgrades,
       onOpen: _onOpen,
     );
   }
@@ -71,24 +79,25 @@ class AppDatabase {
     await db.execute(createBloodTestsTable);
   }
 
-  Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
+  Future<void> applyAppUpgrades(
+      Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
-      DbUpgradeV2().upgrade(db, oldVersion, newVersion);
+      await DbUpgradeV2().upgrade(db, oldVersion, newVersion);
     }
     if (oldVersion < 3) {
-      DbUpgradeV3().upgrade(db, oldVersion, newVersion);
+      await DbUpgradeV3().upgrade(db, oldVersion, newVersion);
     }
     if (oldVersion < 4) {
-      DbUpgradeV4().upgrade(db, oldVersion, newVersion);
+      await DbUpgradeV4().upgrade(db, oldVersion, newVersion);
     }
     if (oldVersion < 5) {
-      DbUpgradeV5().upgrade(db, oldVersion, newVersion);
+      await DbUpgradeV5().upgrade(db, oldVersion, newVersion);
     }
     if (oldVersion < 6) {
-      DbUpgradeV6().upgrade(db, oldVersion, newVersion);
+      await DbUpgradeV6().upgrade(db, oldVersion, newVersion);
     }
     if (oldVersion < 7) {
-      DbUpgradeV7().upgrade(db, oldVersion, newVersion);
+      await DbUpgradeV7().upgrade(db, oldVersion, newVersion);
     }
   }
 
