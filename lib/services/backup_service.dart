@@ -143,22 +143,16 @@ class BackupService {
       allowedExtensions: isAndroid ? null : ['json'],
     );
 
-    if (result != null && result.files.single.path != null) {
-      try {
-        final file = File(result.files.single.path!);
-        final jsonString = await file.readAsString();
-        final Map<String, dynamic> backupData = jsonDecode(jsonString);
-
-        _validateBackup(backupData);
-
-        await _processImport(backupData);
-
-        return true;
-      } catch (e) {
-        print('Backup import failed: $e');
-        return false;
-      }
+    if (result == null || result.files.single.path == null) {
+      return false;
     }
-    return false;
+
+    final file = File(result.files.single.path!);
+    final jsonString = await file.readAsString();
+    final Map<String, dynamic> backupData = jsonDecode(jsonString);
+
+    _validateBackup(backupData);
+    await _processImport(backupData);
+    return true;
   }
 }
