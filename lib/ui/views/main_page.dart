@@ -48,48 +48,58 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(currentTab.title),
-        centerTitle: true,
-        actions: currentTab.buildActions?.call(context),
-      ),
-      body: SafeArea(
-        child: currentTab.page,
-      ),
-      //     |----------------------------------------------------|
-      //     |  TODO implement indexed stack + correct scroll bug |
-      //     |----------------------------------------------------|
-      //        ||
-      // (\__/) ||
-      // (•ㅅ•) ||
-      // / 　 づ
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (_isUpdateAvailable && !_hideUpdateBanner)
-            UpdateBanner(
-              onClose: () {
-                setState(() {
-                  _hideUpdateBanner = true;
-                });
-              },
+    // woo back baby
+    return PopScope(
+      canPop: _selectedIndex == 0,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        if (_selectedIndex != 0) {
+          _selectIndex(0);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(currentTab.title),
+          centerTitle: true,
+          actions: currentTab.buildActions?.call(context),
+        ),
+        body: SafeArea(
+          child: currentTab.page,
+        ),
+        //     |----------------------------------------------------|
+        //     |  TODO implement indexed stack + correct scroll bug |
+        //     |----------------------------------------------------|
+        //        ||
+        // (\__/) ||
+        // (•ㅅ•) ||
+        // / 　 づ
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_isUpdateAvailable && !_hideUpdateBanner)
+              UpdateBanner(
+                onClose: () {
+                  setState(() {
+                    _hideUpdateBanner = true;
+                  });
+                },
+              ),
+            NavigationBar(
+              selectedIndex: _selectedIndex,
+              onDestinationSelected: _selectIndex,
+              destinations: [
+                for (final tab in getMainTabs(context))
+                  NavigationDestination(
+                    label: tab.title,
+                    icon: Icon(tab.icon),
+                    selectedIcon: Icon(tab.selectedIcon),
+                  ),
+              ],
             ),
-          NavigationBar(
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: _selectIndex,
-            destinations: [
-              for (final tab in getMainTabs(context))
-                NavigationDestination(
-                  label: tab.title,
-                  icon: Icon(tab.icon),
-                  selectedIcon: Icon(tab.selectedIcon),
-                ),
-            ],
-          ),
-        ],
+          ],
+        ),
+        floatingActionButton: currentTab.buildFab?.call(context),
       ),
-      floatingActionButton: currentTab.buildFab?.call(context),
     );
   }
 }
