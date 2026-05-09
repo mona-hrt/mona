@@ -45,34 +45,69 @@ class BackupService {
     final backupVersion = metadata['database_version'] as int;
     final dataSection = backupData['data'] as Map<String, dynamic>;
 
-    final dbPath = await AppDatabase.getInstance().deleteFile();
+    final appDb = AppDatabase.getInstance();
+    final dbPath = await appDb.filePath();
+    final backupPath = await appDb.backupFilePath();
 
-    final db = await openDatabase(
-      dbPath,
-      version: backupVersion,
-      onCreate: (db, version) async {
-        for (final statement in historicalSchemaFor(version)) {
-          await db.execute(statement);
-        }
-      },
-      onOpen: (db) async {
-        await db.execute('PRAGMA foreign_keys = ON');
-      },
-    );
+    await appDb.close();
+    final hadExistingDb = await File(dbPath).exists();
+    if (hadExistingDb) {
+      await File(dbPath).rename(backupPath);
+    }
 
     try {
-      await db.transaction((txn) async {
-        await txn.execute('PRAGMA defer_foreign_keys = ON');
-
-        for (final entry in dataSection.entries) {
-          final rows = entry.value;
-          for (final row in rows) {
-            await txn.insert(entry.key, Map<String, Object?>.from(row));
+      final db = await openDatabase(
+        dbPath,
+        version: backupVersion,
+        onCreate: (db, version) async {
+          for (final statement in historicalSchemaFor(version)) {
+            await db.execute(statement);
           }
+        },
+        onOpen: (db) async {
+          await db.execute('PRAGMA foreign_keys = ON');
+        },
+      );
+
+      try {
+        await db.transaction((txn) async {
+          await txn.execute('PRAGMA defer_foreign_keys = ON');
+
+          for (final entry in dataSection.entries) {
+            final rows = entry.value;
+            for (final row in rows) {
+              await txn.insert(entry.key, Map<String, Object?>.from(row));
+            }
+          }
+        });
+      } finally {
+        await db.close();
+      }
+
+      if (hadExistingDb) {
+        final bak = File(backupPath);
+        if (await bak.exists()) {
+          await bak.delete();
         }
-      });
-    } finally {
-      await db.close();
+      }
+    } catch (_) {
+      await _rollback(dbPath, backupPath, hadExistingDb);
+      rethrow;
+    }
+  }
+
+  Future<void> _rollback(
+      String dbPath, String backupPath, bool hadExistingDb) async {
+    final partialDatabase = File(dbPath);
+    if (await partialDatabase.exists()) {
+      await partialDatabase.delete();
+    }
+
+    if (hadExistingDb) {
+      final bak = File(backupPath);
+      if (await bak.exists()) {
+        await bak.rename(dbPath);
+      }
     }
   }
 

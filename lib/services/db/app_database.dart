@@ -13,6 +13,8 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 const int currentDatabaseVersion = 7;
 
 class AppDatabase {
+  static const String _backupSuffix = '.bak';
+
   static AppDatabase? _instance;
   static Database? _database;
   final bool inMemory;
@@ -47,20 +49,31 @@ class AppDatabase {
     );
   }
 
-  Future<String> _filePath() async {
+  Future<String> filePath() async {
     return join(await getDatabasesPath(), 'app_database.db');
   }
 
-  Future<String> deleteFile() async {
-    final path = await _filePath();
-    await close();
-    await deleteDatabase(path);
-    return path;
+  Future<String> backupFilePath() async {
+    return '${await filePath()}$_backupSuffix';
+  }
+
+  Future<void> _recoverInterruptedImport() async {
+    final dbPath = await filePath();
+    final bak = File(await backupFilePath());
+    if (!await bak.exists()) return;
+
+    final live = File(dbPath);
+    if (await live.exists()) {
+      await bak.delete();
+    } else {
+      await bak.rename(dbPath);
+    }
   }
 
   Future<Database> _initFileDB() async {
+    await _recoverInterruptedImport();
     return await openDatabase(
-      await _filePath(),
+      await filePath(),
       version: currentDatabaseVersion,
       onCreate: _createDB,
       onUpgrade: applyAppUpgrades,
