@@ -55,10 +55,15 @@ class BackupService {
           await db.execute(statement);
         }
       },
+      onOpen: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
     );
 
     try {
       await db.transaction((txn) async {
+        await txn.execute('PRAGMA defer_foreign_keys = ON');
+
         for (final entry in dataSection.entries) {
           final rows = entry.value;
           for (final row in rows) {
