@@ -161,7 +161,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String schedulesCreated(num count) {
-    return '$count criados';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count criados',
+      one: '$count criado',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -912,7 +918,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String schedulesCreated(num count) {
-    return '$count criados';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count criados',
+      one: '$count criado',
+    );
+    return '$_temp0';
   }
 
   @override
