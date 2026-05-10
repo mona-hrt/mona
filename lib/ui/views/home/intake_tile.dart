@@ -145,14 +145,16 @@ class IntakeTileViewModel {
   int? get daysSinceLastScheduled => lastScheduled?.daysAwayFromToday;
 
   String get intakeInfo {
+    if (status == ScheduleStatus.taken) {
+      return localizations.taken;
+    }
+
     final nextSide = MedicationIntakeManager(
       intakeProvider,
       supplyProvider,
     ).getNextSide();
 
-    return "${schedule.dose} ${schedule.molecule.unit} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)} • "
-        "${schedule.administrationRoute.localizedName(localizations)}"
-        "${schedule.administrationRoute == AdministrationRoute.injection ? " • ${nextSide.localizedSummary(localizations)}" : ""}";
+    return "${schedule.dose} ${schedule.molecule.unit} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)}";
   }
 
   String? get scheduledText {
@@ -160,6 +162,7 @@ class IntakeTileViewModel {
       case ScheduleStatus.today:
       case ScheduleStatus.todayOverdue:
       case ScheduleStatus.todayEarly:
+      case ScheduleStatus.taken:
         return null;
 
       case ScheduleStatus.overdue:
@@ -169,24 +172,18 @@ class IntakeTileViewModel {
       case ScheduleStatus.upcoming:
         final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
         return "$formatted - ${localizations.inDaysCount(daysUntilIntake)}";
-
-      case ScheduleStatus.taken:
-        return localizations.taken;
     }
   }
 
   String? get warningText {
     switch (status) {
-      case ScheduleStatus.todayEarly:
-        final formatted = lastTaken!.format(DateFormat.MMMd(languageTag));
-        return "${localizations.lastTaken} ${localizations.daysAgoCount(daysSinceLastTaken!)} ($formatted)";
-
       case ScheduleStatus.today:
       case ScheduleStatus.upcoming:
       case ScheduleStatus.taken:
       case ScheduleStatus.overdue:
         return null;
 
+      case ScheduleStatus.todayEarly:
       case ScheduleStatus.todayOverdue:
         if (lastTaken == null) {
           return localizations.neverTakenYet;
@@ -200,7 +197,8 @@ class IntakeTileViewModel {
   bool get isActive =>
       status == ScheduleStatus.today ||
       status == ScheduleStatus.overdue ||
-      status == ScheduleStatus.todayOverdue;
+      status == ScheduleStatus.todayOverdue ||
+      status == ScheduleStatus.todayEarly;
 
   Widget get tileIcon {
     if (status == ScheduleStatus.taken) {
