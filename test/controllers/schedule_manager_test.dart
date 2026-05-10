@@ -255,7 +255,8 @@ void main() {
       expect(split.upcoming, isEmpty);
     });
 
-    test('groups today, taken and overdue slots under today', () {
+    test('groups today, taken and overdue slots under today, overdue first',
+        () {
       when(mockScheduleProvider.schedules)
           .thenReturn([todaySchedule, takenSchedule, overdueSchedule]);
 
@@ -263,7 +264,7 @@ void main() {
 
       expect(
         split.today.map((slot) => slot.schedule),
-        [todaySchedule, takenSchedule, overdueSchedule],
+        [overdueSchedule, todaySchedule, takenSchedule],
       );
       expect(split.upcoming, isEmpty);
     });

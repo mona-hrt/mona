@@ -67,7 +67,8 @@ class IntakeTile extends StatelessWidget {
               if (viewModel.scheduledText != null)
                 Text(
                   viewModel.scheduledText!,
-                  style: theme.textTheme.labelMedium?.copyWith(color: textColor),
+                  style:
+                      theme.textTheme.labelMedium?.copyWith(color: textColor),
                 ),
               Text(
                 schedule.name,
@@ -225,7 +226,9 @@ class IntakeTileViewModel {
       );
     }
 
-    final icon = status == ScheduleStatus.today
+    final icon = status == ScheduleStatus.today ||
+            status == ScheduleStatus.todayOverdue ||
+            status == ScheduleStatus.todayEarly
         ? schedule.administrationRoute.icon
         : Symbols.schedule;
 

@@ -35,18 +35,22 @@ class ScheduleManager {
   }
 
   ({List<ScheduleSlot> today, List<ScheduleSlot> upcoming}) splitSlotsByDay() {
-    final today = <ScheduleSlot>[];
+    final overdueToday = <ScheduleSlot>[];
+    final otherToday = <ScheduleSlot>[];
     final upcoming = <ScheduleSlot>[];
 
     for (final slot in getSlots()) {
       if (slot.status == ScheduleStatus.upcoming) {
         upcoming.add(slot);
+      } else if (slot.status == ScheduleStatus.overdue ||
+          slot.status == ScheduleStatus.todayOverdue) {
+        overdueToday.add(slot);
       } else {
-        today.add(slot);
+        otherToday.add(slot);
       }
     }
 
-    return (today: today, upcoming: upcoming);
+    return (today: [...overdueToday, ...otherToday], upcoming: upcoming);
   }
 
   Date? _lastTakenFor(IntervalDaysSchedule schedule) =>
