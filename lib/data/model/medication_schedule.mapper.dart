@@ -145,8 +145,7 @@ class IntervalDaysScheduleMapper
         EsterNameMapper(),
         DecimalStringMapper(),
         DateStringMapper(),
-        TimeOfDayStringMapper(),
-        JsonListMapper<TimeOfDay>(),
+        NotificationTimesMapper(),
       ]);
     }
     return _instance!;
@@ -405,8 +404,7 @@ class DailyScheduleMapper extends SubClassMapperBase<DailySchedule> {
         EsterNameMapper(),
         DecimalStringMapper(),
         DateStringMapper(),
-        TimeOfDayStringMapper(),
-        JsonListMapper<TimeOfDay>(),
+        NotificationTimesMapper(),
       ]);
     }
     return _instance!;

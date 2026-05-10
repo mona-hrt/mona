@@ -88,35 +88,25 @@ class DateStringMapper extends SimpleMapper<Date> {
   }
 }
 
-class TimeOfDayStringMapper extends SimpleMapper<TimeOfDay> {
-  const TimeOfDayStringMapper();
+class NotificationTimesMapper extends SimpleMapper<List<TimeOfDay>> {
+  const NotificationTimesMapper();
 
   @override
-  TimeOfDay decode(Object value) {
-    final parts = (value as String).split(':');
-    return TimeOfDay(
-      hour: int.parse(parts[0]),
-      minute: int.parse(parts[1]),
+  List<TimeOfDay> decode(Object value) {
+    final list = jsonDecode(value as String) as List;
+    return list.map((e) {
+      final parts = (e as String).split(':');
+      return TimeOfDay(
+        hour: int.parse(parts[0]),
+        minute: int.parse(parts[1]),
+      );
+    }).toList();
+  }
+
+  @override
+  Object? encode(List<TimeOfDay> self) {
+    return jsonEncode(
+      self.map((t) => '${t.hour}:${t.minute}').toList(),
     );
-  }
-
-  @override
-  Object? encode(TimeOfDay self) => '${self.hour}:${self.minute}';
-}
-
-class JsonListMapper<T> extends SimpleMapper<List<T>> {
-  const JsonListMapper();
-
-  @override
-  List<T> decode(Object value) {
-    final raw = jsonDecode(value as String) as List;
-    return raw.map((e) => MapperContainer.globals.fromValue<T>(e)).toList();
-  }
-
-  @override
-  Object? encode(List<T> self) {
-    final encoded =
-        self.map((e) => MapperContainer.globals.toValue<T>(e)).toList();
-    return jsonEncode(encoded);
   }
 }

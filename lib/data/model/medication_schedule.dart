@@ -73,8 +73,7 @@ abstract class MedicationSchedule with MedicationScheduleMappable {
     EsterNameMapper(),
     DecimalStringMapper(),
     DateStringMapper(),
-    TimeOfDayStringMapper(),
-    JsonListMapper<TimeOfDay>(),
+    NotificationTimesMapper(),
   ],
   generateMethods: GenerateMethods.all,
 )
@@ -182,8 +181,7 @@ class IntervalDaysSchedule extends MedicationSchedule
     EsterNameMapper(),
     DecimalStringMapper(),
     DateStringMapper(),
-    TimeOfDayStringMapper(),
-    JsonListMapper<TimeOfDay>(),
+    NotificationTimesMapper(),
   ],
   generateMethods: GenerateMethods.all,
 )
