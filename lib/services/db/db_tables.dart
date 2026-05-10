@@ -33,9 +33,10 @@ const String createMedicationIntakesTable = '''
 const String createMedicationSchedulesTable = '''
     CREATE TABLE medication_schedules(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      type TEXT NOT NULL,
       name TEXT NOT NULL,
       dose TEXT NOT NULL,
-      intervalDays INTEGER NOT NULL,
+      intervalDays INTEGER,
       startDate TEXT NOT NULL,
       moleculeJson TEXT NOT NULL,
       administrationRouteName TEXT NOT NULL,

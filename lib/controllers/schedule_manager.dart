@@ -12,9 +12,10 @@ class ScheduleManager {
   ScheduleManager(
       this._medicationScheduleProvider, this._medicationIntakeProvider);
 
-  List<MedicationSchedule> getSchedulesByStatus(ScheduleStatus status) {
-    final List<MedicationSchedule> schedules = [];
+  List<IntervalDaysSchedule> getSchedulesByStatus(ScheduleStatus status) {
+    final List<IntervalDaysSchedule> schedules = [];
     for (final schedule in _medicationScheduleProvider.schedules) {
+      if (schedule is! IntervalDaysSchedule) continue;
       final Date? lastTaken = _medicationIntakeProvider
           .getLastIntakeLocalDateForSchedule(schedule.id);
 

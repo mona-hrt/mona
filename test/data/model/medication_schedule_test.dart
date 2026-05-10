@@ -14,7 +14,7 @@ void main() {
   group('MedicationSchedule', () {
     group('MedicationSchedule model', () {
       test('toMap and fromMap should preserve values', () {
-        final schedule = MedicationSchedule(
+        final schedule = IntervalDaysSchedule(
           id: 1,
           name: 'Test Med',
           dose: Decimal.parse('10.5'),
@@ -31,11 +31,11 @@ void main() {
 
         final map = schedule.toMap();
         final fromMap =
-            MedicationScheduleMapper.fromMap(Map<String, dynamic>.from(map));
+            IntervalDaysScheduleMapper.fromMap(Map<String, dynamic>.from(map));
 
         expect(
           fromMap,
-          isA<MedicationSchedule>()
+          isA<IntervalDaysSchedule>()
               .having((s) => s.id, 'id', schedule.id)
               .having((s) => s.name, 'name', schedule.name)
               .having((s) => s.dose, 'dose', schedule.dose)
@@ -90,12 +90,12 @@ void main() {
       test('validateIntervalDays works correctly', () {
         expect(
           [
-            MedicationSchedule.validateIntervalDays(l10n, null),
-            MedicationSchedule.validateIntervalDays(l10n, ''),
-            MedicationSchedule.validateIntervalDays(l10n, '0'),
-            MedicationSchedule.validateIntervalDays(l10n, '-2'),
-            MedicationSchedule.validateIntervalDays(l10n, 'abc'),
-            MedicationSchedule.validateIntervalDays(l10n, '7'),
+            IntervalDaysSchedule.validateIntervalDays(l10n, null),
+            IntervalDaysSchedule.validateIntervalDays(l10n, ''),
+            IntervalDaysSchedule.validateIntervalDays(l10n, '0'),
+            IntervalDaysSchedule.validateIntervalDays(l10n, '-2'),
+            IntervalDaysSchedule.validateIntervalDays(l10n, 'abc'),
+            IntervalDaysSchedule.validateIntervalDays(l10n, '7'),
           ],
           [
             isNotNull,
@@ -222,7 +222,7 @@ void main() {
     group('getNextDate', () {
       test('startDate > today -> returns startDate', () {
         final start = Date.today().add(Duration(days: 5));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -237,7 +237,7 @@ void main() {
 
       test('startDate == today -> returns startDate', () {
         final today = Date.today();
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -254,7 +254,7 @@ void main() {
           'today falls outside a scheduled date -> returns the next scheduled date',
           () {
         final start = Date.today().subtract(Duration(days: 4));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -270,7 +270,7 @@ void main() {
 
       test('today falls exactly on a scheduled date -> returns today', () {
         final start = Date.today().subtract(Duration(days: 7));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -285,7 +285,7 @@ void main() {
 
       test('intervalDays = 1 and startDate < today -> returns today', () {
         final start = Date.today().subtract(Duration(days: 9));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 1,
@@ -302,7 +302,7 @@ void main() {
     group('getLastDate', () {
       test('startDate > today -> returns null', () {
         final start = Date.today().add(Duration(days: 5));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -316,7 +316,7 @@ void main() {
       });
 
       test('startDate == today -> returns null', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -333,7 +333,7 @@ void main() {
           'today falls outside a scheduled date -> returns the most recent past scheduled date',
           () {
         final start = Date.today().subtract(Duration(days: 4));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -350,7 +350,7 @@ void main() {
           'today falls exactly on a scheduled date -> returns scheduled date before today',
           () {
         final start = Date.today().subtract(Duration(days: 7));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -365,7 +365,7 @@ void main() {
 
       test('intervalDays = 1 and startDate < today -> returns yesterday', () {
         final start = Date.today().subtract(Duration(days: 9));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 1,
@@ -384,7 +384,7 @@ void main() {
           'when startDate < today -> lastDate < nextDate and difference == intervalDays',
           () {
         final start = Date.today().subtract(Duration(days: 4));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -404,7 +404,7 @@ void main() {
           'difference == intervalDays when today is exactly on a scheduled date',
           () {
         final start = Date.today().subtract(Duration(days: 7));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -424,7 +424,7 @@ void main() {
     group('getNextDates', () {
       test('today is an intake date -> first returned date is today', () {
         final start = Date.today().subtract(Duration(days: 7));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -443,7 +443,7 @@ void main() {
           'today is not an intake date -> first returned date is next scheduled date',
           () {
         final start = Date.today().subtract(Duration(days: 4));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -460,7 +460,7 @@ void main() {
 
       test('startDate is today -> first returned date is today', () {
         final today = Date.today();
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -478,7 +478,7 @@ void main() {
       test('startDate is in the future -> first returned date is startDate',
           () {
         final start = Date.today().add(Duration(days: 5));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -495,7 +495,7 @@ void main() {
 
       test('count = 1 -> returns exactly one date', () {
         final start = Date.today().subtract(Duration(days: 9));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -512,7 +512,7 @@ void main() {
 
       test('count > 1 -> returns exactly count dates', () {
         final start = Date.today().subtract(Duration(days: 9));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -529,7 +529,7 @@ void main() {
 
       test('returned dates are spaced by intervalDays', () {
         final start = Date.today().subtract(Duration(days: 9));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -546,7 +546,7 @@ void main() {
 
       test('count = 0 -> returns empty list', () {
         final start = Date.today().subtract(Duration(days: 9));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -563,7 +563,7 @@ void main() {
 
       test('count < 0 -> throws ArgumentError', () {
         final start = Date.today().subtract(Duration(days: 9));
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -582,7 +582,7 @@ void main() {
 
     group('isScheduledForToday', () {
       test('returns true when today is a scheduled date', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -596,7 +596,7 @@ void main() {
       });
 
       test('returns false when next scheduled date is in future', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -610,7 +610,7 @@ void main() {
       });
 
       test('returns false when next scheduled date is in past', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -626,7 +626,7 @@ void main() {
 
     group('isLate', () {
       test('returns true when lastTaken is before lastDate', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -642,7 +642,7 @@ void main() {
       });
 
       test('returns false when lastTaken is on lastDate', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -658,7 +658,7 @@ void main() {
       });
 
       test('returns false when lastTaken is after lastDate', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -674,7 +674,7 @@ void main() {
       });
 
       test('returns true when lastTaken is null but schedule is overdue', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -690,7 +690,7 @@ void main() {
       test(
           'returns false when lastTaken is null but treatment is scheduled for today',
           () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -706,7 +706,7 @@ void main() {
       test(
           'returns false when lastTaken is null but next scheduled date is in the future',
           () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -722,7 +722,7 @@ void main() {
 
     group('isTakenTodayOrLater', () {
       test('returns false if no last taken', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -736,7 +736,7 @@ void main() {
       });
 
       test('returns false if last taken date is before today', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -752,7 +752,7 @@ void main() {
       });
 
       test('returns true if last taken date is after today', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,
@@ -768,7 +768,7 @@ void main() {
       });
 
       test('returns true if last taken date is today', () {
-        final s = MedicationSchedule(
+        final s = IntervalDaysSchedule(
           name: 'A',
           dose: Decimal.one,
           intervalDays: 7,

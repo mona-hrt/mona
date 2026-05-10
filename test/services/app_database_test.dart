@@ -162,6 +162,7 @@ void main() {
 
     test('can insert and query medication_schedules', () async {
       final id = await db.insert('medication_schedules', {
+        'type': 'intervalDays',
         'name': 'Morning Med',
         'dose': '5',
         'intervalDays': 1,

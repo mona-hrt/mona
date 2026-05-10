@@ -3,7 +3,7 @@ import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/helpers/administration_route_l10n.dart';
 import 'package:mona/l10n/helpers/molecule_l10n.dart';
 
-extension MedicationScheduleL10n on MedicationSchedule {
+extension MedicationScheduleL10n on IntervalDaysSchedule {
   String localizedSummary(AppLocalizations localizations) {
     final firstLine =
         '$dose ${molecule.unit} • ${molecule.localizedNameWithEster(ester, localizations)} • '

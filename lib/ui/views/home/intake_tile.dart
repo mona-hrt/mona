@@ -23,7 +23,7 @@ class IntakeTile extends StatelessWidget {
     required this.status,
   });
 
-  final MedicationSchedule schedule;
+  final IntervalDaysSchedule schedule;
   final ScheduleStatus status;
 
   @override
@@ -122,7 +122,7 @@ class IntakeTileViewModel {
       required this.localizations,
       required this.languageTag});
 
-  final MedicationSchedule schedule;
+  final IntervalDaysSchedule schedule;
   final ScheduleStatus status;
   final MedicationIntakeProvider intakeProvider;
   final SupplyItemProvider supplyProvider;

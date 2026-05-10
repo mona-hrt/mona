@@ -611,7 +611,7 @@ MedicationSchedule _buildSchedule({
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
 }) {
-  return MedicationSchedule(
+  return IntervalDaysSchedule(
     id: id,
     name: 'ScheduleSingle',
     dose: dose ?? Decimal.parse('2'),

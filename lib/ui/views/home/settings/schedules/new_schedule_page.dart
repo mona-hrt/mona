@@ -37,7 +37,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
       MedicationSchedule.validateName(context.l10n, _nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _intervalDaysError => MedicationSchedule.validateIntervalDays(
+  String? get _intervalDaysError => IntervalDaysSchedule.validateIntervalDays(
       context.l10n, _intervalDaysController.text);
   String? get _startDateError =>
       MedicationSchedule.validateStartDate(context.l10n, _startDate);
@@ -107,7 +107,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     final intervalDays = _intervalDaysController.text.toInt;
     final startDate = _startDate;
 
-    final schedule = MedicationSchedule(
+    final schedule = IntervalDaysSchedule(
       name: name,
       dose: dose,
       intervalDays: intervalDays,

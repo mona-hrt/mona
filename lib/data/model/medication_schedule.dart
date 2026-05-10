@@ -11,23 +11,11 @@ import 'package:mona/util/validators.dart';
 
 part 'medication_schedule.mapper.dart';
 
-@MappableClass(
-  includeCustomMappers: [
-    MoleculeJsonMapper(),
-    AdministrationRouteNameMapper(),
-    EsterNameMapper(),
-    DecimalStringMapper(),
-    DateStringMapper(),
-    TimeOfDayStringMapper(),
-    JsonListMapper<TimeOfDay>(),
-  ],
-  generateMethods: GenerateMethods.all,
-)
-class MedicationSchedule with MedicationScheduleMappable {
+@MappableClass(discriminatorKey: 'type')
+abstract class MedicationSchedule with MedicationScheduleMappable {
   final int id;
   final String name;
   final Decimal dose;
-  final int intervalDays;
   final Date startDate;
   @MappableField(key: 'moleculeJson')
   final Molecule molecule;
@@ -41,7 +29,6 @@ class MedicationSchedule with MedicationScheduleMappable {
     int? id,
     required this.name,
     required this.dose,
-    required this.intervalDays,
     Date? startDate,
     required this.molecule,
     required this.administrationRoute,
@@ -50,7 +37,64 @@ class MedicationSchedule with MedicationScheduleMappable {
   })  : id = id ?? DateTime.now().millisecondsSinceEpoch,
         startDate = startDate ?? Date.today();
 
-  /// Returns the next scheduled injection date relative to [referenceDate] (or today if null).
+  static String? validateName(AppLocalizations l10n, String? value) =>
+      requiredString(l10n, value);
+
+  static String? validateDose(AppLocalizations l10n, String? value) =>
+      requiredStrictlyPositiveDecimal(l10n, value);
+
+  static String? validateStartDate(AppLocalizations l10n, Date? value) =>
+      requiredDate(l10n, value);
+
+  static String? validateMolecule(AppLocalizations l10n, Molecule? value) =>
+      requiredMolecule(l10n, value);
+
+  static String? validateAdministrationRoute(
+          AppLocalizations l10n, AdministrationRoute? value) =>
+      requiredAdministrationRoute(l10n, value);
+
+  static String? Function(Ester?) esterValidator(AppLocalizations l10n,
+      Molecule? molecule, AdministrationRoute? administrationRoute) {
+    return (Ester? value) {
+      return (molecule == KnownMolecules.estradiol &&
+              administrationRoute == AdministrationRoute.injection &&
+              value == null)
+          ? l10n.requiredField
+          : null;
+    };
+  }
+}
+
+@MappableClass(
+  discriminatorValue: 'intervalDays',
+  includeCustomMappers: [
+    MoleculeJsonMapper(),
+    AdministrationRouteNameMapper(),
+    EsterNameMapper(),
+    DecimalStringMapper(),
+    DateStringMapper(),
+    TimeOfDayStringMapper(),
+    JsonListMapper<TimeOfDay>(),
+  ],
+  generateMethods: GenerateMethods.all,
+)
+class IntervalDaysSchedule extends MedicationSchedule
+    with IntervalDaysScheduleMappable {
+  final int intervalDays;
+
+  IntervalDaysSchedule({
+    super.id,
+    required super.name,
+    required super.dose,
+    required this.intervalDays,
+    super.startDate,
+    required super.molecule,
+    required super.administrationRoute,
+    super.ester,
+    required super.notificationTimes,
+  });
+
+  /// Returns the next scheduled injection date relative to today.
   ///
   /// - If the [startDate] is in the future or today, returns [startDate].
   /// - If today falls exactly on a scheduled injection date, returns today.
@@ -70,7 +114,7 @@ class MedicationSchedule with MedicationScheduleMappable {
         .add(Duration(days: intervalDays - (daysSinceStart % intervalDays)));
   }
 
-  /// Returns the last scheduled injection date relative to [referenceDate] (or today if null).
+  /// Returns the last scheduled injection date relative to today.
   ///
   /// - If the [startDate] is in the future or today, returns null.
   /// - If today falls exactly on a scheduled injection date, returns the scheduled date before today.
@@ -126,33 +170,32 @@ class MedicationSchedule with MedicationScheduleMappable {
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
   }
 
-  static String? validateName(AppLocalizations l10n, String? value) =>
-      requiredString(l10n, value);
-
-  static String? validateDose(AppLocalizations l10n, String? value) =>
-      requiredStrictlyPositiveDecimal(l10n, value);
-
   static String? validateIntervalDays(AppLocalizations l10n, String? value) =>
       requiredPositiveInt(l10n, value);
+}
 
-  static String? validateStartDate(AppLocalizations l10n, Date? value) =>
-      requiredDate(l10n, value);
-
-  static String? validateMolecule(AppLocalizations l10n, Molecule? value) =>
-      requiredMolecule(l10n, value);
-
-  static String? validateAdministrationRoute(
-          AppLocalizations l10n, AdministrationRoute? value) =>
-      requiredAdministrationRoute(l10n, value);
-
-  static String? Function(Ester?) esterValidator(AppLocalizations l10n,
-      Molecule? molecule, AdministrationRoute? administrationRoute) {
-    return (Ester? value) {
-      return (molecule == KnownMolecules.estradiol &&
-              administrationRoute == AdministrationRoute.injection &&
-              value == null)
-          ? l10n.requiredField
-          : null;
-    };
-  }
+@MappableClass(
+  discriminatorValue: 'daily',
+  includeCustomMappers: [
+    MoleculeJsonMapper(),
+    AdministrationRouteNameMapper(),
+    EsterNameMapper(),
+    DecimalStringMapper(),
+    DateStringMapper(),
+    TimeOfDayStringMapper(),
+    JsonListMapper<TimeOfDay>(),
+  ],
+  generateMethods: GenerateMethods.all,
+)
+class DailySchedule extends MedicationSchedule with DailyScheduleMappable {
+  DailySchedule({
+    super.id,
+    required super.name,
+    required super.dose,
+    super.startDate,
+    required super.molecule,
+    required super.administrationRoute,
+    super.ester,
+    required super.notificationTimes,
+  });
 }
