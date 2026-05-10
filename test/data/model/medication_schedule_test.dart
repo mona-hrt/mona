@@ -875,5 +875,147 @@ void main() {
         expect(s.isTakenTodayOrLater(lastTakenDate), true);
       });
     });
+
+    group('statusFor', () {
+      IntervalDaysSchedule scheduledForToday() => IntervalDaysSchedule(
+            name: 'A',
+            dose: Decimal.one,
+            intervalDays: 7,
+            startDate: Date.today().subtract(Duration(days: 14)),
+            molecule: KnownMolecules.estradiol,
+            administrationRoute: AdministrationRoute.oral,
+            notificationTimes: List.empty(),
+          );
+
+      test('scheduled for today, taken today -> taken', () {
+        final s = scheduledForToday();
+
+        expect(s.statusFor(Date.today()), ScheduleStatus.taken);
+      });
+
+      test('scheduled for today, taken in the future -> taken', () {
+        final s = scheduledForToday();
+
+        expect(s.statusFor(Date.today().add(Duration(days: 1))),
+            ScheduleStatus.taken);
+      });
+
+      test(
+          'scheduled for today, last intake before previous scheduled date -> todayOverdue',
+          () {
+        final s = scheduledForToday();
+        final lastTaken = s.previousDate!.subtract(Duration(days: 1));
+
+        expect(s.statusFor(lastTaken), ScheduleStatus.todayOverdue);
+      });
+
+      test('scheduled for today, never taken -> todayOverdue', () {
+        final s = scheduledForToday();
+
+        expect(s.statusFor(null), ScheduleStatus.todayOverdue);
+      });
+
+      test(
+          'scheduled for today, last intake strictly between previous scheduled date and today -> todayEarly',
+          () {
+        final s = scheduledForToday();
+        final lastTaken = s.previousDate!.add(Duration(days: 1));
+
+        expect(s.statusFor(lastTaken), ScheduleStatus.todayEarly);
+      });
+
+      test(
+          'scheduled for today, last intake equals previous scheduled date -> today',
+          () {
+        final s = scheduledForToday();
+
+        expect(s.statusFor(s.previousDate), ScheduleStatus.today);
+      });
+
+      test('scheduled for today with no previous date and never taken -> today',
+          () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today(),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.previousDate, isNull);
+        expect(s.statusFor(null), ScheduleStatus.today);
+      });
+
+      test('not scheduled for today, last intake is overdue -> overdue', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().subtract(Duration(days: 10)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.isScheduledForToday(), isFalse);
+        final lastTaken = s.previousDate!.subtract(Duration(days: 1));
+
+        expect(s.statusFor(lastTaken), ScheduleStatus.overdue);
+      });
+
+      test('not scheduled for today, never taken and overdue -> overdue', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().subtract(Duration(days: 10)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.isScheduledForToday(), isFalse);
+
+        expect(s.statusFor(null), ScheduleStatus.overdue);
+      });
+
+      test('not scheduled for today, start date in the future -> upcoming', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().add(Duration(days: 5)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.statusFor(null), ScheduleStatus.upcoming);
+      });
+
+      test(
+          'not scheduled for today, last intake on or after previous scheduled date -> upcoming',
+          () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().subtract(Duration(days: 10)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.statusFor(s.previousDate), ScheduleStatus.upcoming);
+      });
+
+      test('taken status takes priority over todayEarly', () {
+        final s = scheduledForToday();
+
+        expect(s.statusFor(Date.today()), ScheduleStatus.taken);
+      });
+    });
   });
 }

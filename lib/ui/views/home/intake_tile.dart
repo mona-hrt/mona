@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
-import 'package:mona/controllers/schedule_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';

@@ -11,6 +11,15 @@ import 'package:mona/util/validators.dart';
 
 part 'medication_schedule.mapper.dart';
 
+enum ScheduleStatus {
+  overdue,
+  todayOverdue,
+  todayEarly,
+  today,
+  upcoming,
+  taken
+}
+
 @MappableClass(discriminatorKey: 'type')
 abstract class MedicationSchedule with MedicationScheduleMappable {
   final int id;
@@ -174,6 +183,19 @@ class IntervalDaysSchedule extends MedicationSchedule
     if (lastTakenDate == null) return false;
 
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
+  }
+
+  ScheduleStatus statusFor(Date? lastTaken) {
+    if (isScheduledForToday()) {
+      if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
+      if (isLate(lastTaken)) return ScheduleStatus.todayOverdue;
+      if (lastTakenLate(lastTaken)) return ScheduleStatus.todayEarly;
+      return ScheduleStatus.today;
+    }
+
+    if (isLate(lastTaken)) return ScheduleStatus.overdue;
+
+    return ScheduleStatus.upcoming;
   }
 
   static String? validateIntervalDays(AppLocalizations l10n, String? value) =>
