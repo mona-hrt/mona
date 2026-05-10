@@ -118,17 +118,6 @@ void main() {
     test('today returns schedules due today, not late and not taken', () {
       final today = Date.today();
 
-      todaySchedule = MedicationSchedule(
-        id: 1,
-        name: 'TodayMed',
-        dose: Decimal.one,
-        intervalDays: 2,
-        startDate: today,
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-        notificationTimes: List.empty(),
-      );
-
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
           .thenReturn(today.subtract(const Duration(days: 2)));
 

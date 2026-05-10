@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/l10n/app_localizations.dart';
-import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/timezone_location.dart';
 import 'package:mona/util/validators.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -88,69 +86,4 @@ class MedicationIntake with MedicationIntakeMappable {
   static String? validateDeadSpace(AppLocalizations l10n, String? value) =>
       positiveDecimal(l10n, value);
   // coverage:ignore-end
-}
-
-class MoleculeJsonMapper extends SimpleMapper<Molecule> {
-  const MoleculeJsonMapper();
-
-  @override
-  Molecule decode(Object value) {
-    if (value is String) {
-      return Molecule.fromJson(
-        jsonDecode(value) as Map<String, dynamic>,
-      );
-    }
-    if (value is Map) {
-      return Molecule.fromJson(Map<String, dynamic>.from(value));
-    }
-    throw FormatException(
-        'Expected JSON for molecule, got ${value.runtimeType}');
-  }
-
-  @override
-  Object? encode(Molecule self) {
-    return jsonEncode(self.toJson());
-  }
-}
-
-class AdministrationRouteNameMapper extends SimpleMapper<AdministrationRoute> {
-  const AdministrationRouteNameMapper();
-
-  @override
-  AdministrationRoute decode(Object value) {
-    return AdministrationRoute.fromName(value as String);
-  }
-
-  @override
-  Object? encode(AdministrationRoute self) {
-    return self.name;
-  }
-}
-
-class EsterNameMapper extends SimpleMapper<Ester> {
-  const EsterNameMapper();
-
-  @override
-  Ester decode(Object value) {
-    return Ester.fromName(value as String)!;
-  }
-
-  @override
-  Object? encode(Ester self) {
-    return self.name;
-  }
-}
-
-class DecimalStringMapper extends SimpleMapper<Decimal> {
-  const DecimalStringMapper();
-
-  @override
-  Decimal decode(Object value) {
-    return (value as String).toDecimal;
-  }
-
-  @override
-  Object? encode(Decimal self) {
-    return self.toString();
-  }
 }

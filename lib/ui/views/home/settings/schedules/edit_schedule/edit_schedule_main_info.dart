@@ -117,8 +117,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       startDate: _startDate,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
-      ester: _ester,
-      clearEster: !_useEsterField,
+      ester: _useEsterField ? _ester : null,
     );
     _medicationScheduleProvider.updateSchedule(updatedSchedule);
 

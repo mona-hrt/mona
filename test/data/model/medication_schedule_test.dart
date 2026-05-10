@@ -30,7 +30,8 @@ void main() {
         );
 
         final map = schedule.toMap();
-        final fromMap = MedicationSchedule.fromMap(map);
+        final fromMap =
+            MedicationScheduleMapper.fromMap(Map<String, dynamic>.from(map));
 
         expect(
           fromMap,
