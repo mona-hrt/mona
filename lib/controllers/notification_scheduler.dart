@@ -22,8 +22,8 @@ class NotificationScheduler {
     final now = DateTime.now();
 
     for (final schedule in medicationScheduleProvider.schedules) {
-      final lastTaken =
-          medicationIntakeProvider.getLastIntakeDateForSchedule(schedule.id);
+      final lastTaken = medicationIntakeProvider
+          .getLastIntakeLocalDateForSchedule(schedule.id);
       final nextDates = schedule.getNextDates(5);
 
       for (final date in nextDates) {

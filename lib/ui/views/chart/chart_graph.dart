@@ -36,16 +36,17 @@ class MainGraph extends StatelessWidget {
     final bloodTestProvider = context.watch<BloodTestProvider>();
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final Date firstDay = medicationIntakeProvider.getFirstIntakeLocalDate()!;
     final unit = preferencesProvider.units.estradiol;
 
     Map<int, GraphIntake> daysAndIntakes =
         medicationIntakeProvider.getDaysAndIntakes();
 
+    if (daysAndIntakes.isEmpty) return SizedBox.shrink();
+
+    final Date firstDay =
+        medicationIntakeProvider.getFirstGraphIntakeLocalDate()!;
     Map<int, double> daysAndBloodTests =
         bloodTestProvider.getDaysAndBloodTests(firstDay, unit);
-
-    if (daysAndIntakes.isEmpty) return SizedBox.shrink();
 
     final List<FlSpot> spots =
         GraphCalculator().generateFlSpots(daysAndIntakes, unit);
@@ -55,7 +56,7 @@ class MainGraph extends StatelessWidget {
         .toList();
 
     final int totalDays = medicationIntakeProvider
-        .getLastIntakeDate()!
+        .getLastGraphIntakeDate()!
         .differenceInDays(firstDay);
     final double daysSinceStart =
         DateTime.now().difference(firstDay.toDateTime()).inSeconds / 86400.0;
