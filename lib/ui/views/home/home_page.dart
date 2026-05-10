@@ -25,7 +25,8 @@ class HomePage extends StatelessWidget {
 
     return MainPageWrapper(
       isLoading: scheduleProvider.isLoading || intakeProvider.isLoading,
-      isEmpty: isLegacyDistribution ? false : scheduleProvider.schedules.isEmpty,
+      isEmpty:
+          isLegacyDistribution ? false : scheduleProvider.schedules.isEmpty,
       emptyMessage: localizations.empty_home,
       child: SingleChildScrollView(
         child: Padding(
@@ -53,7 +54,8 @@ class HomePage extends StatelessWidget {
   String _todayTitle(BuildContext context) {
     final formatted =
         Date.today().format(DateFormat.MMMMEEEEd(context.languageTag));
-    return formatted.replaceRange(0, 1, formatted.substring(0, 1).toUpperCase());
+    return formatted.replaceRange(
+        0, 1, formatted.substring(0, 1).toUpperCase());
   }
 }
 

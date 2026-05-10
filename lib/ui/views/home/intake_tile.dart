@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/controllers/schedule_manager.dart';
-import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/administration_route_l10n.dart';
-import 'package:mona/l10n/helpers/injection_side_l10n.dart';
 import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/ui/views/home/take_medication_page.dart';
 import 'package:provider/provider.dart';
@@ -148,11 +144,6 @@ class IntakeTileViewModel {
     if (status == ScheduleStatus.taken) {
       return localizations.taken;
     }
-
-    final nextSide = MedicationIntakeManager(
-      intakeProvider,
-      supplyProvider,
-    ).getNextSide();
 
     return "${schedule.dose} ${schedule.molecule.unit} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)}";
   }
