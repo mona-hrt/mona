@@ -4,19 +4,24 @@ import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 
-enum ScheduleStatus { overdue, todayOverdue, today, upcoming, taken }
+enum ScheduleStatus {
+  overdue,
+  todayOverdue,
+  todayEarly,
+  today,
+  upcoming,
+  taken
+}
 
 class ScheduleSlot {
   final MedicationSchedule schedule;
   final ScheduleStatus status;
   final TimeOfDay? time;
-  final bool taken;
 
   ScheduleSlot({
     required this.schedule,
     required this.status,
     this.time,
-    required this.taken,
   });
 }
 
@@ -46,6 +51,8 @@ class ScheduleManager {
           if (schedule.isScheduledForToday() && schedule.isLate(lastTaken)) {
             schedules.add(schedule);
           }
+          break;
+        case ScheduleStatus.todayEarly:
           break;
         case ScheduleStatus.overdue:
           if (!schedule.isScheduledForToday() && schedule.isLate(lastTaken)) {
@@ -77,26 +84,27 @@ class ScheduleManager {
       final Date? lastTaken = _medicationIntakeProvider
           .getLastIntakeLocalDateForSchedule(schedule.id);
 
-      final bool scheduledForToday = schedule.isScheduledForToday();
-      final bool late = schedule.isLate(lastTaken);
-      final bool taken = schedule.isTakenTodayOrLater(lastTaken);
+      final bool isScheduledForToday = schedule.isScheduledForToday();
+      final bool isLate = schedule.isLate(lastTaken);
+      final bool isLastTakenLate = schedule.lastTakenLate(lastTaken);
+      final bool isTaken = schedule.isTakenTodayOrLater(lastTaken);
 
-      final ScheduleStatus status;
-      if (scheduledForToday && late) {
-        status = ScheduleStatus.todayOverdue;
-      } else if (scheduledForToday) {
-        status = ScheduleStatus.today;
-      } else if (late) {
-        status = ScheduleStatus.overdue;
-      } else {
-        status = ScheduleStatus.upcoming;
-      }
+      final ScheduleStatus status = isScheduledForToday
+          ? isTaken
+              ? ScheduleStatus.taken
+              : isLate
+                  ? ScheduleStatus.todayOverdue
+                  : isLastTakenLate
+                      ? ScheduleStatus.todayEarly
+                      : ScheduleStatus.today
+          : isLate
+              ? ScheduleStatus.overdue
+              : ScheduleStatus.upcoming;
 
       slots.add(ScheduleSlot(
         schedule: schedule,
         status: status,
         time: null,
-        taken: taken,
       ));
     }
     return slots;

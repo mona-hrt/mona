@@ -163,6 +163,13 @@ class IntervalDaysSchedule extends MedicationSchedule
     return lastTakenDate == null || lastTakenDate.isBefore(previousDate!);
   }
 
+  bool lastTakenLate(Date? lastTakenDate) {
+    if (lastTakenDate == null || previousDate == null) {
+      return false;
+    }
+    return lastTakenDate.isAfter(previousDate!);
+  }
+
   bool isTakenTodayOrLater(Date? lastTakenDate) {
     if (lastTakenDate == null) return false;
 

@@ -159,6 +159,7 @@ class IntakeTileViewModel {
     switch (status) {
       case ScheduleStatus.today:
       case ScheduleStatus.todayOverdue:
+      case ScheduleStatus.todayEarly:
         return localizations.today;
 
       case ScheduleStatus.overdue:
@@ -177,6 +178,7 @@ class IntakeTileViewModel {
   String? get warningText {
     switch (status) {
       case ScheduleStatus.today:
+      case ScheduleStatus.todayEarly:
         if (lastTaken != null &&
             lastScheduled != null &&
             !lastTaken!.isSameDayAs(lastScheduled!)) {

@@ -720,6 +720,98 @@ void main() {
       });
     });
 
+    group('lastTakenLate', () {
+      test('returns false when lastTaken is null', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().subtract(Duration(days: 14)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.lastTakenLate(null), isFalse);
+      });
+
+      test('returns false when previousDate is null (startDate today)', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today(),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.previousDate, isNull);
+        expect(s.lastTakenLate(Date.today()), isFalse);
+      });
+
+      test('returns false when previousDate is null (startDate in future)', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().add(Duration(days: 3)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.previousDate, isNull);
+        expect(s.lastTakenLate(Date.today()), isFalse);
+      });
+
+      test('returns false when lastTaken is before previousDate', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().subtract(Duration(days: 14)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        final lastTaken = s.previousDate!.subtract(Duration(days: 1));
+
+        expect(s.lastTakenLate(lastTaken), isFalse);
+      });
+
+      test('returns false when lastTaken equals previousDate', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().subtract(Duration(days: 14)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        expect(s.lastTakenLate(s.previousDate), isFalse);
+      });
+
+      test('returns true when lastTaken is after previousDate', () {
+        final s = IntervalDaysSchedule(
+          name: 'A',
+          dose: Decimal.one,
+          intervalDays: 7,
+          startDate: Date.today().subtract(Duration(days: 14)),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
+        );
+
+        final lastTaken = s.previousDate!.add(Duration(days: 1));
+
+        expect(s.lastTakenLate(lastTaken), isTrue);
+      });
+    });
+
     group('isTakenTodayOrLater', () {
       test('returns false if no last taken', () {
         final s = IntervalDaysSchedule(

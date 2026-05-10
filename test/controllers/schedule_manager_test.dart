@@ -172,6 +172,7 @@ void main() {
     late IntervalDaysSchedule todaySchedule;
     late IntervalDaysSchedule todayTakenSchedule;
     late IntervalDaysSchedule todayOverdueSchedule;
+    late IntervalDaysSchedule todayEarlySchedule;
     late IntervalDaysSchedule overdueSchedule;
     late IntervalDaysSchedule upcomingSchedule;
 
@@ -217,6 +218,19 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(4))
           .thenReturn(today.subtract(const Duration(days: 3)));
 
+      todayEarlySchedule = IntervalDaysSchedule(
+        id: 6,
+        name: 'TodayEarlyMed',
+        dose: Decimal.one,
+        intervalDays: 7,
+        startDate: today.subtract(const Duration(days: 14)),
+        molecule: KnownMolecules.estradiol,
+        administrationRoute: AdministrationRoute.oral,
+        notificationTimes: List.empty(),
+      );
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(6))
+          .thenReturn(today.subtract(const Duration(days: 5)));
+
       overdueSchedule = IntervalDaysSchedule(
         id: 2,
         name: 'OverdueMed',
@@ -250,54 +264,60 @@ void main() {
       expect(manager.getSlots(), isEmpty);
     });
 
-    test('schedule due today, not late, not taken yields today/not taken', () {
+    test('schedule due today, not late, not taken yields today', () {
       when(mockScheduleProvider.schedules).thenReturn([todaySchedule]);
 
       final slot = manager.getSlots().single;
 
       expect(slot.schedule, todaySchedule);
       expect(slot.status, ScheduleStatus.today);
-      expect(slot.taken, isFalse);
     });
 
-    test('schedule due today and taken today yields today/taken', () {
+    test('schedule taken today or later yields taken', () {
       when(mockScheduleProvider.schedules).thenReturn([todayTakenSchedule]);
 
       final slot = manager.getSlots().single;
 
       expect(slot.schedule, todayTakenSchedule);
-      expect(slot.status, ScheduleStatus.today);
-      expect(slot.taken, isTrue);
+      expect(slot.status, ScheduleStatus.taken);
     });
 
-    test('schedule due today and late yields todayOverdue/not taken', () {
+    test('schedule due today and late yields todayOverdue', () {
       when(mockScheduleProvider.schedules).thenReturn([todayOverdueSchedule]);
 
       final slot = manager.getSlots().single;
 
       expect(slot.schedule, todayOverdueSchedule);
       expect(slot.status, ScheduleStatus.todayOverdue);
-      expect(slot.taken, isFalse);
     });
 
-    test('schedule not due today but late yields overdue/not taken', () {
+    test(
+        'schedule due today, last taken after previous scheduled date but not today, '
+        'yields todayEarly', () {
+      when(mockScheduleProvider.schedules).thenReturn([todayEarlySchedule]);
+
+      final slot = manager.getSlots().single;
+
+      expect(slot.schedule, todayEarlySchedule);
+      expect(slot.status, ScheduleStatus.todayEarly);
+    });
+
+    test('schedule not due today but late yields overdue', () {
       when(mockScheduleProvider.schedules).thenReturn([overdueSchedule]);
 
       final slot = manager.getSlots().single;
 
       expect(slot.schedule, overdueSchedule);
       expect(slot.status, ScheduleStatus.overdue);
-      expect(slot.taken, isFalse);
     });
 
-    test('schedule not due today and not late yields upcoming/not taken', () {
+    test('schedule not due today and not late yields upcoming', () {
       when(mockScheduleProvider.schedules).thenReturn([upcomingSchedule]);
 
       final slot = manager.getSlots().single;
 
       expect(slot.schedule, upcomingSchedule);
       expect(slot.status, ScheduleStatus.upcoming);
-      expect(slot.taken, isFalse);
     });
   });
 }
