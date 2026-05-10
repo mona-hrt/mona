@@ -57,8 +57,7 @@ class IntakeTile extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute<void>(
               fullscreenDialog: true,
-              builder: (context) =>
-                  TakeMedicationPage(schedule, DateTime.now()),
+              builder: (context) => TakeMedicationPage(schedule),
             ),
           );
         },

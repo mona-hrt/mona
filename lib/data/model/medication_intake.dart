@@ -29,7 +29,6 @@ enum InjectionSide {
 )
 class MedicationIntake with MedicationIntakeMappable {
   final int id;
-  final DateTime scheduledDateTime;
   final DateTime? takenDateTime;
   final String? takenTimeZone;
   final Decimal dose;
@@ -48,7 +47,6 @@ class MedicationIntake with MedicationIntakeMappable {
 
   MedicationIntake({
     int? id,
-    required this.scheduledDateTime,
     required this.dose,
     this.takenDateTime,
     this.takenTimeZone,

@@ -16,7 +16,6 @@ const String createSupplyItemsTable = '''
 const String createMedicationIntakesTable = '''
     CREATE TABLE medication_intakes(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      scheduledDateTime TEXT NOT NULL,
       takenDateTime TEXT,
       takenTimeZone TEXT,
       dose TEXT NOT NULL,

@@ -7,6 +7,7 @@ import 'package:mona/services/db/upgrade/v4.dart';
 import 'package:mona/services/db/upgrade/v5.dart';
 import 'package:mona/services/db/upgrade/v6.dart';
 import 'package:mona/services/db/upgrade/v7.dart';
+import 'package:mona/services/db/upgrade/v8.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -53,7 +54,7 @@ class AppDatabase {
 
     return await openDatabase(
       path,
-      version: 7,
+      version: 8,
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
       onOpen: _onOpen,
@@ -89,6 +90,9 @@ class AppDatabase {
     }
     if (oldVersion < 7) {
       DbUpgradeV7().upgrade(db, oldVersion, newVersion);
+    }
+    if (oldVersion < 8) {
+      DbUpgradeV8().upgrade(db, oldVersion, newVersion);
     }
   }
 

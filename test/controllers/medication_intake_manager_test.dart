@@ -55,7 +55,6 @@ void main() {
           await expectLater(
             manager.takeMedication(
               dose: Decimal.parse('2'),
-              scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
             ),
@@ -71,7 +70,6 @@ void main() {
           try {
             await manager.takeMedication(
               dose: Decimal.parse('2'),
-              scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
             );
@@ -91,7 +89,6 @@ void main() {
           try {
             await manager.takeMedication(
               dose: Decimal.parse('2'),
-              scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
               supplyItem: supplyItem,
@@ -106,7 +103,6 @@ void main() {
       group('MedicationIntake creation', () {
         late MedicationIntake addedIntake;
         final dose = Decimal.parse('3');
-        final scheduledDate = DateTime(2025, 9, 14, 10, 30);
         final takenDate = DateTime.utc(2025, 9, 14, 12, 0);
         final notes = 'yummy';
         final supplyItemId = 99;
@@ -133,7 +129,6 @@ void main() {
           // Act
           await manager.takeMedication(
             dose: dose,
-            scheduledDateTime: scheduledDate,
             takenDateTime: takenDate,
             supplyItem: supplyItem,
             schedule: schedule,
@@ -150,11 +145,6 @@ void main() {
         test('propagates dose to the intake', () {
           // Assert
           expect(addedIntake.dose, dose);
-        });
-
-        test('propagates scheduledDateTime to the intake', () {
-          // Assert
-          expect(addedIntake.scheduledDateTime, scheduledDate);
         });
 
         test('propagates takenDateTime to the intake', () {
@@ -219,7 +209,6 @@ void main() {
           // Act
           await manager.takeMedication(
             dose: Decimal.parse('2'),
-            scheduledDateTime: date,
             takenDateTime: date,
             supplyItem: null,
             schedule: schedule,
@@ -259,7 +248,6 @@ void main() {
           // Act
           await manager.takeMedication(
             dose: Decimal.parse('2'),
-            scheduledDateTime: date,
             takenDateTime: date,
             supplyItem: supplyItem,
             schedule: schedule,
@@ -301,7 +289,6 @@ void main() {
             // Act
             await manager.takeMedication(
               dose: dose,
-              scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,
               schedule: schedule,
@@ -343,7 +330,6 @@ void main() {
             // Act
             await manager.takeMedication(
               dose: dose,
-              scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,
               schedule: schedule,
@@ -388,7 +374,6 @@ void main() {
             // Act
             await manager.takeMedication(
               dose: dose,
-              scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,
               schedule: schedule,
@@ -552,7 +537,6 @@ void main() {
         // Arrange
         final firstIntake = MedicationIntake(
           id: 1,
-          scheduledDateTime: DateTime(2025, 9, 14, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           takenTimeZone: 'Etc/UTC',
@@ -575,7 +559,6 @@ void main() {
         // Arrange
         final lastIntake = MedicationIntake(
           id: 2,
-          scheduledDateTime: DateTime(2025, 9, 15, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 15, 12, 0),
           takenTimeZone: 'Etc/UTC',
@@ -604,7 +587,6 @@ void main() {
         // Arrange
         final intake = MedicationIntake(
           id: 3,
-          scheduledDateTime: DateTime(2025, 9, 16, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 16, 12, 0),
           takenTimeZone: 'Etc/UTC',
@@ -680,7 +662,6 @@ MedicationIntake _buildIntake({
 }) {
   return MedicationIntake(
     id: id,
-    scheduledDateTime: DateTime(2025, 9, 14, 10, 30),
     dose: dose ?? Decimal.parse('2'),
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.oral,

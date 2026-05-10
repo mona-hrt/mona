@@ -22,9 +22,8 @@ import 'package:provider/provider.dart';
 
 class TakeMedicationPage extends StatefulWidget {
   final MedicationSchedule schedule;
-  final DateTime scheduledDate;
 
-  TakeMedicationPage(this.schedule, this.scheduledDate);
+  TakeMedicationPage(this.schedule);
 
   @override
   State<TakeMedicationPage> createState() => _TakeMedicationPageState();
@@ -60,7 +59,6 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
         .takeMedication(
       dose: _takenDose,
-      scheduledDateTime: widget.scheduledDate,
       takenDateTime: _takenDate.toUtc(),
       supplyItem: _selectedSupplyItem,
       schedule: widget.schedule,

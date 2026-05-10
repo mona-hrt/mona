@@ -76,7 +76,6 @@ void main() {
       });
 
       final id = await db.insert('medication_intakes', {
-        'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
         'dose': '2.5',
         'side': null,
@@ -112,8 +111,6 @@ void main() {
 
       expect(
           () async => await db.insert('medication_intakes', {
-                'scheduledDateTime':
-                    DateTime(2025, 9, 14, 10, 30).toIso8601String(),
                 'takenDateTime': null,
                 'dose': '2.5',
                 'side': null,
@@ -142,7 +139,6 @@ void main() {
       });
 
       final intakeId = await db.insert('medication_intakes', {
-        'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
         'dose': '2.5',
         'side': null,

@@ -19,7 +19,6 @@ void main() {
     repo = GenericRepositoryMock<MedicationIntake>(
       withId: (i, id) => MedicationIntake(
           id: id,
-          scheduledDateTime: i.scheduledDateTime,
           dose: i.dose,
           takenDateTime: i.takenDateTime,
           takenTimeZone: i.takenTimeZone,
@@ -31,7 +30,6 @@ void main() {
     provider = MedicationIntakeProvider(repository: repo);
     repo.insert(MedicationIntake(
       id: 1,
-      scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
       dose: Decimal.parse('10.5'),
       takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
       takenTimeZone: 'Etc/UTC',
@@ -40,7 +38,6 @@ void main() {
     ));
     repo.insert(MedicationIntake(
       id: 2,
-      scheduledDateTime: DateTime(2025, 9, 12, 20, 0),
       dose: Decimal.parse('5.0'),
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.gel,
@@ -55,12 +52,10 @@ void main() {
 
     test('add inserts a new item', () async {
       // Arrange
-      final newDate = DateTime(2025, 9, 13, 8, 0);
       final newDose = Decimal.parse('2.5');
 
       // Act
       await provider.add(MedicationIntake(
-        scheduledDateTime: newDate,
         dose: newDose,
         takenDateTime: DateTime.utc(2025, 9, 13, 8, 10),
         takenTimeZone: 'Etc/UTC',
@@ -70,8 +65,7 @@ void main() {
 
       // Assert
       expect(
-        provider.intakes
-            .any((i) => i.scheduledDateTime == newDate && i.dose == newDose),
+        provider.intakes.any((i) => i.dose == newDose),
         true,
       );
     });
@@ -81,7 +75,6 @@ void main() {
       final intakeToUpdate = repo.items.first;
       final updatedIntake = MedicationIntake(
         id: intakeToUpdate.id,
-        scheduledDateTime: intakeToUpdate.scheduledDateTime,
         dose: Decimal.parse('99.9'),
         takenDateTime: intakeToUpdate.takenDateTime,
         takenTimeZone: 'Etc/UTC',
@@ -139,7 +132,6 @@ void main() {
       await provider.fetchIntakes();
       provider.add(MedicationIntake(
         id: 100,
-        scheduledDateTime: DateTime(2025, 9, 14, 8, 0),
         dose: Decimal.parse('1.0'),
         takenDateTime: DateTime.utc(2025, 9, 14, 8, 10),
         takenTimeZone: 'Etc/UTC',
@@ -148,14 +140,12 @@ void main() {
       ));
       provider.add(MedicationIntake(
         id: 101,
-        scheduledDateTime: DateTime(2025, 9, 15, 8, 0),
         dose: Decimal.parse('1.0'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       ));
       provider.add(MedicationIntake(
         id: 102,
-        scheduledDateTime: DateTime(2025, 9, 16, 8, 0),
         dose: Decimal.parse('1.0'),
         takenDateTime: DateTime.utc(2025, 9, 16, 8, 10),
         takenTimeZone: 'Etc/UTC',
@@ -191,7 +181,6 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 100,
-          scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
@@ -201,7 +190,6 @@ void main() {
         repo.insert(MedicationIntake(
           id: 200,
           scheduleId: 200,
-          scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
@@ -230,7 +218,6 @@ void main() {
         final intake = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
           dose: Decimal.parse('10.5'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
           takenTimeZone: 'Etc/UTC',
@@ -246,7 +233,6 @@ void main() {
         final intake1 = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
           dose: Decimal.parse('10.5'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
           takenTimeZone: 'Etc/UTC',
@@ -257,7 +243,6 @@ void main() {
         final intake2 = MedicationIntake(
           id: 2,
           scheduleId: 1,
-          scheduledDateTime: DateTime(2025, 9, 12, 20, 0),
           dose: Decimal.parse('5.0'),
           takenDateTime: DateTime.utc(2025, 9, 12, 20, 10),
           takenTimeZone: 'Etc/UTC',
@@ -268,7 +253,6 @@ void main() {
         final intake3 = MedicationIntake(
           id: 3,
           scheduleId: 1,
-          scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 5),
           takenTimeZone: 'Etc/UTC',
@@ -286,7 +270,6 @@ void main() {
         final intake1 = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          scheduledDateTime: dt,
           dose: Decimal.parse('10.5'),
           takenDateTime: dt,
           takenTimeZone: 'Etc/UTC',
@@ -297,7 +280,6 @@ void main() {
         final intake2 = MedicationIntake(
           id: 2,
           scheduleId: 1,
-          scheduledDateTime: dt,
           dose: Decimal.parse('5.0'),
           takenDateTime: dt,
           takenTimeZone: 'Etc/UTC',
