@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:mona/services/db/db_tables.dart';
+import 'package:mona/services/db/upgrade/db_upgrade.dart';
 import 'package:mona/services/db/upgrade/v2.dart';
 import 'package:mona/services/db/upgrade/v3.dart';
 import 'package:mona/services/db/upgrade/v4.dart';
@@ -11,6 +12,15 @@ import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 const int currentDatabaseVersion = 7;
+
+final Map<int, DbUpgrade> _upgrades = {
+  2: DbUpgradeV2(),
+  3: DbUpgradeV3(),
+  4: DbUpgradeV4(),
+  5: DbUpgradeV5(),
+  6: DbUpgradeV6(),
+  7: DbUpgradeV7(),
+};
 
 class AppDatabase {
   static const String _backupSuffix = '.bak';
@@ -94,23 +104,13 @@ class AppDatabase {
 
   Future<void> applyAppUpgrades(
       Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-      await DbUpgradeV2().upgrade(db, oldVersion, newVersion);
-    }
-    if (oldVersion < 3) {
-      await DbUpgradeV3().upgrade(db, oldVersion, newVersion);
-    }
-    if (oldVersion < 4) {
-      await DbUpgradeV4().upgrade(db, oldVersion, newVersion);
-    }
-    if (oldVersion < 5) {
-      await DbUpgradeV5().upgrade(db, oldVersion, newVersion);
-    }
-    if (oldVersion < 6) {
-      await DbUpgradeV6().upgrade(db, oldVersion, newVersion);
-    }
-    if (oldVersion < 7) {
-      await DbUpgradeV7().upgrade(db, oldVersion, newVersion);
+    for (var version = oldVersion + 1; version <= newVersion; version++) {
+      final upgrade = _upgrades[version];
+      if (upgrade == null) {
+        throw StateError(
+            'No upgrade registered for database version $version. ');
+      }
+      await upgrade.upgrade(db, oldVersion, newVersion);
     }
   }
 
