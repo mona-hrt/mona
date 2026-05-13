@@ -114,9 +114,6 @@ class AppDatabase {
       }
       await upgrade.upgrade(db, oldVersion, newVersion);
     }
-    if (oldVersion < 8) {
-      DbUpgradeV8().upgrade(db, oldVersion, newVersion);
-    }
   }
 
   Future<void> close() async {
