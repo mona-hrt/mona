@@ -115,7 +115,7 @@ void main() {
       test('decrements amount by 1', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = GenericSupply(id: 7, name: 'Syringe', amount: 5);
+        final item = GenericSupply(id: '7', name: 'Syringe', amount: 5);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
@@ -132,7 +132,7 @@ void main() {
       test('increments amount by 1', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = GenericSupply(id: 7, name: 'Syringe', amount: 5);
+        final item = GenericSupply(id: '7', name: 'Syringe', amount: 5);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
@@ -157,7 +157,7 @@ void main() {
 
       setUpAll(() {
         baseItem = MedicationSupplyItem(
-          id: 0,
+          id: '0',
           name: 'progesterone',
           totalDose: Decimal.parse('30'),
           usedDose: Decimal.parse('10'),
@@ -197,7 +197,7 @@ void main() {
 
       test('previousItem is null and nextItem is valid', () async {
         previousItem = null;
-        nextItem = baseItem.copyWith(id: 1);
+        nextItem = baseItem.copyWith(id: '1');
 
         manager.switchDoses(
             previousItem, nextItem, Decimal.one, Decimal.parse('2'));
@@ -234,7 +234,7 @@ void main() {
 
       test('previousItem and nextItem are different and both valid', () async {
         previousItem = baseItem;
-        nextItem = baseItem.copyWith(id: 1);
+        nextItem = baseItem.copyWith(id: '1');
 
         manager.switchDoses(
             previousItem, nextItem, Decimal.parse('6'), Decimal.parse('7'));

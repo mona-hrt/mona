@@ -8,7 +8,7 @@ void main() {
     test('toMap and fromMap should preserve values', () {
       // Arrange
       final bloodtest = BloodTest(
-        id: 1,
+        id: '1',
         dateTime: DateTime.utc(2025, 3, 14, 6, 7),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('167.1'), EstradiolUnit.pg_mL),
@@ -36,7 +36,7 @@ void main() {
     test('copyWith overrides only provided fields', () {
       // Arrange
       final original = BloodTest(
-        id: 1,
+        id: '1',
         dateTime: DateTime.utc(2024, 1, 1),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('167.1'), EstradiolUnit.pg_mL),
@@ -64,7 +64,7 @@ void main() {
     test('copyWith does not mutate original object', () {
       // Arrange
       final original = BloodTest(
-        id: 1,
+        id: '1',
         dateTime: DateTime.utc(2024, 1, 1),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('10'), EstradiolUnit.pg_mL),
@@ -73,10 +73,10 @@ void main() {
       );
 
       // Act
-      original.copyWith(id: 2);
+      original.copyWith(id: '2');
 
       // Assert
-      expect(original.id, 1);
+      expect(original.id, '1');
     });
 
     test('constructor throws if dateTime is not UTC', () {
@@ -86,7 +86,7 @@ void main() {
       // Act & Assert
       expect(
         () => BloodTest(
-          id: 1,
+          id: '1',
           dateTime: localDateTime,
           timeZone: 'Etc/UTC',
         ),

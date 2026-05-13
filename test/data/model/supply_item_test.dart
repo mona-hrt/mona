@@ -7,7 +7,7 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 
 MedicationSupplyItem makeMed({
-  int id = 1,
+  String id = '1',
   String name = 'Med',
   String totalDose = '100',
   String usedDose = '0',
@@ -27,7 +27,7 @@ MedicationSupplyItem makeMed({
 }
 
 GenericSupply makeGeneric({
-  int id = 1,
+  String id = '1',
   String name = 'Generic',
   int amount = 1,
 }) {

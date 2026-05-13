@@ -144,6 +144,7 @@ void main() {
         when(mockPreferencesService.notificationsEnabled).thenReturn(false);
         when(mockMedicationScheduleProvider.schedules).thenReturn([
           MedicationSchedule(
+            id: '1',
             name: 'Test Medication',
             dose: Decimal.fromInt(10),
             intervalDays: 1,
@@ -199,7 +200,7 @@ void main() {
         NotificationService.isPlatformSupported = () => true;
         NotificationService.createPlugin = () => mockPlugin;
 
-        const scheduleId = 1001;
+        const scheduleId = '1001';
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
         when(mockMedicationScheduleProvider.schedules).thenReturn([
           MedicationSchedule(
@@ -250,7 +251,7 @@ void main() {
         NotificationService.isPlatformSupported = () => true;
         NotificationService.createPlugin = () => mockPlugin;
 
-        const scheduleId = 1002;
+        const scheduleId = '1002';
         final scheduledTime = TimeOfDay.fromDateTime(
             DateTime.now().add(const Duration(minutes: 1)));
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
@@ -314,7 +315,7 @@ void main() {
         NotificationService.isPlatformSupported = () => true;
         NotificationService.createPlugin = () => mockPlugin;
 
-        const scheduleId = 1003;
+        const scheduleId = '1003';
         final scheduledTime = TimeOfDay.fromDateTime(
             DateTime.now().subtract(const Duration(minutes: 1)));
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
@@ -383,7 +384,7 @@ void main() {
           TimeOfDay(hour: (now.hour + 2) % 24, minute: 30),
         ];
 
-        const scheduleId = 1004;
+        const scheduleId = '1004';
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
         when(mockMedicationScheduleProvider.schedules).thenReturn([
           MedicationSchedule(
@@ -442,7 +443,7 @@ void main() {
           'Skips future notification times today when intake already taken today',
           () async {
         // Arrange
-        const scheduleId = 4242;
+        const scheduleId = '4242';
         final origPlatformCheck = NotificationService.isPlatformSupported;
         final origCreate = NotificationService.createPlugin;
         NotificationService.isPlatformSupported = () => true;

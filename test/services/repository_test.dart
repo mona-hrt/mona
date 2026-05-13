@@ -40,12 +40,12 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
       );
 
-      int insertedId = await repository.insert(item);
+      await repository.insert(item);
       final items = await repository.getAll();
 
       expect(
         [items.length, items[0].id],
-        [1, insertedId],
+        [1, item.id],
       );
     });
 
@@ -57,7 +57,8 @@ void main() {
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
-      int id = await repository.insert(item);
+      await repository.insert(item);
+      final id = item.id;
       final updatedItem = MedicationSupplyItem(
         name: 'h',
         id: id,
@@ -84,7 +85,8 @@ void main() {
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
-      int id = await repository.insert(item);
+      await repository.insert(item);
+      final id = item.id;
 
       await repository.delete(id);
 
@@ -94,7 +96,7 @@ void main() {
 
     test('Only delete the specified SupplyItem', () async {
       final item1 = MedicationSupplyItem(
-        id: 1,
+        id: '1',
         name: 'g',
         totalDose: Decimal.parse('1'),
         concentration: Decimal.parse('1'),
@@ -102,22 +104,22 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
       );
       final item2 = MedicationSupplyItem(
-        id: 2,
+        id: '2',
         name: 'h',
         totalDose: Decimal.parse('2'),
         concentration: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
-      int id1 = await repository.insert(item1);
-      int id2 = await repository.insert(item2);
+      await repository.insert(item1);
+      await repository.insert(item2);
 
-      await repository.delete(id1);
+      await repository.delete(item1.id);
 
       final remainingItems = await repository.getAll();
       expect(
         [remainingItems.length, remainingItems[0].id],
-        [1, id2],
+        [1, item2.id],
       );
     });
   });

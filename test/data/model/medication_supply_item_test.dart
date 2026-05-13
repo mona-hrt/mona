@@ -7,7 +7,7 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/l10n/app_localizations_en.dart';
 
 MedicationSupplyItem makeMed({
-  int id = 1,
+  String id = '1',
   String name = 'Med',
   String totalDose = '100',
   String usedDose = '0',
@@ -36,7 +36,7 @@ void main() {
       test('round-trips all fields', () {
         // Arrange
         final original = MedicationSupplyItem(
-          id: 1,
+          id: '1',
           name: 'Test Item',
           totalDose: Decimal.parse('100'),
           usedDose: Decimal.parse('20'),

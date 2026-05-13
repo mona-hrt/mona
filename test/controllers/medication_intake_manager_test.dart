@@ -109,8 +109,8 @@ void main() {
         final scheduledDate = DateTime(2025, 9, 14, 10, 30);
         final takenDate = DateTime.utc(2025, 9, 14, 12, 0);
         final notes = 'yummy';
-        final supplyItemId = 99;
-        final scheduleId = 42;
+        final supplyItemId = '99';
+        final scheduleId = '42';
 
         setUp(() async {
           // Arrange
@@ -240,7 +240,7 @@ void main() {
       group('GenericSupply', () {
         late MedicationIntake addedIntake;
         late GenericSupply updatedSupplyItem;
-        final supplyItem = _buildGenericSupply(id: 7, amount: 5);
+        final supplyItem = _buildGenericSupply(id: '7', amount: 5);
 
         setUp(() async {
           // Arrange
@@ -406,7 +406,7 @@ void main() {
 
     group('deleteIntake', () {
       group('when supply lookup returns null', () {
-        final intake = _buildIntake(supplyItemId: 10);
+        final intake = _buildIntake(supplyItemId: '10');
 
         setUp(() async {
           // Act
@@ -426,7 +426,7 @@ void main() {
 
       group('GenericSupply', () {
         late GenericSupply updatedSupplyItem;
-        final supplyItem = _buildGenericSupply(id: 7, amount: 5);
+        final supplyItem = _buildGenericSupply(id: '7', amount: 5);
         final intake = _buildIntake(supplyItemId: supplyItem.id);
 
         setUp(() async {
@@ -551,12 +551,12 @@ void main() {
       test('returns right when last side is left', () {
         // Arrange
         final firstIntake = MedicationIntake(
-          id: 1,
+          id: '1',
           scheduledDateTime: DateTime(2025, 9, 14, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
+          scheduleId: '42',
           side: InjectionSide.left,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
@@ -574,12 +574,12 @@ void main() {
       test('returns left when last side is right', () {
         // Arrange
         final lastIntake = MedicationIntake(
-          id: 2,
+          id: '2',
           scheduledDateTime: DateTime(2025, 9, 15, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 15, 12, 0),
           takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
+          scheduleId: '42',
           side: InjectionSide.right,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
@@ -603,12 +603,12 @@ void main() {
       test('returns left when last intake side is null', () {
         // Arrange
         final intake = MedicationIntake(
-          id: 3,
+          id: '3',
           scheduledDateTime: DateTime(2025, 9, 16, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 16, 12, 0),
           takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
+          scheduleId: '42',
           side: null,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
@@ -624,7 +624,7 @@ void main() {
 }
 
 MedicationSchedule _buildSchedule({
-  int? id,
+  String? id,
   Decimal? dose,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
@@ -642,7 +642,7 @@ MedicationSchedule _buildSchedule({
 }
 
 MedicationSupplyItem _buildMedicationSupplyItem({
-  int id = 10,
+  String id = '10',
   Decimal? totalDose,
   Decimal? usedDose,
   Decimal? concentration,
@@ -662,7 +662,7 @@ MedicationSupplyItem _buildMedicationSupplyItem({
 }
 
 GenericSupply _buildGenericSupply({
-  int id = 7,
+  String id = '7',
   String name = 'Syringe',
   int amount = 5,
 }) {
@@ -674,9 +674,9 @@ GenericSupply _buildGenericSupply({
 }
 
 MedicationIntake _buildIntake({
-  int? id,
+  String? id,
   Decimal? dose,
-  int? supplyItemId,
+  String? supplyItemId,
 }) {
   return MedicationIntake(
     id: id,

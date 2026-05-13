@@ -46,12 +46,12 @@ void main() {
       final taken = DateTime.utc(2025, 9, 14, 12, 0);
 
       final intake = MedicationIntake(
-          id: 1,
+          id: '1',
           scheduledDateTime: scheduled,
           dose: Decimal.parse('2.5'),
           takenDateTime: taken,
           takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
+          scheduleId: '42',
           side: InjectionSide.left,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
