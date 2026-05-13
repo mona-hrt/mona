@@ -5,21 +5,27 @@ import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/timezone_location.dart';
 import 'package:mona/util/validators.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:uuid/uuid.dart';
 
 class BloodTest {
-  final int id;
+  final String id;
   final DateTime dateTime;
   final String timeZone;
   final UnitValue<EstradiolUnit>? estradiolLevels;
   final UnitValue<TestosteroneUnit>? testosteroneLevels;
+  final int updatedAt;
+  final bool isDeleted;
 
   BloodTest({
-    int? id,
+    String? id,
     required this.dateTime,
     required this.timeZone,
     this.estradiolLevels,
     this.testosteroneLevels,
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch {
+    int? updatedAt,
+    this.isDeleted = false,
+  })  : id = id ?? const Uuid().v4(),
+        updatedAt = updatedAt ?? DateTime.now().millisecondsSinceEpoch {
     if (!dateTime.isUtc) {
       throw ArgumentError('dateTime must be UTC');
     }
@@ -39,7 +45,7 @@ class BloodTest {
         : null;
 
     return BloodTest(
-        id: map['id'] as int?,
+        id: map['id'] as String?,
         dateTime: (map['dateTime'] as String).toDateTime,
         timeZone: map['timeZone'] as String,
         estradiolLevels: estradiolLevels != null
@@ -47,7 +53,9 @@ class BloodTest {
             : null,
         testosteroneLevels: testosteroneLevels != null
             ? UnitValue(testosteroneLevels, testosteroneUnit!)
-            : null);
+            : null,
+        updatedAt: map['updatedAt'] as int?,
+        isDeleted: (map['isDeleted'] as int?) == 1);
   }
 
   DateTime get localDateTime {
@@ -58,11 +66,13 @@ class BloodTest {
   Date get localDate => localDateTime.toDate;
 
   BloodTest copyWith({
-    int? id,
+    String? id,
     DateTime? dateTime,
     String? timeZone,
     UnitValue<EstradiolUnit>? estradiolLevels,
     UnitValue<TestosteroneUnit>? testosteroneLevels,
+    int? updatedAt,
+    bool? isDeleted,
   }) {
     return BloodTest(
       id: id ?? this.id,
@@ -70,6 +80,8 @@ class BloodTest {
       timeZone: timeZone ?? this.timeZone,
       estradiolLevels: estradiolLevels ?? this.estradiolLevels,
       testosteroneLevels: testosteroneLevels ?? this.testosteroneLevels,
+      updatedAt: updatedAt ?? this.updatedAt,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
@@ -82,6 +94,8 @@ class BloodTest {
       'estradiolUnit': estradiolLevels?.unit.toString(),
       'testosteroneLevels': testosteroneLevels?.value.toString(),
       'testosteroneUnit': testosteroneLevels?.unit.toString(),
+      'updatedAt': updatedAt,
+      'isDeleted': isDeleted ? 1 : 0,
     };
   }
 

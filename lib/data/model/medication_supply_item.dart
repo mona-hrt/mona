@@ -8,10 +8,11 @@ import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/validators.dart';
+import 'package:uuid/uuid.dart';
 
 class MedicationSupplyItem implements SupplyItem {
   @override
-  final int id;
+  final String id;
   @override
   final String name;
   final Decimal totalDose;
@@ -20,9 +21,13 @@ class MedicationSupplyItem implements SupplyItem {
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
+  @override
+  final int updatedAt;
+  @override
+  final bool isDeleted;
 
   MedicationSupplyItem({
-    int? id,
+    String? id,
     required this.name,
     required this.totalDose,
     required this.concentration,
@@ -30,12 +35,15 @@ class MedicationSupplyItem implements SupplyItem {
     required this.molecule,
     required this.administrationRoute,
     this.ester,
+    int? updatedAt,
+    this.isDeleted = false,
   })  : usedDose = usedDose ?? Decimal.zero,
-        id = id ?? DateTime.now().millisecondsSinceEpoch;
+        id = id ?? const Uuid().v4(),
+        updatedAt = updatedAt ?? DateTime.now().millisecondsSinceEpoch;
 
   factory MedicationSupplyItem.fromMap(Map<String, Object?> map) {
     return MedicationSupplyItem(
-      id: map['id'] as int?,
+      id: map['id'] as String?,
       name: map['name'] as String,
       totalDose: (map['totalDose'] as String).toDecimal,
       usedDose: (map['usedDose'] as String).toDecimal,
@@ -44,6 +52,8 @@ class MedicationSupplyItem implements SupplyItem {
       administrationRoute: AdministrationRoute.fromName(
           map['administrationRouteName'] as String),
       ester: Ester.fromName(map['esterName'] as String?),
+      updatedAt: map['updatedAt'] as int?,
+      isDeleted: (map['isDeleted'] as int?) == 1,
     );
   }
 
@@ -80,6 +90,8 @@ class MedicationSupplyItem implements SupplyItem {
       'administrationRouteName': administrationRoute.name,
       'esterName': ester?.name,
       'type': SupplyType.medication.name,
+      'updatedAt': updatedAt,
+      'isDeleted': isDeleted ? 1 : 0,
     };
   }
 
@@ -90,7 +102,7 @@ class MedicationSupplyItem implements SupplyItem {
   Decimal getDose(Decimal amount) => amount * concentration;
 
   MedicationSupplyItem copyWith({
-    int? id,
+    String? id,
     String? name,
     Decimal? totalDose,
     Decimal? usedDose,
@@ -99,6 +111,8 @@ class MedicationSupplyItem implements SupplyItem {
     AdministrationRoute? administrationRoute,
     Ester? ester,
     bool clearEster = false,
+    int? updatedAt,
+    bool? isDeleted,
   }) {
     return MedicationSupplyItem(
       id: id ?? this.id,
@@ -109,6 +123,8 @@ class MedicationSupplyItem implements SupplyItem {
       molecule: molecule ?? this.molecule,
       administrationRoute: administrationRoute ?? this.administrationRoute,
       ester: clearEster ? null : (ester ?? this.ester),
+      updatedAt: updatedAt ?? this.updatedAt,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 

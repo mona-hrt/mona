@@ -1,18 +1,20 @@
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/util/validators.dart';
+import 'package:uuid/uuid.dart';
 
 class GenericSupply implements SupplyItem {
   @override
-  final int id;
+  final String id;
   @override
   final String name;
   final int amount;
 
   GenericSupply({
-    int? id,
+    Stream? id,
     required this.name,
     required this.amount,
+    
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch;
 
   factory GenericSupply.fromMap(Map<String, Object?> map) {
