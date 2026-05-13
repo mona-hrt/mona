@@ -42,7 +42,7 @@
     <img alt="Get it on F-Droid" title="Get it on F-Droid" src="https://i.imgur.com/0ZZqMHa.png" height="45">
   </a>
   -->
-  <a href="https://github.com/delia-cheminot/mona-hrt/releases/latest/download/app-universal-release.apk">
+  <a href="https://github.com/delia-cheminot/mona-hrt/releases/latest/">
     <img alt="Get it on GitHub" title="Get it on GitHub" src="https://i.imgur.com/ycJAwkq.png" height="45">
   </a>
 </div>

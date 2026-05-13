@@ -5,11 +5,9 @@ import 'package:mona/controllers/schedule_manager.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/distribution.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/intake_tile.dart';
-import 'package:mona/ui/views/home/legacy_deprecation_card.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -24,9 +22,8 @@ class HomePage extends StatelessWidget {
     final slots = scheduleManager.splitSlotsByDay();
 
     return MainPageWrapper(
-      isLoading: scheduleProvider.isLoading || intakeProvider.isLoading,
-      isEmpty:
-          isLegacyDistribution ? false : scheduleProvider.schedules.isEmpty,
+      isLoading: (scheduleProvider.isLoading || intakeProvider.isLoading),
+      isEmpty: scheduleProvider.schedules.isEmpty,
       emptyMessage: localizations.empty_home,
       child: SingleChildScrollView(
         child: Padding(
@@ -34,7 +31,6 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (isLegacyDistribution) const LegacyDeprecationCard(),
               _SectionTitle(_todayTitle(context)),
               if (slots.today.isEmpty)
                 _NoIntakesDueCard(message: localizations.noIntakesDue)
