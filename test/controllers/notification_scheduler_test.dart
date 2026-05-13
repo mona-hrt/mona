@@ -213,7 +213,7 @@ void main() {
           )
         ]);
         when(mockMedicationIntakeProvider
-                .getLastIntakeDateForSchedule(scheduleId))
+                .getLastIntakeLocalDateForSchedule(scheduleId))
             .thenReturn(null);
 
         final scheduler = NotificationScheduler(
@@ -266,7 +266,7 @@ void main() {
           )
         ]);
         when(mockMedicationIntakeProvider
-                .getLastIntakeDateForSchedule(scheduleId))
+                .getLastIntakeLocalDateForSchedule(scheduleId))
             .thenReturn(null);
 
         final scheduler = NotificationScheduler(
@@ -330,7 +330,7 @@ void main() {
           )
         ]);
         when(mockMedicationIntakeProvider
-                .getLastIntakeDateForSchedule(scheduleId))
+                .getLastIntakeLocalDateForSchedule(scheduleId))
             .thenReturn(null);
 
         final scheduler = NotificationScheduler(
@@ -397,7 +397,7 @@ void main() {
           )
         ]);
         when(mockMedicationIntakeProvider
-                .getLastIntakeDateForSchedule(scheduleId))
+                .getLastIntakeLocalDateForSchedule(scheduleId))
             .thenReturn(null);
 
         final scheduler = NotificationScheduler(
@@ -450,7 +450,7 @@ void main() {
 
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
         when(mockMedicationIntakeProvider
-                .getLastIntakeDateForSchedule(scheduleId))
+                .getLastIntakeLocalDateForSchedule(scheduleId))
             .thenReturn(Date.today());
         when(mockMedicationScheduleProvider.schedules).thenReturn([
           MedicationSchedule(

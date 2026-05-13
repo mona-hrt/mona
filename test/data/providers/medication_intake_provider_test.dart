@@ -222,7 +222,7 @@ void main() {
 
     group('getLastIntakeDateFromList', () {
       test('returns null if the list is empty', () {
-        final result = provider.getLastIntakeDateFromList([]);
+        final result = provider.getLastIntakeLocalDateFromList([]);
         expect(result, isNull);
       });
 
@@ -238,7 +238,7 @@ void main() {
           administrationRoute: AdministrationRoute.gel,
         );
 
-        final result = provider.getLastIntakeDateFromList([intake]);
+        final result = provider.getLastIntakeLocalDateFromList([intake]);
         expect(result, intake.takenLocalDate);
       });
 
@@ -276,8 +276,8 @@ void main() {
           administrationRoute: AdministrationRoute.gel,
         );
 
-        final result =
-            provider.getLastIntakeDateFromList([intake1, intake2, intake3]);
+        final result = provider
+            .getLastIntakeLocalDateFromList([intake1, intake2, intake3]);
         expect(result, intake3.takenLocalDate);
       });
 
@@ -305,7 +305,8 @@ void main() {
           administrationRoute: AdministrationRoute.gel,
         );
 
-        final result = provider.getLastIntakeDateFromList([intake1, intake2]);
+        final result =
+            provider.getLastIntakeLocalDateFromList([intake1, intake2]);
         expect(result, intake1.takenLocalDate);
       });
     });

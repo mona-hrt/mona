@@ -185,20 +185,21 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as Map<int, _i3.GraphIntake>);
 
   @override
-  _i6.Date? getLastIntakeDateFromList(List<_i4.MedicationIntake>? intakes) =>
+  _i6.Date? getLastIntakeLocalDateFromList(
+          List<_i4.MedicationIntake>? intakes) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getLastIntakeDateFromList,
+          #getLastIntakeLocalDateFromList,
           [intakes],
         ),
         returnValueForMissingStub: null,
       ) as _i6.Date?);
 
   @override
-  _i6.Date? getLastIntakeDateForSchedule(int? scheduleId) =>
+  _i6.Date? getLastIntakeLocalDateForSchedule(int? scheduleId) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getLastIntakeDateForSchedule,
+          #getLastIntakeLocalDateForSchedule,
           [scheduleId],
         ),
         returnValueForMissingStub: null,

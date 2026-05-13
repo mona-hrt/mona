@@ -90,58 +90,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get goToSettings => 'Ir a Configuración';
 
   @override
-  String get deprecated => 'Obsoleto';
-
-  @override
-  String get legacyVersionMessage =>
-      'Estás usando una versión obsoleta de Mona. Por favor, actualízala. Toca para más información.';
-
-  @override
-  String get legacyDeprecationIntro =>
-      'Esta versión de Mona está obsoleta. Para seguir usando Mona y recibir actualizaciones, instala la nueva versión siguiendo los pasos a continuación.';
-
-  @override
-  String get legacyStep1Title => 'Exporta tus datos';
-
-  @override
-  String get legacyStep1Description =>
-      'En Configuración, toca \'Exportar datos\' para guardar una copia JSON de tus datos.';
-
-  @override
-  String get legacyStep2Title => 'Descarga la nueva versión';
-
-  @override
-  String get legacyStep2Description =>
-      'Descarga en Play Store. O, desde la última versión en GitHub, descarga el archivo llamado mona-<version>.apk.';
-
-  @override
-  String get legacyStep3Title => 'Desinstala esta versión';
-
-  @override
-  String get legacyStep3Description =>
-      'Elimina esta aplicación de tu dispositivo. Tu archivo de copia de seguridad está a salvo.';
-
-  @override
-  String get legacyStep4Title => 'Instala el nuevo APK';
-
-  @override
-  String get legacyStep4Description =>
-      'Abre el archivo APK que descargaste y sigue las instrucciones de Android para instalarlo.';
-
-  @override
-  String get legacyStep5Title => 'Importa tus datos';
-
-  @override
-  String get legacyStep5Description =>
-      'Abre la nueva Mona, ve a Configuración y toca \'Importar datos\' para restaurar tu copia de seguridad.';
-
-  @override
-  String get openLatestRelease => 'Ver en GitHub';
-
-  @override
-  String get openPlayStore => 'Ver en Play Store';
-
-  @override
   String get settingsTitle => 'Configuración';
 
   @override
@@ -161,7 +109,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String schedulesCreated(num count) {
-    return '$count creados';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count creados',
+      one: '$count creado',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -263,6 +217,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exportDataSubtitle => 'Guarda tus datos en un archivo JSON';
+
+  @override
+  String get units => 'Unidades';
 
   @override
   String get updateNoCompatibleApk =>
@@ -414,6 +371,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get needleDeadSpace => 'Espacio muerto de la aguja';
+
+  @override
+  String get notes => 'Notas';
 
   @override
   String get microliters => 'μL';
@@ -645,7 +605,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get suppository => 'Supositorio';
 
   @override
-  String get transdermal => 'Spray transdérmico';
+  String get transdermalSpray => 'Spray transdérmico';
+
+  @override
+  String get transdermalDrops => 'Gotas transdérmicas';
 
   @override
   String administrationRouteUnitMl(num count) {

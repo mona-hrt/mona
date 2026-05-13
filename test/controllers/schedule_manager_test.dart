@@ -51,7 +51,7 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeDateForSchedule(1))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
           .thenReturn(today.subtract(const Duration(days: 2)));
 
       todayTakenSchedule = MedicationSchedule(
@@ -64,7 +64,7 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeDateForSchedule(5))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(5))
           .thenReturn(Date.today());
 
       todayOverdueSchedule = MedicationSchedule(
@@ -77,7 +77,7 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeDateForSchedule(4))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(4))
           .thenReturn(today.subtract(const Duration(days: 3)));
 
       overdueSchedule = MedicationSchedule(
@@ -90,7 +90,7 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeDateForSchedule(2))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(2))
           .thenReturn(today.subtract(const Duration(days: 4)));
 
       upcomingSchedule = MedicationSchedule(
@@ -103,7 +103,8 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeDateForSchedule(3)).thenReturn(null);
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(3))
+          .thenReturn(null);
 
       when(mockScheduleProvider.schedules).thenReturn([
         todaySchedule,
@@ -128,7 +129,7 @@ void main() {
         notificationTimes: List.empty(),
       );
 
-      when(mockIntakeProvider.getLastIntakeDateForSchedule(1))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
           .thenReturn(today.subtract(const Duration(days: 2)));
 
       final result = manager.getSchedulesByStatus(ScheduleStatus.today);

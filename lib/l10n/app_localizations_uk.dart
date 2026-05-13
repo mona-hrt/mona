@@ -93,58 +93,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get goToSettings => 'Перейти в Налаштування';
 
   @override
-  String get deprecated => 'Застаріла версія';
-
-  @override
-  String get legacyVersionMessage =>
-      'Ви використовуєте застарілу версію Mona. Будь ласка, оновіть її. Торкніться, щоб дізнатися більше.';
-
-  @override
-  String get legacyDeprecationIntro =>
-      'Ця версія Mona застаріла. Щоб продовжувати користуватися Mona та отримувати оновлення, будь ласка, встановіть нову версію, виконавши наведені нижче кроки.';
-
-  @override
-  String get legacyStep1Title => 'Експортуйте дані';
-
-  @override
-  String get legacyStep1Description =>
-      'У Налаштуваннях торкніться \'Експортувати дані\', щоб зберегти JSON-резервну копію ваших даних.';
-
-  @override
-  String get legacyStep2Title => 'Завантажте нову версію';
-
-  @override
-  String get legacyStep2Description =>
-      'Завантажте з Play Store. Або з останнього випуску на GitHub завантажте файл з назвою mona-<version>.apk.';
-
-  @override
-  String get legacyStep3Title => 'Видаліть цю версію';
-
-  @override
-  String get legacyStep3Description =>
-      'Видаліть цю програму з вашого пристрою. Ваш файл резервної копії в безпеці.';
-
-  @override
-  String get legacyStep4Title => 'Встановіть новий APK';
-
-  @override
-  String get legacyStep4Description =>
-      'Відкрийте завантажений APK-файл і дотримуйтесь інструкцій Android для його встановлення.';
-
-  @override
-  String get legacyStep5Title => 'Імпортуйте дані';
-
-  @override
-  String get legacyStep5Description =>
-      'Відкрийте новий Mona, перейдіть до Налаштувань і торкніться \'Імпортувати дані\', щоб відновити резервну копію.';
-
-  @override
-  String get openLatestRelease => 'Переглянути на GitHub';
-
-  @override
-  String get openPlayStore => 'Переглянути в Play Store';
-
-  @override
   String get settingsTitle => 'Налаштування';
 
   @override
@@ -164,7 +112,14 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String schedulesCreated(num count) {
-    return '$count створено';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Створено $count розкладів',
+      few: 'Створено $count розклади',
+      one: 'Створено $count розклад',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -263,6 +218,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get exportDataSubtitle => 'Зберегти дані в JSON файл';
+
+  @override
+  String get units => 'Одиниці виміру';
 
   @override
   String get updateNoCompatibleApk =>
@@ -412,6 +370,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get needleDeadSpace => 'Мертва зона голки';
+
+  @override
+  String get notes => 'Примітки';
 
   @override
   String get microliters => 'μL';
@@ -641,7 +602,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get suppository => 'Супозиторій';
 
   @override
-  String get transdermal => 'Трансдермальний спрей';
+  String get transdermalSpray => 'Трансдермальний спрей';
+
+  @override
+  String get transdermalDrops => 'Трансдермальні краплі';
 
   @override
   String administrationRouteUnitMl(num count) {
