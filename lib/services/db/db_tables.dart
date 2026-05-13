@@ -1,6 +1,6 @@
-const String createSupplyItemsTable = '''
+const String createSupplyItemsTable = '''int
     CREATE TABLE supply_items(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY NOT NULL,
       type TEXT NOT NULL,
       name TEXT NOT NULL,
       totalDose TEXT,
@@ -9,31 +9,35 @@ const String createSupplyItemsTable = '''
       moleculeJson TEXT,
       administrationRouteName TEXT,
       esterName TEXT,
-      amount INTEGER
+      amount INTEGER,
+      updatedAt INTEGER NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0
     )
     ''';
 
 const String createMedicationIntakesTable = '''
     CREATE TABLE medication_intakes(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY NOT NULL,
       scheduledDateTime TEXT NOT NULL,
       takenDateTime TEXT,
       takenTimeZone TEXT,
       dose TEXT NOT NULL,
-      scheduleId INTEGER,
+      scheduleId TEXT,
       side TEXT,
       moleculeJson TEXT NOT NULL,
       administrationRouteName TEXT NOT NULL,
       esterName TEXT,
-      supplyItemId INTEGER,
+      supplyItemId TEXT,
       notes TEXT,
+      updatedAt INTEGER NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0,
       FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
     )
-    '''; // TODO use foreign key for scheduleId
+    ''';
 
 const String createMedicationSchedulesTable = '''
     CREATE TABLE medication_schedules(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY NOT NULL,
       name TEXT NOT NULL,
       dose TEXT NOT NULL,
       intervalDays INTEGER NOT NULL,
@@ -41,18 +45,22 @@ const String createMedicationSchedulesTable = '''
       moleculeJson TEXT NOT NULL,
       administrationRouteName TEXT NOT NULL,
       esterName TEXT,
-      notificationTimes TEXT NOT NULL
+      notificationTimes TEXT NOT NULL,
+      updatedAt INTEGER NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0
     )
     ''';
 
 const String createBloodTestsTable = '''
     CREATE TABLE blood_tests(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY NOT NULL,
       dateTime TEXT NOT NULL,
       timeZone TEXT NOT NULL,
       estradiolLevels TEXT,
       testosteroneLevels TEXT,
       estradiolUnit TEXT,
-      testosteroneUnit TEXT
+      testosteroneUnit TEXT,
+      updatedAt INTEGER NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0
     )
     ''';
