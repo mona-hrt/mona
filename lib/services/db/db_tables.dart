@@ -1,4 +1,4 @@
-const String createSupplyItemsTable = '''int
+const String createSupplyItemsTable = '''
     CREATE TABLE supply_items(
       id TEXT PRIMARY KEY NOT NULL,
       type TEXT NOT NULL,

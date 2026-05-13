@@ -9,8 +9,8 @@ class DbUpgradeV8 implements DbUpgrade {
     const uuid = Uuid();
     final now = DateTime.now().millisecondsSinceEpoch;
 
-    Map<int, String> supplyItemMap = {};
-    Map<int, String> scheduleMap = {};
+    Map<dynamic, String> supplyItemMap = {};
+    Map<dynamic, String> scheduleMap = {};
 
     final oldSupplies = await db.query('supply_items');
     final oldSchedules = await db.query('medication_schedules');
@@ -29,7 +29,7 @@ class DbUpgradeV8 implements DbUpgrade {
 
     for (var row in oldSupplies) {
       final newId = uuid.v4();
-      supplyItemMap[row['id'] as int] = newId;
+      supplyItemMap[row['id']] = newId;
 
       var newRow = Map<String, dynamic>.from(row);
       newRow['id'] = newId;
@@ -40,7 +40,7 @@ class DbUpgradeV8 implements DbUpgrade {
 
     for (var row in oldSchedules) {
       final newId = uuid.v4();
-      scheduleMap[row['id'] as int] = newId;
+      scheduleMap[row['id']] = newId;
 
       var newRow = Map<String, dynamic>.from(row);
       newRow['id'] = newId;
@@ -56,10 +56,10 @@ class DbUpgradeV8 implements DbUpgrade {
       newRow['isDeleted'] = 0;
 
       if (row['scheduleId'] != null) {
-        newRow['scheduleId'] = scheduleMap[row['scheduleId'] as int];
+        newRow['scheduleId'] = scheduleMap[row['scheduleId']];
       }
       if (row['supplyItemId'] != null) {
-        newRow['supplyItemId'] = supplyItemMap[row['supplyItemId'] as int];
+        newRow['supplyItemId'] = supplyItemMap[row['supplyItemId']];
       }
       await db.insert('medication_intakes_new', newRow);
     }
