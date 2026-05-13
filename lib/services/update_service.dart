@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mona/distribution.dart';
@@ -97,37 +96,12 @@ class UpdateService {
         assets.where((a) => a['name'].toString().endsWith('.apk')).toList();
     if (apkAssets.isEmpty) return null;
 
-    if (isStandaloneDistribution) {
-      for (var asset in apkAssets) {
-        if (asset['name'].toString().toLowerCase().contains('mona-')) {
-          return asset;
-        }
-      }
-      return null;
-    }
-
-    final deviceInfo = DeviceInfoPlugin();
-    final androidInfo = await deviceInfo.androidInfo;
-    final supportedAbis = androidInfo.supportedAbis;
-
-    for (String abi in supportedAbis) {
-      for (var asset in apkAssets) {
-        if (asset['name']
-            .toString()
-            .toLowerCase()
-            .contains(abi.toLowerCase())) {
-          return asset;
-        }
+    for (var asset in apkAssets) {
+      if (asset['name'].toString().toLowerCase().contains('mona-')) {
+        return asset;
       }
     }
-
-    final universalAssets = apkAssets
-        .where((a) => a['name'].toString().toLowerCase().contains('universal'))
-        .toList();
-
-    if (universalAssets.isNotEmpty) return universalAssets.first;
-
-    return apkAssets.first;
+    return null;
   }
 
   void _showUpdateDialog(BuildContext context, String current, String latest,
