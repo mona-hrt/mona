@@ -18,7 +18,7 @@ class BloodTestProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   List<BloodTest> get bloodtestsSortedDesc => _bloodtestsSortedDesc;
 
-  Future<void> deleteBloodTestFromId(int id) async {
+  Future<void> deleteBloodTestFromId(String id) async {
     await repository.delete(id);
     await _fetchBloodTests();
   }

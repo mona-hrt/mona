@@ -55,7 +55,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
       ..sort((a, b) => b.takenDateTime!.compareTo(a.takenDateTime!));
   }
 
-  List<MedicationIntake> getTakenIntakesForSchedule(int scheduleId) =>
+  List<MedicationIntake> getTakenIntakesForSchedule(String scheduleId) =>
       takenIntakes.where((intake) => intake.scheduleId == scheduleId).toList();
 
   Future<void> fetchIntakes() async {
@@ -64,7 +64,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteIntakeFromId(int id) async {
+  Future<void> deleteIntakeFromId(String id) async {
     await repository.delete(id);
     await fetchIntakes();
   }
@@ -118,7 +118,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
     return getLastIntakeLocalDateFromList(graphIntakes);
   }
 
-  Date? getLastIntakeLocalDateForSchedule(int scheduleId) {
+  Date? getLastIntakeLocalDateForSchedule(String scheduleId) {
     final scheduleIntakes = getTakenIntakesForSchedule(scheduleId);
     return getLastIntakeLocalDateFromList(scheduleIntakes);
   }

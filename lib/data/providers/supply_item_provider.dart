@@ -33,7 +33,7 @@ class SupplyItemProvider extends ChangeNotifier {
           (a, b) => a.getRatio().compareTo(b.getRatio()),
         );
 
-  SupplyItem? getItemById(int? id) {
+  SupplyItem? getItemById(String? id) {
     try {
       return items.firstWhere((item) => item.id == id);
     } catch (e) {

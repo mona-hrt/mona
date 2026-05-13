@@ -10,7 +10,7 @@ class MedicationScheduleProvider extends ChangeNotifier {
   List<MedicationSchedule> get schedules => _schedules;
   bool get isLoading => _isLoading;
 
-  MedicationSchedule? getScheduleById(int id) {
+  MedicationSchedule? getScheduleById(String id) {
     try {
       return _schedules.firstWhere((schedule) => schedule.id == id);
     } catch (e) {
@@ -34,7 +34,7 @@ class MedicationScheduleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteScheduleFromId(int id) async {
+  Future<void> deleteScheduleFromId(String id) async {
     await repository.delete(id);
     await fetchSchedules();
   }
