@@ -9,17 +9,21 @@ class GenericSupply implements SupplyItem {
   @override
   final String name;
   final int amount;
+  final int updatedAt;
+  final bool isDeleted;
 
   GenericSupply({
-    Stream? id,
+    String? id,
     required this.name,
     required this.amount,
-    
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch;
+    int? updatedAt,
+    this.isDeleted = false,
+  })  : id = id ?? const Uuid().v4(),
+        updatedAt = updatedAt ?? DateTime.now().millisecondsSinceEpoch;
 
   factory GenericSupply.fromMap(Map<String, Object?> map) {
     return GenericSupply(
-      id: map['id'] as int?,
+      id: map['id'] as String?,
       name: map['name'] as String,
       amount: map['amount'] as int,
     );
@@ -36,7 +40,7 @@ class GenericSupply implements SupplyItem {
   }
 
   GenericSupply copyWith({
-    int? id,
+    String? id,
     String? name,
     int? amount,
   }) {
