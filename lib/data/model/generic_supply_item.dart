@@ -9,7 +9,9 @@ class GenericSupply implements SupplyItem {
   @override
   final String name;
   final int amount;
+  @override
   final int updatedAt;
+  @override
   final bool isDeleted;
 
   GenericSupply({
