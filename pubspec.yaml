@@ -67,6 +67,7 @@ dependencies:
   file_picker: ^8.0.0
   share_plus: ^10.0.0
   dart_mappable: ^4.8.0
+  uuid: ^4.5.3
 
 dev_dependencies:
   flutter_test:

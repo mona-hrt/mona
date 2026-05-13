@@ -30,7 +30,7 @@ class Repository<T> {
     return result.map(fromMap).toList();
   }
 
-  Future<void> update(T element, int id) async {
+  Future<void> update(T element, dynamic id) async {
     final db = await _dbFuture;
     await db.update(
       tableName,
@@ -40,7 +40,7 @@ class Repository<T> {
     );
   }
 
-  Future<void> delete(int id) async {
+  Future<void> delete(dynamic id) async {
     final db = await _dbFuture;
     await db.delete(
       tableName,
