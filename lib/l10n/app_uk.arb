@@ -200,12 +200,12 @@
   "transdermal": "Трансдермальний спрей",
 
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
-  "administrationRouteUnitPill": "{count, plural, =1{pill} other{pills}}",
-  "administrationRouteUnitPatch": "{count, plural, =1{patch} other{patches}}",
-  "administrationRouteUnitPump": "{count, plural, =1{pump} other{pumps}}",
-  "administrationRouteUnitImplant": "{count, plural, =1{implant} other{implants}}",
-  "administrationRouteUnitSuppository": "{count, plural, =1{suppository} other{suppositories}}",
-  "administrationRouteUnitSpray": "{count, plural, =1{spray} other{sprays}}",
+  "administrationRouteUnitPill": "{count, plural, =1{пігулка} other{пігулок} few{пігулки}}",
+  "administrationRouteUnitPatch": "{count, plural, =1{патч} other{патчів} few{патчі}}",
+  "administrationRouteUnitPump": "{count, plural, =1{натискання} few{натискання} other{натискань}}",
+  "administrationRouteUnitImplant": "{count, plural, =1{імплант} other{імплантів} few{імпланти}}",
+  "administrationRouteUnitSuppository": "{count, plural, =1{супозиторій} other{супозиторіїв} few{супозиторії}}",
+  "administrationRouteUnitSpray": "{count, plural, =1{спрей} other{спреїв} few{спреї}}",
 
   "injectionSideLeft": "Ліва",
   "injectionSideRight": "Права",
