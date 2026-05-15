@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -51,3 +52,6 @@ String? requiredMolecule(AppLocalizations l10n, Molecule? value) =>
 String? requiredAdministrationRoute(
         AppLocalizations l10n, AdministrationRoute? value) =>
     value == null ? l10n.requiredField : null;
+
+String? requiredListOfTimes(AppLocalizations l10n, List<TimeOfDay> value) =>
+    value.isEmpty ? l10n.requiredField : null;

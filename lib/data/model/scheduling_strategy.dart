@@ -155,4 +155,8 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
     required this.intakeTimes,
     this.notify = true,
   });
+
+  static String? validateIntakeTimes(
+          AppLocalizations l10n, List<TimeOfDay> value) =>
+      requiredListOfTimes(l10n, value);
 }
