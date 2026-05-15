@@ -110,3 +110,21 @@ class NotificationTimesMapper extends SimpleMapper<List<TimeOfDay>> {
     );
   }
 }
+
+class TimeOfDayMapper extends SimpleMapper<TimeOfDay> {
+  const TimeOfDayMapper();
+
+  @override
+  TimeOfDay decode(Object value) {
+    final parts = (value as String).split(':');
+    return TimeOfDay(
+      hour: int.parse(parts[0]),
+      minute: int.parse(parts[1]),
+    );
+  }
+
+  @override
+  Object? encode(TimeOfDay self) {
+    return '${self.hour}:${self.minute}';
+  }
+}
