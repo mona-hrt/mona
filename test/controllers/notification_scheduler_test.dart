@@ -143,7 +143,7 @@ void main() {
 
         when(mockPreferencesService.notificationsEnabled).thenReturn(false);
         when(mockMedicationScheduleProvider.schedules).thenReturn([
-          IntervalDaysSchedule(
+          MedicationSchedule(
             name: 'Test Medication',
             dose: Decimal.fromInt(10),
             intervalDays: 1,
@@ -202,7 +202,7 @@ void main() {
         const scheduleId = 1001;
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
         when(mockMedicationScheduleProvider.schedules).thenReturn([
-          IntervalDaysSchedule(
+          MedicationSchedule(
             id: scheduleId,
             name: 'Empty Schedule',
             dose: Decimal.fromInt(10),
@@ -255,7 +255,7 @@ void main() {
             DateTime.now().add(const Duration(minutes: 1)));
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
         when(mockMedicationScheduleProvider.schedules).thenReturn([
-          IntervalDaysSchedule(
+          MedicationSchedule(
             id: scheduleId,
             name: 'Future Schedule',
             dose: Decimal.fromInt(10),
@@ -319,7 +319,7 @@ void main() {
             DateTime.now().subtract(const Duration(minutes: 1)));
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
         when(mockMedicationScheduleProvider.schedules).thenReturn([
-          IntervalDaysSchedule(
+          MedicationSchedule(
             id: scheduleId,
             name: 'Past Schedule',
             dose: Decimal.fromInt(10),
@@ -386,7 +386,7 @@ void main() {
         const scheduleId = 1004;
         when(mockPreferencesService.notificationsEnabled).thenReturn(true);
         when(mockMedicationScheduleProvider.schedules).thenReturn([
-          IntervalDaysSchedule(
+          MedicationSchedule(
             id: scheduleId,
             name: 'MultiTime Schedule',
             dose: Decimal.fromInt(10),
@@ -453,7 +453,7 @@ void main() {
                 .getLastIntakeLocalDateForSchedule(scheduleId))
             .thenReturn(Date.today());
         when(mockMedicationScheduleProvider.schedules).thenReturn([
-          IntervalDaysSchedule(
+          MedicationSchedule(
             id: scheduleId,
             name: 'Taken Today Schedule',
             dose: Decimal.fromInt(10),

@@ -32,17 +32,17 @@ void main() {
   });
 
   group('ScheduleManager - getSlots', () {
-    late IntervalDaysSchedule todaySchedule;
-    late IntervalDaysSchedule todayTakenSchedule;
-    late IntervalDaysSchedule todayOverdueSchedule;
-    late IntervalDaysSchedule todayEarlySchedule;
-    late IntervalDaysSchedule overdueSchedule;
-    late IntervalDaysSchedule upcomingSchedule;
+    late MedicationSchedule todaySchedule;
+    late MedicationSchedule todayTakenSchedule;
+    late MedicationSchedule todayOverdueSchedule;
+    late MedicationSchedule todayEarlySchedule;
+    late MedicationSchedule overdueSchedule;
+    late MedicationSchedule upcomingSchedule;
 
     setUp(() {
       final today = Date.today();
 
-      todaySchedule = IntervalDaysSchedule(
+      todaySchedule = MedicationSchedule(
         id: 1,
         name: 'TodayMed',
         dose: Decimal.one,
@@ -55,7 +55,7 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
           .thenReturn(today.subtract(const Duration(days: 2)));
 
-      todayTakenSchedule = IntervalDaysSchedule(
+      todayTakenSchedule = MedicationSchedule(
         id: 5,
         name: 'TodayTakenMed',
         dose: Decimal.one,
@@ -68,7 +68,7 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(5))
           .thenReturn(today);
 
-      todayOverdueSchedule = IntervalDaysSchedule(
+      todayOverdueSchedule = MedicationSchedule(
         id: 4,
         name: 'TodayLateMed',
         dose: Decimal.one,
@@ -81,7 +81,7 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(4))
           .thenReturn(today.subtract(const Duration(days: 3)));
 
-      todayEarlySchedule = IntervalDaysSchedule(
+      todayEarlySchedule = MedicationSchedule(
         id: 6,
         name: 'TodayEarlyMed',
         dose: Decimal.one,
@@ -94,7 +94,7 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(6))
           .thenReturn(today.subtract(const Duration(days: 5)));
 
-      overdueSchedule = IntervalDaysSchedule(
+      overdueSchedule = MedicationSchedule(
         id: 2,
         name: 'OverdueMed',
         dose: Decimal.one,
@@ -107,7 +107,7 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(2))
           .thenReturn(today.subtract(const Duration(days: 4)));
 
-      upcomingSchedule = IntervalDaysSchedule(
+      upcomingSchedule = MedicationSchedule(
         id: 3,
         name: 'UpcomingMed',
         dose: Decimal.one,
@@ -185,15 +185,15 @@ void main() {
   });
 
   group('ScheduleManager - splitSlotsByDay', () {
-    late IntervalDaysSchedule todaySchedule;
-    late IntervalDaysSchedule takenSchedule;
-    late IntervalDaysSchedule overdueSchedule;
-    late IntervalDaysSchedule upcomingSchedule;
+    late MedicationSchedule todaySchedule;
+    late MedicationSchedule takenSchedule;
+    late MedicationSchedule overdueSchedule;
+    late MedicationSchedule upcomingSchedule;
 
     setUp(() {
       final today = Date.today();
 
-      todaySchedule = IntervalDaysSchedule(
+      todaySchedule = MedicationSchedule(
         id: 1,
         name: 'TodayMed',
         dose: Decimal.one,
@@ -206,7 +206,7 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
           .thenReturn(today.subtract(const Duration(days: 2)));
 
-      takenSchedule = IntervalDaysSchedule(
+      takenSchedule = MedicationSchedule(
         id: 2,
         name: 'TakenMed',
         dose: Decimal.one,
@@ -219,7 +219,7 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(2))
           .thenReturn(today);
 
-      overdueSchedule = IntervalDaysSchedule(
+      overdueSchedule = MedicationSchedule(
         id: 3,
         name: 'OverdueMed',
         dose: Decimal.one,
@@ -232,7 +232,7 @@ void main() {
       when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(3))
           .thenReturn(today.subtract(const Duration(days: 4)));
 
-      upcomingSchedule = IntervalDaysSchedule(
+      upcomingSchedule = MedicationSchedule(
         id: 4,
         name: 'UpcomingMed',
         dose: Decimal.one,

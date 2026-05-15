@@ -6,7 +6,7 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:provider/provider.dart';
 
 class EditScheduleNotificationsPage extends StatefulWidget {
-  final IntervalDaysSchedule schedule;
+  final MedicationSchedule schedule;
   final bool isNewSchedule;
 
   EditScheduleNotificationsPage(

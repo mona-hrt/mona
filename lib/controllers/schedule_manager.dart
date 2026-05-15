@@ -25,7 +25,6 @@ class ScheduleManager {
 
   List<ScheduleSlot> getSlots() {
     return _medicationScheduleProvider.schedules
-        .whereType<IntervalDaysSchedule>()
         .map((schedule) => ScheduleSlot(
               schedule: schedule,
               status: schedule.statusFor(_lastTakenFor(schedule)),
@@ -53,6 +52,6 @@ class ScheduleManager {
     return (today: [...overdueToday, ...otherToday], upcoming: upcoming);
   }
 
-  Date? _lastTakenFor(IntervalDaysSchedule schedule) =>
+  Date? _lastTakenFor(MedicationSchedule schedule) =>
       _medicationIntakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
 }

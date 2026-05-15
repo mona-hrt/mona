@@ -12,11 +12,11 @@ void main() {
 
   setUp(() {
     repo = GenericRepositoryMock<MedicationSchedule>(
-      withId: (i, id) => IntervalDaysSchedule(
+      withId: (i, id) => MedicationSchedule(
         id: id,
         name: i.name,
         dose: i.dose,
-        intervalDays: (i as IntervalDaysSchedule).intervalDays,
+        intervalDays: i.intervalDays,
         molecule: i.molecule,
         administrationRoute: i.administrationRoute,
         ester: i.ester,
@@ -25,7 +25,7 @@ void main() {
     );
     provider = MedicationScheduleProvider(repository: repo);
 
-    repo.insert(IntervalDaysSchedule(
+    repo.insert(MedicationSchedule(
       id: 1,
       name: 'Estradiol',
       dose: Decimal.parse('2.0'),
@@ -34,7 +34,7 @@ void main() {
       administrationRoute: AdministrationRoute.oral,
       notificationTimes: List.empty(),
     ));
-    repo.insert(IntervalDaysSchedule(
+    repo.insert(MedicationSchedule(
       id: 2,
       name: 'Spironolactone',
       dose: Decimal.parse('100.0'),
@@ -53,7 +53,7 @@ void main() {
 
     test('add inserts a new schedule', () async {
       // Arrange
-      final schedule = IntervalDaysSchedule(
+      final schedule = MedicationSchedule(
         name: 'Progesterone',
         dose: Decimal.parse('200.0'),
         intervalDays: 1,
@@ -71,8 +71,8 @@ void main() {
 
     test('updateSchedule updates an existing item', () async {
       // Arrange
-      final scheduleToUpdate = repo.items.first as IntervalDaysSchedule;
-      final updatedSchedule = IntervalDaysSchedule(
+      final scheduleToUpdate = repo.items.first;
+      final updatedSchedule = MedicationSchedule(
         id: scheduleToUpdate.id,
         name: scheduleToUpdate.name,
         dose: Decimal.parse('5.0'),

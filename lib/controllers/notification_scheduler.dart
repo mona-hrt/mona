@@ -22,7 +22,6 @@ class NotificationScheduler {
     final now = DateTime.now();
 
     for (final schedule in medicationScheduleProvider.schedules) {
-      if (schedule is! IntervalDaysSchedule) continue;
       final lastTaken = medicationIntakeProvider
           .getLastIntakeLocalDateForSchedule(schedule.id);
       final nextDates = schedule.getNextDates(5);

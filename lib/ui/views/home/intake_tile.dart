@@ -17,7 +17,7 @@ class IntakeTile extends StatelessWidget {
 
   final ScheduleSlot slot;
 
-  IntervalDaysSchedule get schedule => slot.schedule as IntervalDaysSchedule;
+  MedicationSchedule get schedule => slot.schedule;
   ScheduleStatus get status => slot.status;
 
   @override
@@ -118,7 +118,7 @@ class IntakeTileViewModel {
       required this.localizations,
       required this.languageTag});
 
-  final IntervalDaysSchedule schedule;
+  final MedicationSchedule schedule;
   final ScheduleStatus status;
   final MedicationIntakeProvider intakeProvider;
   final SupplyItemProvider supplyProvider;

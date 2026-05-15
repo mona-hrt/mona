@@ -21,7 +21,7 @@ class EditSchedulePage extends StatelessWidget {
     final currentSchedule = medicationScheduleProvider.schedules
         .firstWhereOrNull((s) => s.id == schedule.id);
 
-    if (currentSchedule is! IntervalDaysSchedule) {
+    if (currentSchedule == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (Navigator.canPop(context)) Navigator.pop(context);
       });

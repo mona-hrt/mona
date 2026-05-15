@@ -20,7 +20,7 @@ import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
 class EditScheduleMainInfoPage extends StatefulWidget {
-  final IntervalDaysSchedule schedule;
+  final MedicationSchedule schedule;
 
   EditScheduleMainInfoPage({required this.schedule});
 
@@ -44,7 +44,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       MedicationSchedule.validateName(context.l10n, _nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _intervalDaysError => IntervalDaysSchedule.validateIntervalDays(
+  String? get _intervalDaysError => MedicationSchedule.validateIntervalDays(
       context.l10n, _intervalDaysController.text);
   String? get _startDateError =>
       MedicationSchedule.validateStartDate(context.l10n, _startDate);

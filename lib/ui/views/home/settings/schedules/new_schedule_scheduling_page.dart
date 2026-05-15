@@ -37,7 +37,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   late TextEditingController _intervalDaysController;
   late Date _startDate;
 
-  String? get _intervalDaysError => IntervalDaysSchedule.validateIntervalDays(
+  String? get _intervalDaysError => MedicationSchedule.validateIntervalDays(
       context.l10n, _intervalDaysController.text);
   String? get _startDateError =>
       MedicationSchedule.validateStartDate(context.l10n, _startDate);
@@ -58,7 +58,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   void _next() {
     final intervalDays = _intervalDaysController.text.toInt;
 
-    final schedule = IntervalDaysSchedule(
+    final schedule = MedicationSchedule(
       name: widget.name,
       dose: widget.dose,
       intervalDays: intervalDays,

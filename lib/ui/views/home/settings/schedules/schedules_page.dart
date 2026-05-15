@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/l10n/helpers/medication_schedule_l10n.dart';
@@ -37,8 +36,7 @@ class SchedulesPage extends StatelessWidget {
             : ListView.builder(
                 itemCount: medicationScheduleProvider.schedules.length,
                 itemBuilder: (context, index) {
-                  final schedule = medicationScheduleProvider.schedules[index]
-                      as IntervalDaysSchedule;
+                  final schedule = medicationScheduleProvider.schedules[index];
                   return ListTile(
                     title: Text(schedule.name),
                     subtitle: Text(
