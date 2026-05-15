@@ -140,22 +140,26 @@ class AppLocalizationsPt extends AppLocalizations {
   String get clickToOpenSettings => 'Toque para abrir as configurações';
 
   @override
-  String get exactRemindersDisabled => 'Os horários exatos de lembrete estão desativados';
+  String get exactRemindersDisabled =>
+      'Os horários exatos de lembrete estão desativados';
 
   @override
-  String get remindersDelayed => 'Os lembretes podem atrasar um pouco. Toque para abrir as configurações.';
+  String get remindersDelayed =>
+      'Os lembretes podem atrasar um pouco. Toque para abrir as configurações.';
 
   @override
   String get autoUpdate => 'Atualização automática';
 
   @override
-  String get autoUpdateDescription => 'Verificar automaticamente por atualizações ao iniciar o app';
+  String get autoUpdateDescription =>
+      'Verificar automaticamente por atualizações ao iniciar o app';
 
   @override
   String get checkForUpdates => 'Verificar atualizações';
 
   @override
-  String get checkForUpdatesDescription => 'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)';
+  String get checkForUpdatesDescription =>
+      'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)';
 
   @override
   String appVersion(Object version) {
@@ -179,7 +183,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get importDataSubtitle => 'Restaurar dados de um backup JSON';
 
   @override
-  String get importDataOverwriteWarning => 'Isso substituirá todos os seus dados atuais pelo backup. Esta ação não pode ser desfeita. Deseja continuar?';
+  String get importDataOverwriteWarning =>
+      'Isso substituirá todos os seus dados atuais pelo backup. Esta ação não pode ser desfeita. Deseja continuar?';
 
   @override
   String get importConfirm => 'Importar';
@@ -188,7 +193,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get importSuccessfulTitle => 'Importação concluída';
 
   @override
-  String get importRestartRequired => 'Reinicie o app para aplicar os dados restaurados.';
+  String get importRestartRequired =>
+      'Reinicie o app para aplicar os dados restaurados.';
 
   @override
   String get closeApp => 'Fechar app';
@@ -214,13 +220,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get units => 'Unidades';
 
   @override
-  String get updateNoCompatibleApk => 'Não foi encontrada nenhuma atualização compatível com o seu dispositivo.';
+  String get updateNoCompatibleApk =>
+      'Não foi encontrada nenhuma atualização compatível com o seu dispositivo.';
 
   @override
   String get updateAppUpToDate => 'A sua aplicação está atualizada!';
 
   @override
-  String get updateCheckNetworkError => 'Não foi possível verificar atualizações neste momento.';
+  String get updateCheckNetworkError =>
+      'Não foi possível verificar atualizações neste momento.';
 
   @override
   String get updateDialogTitle => 'Atualização disponível';
@@ -234,7 +242,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get updateDownloadAndInstall => 'Transferir e instalar';
 
   @override
-  String get updateInstallPermissionRequired => 'É necessária permissão para instalar atualizações.';
+  String get updateInstallPermissionRequired =>
+      'É necessária permissão para instalar atualizações.';
 
   @override
   String get updateDownloadingTitle => 'A transferir atualização...';
@@ -245,7 +254,8 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get updateDownloadFailed => 'Falha na transferência. Verifique a sua ligação.';
+  String get updateDownloadFailed =>
+      'Falha na transferência. Verifique a sua ligação.';
 
   @override
   String notificationMedicationReminderTitle(Object scheduleName) {
@@ -318,7 +328,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get notificationsUpdated => 'As notificações foram atualizadas!';
 
   @override
-  String get notificationsUpdatedDescription => 'Cada cronograma agora tem suas próprias notificações.\n\nConfigure as notificações para seus cronogramas para garantir que você não perca nada.';
+  String get notificationsUpdatedDescription =>
+      'Cada cronograma agora tem suas próprias notificações.\n\nConfigure as notificações para seus cronogramas para garantir que você não perca nada.';
 
   @override
   String get dontShowAgain => 'Não mostrar novamente';
@@ -380,7 +391,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bloodTestsTitle => 'Exames de sangue';
 
   @override
-  String get empty_blood_tests => 'Os exames de sangue registados aparecem aqui. Comece pelo botão Adicionar!';
+  String get empty_blood_tests =>
+      'Os exames de sangue registados aparecem aqui. Comece pelo botão Adicionar!';
 
   @override
   String get addBloodTest => 'Adicionar exame de sangue';
@@ -414,7 +426,8 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get empty_supplies => 'Sem suprimentos. Adicione um item para começar.';
+  String get empty_supplies =>
+      'Sem suprimentos. Adicione um item para começar.';
 
   @override
   String get newItem => 'Novo item';
@@ -553,7 +566,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get medicationEstradiolBenzoate => 'Benzoato de estradiol';
 
   @override
-  String get medicationEstradiolCypionateSuspension => 'Suspensão de cipionato de estradiol';
+  String get medicationEstradiolCypionateSuspension =>
+      'Suspensão de cipionato de estradiol';
 
   @override
   String get medicationTestosteroneEnanthate => 'Enantato de testosterona';
@@ -571,7 +585,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get medicationTestosteroneBenzoate => 'Benzoato de testosterona';
 
   @override
-  String get medicationTestosteroneCypionateSuspension => 'Suspensão de cipionato de testosterona';
+  String get medicationTestosteroneCypionateSuspension =>
+      'Suspensão de cipionato de testosterona';
 
   @override
   String get injection => 'Injeção';
@@ -704,7 +719,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
 class AppLocalizationsPtBr extends AppLocalizationsPt {
-  AppLocalizationsPtBr(): super('pt_BR');
+  AppLocalizationsPtBr() : super('pt_BR');
 
   @override
   String get appTitle => 'Mona';
@@ -838,22 +853,26 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get clickToOpenSettings => 'Toque para abrir as configurações';
 
   @override
-  String get exactRemindersDisabled => 'Os horários exatos de lembrete estão desativados';
+  String get exactRemindersDisabled =>
+      'Os horários exatos de lembrete estão desativados';
 
   @override
-  String get remindersDelayed => 'Os lembretes podem atrasar um pouco. Toque para abrir as configurações.';
+  String get remindersDelayed =>
+      'Os lembretes podem atrasar um pouco. Toque para abrir as configurações.';
 
   @override
   String get autoUpdate => 'Atualização automática';
 
   @override
-  String get autoUpdateDescription => 'Verificar automaticamente por atualizações ao iniciar o app';
+  String get autoUpdateDescription =>
+      'Verificar automaticamente por atualizações ao iniciar o app';
 
   @override
   String get checkForUpdates => 'Verificar atualizações';
 
   @override
-  String get checkForUpdatesDescription => 'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)';
+  String get checkForUpdatesDescription =>
+      'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)';
 
   @override
   String appVersion(Object version) {
@@ -877,7 +896,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get importDataSubtitle => 'Restaurar dados de um backup JSON';
 
   @override
-  String get importDataOverwriteWarning => 'Isso substituirá todos os seus dados atuais pelo backup. Esta ação não pode ser desfeita. Deseja continuar?';
+  String get importDataOverwriteWarning =>
+      'Isso substituirá todos os seus dados atuais pelo backup. Esta ação não pode ser desfeita. Deseja continuar?';
 
   @override
   String get importConfirm => 'Importar';
@@ -886,7 +906,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get importSuccessfulTitle => 'Importação concluída';
 
   @override
-  String get importRestartRequired => 'Reinicie o app para aplicar os dados restaurados.';
+  String get importRestartRequired =>
+      'Reinicie o app para aplicar os dados restaurados.';
 
   @override
   String get closeApp => 'Fechar app';
@@ -912,13 +933,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get units => 'Unidades';
 
   @override
-  String get updateNoCompatibleApk => 'Nenhuma atualização compatível com seu dispositivo foi encontrada.';
+  String get updateNoCompatibleApk =>
+      'Nenhuma atualização compatível com seu dispositivo foi encontrada.';
 
   @override
   String get updateAppUpToDate => 'Seu app está atualizado!';
 
   @override
-  String get updateCheckNetworkError => 'Não foi possível verificar atualizações no momento.';
+  String get updateCheckNetworkError =>
+      'Não foi possível verificar atualizações no momento.';
 
   @override
   String get updateDialogTitle => 'Atualização disponível';
@@ -932,7 +955,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get updateDownloadAndInstall => 'Baixar e instalar';
 
   @override
-  String get updateInstallPermissionRequired => 'É necessária permissão para instalar atualizações.';
+  String get updateInstallPermissionRequired =>
+      'É necessária permissão para instalar atualizações.';
 
   @override
   String get updateDownloadingTitle => 'Baixando atualização...';
@@ -943,7 +967,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String get updateDownloadFailed => 'Falha no download. Verifique sua conexão.';
+  String get updateDownloadFailed =>
+      'Falha no download. Verifique sua conexão.';
 
   @override
   String notificationMedicationReminderTitle(Object scheduleName) {
@@ -1016,7 +1041,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get notificationsUpdated => 'As notificações foram atualizadas!';
 
   @override
-  String get notificationsUpdatedDescription => 'Cada cronograma agora tem suas próprias notificações.\n\nConfigure as notificações para seus cronogramas para garantir que você não perca nada.';
+  String get notificationsUpdatedDescription =>
+      'Cada cronograma agora tem suas próprias notificações.\n\nConfigure as notificações para seus cronogramas para garantir que você não perca nada.';
 
   @override
   String get dontShowAgain => 'Não mostrar novamente';
@@ -1078,7 +1104,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get bloodTestsTitle => 'Exames de sangue';
 
   @override
-  String get empty_blood_tests => 'Os exames de sangue registrados aparecem aqui. Comece pelo botão Adicionar!';
+  String get empty_blood_tests =>
+      'Os exames de sangue registrados aparecem aqui. Comece pelo botão Adicionar!';
 
   @override
   String get addBloodTest => 'Adicionar exame de sangue';
@@ -1112,7 +1139,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String get empty_supplies => 'Sem suprimentos. Adicione um item para começar.';
+  String get empty_supplies =>
+      'Sem suprimentos. Adicione um item para começar.';
 
   @override
   String get newItem => 'Novo item';
@@ -1251,7 +1279,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get medicationEstradiolBenzoate => 'Benzoato de estradiol';
 
   @override
-  String get medicationEstradiolCypionateSuspension => 'Suspensão de cipionato de estradiol';
+  String get medicationEstradiolCypionateSuspension =>
+      'Suspensão de cipionato de estradiol';
 
   @override
   String get medicationTestosteroneEnanthate => 'Enantato de testosterona';
@@ -1269,7 +1298,8 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get medicationTestosteroneBenzoate => 'Benzoato de testosterona';
 
   @override
-  String get medicationTestosteroneCypionateSuspension => 'Suspensão de cipionato de testosterona';
+  String get medicationTestosteroneCypionateSuspension =>
+      'Suspensão de cipionato de testosterona';
 
   @override
   String get injection => 'Injeção';
