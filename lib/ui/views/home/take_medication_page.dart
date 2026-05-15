@@ -23,7 +23,9 @@ import 'package:provider/provider.dart';
 class TakeMedicationPage extends StatefulWidget {
   final MedicationSchedule schedule;
 
-  TakeMedicationPage(this.schedule);
+  final TimeOfDay? scheduledTime;
+
+  TakeMedicationPage(this.schedule, {this.scheduledTime});
 
   @override
   State<TakeMedicationPage> createState() => _TakeMedicationPageState();
@@ -65,6 +67,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
       side: _selectedSide,
       deadSpace: _deadSpace,
       notes: notes,
+      scheduledTime: widget.scheduledTime,
     );
 
     Navigator.of(context).pop();

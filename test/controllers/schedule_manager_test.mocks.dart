@@ -6,6 +6,7 @@
 import 'dart:async' as _i5;
 import 'dart:ui' as _i6;
 
+import 'package:flutter/material.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mona/data/model/date.dart' as _i9;
 import 'package:mona/data/model/medication_intake.dart' as _i8;
@@ -336,6 +337,23 @@ class MockMedicationIntakeProvider extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       ) as _i9.Date?);
+
+  @override
+  Set<_i10.TimeOfDay> getTakenScheduledTimesForScheduleOn(
+    int? scheduleId,
+    _i9.Date? date,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTakenScheduledTimesForScheduleOn,
+          [
+            scheduleId,
+            date,
+          ],
+        ),
+        returnValue: <_i10.TimeOfDay>{},
+        returnValueForMissingStub: <_i10.TimeOfDay>{},
+      ) as Set<_i10.TimeOfDay>);
 
   @override
   void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(

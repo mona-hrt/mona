@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
@@ -24,6 +25,7 @@ class MedicationIntakeManager {
     InjectionSide? side,
     Decimal? deadSpace, //in μL
     String? notes,
+    TimeOfDay? scheduledTime,
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -43,6 +45,7 @@ class MedicationIntakeManager {
       ester: schedule.ester,
       supplyItemId: supplyItem?.id,
       notes: notes,
+      scheduledTime: scheduledTime,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);

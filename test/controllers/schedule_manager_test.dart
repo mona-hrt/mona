@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -268,6 +269,123 @@ void main() {
 
       expect(split.today.map((slot) => slot.schedule), [todaySchedule]);
       expect(split.upcoming.map((slot) => slot.schedule), [upcomingSchedule]);
+    });
+  });
+
+  group('ScheduleManager - DailySchedule', () {
+    const morning = TimeOfDay(hour: 8, minute: 0);
+    const afternoon = TimeOfDay(hour: 14, minute: 0);
+    const evening = TimeOfDay(hour: 20, minute: 30);
+
+    late MedicationSchedule dailySchedule;
+
+    setUp(() {
+      dailySchedule = MedicationSchedule(
+        id: 100,
+        name: 'DailyMed',
+        dose: Decimal.one,
+        scheduling: const DailySchedule(
+          intakeTimes: [morning, afternoon, evening],
+          notify: false,
+        ),
+        startDate: Date.today(),
+        molecule: KnownMolecules.estradiol,
+        administrationRoute: AdministrationRoute.oral,
+      );
+    });
+
+    test('emits one slot per intakeTime, all today when none taken', () {
+      when(mockScheduleProvider.schedules).thenReturn([dailySchedule]);
+      when(mockIntakeProvider.getTakenScheduledTimesForScheduleOn(
+              100, Date.today()))
+          .thenReturn(<TimeOfDay>{});
+
+      final slots = manager.getSlots();
+
+      expect(slots, hasLength(3));
+      expect(slots.map((s) => s.time), [morning, afternoon, evening]);
+      expect(
+        slots.map((s) => s.status),
+        everyElement(ScheduleStatus.today),
+      );
+      expect(slots.map((s) => s.schedule), everyElement(dailySchedule));
+    });
+
+    test('marks slot as taken when its time is in todays taken set', () {
+      when(mockScheduleProvider.schedules).thenReturn([dailySchedule]);
+      when(mockIntakeProvider.getTakenScheduledTimesForScheduleOn(
+              100, Date.today()))
+          .thenReturn({morning, evening});
+
+      final slots = manager.getSlots();
+
+      expect(
+        {for (final s in slots) s.time: s.status},
+        {
+          morning: ScheduleStatus.taken,
+          afternoon: ScheduleStatus.today,
+          evening: ScheduleStatus.taken,
+        },
+      );
+    });
+
+    test(
+        'splitSlotsByDay puts every daily slot under today, sorted by intake time',
+        () {
+      final unsorted = MedicationSchedule(
+        id: 101,
+        name: 'UnsortedDaily',
+        dose: Decimal.one,
+        scheduling: const DailySchedule(
+          intakeTimes: [evening, morning, afternoon],
+          notify: false,
+        ),
+        startDate: Date.today(),
+        molecule: KnownMolecules.estradiol,
+        administrationRoute: AdministrationRoute.oral,
+      );
+      when(mockScheduleProvider.schedules).thenReturn([unsorted]);
+      when(mockIntakeProvider.getTakenScheduledTimesForScheduleOn(
+              101, Date.today()))
+          .thenReturn(<TimeOfDay>{});
+
+      final split = manager.splitSlotsByDay();
+
+      expect(split.upcoming, isEmpty);
+      expect(
+        split.today.map((s) => s.time),
+        [morning, afternoon, evening],
+      );
+    });
+
+    test(
+        'splitSlotsByDay keeps overdue interval slots above daily slots in today',
+        () {
+      final overdueInterval = MedicationSchedule(
+        id: 200,
+        name: 'OverdueInterval',
+        dose: Decimal.one,
+        scheduling: IntervalDaysSchedule(intervalDays: 2),
+        startDate: Date.today().subtract(const Duration(days: 9)),
+        molecule: KnownMolecules.estradiol,
+        administrationRoute: AdministrationRoute.oral,
+      );
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(200))
+          .thenReturn(Date.today().subtract(const Duration(days: 4)));
+      when(mockIntakeProvider.getTakenScheduledTimesForScheduleOn(
+              100, Date.today()))
+          .thenReturn(<TimeOfDay>{});
+      when(mockScheduleProvider.schedules)
+          .thenReturn([dailySchedule, overdueInterval]);
+
+      final split = manager.splitSlotsByDay();
+
+      expect(split.upcoming, isEmpty);
+      expect(split.today.first.schedule, overdueInterval);
+      expect(
+        split.today.skip(1).map((s) => s.time),
+        [morning, afternoon, evening],
+      );
     });
   });
 }

@@ -124,17 +124,17 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
   }
 
-  ScheduleStatus statusFor(Date startDate, Date? lastTaken) {
-    if (isScheduledForToday(startDate)) {
+  ScheduleStatus statusFor(Date date, Date? lastTaken) {
+    if (isScheduledForToday(date)) {
       if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
-      if (isLate(startDate, lastTaken)) return ScheduleStatus.todayOverdue;
-      if (lastTakenLate(startDate, lastTaken)) {
+      if (isLate(date, lastTaken)) return ScheduleStatus.todayOverdue;
+      if (lastTakenLate(date, lastTaken)) {
         return ScheduleStatus.todayEarly;
       }
       return ScheduleStatus.today;
     }
 
-    if (isLate(startDate, lastTaken)) return ScheduleStatus.overdue;
+    if (isLate(date, lastTaken)) return ScheduleStatus.overdue;
 
     return ScheduleStatus.upcoming;
   }
@@ -155,6 +155,9 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
     required this.intakeTimes,
     this.notify = true,
   });
+
+  ScheduleStatus statusFor({required bool taken}) =>
+      taken ? ScheduleStatus.taken : ScheduleStatus.today;
 
   static String? validateIntakeTimes(
           AppLocalizations l10n, List<TimeOfDay> value) =>

@@ -32,6 +32,8 @@ class IntakeTile extends StatelessWidget {
     final viewModel = IntakeTileViewModel(
       schedule: schedule,
       status: status,
+      slotTime: slot.time,
+      slotTimeText: slot.time?.format(context),
       intakeProvider: medicationIntakeProvider,
       supplyProvider: supplyItemProvider,
       now: now,
@@ -52,7 +54,10 @@ class IntakeTile extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute<void>(
               fullscreenDialog: true,
-              builder: (context) => TakeMedicationPage(schedule),
+              builder: (context) => TakeMedicationPage(
+                schedule,
+                scheduledTime: slot.time,
+              ),
             ),
           );
         },
@@ -112,6 +117,8 @@ class IntakeTileViewModel {
   IntakeTileViewModel(
       {required this.schedule,
       required this.status,
+      required this.slotTime,
+      required this.slotTimeText,
       required this.intakeProvider,
       required this.supplyProvider,
       required this.now,
@@ -121,12 +128,16 @@ class IntakeTileViewModel {
 
   final MedicationSchedule schedule;
   final ScheduleStatus status;
+  final TimeOfDay? slotTime;
+  final String? slotTimeText;
   final MedicationIntakeProvider intakeProvider;
   final SupplyItemProvider supplyProvider;
   final DateTime now;
   final ThemeData theme;
   final AppLocalizations localizations;
   final String languageTag;
+
+  bool get _isDailySlot => slotTime != null;
 
   IntervalDaysSchedule get _intervalScheduling =>
       schedule.scheduling as IntervalDaysSchedule;
@@ -154,6 +165,10 @@ class IntakeTileViewModel {
   }
 
   String? get scheduledText {
+    if (_isDailySlot) {
+      return slotTimeText;
+    }
+
     switch (status) {
       case ScheduleStatus.today:
       case ScheduleStatus.todayOverdue:

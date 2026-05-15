@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
@@ -51,7 +52,8 @@ void main() {
           side: InjectionSide.left,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
-          ester: Ester.cypionate);
+          ester: Ester.cypionate,
+          scheduledTime: const TimeOfDay(hour: 8, minute: 30));
 
       final map = intake.toMap();
       final fromMap =
@@ -71,7 +73,9 @@ void main() {
             .having((i) => i.molecule, 'molecule', intake.molecule)
             .having((i) => i.administrationRoute, 'administrationRoute',
                 intake.administrationRoute)
-            .having((i) => i.ester, 'ester', intake.ester),
+            .having((i) => i.ester, 'ester', intake.ester)
+            .having(
+                (i) => i.scheduledTime, 'scheduledTime', intake.scheduledTime),
       );
     });
 

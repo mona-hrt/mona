@@ -6,12 +6,15 @@ import 'package:sqflite/sqlite_api.dart';
 class DbUpgradeV8 implements DbUpgrade {
   @override
   Future<void> upgrade(Database db, int oldVersion, int newVersion) async {
-    await _dropScheduledDateTime(db);
+    await _rebuildMedicationIntakes(db);
     await _migrateMedicationSchedules(db);
   }
 
-  // Rebuilds medication_intakes without the unused scheduledDateTime column.
-  Future<void> _dropScheduledDateTime(Database db) async {
+  // Rebuilds medication_intakes:
+  //   - drops the unused `scheduledDateTime` column;
+  //   - adds `scheduledTime` (nullable) so DailySchedule intakes can record
+  //     which intake-time slot they were taken for. Existing rows get NULL.
+  Future<void> _rebuildMedicationIntakes(Database db) async {
     await db.execute('''
       CREATE TABLE medication_intakes_new (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,6 +28,7 @@ class DbUpgradeV8 implements DbUpgrade {
         esterName TEXT,
         supplyItemId INTEGER,
         notes TEXT,
+        scheduledTime TEXT,
         FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
       );
       ''');

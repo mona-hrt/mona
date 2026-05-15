@@ -1,5 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
@@ -24,6 +25,7 @@ enum InjectionSide {
     AdministrationRouteNameMapper(),
     EsterNameMapper(),
     DecimalStringMapper(),
+    TimeOfDayMapper(),
   ],
   generateMethods: GenerateMethods.all,
 )
@@ -44,6 +46,7 @@ class MedicationIntake with MedicationIntakeMappable {
   final Ester? ester;
   final int? supplyItemId;
   final String? notes;
+  final TimeOfDay? scheduledTime;
 
   MedicationIntake({
     int? id,
@@ -57,6 +60,7 @@ class MedicationIntake with MedicationIntakeMappable {
     this.ester,
     this.supplyItemId,
     this.notes,
+    this.scheduledTime,
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch {
     if (takenDateTime != null && !takenDateTime!.isUtc) {
       throw ArgumentError('takenDateTime must be UTC');

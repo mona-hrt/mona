@@ -161,4 +161,54 @@ void main() {
       expect(row['administrationRouteName'], 'oral');
     });
   });
+
+  group('DbUpgradeV8.medication_intakes', () {
+    late Database db;
+
+    setUp(() async {
+      db = await openDatabase(inMemoryDatabasePath, version: 7);
+      for (final stmt in historicalSchemaFor(7)) {
+        await db.execute(stmt);
+      }
+    });
+
+    tearDown(() async {
+      await db.close();
+    });
+
+    Future<int> insertIntake() async {
+      return db.insert('medication_intakes', {
+        'takenDateTime': '2025-09-01T10:00:00.000Z',
+        'takenTimeZone': 'Etc/UTC',
+        'dose': '1',
+        'scheduleId': 1,
+        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
+        'administrationRouteName': 'oral',
+      });
+    }
+
+    test('rebuilt table has the new scheduledTime column', () async {
+      await DbUpgradeV8().upgrade(db, 7, 8);
+
+      final columns =
+          await db.rawQuery("PRAGMA table_info('medication_intakes')");
+      final names = columns.map((c) => c['name'] as String).toSet();
+      expect(names, contains('scheduledTime'));
+    });
+
+    test('pre-existing intake rows survive with scheduledTime NULL', () async {
+      final id = await insertIntake();
+
+      await DbUpgradeV8().upgrade(db, 7, 8);
+
+      final rows = await db.query(
+        'medication_intakes',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+      expect(rows, hasLength(1));
+      expect(rows.single['scheduledTime'], isNull);
+      expect(rows.single['dose'], '1');
+    });
+  });
 }
