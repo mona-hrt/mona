@@ -21,8 +21,8 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
         EsterNameMapper(),
         DecimalStringMapper(),
         DateStringMapper(),
-        NotificationTimesMapper(),
       ]);
+      SchedulingStrategyMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -46,11 +46,14 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     'dose',
     _$dose,
   );
-  static int _$intervalDays(MedicationSchedule v) => v.intervalDays;
-  static const Field<MedicationSchedule, int> _f$intervalDays = Field(
-    'intervalDays',
-    _$intervalDays,
-  );
+  static SchedulingStrategy _$scheduling(MedicationSchedule v) => v.scheduling;
+  static const Field<MedicationSchedule, SchedulingStrategy> _f$scheduling =
+      Field(
+        'scheduling',
+        _$scheduling,
+        key: r'schedulingStrategy',
+        hook: JsonStringHook(),
+      );
   static Date _$startDate(MedicationSchedule v) => v.startDate;
   static const Field<MedicationSchedule, Date> _f$startDate = Field(
     'startDate',
@@ -78,22 +81,17 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     key: r'esterName',
     opt: true,
   );
-  static List<TimeOfDay> _$notificationTimes(MedicationSchedule v) =>
-      v.notificationTimes;
-  static const Field<MedicationSchedule, List<TimeOfDay>> _f$notificationTimes =
-      Field('notificationTimes', _$notificationTimes);
 
   @override
   final MappableFields<MedicationSchedule> fields = const {
     #id: _f$id,
     #name: _f$name,
     #dose: _f$dose,
-    #intervalDays: _f$intervalDays,
+    #scheduling: _f$scheduling,
     #startDate: _f$startDate,
     #molecule: _f$molecule,
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
-    #notificationTimes: _f$notificationTimes,
   };
 
   static MedicationSchedule _instantiate(DecodingData data) {
@@ -101,12 +99,11 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       dose: data.dec(_f$dose),
-      intervalDays: data.dec(_f$intervalDays),
+      scheduling: data.dec(_f$scheduling),
       startDate: data.dec(_f$startDate),
       molecule: data.dec(_f$molecule),
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
-      notificationTimes: data.dec(_f$notificationTimes),
     );
   }
 
@@ -181,18 +178,17 @@ abstract class MedicationScheduleCopyWith<
   $Out
 >
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
-  get notificationTimes;
+  SchedulingStrategyCopyWith<$R, SchedulingStrategy, SchedulingStrategy>
+  get scheduling;
   $R call({
     int? id,
     String? name,
     Decimal? dose,
-    int? intervalDays,
+    SchedulingStrategy? scheduling,
     Date? startDate,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Ester? ester,
-    List<TimeOfDay>? notificationTimes,
   });
   MedicationScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -208,35 +204,30 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
   late final ClassMapperBase<MedicationSchedule> $mapper =
       MedicationScheduleMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
-  get notificationTimes => ListCopyWith(
-    $value.notificationTimes,
-    (v, t) => ObjectCopyWith(v, $identity, t),
-    (v) => call(notificationTimes: v),
-  );
+  SchedulingStrategyCopyWith<$R, SchedulingStrategy, SchedulingStrategy>
+  get scheduling =>
+      $value.scheduling.copyWith.$chain((v) => call(scheduling: v));
   @override
   $R call({
     Object? id = $none,
     String? name,
     Decimal? dose,
-    int? intervalDays,
+    SchedulingStrategy? scheduling,
     Object? startDate = $none,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
-    List<TimeOfDay>? notificationTimes,
   }) => $apply(
     FieldCopyWithData({
       if (id != $none) #id: id,
       if (name != null) #name: name,
       if (dose != null) #dose: dose,
-      if (intervalDays != null) #intervalDays: intervalDays,
+      if (scheduling != null) #scheduling: scheduling,
       if (startDate != $none) #startDate: startDate,
       if (molecule != null) #molecule: molecule,
       if (administrationRoute != null)
         #administrationRoute: administrationRoute,
       if (ester != $none) #ester: ester,
-      if (notificationTimes != null) #notificationTimes: notificationTimes,
     }),
   );
   @override
@@ -244,7 +235,7 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
     id: data.get(#id, or: $value.id),
     name: data.get(#name, or: $value.name),
     dose: data.get(#dose, or: $value.dose),
-    intervalDays: data.get(#intervalDays, or: $value.intervalDays),
+    scheduling: data.get(#scheduling, or: $value.scheduling),
     startDate: data.get(#startDate, or: $value.startDate),
     molecule: data.get(#molecule, or: $value.molecule),
     administrationRoute: data.get(
@@ -252,10 +243,6 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
       or: $value.administrationRoute,
     ),
     ester: data.get(#ester, or: $value.ester),
-    notificationTimes: data.get(
-      #notificationTimes,
-      or: $value.notificationTimes,
-    ),
   );
 
   @override

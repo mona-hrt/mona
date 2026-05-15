@@ -2,11 +2,19 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/medication_schedule.dart' show ScheduleStatus;
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/util/validators.dart';
 
 part 'scheduling_strategy.mapper.dart';
+
+enum ScheduleStatus {
+  overdue,
+  todayOverdue,
+  todayEarly,
+  today,
+  upcoming,
+  taken
+}
 
 @MappableClass(
   discriminatorKey: 'type',
