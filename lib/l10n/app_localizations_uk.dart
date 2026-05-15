@@ -147,22 +147,19 @@ class AppLocalizationsUk extends AppLocalizations {
   String get exactRemindersDisabled => 'Точний час нагадувань вимкнено';
 
   @override
-  String get remindersDelayed =>
-      'Нагадування можуть злегка затримуватись. Натисніть щоб відкрити сповіщення.';
+  String get remindersDelayed => 'Нагадування можуть злегка затримуватись. Натисніть щоб відкрити сповіщення.';
 
   @override
   String get autoUpdate => 'Само-Оновлення';
 
   @override
-  String get autoUpdateDescription =>
-      'Самочинно перевіряти на оновлення коли застосунок запущено';
+  String get autoUpdateDescription => 'Самочинно перевіряти на оновлення коли застосунок запущено';
 
   @override
   String get checkForUpdates => 'Перевірити на оновлення';
 
   @override
-  String get checkForUpdatesDescription =>
-      'Перевірити на наявність крайньої версії вручну\nЦе підключить вас до мережі\n(Жодних даних не буде надіслано)';
+  String get checkForUpdatesDescription => 'Перевірити на наявність крайньої версії вручну\nЦе підключить вас до мережі\n(Жодних даних не буде надіслано)';
 
   @override
   String appVersion(Object version) {
@@ -186,8 +183,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get importDataSubtitle => 'Відновити дані з JSON бекапу';
 
   @override
-  String get importDataOverwriteWarning =>
-      'Бекап перепише усі ваші поточні дані. Цю дію неможливо скасувати. Продовжити?';
+  String get importDataOverwriteWarning => 'Бекап перепише усі ваші поточні дані. Цю дію неможливо скасувати. Продовжити?';
 
   @override
   String get importConfirm => 'Імпорт';
@@ -196,8 +192,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get importSuccessfulTitle => 'Успішно імпортовано';
 
   @override
-  String get importRestartRequired =>
-      'Будь ласка, перезапустіть застосунок для застосування відновлених даних.';
+  String get importRestartRequired => 'Будь ласка, перезапустіть застосунок для застосування відновлених даних.';
 
   @override
   String get closeApp => 'Закрити Застосунок';
@@ -223,8 +218,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get units => 'Одиниці виміру';
 
   @override
-  String get updateNoCompatibleApk =>
-      'Сумісних оновлень для вашого пристрою не знайдено.';
+  String get updateNoCompatibleApk => 'Сумісних оновлень для вашого пристрою не знайдено.';
 
   @override
   String get updateAppUpToDate => 'Ваш застосунок останньої версії!';
@@ -244,8 +238,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get updateDownloadAndInstall => 'Завантажити та встановити';
 
   @override
-  String get updateInstallPermissionRequired =>
-      'Надайте дозвіл для встановлення оновлення.';
+  String get updateInstallPermissionRequired => 'Надайте дозвіл для встановлення оновлення.';
 
   @override
   String get updateDownloadingTitle => 'Встановлюємо оновлення...';
@@ -256,8 +249,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get updateDownloadFailed =>
-      'Завантаження невдалося. Будь ласка, перевірте вашу мережу..';
+  String get updateDownloadFailed => 'Завантаження невдалося. Будь ласка, перевірте вашу мережу..';
 
   @override
   String notificationMedicationReminderTitle(Object scheduleName) {
@@ -330,8 +322,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get notificationsUpdated => 'Оновлено сповіщення!';
 
   @override
-  String get notificationsUpdatedDescription =>
-      'Кожний розклад тепер має свої сповіщення.\n\nБажано увімкнути сповіщення для ваших розкладів щоб нічого не пропустити.';
+  String get notificationsUpdatedDescription => 'Кожний розклад тепер має свої сповіщення.\n\nБажано увімкнути сповіщення для ваших розкладів щоб нічого не пропустити.';
 
   @override
   String get dontShowAgain => 'Більше не показувати';
@@ -393,8 +384,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get bloodTestsTitle => 'Аналізи крові';
 
   @override
-  String get empty_blood_tests =>
-      'Висновки з аналізів крові з\'являтимуться тут. Натисніть Додати!';
+  String get empty_blood_tests => 'Висновки з аналізів крові з\'являтимуться тут. Натисніть Додати!';
 
   @override
   String get addBloodTest => 'Додати аналіз крові';
@@ -567,8 +557,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get medicationEstradiolBenzoate => 'Естрадіол бензоат';
 
   @override
-  String get medicationEstradiolCypionateSuspension =>
-      'Естрадіол суспенція ципіонату';
+  String get medicationEstradiolCypionateSuspension => 'Естрадіол суспенція ципіонату';
 
   @override
   String get medicationTestosteroneEnanthate => 'Тестостерон енантат';
@@ -586,8 +575,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get medicationTestosteroneBenzoate => 'Тестостерон бензоат';
 
   @override
-  String get medicationTestosteroneCypionateSuspension =>
-      'Тестостерон суспенція ципіонату';
+  String get medicationTestosteroneCypionateSuspension => 'Тестостерон суспенція ципіонату';
 
   @override
   String get injection => 'Ін\'єкції';
@@ -721,6 +709,5 @@ class AppLocalizationsUk extends AppLocalizations {
   String get invalidTotalAmount => 'Невірна сумарна кількість';
 
   @override
-  String get cannotExceedTotalCapacity =>
-      'Не може перевищувати загальну ємність';
+  String get cannotExceedTotalCapacity => 'Не може перевищувати загальну ємність';
 }
