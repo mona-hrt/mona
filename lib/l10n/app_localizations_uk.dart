@@ -84,6 +84,9 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String get scheduleFrequencyInterval => 'Інтервал';
+
+  @override
   String get newUpdateAvailable => 'Нове оновлення!';
 
   @override
@@ -132,7 +135,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get enableNotifications => 'Увімкнути сповіщення';
 
   @override
-  String get enableNotificationsDescription => 'Увімкнути нагадування';
+  String get enableNotificationsDescription => 'Надсилати нагадування';
 
   @override
   String get notificationsDisabledTitle => 'Сповіщення вимкнено';
@@ -285,7 +288,16 @@ class AppLocalizationsUk extends AppLocalizations {
   String get startDate => 'Дата початку';
 
   @override
+  String get pickATime => 'Вибрати час';
+
+  @override
+  String get addIntakeTime => 'Додати час';
+
+  @override
   String get editScheduleInfo => 'Виправити інформацію';
+
+  @override
+  String get scheduling => 'Планування';
 
   @override
   String get noNotifications => 'Сповіщення відсутні';

@@ -48,8 +48,7 @@ void main() {
       return rows.single;
     }
 
-    test(
-        'intervalDays > 1 -> IntervalDaysSchedule with first notificationTime',
+    test('intervalDays > 1 -> IntervalDaysSchedule with first notificationTime',
         () async {
       final id = await insertSchedule(
         intervalDays: 7,
@@ -60,8 +59,8 @@ void main() {
       await DbUpgradeV8().upgrade(db, 7, 8);
 
       final row = await readSchedule(id);
-      final strategy =
-          jsonDecode(row['schedulingStrategy'] as String) as Map<String, Object?>;
+      final strategy = jsonDecode(row['schedulingStrategy'] as String)
+          as Map<String, Object?>;
       expect(strategy, {
         'type': 'intervalDays',
         'intervalDays': 7,
@@ -81,8 +80,8 @@ void main() {
       await DbUpgradeV8().upgrade(db, 7, 8);
 
       final row = await readSchedule(id);
-      final strategy =
-          jsonDecode(row['schedulingStrategy'] as String) as Map<String, Object?>;
+      final strategy = jsonDecode(row['schedulingStrategy'] as String)
+          as Map<String, Object?>;
       expect(strategy, {
         'type': 'intervalDays',
         'intervalDays': 3,
@@ -102,8 +101,8 @@ void main() {
       await DbUpgradeV8().upgrade(db, 7, 8);
 
       final row = await readSchedule(id);
-      final strategy =
-          jsonDecode(row['schedulingStrategy'] as String) as Map<String, Object?>;
+      final strategy = jsonDecode(row['schedulingStrategy'] as String)
+          as Map<String, Object?>;
       expect(strategy, {
         'type': 'intervalDays',
         'intervalDays': 1,
@@ -123,8 +122,8 @@ void main() {
       await DbUpgradeV8().upgrade(db, 7, 8);
 
       final row = await readSchedule(id);
-      final strategy =
-          jsonDecode(row['schedulingStrategy'] as String) as Map<String, Object?>;
+      final strategy = jsonDecode(row['schedulingStrategy'] as String)
+          as Map<String, Object?>;
       expect(strategy, {
         'type': 'daily',
         'intakeTimes': ['8:0', '20:30'],
@@ -138,8 +137,8 @@ void main() {
 
       await DbUpgradeV8().upgrade(db, 7, 8);
 
-      final columns = await db.rawQuery(
-          "PRAGMA table_info('medication_schedules')");
+      final columns =
+          await db.rawQuery("PRAGMA table_info('medication_schedules')");
       final names = columns.map((c) => c['name'] as String).toSet();
       expect(names, contains('schedulingStrategy'));
       expect(names, isNot(contains('intervalDays')));

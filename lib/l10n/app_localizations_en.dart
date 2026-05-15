@@ -81,6 +81,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get scheduleFrequencyInterval => 'Interval';
+
+  @override
   String get newUpdateAvailable => 'A new update is available!';
 
   @override
@@ -122,7 +125,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enableNotifications => 'Enable notifications';
 
   @override
-  String get enableNotificationsDescription => 'Send reminders for schedules';
+  String get enableNotificationsDescription => 'Send reminders';
 
   @override
   String get notificationsDisabledTitle => 'Notifications are disabled';
@@ -276,7 +279,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startDate => 'Start date';
 
   @override
+  String get pickATime => 'Pick a time';
+
+  @override
+  String get addIntakeTime => 'Add time';
+
+  @override
   String get editScheduleInfo => 'Edit schedule info';
+
+  @override
+  String get scheduling => 'Scheduling';
 
   @override
   String get noNotifications => 'No notifications';

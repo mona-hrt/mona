@@ -54,12 +54,10 @@ void main() {
       });
 
       test('discriminator value is `type`', () {
-        final map =
-            IntervalDaysSchedule(intervalDays: 7).toMap();
+        final map = IntervalDaysSchedule(intervalDays: 7).toMap();
         expect(map['type'], 'intervalDays');
 
-        final dailyMap =
-            DailySchedule(intakeTimes: const []).toMap();
+        final dailyMap = DailySchedule(intakeTimes: const []).toMap();
         expect(dailyMap['type'], 'daily');
       });
     });
@@ -269,15 +267,14 @@ void main() {
       test('returns false when next scheduled date is in future', () {
         final s = IntervalDaysSchedule(intervalDays: 7);
 
-        expect(
-            s.isScheduledForToday(Date.today().add(Duration(days: 3))), isFalse);
+        expect(s.isScheduledForToday(Date.today().add(Duration(days: 3))),
+            isFalse);
       });
 
       test('returns false when next scheduled date is in past', () {
         final s = IntervalDaysSchedule(intervalDays: 7);
 
-        expect(
-            s.isScheduledForToday(Date.today().subtract(Duration(days: 3))),
+        expect(s.isScheduledForToday(Date.today().subtract(Duration(days: 3))),
             isFalse);
       });
     });
@@ -327,8 +324,7 @@ void main() {
 
       test('returns false when previousDate is null (startDate in future)', () {
         expect(
-            s.lastTakenLate(
-                Date.today().add(Duration(days: 3)), Date.today()),
+            s.lastTakenLate(Date.today().add(Duration(days: 3)), Date.today()),
             isFalse);
       });
 
@@ -362,8 +358,7 @@ void main() {
       });
 
       test('returns true if last taken date is after today', () {
-        expect(
-            s.isTakenTodayOrLater(Date.today().add(const Duration(days: 1))),
+        expect(s.isTakenTodayOrLater(Date.today().add(const Duration(days: 1))),
             isTrue);
       });
 
@@ -388,8 +383,8 @@ void main() {
       test('scheduled for today, taken in the future -> taken', () {
         final s = scheduledForToday();
         expect(
-            s.statusFor(scheduledForTodayStart(),
-                Date.today().add(Duration(days: 1))),
+            s.statusFor(
+                scheduledForTodayStart(), Date.today().add(Duration(days: 1))),
             ScheduleStatus.taken);
       });
 
@@ -460,8 +455,8 @@ void main() {
           () {
         final s = IntervalDaysSchedule(intervalDays: 7);
         final start = Date.today().subtract(Duration(days: 10));
-        expect(s.statusFor(start, s.previousDate(start)),
-            ScheduleStatus.upcoming);
+        expect(
+            s.statusFor(start, s.previousDate(start)), ScheduleStatus.upcoming);
       });
 
       test('taken status takes priority over todayEarly', () {

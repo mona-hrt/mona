@@ -82,6 +82,9 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get scheduleFrequencyInterval => 'Intervall';
+
+  @override
   String get newUpdateAvailable => 'Ein neues Update ist verfügbar!';
 
   @override
@@ -123,8 +126,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get enableNotifications => 'Benachrichtigungen aktivieren';
 
   @override
-  String get enableNotificationsDescription =>
-      'Erinnerungen für Zeitpläne senden';
+  String get enableNotificationsDescription => 'Erinnerungen senden';
 
   @override
   String get notificationsDisabledTitle =>
@@ -282,7 +284,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get startDate => 'Startdatum';
 
   @override
+  String get pickATime => 'Uhrzeit auswählen';
+
+  @override
+  String get addIntakeTime => 'Uhrzeit hinzufügen';
+
+  @override
   String get editScheduleInfo => 'Zeitplan bearbeiten';
+
+  @override
+  String get scheduling => 'Zeitplanung';
 
   @override
   String get noNotifications => 'Keine Benachrichtigungen';

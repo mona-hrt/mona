@@ -53,7 +53,7 @@ class EditSchedulePage extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Scheduling'),
+            title: Text(localizations.scheduling),
             subtitle: Text(schedulingSubtitle),
             trailing: Icon(Icons.chevron_right),
             onTap: () {

@@ -81,6 +81,9 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get scheduleFrequencyInterval => 'Intervalo';
+
+  @override
   String get newUpdateAvailable => 'Uma nova atualização está disponível!';
 
   @override
@@ -128,8 +131,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get enableNotifications => 'Ativar notificações';
 
   @override
-  String get enableNotificationsDescription =>
-      'Enviar lembretes dos cronogramas';
+  String get enableNotificationsDescription => 'Enviar lembretes';
 
   @override
   String get notificationsDisabledTitle => 'As notificações estão desativadas';
@@ -284,7 +286,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get startDate => 'Data de início';
 
   @override
+  String get pickATime => 'Escolher um horário';
+
+  @override
+  String get addIntakeTime => 'Adicionar horário';
+
+  @override
   String get editScheduleInfo => 'Editar informações do cronograma';
+
+  @override
+  String get scheduling => 'Programação';
 
   @override
   String get noNotifications => 'Sem notificações';
@@ -783,6 +794,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
+  String get scheduleFrequencyInterval => 'Intervalo';
+
+  @override
   String get newUpdateAvailable => 'Uma nova atualização está disponível!';
 
   @override
@@ -830,8 +844,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get enableNotifications => 'Ativar notificações';
 
   @override
-  String get enableNotificationsDescription =>
-      'Enviar lembretes dos cronogramas';
+  String get enableNotificationsDescription => 'Enviar lembretes';
 
   @override
   String get notificationsDisabledTitle => 'As notificações estão desativadas';
@@ -986,7 +999,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get startDate => 'Data de início';
 
   @override
+  String get pickATime => 'Escolher um horário';
+
+  @override
+  String get addIntakeTime => 'Adicionar horário';
+
+  @override
   String get editScheduleInfo => 'Editar informações do cronograma';
+
+  @override
+  String get scheduling => 'Programação';
 
   @override
   String get noNotifications => 'Sem notificações';

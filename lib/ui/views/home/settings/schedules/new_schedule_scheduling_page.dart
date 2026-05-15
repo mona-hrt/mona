@@ -16,8 +16,6 @@ import 'package:mona/ui/widgets/forms/model_form.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
-// TODO: l10n - all hardcoded strings on this page should move to .arb files.
-
 enum _ScheduleType { daily, intervalDays }
 
 class NewScheduleSchedulingPage extends StatefulWidget {
@@ -179,9 +177,11 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return ModelForm(
       title: widget.name,
-      submitButtonLabel: 'Save',
+      submitButtonLabel: l10n.save,
       isFormValid: _isFormValid,
       saveChanges: _save,
       closeAll: _closeAll,
@@ -195,7 +195,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         const SizedBox(height: 16),
         FormDateField(
           date: _startDate,
-          label: 'Start date',
+          label: l10n.startDate,
           errorText: _startDateError,
           onChanged: (date) => setState(() {
             _startDate = date;
@@ -206,6 +206,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   }
 
   Widget _typeToggle() {
+    final l10n = context.l10n;
     return M3EToggleButtonGroup(
       type: M3EButtonGroupType.standard,
       size: M3EButtonSize.md,
@@ -216,19 +217,20 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
           _type = _ScheduleType.values[index];
         });
       },
-      actions: const [
-        M3EToggleButtonGroupAction(label: Text('Every day')),
-        M3EToggleButtonGroupAction(label: Text('Every n days')),
+      actions: [
+        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyDaily)),
+        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyInterval)),
       ],
     );
   }
 
   List<Widget> _intervalDaysSpecifics() {
+    final l10n = context.l10n;
     return [
       FormTextField(
         controller: _intervalDaysController,
-        label: 'Every',
-        suffixText: 'days',
+        label: l10n.every,
+        suffixText: l10n.days,
         onChanged: _refresh,
         inputType: TextInputType.number,
         regexFormatter: '[0-9]',
@@ -238,14 +240,15 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         padding: EdgeInsets.zero,
         children: [
           SwitchListTile(
-            title: const Text('Enable notifications'),
+            title: Text(l10n.enableNotifications),
+            subtitle: Text(l10n.enableNotificationsDescription),
             value: _intervalNotify,
             onChanged: (value) => setState(() => _intervalNotify = value),
           ),
           if (_intervalNotify)
             ListTile(
               leading: const Icon(Icons.alarm),
-              title: Text(_intervalTime?.format(context) ?? 'Pick a time'),
+              title: Text(_intervalTime?.format(context) ?? l10n.pickATime),
               onTap: _pickIntervalTime,
             ),
         ],
@@ -254,6 +257,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   }
 
   List<Widget> _dailySpecifics() {
+    final l10n = context.l10n;
     final addCardIndex = _dailyIntakeTimes.length;
     return [
       M3ECardColumn(
@@ -265,11 +269,12 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
           for (int i = 0; i < _dailyIntakeTimes.length; i++) _intakeTimeRow(i),
           ListTile(
             leading: const Icon(Icons.add),
-            title: const Text('Add time'),
+            title: Text(l10n.addIntakeTime),
             onTap: () => _addDailyTime(),
           ),
           SwitchListTile(
-            title: const Text('Enable notifications'),
+            title: Text(l10n.enableNotifications),
+            subtitle: Text(l10n.enableNotificationsDescription),
             value: _dailyNotify,
             onChanged: (value) => setState(() => _dailyNotify = value),
           ),
