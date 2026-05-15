@@ -16,6 +16,7 @@ import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -229,7 +230,7 @@ class _EditItemPageState extends State<EditItemPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _administrationRoute.localizedUnit(localizations, 1),
           errorText: _totalAmountError,
-          regexFormatter: r'[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber
         ),
         FormTextField(
           controller: _usedAmountController,
@@ -238,7 +239,7 @@ class _EditItemPageState extends State<EditItemPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _administrationRoute.localizedUnit(localizations, 1),
           errorText: _usedAmountError,
-          regexFormatter: r'[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber
         ),
         FormTextField(
           controller: _concentrationController,
@@ -248,7 +249,7 @@ class _EditItemPageState extends State<EditItemPage> {
           suffixText:
               '${_molecule.unit}/${_administrationRoute.localizedUnit(localizations, 1)}',
           errorText: _concentrationError,
-          regexFormatter: r'[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber
         ),
       ],
     );

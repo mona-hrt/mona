@@ -19,6 +19,7 @@ import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -227,7 +228,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
               inputType: TextInputType.numberWithOptions(decimal: true),
               suffixText: widget.intake.molecule.unit,
               errorText: _takenDoseError,
-              regexFormatter: r'[0-9.,]',
+              regexFormatter: RegexPatterns.floatNumber,
             ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(

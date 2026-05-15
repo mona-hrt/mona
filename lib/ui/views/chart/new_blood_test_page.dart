@@ -9,6 +9,7 @@ import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -104,7 +105,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
           label: l10n.estradiolLevelLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: '[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
           errorText: _estradiolError,
           suffixText: units.estradiol.name,
         ),
@@ -113,7 +114,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
           label: l10n.testosteroneLevelLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: '[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
           errorText: _testosteroneError,
           suffixText: units.testosterone.name,
         ),

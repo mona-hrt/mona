@@ -15,6 +15,7 @@ import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -196,7 +197,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
           suffixText: _molecule?.unit,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: '[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
         ),
         FormTextField(
           controller: _intervalDaysController,
@@ -204,7 +205,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
           suffixText: localizations.days,
           onChanged: _refresh,
           inputType: TextInputType.number,
-          regexFormatter: '[0-9]',
+          regexFormatter: RegexPatterns.intNumber,
         ),
         FormDateField(
           date: _startDate,
