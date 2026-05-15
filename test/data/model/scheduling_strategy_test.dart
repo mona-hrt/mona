@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/medication_schedule.dart' show ScheduleStatus;
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/l10n/app_localizations_en.dart';
 

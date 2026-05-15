@@ -109,7 +109,7 @@ const Map<int, List<String>> _historicalSchemas = {
   7: [
     createSupplyItemsTable,
     createMedicationIntakesTable,
-    createMedicationSchedulesTable,
+    _medicationSchedulesV4,
     createBloodTestsTable,
   ],
 };

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:mona/services/db/upgrade/db_upgrade.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -5,6 +7,7 @@ class DbUpgradeV8 implements DbUpgrade {
   @override
   Future<void> upgrade(Database db, int oldVersion, int newVersion) async {
     await _dropScheduledDateTime(db);
+    await _migrateMedicationSchedules(db);
   }
 
   // Rebuilds medication_intakes without the unused scheduledDateTime column.
@@ -42,5 +45,68 @@ class DbUpgradeV8 implements DbUpgrade {
     await db.execute('DROP TABLE medication_intakes');
     await db.execute(
         'ALTER TABLE medication_intakes_new RENAME TO medication_intakes');
+  }
+
+  // Rebuilds medication_schedules around a single `schedulingStrategy` JSON
+  // column derived from the legacy `intervalDays` + `notificationTimes`
+  // columns. The mapping rules:
+  //   - intervalDays > 1                       -> IntervalDaysSchedule with
+  //                                                notificationTime = first
+  //                                                notificationTime (or null)
+  //   - intervalDays == 1, no notification     -> IntervalDaysSchedule with
+  //                                                notificationTime = null
+  //   - intervalDays == 1, has notifications   -> DailySchedule with
+  //                                                intakeTimes = all times,
+  //                                                notify = true
+  Future<void> _migrateMedicationSchedules(Database db) async {
+    await db.execute('''
+      CREATE TABLE medication_schedules_new(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        dose TEXT NOT NULL,
+        startDate TEXT NOT NULL,
+        moleculeJson TEXT NOT NULL,
+        administrationRouteName TEXT NOT NULL,
+        esterName TEXT,
+        schedulingStrategy TEXT NOT NULL
+      );
+      ''');
+
+    final rows = await db.query('medication_schedules');
+    for (final row in rows) {
+      final intervalDays = row['intervalDays'] as int;
+      final rawTimes = row['notificationTimes'] as String? ?? '[]';
+      final times = (jsonDecode(rawTimes) as List).cast<String>();
+
+      final Map<String, Object?> strategy;
+      if (intervalDays == 1 && times.isNotEmpty) {
+        strategy = {
+          'type': 'daily',
+          'intakeTimes': times,
+          'notify': true,
+        };
+      } else {
+        strategy = {
+          'type': 'intervalDays',
+          'intervalDays': intervalDays,
+          'notificationTime': times.isEmpty ? null : times.first,
+        };
+      }
+
+      await db.insert('medication_schedules_new', {
+        'id': row['id'],
+        'name': row['name'],
+        'dose': row['dose'],
+        'startDate': row['startDate'],
+        'moleculeJson': row['moleculeJson'],
+        'administrationRouteName': row['administrationRouteName'],
+        'esterName': row['esterName'],
+        'schedulingStrategy': jsonEncode(strategy),
+      });
+    }
+
+    await db.execute('DROP TABLE medication_schedules');
+    await db.execute(
+        'ALTER TABLE medication_schedules_new RENAME TO medication_schedules');
   }
 }
