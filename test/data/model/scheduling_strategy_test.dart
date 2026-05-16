@@ -285,7 +285,7 @@ void main() {
       });
     });
 
-    group('IntervalDaysSchedule.slotInfosFor', () {
+    group('IntervalDaysSchedule.slotInfoFor', () {
       IntervalDaysSchedule scheduledForToday() =>
           IntervalDaysSchedule(intervalDays: 7);
 
@@ -298,11 +298,10 @@ void main() {
         Date? lastTakenLocalDate,
       }) =>
           s
-              .slotInfosFor(
+              .slotInfoFor(
                 startDate: startDate,
                 lastTakenLocalDate: lastTakenLocalDate,
               )
-              .single
               .status;
 
       group('status', () {
@@ -380,15 +379,13 @@ void main() {
         test('not scheduled for today, never taken and overdue -> overdue', () {
           final s = IntervalDaysSchedule(intervalDays: 7);
           final start = Date.today().subtract(Duration(days: 10));
-          expect(
-              statusFrom(s, startDate: start), ScheduleStatus.overdue);
+          expect(statusFrom(s, startDate: start), ScheduleStatus.overdue);
         });
 
         test('not scheduled for today, start date in the future -> upcoming',
             () {
           final s = IntervalDaysSchedule(intervalDays: 7);
-          expect(
-              statusFrom(s, startDate: Date.today().add(Duration(days: 5))),
+          expect(statusFrom(s, startDate: Date.today().add(Duration(days: 5))),
               ScheduleStatus.upcoming);
         });
 
@@ -414,12 +411,11 @@ void main() {
       });
 
       group('shape', () {
-        test('always emits exactly one slot with a null time', () {
+        test('always emits a slot with a null time', () {
           final s = IntervalDaysSchedule(intervalDays: 7);
-          final slots = s.slotInfosFor(startDate: Date.today());
+          final slot = s.slotInfoFor(startDate: Date.today());
 
-          expect(slots, hasLength(1));
-          expect(slots.single.time, isNull);
+          expect(slot.time, isNull);
         });
       });
 
@@ -433,15 +429,13 @@ void main() {
           administrationRoute: AdministrationRoute.oral,
         );
 
-        test(
-            'attaches lastTakenIntake when status is taken',
-            () {
+        test('attaches lastTakenIntake when status is taken', () {
           final s = scheduledForToday();
-          final slot = s.slotInfosFor(
+          final slot = s.slotInfoFor(
             startDate: scheduledForTodayStart(),
             lastTakenLocalDate: Date.today(),
             lastTakenIntake: intake,
-          ).single;
+          );
 
           expect(slot.status, ScheduleStatus.taken);
           expect(slot.intake, intake);
@@ -449,10 +443,10 @@ void main() {
 
         test('does not attach lastTakenIntake when status is not taken', () {
           final s = scheduledForToday();
-          final slot = s.slotInfosFor(
+          final slot = s.slotInfoFor(
             startDate: scheduledForTodayStart(),
             lastTakenIntake: intake,
-          ).single;
+          );
 
           expect(slot.status, isNot(ScheduleStatus.taken));
           expect(slot.intake, isNull);
@@ -478,7 +472,7 @@ void main() {
       test('emits one slot per intakeTime, preserving order', () {
         const s = DailySchedule(intakeTimes: [evening, morning, afternoon]);
 
-        final slots = s.slotInfosFor(startDate: Date.today());
+        final slots = s.slotInfosFor();
 
         expect(slots.map((s) => s.time), [evening, morning, afternoon]);
       });
@@ -486,17 +480,16 @@ void main() {
       test('empty intakeTimes -> empty list', () {
         const s = DailySchedule(intakeTimes: []);
 
-        expect(s.slotInfosFor(startDate: Date.today()), isEmpty);
+        expect(s.slotInfosFor(), isEmpty);
       });
 
       test('no taken intakes -> every slot is today with no intake attached',
           () {
         const s = DailySchedule(intakeTimes: [morning, afternoon, evening]);
 
-        final slots = s.slotInfosFor(startDate: Date.today());
+        final slots = s.slotInfosFor();
 
-        expect(slots.map((s) => s.status),
-            everyElement(ScheduleStatus.today));
+        expect(slots.map((s) => s.status), everyElement(ScheduleStatus.today));
         expect(slots.map((s) => s.intake), everyElement(isNull));
       });
 
@@ -504,10 +497,7 @@ void main() {
         const s = DailySchedule(intakeTimes: [morning, afternoon, evening]);
         final morningIntake = intakeAt(morning);
 
-        final slots = s.slotInfosFor(
-          startDate: Date.today(),
-          takenIntakesToday: [morningIntake],
-        );
+        final slots = s.slotInfosFor(takenIntakesToday: [morningIntake]);
 
         expect(
           {for (final s in slots) s.time: s.status},
@@ -528,32 +518,10 @@ void main() {
         const s = DailySchedule(intakeTimes: [morning, evening]);
         final strayIntake = intakeAt(afternoon);
 
-        final slots = s.slotInfosFor(
-          startDate: Date.today(),
-          takenIntakesToday: [strayIntake],
-        );
+        final slots = s.slotInfosFor(takenIntakesToday: [strayIntake]);
 
-        expect(slots.map((s) => s.status),
-            everyElement(ScheduleStatus.today));
+        expect(slots.map((s) => s.status), everyElement(ScheduleStatus.today));
         expect(slots.map((s) => s.intake), everyElement(isNull));
-      });
-
-      test('ignores startDate, lastTakenLocalDate and lastTakenIntake', () {
-        const s = DailySchedule(intakeTimes: [morning]);
-        final unrelated = intakeAt(evening);
-
-        final slotsA = s.slotInfosFor(
-          startDate: Date.today().subtract(const Duration(days: 365)),
-          lastTakenLocalDate: Date.today().subtract(const Duration(days: 30)),
-          lastTakenIntake: unrelated,
-        );
-        final slotsB = s.slotInfosFor(
-          startDate: Date.today().add(const Duration(days: 365)),
-        );
-
-        expect(slotsA.single.status, slotsB.single.status);
-        expect(slotsA.single.time, slotsB.single.time);
-        expect(slotsA.single.intake, isNull);
       });
     });
   });

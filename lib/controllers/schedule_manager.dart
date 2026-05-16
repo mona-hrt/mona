@@ -29,26 +29,41 @@ class ScheduleManager {
 
   List<ScheduleSlot> getSlots() {
     final today = Date.today();
+    final slots = <ScheduleSlot>[];
 
-    return [
-      for (final schedule in _medicationScheduleProvider.schedules)
-        for (final info in schedule.scheduling.slotInfosFor(
-          startDate: schedule.startDate,
-          lastTakenLocalDate: _medicationIntakeProvider
-              .getLastIntakeLocalDateForSchedule(schedule.id),
-          lastTakenIntake: _medicationIntakeProvider
-              .getLastTakenIntakeForSchedule(schedule.id),
-          takenIntakesToday: _medicationIntakeProvider
-              .getTakenIntakesForScheduleOn(schedule.id, today),
-        ))
-          ScheduleSlot(
-            schedule: schedule,
-            status: info.status,
-            time: info.time,
-            intake: info.intake,
-          ),
-    ];
+    for (final schedule in _medicationScheduleProvider.schedules) {
+      switch (schedule.scheduling) {
+        case IntervalDaysSchedule scheduling:
+          slots.add(_toSlot(
+            schedule,
+            scheduling.slotInfoFor(
+              startDate: schedule.startDate,
+              lastTakenLocalDate: _medicationIntakeProvider
+                  .getLastIntakeLocalDateForSchedule(schedule.id),
+              lastTakenIntake: _medicationIntakeProvider
+                  .getLastTakenIntakeForSchedule(schedule.id),
+            ),
+          ));
+        case DailySchedule scheduling:
+          final takenToday = _medicationIntakeProvider
+              .getTakenIntakesForScheduleOn(schedule.id, today);
+          for (final info
+              in scheduling.slotInfosFor(takenIntakesToday: takenToday)) {
+            slots.add(_toSlot(schedule, info));
+          }
+      }
+    }
+
+    return slots;
   }
+
+  static ScheduleSlot _toSlot(MedicationSchedule schedule, SlotInfo info) =>
+      ScheduleSlot(
+        schedule: schedule,
+        status: info.status,
+        time: info.time,
+        intake: info.intake,
+      );
 
   ({List<ScheduleSlot> today, List<ScheduleSlot> upcoming}) splitSlotsByDay() {
     final overdueToday = <ScheduleSlot>[];

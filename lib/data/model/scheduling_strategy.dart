@@ -37,13 +37,6 @@ class SlotInfo {
 )
 sealed class SchedulingStrategy with SchedulingStrategyMappable {
   const SchedulingStrategy();
-
-  List<SlotInfo> slotInfosFor({
-    required Date startDate,
-    Date? lastTakenLocalDate,
-    MedicationIntake? lastTakenIntake,
-    List<MedicationIntake> takenIntakesToday = const [],
-  });
 }
 
 @MappableClass(
@@ -161,16 +154,14 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return ScheduleStatus.upcoming;
   }
 
-  @override
-  List<SlotInfo> slotInfosFor({
+  SlotInfo slotInfoFor({
     required Date startDate,
     Date? lastTakenLocalDate,
     MedicationIntake? lastTakenIntake,
-    List<MedicationIntake> takenIntakesToday = const [],
   }) {
     final status = _statusFor(startDate, lastTakenLocalDate);
     final intake = status == ScheduleStatus.taken ? lastTakenIntake : null;
-    return [SlotInfo(status: status, intake: intake)];
+    return SlotInfo(status: status, intake: intake);
   }
 
   static String? validateIntervalDays(AppLocalizations l10n, String? value) =>
@@ -190,11 +181,7 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
     this.notify = true,
   });
 
-  @override
   List<SlotInfo> slotInfosFor({
-    required Date startDate,
-    Date? lastTakenLocalDate,
-    MedicationIntake? lastTakenIntake,
     List<MedicationIntake> takenIntakesToday = const [],
   }) {
     return [
