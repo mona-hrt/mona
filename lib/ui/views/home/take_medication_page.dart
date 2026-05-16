@@ -61,13 +61,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
         .takeMedication(
       dose: _takenDose,
+      scheduledTime: widget.scheduledTime,
       takenDateTime: _takenDate.toUtc(),
       supplyItem: _selectedSupplyItem,
       schedule: widget.schedule,
       side: _selectedSide,
       deadSpace: _deadSpace,
       notes: notes,
-      scheduledTime: widget.scheduledTime,
     );
 
     Navigator.of(context).pop();

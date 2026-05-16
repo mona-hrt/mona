@@ -4,9 +4,7 @@ import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/administration_route_l10n.dart';
 import 'package:mona/l10n/helpers/medication_schedule_l10n.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_main_info.dart';
 import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_scheduling_page.dart';
 import 'package:provider/provider.dart';
@@ -79,7 +77,8 @@ class EditSchedulePage extends StatelessWidget {
       ) =>
         intervalDays == 1
             ? localizations.scheduleFrequencyDaily
-            : localizations.scheduleFrequencyEveryNDays(intervalDays),
+            : localizations.scheduleFrequencyEveryNDays(
+                intervalDays), // TODO use one, many ?
       DailySchedule _ => localizations.scheduleFrequencyDaily,
     };
   }
