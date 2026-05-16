@@ -6,15 +6,13 @@ import 'package:sqflite/sqlite_api.dart';
 class DbUpgradeV8 implements DbUpgrade {
   @override
   Future<void> upgrade(Database db, int oldVersion, int newVersion) async {
-    await _rebuildMedicationIntakes(db);
+    await _migrateMedicationIntakes(db);
     await _migrateMedicationSchedules(db);
   }
 
-  // Rebuilds medication_intakes:
-  //   - drops the unused `scheduledDateTime` column;
-  //   - adds `scheduledTime` (nullable) so DailySchedule intakes can record
-  //     which intake-time slot they were taken for. Existing rows get NULL.
-  Future<void> _rebuildMedicationIntakes(Database db) async {
+  // drops unused scheduledDateTime
+  //  adds scheduledTime
+  Future<void> _migrateMedicationIntakes(Database db) async {
     await db.execute('''
       CREATE TABLE medication_intakes_new (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,17 +49,10 @@ class DbUpgradeV8 implements DbUpgrade {
         'ALTER TABLE medication_intakes_new RENAME TO medication_intakes');
   }
 
-  // Rebuilds medication_schedules around a single `schedulingStrategy` JSON
-  // column derived from the legacy `intervalDays` + `notificationTimes`
-  // columns. The mapping rules:
-  //   - intervalDays > 1                       -> IntervalDaysSchedule with
-  //                                                notificationTime = first
-  //                                                notificationTime (or null)
-  //   - intervalDays == 1, no notification     -> IntervalDaysSchedule with
-  //                                                notificationTime = null
-  //   - intervalDays == 1, has notifications   -> DailySchedule with
-  //                                                intakeTimes = all times,
-  //                                                notify = true
+  // drops intervalDays and notificationTimes, adds schedulingStrategy
+  // intervalDays >= 2 -> IntervalDaysSchedule
+  //  intervalDays == 1, no notification -> IntervalDaysSchedule
+  //  intervalDays == 1, notifications -> DailySchedule
   Future<void> _migrateMedicationSchedules(Database db) async {
     await db.execute('''
       CREATE TABLE medication_schedules_new(

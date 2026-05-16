@@ -5,6 +5,7 @@ import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/l10n/helpers/administration_route_l10n.dart';
+import 'package:mona/l10n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_main_info.dart';
 import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_scheduling_page.dart';
@@ -40,9 +41,7 @@ class EditSchedulePage extends StatelessWidget {
         children: [
           ListTile(
             title: Text(localizations.editScheduleInfo),
-            subtitle: Text(
-                '${currentSchedule.dose} ${currentSchedule.molecule.unit} • ${currentSchedule.molecule.localizedNameWithEster(currentSchedule.ester, localizations)} • '
-                '${currentSchedule.administrationRoute.localizedName(localizations)}'),
+            subtitle: Text(currentSchedule.localizedSummary(localizations)),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute<void>(

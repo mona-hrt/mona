@@ -5,17 +5,19 @@ import 'package:mona/l10n/helpers/administration_route_l10n.dart';
 import 'package:mona/l10n/helpers/molecule_l10n.dart';
 
 extension MedicationScheduleL10n on MedicationSchedule {
-  String localizedSummary(AppLocalizations localizations) {
-    final firstLine =
-        '$dose ${molecule.unit} • ${molecule.localizedNameWithEster(ester, localizations)} • '
-        '${administrationRoute.localizedName(localizations)}';
-    final secondLine = switch (scheduling) {
+  String localizedSummary(AppLocalizations localizations) =>
+      '$dose ${molecule.unit} • ${molecule.localizedNameWithEster(ester, localizations)} • '
+      '${administrationRoute.localizedName(localizations)}';
+
+  String localizedSummaryWithFrequency(AppLocalizations localizations) {
+    final frequency = switch (scheduling) {
       IntervalDaysSchedule(intervalDays: 1) =>
         localizations.scheduleFrequencyDaily,
       IntervalDaysSchedule(intervalDays: final n) =>
         localizations.scheduleFrequencyEveryNDays(n),
       DailySchedule _ => localizations.scheduleFrequencyDaily,
     };
-    return '$firstLine\n$secondLine';
+
+    return '$localizedSummary(localizations)\n$frequency';
   }
 }

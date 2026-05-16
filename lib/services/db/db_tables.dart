@@ -16,6 +16,7 @@ const String createSupplyItemsTable = '''
 const String createMedicationIntakesTable = '''
     CREATE TABLE medication_intakes(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      scheduledTime TEXT,
       takenDateTime TEXT,
       takenTimeZone TEXT,
       dose TEXT NOT NULL,
@@ -26,7 +27,6 @@ const String createMedicationIntakesTable = '''
       esterName TEXT,
       supplyItemId INTEGER,
       notes TEXT,
-      scheduledTime TEXT,
       FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
     )
     '''; // TODO use foreign key for scheduleId

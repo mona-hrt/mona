@@ -40,7 +40,7 @@ class SchedulesPage extends StatelessWidget {
                   return ListTile(
                     title: Text(schedule.name),
                     subtitle: Text(
-                      schedule.localizedSummary(localizations),
+                      schedule.localizedSummaryWithFrequency(localizations),
                     ),
                     leading: CircleAvatar(
                       child: Icon(

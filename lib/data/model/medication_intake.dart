@@ -31,7 +31,7 @@ enum InjectionSide {
 )
 class MedicationIntake with MedicationIntakeMappable {
   final int id;
-  final TimeOfDay? scheduledTime;
+  final TimeOfDay? scheduledTime; // TODO use custom Time ?
   final DateTime? takenDateTime;
   final String? takenTimeZone;
   final Decimal dose;
