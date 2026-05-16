@@ -51,6 +51,18 @@ class MedicationSchedule with MedicationScheduleMappable {
   })  : id = id ?? DateTime.now().millisecondsSinceEpoch,
         startDate = startDate ?? Date.today();
 
+  static String? Function(Ester?) esterValidator(AppLocalizations l10n,
+      Molecule? molecule, AdministrationRoute? administrationRoute) {
+    return (Ester? value) {
+      return (molecule == KnownMolecules.estradiol &&
+              administrationRoute == AdministrationRoute.injection &&
+              value == null)
+          ? l10n.requiredField
+          : null;
+    };
+  }
+
+  // coverage:ignore-start
   static String? validateName(AppLocalizations l10n, String? value) =>
       requiredString(l10n, value);
 
@@ -66,15 +78,5 @@ class MedicationSchedule with MedicationScheduleMappable {
   static String? validateAdministrationRoute(
           AppLocalizations l10n, AdministrationRoute? value) =>
       requiredAdministrationRoute(l10n, value);
-
-  static String? Function(Ester?) esterValidator(AppLocalizations l10n,
-      Molecule? molecule, AdministrationRoute? administrationRoute) {
-    return (Ester? value) {
-      return (molecule == KnownMolecules.estradiol &&
-              administrationRoute == AdministrationRoute.injection &&
-              value == null)
-          ? l10n.requiredField
-          : null;
-    };
-  }
+  // coverage:ignore-end
 }

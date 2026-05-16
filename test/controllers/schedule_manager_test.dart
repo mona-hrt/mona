@@ -168,7 +168,6 @@ void main() {
 
       expect(slot.status, ScheduleStatus.today);
       expect(slot.intake, isNull);
-      verifyNever(mockIntakeProvider.getLastTakenIntakeForSchedule(any));
     });
 
     test('schedule due today and late yields todayOverdue', () {

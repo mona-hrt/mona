@@ -1,7 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/util/validators.dart';
 
@@ -16,12 +18,32 @@ enum ScheduleStatus {
   taken
 }
 
+@immutable
+class SlotInfo {
+  final ScheduleStatus status;
+  final TimeOfDay? time;
+  final MedicationIntake? intake;
+
+  const SlotInfo({
+    required this.status,
+    this.time,
+    this.intake,
+  });
+}
+
 @MappableClass(
   discriminatorKey: 'type',
   includeCustomMappers: [TimeOfDayMapper()],
 )
 sealed class SchedulingStrategy with SchedulingStrategyMappable {
   const SchedulingStrategy();
+
+  List<SlotInfo> slotInfosFor({
+    required Date startDate,
+    Date? lastTakenLocalDate,
+    MedicationIntake? lastTakenIntake,
+    List<MedicationIntake> takenIntakesToday = const [],
+  });
 }
 
 @MappableClass(
@@ -124,7 +146,7 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
   }
 
-  ScheduleStatus statusFor(Date date, Date? lastTaken) {
+  ScheduleStatus _statusFor(Date date, Date? lastTaken) {
     if (_isScheduledForToday(date)) {
       if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
       if (_isLate(date, lastTaken)) return ScheduleStatus.todayOverdue;
@@ -137,6 +159,18 @@ class IntervalDaysSchedule extends SchedulingStrategy
     if (_isLate(date, lastTaken)) return ScheduleStatus.overdue;
 
     return ScheduleStatus.upcoming;
+  }
+
+  @override
+  List<SlotInfo> slotInfosFor({
+    required Date startDate,
+    Date? lastTakenLocalDate,
+    MedicationIntake? lastTakenIntake,
+    List<MedicationIntake> takenIntakesToday = const [],
+  }) {
+    final status = _statusFor(startDate, lastTakenLocalDate);
+    final intake = status == ScheduleStatus.taken ? lastTakenIntake : null;
+    return [SlotInfo(status: status, intake: intake)];
   }
 
   static String? validateIntervalDays(AppLocalizations l10n, String? value) =>
@@ -156,8 +190,28 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
     this.notify = true,
   });
 
-  ScheduleStatus statusFor({required bool taken}) =>
-      taken ? ScheduleStatus.taken : ScheduleStatus.today;
+  @override
+  List<SlotInfo> slotInfosFor({
+    required Date startDate,
+    Date? lastTakenLocalDate,
+    MedicationIntake? lastTakenIntake,
+    List<MedicationIntake> takenIntakesToday = const [],
+  }) {
+    return [
+      for (final time in intakeTimes) _slotInfoForTime(time, takenIntakesToday),
+    ];
+  }
+
+  SlotInfo _slotInfoForTime(
+      TimeOfDay time, List<MedicationIntake> takenIntakesToday) {
+    final match =
+        takenIntakesToday.firstWhereOrNull((i) => i.scheduledTime == time);
+    return SlotInfo(
+      status: match != null ? ScheduleStatus.taken : ScheduleStatus.today,
+      time: time,
+      intake: match,
+    );
+  }
 
   static String? validateIntakeTimes(
           AppLocalizations l10n, List<TimeOfDay> value) =>

@@ -1,6 +1,10 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/medication_intake.dart';
+import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/l10n/app_localizations_en.dart';
 
@@ -281,98 +285,275 @@ void main() {
       });
     });
 
-    group('IntervalDaysSchedule.statusFor', () {
+    group('IntervalDaysSchedule.slotInfosFor', () {
       IntervalDaysSchedule scheduledForToday() =>
           IntervalDaysSchedule(intervalDays: 7);
 
       Date scheduledForTodayStart() =>
           Date.today().subtract(Duration(days: 14));
 
-      test('scheduled for today, taken today -> taken', () {
-        final s = scheduledForToday();
-        expect(s.statusFor(scheduledForTodayStart(), Date.today()),
-            ScheduleStatus.taken);
+      ScheduleStatus statusFrom(
+        IntervalDaysSchedule s, {
+        required Date startDate,
+        Date? lastTakenLocalDate,
+      }) =>
+          s
+              .slotInfosFor(
+                startDate: startDate,
+                lastTakenLocalDate: lastTakenLocalDate,
+              )
+              .single
+              .status;
+
+      group('status', () {
+        test('scheduled for today, taken today -> taken', () {
+          final s = scheduledForToday();
+          expect(
+              statusFrom(s,
+                  startDate: scheduledForTodayStart(),
+                  lastTakenLocalDate: Date.today()),
+              ScheduleStatus.taken);
+        });
+
+        test('scheduled for today, taken in the future -> taken', () {
+          final s = scheduledForToday();
+          expect(
+              statusFrom(s,
+                  startDate: scheduledForTodayStart(),
+                  lastTakenLocalDate: Date.today().add(Duration(days: 1))),
+              ScheduleStatus.taken);
+        });
+
+        test(
+            'scheduled for today, last intake before previous scheduled date -> todayOverdue',
+            () {
+          final s = scheduledForToday();
+          final start = scheduledForTodayStart();
+          final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
+          expect(statusFrom(s, startDate: start, lastTakenLocalDate: lastTaken),
+              ScheduleStatus.todayOverdue);
+        });
+
+        test('scheduled for today, never taken -> todayOverdue', () {
+          final s = scheduledForToday();
+          expect(statusFrom(s, startDate: scheduledForTodayStart()),
+              ScheduleStatus.todayOverdue);
+        });
+
+        test(
+            'scheduled for today, last intake strictly between previous scheduled date and today -> todayEarly',
+            () {
+          final s = scheduledForToday();
+          final start = scheduledForTodayStart();
+          final lastTaken = s.previousDate(start)!.add(Duration(days: 1));
+          expect(statusFrom(s, startDate: start, lastTakenLocalDate: lastTaken),
+              ScheduleStatus.todayEarly);
+        });
+
+        test(
+            'scheduled for today, last intake equals previous scheduled date -> today',
+            () {
+          final s = scheduledForToday();
+          final start = scheduledForTodayStart();
+          expect(
+              statusFrom(s,
+                  startDate: start, lastTakenLocalDate: s.previousDate(start)),
+              ScheduleStatus.today);
+        });
+
+        test(
+            'scheduled for today with no previous date and never taken -> today',
+            () {
+          final s = IntervalDaysSchedule(intervalDays: 7);
+          expect(s.previousDate(Date.today()), isNull);
+          expect(statusFrom(s, startDate: Date.today()), ScheduleStatus.today);
+        });
+
+        test('not scheduled for today, last intake is overdue -> overdue', () {
+          final s = IntervalDaysSchedule(intervalDays: 7);
+          final start = Date.today().subtract(Duration(days: 10));
+          final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
+          expect(statusFrom(s, startDate: start, lastTakenLocalDate: lastTaken),
+              ScheduleStatus.overdue);
+        });
+
+        test('not scheduled for today, never taken and overdue -> overdue', () {
+          final s = IntervalDaysSchedule(intervalDays: 7);
+          final start = Date.today().subtract(Duration(days: 10));
+          expect(
+              statusFrom(s, startDate: start), ScheduleStatus.overdue);
+        });
+
+        test('not scheduled for today, start date in the future -> upcoming',
+            () {
+          final s = IntervalDaysSchedule(intervalDays: 7);
+          expect(
+              statusFrom(s, startDate: Date.today().add(Duration(days: 5))),
+              ScheduleStatus.upcoming);
+        });
+
+        test(
+            'not scheduled for today, last intake on or after previous scheduled date -> upcoming',
+            () {
+          final s = IntervalDaysSchedule(intervalDays: 7);
+          final start = Date.today().subtract(Duration(days: 10));
+          expect(
+              statusFrom(s,
+                  startDate: start, lastTakenLocalDate: s.previousDate(start)),
+              ScheduleStatus.upcoming);
+        });
+
+        test('taken takes priority over todayEarly', () {
+          final s = scheduledForToday();
+          expect(
+              statusFrom(s,
+                  startDate: scheduledForTodayStart(),
+                  lastTakenLocalDate: Date.today()),
+              ScheduleStatus.taken);
+        });
       });
 
-      test('scheduled for today, taken in the future -> taken', () {
-        final s = scheduledForToday();
+      group('shape', () {
+        test('always emits exactly one slot with a null time', () {
+          final s = IntervalDaysSchedule(intervalDays: 7);
+          final slots = s.slotInfosFor(startDate: Date.today());
+
+          expect(slots, hasLength(1));
+          expect(slots.single.time, isNull);
+        });
+      });
+
+      group('intake attachment', () {
+        final intake = MedicationIntake(
+          id: 1,
+          dose: Decimal.one,
+          takenDateTime: DateTime.utc(2025, 1, 1, 12),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.oral,
+        );
+
+        test(
+            'attaches lastTakenIntake when status is taken',
+            () {
+          final s = scheduledForToday();
+          final slot = s.slotInfosFor(
+            startDate: scheduledForTodayStart(),
+            lastTakenLocalDate: Date.today(),
+            lastTakenIntake: intake,
+          ).single;
+
+          expect(slot.status, ScheduleStatus.taken);
+          expect(slot.intake, intake);
+        });
+
+        test('does not attach lastTakenIntake when status is not taken', () {
+          final s = scheduledForToday();
+          final slot = s.slotInfosFor(
+            startDate: scheduledForTodayStart(),
+            lastTakenIntake: intake,
+          ).single;
+
+          expect(slot.status, isNot(ScheduleStatus.taken));
+          expect(slot.intake, isNull);
+        });
+      });
+    });
+
+    group('DailySchedule.slotInfosFor', () {
+      const morning = TimeOfDay(hour: 8, minute: 0);
+      const afternoon = TimeOfDay(hour: 14, minute: 0);
+      const evening = TimeOfDay(hour: 20, minute: 30);
+
+      MedicationIntake intakeAt(TimeOfDay time) => MedicationIntake(
+            id: time.hour * 60 + time.minute,
+            dose: Decimal.one,
+            takenDateTime: DateTime.utc(2025, 1, 1, time.hour, time.minute),
+            takenTimeZone: 'Etc/UTC',
+            molecule: KnownMolecules.estradiol,
+            administrationRoute: AdministrationRoute.oral,
+            scheduledTime: time,
+          );
+
+      test('emits one slot per intakeTime, preserving order', () {
+        const s = DailySchedule(intakeTimes: [evening, morning, afternoon]);
+
+        final slots = s.slotInfosFor(startDate: Date.today());
+
+        expect(slots.map((s) => s.time), [evening, morning, afternoon]);
+      });
+
+      test('empty intakeTimes -> empty list', () {
+        const s = DailySchedule(intakeTimes: []);
+
+        expect(s.slotInfosFor(startDate: Date.today()), isEmpty);
+      });
+
+      test('no taken intakes -> every slot is today with no intake attached',
+          () {
+        const s = DailySchedule(intakeTimes: [morning, afternoon, evening]);
+
+        final slots = s.slotInfosFor(startDate: Date.today());
+
+        expect(slots.map((s) => s.status),
+            everyElement(ScheduleStatus.today));
+        expect(slots.map((s) => s.intake), everyElement(isNull));
+      });
+
+      test('a matching intake -> that slot becomes taken with the intake', () {
+        const s = DailySchedule(intakeTimes: [morning, afternoon, evening]);
+        final morningIntake = intakeAt(morning);
+
+        final slots = s.slotInfosFor(
+          startDate: Date.today(),
+          takenIntakesToday: [morningIntake],
+        );
+
         expect(
-            s.statusFor(
-                scheduledForTodayStart(), Date.today().add(Duration(days: 1))),
-            ScheduleStatus.taken);
-      });
-
-      test(
-          'scheduled for today, last intake before previous scheduled date -> todayOverdue',
-          () {
-        final s = scheduledForToday();
-        final start = scheduledForTodayStart();
-        final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
-        expect(s.statusFor(start, lastTaken), ScheduleStatus.todayOverdue);
-      });
-
-      test('scheduled for today, never taken -> todayOverdue', () {
-        final s = scheduledForToday();
-        expect(s.statusFor(scheduledForTodayStart(), null),
-            ScheduleStatus.todayOverdue);
-      });
-
-      test(
-          'scheduled for today, last intake strictly between previous scheduled date and today -> todayEarly',
-          () {
-        final s = scheduledForToday();
-        final start = scheduledForTodayStart();
-        final lastTaken = s.previousDate(start)!.add(Duration(days: 1));
-        expect(s.statusFor(start, lastTaken), ScheduleStatus.todayEarly);
-      });
-
-      test(
-          'scheduled for today, last intake equals previous scheduled date -> today',
-          () {
-        final s = scheduledForToday();
-        final start = scheduledForTodayStart();
-        expect(s.statusFor(start, s.previousDate(start)), ScheduleStatus.today);
-      });
-
-      test('scheduled for today with no previous date and never taken -> today',
-          () {
-        final s = IntervalDaysSchedule(intervalDays: 7);
-        expect(s.previousDate(Date.today()), isNull);
-        expect(s.statusFor(Date.today(), null), ScheduleStatus.today);
-      });
-
-      test('not scheduled for today, last intake is overdue -> overdue', () {
-        final s = IntervalDaysSchedule(intervalDays: 7);
-        final start = Date.today().subtract(Duration(days: 10));
-        final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
-        expect(s.statusFor(start, lastTaken), ScheduleStatus.overdue);
-      });
-
-      test('not scheduled for today, never taken and overdue -> overdue', () {
-        final s = IntervalDaysSchedule(intervalDays: 7);
-        final start = Date.today().subtract(Duration(days: 10));
-        expect(s.statusFor(start, null), ScheduleStatus.overdue);
-      });
-
-      test('not scheduled for today, start date in the future -> upcoming', () {
-        final s = IntervalDaysSchedule(intervalDays: 7);
-        expect(s.statusFor(Date.today().add(Duration(days: 5)), null),
-            ScheduleStatus.upcoming);
-      });
-
-      test(
-          'not scheduled for today, last intake on or after previous scheduled date -> upcoming',
-          () {
-        final s = IntervalDaysSchedule(intervalDays: 7);
-        final start = Date.today().subtract(Duration(days: 10));
+          {for (final s in slots) s.time: s.status},
+          {
+            morning: ScheduleStatus.taken,
+            afternoon: ScheduleStatus.today,
+            evening: ScheduleStatus.today,
+          },
+        );
         expect(
-            s.statusFor(start, s.previousDate(start)), ScheduleStatus.upcoming);
+          {for (final s in slots) s.time: s.intake},
+          {morning: morningIntake, afternoon: null, evening: null},
+        );
       });
 
-      test('taken status takes priority over todayEarly', () {
-        final s = scheduledForToday();
-        expect(s.statusFor(scheduledForTodayStart(), Date.today()),
-            ScheduleStatus.taken);
+      test('intake whose scheduledTime is unknown to the schedule is ignored',
+          () {
+        const s = DailySchedule(intakeTimes: [morning, evening]);
+        final strayIntake = intakeAt(afternoon);
+
+        final slots = s.slotInfosFor(
+          startDate: Date.today(),
+          takenIntakesToday: [strayIntake],
+        );
+
+        expect(slots.map((s) => s.status),
+            everyElement(ScheduleStatus.today));
+        expect(slots.map((s) => s.intake), everyElement(isNull));
+      });
+
+      test('ignores startDate, lastTakenLocalDate and lastTakenIntake', () {
+        const s = DailySchedule(intakeTimes: [morning]);
+        final unrelated = intakeAt(evening);
+
+        final slotsA = s.slotInfosFor(
+          startDate: Date.today().subtract(const Duration(days: 365)),
+          lastTakenLocalDate: Date.today().subtract(const Duration(days: 30)),
+          lastTakenIntake: unrelated,
+        );
+        final slotsB = s.slotInfosFor(
+          startDate: Date.today().add(const Duration(days: 365)),
+        );
+
+        expect(slotsA.single.status, slotsB.single.status);
+        expect(slotsA.single.time, slotsB.single.time);
+        expect(slotsA.single.intake, isNull);
       });
     });
   });
