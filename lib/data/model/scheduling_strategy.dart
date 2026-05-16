@@ -183,22 +183,20 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
 
   List<SlotInfo> slotInfosFor({
     List<MedicationIntake> takenIntakesToday = const [],
-  }) {
-    return [
-      for (final time in intakeTimes) _slotInfoForTime(time, takenIntakesToday),
-    ];
-  }
-
-  SlotInfo _slotInfoForTime(
-      TimeOfDay time, List<MedicationIntake> takenIntakesToday) {
-    final match =
-        takenIntakesToday.firstWhereOrNull((i) => i.scheduledTime == time);
-    return SlotInfo(
-      status: match != null ? ScheduleStatus.taken : ScheduleStatus.today,
-      time: time,
-      intake: match,
-    );
-  }
+  }) =>
+      [
+        for (final time in intakeTimes)
+          () {
+            final match = takenIntakesToday
+                .firstWhereOrNull((i) => i.scheduledTime == time);
+            return SlotInfo(
+              status:
+                  match != null ? ScheduleStatus.taken : ScheduleStatus.today,
+              time: time,
+              intake: match,
+            );
+          }()
+      ];
 
   static String? validateIntakeTimes(
           AppLocalizations l10n, List<TimeOfDay> value) =>
