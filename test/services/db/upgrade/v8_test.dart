@@ -178,6 +178,7 @@ void main() {
 
     Future<int> insertIntake() async {
       return db.insert('medication_intakes', {
+        'scheduledDateTime': '2025-09-01T10:00:00.000Z',
         'takenDateTime': '2025-09-01T10:00:00.000Z',
         'takenTimeZone': 'Etc/UTC',
         'dose': '1',
