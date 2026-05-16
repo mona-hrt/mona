@@ -19,13 +19,13 @@ class MedicationIntakeManager {
 
   Future<void> takeMedication({
     required Decimal dose,
+    TimeOfDay? scheduledTime,
     required DateTime takenDateTime,
     SupplyItem? supplyItem,
     required MedicationSchedule schedule,
     InjectionSide? side,
     Decimal? deadSpace, //in μL
     String? notes,
-    TimeOfDay? scheduledTime,
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -36,6 +36,7 @@ class MedicationIntakeManager {
 
     await _medicationIntakeProvider.add(MedicationIntake(
       dose: dose,
+      scheduledTime: scheduledTime,
       takenDateTime: takenDateTime,
       takenTimeZone: tzName,
       side: side,
@@ -45,7 +46,6 @@ class MedicationIntakeManager {
       ester: schedule.ester,
       supplyItemId: supplyItem?.id,
       notes: notes,
-      scheduledTime: scheduledTime,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
