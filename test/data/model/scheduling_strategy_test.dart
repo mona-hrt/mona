@@ -257,92 +257,6 @@ void main() {
       });
     });
 
-    group('IntervalDaysSchedule.isScheduledForToday', () {
-      test('returns true when today is a scheduled date', () {
-        final s = IntervalDaysSchedule(intervalDays: 7);
-
-        expect(s.isScheduledForToday(Date.today()), isTrue);
-      });
-
-      test('returns false when next scheduled date is in future', () {
-        final s = IntervalDaysSchedule(intervalDays: 7);
-
-        expect(s.isScheduledForToday(Date.today().add(Duration(days: 3))),
-            isFalse);
-      });
-
-      test('returns false when next scheduled date is in past', () {
-        final s = IntervalDaysSchedule(intervalDays: 7);
-
-        expect(s.isScheduledForToday(Date.today().subtract(Duration(days: 3))),
-            isFalse);
-      });
-    });
-
-    group('IntervalDaysSchedule.isLate', () {
-      final s = IntervalDaysSchedule(intervalDays: 7);
-      final start = Date.today().subtract(Duration(days: 14));
-
-      test('returns true when lastTaken is before previousDate', () {
-        final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
-        expect(s.isLate(start, lastTaken), isTrue);
-      });
-
-      test('returns false when lastTaken is on previousDate', () {
-        expect(s.isLate(start, s.previousDate(start)!), isFalse);
-      });
-
-      test('returns false when lastTaken is after previousDate', () {
-        final lastTaken = s.previousDate(start)!.add(Duration(days: 1));
-        expect(s.isLate(start, lastTaken), isFalse);
-      });
-
-      test('returns true when lastTaken is null but schedule is overdue', () {
-        expect(s.isLate(start, null), isTrue);
-      });
-
-      test('returns false when lastTaken is null but startDate is today', () {
-        expect(s.isLate(Date.today(), null), isFalse);
-      });
-
-      test('returns false when lastTaken is null but startDate is future', () {
-        expect(s.isLate(Date.today().add(Duration(days: 3)), null), isFalse);
-      });
-    });
-
-    group('IntervalDaysSchedule.lastTakenLate', () {
-      final s = IntervalDaysSchedule(intervalDays: 7);
-      final start = Date.today().subtract(Duration(days: 14));
-
-      test('returns false when lastTaken is null', () {
-        expect(s.lastTakenLate(start, null), isFalse);
-      });
-
-      test('returns false when previousDate is null (startDate today)', () {
-        expect(s.lastTakenLate(Date.today(), Date.today()), isFalse);
-      });
-
-      test('returns false when previousDate is null (startDate in future)', () {
-        expect(
-            s.lastTakenLate(Date.today().add(Duration(days: 3)), Date.today()),
-            isFalse);
-      });
-
-      test('returns false when lastTaken is before previousDate', () {
-        final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
-        expect(s.lastTakenLate(start, lastTaken), isFalse);
-      });
-
-      test('returns false when lastTaken equals previousDate', () {
-        expect(s.lastTakenLate(start, s.previousDate(start)), isFalse);
-      });
-
-      test('returns true when lastTaken is after previousDate', () {
-        final lastTaken = s.previousDate(start)!.add(Duration(days: 1));
-        expect(s.lastTakenLate(start, lastTaken), isTrue);
-      });
-    });
-
     group('IntervalDaysSchedule.isTakenTodayOrLater', () {
       final s = IntervalDaysSchedule(intervalDays: 7);
 
@@ -430,8 +344,6 @@ void main() {
       test('not scheduled for today, last intake is overdue -> overdue', () {
         final s = IntervalDaysSchedule(intervalDays: 7);
         final start = Date.today().subtract(Duration(days: 10));
-        expect(s.isScheduledForToday(start), isFalse);
-
         final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
         expect(s.statusFor(start, lastTaken), ScheduleStatus.overdue);
       });
@@ -439,8 +351,6 @@ void main() {
       test('not scheduled for today, never taken and overdue -> overdue', () {
         final s = IntervalDaysSchedule(intervalDays: 7);
         final start = Date.today().subtract(Duration(days: 10));
-        expect(s.isScheduledForToday(start), isFalse);
-
         expect(s.statusFor(start, null), ScheduleStatus.overdue);
       });
 

@@ -97,11 +97,11 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return dates;
   }
 
-  bool isScheduledForToday(Date startDate) {
+  bool _isScheduledForToday(Date startDate) {
     return nextDate(startDate).isToday;
   }
 
-  bool isLate(Date startDate, Date? lastTakenDate) {
+  bool _isLate(Date startDate, Date? lastTakenDate) {
     final prev = previousDate(startDate);
     if (prev == null) {
       return false;
@@ -110,7 +110,7 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return lastTakenDate == null || lastTakenDate.isBefore(prev);
   }
 
-  bool lastTakenLate(Date startDate, Date? lastTakenDate) {
+  bool _lastTakenLate(Date startDate, Date? lastTakenDate) {
     final prev = previousDate(startDate);
     if (lastTakenDate == null || prev == null) {
       return false;
@@ -125,16 +125,16 @@ class IntervalDaysSchedule extends SchedulingStrategy
   }
 
   ScheduleStatus statusFor(Date date, Date? lastTaken) {
-    if (isScheduledForToday(date)) {
+    if (_isScheduledForToday(date)) {
       if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
-      if (isLate(date, lastTaken)) return ScheduleStatus.todayOverdue;
-      if (lastTakenLate(date, lastTaken)) {
+      if (_isLate(date, lastTaken)) return ScheduleStatus.todayOverdue;
+      if (_lastTakenLate(date, lastTaken)) {
         return ScheduleStatus.todayEarly;
       }
       return ScheduleStatus.today;
     }
 
-    if (isLate(date, lastTaken)) return ScheduleStatus.overdue;
+    if (_isLate(date, lastTaken)) return ScheduleStatus.overdue;
 
     return ScheduleStatus.upcoming;
   }
