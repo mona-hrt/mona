@@ -9,7 +9,7 @@ import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 
 class NotificationScheduler {
-  static const int _nomberOfDays = 5;
+  static const int _numberOfDays = 5;
 
   final MedicationScheduleProvider medicationScheduleProvider;
   final MedicationIntakeProvider medicationIntakeProvider;
@@ -21,8 +21,8 @@ class NotificationScheduler {
     this.preferencesService,
   );
 
-  Map<DateTime, MedicationSchedule> _getNotificationTimes() {
-    final Map<DateTime, MedicationSchedule> notificationsToSchedule = {};
+  List<_ScheduledNotification> _getNotificationTimes() {
+    final notificationsToSchedule = <_ScheduledNotification>[];
     final now = DateTime.now();
 
     for (final schedule in medicationScheduleProvider.schedules) {
@@ -43,7 +43,7 @@ class NotificationScheduler {
     MedicationSchedule schedule,
     IntervalDaysSchedule scheduling,
     DateTime now,
-    Map<DateTime, MedicationSchedule> out,
+    List<_ScheduledNotification> out,
   ) {
     final time = scheduling.notificationTime;
     if (time == null) return;
@@ -51,7 +51,7 @@ class NotificationScheduler {
     final lastTaken =
         medicationIntakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
     final nextDates =
-        scheduling.getNextDates(schedule.startDate, _nomberOfDays);
+        scheduling.getNextDates(schedule.startDate, _numberOfDays);
 
     for (final date in nextDates) {
       final dateTime = DateTime(
@@ -67,7 +67,7 @@ class NotificationScheduler {
         continue;
       }
 
-      out[dateTime] = schedule;
+      out.add((dateTime: dateTime, schedule: schedule));
     }
   }
 
@@ -75,7 +75,7 @@ class NotificationScheduler {
     MedicationSchedule schedule,
     DailySchedule scheduling,
     DateTime now,
-    Map<DateTime, MedicationSchedule> out,
+    List<_ScheduledNotification> out,
   ) {
     if (!scheduling.notify) return;
 
@@ -83,7 +83,7 @@ class NotificationScheduler {
     final takenToday = medicationIntakeProvider.getTakenIntakesForScheduleOn(
         schedule.id, today);
 
-    for (int i = 0; i < _nomberOfDays; i++) {
+    for (int i = 0; i < _numberOfDays; i++) {
       final date = today.add(Duration(days: i));
       final isToday = date.isToday;
 
@@ -102,14 +102,14 @@ class NotificationScheduler {
           continue;
         }
 
-        out[dateTime] = schedule;
+        out.add((dateTime: dateTime, schedule: schedule));
       }
     }
   }
 
   Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
-    NotificationService().triggerPastPendingNotifications();
-    NotificationService().cancelPendingNotifications();
+    await NotificationService().triggerPastPendingNotifications();
+    await NotificationService().cancelPendingNotifications();
 
     if (!preferencesService.notificationsEnabled) {
       return;
@@ -120,24 +120,27 @@ class NotificationScheduler {
     final notificationTimes = _getNotificationTimes();
 
     await Future.wait(
-      notificationTimes.entries.map(
-        (entry) {
-          final dateTime = entry.key;
-          final schedule = entry.value;
+      notificationTimes.map((entry) {
+        final dateTime = entry.dateTime;
+        final schedule = entry.schedule;
 
-          return NotificationService().scheduleNotification(
-            title: l10n.notificationMedicationReminderTitle(schedule.name),
-            body: l10n.notificationMedicationReminderBody(
-              scheduledDateTimeFormat.format(dateTime),
-            ),
-            year: dateTime.year,
-            month: dateTime.month,
-            day: dateTime.day,
-            hour: dateTime.hour,
-            minute: dateTime.minute,
-          );
-        },
-      ),
+        return NotificationService().scheduleNotification(
+          title: l10n.notificationMedicationReminderTitle(schedule.name),
+          body: l10n.notificationMedicationReminderBody(
+            scheduledDateTimeFormat.format(dateTime),
+          ),
+          year: dateTime.year,
+          month: dateTime.month,
+          day: dateTime.day,
+          hour: dateTime.hour,
+          minute: dateTime.minute,
+        );
+      }),
     );
   }
 }
+
+typedef _ScheduledNotification = ({
+  DateTime dateTime,
+  MedicationSchedule schedule,
+});

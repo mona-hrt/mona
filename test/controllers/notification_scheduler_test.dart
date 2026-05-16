@@ -592,6 +592,106 @@ void main() {
       });
 
       test(
+          'Two schedules at the exact same time both get a notification (no collision)',
+          () async {
+        // Arrange
+        final origPlatformCheck = NotificationService.isPlatformSupported;
+        final origCreate = NotificationService.createPlugin;
+        NotificationService.isPlatformSupported = () => true;
+        NotificationService.createPlugin = () => mockPlugin;
+
+        const scheduleIdA = 2001;
+        const scheduleIdB = 2002;
+        final sharedTime = TimeOfDay.fromDateTime(
+            DateTime.now().add(const Duration(minutes: 1)));
+
+        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
+        when(mockMedicationScheduleProvider.schedules).thenReturn([
+          MedicationSchedule(
+            id: scheduleIdA,
+            name: 'Med A',
+            dose: Decimal.fromInt(10),
+            scheduling: IntervalDaysSchedule(
+              intervalDays: 1,
+              notificationTime: sharedTime,
+            ),
+            molecule: KnownMolecules.estradiol,
+            administrationRoute: AdministrationRoute.oral,
+          ),
+          MedicationSchedule(
+            id: scheduleIdB,
+            name: 'Med B',
+            dose: Decimal.fromInt(10),
+            scheduling: IntervalDaysSchedule(
+              intervalDays: 1,
+              notificationTime: sharedTime,
+            ),
+            molecule: KnownMolecules.estradiol,
+            administrationRoute: AdministrationRoute.oral,
+          ),
+        ]);
+        when(mockMedicationIntakeProvider
+                .getLastIntakeLocalDateForSchedule(scheduleIdA))
+            .thenReturn(null);
+        when(mockMedicationIntakeProvider
+                .getLastIntakeLocalDateForSchedule(scheduleIdB))
+            .thenReturn(null);
+        when(mockPlugin.zonedSchedule(
+                id: anyNamed('id'),
+                title: anyNamed('title'),
+                body: anyNamed('body'),
+                scheduledDate: anyNamed('scheduledDate'),
+                notificationDetails: anyNamed('notificationDetails'),
+                androidScheduleMode: anyNamed('androidScheduleMode'),
+                payload: anyNamed('payload')))
+            .thenAnswer((_) async {});
+
+        final scheduler = NotificationScheduler(
+          mockMedicationScheduleProvider,
+          mockMedicationIntakeProvider,
+          mockPreferencesService,
+        );
+
+        // Act
+        await scheduler.regenerateAll(l10n, l10n.localeName);
+
+        // Assert
+        final checkNow = DateTime.now();
+        int perSchedule = 0;
+        final dates =
+            List.generate(5, (i) => Date.today().add(Duration(days: i)));
+        for (final date in dates) {
+          final dateTime = DateTime(date.year, date.month, date.day,
+              sharedTime.hour, sharedTime.minute);
+          if (!checkNow.isAfter(dateTime)) {
+            perSchedule++;
+          }
+        }
+        verify(mockPlugin.zonedSchedule(
+          id: anyNamed('id'),
+          title: l10n.notificationMedicationReminderTitle('Med A'),
+          body: anyNamed('body'),
+          scheduledDate: anyNamed('scheduledDate'),
+          notificationDetails: anyNamed('notificationDetails'),
+          androidScheduleMode: anyNamed('androidScheduleMode'),
+          payload: anyNamed('payload'),
+        )).called(perSchedule);
+        verify(mockPlugin.zonedSchedule(
+          id: anyNamed('id'),
+          title: l10n.notificationMedicationReminderTitle('Med B'),
+          body: anyNamed('body'),
+          scheduledDate: anyNamed('scheduledDate'),
+          notificationDetails: anyNamed('notificationDetails'),
+          androidScheduleMode: anyNamed('androidScheduleMode'),
+          payload: anyNamed('payload'),
+        )).called(perSchedule);
+
+        // Cleanup
+        NotificationService.createPlugin = origCreate;
+        NotificationService.isPlatformSupported = origPlatformCheck;
+      });
+
+      test(
           'Skips future notification times today when intake already taken today',
           () async {
         // Arrange
