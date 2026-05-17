@@ -15,6 +15,7 @@ class PreferencesService extends ChangeNotifier {
   static const _syncPasswordKey = 'sync_password';
   static const _syncTokenKey = 'sync_token';
   static const _lastSyncTimeKey = 'last_sync_time';
+  static const _allowInsecureSyncKey = 'allow_insecure_sync';
 
   static const bool defaultNotificationsEnabled = false;
 
@@ -61,11 +62,18 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get allowInsecureSync => _prefs.getBool(_allowInsecureSyncKey) ?? false;
+  Future<void> setAllowInsecureSync(bool value) async {
+    await _prefs.setBool(_allowInsecureSyncKey, value);
+    notifyListeners();
+  }
+
   Future<void> clearSyncSettings() async {
     await _prefs.remove(_syncUrlKey);
     await _prefs.remove(_syncPasswordKey);
     await _prefs.remove(_syncTokenKey);
     await _prefs.remove(_lastSyncTimeKey);
+    await _prefs.remove(_allowInsecureSyncKey);
     notifyListeners();
   }
 

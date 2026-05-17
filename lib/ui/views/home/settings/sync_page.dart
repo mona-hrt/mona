@@ -93,6 +93,16 @@ class _SyncPageState extends State<SyncPage> {
             obscureText: true,
             enabled: !isSyncing,
           ),
+          const SizedBox(height: 16),
+          SwitchListTile(
+            title: Text(l10n.syncAllowInsecure),
+            subtitle: Text(l10n.syncAllowInsecureDescription),
+            value: prefs.allowInsecureSync,
+            onChanged: isSyncing
+                ? null
+                : (value) => prefs.setAllowInsecureSync(value),
+            contentPadding: EdgeInsets.zero,
+          ),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: isSyncing ? null : _saveAndSync,
@@ -181,4 +191,7 @@ extension on AppLocalizations {
   String get syncPurgeConfirm =>
       'Are you sure you want to disconnect and clear all synchronization settings? This will not delete your local data.';
   String get syncPurged => 'Sync settings cleared';
+  String get syncAllowInsecure => 'Allow insecure connections';
+  String get syncAllowInsecureDescription =>
+      'Allow connecting to servers with self-signed or invalid certificates. Warning: this reduces security.';
 }

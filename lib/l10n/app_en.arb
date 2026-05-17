@@ -99,6 +99,8 @@
   "syncPurge": "Disconnect and Clear Sync",
   "syncPurgeConfirm": "Are you sure you want to disconnect and clear all synchronization settings? This will not delete your local data.",
   "syncPurged": "Sync settings cleared",
+  "syncAllowInsecure": "Allow insecure connections",
+  "syncAllowInsecureDescription": "Allow connecting to servers with self-signed or invalid certificates. Warning: this reduces security.",
 
   "updateNoCompatibleApk": "No compatible update found for your device.",
   "updateAppUpToDate": "Your app is up to date!",

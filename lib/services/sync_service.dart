@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:sqflite/sqflite.dart';
@@ -60,6 +62,15 @@ class SyncService extends ChangeNotifier {
 
   bool get isSyncing => _isSyncing;
 
+  http.Client get _httpClient {
+    if (_prefs.allowInsecureSync) {
+      final inner = HttpClient()
+        ..badCertificateCallback = (cert, host, port) => true;
+      return IOClient(inner);
+    }
+    return http.Client();
+  }
+
   bool get isConfigured =>
       _prefs.syncUrl != null && _prefs.syncPassword != null;
 
@@ -71,8 +82,9 @@ class SyncService extends ChangeNotifier {
 
     if (url == null || password == null) return false;
 
+    final client = _httpClient;
     try {
-      final response = await http.post(
+      final response = await client.post(
         Uri.parse('$url/api/auth/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'password': password}),
@@ -85,6 +97,8 @@ class SyncService extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('Login failed: $e');
+    } finally {
+      client.close();
     }
     return false;
   }
@@ -127,10 +141,11 @@ class SyncService extends ChangeNotifier {
 
   Future<void> _syncCollection(String collection, int lastSync) async {
     final url = _prefs.syncUrl!;
+    final client = _httpClient;
 
     // 1. Pull changes
     try {
-      final response = await http.get(
+      final response = await client.get(
         Uri.parse('$url/api/sync/$collection?last_sync=$lastSync'),
         headers: {
           'Authorization': 'Bearer $_token',
@@ -180,7 +195,7 @@ class SyncService extends ChangeNotifier {
           );
         }).toList();
 
-        final response = await http.post(
+        final response = await client.post(
           Uri.parse('$url/api/sync/$collection'),
           headers: {
             'Content-Type': 'application/json',
@@ -196,6 +211,8 @@ class SyncService extends ChangeNotifier {
     } catch (e) {
       debugPrint('Push failed for $collection: $e');
       rethrow;
+    } finally {
+      client.close();
     }
   }
 
@@ -229,9 +246,10 @@ class SyncService extends ChangeNotifier {
 
   Future<void> _syncVault() async {
     final url = _prefs.syncUrl!;
+    final client = _httpClient;
     try {
       // 1. Pull vault
-      final response = await http.get(
+      final response = await client.get(
         Uri.parse('$url/api/sync/vault'),
         headers: {
           'Authorization': 'Bearer $_token',
@@ -259,7 +277,7 @@ class SyncService extends ChangeNotifier {
         'notificationsEnabled': _prefs.notificationsEnabled,
       };
 
-      await http.post(
+      await client.post(
         Uri.parse('$url/api/sync/vault'),
         headers: {
           'Content-Type': 'application/json',
@@ -272,6 +290,8 @@ class SyncService extends ChangeNotifier {
       );
     } catch (e) {
       debugPrint('Vault sync failed: $e');
+    } finally {
+      client.close();
     }
   }
 

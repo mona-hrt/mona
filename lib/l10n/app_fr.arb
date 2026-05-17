@@ -99,6 +99,8 @@
   "syncPurge": "Déconnecter et effacer la synchronisation",
   "syncPurgeConfirm": "Êtes-vous sûr de vouloir vous déconnecter et effacer tous les paramètres de synchronisation ? Cela ne supprimera pas vos données locales.",
   "syncPurged": "Paramètres de synchronisation effacés",
+  "syncAllowInsecure": "Autoriser les connexions non sécurisées",
+  "syncAllowInsecureDescription": "Autoriser la connexion à des serveurs avec des certificats auto-signés ou invalides. Attention : cela réduit la sécurité.",
 
   "updateNoCompatibleApk": "Aucune mise à jour compatible avec votre appareil.",
   "updateAppUpToDate": "Votre application est à jour !",
