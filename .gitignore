@@ -52,3 +52,5 @@ android/build/
 
 # Code coverage
 coverage/
+
+sync/
