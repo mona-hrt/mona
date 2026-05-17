@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/sync_service.dart';
 import 'package:provider/provider.dart';
@@ -123,9 +121,8 @@ class _SyncPageState extends State<SyncPage> {
                       ? Icons.visibility
                       : Icons.visibility_off,
                 ),
-                onPressed: () => setState(() =>
-                    _obscureEncryptionPassphrase =
-                        !_obscureEncryptionPassphrase),
+                onPressed: () => setState(() => _obscureEncryptionPassphrase =
+                    !_obscureEncryptionPassphrase),
               ),
             ),
             obscureText: _obscureEncryptionPassphrase,
