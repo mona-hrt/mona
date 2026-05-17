@@ -94,6 +94,8 @@
   "syncDescription": "Sync your data across devices using a Mona Sync server.",
   "syncServerUrl": "Server URL",
   "syncPassword": "API Password",
+  "syncEncryptionPassphrase": "Encryption Passphrase",
+  "syncEncryptionPassphraseDescription": "Used to encrypt your data before it leaves your device. The server never sees this passphrase.",
   "saveAndSync": "Save and Sync",
   "lastSync": "Last synchronized",
   "never": "Never",

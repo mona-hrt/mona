@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:cryptography/cryptography.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
+import 'package:mona/services/crypto_service.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:sqflite/sqflite.dart';
@@ -72,7 +74,9 @@ class SyncService extends ChangeNotifier {
   }
 
   bool get isConfigured =>
-      _prefs.syncUrl != null && _prefs.syncPassword != null;
+      _prefs.syncUrl != null &&
+      _prefs.syncPassword != null &&
+      _prefs.syncEncryptionPassphrase != null;
 
   String? get _token => _prefs.syncToken;
 
@@ -115,6 +119,11 @@ class SyncService extends ChangeNotifier {
         if (!success) throw Exception('Authentication failed');
       }
 
+      final encryptionKey = await CryptoService.deriveKey(
+        _prefs.syncEncryptionPassphrase!,
+        _prefs.syncUrl!,
+      );
+
       final collections = [
         'supply_items',
         'medication_schedules',
@@ -126,10 +135,10 @@ class SyncService extends ChangeNotifier {
       final newSyncTime = DateTime.now().millisecondsSinceEpoch;
 
       for (final collection in collections) {
-        await _syncCollection(collection, lastSync);
+        await _syncCollection(collection, lastSync, encryptionKey);
       }
 
-      await _syncVault();
+      await _syncVault(encryptionKey);
 
       await _prefs.setLastSyncTime(newSyncTime);
       _syncFinishedController.add(null);
@@ -139,7 +148,8 @@ class SyncService extends ChangeNotifier {
     }
   }
 
-  Future<void> _syncCollection(String collection, int lastSync) async {
+  Future<void> _syncCollection(
+      String collection, int lastSync, SecretKey encryptionKey) async {
     final url = _prefs.syncUrl!;
     final client = _httpClient;
 
@@ -154,12 +164,29 @@ class SyncService extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final List<dynamic> remoteItemsJson = jsonDecode(response.body);
-        final remoteItems =
-            remoteItemsJson.map((j) => SyncItem.fromJson(j)).toList();
-        await _applyRemoteChanges(collection, remoteItems);
+        final remoteItems = remoteItemsJson.map((j) {
+          final item = SyncItem.fromJson(j);
+          return item;
+        }).toList();
+
+        // Decrypt remote items
+        final decryptedItems = <SyncItem>[];
+        for (final item in remoteItems) {
+          final decryptedPayload =
+              await CryptoService.decrypt(item.payload, encryptionKey);
+          decryptedItems.add(SyncItem(
+            id: item.id,
+            collection: item.collection,
+            payload: decryptedPayload,
+            updatedAt: item.updatedAt,
+            isDeleted: item.isDeleted,
+          ));
+        }
+
+        await _applyRemoteChanges(collection, decryptedItems);
       } else if (response.statusCode == 401) {
         if (await login()) {
-          return _syncCollection(collection, lastSync);
+          return _syncCollection(collection, lastSync, encryptionKey);
         }
         throw Exception('Unauthorized');
       } else {
@@ -180,20 +207,25 @@ class SyncService extends ChangeNotifier {
       );
 
       if (localChanges.isNotEmpty) {
-        final itemsToPush = localChanges.map((row) {
+        final itemsToPush = <SyncItem>[];
+        for (final row in localChanges) {
           final Map<String, dynamic> payloadMap = Map.from(row);
           final id = payloadMap.remove('id') as String;
           final updatedAt = payloadMap.remove('updatedAt') as int;
           final isDeleted = (payloadMap.remove('isDeleted') as int) == 1;
 
-          return SyncItem(
+          final plaintextPayload = jsonEncode(payloadMap);
+          final encryptedPayload =
+              await CryptoService.encrypt(plaintextPayload, encryptionKey);
+
+          itemsToPush.add(SyncItem(
             id: id,
             collection: collection,
-            payload: jsonEncode(payloadMap),
+            payload: encryptedPayload,
             updatedAt: updatedAt,
             isDeleted: isDeleted,
-          );
-        }).toList();
+          ));
+        }
 
         final response = await client.post(
           Uri.parse('$url/api/sync/$collection'),
@@ -244,7 +276,7 @@ class SyncService extends ChangeNotifier {
     });
   }
 
-  Future<void> _syncVault() async {
+  Future<void> _syncVault(SecretKey encryptionKey) async {
     final url = _prefs.syncUrl!;
     final client = _httpClient;
     try {
@@ -261,7 +293,9 @@ class SyncService extends ChangeNotifier {
         if (data != null) {
           final remoteUpdatedAt = data['updatedAt'] as int;
           if (remoteUpdatedAt > _prefs.lastSyncTime) {
-            final vaultData = jsonDecode(data['payload']);
+            final decryptedPayload = await CryptoService.decrypt(
+                data['payload'] as String, encryptionKey);
+            final vaultData = jsonDecode(decryptedPayload);
             // Apply vault data to preferences (carefully)
             // This is simplified. Ideally we'd have a more robust way to sync preferences.
             if (vaultData['units'] != null) {
@@ -277,6 +311,10 @@ class SyncService extends ChangeNotifier {
         'notificationsEnabled': _prefs.notificationsEnabled,
       };
 
+      final plaintextVault = jsonEncode(vaultData);
+      final encryptedVault =
+          await CryptoService.encrypt(plaintextVault, encryptionKey);
+
       await client.post(
         Uri.parse('$url/api/sync/vault'),
         headers: {
@@ -284,7 +322,7 @@ class SyncService extends ChangeNotifier {
           'Authorization': 'Bearer $_token',
         },
         body: jsonEncode({
-          'payload': jsonEncode(vaultData),
+          'payload': encryptedVault,
           'updatedAt': DateTime.now().millisecondsSinceEpoch,
         }),
       );

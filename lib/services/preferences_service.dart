@@ -16,6 +16,7 @@ class PreferencesService extends ChangeNotifier {
   static const _syncTokenKey = 'sync_token';
   static const _lastSyncTimeKey = 'last_sync_time';
   static const _allowInsecureSyncKey = 'allow_insecure_sync';
+  static const _syncEncryptionPassphraseKey = 'sync_encryption_passphrase';
 
   static const bool defaultNotificationsEnabled = false;
 
@@ -68,12 +69,24 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
+  String? get syncEncryptionPassphrase =>
+      _prefs.getString(_syncEncryptionPassphraseKey);
+  Future<void> setSyncEncryptionPassphrase(String? passphrase) async {
+    if (passphrase == null) {
+      await _prefs.remove(_syncEncryptionPassphraseKey);
+    } else {
+      await _prefs.setString(_syncEncryptionPassphraseKey, passphrase);
+    }
+    notifyListeners();
+  }
+
   Future<void> clearSyncSettings() async {
     await _prefs.remove(_syncUrlKey);
     await _prefs.remove(_syncPasswordKey);
     await _prefs.remove(_syncTokenKey);
     await _prefs.remove(_lastSyncTimeKey);
     await _prefs.remove(_allowInsecureSyncKey);
+    await _prefs.remove(_syncEncryptionPassphraseKey);
     notifyListeners();
   }
 

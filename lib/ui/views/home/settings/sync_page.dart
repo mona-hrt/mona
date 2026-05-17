@@ -17,6 +17,7 @@ class SyncPage extends StatefulWidget {
 class _SyncPageState extends State<SyncPage> {
   late TextEditingController _urlController;
   late TextEditingController _passwordController;
+  late TextEditingController _encryptionPassphraseController;
 
   @override
   void initState() {
@@ -24,12 +25,15 @@ class _SyncPageState extends State<SyncPage> {
     final prefs = Provider.of<PreferencesService>(context, listen: false);
     _urlController = TextEditingController(text: prefs.syncUrl);
     _passwordController = TextEditingController(text: prefs.syncPassword);
+    _encryptionPassphraseController =
+        TextEditingController(text: prefs.syncEncryptionPassphrase);
   }
 
   @override
   void dispose() {
     _urlController.dispose();
     _passwordController.dispose();
+    _encryptionPassphraseController.dispose();
     super.dispose();
   }
 
@@ -38,6 +42,8 @@ class _SyncPageState extends State<SyncPage> {
     final syncService = Provider.of<SyncService>(context, listen: false);
     await prefs.setSyncUrl(_urlController.text.trim());
     await prefs.setSyncPassword(_passwordController.text.trim());
+    await prefs.setSyncEncryptionPassphrase(
+        _encryptionPassphraseController.text.trim());
     await prefs.setSyncToken(null); // Force re-login
 
     try {
@@ -89,6 +95,17 @@ class _SyncPageState extends State<SyncPage> {
             controller: _passwordController,
             decoration: InputDecoration(
               labelText: l10n.syncPassword,
+            ),
+            obscureText: true,
+            enabled: !isSyncing,
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _encryptionPassphraseController,
+            decoration: InputDecoration(
+              labelText: l10n.syncEncryptionPassphrase,
+              helperText: l10n.syncEncryptionPassphraseDescription,
+              helperMaxLines: 3,
             ),
             obscureText: true,
             enabled: !isSyncing,
@@ -151,6 +168,7 @@ class _SyncPageState extends State<SyncPage> {
                         await prefs.clearSyncSettings();
                         _urlController.clear();
                         _passwordController.clear();
+                        _encryptionPassphraseController.clear();
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(l10n.syncPurged)),
@@ -182,6 +200,9 @@ extension on AppLocalizations {
       'Sync your data across devices using a Mona Sync server.';
   String get syncServerUrl => 'Server URL';
   String get syncPassword => 'API Password';
+  String get syncEncryptionPassphrase => 'Encryption Passphrase';
+  String get syncEncryptionPassphraseDescription =>
+      'Used to encrypt your data before it leaves your device. The server never sees this passphrase.';
   String get saveAndSync => 'Save and Sync';
   String get lastSync => 'Last synchronized';
   String get never => 'Never';
