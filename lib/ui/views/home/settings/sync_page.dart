@@ -186,7 +186,7 @@ class _SyncPageState extends State<SyncPage> {
                         _urlController.clear();
                         _passwordController.clear();
                         _encryptionPassphraseController.clear();
-                        if (mounted) {
+                        if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(l10n.syncPurged)),
                           );
