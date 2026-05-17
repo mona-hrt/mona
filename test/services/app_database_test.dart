@@ -1,10 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
+  const uuid = Uuid();
+  final now = DateTime.now().millisecondsSinceEpoch;
 
   group('AppDatabase', () {
     late AppDatabase dbInstance;
@@ -36,7 +39,9 @@ void main() {
     });
 
     test('can insert and query supply_items', () async {
-      final id = await db.insert('supply_items', {
+      final id = uuid.v4();
+      await db.insert('supply_items', {
+        'id': id,
         'type': 'medication',
         'name': 'Test Item',
         'totalDose': '100',
@@ -44,6 +49,7 @@ void main() {
         'concentration': '10',
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
+        'updatedAt': now,
       });
 
       final item = await db.query(
@@ -65,7 +71,9 @@ void main() {
     });
 
     test('can insert and query medication_intakes', () async {
-      final supplyItemId = await db.insert('supply_items', {
+      final supplyItemId = uuid.v4();
+      await db.insert('supply_items', {
+        'id': supplyItemId,
         'type': 'medication',
         'name': 'Test Item',
         'totalDose': '100',
@@ -73,9 +81,12 @@ void main() {
         'concentration': '200',
         'moleculeJson': '{"name":"progesterone","unit":"mg"}',
         'administrationRouteName': 'oral',
+        'updatedAt': now,
       });
 
-      final id = await db.insert('medication_intakes', {
+      final id = uuid.v4();
+      await db.insert('medication_intakes', {
+        'id': id,
         'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
         'dose': '2.5',
@@ -83,6 +94,7 @@ void main() {
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
         'supplyItemId': supplyItemId,
+        'updatedAt': now,
       });
 
       final allIntakes = await db.query(
@@ -108,10 +120,11 @@ void main() {
     test(
         "inserting a supplyItemId that doesn't exist in medication_intakes does not succeed",
         () async {
-      final supplyItemId = -67;
+      final supplyItemId = uuid.v4();
 
       expect(
           () async => await db.insert('medication_intakes', {
+                'id': uuid.v4(),
                 'scheduledDateTime':
                     DateTime(2025, 9, 14, 10, 30).toIso8601String(),
                 'takenDateTime': null,
@@ -120,6 +133,7 @@ void main() {
                 'moleculeJson': '{"name":"estradiol","unit":"mg"}',
                 'administrationRouteName': 'oral',
                 'supplyItemId': supplyItemId,
+                'updatedAt': now,
               }),
           throwsA(
             predicate((e) =>
@@ -131,7 +145,9 @@ void main() {
     test(
         "deleting a supplyItem sets the field supplyItemId in medication_intakes NULL",
         () async {
-      final supplyItemId = await db.insert('supply_items', {
+      final supplyItemId = uuid.v4();
+      await db.insert('supply_items', {
+        'id': supplyItemId,
         'type': 'medication',
         'name': 'Test Item',
         'totalDose': '100',
@@ -139,9 +155,12 @@ void main() {
         'concentration': '200',
         'moleculeJson': '{"name":"progesterone","unit":"mg"}',
         'administrationRouteName': 'oral',
+        'updatedAt': now,
       });
 
-      final intakeId = await db.insert('medication_intakes', {
+      final intakeId = uuid.v4();
+      await db.insert('medication_intakes', {
+        'id': intakeId,
         'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
         'dose': '2.5',
@@ -149,6 +168,7 @@ void main() {
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
         'supplyItemId': supplyItemId,
+        'updatedAt': now,
       });
 
       await db
@@ -165,7 +185,9 @@ void main() {
     });
 
     test('can insert and query medication_schedules', () async {
-      final id = await db.insert('medication_schedules', {
+      final id = uuid.v4();
+      await db.insert('medication_schedules', {
+        'id': id,
         'name': 'Morning Med',
         'dose': '5',
         'intervalDays': 1,
@@ -173,6 +195,7 @@ void main() {
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
         'notificationTimes': '["12:30", "18:30"]',
+        'updatedAt': now,
       });
 
       final schedule = await db.query(
@@ -194,13 +217,16 @@ void main() {
     });
 
     test('can insert and query blood_tests', () async {
-      final id = await db.insert('blood_tests', {
+      final id = uuid.v4();
+      await db.insert('blood_tests', {
+        'id': id,
         'dateTime': DateTime(2025, 9, 13).toIso8601String(),
         'timeZone': 'Etc/UTC',
         'estradiolLevels': '167.1',
         'estradiolUnit': 'pg/mL',
         'testosteroneLevels': '1.67',
         'testosteroneUnit': 'ng/dL',
+        'updatedAt': now,
       });
 
       final test =
