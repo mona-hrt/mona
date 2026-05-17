@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/sync_service.dart';
-import 'package:mona/services/db/app_database.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
 class SyncPage extends StatefulWidget {
   const SyncPage({super.key});
@@ -18,6 +18,9 @@ class _SyncPageState extends State<SyncPage> {
   late TextEditingController _urlController;
   late TextEditingController _passwordController;
   late TextEditingController _encryptionPassphraseController;
+
+  bool _obscurePassword = true;
+  bool _obscureEncryptionPassphrase = true;
 
   @override
   void initState() {
@@ -96,8 +99,15 @@ class _SyncPageState extends State<SyncPage> {
             decoration: InputDecoration(
               labelText: l10n.syncPassword,
               helperText: l10n.syncPasswordDescription,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () =>
+                    setState(() => _obscurePassword = !_obscurePassword),
+              ),
             ),
-            obscureText: true,
+            obscureText: _obscurePassword,
             enabled: !isSyncing,
           ),
           const SizedBox(height: 8),
@@ -107,8 +117,18 @@ class _SyncPageState extends State<SyncPage> {
               labelText: l10n.syncEncryptionPassphrase,
               helperText: l10n.syncEncryptionPassphraseDescription,
               helperMaxLines: 3,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscureEncryptionPassphrase
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                ),
+                onPressed: () => setState(() =>
+                    _obscureEncryptionPassphrase =
+                        !_obscureEncryptionPassphrase),
+              ),
             ),
-            obscureText: true,
+            obscureText: _obscureEncryptionPassphrase,
             enabled: !isSyncing,
           ),
           const SizedBox(height: 16),
