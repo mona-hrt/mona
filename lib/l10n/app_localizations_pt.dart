@@ -270,7 +270,81 @@ class AppLocalizationsPt extends AppLocalizations {
   String get exportDataSubtitle => 'Salve seus dados num ficheiro JSON';
 
   @override
+  String get purgeDatabaseTitle => 'Purge Local Database';
+
+  @override
+  String get purgeDatabaseSubtitle => 'Delete all local data from this device';
+
+  @override
+  String get purgeDatabaseConfirm =>
+      'Are you sure you want to delete all local data? This action is irreversible and will delete all your intakes, schedules, and supply items.';
+
+  @override
+  String get purgeDatabaseSuccess => 'Local database purged';
+
+  @override
   String get units => 'Unidades';
+
+  @override
+  String get syncTitle => 'Synchronization';
+
+  @override
+  String get syncDescription =>
+      'Sync your data across devices using a Mona Sync server.';
+
+  @override
+  String get syncServerUrl => 'Server URL';
+
+  @override
+  String get syncPassword => 'API Password';
+
+  @override
+  String get syncPasswordDescription =>
+      'Password you set while configuring your sync server. Located in the .env file.';
+
+  @override
+  String get syncEncryptionPassphrase => 'Encryption Passphrase';
+
+  @override
+  String get syncEncryptionPassphraseDescription =>
+      'Used to encrypt your data before it leaves your device. This passphrase cannot be easily changed later. If forgotten, your synchronized data will be permanently inaccessible.';
+
+  @override
+  String get saveAndSync => 'Save and Sync';
+
+  @override
+  String get lastSync => 'Last synchronized';
+
+  @override
+  String get never => 'Never';
+
+  @override
+  String get syncSuccessful => 'Synchronization successful';
+
+  @override
+  String syncFailed(Object error) {
+    return 'Synchronization failed: $error';
+  }
+
+  @override
+  String get notConfigured => 'Not configured';
+
+  @override
+  String get syncPurge => 'Disconnect and Clear Sync';
+
+  @override
+  String get syncPurgeConfirm =>
+      'Are you sure you want to disconnect and clear all synchronization settings? This will not delete your local data.';
+
+  @override
+  String get syncPurged => 'Sync settings cleared';
+
+  @override
+  String get syncAllowInsecure => 'Allow insecure connections';
+
+  @override
+  String get syncAllowInsecureDescription =>
+      'Allow connecting to servers with self-signed or invalid certificates. Warning: this reduces security.';
 
   @override
   String get updateNoCompatibleApk =>

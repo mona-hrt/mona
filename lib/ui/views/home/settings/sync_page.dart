@@ -95,6 +95,7 @@ class _SyncPageState extends State<SyncPage> {
             controller: _passwordController,
             decoration: InputDecoration(
               labelText: l10n.syncPassword,
+              helperText: l10n.syncPasswordDescription,
             ),
             obscureText: true,
             enabled: !isSyncing,
@@ -115,9 +116,8 @@ class _SyncPageState extends State<SyncPage> {
             title: Text(l10n.syncAllowInsecure),
             subtitle: Text(l10n.syncAllowInsecureDescription),
             value: prefs.allowInsecureSync,
-            onChanged: isSyncing
-                ? null
-                : (value) => prefs.setAllowInsecureSync(value),
+            onChanged:
+                isSyncing ? null : (value) => prefs.setAllowInsecureSync(value),
             contentPadding: EdgeInsets.zero,
           ),
           const SizedBox(height: 24),
@@ -189,30 +189,4 @@ class _SyncPageState extends State<SyncPage> {
       ),
     );
   }
-}
-
-// Extension to avoid adding new l10n keys for now if they don't exist,
-// but actually I should add them to .arb files.
-// For the sake of this implementation, I will assume they might need to be added.
-extension on AppLocalizations {
-  String get syncTitle => 'Synchronization';
-  String get syncDescription =>
-      'Sync your data across devices using a Mona Sync server.';
-  String get syncServerUrl => 'Server URL';
-  String get syncPassword => 'API Password';
-  String get syncEncryptionPassphrase => 'Encryption Passphrase';
-  String get syncEncryptionPassphraseDescription =>
-      'Used to encrypt your data before it leaves your device. The server never sees this passphrase.';
-  String get saveAndSync => 'Save and Sync';
-  String get lastSync => 'Last synchronized';
-  String get never => 'Never';
-  String get syncSuccessful => 'Synchronization successful';
-  String syncFailed(Object e) => 'Synchronization failed: $e';
-  String get syncPurge => 'Disconnect and Clear Sync';
-  String get syncPurgeConfirm =>
-      'Are you sure you want to disconnect and clear all synchronization settings? This will not delete your local data.';
-  String get syncPurged => 'Sync settings cleared';
-  String get syncAllowInsecure => 'Allow insecure connections';
-  String get syncAllowInsecureDescription =>
-      'Allow connecting to servers with self-signed or invalid certificates. Warning: this reduces security.';
 }

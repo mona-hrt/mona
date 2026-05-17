@@ -273,7 +273,82 @@ class AppLocalizationsFr extends AppLocalizations {
       'Enregistrer vos données dans un fichier JSON';
 
   @override
+  String get purgeDatabaseTitle => 'Effacer la base de données locale';
+
+  @override
+  String get purgeDatabaseSubtitle =>
+      'Supprimer toutes les données locales de cet appareil';
+
+  @override
+  String get purgeDatabaseConfirm =>
+      'Êtes-vous sûr de vouloir supprimer toutes les données locales ? Cette action est irréversible et supprimera toutes vos prises, plannings et consommables.';
+
+  @override
+  String get purgeDatabaseSuccess => 'Base de données locale effacée';
+
+  @override
   String get units => 'Unités';
+
+  @override
+  String get syncTitle => 'Synchronisation';
+
+  @override
+  String get syncDescription =>
+      'Synchronisez vos données sur plusieurs appareils à l\'aide d\'un serveur Mona Sync.';
+
+  @override
+  String get syncServerUrl => 'URL du serveur';
+
+  @override
+  String get syncPassword => 'Mot de passe API';
+
+  @override
+  String get syncPasswordDescription =>
+      'Le mot de passe que vous avez défini lors de la configuration de votre serveur de synchronisation. Situé dans le fichier .env.';
+
+  @override
+  String get syncEncryptionPassphrase => 'Phrase de passe de chiffrement';
+
+  @override
+  String get syncEncryptionPassphraseDescription =>
+      'Utilisée pour chiffrer vos données avant qu\'elles ne quittent votre appareil. Cette phrase de passe ne pourra pas être changée facilement par la suite. En cas d\'oubli, vos données synchronisées seront définitivement inaccessibles.';
+
+  @override
+  String get saveAndSync => 'Enregistrer et synchroniser';
+
+  @override
+  String get lastSync => 'Dernière synchronisation';
+
+  @override
+  String get never => 'Jamais';
+
+  @override
+  String get syncSuccessful => 'Synchronisation réussie';
+
+  @override
+  String syncFailed(Object error) {
+    return 'Échec de la synchronisation : $error';
+  }
+
+  @override
+  String get notConfigured => 'Non configuré';
+
+  @override
+  String get syncPurge => 'Déconnecter et effacer la synchronisation';
+
+  @override
+  String get syncPurgeConfirm =>
+      'Êtes-vous sûr de vouloir vous déconnecter et effacer tous les paramètres de synchronisation ? Cela ne supprimera pas vos données locales.';
+
+  @override
+  String get syncPurged => 'Paramètres de synchronisation effacés';
+
+  @override
+  String get syncAllowInsecure => 'Autoriser les connexions non sécurisées';
+
+  @override
+  String get syncAllowInsecureDescription =>
+      'Autoriser la connexion à des serveurs avec des certificats auto-signés ou invalides. Attention : cela réduit la sécurité.';
 
   @override
   String get updateNoCompatibleApk =>

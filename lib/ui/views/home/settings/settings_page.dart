@@ -421,13 +421,3 @@ class _SettingsPageState extends State<SettingsPage>
     );
   }
 }
-
-extension on AppLocalizations {
-  String get syncTitle => 'Synchronization';
-  String get notConfigured => 'Not configured';
-  String get purgeDatabaseTitle => 'Purge Local Database';
-  String get purgeDatabaseSubtitle => 'Delete all local data from this device';
-  String get purgeDatabaseConfirm =>
-      'Are you sure you want to delete all local data? This action is irreversible and will delete all your intakes, schedules, and supply items.';
-  String get purgeDatabaseSuccess => 'Local database purged';
-}
