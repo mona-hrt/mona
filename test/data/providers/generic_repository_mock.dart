@@ -31,7 +31,14 @@ class GenericRepositoryMock<T extends dynamic> extends Mock
   }
 
   @override
-  Future<List<T>> getAll() async {
+  Future<List<T>> getAll({bool includeDeleted = false}) async {
     return List.from(_items);
+  }
+
+  @override
+  Future<List<T>> getChangesSince(int timestamp) async {
+    return _items
+        .where((i) => ((i as dynamic).updatedAt ?? 0) > timestamp)
+        .toList();
   }
 }
