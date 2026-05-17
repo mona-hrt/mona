@@ -7,6 +7,7 @@ import 'package:mona/distribution.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/services/backup_service.dart';
+import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/update_service.dart';
@@ -163,6 +164,57 @@ class _SettingsPageState extends State<SettingsPage>
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(l10n.importFailed(e))),
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> _purgeDatabase() async {
+    final l10n = context.l10n;
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.purgeDatabaseTitle),
+        content: Text(l10n.purgeDatabaseConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.error),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      try {
+        await AppDatabase.getInstance().purge();
+        if (mounted) {
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              title: Text(l10n.purgeDatabaseSuccess),
+              content: Text(l10n.importRestartRequired),
+              actions: [
+                TextButton(
+                  onPressed: () => exit(0),
+                  child: Text(l10n.closeApp),
+                ),
+              ],
+            ),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.toString())),
           );
         }
       }
@@ -341,6 +393,15 @@ class _SettingsPageState extends State<SettingsPage>
             trailing: const Icon(Symbols.download),
             onTap: _importData,
           ),
+          ListTile(
+            title: Text(localizations.purgeDatabaseTitle),
+            subtitle: Text(localizations.purgeDatabaseSubtitle),
+            trailing: Icon(
+              Symbols.delete_forever,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            onTap: _purgeDatabase,
+          ),
           const SizedBox(height: 32),
           FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
@@ -364,4 +425,9 @@ class _SettingsPageState extends State<SettingsPage>
 extension on AppLocalizations {
   String get syncTitle => 'Synchronization';
   String get notConfigured => 'Not configured';
+  String get purgeDatabaseTitle => 'Purge Local Database';
+  String get purgeDatabaseSubtitle => 'Delete all local data from this device';
+  String get purgeDatabaseConfirm =>
+      'Are you sure you want to delete all local data? This action is irreversible and will delete all your intakes, schedules, and supply items.';
+  String get purgeDatabaseSuccess => 'Local database purged';
 }

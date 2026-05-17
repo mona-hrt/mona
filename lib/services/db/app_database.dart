@@ -123,6 +123,19 @@ class AppDatabase {
     }
   }
 
+  Future<void> purge() async {
+    await close();
+    final dbPath = await filePath();
+    final file = File(dbPath);
+    if (await file.exists()) {
+      await file.delete();
+    }
+    final bak = File(await backupFilePath());
+    if (await bak.exists()) {
+      await bak.delete();
+    }
+  }
+
   static void reset() {
     _database = null;
     _instance = null;

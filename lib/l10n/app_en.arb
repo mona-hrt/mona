@@ -84,6 +84,10 @@
   "dataManagement": "Data Management",
   "exportDataTitle": "Export Data",
   "exportDataSubtitle": "Save your data to a JSON file",
+  "purgeDatabaseTitle": "Purge Local Database",
+  "purgeDatabaseSubtitle": "Delete all local data from this device",
+  "purgeDatabaseConfirm": "Are you sure you want to delete all local data? This action is irreversible and will delete all your intakes, schedules, and supply items.",
+  "purgeDatabaseSuccess": "Local database purged",
   "units": "Units",
 
   "syncTitle": "Synchronization",

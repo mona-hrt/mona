@@ -84,6 +84,10 @@
   "dataManagement": "Gestion des données",
   "exportDataTitle": "Exporter les données",
   "exportDataSubtitle": "Enregistrer vos données dans un fichier JSON",
+  "purgeDatabaseTitle": "Effacer la base de données locale",
+  "purgeDatabaseSubtitle": "Supprimer toutes les données locales de cet appareil",
+  "purgeDatabaseConfirm": "Êtes-vous sûr de vouloir supprimer toutes les données locales ? Cette action est irréversible et supprimera toutes vos prises, plannings et consommables.",
+  "purgeDatabaseSuccess": "Base de données locale effacée",
   "units": "Unités",
 
   "syncTitle": "Synchronisation",
