@@ -11,6 +11,11 @@ class PreferencesService extends ChangeNotifier {
   static const _languageTagKey = 'language_tag';
   static const _unitsTagKey = "units";
 
+  static const _syncUrlKey = 'sync_url';
+  static const _syncPasswordKey = 'sync_password';
+  static const _syncTokenKey = 'sync_token';
+  static const _lastSyncTimeKey = 'last_sync_time';
+
   static const bool defaultNotificationsEnabled = false;
 
   static const _autoCheckUpdatesKey = 'auto_check_updates';
@@ -19,6 +24,50 @@ class PreferencesService extends ChangeNotifier {
   late final SharedPreferences _prefs;
 
   PreferencesService._(this._prefs);
+
+  String? get syncUrl => _prefs.getString(_syncUrlKey);
+  Future<void> setSyncUrl(String? url) async {
+    if (url == null) {
+      await _prefs.remove(_syncUrlKey);
+    } else {
+      await _prefs.setString(_syncUrlKey, url);
+    }
+    notifyListeners();
+  }
+
+  String? get syncPassword => _prefs.getString(_syncPasswordKey);
+  Future<void> setSyncPassword(String? password) async {
+    if (password == null) {
+      await _prefs.remove(_syncPasswordKey);
+    } else {
+      await _prefs.setString(_syncPasswordKey, password);
+    }
+    notifyListeners();
+  }
+
+  String? get syncToken => _prefs.getString(_syncTokenKey);
+  Future<void> setSyncToken(String? token) async {
+    if (token == null) {
+      await _prefs.remove(_syncTokenKey);
+    } else {
+      await _prefs.setString(_syncTokenKey, token);
+    }
+    notifyListeners();
+  }
+
+  int get lastSyncTime => _prefs.getInt(_lastSyncTimeKey) ?? 0;
+  Future<void> setLastSyncTime(int time) async {
+    await _prefs.setInt(_lastSyncTimeKey, time);
+    notifyListeners();
+  }
+
+  Future<void> clearSyncSettings() async {
+    await _prefs.remove(_syncUrlKey);
+    await _prefs.remove(_syncPasswordKey);
+    await _prefs.remove(_syncTokenKey);
+    await _prefs.remove(_lastSyncTimeKey);
+    notifyListeners();
+  }
 
   bool get autoCheckUpdatesEnabled =>
       _prefs.getBool(_autoCheckUpdatesKey) ?? defaultAutoCheckUpdates;

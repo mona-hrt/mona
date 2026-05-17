@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/services/repository.dart';
+import 'package:mona/services/sync_service.dart';
 
 class MedicationScheduleProvider extends ChangeNotifier {
   List<MedicationSchedule> _schedules = [];
@@ -18,9 +19,11 @@ class MedicationScheduleProvider extends ChangeNotifier {
     }
   }
 
-  MedicationScheduleProvider({Repository<MedicationSchedule>? repository})
+  MedicationScheduleProvider(
+      {Repository<MedicationSchedule>? repository, SyncService? syncService})
       : repository = repository ?? _defaultRepository {
     _init();
+    syncService?.onSyncFinished.listen((_) => fetchSchedules());
   }
 
   Future<void> _init() async {

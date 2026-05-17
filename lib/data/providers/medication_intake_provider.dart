@@ -5,6 +5,7 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/services/repository.dart';
+import 'package:mona/services/sync_service.dart';
 
 class GraphIntake {
   final double dose;
@@ -19,9 +20,11 @@ class MedicationIntakeProvider extends ChangeNotifier {
   bool _isLoading = true;
   final Repository<MedicationIntake> repository;
 
-  MedicationIntakeProvider({Repository<MedicationIntake>? repository})
+  MedicationIntakeProvider(
+      {Repository<MedicationIntake>? repository, SyncService? syncService})
       : repository = repository ?? _medicationIntakeRepository {
     _init();
+    syncService?.onSyncFinished.listen((_) => fetchIntakes());
   }
 
   bool get isLoading => _isLoading;

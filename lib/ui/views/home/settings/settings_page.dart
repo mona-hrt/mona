@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/distribution.dart';
+import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/services/backup_service.dart';
 import 'package:mona/services/notification_service.dart';
@@ -12,6 +13,7 @@ import 'package:mona/services/update_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
+import 'package:mona/ui/views/home/settings/sync_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -296,6 +298,28 @@ class _SettingsPageState extends State<SettingsPage>
           ],
           const Divider(),
           //
+          // ==== Synchronization ====
+          //
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: borderPadding, vertical: 8.0),
+            child: Text(
+              localizations.syncTitle,
+            ),
+          ),
+          ListTile(
+            title: Text(localizations.syncTitle),
+            subtitle:
+                Text(preferencesService.syncUrl ?? localizations.notConfigured),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (context) => const SyncPage()),
+              );
+            },
+          ),
+          const Divider(),
+          //
           // ==== Data management ====
           //
           Padding(
@@ -335,4 +359,9 @@ class _SettingsPageState extends State<SettingsPage>
       ),
     );
   }
+}
+
+extension on AppLocalizations {
+  String get syncTitle => 'Synchronization';
+  String get notConfigured => 'Not configured';
 }
