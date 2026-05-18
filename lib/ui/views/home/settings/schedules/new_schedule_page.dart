@@ -193,7 +193,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
         FormSpacer(),
         FormTextField(
           controller: _doseController,
-          label: localizations.amount,
+          label: localizations.takenAmount,
           suffixText: _molecule?.unit,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),

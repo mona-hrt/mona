@@ -209,7 +209,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
         FormSpacer(),
         FormTextField(
           controller: _doseController,
-          label: localizations.amount,
+          label: localizations.takenAmount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _molecule.unit,
