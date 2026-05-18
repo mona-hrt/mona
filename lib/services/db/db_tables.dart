@@ -36,7 +36,7 @@ const String createMedicationSchedulesTable = '''
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       dose TEXT NOT NULL,
-      intervalDays INTEGER NOT NULL,
+      daysOfWeek TEXT NOT NULL,
       startDate TEXT NOT NULL,
       moleculeJson TEXT NOT NULL,
       administrationRouteName TEXT NOT NULL,
