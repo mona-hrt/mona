@@ -87,6 +87,24 @@ const String _supplyItemsV6 = '''
     )
     ''';
 
+const String _medicationIntakesV7 = '''
+    CREATE TABLE medication_intakes(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      scheduledDateTime TEXT NOT NULL,
+      takenDateTime TEXT,
+      takenTimeZone TEXT,
+      dose TEXT NOT NULL,
+      scheduleId INTEGER,
+      side TEXT,
+      moleculeJson TEXT NOT NULL,
+      administrationRouteName TEXT NOT NULL,
+      esterName TEXT,
+      supplyItemId INTEGER,
+      notes TEXT,
+      FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
+    )
+    '''; // TODO use foreign key for scheduleId
+
 const Map<int, List<String>> _historicalSchemas = {
   4: [
     _supplyItemsV4,
@@ -107,6 +125,12 @@ const Map<int, List<String>> _historicalSchemas = {
     _bloodTestsV4,
   ],
   7: [
+    createSupplyItemsTable,
+    _medicationIntakesV7,
+    createMedicationSchedulesTable,
+    createBloodTestsTable,
+  ],
+  8: [
     createSupplyItemsTable,
     createMedicationIntakesTable,
     createMedicationSchedulesTable,
