@@ -348,6 +348,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get amount => 'Quantidade';
 
   @override
+  String get takenAmount => 'Taken amount';
+
+  @override
+  String get wastedAmount => 'Wasted amount';
+
+  @override
   String get none => 'Nenhum';
 
   @override
@@ -375,6 +381,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get microliters => 'μL';
+
+  @override
+  String get milliliters => 'ml';
 
   @override
   String get empty_levels => 'As injeções de estradiol aparecerão nesta aba';

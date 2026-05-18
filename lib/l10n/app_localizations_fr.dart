@@ -351,6 +351,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amount => 'Quantité';
 
   @override
+  String get takenAmount => 'Taken amount';
+
+  @override
+  String get wastedAmount => 'Wasted amount';
+
+  @override
   String get none => 'Aucun';
 
   @override
@@ -378,6 +384,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get microliters => 'μL';
+
+  @override
+  String get milliliters => 'ml';
 
   @override
   String get empty_levels =>

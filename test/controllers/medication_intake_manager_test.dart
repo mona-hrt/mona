@@ -149,7 +149,7 @@ void main() {
 
         test('propagates dose to the intake', () {
           // Assert
-          expect(addedIntake.dose, dose);
+          expect(addedIntake.takenDose, dose);
         });
 
         test('propagates scheduledDateTime to the intake', () {
@@ -362,7 +362,7 @@ void main() {
           test('records the original dose (without deadSpace) on the intake',
               () {
             // Assert
-            expect(addedIntake.dose, dose);
+            expect(addedIntake.takenDose, dose);
           });
         });
 
@@ -553,7 +553,7 @@ void main() {
         final firstIntake = MedicationIntake(
           id: 1,
           scheduledDateTime: DateTime(2025, 9, 14, 10, 30),
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           takenTimeZone: 'Etc/UTC',
           scheduleId: 42,
@@ -576,7 +576,7 @@ void main() {
         final lastIntake = MedicationIntake(
           id: 2,
           scheduledDateTime: DateTime(2025, 9, 15, 10, 30),
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 15, 12, 0),
           takenTimeZone: 'Etc/UTC',
           scheduleId: 42,
@@ -605,7 +605,7 @@ void main() {
         final intake = MedicationIntake(
           id: 3,
           scheduledDateTime: DateTime(2025, 9, 16, 10, 30),
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 16, 12, 0),
           takenTimeZone: 'Etc/UTC',
           scheduleId: 42,
@@ -681,7 +681,7 @@ MedicationIntake _buildIntake({
   return MedicationIntake(
     id: id,
     scheduledDateTime: DateTime(2025, 9, 14, 10, 30),
-    dose: dose ?? Decimal.parse('2'),
+    takenDose: dose ?? Decimal.parse('2'),
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.oral,
     supplyItemId: supplyItemId,

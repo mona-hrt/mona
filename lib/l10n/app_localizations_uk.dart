@@ -349,6 +349,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get amount => 'Кількість';
 
   @override
+  String get takenAmount => 'Taken amount';
+
+  @override
+  String get wastedAmount => 'Wasted amount';
+
+  @override
   String get none => 'Відсутнє';
 
   @override
@@ -376,6 +382,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get microliters => 'μL';
+
+  @override
+  String get milliliters => 'ml';
 
   @override
   String get empty_levels => 'Ін\'єкції відображатимуться тут';
