@@ -55,14 +55,15 @@ class MedicationSchedule {
   /// - If today falls exactly on a scheduled injection date, returns today.
   /// - Otherwise, returns the next scheduled date after today.
   Date get nextDate {
-    if (!startDate.isBeforeToday) return startDate;
-    if (daysOfWeek.isEmpty) return Date.today(); // Fallback
+    if (daysOfWeek.isEmpty) return startDate;
 
-    DateTime current = DateTime.now();
+    DateTime current =
+        startDate.isAfterToday ? startDate.toDateTime() : DateTime.now();
+
     while (!daysOfWeek.contains(current.weekday)) {
       current = current.add(const Duration(days: 1));
     }
-    return Date(current);
+    return Date.fromDateTime(current);
   }
 
   /// Returns the last scheduled injection date relative to [referenceDate] (or today if null).
@@ -78,7 +79,7 @@ class MedicationSchedule {
       current = current.subtract(const Duration(days: 1));
     }
 
-    final prevDate = Date(current);
+    final prevDate = Date.fromDateTime(current);
     return prevDate.isBefore(startDate) ? null : prevDate;
   }
 
@@ -90,7 +91,7 @@ class MedicationSchedule {
 
     while (dates.length < count) {
       if (daysOfWeek.contains(current.weekday)) {
-        dates.add(Date(current));
+        dates.add(Date.fromDateTime(current));
       }
       current = current.add(const Duration(days: 1));
     }
