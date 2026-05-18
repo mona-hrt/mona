@@ -87,7 +87,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
   Map<int, GraphIntake> getDaysAndIntakes() {
     if (graphIntakes.isEmpty) return {};
 
-    final startDate = getFirstIntakeLocalDate()!;
+    final startDate = getFirstGraphIntakeLocalDate()!;
     return Map.fromEntries(
       graphIntakes.map(
         (intake) => MapEntry(
@@ -98,15 +98,15 @@ class MedicationIntakeProvider extends ChangeNotifier {
     );
   }
 
-  Date? getFirstIntakeLocalDate() {
-    if (takenIntakes.isEmpty) return null;
+  Date? getFirstGraphIntakeLocalDate() {
+    if (graphIntakes.isEmpty) return null;
 
-    return takenIntakes
+    return graphIntakes
         .reduce((a, b) => a.takenDateTime!.isBefore(b.takenDateTime!) ? a : b)
         .takenLocalDate;
   }
 
-  Date? getLastIntakeDateFromList(List<MedicationIntake> intakes) {
+  Date? getLastIntakeLocalDateFromList(List<MedicationIntake> intakes) {
     if (intakes.isEmpty) return null;
 
     return intakes
@@ -114,13 +114,13 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .takenLocalDate;
   }
 
-  Date? getLastIntakeDate() {
-    return getLastIntakeDateFromList(takenIntakes);
+  Date? getLastGraphIntakeDate() {
+    return getLastIntakeLocalDateFromList(graphIntakes);
   }
 
-  Date? getLastIntakeDateForSchedule(int scheduleId) {
+  Date? getLastIntakeLocalDateForSchedule(int scheduleId) {
     final scheduleIntakes = getTakenIntakesForSchedule(scheduleId);
-    return getLastIntakeDateFromList(scheduleIntakes);
+    return getLastIntakeLocalDateFromList(scheduleIntakes);
   }
 
   MedicationIntake? getLastTakenIntake() {
@@ -132,6 +132,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
   static final _medicationIntakeRepository = Repository<MedicationIntake>(
     tableName: 'medication_intakes',
     toMap: (MedicationIntake intake) => intake.toMap(),
-    fromMap: (Map<String, Object?> map) => MedicationIntake.fromMap(map),
+    fromMap: (map) =>
+        MedicationIntakeMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 }

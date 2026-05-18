@@ -69,6 +69,7 @@
   "dataManagement": "Data Management",
   "exportDataTitle": "Export Data",
   "exportDataSubtitle": "Save your data to a JSON file",
+  "units": "Units",
 
   "updateNoCompatibleApk": "No compatible update found for your device.",
   "updateAppUpToDate": "Your app is up to date!",
@@ -104,7 +105,7 @@
   "dontShowAgain": "Don't show again",
   "scheduleSettings": "Schedule settings",
 
-  "empty_intakes": "Taken instakes will appear here",
+  "empty_intakes": "Taken intakes will appear here",
   "chooseSchedule": "Choose a schedule",
   "addSchedulesFirst": "Add schedules first.",
   "editIntake": "Edit intake",
@@ -117,6 +118,7 @@
   "takeMedication": "Take {scheduleName}",
   "takeIntake": "Take intake",
   "needleDeadSpace": "Needle dead space",
+  "notes": "Notes",
   "microliters": "μL",
 
   "empty_levels": "Estradiol injections will display in this tab",
@@ -197,7 +199,8 @@
   "gel": "Gel",
   "implant": "Implant",
   "suppository": "Suppository",
-  "transdermal": "Transdermal spray",
+  "transdermalSpray": "Transdermal spray",
+  "transdermalDrops": "Transdermal drops",
 
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{pill} other{pills}}",

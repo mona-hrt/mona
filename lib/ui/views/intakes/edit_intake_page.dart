@@ -1,15 +1,17 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_intake.dart';
+import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/l10n/helpers/supply_item_l10n.dart';
-import 'package:mona/ui/views/intakes/intakes_page.dart';
+import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
@@ -38,6 +40,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
   bool _hasInitializedSupplyItem = false;
+  late TextEditingController _notesController;
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(context.l10n, _takenDoseController.text);
@@ -51,25 +54,34 @@ class _EditIntakePageState extends State<EditIntakePage> {
       MedicationIntakeProvider medicationIntakeProvider,
       SupplyItemProvider supplyItemProvider,
       MedicationIntake intake,
-      SupplyItem? supplyItem) async {
+      SupplyItem? newItem) async {
     if (!_isFormValid) return;
     if (!mounted) return;
 
-    // TODO create method in manager for this
-    if (supplyItem != null) {
-      Decimal doseDifference = intake.dose - _takenDose;
-      SupplyItemManager(supplyItemProvider)
-          .useDose(supplyItem, -doseDifference);
+    SupplyItem? previousItem =
+        supplyItemProvider.getItemById(intake.supplyItemId);
+    final previousMedication = previousItem as MedicationSupplyItem?;
+    final newMedication = newItem as MedicationSupplyItem?;
+
+    SupplyItemManager(supplyItemProvider).switchDoses(
+        previousMedication, newMedication, intake.dose, _takenDose);
+
+    String? timezoneIdentifier = intake.takenTimeZone;
+    if (_takenDateChanged) {
+      final TimezoneInfo timezone = await FlutterTimezone.getLocalTimezone();
+      timezoneIdentifier = timezone.identifier;
     }
 
-    final timezone =
-        _takenDateChanged ? await FlutterTimezone.getLocalTimezone() : null;
+    final String? notes =
+        _notesController.text.isEmpty ? null : _notesController.text;
 
     MedicationIntake updatedIntake = intake.copyWith(
       takenDateTime: _takenDate.toUtc(),
-      takenTimeZone: timezone?.identifier,
+      takenTimeZone: timezoneIdentifier,
       dose: _takenDose,
       side: _selectedSide,
+      supplyItemId: newItem?.id,
+      notes: notes,
     );
 
     medicationIntakeProvider.updateIntake(updatedIntake);
@@ -82,16 +94,10 @@ class _EditIntakePageState extends State<EditIntakePage> {
     MedicationIntakeProvider medicationIntakeProvider,
     SupplyItemProvider supplyItemProvider,
     MedicationIntake intake,
-    SupplyItem? supplyItem,
   ) async {
     if (!mounted) return;
-
-    // TODO create method in manager for this
-    if (supplyItem != null) {
-      SupplyItemManager(supplyItemProvider).useDose(supplyItem, -intake.dose);
-    }
-
-    medicationIntakeProvider.deleteIntake(intake);
+    MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
+        .deleteIntake(intake);
     Navigator.of(context).pop();
   }
 
@@ -117,6 +123,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
       setState(() {
         _takenDose = dose;
       });
+    } else {
+      setState(() {});
     }
   }
 
@@ -124,6 +132,13 @@ class _EditIntakePageState extends State<EditIntakePage> {
     setState(() {
       _selectedSupplyItem = item;
     });
+  }
+
+  void _refresh() => setState(() {});
+
+  Future<bool?> confirmDeleteIntake(BuildContext context) {
+    return Dialogs.confirmDeleteDialog(
+        context: context, title: context.l10n.deleteIntake);
   }
 
   @override
@@ -134,11 +149,13 @@ class _EditIntakePageState extends State<EditIntakePage> {
     _takenDose = widget.intake.dose;
     _takenDoseController =
         TextEditingController(text: widget.intake.dose.toString());
+    _notesController = TextEditingController(text: widget.intake.notes ?? '');
   }
 
   @override
   void dispose() {
     _takenDoseController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
@@ -157,11 +174,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
         }
 
         if (!isLoading && !_hasInitializedSupplyItem) {
-          _selectedSupplyItem = supplyItemProvider.getMostUsedItemForMedication(
-            widget.intake.molecule,
-            widget.intake.administrationRoute,
-            widget.intake.ester,
-          );
+          _selectedSupplyItem =
+              supplyItemProvider.getItemById(widget.intake.supplyItemId);
           _hasInitializedSupplyItem = true;
         }
 
@@ -172,12 +186,12 @@ class _EditIntakePageState extends State<EditIntakePage> {
         );
 
         final supplyItemDropdownItems = [
-          DropdownMenuItem<SupplyItem?>(
+          DropdownMenuItem<MedicationSupplyItem?>(
             value: null,
             child: Text(localizations.none),
           ),
           ...supplyItemOptions.map(
-            (item) => DropdownMenuItem<SupplyItem?>(
+            (item) => DropdownMenuItem<MedicationSupplyItem?>(
               value: item,
               child: Text(item.name),
             ),
@@ -194,10 +208,10 @@ class _EditIntakePageState extends State<EditIntakePage> {
                   widget.intake, _selectedSupplyItem)
               : () {},
           onDelete: () async {
-            final confirmed = await IntakesPage.confirmDeleteIntake(context);
+            final confirmed = await confirmDeleteIntake(context);
             if (confirmed == false) return;
-            _deleteIntake(medicationIntakeProvider, supplyItemProvider,
-                widget.intake, _selectedSupplyItem);
+            _deleteIntake(
+                medicationIntakeProvider, supplyItemProvider, widget.intake);
           },
           fields: [
             FormDateTimeField(
@@ -210,12 +224,12 @@ class _EditIntakePageState extends State<EditIntakePage> {
               controller: _takenDoseController,
               label: localizations.amount,
               onChanged: _onTakenDoseChanged,
-              inputType: TextInputType.number,
+              inputType: TextInputType.numberWithOptions(decimal: true),
               suffixText: widget.intake.molecule.unit,
               errorText: _takenDoseError,
               regexFormatter: r'[0-9.,]',
             ),
-            if (_selectedSupplyItem case final supplyItem?)
+            if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
                 infoText: supplyItem.localizedSupplyAmount(
                   localizations,
@@ -237,6 +251,14 @@ class _EditIntakePageState extends State<EditIntakePage> {
                 onChanged: _onInjectionSideChanged,
                 label: localizations.injectionSide,
               ),
+            FormSpacer(),
+            FormTextField(
+              controller: _notesController,
+              label: localizations.notes,
+              onChanged: _refresh,
+              inputType: TextInputType.multiline,
+              multiline: true,
+            )
           ],
         );
       },

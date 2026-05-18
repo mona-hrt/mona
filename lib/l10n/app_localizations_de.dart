@@ -80,7 +80,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get scheduleFrequencyDaily => 'Täglich';
 
   @override
-  String scheduleFrequencyEveryNDays(Object days) {
+  String scheduleFrequencyEveryNDays(num days) {
     return 'Alle $days Tage';
   }
 
@@ -109,7 +109,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noSchedules => 'Keine Zeitpläne';
 
   @override
-  String schedulesCreated(Object count) {
+  String schedulesCreated(num count) {
     return '$count erstellt';
   }
 
@@ -215,6 +215,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get exportDataSubtitle => 'Daten in einer JSON-Datei speichern';
 
   @override
+  String get units => 'Einheiten';
+
+  @override
   String get updateNoCompatibleApk =>
       'Keine kompatible Aktualisierung für dein Gerät gefunden.';
 
@@ -288,7 +291,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noNotifications => 'Keine Benachrichtigungen';
 
   @override
-  String notificationsCount(Object count) {
+  String notificationsCount(num count) {
     return '$count Benachrichtigungen';
   }
 
@@ -366,6 +369,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get needleDeadSpace => 'Totraum der Nadel';
 
   @override
+  String get notes => 'Notizen';
+
+  @override
   String get microliters => 'μL';
 
   @override
@@ -438,7 +444,7 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String remaining(Object amount, Object unit) {
+  String remaining(num amount, Object unit) {
     return '$amount $unit verbleibend';
   }
 
@@ -596,7 +602,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get suppository => 'Zäpfchen';
 
   @override
-  String get transdermal => 'Transdermales Spray';
+  String get transdermalSpray => 'Transdermales Spray';
+
+  @override
+  String get transdermalDrops => 'Transdermale Tropfen';
 
   @override
   String administrationRouteUnitMl(num count) {

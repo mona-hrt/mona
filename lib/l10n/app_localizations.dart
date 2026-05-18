@@ -10,6 +10,8 @@ import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
 import 'app_localizations_pt.dart';
+import 'app_localizations_sk.dart';
+import 'app_localizations_uk.dart';
 
 // ignore_for_file: type=lint
 
@@ -102,7 +104,9 @@ abstract class AppLocalizations {
     Locale('es'),
     Locale('fr'),
     Locale('pt'),
-    Locale('pt', 'BR')
+    Locale('pt', 'BR'),
+    Locale('sk'),
+    Locale('uk')
   ];
 
   /// No description provided for @appTitle.
@@ -217,7 +221,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Every {days} days'**
-  String scheduleFrequencyEveryNDays(Object days);
+  String scheduleFrequencyEveryNDays(num days);
 
   /// No description provided for @newUpdateAvailable.
   ///
@@ -271,7 +275,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} created'**
-  String schedulesCreated(Object count);
+  String schedulesCreated(num count);
 
   /// No description provided for @language.
   ///
@@ -441,6 +445,12 @@ abstract class AppLocalizations {
   /// **'Save your data to a JSON file'**
   String get exportDataSubtitle;
 
+  /// No description provided for @units.
+  ///
+  /// In en, this message translates to:
+  /// **'Units'**
+  String get units;
+
   /// No description provided for @updateNoCompatibleApk.
   ///
   /// In en, this message translates to:
@@ -565,7 +575,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} notifications'**
-  String notificationsCount(Object count);
+  String notificationsCount(num count);
 
   /// No description provided for @editSchedule.
   ///
@@ -624,7 +634,7 @@ abstract class AppLocalizations {
   /// No description provided for @empty_intakes.
   ///
   /// In en, this message translates to:
-  /// **'Taken instakes will appear here'**
+  /// **'Taken intakes will appear here'**
   String get empty_intakes;
 
   /// No description provided for @chooseSchedule.
@@ -698,6 +708,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Needle dead space'**
   String get needleDeadSpace;
+
+  /// No description provided for @notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
 
   /// No description provided for @microliters.
   ///
@@ -829,7 +845,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{amount} {unit} remaining'**
-  String remaining(Object amount, Object unit);
+  String remaining(num amount, Object unit);
 
   /// No description provided for @add.
   ///
@@ -1131,11 +1147,17 @@ abstract class AppLocalizations {
   /// **'Suppository'**
   String get suppository;
 
-  /// No description provided for @transdermal.
+  /// No description provided for @transdermalSpray.
   ///
   /// In en, this message translates to:
   /// **'Transdermal spray'**
-  String get transdermal;
+  String get transdermalSpray;
+
+  /// No description provided for @transdermalDrops.
+  ///
+  /// In en, this message translates to:
+  /// **'Transdermal drops'**
+  String get transdermalDrops;
 
   /// No description provided for @administrationRouteUnitMl.
   ///
@@ -1238,8 +1260,15 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['de', 'en', 'es', 'fr', 'pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+        'de',
+        'en',
+        'es',
+        'fr',
+        'pt',
+        'sk',
+        'uk'
+      ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1270,6 +1299,10 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsFr();
     case 'pt':
       return AppLocalizationsPt();
+    case 'sk':
+      return AppLocalizationsSk();
+    case 'uk':
+      return AppLocalizationsUk();
   }
 
   throw FlutterError(

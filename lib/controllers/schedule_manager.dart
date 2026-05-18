@@ -15,8 +15,8 @@ class ScheduleManager {
   List<MedicationSchedule> getSchedulesByStatus(ScheduleStatus status) {
     final List<MedicationSchedule> schedules = [];
     for (final schedule in _medicationScheduleProvider.schedules) {
-      final Date? lastTaken =
-          _medicationIntakeProvider.getLastIntakeDateForSchedule(schedule.id);
+      final Date? lastTaken = _medicationIntakeProvider
+          .getLastIntakeLocalDateForSchedule(schedule.id);
 
       switch (status) {
         case ScheduleStatus.today:

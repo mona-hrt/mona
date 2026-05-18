@@ -79,7 +79,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleFrequencyDaily => 'Every day';
 
   @override
-  String scheduleFrequencyEveryNDays(Object days) {
+  String scheduleFrequencyEveryNDays(num days) {
     return 'Every $days days';
   }
 
@@ -108,7 +108,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noSchedules => 'No schedules';
 
   @override
-  String schedulesCreated(Object count) {
+  String schedulesCreated(num count) {
     return '$count created';
   }
 
@@ -210,6 +210,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportDataSubtitle => 'Save your data to a JSON file';
 
   @override
+  String get units => 'Units';
+
+  @override
   String get updateNoCompatibleApk =>
       'No compatible update found for your device.';
 
@@ -282,7 +285,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noNotifications => 'No notifications';
 
   @override
-  String notificationsCount(Object count) {
+  String notificationsCount(num count) {
     return '$count notifications';
   }
 
@@ -319,7 +322,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleSettings => 'Schedule settings';
 
   @override
-  String get empty_intakes => 'Taken instakes will appear here';
+  String get empty_intakes => 'Taken intakes will appear here';
 
   @override
   String get chooseSchedule => 'Choose a schedule';
@@ -358,6 +361,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get needleDeadSpace => 'Needle dead space';
+
+  @override
+  String get notes => 'Notes';
 
   @override
   String get microliters => 'μL';
@@ -430,7 +436,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String remaining(Object amount, Object unit) {
+  String remaining(num amount, Object unit) {
     return '$amount $unit remaining';
   }
 
@@ -587,7 +593,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get suppository => 'Suppository';
 
   @override
-  String get transdermal => 'Transdermal spray';
+  String get transdermalSpray => 'Transdermal spray';
+
+  @override
+  String get transdermalDrops => 'Transdermal drops';
 
   @override
   String administrationRouteUnitMl(num count) {

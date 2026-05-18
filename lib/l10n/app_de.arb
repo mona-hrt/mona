@@ -69,6 +69,7 @@
     "dataManagement": "Datenverwaltung",
     "exportDataTitle": "Daten exportieren",
     "exportDataSubtitle": "Daten in einer JSON-Datei speichern",
+    "units": "Einheiten",
 
     "updateNoCompatibleApk": "Keine kompatible Aktualisierung für dein Gerät gefunden.",
     "updateAppUpToDate": "Deine App ist auf dem neuesten Stand!",
@@ -117,6 +118,7 @@
     "takeMedication": "{scheduleName} einnehmen",
     "takeIntake": "Einnahme erfassen",
     "needleDeadSpace": "Totraum der Nadel",
+    "notes": "Notizen",
     "microliters": "μL",
 
     "empty_levels": "Estradiol-Injektionen werden in diesem Tab angezeigt",
@@ -197,7 +199,8 @@
     "gel": "Gel",
     "implant": "Implantat",
     "suppository": "Zäpfchen",
-    "transdermal": "Transdermales Spray",
+    "transdermalSpray": "Transdermales Spray",
+    "transdermalDrops": "Transdermale Tropfen",
 
     "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
     "administrationRouteUnitPill": "{count, plural, =1{Tablette} other{Tabletten}}",

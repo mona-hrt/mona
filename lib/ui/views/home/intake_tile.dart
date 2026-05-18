@@ -137,7 +137,7 @@ class IntakeTileViewModel {
   Date? get lastScheduled => schedule.previousDate;
 
   Date? get lastTaken =>
-      intakeProvider.getLastIntakeDateForSchedule(schedule.id);
+      intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
 
   int get daysUntilIntake => nextScheduled.daysAwayFromToday;
 

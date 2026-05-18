@@ -40,7 +40,7 @@
   "general": "Général",
   "schedules": "Plannings",
   "noSchedules": "Aucun planning",
-  "schedulesCreated": "{count} créés",
+  "schedulesCreated": "{count, plural, =1{{count} créé} other{{count} créés}}",
   "language": "Langue",
   "languageFollowDevice": "Suivre la langue de l’appareil",
   "selectLanguage": "Sélectionner la langue",
@@ -69,6 +69,7 @@
   "dataManagement": "Gestion des données",
   "exportDataTitle": "Exporter les données",
   "exportDataSubtitle": "Enregistrer vos données dans un fichier JSON",
+  "units": "Unités",
 
   "updateNoCompatibleApk": "Aucune mise à jour compatible avec votre appareil.",
   "updateAppUpToDate": "Votre application est à jour !",
@@ -117,6 +118,7 @@
   "takeMedication": "Prendre {scheduleName}",
   "takeIntake": "Prendre",
   "needleDeadSpace": "Espace mort de l'aiguille",
+  "notes": "Notes",
   "microliters": "μL",
 
   "empty_levels": "Les injections d’estradiol s’afficheront dans cet onglet",
@@ -197,7 +199,8 @@
   "gel": "Gel",
   "implant": "Implant",
   "suppository": "Suppositoire",
-  "transdermal": "Spray transdermique",
+  "transdermalSpray": "Spray transdermique",
+  "transdermalDrops": "Gouttes transdermiques",
 
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{comprimé} other{comprimés}}",

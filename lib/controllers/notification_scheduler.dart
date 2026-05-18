@@ -18,6 +18,38 @@ class NotificationScheduler {
     this.preferencesService,
   );
 
+  Map<DateTime, MedicationSchedule> _getNotificationTimes() {
+    final Map<DateTime, MedicationSchedule> notificationsToSchedule = {};
+    final now = DateTime.now();
+
+    for (final schedule in medicationScheduleProvider.schedules) {
+      final lastTaken = medicationIntakeProvider
+          .getLastIntakeLocalDateForSchedule(schedule.id);
+      final nextDates = schedule.getNextDates(5);
+
+      for (final date in nextDates) {
+        for (final time in schedule.notificationTimes) {
+          final dateTime = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            time.hour,
+            time.minute,
+          );
+
+          if (now.isAfter(dateTime)) continue;
+          if (date.isToday && schedule.isTakenTodayOrLater(lastTaken)) {
+            continue;
+          }
+
+          notificationsToSchedule[dateTime] = schedule;
+        }
+      }
+    }
+
+    return notificationsToSchedule;
+  }
+
   Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
     NotificationService().triggerPastPendingNotifications();
     NotificationService().cancelPendingNotifications();
@@ -32,8 +64,8 @@ class NotificationScheduler {
     final List<Future<void>> schedulingFutures = [];
 
     for (final schedule in medicationScheduleProvider.schedules) {
-      final lastTaken =
-          medicationIntakeProvider.getLastIntakeDateForSchedule(schedule.id);
+      final lastTaken = medicationIntakeProvider
+          .getLastIntakeLocalDateForSchedule(schedule.id);
 
       for (final dayOfWeek in schedule.daysOfWeek) {
         // Use Jan 1, 2024 (a Monday) as a reference to get the weekday name

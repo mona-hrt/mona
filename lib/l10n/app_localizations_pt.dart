@@ -79,7 +79,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get scheduleFrequencyDaily => 'Todos os dias';
 
   @override
-  String scheduleFrequencyEveryNDays(Object days) {
+  String scheduleFrequencyEveryNDays(num days) {
     return 'A cada $days dias';
   }
 
@@ -108,8 +108,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get noSchedules => 'Sem cronogramas';
 
   @override
-  String schedulesCreated(Object count) {
-    return '$count criados';
+  String schedulesCreated(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count criados',
+      one: '$count criado',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -212,6 +218,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get exportDataSubtitle => 'Salve seus dados num ficheiro JSON';
 
   @override
+  String get units => 'Unidades';
+
+  @override
   String get updateNoCompatibleApk =>
       'Não foi encontrada nenhuma atualização compatível com o seu dispositivo.';
 
@@ -284,7 +293,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get noNotifications => 'Sem notificações';
 
   @override
-  String notificationsCount(Object count) {
+  String notificationsCount(num count) {
     return '$count notificações';
   }
 
@@ -362,6 +371,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get needleDeadSpace => 'Espaço morto da agulha';
 
   @override
+  String get notes => 'Notas';
+
+  @override
   String get microliters => 'μL';
 
   @override
@@ -433,7 +445,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String remaining(Object amount, Object unit) {
+  String remaining(num amount, Object unit) {
     return '$amount $unit restantes';
   }
 
@@ -590,7 +602,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get suppository => 'Supositório';
 
   @override
-  String get transdermal => 'Spray transdérmico';
+  String get transdermalSpray => 'Spray transdérmico';
+
+  @override
+  String get transdermalDrops => 'Gotas transdérmicas';
 
   @override
   String administrationRouteUnitMl(num count) {
@@ -769,7 +784,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get scheduleFrequencyDaily => 'Todos os dias';
 
   @override
-  String scheduleFrequencyEveryNDays(Object days) {
+  String scheduleFrequencyEveryNDays(num days) {
     return 'A cada $days dias';
   }
 
@@ -798,8 +813,14 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get noSchedules => 'Sem cronogramas';
 
   @override
-  String schedulesCreated(Object count) {
-    return '$count criados';
+  String schedulesCreated(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count criados',
+      one: '$count criado',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -902,6 +923,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get exportDataSubtitle => 'Salve seus dados em um arquivo JSON';
 
   @override
+  String get units => 'Unidades';
+
+  @override
   String get updateNoCompatibleApk =>
       'Nenhuma atualização compatível com seu dispositivo foi encontrada.';
 
@@ -974,7 +998,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get noNotifications => 'Sem notificações';
 
   @override
-  String notificationsCount(Object count) {
+  String notificationsCount(num count) {
     return '$count notificações';
   }
 
@@ -1052,6 +1076,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get needleDeadSpace => 'Espaço morto da agulha';
 
   @override
+  String get notes => 'Notas';
+
+  @override
   String get microliters => 'μL';
 
   @override
@@ -1123,7 +1150,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String remaining(Object amount, Object unit) {
+  String remaining(num amount, Object unit) {
     return '$amount $unit restantes';
   }
 
@@ -1280,7 +1307,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get suppository => 'Supositório';
 
   @override
-  String get transdermal => 'Spray transdérmico';
+  String get transdermalSpray => 'Spray transdérmico';
+
+  @override
+  String get transdermalDrops => 'Gotas transdérmicas';
 
   @override
   String administrationRouteUnitMl(num count) {

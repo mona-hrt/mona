@@ -80,7 +80,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get scheduleFrequencyDaily => 'Tous les jours';
 
   @override
-  String scheduleFrequencyEveryNDays(Object days) {
+  String scheduleFrequencyEveryNDays(num days) {
     return 'Tous les $days jours';
   }
 
@@ -109,8 +109,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noSchedules => 'Aucun planning';
 
   @override
-  String schedulesCreated(Object count) {
-    return '$count créés';
+  String schedulesCreated(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count créés',
+      one: '$count créé',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -215,6 +221,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Enregistrer vos données dans un fichier JSON';
 
   @override
+  String get units => 'Unités';
+
+  @override
   String get updateNoCompatibleApk =>
       'Aucune mise à jour compatible avec votre appareil.';
 
@@ -287,7 +296,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noNotifications => 'Aucune notification';
 
   @override
-  String notificationsCount(Object count) {
+  String notificationsCount(num count) {
     return '$count notifications';
   }
 
@@ -365,6 +374,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get needleDeadSpace => 'Espace mort de l\'aiguille';
 
   @override
+  String get notes => 'Notes';
+
+  @override
   String get microliters => 'μL';
 
   @override
@@ -437,7 +449,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String remaining(Object amount, Object unit) {
+  String remaining(num amount, Object unit) {
     return 'Reste $amount $unit';
   }
 
@@ -594,7 +606,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get suppository => 'Suppositoire';
 
   @override
-  String get transdermal => 'Spray transdermique';
+  String get transdermalSpray => 'Spray transdermique';
+
+  @override
+  String get transdermalDrops => 'Gouttes transdermiques';
 
   @override
   String administrationRouteUnitMl(num count) {

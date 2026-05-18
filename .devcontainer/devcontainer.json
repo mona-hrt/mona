@@ -1,0 +1,27 @@
+{
+    "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.schema.json",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Dart-Code.dart-code",
+                "Dart-Code.flutter"
+            ]
+        }
+    },
+    "build": {
+        "dockerfile": "../Containerfile",
+        "context": "..",
+        "target": "development"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true,
+            "installZsh": true
+        },
+        "ghcr.io/devcontainers/features/git:1": {}
+    },
+    "user": "vscode",
+    "onCreateCommand": {
+        "take ownership": "sudo chown vscode:vscode /opt -Rc"
+    }
+}

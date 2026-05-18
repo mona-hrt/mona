@@ -58,7 +58,7 @@ android {
     }
 
     // `play`: Google Play (no REQUEST_INSTALL_PACKAGES; Dart hides sideload update UI).
-    // `standalone`: sideload / GitHub APKs (in-app updates + install permission).
+    // `standalone`: signed sideload / GitHub APK (in-app updates + install permission).
     flavorDimensions "distribution"
     productFlavors {
         play {
