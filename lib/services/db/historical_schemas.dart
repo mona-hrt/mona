@@ -103,7 +103,7 @@ const String _medicationIntakesV7 = '''
       notes TEXT,
       FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
     )
-    '''; // TODO use foreign key for scheduleId
+    ''';
 
 const Map<int, List<String>> _historicalSchemas = {
   4: [
