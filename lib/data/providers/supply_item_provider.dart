@@ -6,6 +6,7 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/services/repository.dart';
+import 'package:mona/services/sync_service.dart';
 
 class SupplyItemProvider extends ChangeNotifier {
   List<SupplyItem> _items = [];
@@ -33,7 +34,7 @@ class SupplyItemProvider extends ChangeNotifier {
           (a, b) => a.getRatio().compareTo(b.getRatio()),
         );
 
-  SupplyItem? getItemById(int? id) {
+  SupplyItem? getItemById(String? id) {
     try {
       return items.firstWhere((item) => item.id == id);
     } catch (e) {
@@ -41,9 +42,11 @@ class SupplyItemProvider extends ChangeNotifier {
     }
   }
 
-  SupplyItemProvider({Repository<SupplyItem>? repository})
+  SupplyItemProvider(
+      {Repository<SupplyItem>? repository, SyncService? syncService})
       : repository = repository ?? defaultRepository {
     _init();
+    syncService?.onSyncFinished.listen((_) => fetchItems());
   }
 
   Future<void> _init() async {

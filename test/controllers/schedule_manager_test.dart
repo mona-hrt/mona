@@ -42,7 +42,7 @@ void main() {
       final today = Date.today();
 
       todaySchedule = MedicationSchedule(
-        id: 1,
+        id: '1',
         name: 'TodayMed',
         dose: Decimal.one,
         intervalDays: 2,
@@ -51,11 +51,11 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule('1'))
           .thenReturn(today.subtract(const Duration(days: 2)));
 
       todayTakenSchedule = MedicationSchedule(
-        id: 5,
+        id: '5',
         name: 'TodayMed',
         dose: Decimal.one,
         intervalDays: 2,
@@ -64,11 +64,11 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(5))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule('5'))
           .thenReturn(Date.today());
 
       todayOverdueSchedule = MedicationSchedule(
-        id: 4,
+        id: '4',
         name: 'TodayLateMed',
         dose: Decimal.one,
         intervalDays: 2,
@@ -77,11 +77,11 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(4))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule('4'))
           .thenReturn(today.subtract(const Duration(days: 3)));
 
       overdueSchedule = MedicationSchedule(
-        id: 2,
+        id: '2',
         name: 'OverdueMed',
         dose: Decimal.one,
         intervalDays: 2,
@@ -90,11 +90,11 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(2))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule('2'))
           .thenReturn(today.subtract(const Duration(days: 4)));
 
       upcomingSchedule = MedicationSchedule(
-        id: 3,
+        id: '3',
         name: 'UpcomingMed',
         dose: Decimal.one,
         intervalDays: 2,
@@ -103,7 +103,7 @@ void main() {
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(3))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule('3'))
           .thenReturn(null);
 
       when(mockScheduleProvider.schedules).thenReturn([
@@ -119,7 +119,7 @@ void main() {
       final today = Date.today();
 
       todaySchedule = MedicationSchedule(
-        id: 1,
+        id: '1',
         name: 'TodayMed',
         dose: Decimal.one,
         intervalDays: 2,
@@ -129,7 +129,7 @@ void main() {
         notificationTimes: List.empty(),
       );
 
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
+      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule('1'))
           .thenReturn(today.subtract(const Duration(days: 2)));
 
       final result = manager.getSchedulesByStatus(ScheduleStatus.today);

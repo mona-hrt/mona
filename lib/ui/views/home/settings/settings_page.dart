@@ -6,12 +6,14 @@ import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/distribution.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/services/backup_service.dart';
+import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/update_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
+import 'package:mona/ui/views/home/settings/sync_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -167,6 +169,57 @@ class _SettingsPageState extends State<SettingsPage>
     }
   }
 
+  Future<void> _purgeDatabase() async {
+    final l10n = context.l10n;
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.purgeDatabaseTitle),
+        content: Text(l10n.purgeDatabaseConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.error),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      try {
+        await AppDatabase.getInstance().purge();
+        if (mounted) {
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              title: Text(l10n.purgeDatabaseSuccess),
+              content: Text(l10n.importRestartRequired),
+              actions: [
+                TextButton(
+                  onPressed: () => exit(0),
+                  child: Text(l10n.closeApp),
+                ),
+              ],
+            ),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.toString())),
+          );
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final medicationScheduleProvider =
@@ -296,6 +349,28 @@ class _SettingsPageState extends State<SettingsPage>
           ],
           const Divider(),
           //
+          // ==== Synchronization ====
+          //
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: borderPadding, vertical: 8.0),
+            child: Text(
+              localizations.syncTitle,
+            ),
+          ),
+          ListTile(
+            title: Text(localizations.syncTitle),
+            subtitle:
+                Text(preferencesService.syncUrl ?? localizations.notConfigured),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (context) => const SyncPage()),
+              );
+            },
+          ),
+          const Divider(),
+          //
           // ==== Data management ====
           //
           Padding(
@@ -316,6 +391,15 @@ class _SettingsPageState extends State<SettingsPage>
             subtitle: Text(localizations.importDataSubtitle),
             trailing: const Icon(Symbols.download),
             onTap: _importData,
+          ),
+          ListTile(
+            title: Text(localizations.purgeDatabaseTitle),
+            subtitle: Text(localizations.purgeDatabaseSubtitle),
+            trailing: Icon(
+              Symbols.delete_forever,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            onTap: _purgeDatabase,
           ),
           const SizedBox(height: 32),
           FutureBuilder<PackageInfo>(

@@ -75,8 +75,8 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   @override
   final String id = 'MedicationIntake';
 
-  static int _$id(MedicationIntake v) => v.id;
-  static const Field<MedicationIntake, int> _f$id = Field(
+  static String _$id(MedicationIntake v) => v.id;
+  static const Field<MedicationIntake, String> _f$id = Field(
     'id',
     _$id,
     opt: true,
@@ -101,8 +101,8 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$takenTimeZone,
     opt: true,
   );
-  static int? _$scheduleId(MedicationIntake v) => v.scheduleId;
-  static const Field<MedicationIntake, int> _f$scheduleId = Field(
+  static String? _$scheduleId(MedicationIntake v) => v.scheduleId;
+  static const Field<MedicationIntake, String> _f$scheduleId = Field(
     'scheduleId',
     _$scheduleId,
     opt: true,
@@ -134,8 +134,8 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     key: r'esterName',
     opt: true,
   );
-  static int? _$supplyItemId(MedicationIntake v) => v.supplyItemId;
-  static const Field<MedicationIntake, int> _f$supplyItemId = Field(
+  static String? _$supplyItemId(MedicationIntake v) => v.supplyItemId;
+  static const Field<MedicationIntake, String> _f$supplyItemId = Field(
     'supplyItemId',
     _$supplyItemId,
     opt: true,
@@ -145,6 +145,20 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     'notes',
     _$notes,
     opt: true,
+  );
+  static int _$updatedAt(MedicationIntake v) => v.updatedAt;
+  static const Field<MedicationIntake, int> _f$updatedAt = Field(
+    'updatedAt',
+    _$updatedAt,
+    opt: true,
+  );
+  static bool _$isDeleted(MedicationIntake v) => v.isDeleted;
+  static const Field<MedicationIntake, bool> _f$isDeleted = Field(
+    'isDeleted',
+    _$isDeleted,
+    opt: true,
+    def: false,
+    hook: BoolIntHook(),
   );
 
   @override
@@ -161,6 +175,8 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #ester: _f$ester,
     #supplyItemId: _f$supplyItemId,
     #notes: _f$notes,
+    #updatedAt: _f$updatedAt,
+    #isDeleted: _f$isDeleted,
   };
 
   static MedicationIntake _instantiate(DecodingData data) {
@@ -177,6 +193,8 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       ester: data.dec(_f$ester),
       supplyItemId: data.dec(_f$supplyItemId),
       notes: data.dec(_f$notes),
+      updatedAt: data.dec(_f$updatedAt),
+      isDeleted: data.dec(_f$isDeleted),
     );
   }
 
@@ -243,18 +261,20 @@ extension MedicationIntakeValueCopy<$R, $Out>
 abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({
-    int? id,
+    String? id,
     DateTime? scheduledDateTime,
     Decimal? dose,
     DateTime? takenDateTime,
     String? takenTimeZone,
-    int? scheduleId,
+    String? scheduleId,
     InjectionSide? side,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Ester? ester,
-    int? supplyItemId,
+    String? supplyItemId,
     String? notes,
+    int? updatedAt,
+    bool? isDeleted,
   });
   MedicationIntakeCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -283,6 +303,8 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     Object? ester = $none,
     Object? supplyItemId = $none,
     Object? notes = $none,
+    Object? updatedAt = $none,
+    bool? isDeleted,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -299,6 +321,8 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           if (ester != $none) #ester: ester,
           if (supplyItemId != $none) #supplyItemId: supplyItemId,
           if (notes != $none) #notes: notes,
+          if (updatedAt != $none) #updatedAt: updatedAt,
+          if (isDeleted != null) #isDeleted: isDeleted,
         }),
       );
   @override
@@ -321,6 +345,8 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         ester: data.get(#ester, or: $value.ester),
         supplyItemId: data.get(#supplyItemId, or: $value.supplyItemId),
         notes: data.get(#notes, or: $value.notes),
+        updatedAt: data.get(#updatedAt, or: $value.updatedAt),
+        isDeleted: data.get(#isDeleted, or: $value.isDeleted),
       );
 
   @override

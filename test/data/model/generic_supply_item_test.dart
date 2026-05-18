@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 
 GenericSupply makeGeneric({
-  int id = 1,
+  String id = '1',
   String name = 'Generic',
   int amount = 1,
 }) {
@@ -19,7 +19,7 @@ void main() {
       test('round-trips all fields', () {
         // Arrange
         final original = makeGeneric(
-          id: 42,
+          id: '42',
           name: 'Syringes',
           amount: 10,
         );
@@ -54,7 +54,7 @@ void main() {
       test('keeps existing values when no overrides are provided', () {
         // Arrange
         final original = makeGeneric(
-          id: 7,
+          id: '7',
           name: 'Original',
           amount: 5,
         );

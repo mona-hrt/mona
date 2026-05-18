@@ -17,35 +17,55 @@ class Repository<T> {
 
   Future<int> insert(T element) async {
     final db = await _dbFuture;
+    final map = toMap(element);
     return await db.insert(
       tableName,
-      toMap(element),
+      map,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<List<T>> getAll() async {
+  Future<List<T>> getAll({bool includeDeleted = false}) async {
     final db = await _dbFuture;
-    final result = await db.query(tableName);
+    final result = await db.query(
+      tableName,
+      where: includeDeleted ? null : 'isDeleted = 0',
+    );
     return result.map(fromMap).toList();
   }
 
-  Future<void> update(T element, int id) async {
+  Future<void> update(T element, dynamic id) async {
     final db = await _dbFuture;
+    final map = Map<String, Object?>.from(toMap(element));
+    map['updatedAt'] = DateTime.now().millisecondsSinceEpoch;
     await db.update(
       tableName,
-      toMap(element),
+      map,
       where: 'id = ?',
       whereArgs: [id],
     );
   }
 
-  Future<void> delete(int id) async {
+  Future<void> delete(dynamic id) async {
     final db = await _dbFuture;
-    await db.delete(
+    await db.update(
       tableName,
+      {
+        'isDeleted': 1,
+        'updatedAt': DateTime.now().millisecondsSinceEpoch,
+      },
       where: 'id = ?',
       whereArgs: [id],
     );
+  }
+
+  Future<List<T>> getChangesSince(int timestamp) async {
+    final db = await _dbFuture;
+    final result = await db.query(
+      tableName,
+      where: 'updatedAt > ?',
+      whereArgs: [timestamp],
+    );
+    return result.map(fromMap).toList();
   }
 }

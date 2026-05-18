@@ -11,6 +11,7 @@ import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/timezone_location.dart';
 import 'package:mona/util/validators.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:uuid/uuid.dart';
 
 part 'medication_intake.mapper.dart';
 
@@ -30,12 +31,12 @@ enum InjectionSide {
   generateMethods: GenerateMethods.all,
 )
 class MedicationIntake with MedicationIntakeMappable {
-  final int id;
+  final String id;
   final DateTime scheduledDateTime;
   final DateTime? takenDateTime;
   final String? takenTimeZone;
   final Decimal dose;
-  final int? scheduleId;
+  final String? scheduleId;
   final InjectionSide? side;
   bool get isTaken => takenDateTime != null;
   @MappableField(
@@ -45,11 +46,14 @@ class MedicationIntake with MedicationIntakeMappable {
   final AdministrationRoute administrationRoute;
   @MappableField(key: 'esterName')
   final Ester? ester;
-  final int? supplyItemId;
+  final String? supplyItemId;
   final String? notes;
+  final int updatedAt;
+  @MappableField(hook: BoolIntHook())
+  final bool isDeleted;
 
   MedicationIntake({
-    int? id,
+    String? id,
     required this.scheduledDateTime,
     required this.dose,
     this.takenDateTime,
@@ -61,7 +65,10 @@ class MedicationIntake with MedicationIntakeMappable {
     this.ester,
     this.supplyItemId,
     this.notes,
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch {
+    int? updatedAt,
+    this.isDeleted = false,
+  })  : id = id ?? const Uuid().v4(),
+        updatedAt = updatedAt ?? DateTime.now().millisecondsSinceEpoch {
     if (takenDateTime != null && !takenDateTime!.isUtc) {
       throw ArgumentError('takenDateTime must be UTC');
     }
@@ -152,5 +159,25 @@ class DecimalStringMapper extends SimpleMapper<Decimal> {
   @override
   Object? encode(Decimal self) {
     return self.toString();
+  }
+}
+
+class BoolIntHook extends MappingHook {
+  const BoolIntHook();
+
+  @override
+  Object? beforeDecode(Object? value) {
+    if (value is int) {
+      return value == 1;
+    }
+    return value;
+  }
+
+  @override
+  Object? afterEncode(Object? value) {
+    if (value is bool) {
+      return value ? 1 : 0;
+    }
+    return value;
   }
 }

@@ -26,7 +26,7 @@ void main() {
     provider = MedicationScheduleProvider(repository: repo);
 
     repo.insert(MedicationSchedule(
-      id: 1,
+      id: '1',
       name: 'Estradiol',
       dose: Decimal.parse('2.0'),
       intervalDays: 1,
@@ -35,7 +35,7 @@ void main() {
       notificationTimes: List.empty(),
     ));
     repo.insert(MedicationSchedule(
-      id: 2,
+      id: '2',
       name: 'Spironolactone',
       dose: Decimal.parse('100.0'),
       intervalDays: 1,
@@ -91,12 +91,12 @@ void main() {
 
     test('deleteScheduleFromId removes the item', () async {
       // Act
-      await provider.deleteScheduleFromId(1);
+      await provider.deleteScheduleFromId('1');
 
       // Assert
       expect(
         [provider.schedules.length, provider.schedules.first.id],
-        [1, 2],
+        [1, '2'],
       );
     });
 
@@ -110,7 +110,7 @@ void main() {
       // Assert
       expect(
         [provider.schedules.length, provider.schedules.first.id],
-        [1, 2],
+        [1, '2'],
       );
     });
   });

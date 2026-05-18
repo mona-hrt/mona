@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/services/repository.dart';
+import 'package:mona/services/sync_service.dart';
 
 class MedicationScheduleProvider extends ChangeNotifier {
   List<MedicationSchedule> _schedules = [];
@@ -10,7 +11,7 @@ class MedicationScheduleProvider extends ChangeNotifier {
   List<MedicationSchedule> get schedules => _schedules;
   bool get isLoading => _isLoading;
 
-  MedicationSchedule? getScheduleById(int id) {
+  MedicationSchedule? getScheduleById(String id) {
     try {
       return _schedules.firstWhere((schedule) => schedule.id == id);
     } catch (e) {
@@ -18,9 +19,11 @@ class MedicationScheduleProvider extends ChangeNotifier {
     }
   }
 
-  MedicationScheduleProvider({Repository<MedicationSchedule>? repository})
+  MedicationScheduleProvider(
+      {Repository<MedicationSchedule>? repository, SyncService? syncService})
       : repository = repository ?? _defaultRepository {
     _init();
+    syncService?.onSyncFinished.listen((_) => fetchSchedules());
   }
 
   Future<void> _init() async {
@@ -34,7 +37,7 @@ class MedicationScheduleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteScheduleFromId(int id) async {
+  Future<void> deleteScheduleFromId(String id) async {
     await repository.delete(id);
     await fetchSchedules();
   }

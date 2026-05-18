@@ -445,11 +445,143 @@ abstract class AppLocalizations {
   /// **'Save your data to a JSON file'**
   String get exportDataSubtitle;
 
+  /// No description provided for @purgeDatabaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purge Local Database'**
+  String get purgeDatabaseTitle;
+
+  /// No description provided for @purgeDatabaseSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all local data from this device'**
+  String get purgeDatabaseSubtitle;
+
+  /// No description provided for @purgeDatabaseConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete all local data? This action is irreversible and will delete all your intakes, schedules, and supply items.'**
+  String get purgeDatabaseConfirm;
+
+  /// No description provided for @purgeDatabaseSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Local database purged'**
+  String get purgeDatabaseSuccess;
+
   /// No description provided for @units.
   ///
   /// In en, this message translates to:
   /// **'Units'**
   String get units;
+
+  /// No description provided for @syncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronization'**
+  String get syncTitle;
+
+  /// No description provided for @syncDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync your data across devices using a Mona Sync server.'**
+  String get syncDescription;
+
+  /// No description provided for @syncServerUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Server URL'**
+  String get syncServerUrl;
+
+  /// No description provided for @syncPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'API Password'**
+  String get syncPassword;
+
+  /// No description provided for @syncPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Password you set while configuring your sync server. Located in the .env file.'**
+  String get syncPasswordDescription;
+
+  /// No description provided for @syncEncryptionPassphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption Passphrase'**
+  String get syncEncryptionPassphrase;
+
+  /// No description provided for @syncEncryptionPassphraseDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Used to encrypt your data before it leaves your device. This passphrase cannot be easily changed later. If forgotten, your synchronized data will be permanently inaccessible.'**
+  String get syncEncryptionPassphraseDescription;
+
+  /// No description provided for @saveAndSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Save and Sync'**
+  String get saveAndSync;
+
+  /// No description provided for @lastSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Last synchronized'**
+  String get lastSync;
+
+  /// No description provided for @never.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get never;
+
+  /// No description provided for @syncSuccessful.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronization successful'**
+  String get syncSuccessful;
+
+  /// No description provided for @syncFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronization failed: {error}'**
+  String syncFailed(Object error);
+
+  /// No description provided for @notConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Not configured'**
+  String get notConfigured;
+
+  /// No description provided for @syncPurge.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect and Clear Sync'**
+  String get syncPurge;
+
+  /// No description provided for @syncPurgeConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to disconnect and clear all synchronization settings? This will not delete your local data.'**
+  String get syncPurgeConfirm;
+
+  /// No description provided for @syncPurged.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync settings cleared'**
+  String get syncPurged;
+
+  /// No description provided for @syncAllowInsecure.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow insecure connections'**
+  String get syncAllowInsecure;
+
+  /// No description provided for @syncAllowInsecureDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow connecting to servers with self-signed or invalid certificates. Warning: this reduces security.'**
+  String get syncAllowInsecureDescription;
 
   /// No description provided for @updateNoCompatibleApk.
   ///

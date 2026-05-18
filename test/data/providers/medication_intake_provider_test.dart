@@ -30,7 +30,7 @@ void main() {
     );
     provider = MedicationIntakeProvider(repository: repo);
     repo.insert(MedicationIntake(
-      id: 1,
+      id: '1',
       scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
       dose: Decimal.parse('10.5'),
       takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
@@ -39,7 +39,7 @@ void main() {
       administrationRoute: AdministrationRoute.gel,
     ));
     repo.insert(MedicationIntake(
-      id: 2,
+      id: '2',
       scheduledDateTime: DateTime(2025, 9, 12, 20, 0),
       dose: Decimal.parse('5.0'),
       molecule: KnownMolecules.estradiol,
@@ -100,12 +100,12 @@ void main() {
 
     test('deleteIntakeFromId removes the item', () async {
       // Act
-      await provider.deleteIntakeFromId(1);
+      await provider.deleteIntakeFromId('1');
 
       // Assert
       expect(
         [provider.intakes.length, provider.intakes.first.id],
-        [1, 2],
+        [1, '2'],
       );
     });
 
@@ -119,7 +119,7 @@ void main() {
       // Assert
       expect(
         [provider.intakes.length, provider.intakes.first.id],
-        [1, 2],
+        [1, '2'],
       );
     });
 
@@ -138,7 +138,7 @@ void main() {
         () async {
       await provider.fetchIntakes();
       provider.add(MedicationIntake(
-        id: 100,
+        id: '100',
         scheduledDateTime: DateTime(2025, 9, 14, 8, 0),
         dose: Decimal.parse('1.0'),
         takenDateTime: DateTime.utc(2025, 9, 14, 8, 10),
@@ -147,14 +147,14 @@ void main() {
         administrationRoute: AdministrationRoute.gel,
       ));
       provider.add(MedicationIntake(
-        id: 101,
+        id: '101',
         scheduledDateTime: DateTime(2025, 9, 15, 8, 0),
         dose: Decimal.parse('1.0'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       ));
       provider.add(MedicationIntake(
-        id: 102,
+        id: '102',
         scheduledDateTime: DateTime(2025, 9, 16, 8, 0),
         dose: Decimal.parse('1.0'),
         takenDateTime: DateTime.utc(2025, 9, 16, 8, 10),
@@ -181,16 +181,16 @@ void main() {
         true,
       );
 
-      provider.deleteIntakeFromId(100);
-      provider.deleteIntakeFromId(101);
-      provider.deleteIntakeFromId(102);
+      provider.deleteIntakeFromId('100');
+      provider.deleteIntakeFromId('101');
+      provider.deleteIntakeFromId('102');
     });
 
     group('getTakenIntakesForSchedule', () {
       test('returns only taken intakes for the given schedule', () async {
         repo.insert(MedicationIntake(
-          id: 100,
-          scheduleId: 100,
+          id: '100',
+          scheduleId: '100',
           scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
@@ -199,8 +199,8 @@ void main() {
           administrationRoute: AdministrationRoute.gel,
         ));
         repo.insert(MedicationIntake(
-          id: 200,
-          scheduleId: 200,
+          id: '200',
+          scheduleId: '200',
           scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
@@ -210,13 +210,13 @@ void main() {
         ));
         await provider.fetchIntakes();
 
-        expect(provider.getTakenIntakesForSchedule(100).length, 1);
+        expect(provider.getTakenIntakesForSchedule('100').length, 1);
       });
 
       test('returns empty list if no taken intakes for schedule', () async {
         await provider.fetchIntakes();
 
-        expect(provider.getTakenIntakesForSchedule(3), isEmpty);
+        expect(provider.getTakenIntakesForSchedule('3'), isEmpty);
       });
     });
 
@@ -228,8 +228,8 @@ void main() {
 
       test('returns the only takenDateTime if list has one intake', () {
         final intake = MedicationIntake(
-          id: 1,
-          scheduleId: 1,
+          id: '1',
+          scheduleId: '1',
           scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
           dose: Decimal.parse('10.5'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
@@ -244,8 +244,8 @@ void main() {
 
       test('returns the latest takenDateTime if list has multiple intakes', () {
         final intake1 = MedicationIntake(
-          id: 1,
-          scheduleId: 1,
+          id: '1',
+          scheduleId: '1',
           scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
           dose: Decimal.parse('10.5'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
@@ -255,8 +255,8 @@ void main() {
         );
 
         final intake2 = MedicationIntake(
-          id: 2,
-          scheduleId: 1,
+          id: '2',
+          scheduleId: '1',
           scheduledDateTime: DateTime(2025, 9, 12, 20, 0),
           dose: Decimal.parse('5.0'),
           takenDateTime: DateTime.utc(2025, 9, 12, 20, 10),
@@ -266,8 +266,8 @@ void main() {
         );
 
         final intake3 = MedicationIntake(
-          id: 3,
-          scheduleId: 1,
+          id: '3',
+          scheduleId: '1',
           scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 5),
@@ -284,8 +284,8 @@ void main() {
       test('handles intakes with same takenDateTime correctly', () {
         final dt = DateTime.utc(2025, 9, 12, 8, 0);
         final intake1 = MedicationIntake(
-          id: 1,
-          scheduleId: 1,
+          id: '1',
+          scheduleId: '1',
           scheduledDateTime: dt,
           dose: Decimal.parse('10.5'),
           takenDateTime: dt,
@@ -295,8 +295,8 @@ void main() {
         );
 
         final intake2 = MedicationIntake(
-          id: 2,
-          scheduleId: 1,
+          id: '2',
+          scheduleId: '1',
           scheduledDateTime: dt,
           dose: Decimal.parse('5.0'),
           takenDateTime: dt,

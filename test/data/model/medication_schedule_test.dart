@@ -15,7 +15,7 @@ void main() {
     group('MedicationSchedule model', () {
       test('toMap and fromMap should preserve values', () {
         final schedule = MedicationSchedule(
-          id: 1,
+          id: '1',
           name: 'Test Med',
           dose: Decimal.parse('10.5'),
           intervalDays: 7,

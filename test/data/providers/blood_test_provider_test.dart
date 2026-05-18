@@ -31,7 +31,7 @@ void main() {
     test('initialization loads bloodtests', () async {
       // Arrange
       await repo.insert(BloodTest(
-        id: 1,
+        id: '1',
         dateTime: DateTime.utc(2025, 3, 14, 6, 7),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('167.1'), EstradiolUnit.pg_mL),
@@ -83,7 +83,7 @@ void main() {
     test('updateBloodTest updates an existing test', () async {
       // Arrange
       repo.insert(BloodTest(
-        id: 1,
+        id: '1',
         dateTime: DateTime.utc(2025, 3, 14, 6, 7),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('167.1'), EstradiolUnit.pg_mL),
@@ -112,7 +112,7 @@ void main() {
     test('deleteBloodTestFromId removes the test', () async {
       // Arrange
       repo.insert(BloodTest(
-        id: 1,
+        id: '1',
         dateTime: DateTime.utc(2025, 3, 14, 6, 7),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('167.1'), EstradiolUnit.pg_mL),
@@ -122,7 +122,7 @@ void main() {
       provider = BloodTestProvider(repository: repo);
 
       // Act
-      await provider.deleteBloodTestFromId(1);
+      await provider.deleteBloodTestFromId('1');
 
       // Assert
       expect(provider.bloodtestsSortedDesc.length, 0);
@@ -131,7 +131,7 @@ void main() {
     test('deleteBloodTest removes the test by object', () async {
       // Arrange
       final bloodtestToDelete = BloodTest(
-        id: 1,
+        id: '1',
         dateTime: DateTime.utc(2025, 3, 14, 6, 7),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('167.1'), EstradiolUnit.pg_mL),
@@ -152,7 +152,7 @@ void main() {
     test('bloodtestsSortedDesc returns test sorted descending', () async {
       provider = BloodTestProvider(repository: repo);
       provider.add(BloodTest(
-        id: 666,
+        id: '666',
         dateTime: DateTime.utc(2025, 5, 4, 3, 0),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('234.5'), EstradiolUnit.pg_mL),
@@ -160,7 +160,7 @@ void main() {
             UnitValue(Decimal.parse('2.34'), TestosteroneUnit.ng_dL),
       ));
       provider.add(BloodTest(
-        id: 667, // ekip
+        id: '667', // ekip
         dateTime: DateTime.utc(2025, 6, 7, 8, 9),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('292.9'), EstradiolUnit.pg_mL),
@@ -168,7 +168,7 @@ void main() {
             UnitValue(Decimal.parse('2.43'), TestosteroneUnit.ng_dL),
       ));
       provider.add(BloodTest(
-        id: 668,
+        id: '668',
         dateTime: DateTime.utc(2025, 3, 2, 1, 0),
         timeZone: 'Etc/UTC',
         estradiolLevels: UnitValue(Decimal.parse('261.2'), EstradiolUnit.pg_mL),
@@ -211,7 +211,7 @@ void main() {
         // Arrange
         provider = BloodTestProvider(repository: repo);
         await provider.add(BloodTest(
-          id: 666,
+          id: '666',
           dateTime: DateTime.utc(2025, 5, 4, 3, 0),
           timeZone: 'Etc/UTC',
           estradiolLevels:
@@ -220,7 +220,7 @@ void main() {
               UnitValue(Decimal.parse('2.34'), TestosteroneUnit.ng_dL),
         ));
         await provider.add(BloodTest(
-          id: 667,
+          id: '667',
           dateTime: DateTime.utc(2025, 5, 5),
           timeZone: 'Etc/UTC',
           estradiolLevels: null,
@@ -240,7 +240,7 @@ void main() {
         // Arrange
         provider = BloodTestProvider(repository: repo);
         await provider.add(BloodTest(
-          id: 668,
+          id: '668',
           dateTime: DateTime.utc(2025, 5, 6, 23, 59),
           timeZone: 'Etc/UTC',
           estradiolLevels:

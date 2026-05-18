@@ -3,6 +3,7 @@ import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/services/repository.dart';
+import 'package:mona/services/sync_service.dart';
 
 class BloodTestProvider extends ChangeNotifier {
   List<BloodTest> _bloodtestsSortedDesc = [];
@@ -10,15 +11,17 @@ class BloodTestProvider extends ChangeNotifier {
 
   final Repository<BloodTest> repository;
 
-  BloodTestProvider({Repository<BloodTest>? repository})
+  BloodTestProvider(
+      {Repository<BloodTest>? repository, SyncService? syncService})
       : repository = repository ?? _bloodTestRepository {
     _init();
+    syncService?.onSyncFinished.listen((_) => _fetchBloodTests());
   }
 
   bool get isLoading => _isLoading;
   List<BloodTest> get bloodtestsSortedDesc => _bloodtestsSortedDesc;
 
-  Future<void> deleteBloodTestFromId(int id) async {
+  Future<void> deleteBloodTestFromId(String id) async {
     await repository.delete(id);
     await _fetchBloodTests();
   }

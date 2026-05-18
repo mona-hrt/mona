@@ -9,9 +9,10 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/validators.dart';
+import 'package:uuid/uuid.dart';
 
 class MedicationSchedule {
-  final int id;
+  final String id;
   final String name;
   final Decimal dose;
   final int intervalDays;
@@ -20,9 +21,11 @@ class MedicationSchedule {
   final AdministrationRoute administrationRoute;
   final Ester? ester;
   List<TimeOfDay> notificationTimes;
+  final int updatedAt;
+  final bool isDeleted;
 
   MedicationSchedule({
-    int? id,
+    String? id,
     required this.name,
     required this.dose,
     required this.intervalDays,
@@ -31,12 +34,15 @@ class MedicationSchedule {
     required this.administrationRoute,
     this.ester,
     required this.notificationTimes,
-  })  : id = id ?? DateTime.now().millisecondsSinceEpoch,
-        startDate = startDate ?? Date.today();
+    int? updatedAt,
+    this.isDeleted = false,
+  })  : id = id ?? const Uuid().v4(),
+        startDate = startDate ?? Date.today(),
+        updatedAt = updatedAt ?? DateTime.now().millisecondsSinceEpoch;
 
   factory MedicationSchedule.fromMap(Map<String, Object?> map) {
     return MedicationSchedule(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String,
       dose: (map['dose'] as String).toDecimal,
       intervalDays: map['intervalDays'] as int,
@@ -46,6 +52,8 @@ class MedicationSchedule {
           map['administrationRouteName'] as String),
       ester: Ester.fromName(map['esterName'] as String?),
       notificationTimes: _decodeTimes(map['notificationTimes'] as String),
+      updatedAt: map['updatedAt'] as int?,
+      isDeleted: (map['isDeleted'] as int?) == 1,
     );
   }
 
@@ -136,11 +144,13 @@ class MedicationSchedule {
       'administrationRouteName': administrationRoute.name,
       'esterName': ester?.name,
       'notificationTimes': _encodeTimes(notificationTimes),
+      'updatedAt': updatedAt,
+      'isDeleted': isDeleted ? 1 : 0,
     };
   }
 
   MedicationSchedule copyWith({
-    int? id,
+    String? id,
     String? name,
     Decimal? dose,
     int? intervalDays,
@@ -150,6 +160,8 @@ class MedicationSchedule {
     Ester? ester,
     bool clearEster = false,
     List<TimeOfDay>? notificationTimes,
+    int? updatedAt,
+    bool? isDeleted,
   }) {
     return MedicationSchedule(
       id: id ?? this.id,
@@ -161,6 +173,8 @@ class MedicationSchedule {
       administrationRoute: administrationRoute ?? this.administrationRoute,
       ester: clearEster ? null : (ester ?? this.ester),
       notificationTimes: notificationTimes ?? this.notificationTimes,
+      updatedAt: updatedAt ?? this.updatedAt,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 

@@ -94,7 +94,7 @@ class MockMedicationScheduleProvider extends _i1.Mock
       ) as bool);
 
   @override
-  _i4.MedicationSchedule? getScheduleById(int? id) => (super.noSuchMethod(
+  _i4.MedicationSchedule? getScheduleById(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getScheduleById,
           [id],
@@ -113,7 +113,7 @@ class MockMedicationScheduleProvider extends _i1.Mock
       ) as _i5.Future<void>);
 
   @override
-  _i5.Future<void> deleteScheduleFromId(int? id) => (super.noSuchMethod(
+  _i5.Future<void> deleteScheduleFromId(String? id) => (super.noSuchMethod(
         Invocation.method(
           #deleteScheduleFromId,
           [id],
@@ -259,7 +259,7 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as bool);
 
   @override
-  List<_i8.MedicationIntake> getTakenIntakesForSchedule(int? scheduleId) =>
+  List<_i8.MedicationIntake> getTakenIntakesForSchedule(String? scheduleId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTakenIntakesForSchedule,
@@ -280,7 +280,7 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as _i5.Future<void>);
 
   @override
-  _i5.Future<void> deleteIntakeFromId(int? id) => (super.noSuchMethod(
+  _i5.Future<void> deleteIntakeFromId(String? id) => (super.noSuchMethod(
         Invocation.method(
           #deleteIntakeFromId,
           [id],
@@ -343,7 +343,7 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as _i9.Date?);
 
   @override
-  _i9.Date? getLastIntakeLocalDateForSchedule(int? scheduleId) =>
+  _i9.Date? getLastIntakeLocalDateForSchedule(String? scheduleId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLastIntakeLocalDateForSchedule,
