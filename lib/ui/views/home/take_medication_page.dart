@@ -35,6 +35,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   late DateTime _takenDate;
   late TextEditingController _takenDoseController;
   late Decimal _takenDose;
+  late TextEditingController _wastedAmountController;
+  late Decimal _wastedAmount;
   InjectionSide? _selectedSide;
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
@@ -45,6 +47,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(context.l10n, _takenDoseController.text);
+
+  String? get _wastedAmountError => MedicationIntake.validateWastedAmount(
+      context.l10n, _wastedAmountController.text);
 
   String? get _deadSpaceError => MedicationIntake.validateDeadSpace(
       context.l10n, _deadSpaceController.text);
@@ -60,7 +65,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
     MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
         .takeMedication(
-      dose: _takenDose,
+      takenDose: _takenDose,
       scheduledDateTime: widget.scheduledDate,
       takenDateTime: _takenDate.toUtc(),
       supplyItem: _selectedSupplyItem,
@@ -68,6 +73,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
       side: _selectedSide,
       deadSpace: _deadSpace,
       notes: notes,
+      wastedDose: _wastedAmount
     );
 
     Navigator.of(context).pop();
@@ -88,11 +94,11 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   }
 
   void _onTakenDoseChanged() {
-    final dose = _takenDoseController.text.toDecimalOrNull;
+    final takenDose = _takenDoseController.text.toDecimalOrNull;
 
-    if (dose != null) {
+    if (takenDose != null) {
       setState(() {
-        _takenDose = dose;
+        _takenDose = takenDose;
       });
     }
   }
@@ -104,6 +110,18 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
       setState(() {
         _deadSpace = deadSpace;
       });
+    }
+  }
+
+  void _onWastedAmountChanged() {
+    final wasted = _wastedAmountController.text.toDecimalOrNull;
+
+    if (wasted != null) {
+      setState(() {
+        _wastedAmount = wasted;
+      });
+    } else {
+      setState(() {});
     }
   }
 
@@ -120,8 +138,10 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     super.initState();
     _takenDate = DateTime.now();
     _takenDose = widget.schedule.dose;
+    _wastedAmount = Decimal.zero;
     _takenDoseController =
         TextEditingController(text: widget.schedule.dose.toString());
+    _wastedAmountController = TextEditingController(text: '0');
     _deadSpaceController = TextEditingController(text: '0');
     _notesController = TextEditingController();
   }
@@ -129,6 +149,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   @override
   void dispose() {
     _takenDoseController.dispose();
+    _wastedAmountController.dispose();
     _deadSpaceController.dispose();
     _notesController.dispose();
     super.dispose();
@@ -197,11 +218,20 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             FormSpacer(),
             FormTextField(
               controller: _takenDoseController,
-              label: localizations.amount,
+              label: localizations.takenAmount,
               onChanged: _onTakenDoseChanged,
               inputType: TextInputType.numberWithOptions(decimal: true),
               suffixText: widget.schedule.molecule.unit,
               errorText: _takenDoseError,
+              regexFormatter: RegexPatterns.floatNumber
+            ),
+            FormTextField(
+              controller: _wastedAmountController,
+              label: localizations.wastedAmount,
+              onChanged: _onWastedAmountChanged,
+              inputType: TextInputType.numberWithOptions(decimal: true),
+              suffixText: localizations.milliliters,
+              errorText: _wastedAmountError,
               regexFormatter: RegexPatterns.floatNumber
             ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)

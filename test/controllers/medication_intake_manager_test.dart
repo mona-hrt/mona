@@ -54,7 +54,7 @@ void main() {
           // Act / Assert
           await expectLater(
             manager.takeMedication(
-              dose: Decimal.parse('2'),
+              takenDose: Decimal.parse('2'),
               scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
@@ -70,7 +70,7 @@ void main() {
           // Act
           try {
             await manager.takeMedication(
-              dose: Decimal.parse('2'),
+              takenDose: Decimal.parse('2'),
               scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
@@ -90,7 +90,7 @@ void main() {
           // Act
           try {
             await manager.takeMedication(
-              dose: Decimal.parse('2'),
+              takenDose: Decimal.parse('2'),
               scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
@@ -132,7 +132,7 @@ void main() {
 
           // Act
           await manager.takeMedication(
-            dose: dose,
+            takenDose: dose,
             scheduledDateTime: scheduledDate,
             takenDateTime: takenDate,
             supplyItem: supplyItem,
@@ -218,7 +218,7 @@ void main() {
 
           // Act
           await manager.takeMedication(
-            dose: Decimal.parse('2'),
+            takenDose: Decimal.parse('2'),
             scheduledDateTime: date,
             takenDateTime: date,
             supplyItem: null,
@@ -258,7 +258,7 @@ void main() {
 
           // Act
           await manager.takeMedication(
-            dose: Decimal.parse('2'),
+            takenDose: Decimal.parse('2'),
             scheduledDateTime: date,
             takenDateTime: date,
             supplyItem: supplyItem,
@@ -300,7 +300,7 @@ void main() {
 
             // Act
             await manager.takeMedication(
-              dose: dose,
+              takenDose: dose,
               scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,
@@ -342,7 +342,7 @@ void main() {
 
             // Act
             await manager.takeMedication(
-              dose: dose,
+              takenDose: dose,
               scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,
@@ -387,7 +387,7 @@ void main() {
 
             // Act
             await manager.takeMedication(
-              dose: dose,
+              takenDose: dose,
               scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,

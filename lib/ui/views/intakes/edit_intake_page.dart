@@ -37,6 +37,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
   bool _takenDateChanged = false;
   late TextEditingController _takenDoseController;
   late Decimal _takenDose;
+  late Decimal _wastedAmount; // in mL
+  late TextEditingController _wastedAmountController;
   InjectionSide? _selectedSide;
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
@@ -45,6 +47,9 @@ class _EditIntakePageState extends State<EditIntakePage> {
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(context.l10n, _takenDoseController.text);
+
+  String? get _wastedAmountError => MedicationIntake.validateWastedAmount(
+      context.l10n, _wastedAmountController.text);
 
   bool get _isFormValid => _takenDoseError == null;
 
@@ -64,8 +69,11 @@ class _EditIntakePageState extends State<EditIntakePage> {
     final previousMedication = previousItem as MedicationSupplyItem?;
     final newMedication = newItem as MedicationSupplyItem?;
 
+    Decimal wastedDose = newMedication?.getDose(_wastedAmount) ?? Decimal.zero;
+    Decimal usedDose = _takenDose + wastedDose;
+
     SupplyItemManager(supplyItemProvider).switchDoses(
-        previousMedication, newMedication, intake.dose, _takenDose);
+        previousMedication, newMedication, intake.usedDose, usedDose);
 
     String? timezoneIdentifier = intake.takenTimeZone;
     if (_takenDateChanged) {
@@ -79,7 +87,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
     MedicationIntake updatedIntake = intake.copyWith(
       takenDateTime: _takenDate.toUtc(),
       takenTimeZone: timezoneIdentifier,
-      dose: _takenDose,
+      takenDose: _takenDose,
+      wastedDose: wastedDose,
       side: _selectedSide,
       supplyItemId: newItem?.id,
       notes: notes,
@@ -118,11 +127,23 @@ class _EditIntakePageState extends State<EditIntakePage> {
   }
 
   void _onTakenDoseChanged() {
-    final dose = _takenDoseController.text.toDecimalOrNull;
+    final takenDose = _takenDoseController.text.toDecimalOrNull;
 
-    if (dose != null) {
+    if (takenDose != null) {
       setState(() {
-        _takenDose = dose;
+        _takenDose = takenDose;
+      });
+    } else {
+      setState(() {});
+    }
+  }
+
+  void _onWastedAmountChanged() {
+    final wasted = _wastedAmountController.text.toDecimalOrNull;
+
+    if (wasted != null) {
+      setState(() {
+        _wastedAmount = wasted;
       });
     } else {
       setState(() {});
@@ -147,15 +168,22 @@ class _EditIntakePageState extends State<EditIntakePage> {
     super.initState();
     _takenDate = widget.intake.takenDateTime?.toLocal() ?? DateTime.now();
     print(_takenDate);
-    _takenDose = widget.intake.dose;
-    _takenDoseController =
-        TextEditingController(text: widget.intake.dose.toString());
+    _takenDose = widget.intake.takenDose;
+    MedicationSupplyItem? item = context
+        .read<SupplyItemProvider>()
+        .getItemById(widget.intake.supplyItemId) as MedicationSupplyItem?;
+    _wastedAmount = item?.getAmount(widget.intake.wastedDose ?? Decimal.zero) ??
+        Decimal.zero;
+    _takenDoseController = TextEditingController(text: _takenDose.toString());
+    _wastedAmountController =
+        TextEditingController(text: _wastedAmount.toString() ?? '0');
     _notesController = TextEditingController(text: widget.intake.notes ?? '');
   }
 
   @override
   void dispose() {
     _takenDoseController.dispose();
+    _wastedAmountController.dispose();
     _notesController.dispose();
     super.dispose();
   }
@@ -223,11 +251,20 @@ class _EditIntakePageState extends State<EditIntakePage> {
             FormSpacer(),
             FormTextField(
               controller: _takenDoseController,
-              label: localizations.amount,
+              label: localizations.takenAmount,
               onChanged: _onTakenDoseChanged,
               inputType: TextInputType.numberWithOptions(decimal: true),
               suffixText: widget.intake.molecule.unit,
               errorText: _takenDoseError,
+              regexFormatter: RegexPatterns.floatNumber,
+            ),
+            FormTextField(
+              controller: _wastedAmountController,
+              label: localizations.wastedAmount,
+              onChanged: _onWastedAmountChanged,
+              inputType: TextInputType.numberWithOptions(decimal: true),
+              suffixText: localizations.milliliters,
+              errorText: _wastedAmountError,
               regexFormatter: RegexPatterns.floatNumber,
             ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)

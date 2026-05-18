@@ -17,7 +17,7 @@ class MedicationIntakeManager {
       this._medicationIntakeProvider, this._supplyItemProvider);
 
   Future<void> takeMedication({
-    required Decimal dose,
+    required Decimal takenDose,
     required DateTime scheduledDateTime,
     required DateTime takenDateTime,
     SupplyItem? supplyItem,
@@ -25,6 +25,7 @@ class MedicationIntakeManager {
     InjectionSide? side,
     Decimal? deadSpace, //in μL
     String? notes,
+    Decimal? wastedDose,
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -34,7 +35,7 @@ class MedicationIntakeManager {
     final tzName = timezone.identifier;
 
     await _medicationIntakeProvider.add(MedicationIntake(
-      dose: dose,
+      takenDose: takenDose,
       scheduledDateTime: scheduledDateTime,
       takenDateTime: takenDateTime,
       takenTimeZone: tzName,
@@ -45,6 +46,7 @@ class MedicationIntakeManager {
       ester: schedule.ester,
       supplyItemId: supplyItem?.id,
       notes: notes,
+      wastedDose: wastedDose,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
@@ -58,9 +60,12 @@ class MedicationIntakeManager {
       case MedicationSupplyItem _:
         if (deadSpace != null && deadSpace > Decimal.zero) {
           final microlitersToMilliliters = Decimal.parse('0.001');
-          dose += (supplyItem).getDose(deadSpace * microlitersToMilliliters);
+          takenDose += (supplyItem).getDose(deadSpace * microlitersToMilliliters);
         }
-        await itemManager.useDose(supplyItem, dose);
+        if (wastedDose != null && wastedDose > Decimal.zero) {
+          takenDose += (supplyItem).getDose(wastedDose);
+        }
+        await itemManager.useDose(supplyItem, takenDose);
     }
   }
 
@@ -78,7 +83,7 @@ class MedicationIntakeManager {
         await itemManager.putBack(item);
         return;
       case MedicationSupplyItem _:
-        await itemManager.useDose(item, -intake.dose);
+        await itemManager.useDose(item, -intake.usedDose);
     }
   }
 

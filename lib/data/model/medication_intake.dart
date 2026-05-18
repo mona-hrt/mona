@@ -34,7 +34,9 @@ class MedicationIntake with MedicationIntakeMappable {
   final DateTime scheduledDateTime;
   final DateTime? takenDateTime;
   final String? takenTimeZone;
-  final Decimal dose;
+  @MappableField(key: 'dose') // TODO rename fields in db to match mapper
+  final Decimal takenDose;
+  final Decimal? wastedDose;
   final int? scheduleId;
   final InjectionSide? side;
   bool get isTaken => takenDateTime != null;
@@ -51,7 +53,8 @@ class MedicationIntake with MedicationIntakeMappable {
   MedicationIntake({
     int? id,
     required this.scheduledDateTime,
-    required this.dose,
+    required this.takenDose,
+    this.wastedDose,
     this.takenDateTime,
     this.takenTimeZone,
     this.scheduleId,
@@ -81,9 +84,14 @@ class MedicationIntake with MedicationIntakeMappable {
     return takenLocalDateTime?.toDate;
   }
 
+  Decimal get usedDose => takenDose + (wastedDose ?? Decimal.zero);
+
   // coverage:ignore-start
   static String? validateDose(AppLocalizations l10n, String? value) =>
       requiredStrictlyPositiveDecimal(l10n, value);
+
+  static String? validateWastedAmount(AppLocalizations l10n, String? value) =>
+      requiredPositiveDecimal(l10n, value);
 
   static String? validateDeadSpace(AppLocalizations l10n, String? value) =>
       positiveDecimal(l10n, value);
