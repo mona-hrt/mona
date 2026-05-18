@@ -43,9 +43,7 @@ class AppDatabase {
 
     if (_database != null) return _database!;
 
-    if (currentDatabaseVersion < _upgrades.entries.last.key) {
-      print("Probably forgot to upgrade db version.");
-    }
+    assert(currentDatabaseVersion == _upgrades.entries.last.key, "Current database version mismatches last upgrade version.");
 
     if (Platform.isLinux || Platform.isWindows) {
       sqfliteFfiInit();
