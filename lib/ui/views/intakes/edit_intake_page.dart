@@ -176,7 +176,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
         Decimal.zero;
     _takenDoseController = TextEditingController(text: _takenDose.toString());
     _wastedAmountController =
-        TextEditingController(text: _wastedAmount.toString() ?? '0');
+        TextEditingController(text: _wastedAmount.toString());
     _notesController = TextEditingController(text: widget.intake.notes ?? '');
   }
 
