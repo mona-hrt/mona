@@ -111,6 +111,8 @@
   "editIntake": "Modifier la prise",
   "date": "Date",
   "amount": "Quantité",
+  "takenAmount": "Quantité prise",
+  "wastedAmount": "Quantité perdue",
   "none": "Aucun",
   "supplyItem": "Consommable",
   "injectionSide": "Côté",

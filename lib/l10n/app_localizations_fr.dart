@@ -351,10 +351,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amount => 'Quantité';
 
   @override
-  String get takenAmount => 'Taken amount';
+  String get takenAmount => 'Quantité prise';
 
   @override
-  String get wastedAmount => 'Wasted amount';
+  String get wastedAmount => 'Quantité perdue';
 
   @override
   String get none => 'Aucun';
