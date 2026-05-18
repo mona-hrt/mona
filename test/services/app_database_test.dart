@@ -97,7 +97,7 @@ void main() {
       final id = await db.insert('medication_schedules', {
         'name': 'Morning Med',
         'dose': '5',
-        'intervalDays': 1,
+        'daysOfWeek': '[1, 2, 3, 4, 5, 6, 7]',
         'startDate': DateTime(2025, 9, 13).toIso8601String(),
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
@@ -113,11 +113,11 @@ void main() {
       expect(
         [
           schedule.first['name'],
-          schedule.first['intervalDays'],
+          schedule.first['daysOfWeek'],
         ],
         [
           'Morning Med',
-          1,
+          '[1, 2, 3, 4, 5, 6, 7]',
         ],
       );
     });

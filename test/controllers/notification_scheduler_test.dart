@@ -146,7 +146,7 @@ void main() {
           MedicationSchedule(
             name: 'Test Medication',
             dose: Decimal.fromInt(10),
-            intervalDays: 1,
+            daysOfWeek: const [1, 2, 3, 4, 5, 6, 7],
             molecule: KnownMolecules.estradiol,
             administrationRoute: AdministrationRoute.oral,
             notificationTimes: List.empty(),
@@ -206,7 +206,7 @@ void main() {
             id: scheduleId,
             name: 'Empty Schedule',
             dose: Decimal.fromInt(10),
-            intervalDays: 1,
+            daysOfWeek: const [1, 2, 3, 4, 5, 6, 7],
             molecule: KnownMolecules.estradiol,
             administrationRoute: AdministrationRoute.oral,
             notificationTimes: [],
@@ -259,7 +259,7 @@ void main() {
             id: scheduleId,
             name: 'Future Schedule',
             dose: Decimal.fromInt(10),
-            intervalDays: 1,
+            daysOfWeek: const [1, 2, 3, 4, 5, 6, 7],
             molecule: KnownMolecules.estradiol,
             administrationRoute: AdministrationRoute.oral,
             notificationTimes: [scheduledTime],
@@ -279,17 +279,6 @@ void main() {
         await scheduler.regenerateAll(l10n, l10n.localeName);
 
         // Assert
-        final checkNow = DateTime.now();
-        int expectedCount = 0;
-        final dates =
-            List.generate(5, (i) => Date.today().add(Duration(days: i)));
-        for (final date in dates) {
-          final dateTime = DateTime(date.year, date.month, date.day,
-              scheduledTime.hour, scheduledTime.minute);
-          if (!checkNow.isAfter(dateTime)) {
-            expectedCount++;
-          }
-        }
         verify(mockPlugin.zonedSchedule(
           id: anyNamed('id'),
           title: anyNamed('title'),
@@ -297,8 +286,10 @@ void main() {
           scheduledDate: anyNamed('scheduledDate'),
           notificationDetails: anyNamed('notificationDetails'),
           androidScheduleMode: anyNamed('androidScheduleMode'),
+          matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
           payload: anyNamed('payload'),
-        )).called(expectedCount);
+        )).called(7);
+
 
         // Cleanup
         NotificationService.createPlugin = origCreate;
@@ -323,7 +314,7 @@ void main() {
             id: scheduleId,
             name: 'Past Schedule',
             dose: Decimal.fromInt(10),
-            intervalDays: 1,
+            daysOfWeek: const [1, 2, 3, 4, 5, 6, 7],
             molecule: KnownMolecules.estradiol,
             administrationRoute: AdministrationRoute.oral,
             notificationTimes: [scheduledTime],
@@ -343,17 +334,6 @@ void main() {
         await scheduler.regenerateAll(l10n, l10n.localeName);
 
         // Assert
-        final checkNow = DateTime.now();
-        int expectedCount = 0;
-        final dates =
-            List.generate(5, (i) => Date.today().add(Duration(days: i)));
-        for (final date in dates) {
-          final dateTime = DateTime(date.year, date.month, date.day,
-              scheduledTime.hour, scheduledTime.minute);
-          if (!checkNow.isAfter(dateTime)) {
-            expectedCount++;
-          }
-        }
         verify(mockPlugin.zonedSchedule(
           id: anyNamed('id'),
           title: anyNamed('title'),
@@ -361,8 +341,10 @@ void main() {
           scheduledDate: anyNamed('scheduledDate'),
           notificationDetails: anyNamed('notificationDetails'),
           androidScheduleMode: anyNamed('androidScheduleMode'),
+          matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
           payload: anyNamed('payload'),
-        )).called(expectedCount);
+        )).called(7);
+
 
         // Cleanup
         NotificationService.createPlugin = origCreate;
@@ -390,7 +372,7 @@ void main() {
             id: scheduleId,
             name: 'MultiTime Schedule',
             dose: Decimal.fromInt(10),
-            intervalDays: 1,
+            daysOfWeek: const [1, 2, 3, 4, 5, 6, 7],
             molecule: KnownMolecules.estradiol,
             administrationRoute: AdministrationRoute.oral,
             notificationTimes: times,
@@ -410,19 +392,6 @@ void main() {
         await scheduler.regenerateAll(l10n, l10n.localeName);
 
         // Assert
-        final checkNow = DateTime.now();
-        int expectedCount = 0;
-        final dates =
-            List.generate(5, (i) => Date.today().add(Duration(days: i)));
-        for (final date in dates) {
-          for (final time in times) {
-            final dateTime = DateTime(
-                date.year, date.month, date.day, time.hour, time.minute);
-            if (!checkNow.isAfter(dateTime)) {
-              expectedCount++;
-            }
-          }
-        }
         verify(mockPlugin.zonedSchedule(
           id: anyNamed('id'),
           title: anyNamed('title'),
@@ -430,8 +399,10 @@ void main() {
           scheduledDate: anyNamed('scheduledDate'),
           notificationDetails: anyNamed('notificationDetails'),
           androidScheduleMode: anyNamed('androidScheduleMode'),
+          matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
           payload: anyNamed('payload'),
-        )).called(expectedCount);
+        )).called(14);
+
 
         // Cleanup
         NotificationService.createPlugin = origCreate;
@@ -457,7 +428,7 @@ void main() {
             id: scheduleId,
             name: 'Taken Today Schedule',
             dose: Decimal.fromInt(10),
-            intervalDays: 1,
+            daysOfWeek: const [1, 2, 3, 4, 5, 6, 7],
             molecule: KnownMolecules.estradiol,
             administrationRoute: AdministrationRoute.oral,
             notificationTimes: [
@@ -492,8 +463,10 @@ void main() {
           scheduledDate: anyNamed('scheduledDate'),
           notificationDetails: anyNamed('notificationDetails'),
           androidScheduleMode: anyNamed('androidScheduleMode'),
+          matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
           payload: anyNamed('payload'),
-        )).called(4);
+        )).called(7);
+
 
         // Cleanup
         NotificationService.createPlugin = origCreate;

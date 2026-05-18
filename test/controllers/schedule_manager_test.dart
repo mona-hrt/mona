@@ -45,20 +45,20 @@ void main() {
         id: 1,
         name: 'TodayMed',
         dose: Decimal.one,
-        intervalDays: 2,
+        daysOfWeek: [today.weekday],
         startDate: today,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
       when(mockIntakeProvider.getLastIntakeDateForSchedule(1))
-          .thenReturn(today.subtract(const Duration(days: 2)));
+          .thenReturn(today.subtract(const Duration(days: 7)));
 
       todayTakenSchedule = MedicationSchedule(
         id: 5,
         name: 'TodayMed',
         dose: Decimal.one,
-        intervalDays: 2,
+        daysOfWeek: [today.weekday],
         startDate: today,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
@@ -71,34 +71,34 @@ void main() {
         id: 4,
         name: 'TodayLateMed',
         dose: Decimal.one,
-        intervalDays: 2,
-        startDate: today.subtract(const Duration(days: 4)),
+        daysOfWeek: [today.weekday],
+        startDate: today.subtract(const Duration(days: 7)),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
       when(mockIntakeProvider.getLastIntakeDateForSchedule(4))
-          .thenReturn(today.subtract(const Duration(days: 3)));
+          .thenReturn(today.subtract(const Duration(days: 8)));
 
       overdueSchedule = MedicationSchedule(
         id: 2,
         name: 'OverdueMed',
         dose: Decimal.one,
-        intervalDays: 2,
-        startDate: today.subtract(const Duration(days: 9)),
+        daysOfWeek: [today.subtract(const Duration(days: 1)).weekday],
+        startDate: today.subtract(const Duration(days: 8)),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
       );
       when(mockIntakeProvider.getLastIntakeDateForSchedule(2))
-          .thenReturn(today.subtract(const Duration(days: 4)));
+          .thenReturn(today.subtract(const Duration(days: 9)));
 
       upcomingSchedule = MedicationSchedule(
         id: 3,
         name: 'UpcomingMed',
         dose: Decimal.one,
-        intervalDays: 2,
-        startDate: today.add(const Duration(days: 10)),
+        daysOfWeek: [today.add(const Duration(days: 1)).weekday],
+        startDate: today.add(const Duration(days: 1)),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
         notificationTimes: List.empty(),
@@ -121,7 +121,7 @@ void main() {
         id: 1,
         name: 'TodayMed',
         dose: Decimal.one,
-        intervalDays: 2,
+        daysOfWeek: [today.weekday],
         startDate: today,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
@@ -129,7 +129,7 @@ void main() {
       );
 
       when(mockIntakeProvider.getLastIntakeDateForSchedule(1))
-          .thenReturn(today.subtract(const Duration(days: 2)));
+          .thenReturn(today.subtract(const Duration(days: 7)));
 
       final result = manager.getSchedulesByStatus(ScheduleStatus.today);
       expect(result, [todaySchedule]);

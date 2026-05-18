@@ -48,7 +48,7 @@ void main() {
         final schedule = MedicationSchedule(
           name: 'ScheduleSingle',
           dose: dose,
-          intervalDays: 1,
+          daysOfWeek: [1, 2, 3, 4, 5, 6, 7],
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -101,7 +101,7 @@ void main() {
         final schedule = MedicationSchedule(
           name: 'ScheduleSingle',
           dose: dose,
-          intervalDays: 1,
+          daysOfWeek: [1, 2, 3, 4, 5, 6, 7],
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -149,7 +149,7 @@ void main() {
         final schedule = MedicationSchedule(
           name: 'ScheduleSingle',
           dose: dose,
-          intervalDays: 1,
+          daysOfWeek: [1, 2, 3, 4, 5, 6, 7],
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),

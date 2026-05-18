@@ -14,12 +14,13 @@ void main() {
   group('MedicationSchedule', () {
     group('MedicationSchedule model', () {
       test('toMap and fromMap should preserve values', () {
+        final startDate = Date.today();
         final schedule = MedicationSchedule(
           id: 1,
           name: 'Test Med',
           dose: Decimal.parse('10.5'),
-          intervalDays: 7,
-          startDate: Date.today(),
+          daysOfWeek: [startDate.weekday],
+          startDate: startDate,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
           ester: Ester.cypionate,
@@ -39,7 +40,7 @@ void main() {
               .having((s) => s.name, 'name', schedule.name)
               .having((s) => s.dose, 'dose', schedule.dose)
               .having(
-                  (s) => s.intervalDays, 'intervalDays', schedule.intervalDays)
+                  (s) => s.daysOfWeek, 'daysOfWeek', schedule.daysOfWeek)
               .having((s) => s.startDate, 'startDate', schedule.startDate)
               .having((s) => s.molecule, 'molecule', schedule.molecule)
               .having((s) => s.administrationRoute, 'administrationRoute',
@@ -74,27 +75,6 @@ void main() {
             MedicationSchedule.validateDose(l10n, '-1'),
             MedicationSchedule.validateDose(l10n, 'abc'),
             MedicationSchedule.validateDose(l10n, '2.5'),
-          ],
-          [
-            isNotNull,
-            isNotNull,
-            isNotNull,
-            isNotNull,
-            isNotNull,
-            isNull,
-          ],
-        );
-      });
-
-      test('validateIntervalDays works correctly', () {
-        expect(
-          [
-            MedicationSchedule.validateIntervalDays(l10n, null),
-            MedicationSchedule.validateIntervalDays(l10n, ''),
-            MedicationSchedule.validateIntervalDays(l10n, '0'),
-            MedicationSchedule.validateIntervalDays(l10n, '-2'),
-            MedicationSchedule.validateIntervalDays(l10n, 'abc'),
-            MedicationSchedule.validateIntervalDays(l10n, '7'),
           ],
           [
             isNotNull,
@@ -224,7 +204,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -239,7 +219,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [today.weekday],
           startDate: today,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -256,14 +236,14 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
         );
 
-        final expectedNext = Date.today().add(Duration(days: 3));
+        final expectedNext = Date.fromDateTime(start.toDateTime().add(Duration(days: 7)));
         expect(s.nextDate, expectedNext);
       });
 
@@ -272,7 +252,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -287,7 +267,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 1,
+          daysOfWeek: [1, 2, 3, 4, 5, 6, 7],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -304,7 +284,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -318,7 +298,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [Date.today().weekday],
           startDate: Date.today(),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -335,7 +315,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -352,7 +332,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -367,7 +347,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 1,
+          daysOfWeek: [1, 2, 3, 4, 5, 6, 7],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -380,13 +360,13 @@ void main() {
 
     group('Consistency checks between last and next date', () {
       test(
-          'when startDate < today -> lastDate < nextDate and difference == intervalDays',
+          'when startDate < today -> lastDate < nextDate and difference == 7',
           () {
         final start = Date.today().subtract(Duration(days: 4));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -396,17 +376,17 @@ void main() {
         final last = s.previousDate;
         final next = s.nextDate;
 
-        expect(next.differenceInDays(last!), s.intervalDays);
+        expect(next.differenceInDays(last!), 7);
       });
 
       test(
-          'difference == intervalDays when today is exactly on a scheduled date',
+          'difference == 7 when today is exactly on a scheduled date',
           () {
         final start = Date.today().subtract(Duration(days: 7));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -416,7 +396,7 @@ void main() {
         final last = s.previousDate;
         final next = s.nextDate;
 
-        expect(next.differenceInDays(last!), s.intervalDays);
+        expect(next.differenceInDays(last!), 7);
       });
     });
 
@@ -426,7 +406,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -445,7 +425,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -454,7 +434,7 @@ void main() {
 
         final dates = s.getNextDates(2);
 
-        expect(dates.first, Date.today().add(Duration(days: 3)));
+        expect(dates.first, Date.fromDateTime(start.toDateTime().add(Duration(days: 7))));
       });
 
       test('startDate is today -> first returned date is today', () {
@@ -462,7 +442,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [today.weekday],
           startDate: today,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -480,7 +460,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -497,7 +477,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -514,7 +494,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -526,12 +506,12 @@ void main() {
         expect(dates.length, 4);
       });
 
-      test('returned dates are spaced by intervalDays', () {
+      test('returned dates are spaced by 7 days', () {
         final start = Date.today().subtract(Duration(days: 9));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -548,7 +528,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -560,22 +540,19 @@ void main() {
         expect(dates, isEmpty);
       });
 
-      test('count < 0 -> throws ArgumentError', () {
+      test('count < 0 -> returns empty list', () {
         final start = Date.today().subtract(Duration(days: 9));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [start.weekday],
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
         );
 
-        expect(
-          () => s.getNextDates(-1),
-          throwsArgumentError,
-        );
+        expect(s.getNextDates(-1), isEmpty);
       });
     });
 
@@ -584,7 +561,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [Date.today().weekday],
           startDate: Date.today(),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -595,11 +572,12 @@ void main() {
       });
 
       test('returns false when next scheduled date is in future', () {
+        final today = Date.today();
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().add(Duration(days: 3)),
+          daysOfWeek: [today.add(Duration(days: 3)).weekday],
+          startDate: today.add(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -609,11 +587,13 @@ void main() {
       });
 
       test('returns false when next scheduled date is in past', () {
+        final today = Date.today();
+        // If start date was 3 days ago, and it repeats every week, next date is in 4 days.
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().subtract(Duration(days: 3)),
+          daysOfWeek: [today.subtract(Duration(days: 3)).weekday],
+          startDate: today.subtract(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -625,11 +605,12 @@ void main() {
 
     group('isLate', () {
       test('returns true when lastTaken is before lastDate', () {
+        final start = Date.today().subtract(Duration(days: 14));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().subtract(Duration(days: 14)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -641,11 +622,12 @@ void main() {
       });
 
       test('returns false when lastTaken is on lastDate', () {
+        final start = Date.today().subtract(Duration(days: 14));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().subtract(Duration(days: 14)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -657,11 +639,12 @@ void main() {
       });
 
       test('returns false when lastTaken is after lastDate', () {
+        final start = Date.today().subtract(Duration(days: 14));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().subtract(Duration(days: 14)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -673,11 +656,12 @@ void main() {
       });
 
       test('returns true when lastTaken is null but schedule is overdue', () {
+        final start = Date.today().subtract(Duration(days: 14));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().subtract(Duration(days: 14)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -692,7 +676,7 @@ void main() {
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
+          daysOfWeek: [Date.today().weekday],
           startDate: Date.today(),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -705,11 +689,12 @@ void main() {
       test(
           'returns false when lastTaken is null but next scheduled date is in the future',
           () {
+        final start = Date.today().add(Duration(days: 3));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().add(Duration(days: 3)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -721,11 +706,12 @@ void main() {
 
     group('isTakenTodayOrLater', () {
       test('returns false if no last taken', () {
+        final start = Date.today().add(Duration(days: 3));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().add(Duration(days: 3)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -735,11 +721,12 @@ void main() {
       });
 
       test('returns false if last taken date is before today', () {
+        final start = Date.today().add(Duration(days: 3));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().add(Duration(days: 3)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -751,11 +738,12 @@ void main() {
       });
 
       test('returns true if last taken date is after today', () {
+        final start = Date.today().add(Duration(days: 3));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().add(Duration(days: 3)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
@@ -767,11 +755,12 @@ void main() {
       });
 
       test('returns true if last taken date is today', () {
+        final start = Date.today().add(Duration(days: 3));
         final s = MedicationSchedule(
           name: 'A',
           dose: Decimal.one,
-          intervalDays: 7,
-          startDate: Date.today().add(Duration(days: 3)),
+          daysOfWeek: [start.weekday],
+          startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
           notificationTimes: List.empty(),
