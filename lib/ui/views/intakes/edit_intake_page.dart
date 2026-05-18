@@ -167,7 +167,6 @@ class _EditIntakePageState extends State<EditIntakePage> {
   void initState() {
     super.initState();
     _takenDate = widget.intake.takenDateTime?.toLocal() ?? DateTime.now();
-    print(_takenDate);
     _takenDose = widget.intake.takenDose;
     MedicationSupplyItem? item = context
         .read<SupplyItemProvider>()
@@ -258,15 +257,6 @@ class _EditIntakePageState extends State<EditIntakePage> {
               errorText: _takenDoseError,
               regexFormatter: RegexPatterns.floatNumber,
             ),
-            FormTextField(
-              controller: _wastedAmountController,
-              label: localizations.wastedAmount,
-              onChanged: _onWastedAmountChanged,
-              inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: localizations.milliliters,
-              errorText: _wastedAmountError,
-              regexFormatter: RegexPatterns.floatNumber,
-            ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
                 infoText: supplyItem.localizedSupplyAmount(
@@ -282,13 +272,23 @@ class _EditIntakePageState extends State<EditIntakePage> {
               onChanged: _onSupplyItemChanged,
               label: localizations.supplyItem,
             ),
-            if (_isInjection)
+            if (_isInjection) ...[
               FormDropdownField<InjectionSide>(
                 value: _selectedSide,
                 items: injectionSideDropdownMenuItems(localizations),
                 onChanged: _onInjectionSideChanged,
                 label: localizations.injectionSide,
               ),
+              FormTextField(
+                controller: _wastedAmountController,
+                label: localizations.wastedAmount,
+                onChanged: _onWastedAmountChanged,
+                inputType: TextInputType.numberWithOptions(decimal: true),
+                suffixText: localizations.milliliters,
+                errorText: _wastedAmountError,
+                regexFormatter: RegexPatterns.floatNumber,
+              ),
+          ],
             FormSpacer(),
             FormTextField(
               controller: _notesController,

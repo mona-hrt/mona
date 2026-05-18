@@ -225,15 +225,6 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
               errorText: _takenDoseError,
               regexFormatter: RegexPatterns.floatNumber
             ),
-            FormTextField(
-              controller: _wastedAmountController,
-              label: localizations.wastedAmount,
-              onChanged: _onWastedAmountChanged,
-              inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: localizations.milliliters,
-              errorText: _wastedAmountError,
-              regexFormatter: RegexPatterns.floatNumber
-            ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
                 infoText: supplyItem.localizedSupplyAmount(
@@ -255,6 +246,15 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                 items: injectionSideDropdownMenuItems(localizations),
                 onChanged: _onInjectionSideChanged,
                 label: localizations.injectionSide,
+              ),
+              FormTextField(
+                  controller: _wastedAmountController,
+                  label: localizations.wastedAmount,
+                  onChanged: _onWastedAmountChanged,
+                  inputType: TextInputType.numberWithOptions(decimal: true),
+                  suffixText: localizations.milliliters,
+                  errorText: _wastedAmountError,
+                  regexFormatter: RegexPatterns.floatNumber
               ),
               FormTextField(
                 controller: _deadSpaceController,
