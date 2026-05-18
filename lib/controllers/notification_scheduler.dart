@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
@@ -17,38 +18,6 @@ class NotificationScheduler {
     this.preferencesService,
   );
 
-  Map<DateTime, MedicationSchedule> _getNotificationTimes() {
-    final Map<DateTime, MedicationSchedule> notificationsToSchedule = {};
-    final now = DateTime.now();
-
-    for (final schedule in medicationScheduleProvider.schedules) {
-      final lastTaken =
-          medicationIntakeProvider.getLastIntakeDateForSchedule(schedule.id);
-      final nextDates = schedule.getNextDates(5);
-
-      for (final date in nextDates) {
-        for (final time in schedule.notificationTimes) {
-          final dateTime = DateTime(
-            date.year,
-            date.month,
-            date.day,
-            time.hour,
-            time.minute,
-          );
-
-          if (now.isAfter(dateTime)) continue;
-          if (date.isToday && schedule.isTakenTodayOrLater(lastTaken)) {
-            continue;
-          }
-
-          notificationsToSchedule[dateTime] = schedule;
-        }
-      }
-    }
-
-    return notificationsToSchedule;
-  }
-
   Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
     NotificationService().triggerPastPendingNotifications();
     NotificationService().cancelPendingNotifications();
@@ -57,29 +26,49 @@ class NotificationScheduler {
       return;
     }
 
-    final scheduledDateTimeFormat = DateFormat.MMMMd(localeName);
+    final timeFormat = DateFormat.Hm(localeName);
+    final weekdayFormatter = DateFormat.EEEE(localeName);
 
-    final notificationTimes = _getNotificationTimes();
+    final List<Future<void>> schedulingFutures = [];
 
-    await Future.wait(
-      notificationTimes.entries.map(
-        (entry) {
-          final dateTime = entry.key;
-          final schedule = entry.value;
+    for (final schedule in medicationScheduleProvider.schedules) {
+      final lastTaken =
+          medicationIntakeProvider.getLastIntakeDateForSchedule(schedule.id);
 
-          return NotificationService().scheduleNotification(
-            title: l10n.notificationMedicationReminderTitle(schedule.name),
-            body: l10n.notificationMedicationReminderBody(
-              scheduledDateTimeFormat.format(dateTime),
+      for (final dayOfWeek in schedule.daysOfWeek) {
+        // Use Jan 1, 2024 (a Monday) as a reference to get the weekday name
+        final referenceDate = DateTime(2024, 1, 1 + (dayOfWeek - 1));
+        final weekdayName = weekdayFormatter.format(referenceDate);
+
+        for (final time in schedule.notificationTimes) {
+          final timeStr =
+              timeFormat.format(DateTime(2024, 1, 1, time.hour, time.minute));
+
+          // Calculate startDate for this repeating notification
+          DateTime start = schedule.startDate.toDateTime();
+
+          // If today matches this dayOfWeek and it's already taken, start from tomorrow to skip today
+          if (Date.today().weekday == dayOfWeek &&
+              schedule.isTakenTodayOrLater(lastTaken)) {
+            start = DateTime.now().add(const Duration(days: 1));
+          }
+
+          schedulingFutures.add(
+            NotificationService().scheduleWeeklyNotification(
+              title: l10n.notificationMedicationReminderTitle(schedule.name),
+              body: l10n.notificationMedicationReminderBody(
+                "$weekdayName $timeStr",
+              ),
+              dayOfWeek: dayOfWeek,
+              hour: time.hour,
+              minute: time.minute,
+              startDate: start,
             ),
-            year: dateTime.year,
-            month: dateTime.month,
-            day: dateTime.day,
-            hour: dateTime.hour,
-            minute: dateTime.minute,
           );
-        },
-      ),
-    );
+        }
+      }
+    }
+
+    await Future.wait(schedulingFutures);
   }
 }

@@ -167,6 +167,59 @@ class NotificationService {
     );
   }
 
+  Future<void> scheduleWeeklyNotification({
+    int? id,
+    required String title,
+    required String body,
+    required int dayOfWeek,
+    required int hour,
+    required int minute,
+    required DateTime startDate,
+  }) async {
+    id ??= Random().nextInt(1 << 31);
+
+    // Find the first occurrence on or after startDate that matches dayOfWeek
+    DateTime firstOccurrence = startDate;
+    while (firstOccurrence.weekday != dayOfWeek) {
+      firstOccurrence = firstOccurrence.add(const Duration(days: 1));
+    }
+    firstOccurrence = DateTime(
+      firstOccurrence.year,
+      firstOccurrence.month,
+      firstOccurrence.day,
+      hour,
+      minute,
+    );
+
+    // If the first occurrence is in the past, move to next week
+    if (firstOccurrence.isBefore(DateTime.now())) {
+      firstOccurrence = firstOccurrence.add(const Duration(days: 7));
+    }
+
+    final scheduledDate = tz.TZDateTime.from(firstOccurrence, tz.local);
+
+    final payload = jsonEncode({
+      'scheduledTime': firstOccurrence.toIso8601String(),
+      'isRepeating': true,
+    });
+
+    final useExact = await canScheduleExactAlarms();
+    final scheduleMode = useExact
+        ? AndroidScheduleMode.exactAllowWhileIdle
+        : AndroidScheduleMode.inexactAllowWhileIdle;
+
+    await _notificationsPlugin.zonedSchedule(
+      id: id,
+      title: title,
+      body: body,
+      scheduledDate: scheduledDate,
+      notificationDetails: _notificationDetails(),
+      androidScheduleMode: scheduleMode,
+      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+      payload: payload,
+    );
+  }
+
   Future<void> cancelAllNotifications() async {
     await _notificationsPlugin.cancelAll();
   }
