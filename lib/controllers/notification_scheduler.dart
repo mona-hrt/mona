@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/l10n/app_localizations.dart';
@@ -17,38 +16,6 @@ class NotificationScheduler {
     this.medicationIntakeProvider,
     this.preferencesService,
   );
-
-  Map<DateTime, MedicationSchedule> _getNotificationTimes() {
-    final Map<DateTime, MedicationSchedule> notificationsToSchedule = {};
-    final now = DateTime.now();
-
-    for (final schedule in medicationScheduleProvider.schedules) {
-      final lastTaken = medicationIntakeProvider
-          .getLastIntakeLocalDateForSchedule(schedule.id);
-      final nextDates = schedule.getNextDates(5);
-
-      for (final date in nextDates) {
-        for (final time in schedule.notificationTimes) {
-          final dateTime = DateTime(
-            date.year,
-            date.month,
-            date.day,
-            time.hour,
-            time.minute,
-          );
-
-          if (now.isAfter(dateTime)) continue;
-          if (date.isToday && schedule.isTakenTodayOrLater(lastTaken)) {
-            continue;
-          }
-
-          notificationsToSchedule[dateTime] = schedule;
-        }
-      }
-    }
-
-    return notificationsToSchedule;
-  }
 
   Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
     NotificationService().triggerPastPendingNotifications();

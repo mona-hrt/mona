@@ -39,8 +39,7 @@ void main() {
               .having((s) => s.id, 'id', schedule.id)
               .having((s) => s.name, 'name', schedule.name)
               .having((s) => s.dose, 'dose', schedule.dose)
-              .having(
-                  (s) => s.daysOfWeek, 'daysOfWeek', schedule.daysOfWeek)
+              .having((s) => s.daysOfWeek, 'daysOfWeek', schedule.daysOfWeek)
               .having((s) => s.startDate, 'startDate', schedule.startDate)
               .having((s) => s.molecule, 'molecule', schedule.molecule)
               .having((s) => s.administrationRoute, 'administrationRoute',
@@ -243,7 +242,8 @@ void main() {
           notificationTimes: List.empty(),
         );
 
-        final expectedNext = Date.fromDateTime(start.toDateTime().add(Duration(days: 7)));
+        final expectedNext =
+            Date.fromDateTime(start.toDateTime().add(Duration(days: 7)));
         expect(s.nextDate, expectedNext);
       });
 
@@ -359,8 +359,7 @@ void main() {
     });
 
     group('Consistency checks between last and next date', () {
-      test(
-          'when startDate < today -> lastDate < nextDate and difference == 7',
+      test('when startDate < today -> lastDate < nextDate and difference == 7',
           () {
         final start = Date.today().subtract(Duration(days: 4));
         final s = MedicationSchedule(
@@ -379,9 +378,7 @@ void main() {
         expect(next.differenceInDays(last!), 7);
       });
 
-      test(
-          'difference == 7 when today is exactly on a scheduled date',
-          () {
+      test('difference == 7 when today is exactly on a scheduled date', () {
         final start = Date.today().subtract(Duration(days: 7));
         final s = MedicationSchedule(
           name: 'A',
@@ -434,7 +431,8 @@ void main() {
 
         final dates = s.getNextDates(2);
 
-        expect(dates.first, Date.fromDateTime(start.toDateTime().add(Duration(days: 7))));
+        expect(dates.first,
+            Date.fromDateTime(start.toDateTime().add(Duration(days: 7))));
       });
 
       test('startDate is today -> first returned date is today', () {

@@ -290,7 +290,6 @@ void main() {
           payload: anyNamed('payload'),
         )).called(7);
 
-
         // Cleanup
         NotificationService.createPlugin = origCreate;
         NotificationService.isPlatformSupported = origPlatformCheck;
@@ -344,7 +343,6 @@ void main() {
           matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
           payload: anyNamed('payload'),
         )).called(7);
-
 
         // Cleanup
         NotificationService.createPlugin = origCreate;
@@ -402,7 +400,6 @@ void main() {
           matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
           payload: anyNamed('payload'),
         )).called(14);
-
 
         // Cleanup
         NotificationService.createPlugin = origCreate;
@@ -466,7 +463,6 @@ void main() {
           matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
           payload: anyNamed('payload'),
         )).called(7);
-
 
         // Cleanup
         NotificationService.createPlugin = origCreate;
