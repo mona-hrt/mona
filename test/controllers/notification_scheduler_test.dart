@@ -6,13 +6,13 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
+import 'package:mona/controllers/schedule_occurrences.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
-import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/l10n/app_localizations_en.dart';
 import 'package:mona/services/notification_service.dart';
@@ -22,19 +22,44 @@ import 'package:timezone/timezone.dart' as tz;
 
 @GenerateNiceMocks([
   MockSpec<MedicationScheduleProvider>(),
-  MockSpec<MedicationIntakeProvider>(),
+  MockSpec<ScheduleOccurrences>(),
   MockSpec<PreferencesService>(),
   MockSpec<FlutterLocalNotificationsPlugin>(),
 ])
 import 'notification_scheduler_test.mocks.dart';
 
+MedicationSchedule schedule({int id = 1, String name = 'Med'}) =>
+    MedicationSchedule(
+      id: id,
+      name: name,
+      dose: Decimal.fromInt(10),
+      scheduling: IntervalDaysSchedule(intervalDays: 1),
+      molecule: KnownMolecules.estradiol,
+      administrationRoute: AdministrationRoute.oral,
+    );
+
+ScheduledOccurrence occurrence({
+  Date? date,
+  TimeOfDay? time = const TimeOfDay(hour: 12, minute: 0),
+  ScheduleStatus status = ScheduleStatus.upcoming,
+  bool notifiable = true,
+}) =>
+    ScheduledOccurrence(
+      date: date ?? Date.today().add(const Duration(days: 1)),
+      time: time,
+      status: status,
+      notifiable: notifiable,
+    );
+
 void main() {
   final l10n = AppLocalizationsEn();
 
-  late MockMedicationScheduleProvider mockMedicationScheduleProvider;
-  late MockMedicationIntakeProvider mockMedicationIntakeProvider;
-  late MockPreferencesService mockPreferencesService;
-  late MockFlutterLocalNotificationsPlugin mockPlugin;
+  late MockMedicationScheduleProvider scheduleProvider;
+  late MockScheduleOccurrences occurrences;
+  late MockPreferencesService preferences;
+  late MockFlutterLocalNotificationsPlugin plugin;
+  late bool Function()? origPlatformCheck;
+  late FlutterLocalNotificationsPlugin Function()? origCreatePlugin;
 
   setUpAll(() async {
     await initializeDateFormatting('en');
@@ -43,716 +68,223 @@ void main() {
   });
 
   setUp(() {
-    mockMedicationScheduleProvider = MockMedicationScheduleProvider();
-    mockMedicationIntakeProvider = MockMedicationIntakeProvider();
-    mockPreferencesService = MockPreferencesService();
-    mockPlugin = MockFlutterLocalNotificationsPlugin();
+    scheduleProvider = MockMedicationScheduleProvider();
+    occurrences = MockScheduleOccurrences();
+    preferences = MockPreferencesService();
+    plugin = MockFlutterLocalNotificationsPlugin();
+
+    origPlatformCheck = NotificationService.isPlatformSupported;
+    origCreatePlugin = NotificationService.createPlugin;
+    NotificationService.isPlatformSupported = () => true;
+    NotificationService.createPlugin = () => plugin;
+
+    when(preferences.notificationsEnabled).thenReturn(true);
+    when(scheduleProvider.schedules).thenReturn([]);
+    when(plugin.zonedSchedule(
+      id: anyNamed('id'),
+      title: anyNamed('title'),
+      body: anyNamed('body'),
+      scheduledDate: anyNamed('scheduledDate'),
+      notificationDetails: anyNamed('notificationDetails'),
+      androidScheduleMode: anyNamed('androidScheduleMode'),
+      payload: anyNamed('payload'),
+    )).thenAnswer((_) async {});
   });
 
-  group('NotificationScheduler', () {
-    group('pending notifications', () {
-      test('regenerateAll triggers past pending notifications', () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        NotificationService.isPlatformSupported = () => true;
+  tearDown(() {
+    NotificationService.isPlatformSupported = origPlatformCheck;
+    NotificationService.createPlugin = origCreatePlugin;
+  });
 
-        final pending = PendingNotificationRequest(
-          1,
-          'title',
-          'body',
-          '{"scheduledTime":"${DateTime.now().subtract(Duration(days: 1)).toIso8601String()}"}',
-        );
+  NotificationScheduler buildScheduler() => NotificationScheduler(
+        scheduleProvider,
+        occurrences,
+        preferences,
+      );
 
-        when(mockPlugin.pendingNotificationRequests())
-            .thenAnswer((_) async => [pending]);
-        when(mockPlugin.show(
-          id: anyNamed('id'),
-          title: 'title',
-          body: 'body',
-          notificationDetails: anyNamed('notificationDetails'),
-          payload: anyNamed('payload'),
-        )).thenAnswer((_) async {});
+  VerificationResult verifyScheduled({String? title}) =>
+      verify(plugin.zonedSchedule(
+        id: anyNamed('id'),
+        title: title != null
+            ? argThat(equals(title), named: 'title')
+            : anyNamed('title'),
+        body: anyNamed('body'),
+        scheduledDate: anyNamed('scheduledDate'),
+        notificationDetails: anyNamed('notificationDetails'),
+        androidScheduleMode: anyNamed('androidScheduleMode'),
+        payload: anyNamed('payload'),
+      ));
 
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.createPlugin = () => mockPlugin;
+  group('pending notifications', () {
+    test('regenerateAll triggers past pending notifications', () async {
+      final pending = PendingNotificationRequest(
+        1,
+        'title',
+        'body',
+        '{"scheduledTime":"${DateTime.now().subtract(const Duration(days: 1)).toIso8601String()}"}',
+      );
+      when(plugin.pendingNotificationRequests())
+          .thenAnswer((_) async => [pending]);
+      when(plugin.show(
+        id: anyNamed('id'),
+        title: anyNamed('title'),
+        body: anyNamed('body'),
+        notificationDetails: anyNamed('notificationDetails'),
+        payload: anyNamed('payload'),
+      )).thenAnswer((_) async {});
 
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
+      await buildScheduler().regenerateAll(l10n, 'en');
 
-        // Act
-        await scheduler.regenerateAll(l10n, 'en');
-
-        // Assert
-        verify(mockPlugin.show(
-          id: anyNamed('id'),
-          title: 'title',
-          body: 'body',
-          notificationDetails: anyNamed('notificationDetails'),
-          payload: anyNamed('payload'),
-        )).called(1);
-
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
-
-      test('regenerateAll cancels pending notifications', () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        NotificationService.isPlatformSupported = () => true;
-
-        final pending = PendingNotificationRequest(
-          1,
-          'title',
-          'body',
-          '{"scheduledTime":"${DateTime.now().add(Duration(days: 1)).toIso8601String()}"}',
-        );
-
-        when(mockPlugin.pendingNotificationRequests())
-            .thenAnswer((_) async => [pending]);
-        when(mockPlugin.cancel(id: anyNamed('id'))).thenAnswer((_) async {});
-
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.createPlugin = () => mockPlugin;
-
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
-
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
-
-        // Assert
-        verify(mockPlugin.cancel(id: pending.id)).called(1);
-
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
+      verify(plugin.show(
+        id: anyNamed('id'),
+        title: argThat(equals('title'), named: 'title'),
+        body: argThat(equals('body'), named: 'body'),
+        notificationDetails: anyNamed('notificationDetails'),
+        payload: anyNamed('payload'),
+      )).called(1);
     });
 
-    group('notifications disabled', () {
-      test('regenerateAll should return early when notifications are disabled',
-          () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        NotificationService.isPlatformSupported = () => true;
+    test('regenerateAll cancels pending notifications', () async {
+      final pending = PendingNotificationRequest(
+        1,
+        'title',
+        'body',
+        '{"scheduledTime":"${DateTime.now().add(const Duration(days: 1)).toIso8601String()}"}',
+      );
+      when(plugin.pendingNotificationRequests())
+          .thenAnswer((_) async => [pending]);
+      when(plugin.cancel(id: anyNamed('id'))).thenAnswer((_) async {});
 
-        when(mockPreferencesService.notificationsEnabled).thenReturn(false);
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            name: 'Test Medication',
-            dose: Decimal.fromInt(10),
-            scheduling: IntervalDaysSchedule(intervalDays: 1),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          )
-        ]);
-        when(mockPlugin.zonedSchedule(
-                id: anyNamed('id'),
-                title: anyNamed('title'),
-                body: anyNamed('body'),
-                scheduledDate: anyNamed('scheduledDate'),
-                notificationDetails: anyNamed('notificationDetails'),
-                androidScheduleMode: anyNamed('androidScheduleMode'),
-                payload: anyNamed('payload')))
-            .thenAnswer((_) async {});
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.createPlugin = () => mockPlugin;
+      verify(plugin.cancel(id: anyNamed('id'))).called(1);
+    });
+  });
 
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
+  group('regenerateAll', () {
+    test('returns early when notifications are disabled', () async {
+      when(preferences.notificationsEnabled).thenReturn(false);
+      final s = schedule();
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.upcomingFor(any, days: anyNamed('days')))
+          .thenReturn([occurrence()]);
 
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-        // Assert
-        verifyNever(mockPlugin.zonedSchedule(
-            id: anyNamed('id'),
-            title: anyNamed('title'),
-            body: anyNamed('body'),
-            scheduledDate: anyNamed('scheduledDate'),
-            notificationDetails: anyNamed('notificationDetails'),
-            androidScheduleMode: anyNamed('androidScheduleMode'),
-            payload: anyNamed('payload')));
-
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
+      verifyNever(occurrences.upcomingFor(any, days: anyNamed('days')));
     });
 
-    group('regenerateAll scheduling logic', () {
-      test('Schedule with no notification times -> no notifications scheduled',
-          () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.isPlatformSupported = () => true;
-        NotificationService.createPlugin = () => mockPlugin;
+    test('schedules one notification per emitted future occurrence', () async {
+      final s = schedule();
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.upcomingFor(s, days: 5)).thenReturn([
+        occurrence(date: Date.today().add(const Duration(days: 1))),
+        occurrence(date: Date.today().add(const Duration(days: 2))),
+        occurrence(date: Date.today().add(const Duration(days: 3))),
+      ]);
 
-        const scheduleId = 1001;
-        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            id: scheduleId,
-            name: 'Empty Schedule',
-            dose: Decimal.fromInt(10),
-            scheduling: IntervalDaysSchedule(intervalDays: 1),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          )
-        ]);
-        when(mockMedicationIntakeProvider
-                .getLastIntakeLocalDateForSchedule(scheduleId))
-            .thenReturn(null);
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
+      verifyScheduled().called(3);
+    });
 
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
+    test('skips occurrences with status taken', () async {
+      final s = schedule();
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.upcomingFor(s, days: 5)).thenReturn([
+        occurrence(
+            date: Date.today().add(const Duration(days: 1)),
+            status: ScheduleStatus.taken),
+        occurrence(date: Date.today().add(const Duration(days: 2))),
+      ]);
 
-        // Assert
-        verifyNever(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: anyNamed('title'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        ));
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
+      verifyScheduled().called(1);
+    });
 
-      test(
-          'Schedule with one future notification time -> 5 notifications scheduled',
-          () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.isPlatformSupported = () => true;
-        NotificationService.createPlugin = () => mockPlugin;
+    test('skips occurrences flagged as not notifiable', () async {
+      final s = schedule();
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.upcomingFor(s, days: 5)).thenReturn([
+        occurrence(
+            date: Date.today().add(const Duration(days: 1)), notifiable: false),
+        occurrence(date: Date.today().add(const Duration(days: 2))),
+      ]);
 
-        const scheduleId = 1002;
-        final scheduledTime = TimeOfDay.fromDateTime(
-            DateTime.now().add(const Duration(minutes: 1)));
-        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            id: scheduleId,
-            name: 'Future Schedule',
-            dose: Decimal.fromInt(10),
-            scheduling: IntervalDaysSchedule(
-              intervalDays: 1,
-              notificationTime: scheduledTime,
-            ),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          )
-        ]);
-        when(mockMedicationIntakeProvider
-                .getLastIntakeLocalDateForSchedule(scheduleId))
-            .thenReturn(null);
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
+      verifyScheduled().called(1);
+    });
 
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
+    test('skips occurrences with no time-of-day (null dateTime)', () async {
+      final s = schedule();
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.upcomingFor(s, days: 5)).thenReturn([
+        occurrence(date: Date.today().add(const Duration(days: 1)), time: null),
+        occurrence(date: Date.today().add(const Duration(days: 2))),
+      ]);
 
-        // Assert
-        final checkNow = DateTime.now();
-        int expectedCount = 0;
-        final dates =
-            List.generate(5, (i) => Date.today().add(Duration(days: i)));
-        for (final date in dates) {
-          final dateTime = DateTime(date.year, date.month, date.day,
-              scheduledTime.hour, scheduledTime.minute);
-          if (!checkNow.isAfter(dateTime)) {
-            expectedCount++;
-          }
-        }
-        verify(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: anyNamed('title'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        )).called(expectedCount);
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
+      verifyScheduled().called(1);
+    });
 
-      test(
-          'Schedule with one past notification time -> 4 notifications scheduled',
-          () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.isPlatformSupported = () => true;
-        NotificationService.createPlugin = () => mockPlugin;
+    test('skips occurrences whose dateTime is in the past', () async {
+      final s = schedule();
+      final now = DateTime.now();
+      final pastTime =
+          TimeOfDay.fromDateTime(now.subtract(const Duration(hours: 1)));
+      final futureTime =
+          TimeOfDay.fromDateTime(now.add(const Duration(hours: 1)));
 
-        const scheduleId = 1003;
-        final scheduledTime = TimeOfDay.fromDateTime(
-            DateTime.now().subtract(const Duration(minutes: 1)));
-        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            id: scheduleId,
-            name: 'Past Schedule',
-            dose: Decimal.fromInt(10),
-            scheduling: IntervalDaysSchedule(
-              intervalDays: 1,
-              notificationTime: scheduledTime,
-            ),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          )
-        ]);
-        when(mockMedicationIntakeProvider
-                .getLastIntakeLocalDateForSchedule(scheduleId))
-            .thenReturn(null);
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.upcomingFor(s, days: 5)).thenReturn([
+        occurrence(date: Date.today(), time: pastTime),
+        occurrence(date: Date.today(), time: futureTime),
+      ]);
 
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
+      verifyScheduled().called(1);
+    });
 
-        // Assert
-        final checkNow = DateTime.now();
-        int expectedCount = 0;
-        final dates =
-            List.generate(5, (i) => Date.today().add(Duration(days: i)));
-        for (final date in dates) {
-          final dateTime = DateTime(date.year, date.month, date.day,
-              scheduledTime.hour, scheduledTime.minute);
-          if (!checkNow.isAfter(dateTime)) {
-            expectedCount++;
-          }
-        }
-        verify(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: anyNamed('title'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        )).called(expectedCount);
+    test('titles notifications with the schedule name', () async {
+      final s = schedule(name: 'My Med');
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.upcomingFor(s, days: 5)).thenReturn([occurrence()]);
 
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-      test(
-          'DailySchedule with notify=true -> 5 days x N intake times scheduled',
-          () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.isPlatformSupported = () => true;
-        NotificationService.createPlugin = () => mockPlugin;
+      verifyScheduled(title: l10n.notificationMedicationReminderTitle('My Med'))
+          .called(1);
+    });
 
-        final now = DateTime.now();
-        final times = [
-          TimeOfDay(hour: (now.hour + 1) % 24, minute: 0),
-          TimeOfDay(hour: (now.hour + 2) % 24, minute: 30),
-        ];
+    test('two schedules at the same time both get scheduled', () async {
+      final a = schedule(id: 1, name: 'A');
+      final b = schedule(id: 2, name: 'B');
+      final sameOccurrence = occurrence();
 
-        const scheduleId = 1004;
-        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            id: scheduleId,
-            name: 'Daily Schedule',
-            dose: Decimal.fromInt(10),
-            scheduling: DailySchedule(intakeTimes: times),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          )
-        ]);
-        when(mockMedicationIntakeProvider.getTakenIntakesForScheduleOn(
-                scheduleId, Date.today()))
-            .thenReturn([]);
-        when(mockPlugin.zonedSchedule(
-                id: anyNamed('id'),
-                title: anyNamed('title'),
-                body: anyNamed('body'),
-                scheduledDate: anyNamed('scheduledDate'),
-                notificationDetails: anyNamed('notificationDetails'),
-                androidScheduleMode: anyNamed('androidScheduleMode'),
-                payload: anyNamed('payload')))
-            .thenAnswer((_) async {});
+      when(scheduleProvider.schedules).thenReturn([a, b]);
+      when(occurrences.upcomingFor(a, days: 5)).thenReturn([sameOccurrence]);
+      when(occurrences.upcomingFor(b, days: 5)).thenReturn([sameOccurrence]);
 
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
+      verifyScheduled(title: l10n.notificationMedicationReminderTitle('A'))
+          .called(1);
+      verifyScheduled(title: l10n.notificationMedicationReminderTitle('B'))
+          .called(1);
+    });
 
-        // Assert
-        final checkNow = DateTime.now();
-        int expectedCount = 0;
-        final dates =
-            List.generate(5, (i) => Date.today().add(Duration(days: i)));
-        for (final date in dates) {
-          for (final time in times) {
-            final dateTime = DateTime(
-                date.year, date.month, date.day, time.hour, time.minute);
-            if (!checkNow.isAfter(dateTime)) {
-              expectedCount++;
-            }
-          }
-        }
-        verify(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: anyNamed('title'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        )).called(expectedCount);
+    test('queries occurrences with a 5-day window', () async {
+      final s = schedule();
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.upcomingFor(s, days: 5)).thenReturn([occurrence()]);
 
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
+      await buildScheduler().regenerateAll(l10n, l10n.localeName);
 
-      test('DailySchedule with notify=false -> no notifications scheduled',
-          () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.isPlatformSupported = () => true;
-        NotificationService.createPlugin = () => mockPlugin;
-
-        final now = DateTime.now();
-        final times = [
-          TimeOfDay(hour: (now.hour + 1) % 24, minute: 0),
-          TimeOfDay(hour: (now.hour + 2) % 24, minute: 30),
-        ];
-
-        const scheduleId = 1005;
-        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            id: scheduleId,
-            name: 'Daily Schedule (silent)',
-            dose: Decimal.fromInt(10),
-            scheduling: DailySchedule(intakeTimes: times, notify: false),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          )
-        ]);
-
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
-
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
-
-        // Assert
-        verifyNever(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: anyNamed('title'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        ));
-
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
-
-      test('DailySchedule skips today\'s intake times that are already taken',
-          () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.isPlatformSupported = () => true;
-        NotificationService.createPlugin = () => mockPlugin;
-
-        final now = DateTime.now();
-        final times = [
-          TimeOfDay(hour: (now.hour + 1) % 24, minute: 0),
-          TimeOfDay(hour: (now.hour + 2) % 24, minute: 30),
-        ];
-        final takenTime = times.first;
-
-        const scheduleId = 1006;
-        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            id: scheduleId,
-            name: 'Daily Schedule (one taken)',
-            dose: Decimal.fromInt(10),
-            scheduling: DailySchedule(intakeTimes: times),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          )
-        ]);
-        when(mockMedicationIntakeProvider.getTakenIntakesForScheduleOn(
-                scheduleId, Date.today()))
-            .thenReturn([
-          MedicationIntake(
-            dose: Decimal.fromInt(10),
-            takenDateTime: DateTime.now().toUtc(),
-            takenTimeZone: 'Etc/UTC',
-            scheduleId: scheduleId,
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-            scheduledTime: takenTime,
-          ),
-        ]);
-        when(mockPlugin.zonedSchedule(
-                id: anyNamed('id'),
-                title: anyNamed('title'),
-                body: anyNamed('body'),
-                scheduledDate: anyNamed('scheduledDate'),
-                notificationDetails: anyNamed('notificationDetails'),
-                androidScheduleMode: anyNamed('androidScheduleMode'),
-                payload: anyNamed('payload')))
-            .thenAnswer((_) async {});
-
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
-
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
-
-        // Assert
-        final checkNow = DateTime.now();
-        int expectedCount = 0;
-        final dates =
-            List.generate(5, (i) => Date.today().add(Duration(days: i)));
-        for (final date in dates) {
-          for (final time in times) {
-            final dateTime = DateTime(
-                date.year, date.month, date.day, time.hour, time.minute);
-            if (checkNow.isAfter(dateTime)) continue;
-            if (date.isToday && time == takenTime) continue;
-            expectedCount++;
-          }
-        }
-        verify(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: anyNamed('title'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        )).called(expectedCount);
-
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
-
-      test(
-          'Two schedules at the exact same time both get a notification (no collision)',
-          () async {
-        // Arrange
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.isPlatformSupported = () => true;
-        NotificationService.createPlugin = () => mockPlugin;
-
-        const scheduleIdA = 2001;
-        const scheduleIdB = 2002;
-        final sharedTime = TimeOfDay.fromDateTime(
-            DateTime.now().add(const Duration(minutes: 1)));
-
-        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            id: scheduleIdA,
-            name: 'Med A',
-            dose: Decimal.fromInt(10),
-            scheduling: IntervalDaysSchedule(
-              intervalDays: 1,
-              notificationTime: sharedTime,
-            ),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          ),
-          MedicationSchedule(
-            id: scheduleIdB,
-            name: 'Med B',
-            dose: Decimal.fromInt(10),
-            scheduling: IntervalDaysSchedule(
-              intervalDays: 1,
-              notificationTime: sharedTime,
-            ),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          ),
-        ]);
-        when(mockMedicationIntakeProvider
-                .getLastIntakeLocalDateForSchedule(scheduleIdA))
-            .thenReturn(null);
-        when(mockMedicationIntakeProvider
-                .getLastIntakeLocalDateForSchedule(scheduleIdB))
-            .thenReturn(null);
-        when(mockPlugin.zonedSchedule(
-                id: anyNamed('id'),
-                title: anyNamed('title'),
-                body: anyNamed('body'),
-                scheduledDate: anyNamed('scheduledDate'),
-                notificationDetails: anyNamed('notificationDetails'),
-                androidScheduleMode: anyNamed('androidScheduleMode'),
-                payload: anyNamed('payload')))
-            .thenAnswer((_) async {});
-
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
-
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
-
-        // Assert
-        final checkNow = DateTime.now();
-        int perSchedule = 0;
-        final dates =
-            List.generate(5, (i) => Date.today().add(Duration(days: i)));
-        for (final date in dates) {
-          final dateTime = DateTime(date.year, date.month, date.day,
-              sharedTime.hour, sharedTime.minute);
-          if (!checkNow.isAfter(dateTime)) {
-            perSchedule++;
-          }
-        }
-        verify(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: l10n.notificationMedicationReminderTitle('Med A'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        )).called(perSchedule);
-        verify(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: l10n.notificationMedicationReminderTitle('Med B'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        )).called(perSchedule);
-
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
-
-      test(
-          'Skips future notification times today when intake already taken today',
-          () async {
-        // Arrange
-        const scheduleId = 4242;
-        final origPlatformCheck = NotificationService.isPlatformSupported;
-        final origCreate = NotificationService.createPlugin;
-        NotificationService.isPlatformSupported = () => true;
-        NotificationService.createPlugin = () => mockPlugin;
-
-        when(mockPreferencesService.notificationsEnabled).thenReturn(true);
-        when(mockMedicationIntakeProvider
-                .getLastIntakeLocalDateForSchedule(scheduleId))
-            .thenReturn(Date.today());
-        when(mockMedicationScheduleProvider.schedules).thenReturn([
-          MedicationSchedule(
-            id: scheduleId,
-            name: 'Taken Today Schedule',
-            dose: Decimal.fromInt(10),
-            scheduling: IntervalDaysSchedule(
-              intervalDays: 1,
-              notificationTime: TimeOfDay.fromDateTime(
-                  DateTime.now().add(Duration(minutes: 1))),
-            ),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          )
-        ]);
-        when(mockPlugin.zonedSchedule(
-                id: anyNamed('id'),
-                title: anyNamed('title'),
-                body: anyNamed('body'),
-                scheduledDate: anyNamed('scheduledDate'),
-                notificationDetails: anyNamed('notificationDetails'),
-                androidScheduleMode: anyNamed('androidScheduleMode'),
-                payload: anyNamed('payload')))
-            .thenAnswer((_) async {});
-
-        final scheduler = NotificationScheduler(
-          mockMedicationScheduleProvider,
-          mockMedicationIntakeProvider,
-          mockPreferencesService,
-        );
-
-        // Act
-        await scheduler.regenerateAll(l10n, l10n.localeName);
-
-        // Assert
-        verify(mockPlugin.zonedSchedule(
-          id: anyNamed('id'),
-          title: anyNamed('title'),
-          body: anyNamed('body'),
-          scheduledDate: anyNamed('scheduledDate'),
-          notificationDetails: anyNamed('notificationDetails'),
-          androidScheduleMode: anyNamed('androidScheduleMode'),
-          payload: anyNamed('payload'),
-        )).called(4);
-
-        // Cleanup
-        NotificationService.createPlugin = origCreate;
-        NotificationService.isPlatformSupported = origPlatformCheck;
-      });
+      verify(occurrences.upcomingFor(s, days: 5)).called(1);
     });
   });
 }

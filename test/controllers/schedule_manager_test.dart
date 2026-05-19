@@ -4,271 +4,122 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/schedule_manager.dart';
+import 'package:mona/controllers/schedule_occurrences.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
-import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 
 @GenerateNiceMocks([
   MockSpec<MedicationScheduleProvider>(),
-  MockSpec<MedicationIntakeProvider>(),
+  MockSpec<ScheduleOccurrences>(),
 ])
 import 'schedule_manager_test.mocks.dart';
 
+MedicationSchedule schedule({int id = 1, SchedulingStrategy? scheduling}) =>
+    MedicationSchedule(
+      id: id,
+      name: 'Med',
+      dose: Decimal.one,
+      scheduling: scheduling ?? IntervalDaysSchedule(intervalDays: 1),
+      molecule: KnownMolecules.estradiol,
+      administrationRoute: AdministrationRoute.oral,
+    );
+
+ScheduledOccurrence occurrence({
+  ScheduleStatus status = ScheduleStatus.today,
+  TimeOfDay? time,
+  MedicationIntake? intake,
+}) =>
+    ScheduledOccurrence(
+      date: Date.today(),
+      status: status,
+      notifiable: true,
+      time: time,
+      intake: intake,
+    );
+
 void main() {
-  late MockMedicationScheduleProvider mockScheduleProvider;
-  late MockMedicationIntakeProvider mockIntakeProvider;
+  late MockMedicationScheduleProvider scheduleProvider;
+  late MockScheduleOccurrences occurrences;
   late ScheduleManager manager;
 
   setUp(() {
-    mockScheduleProvider = MockMedicationScheduleProvider();
-    mockIntakeProvider = MockMedicationIntakeProvider();
-
-    manager = ScheduleManager(
-      mockScheduleProvider,
-      mockIntakeProvider,
-    );
+    scheduleProvider = MockMedicationScheduleProvider();
+    occurrences = MockScheduleOccurrences();
+    manager = ScheduleManager(scheduleProvider, occurrences);
   });
 
-  group('ScheduleManager - getSlots', () {
-    late MedicationSchedule todaySchedule;
-    late MedicationSchedule todayTakenSchedule;
-    late MedicationSchedule todayOverdueSchedule;
-    late MedicationSchedule todayEarlySchedule;
-    late MedicationSchedule overdueSchedule;
-    late MedicationSchedule upcomingSchedule;
-
-    setUp(() {
-      final today = Date.today();
-
-      todaySchedule = MedicationSchedule(
-        id: 1,
-        name: 'TodayMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today,
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
-          .thenReturn(today.subtract(const Duration(days: 2)));
-
-      todayTakenSchedule = MedicationSchedule(
-        id: 5,
-        name: 'TodayTakenMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today,
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(5))
-          .thenReturn(today);
-
-      todayOverdueSchedule = MedicationSchedule(
-        id: 4,
-        name: 'TodayLateMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today.subtract(const Duration(days: 4)),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(4))
-          .thenReturn(today.subtract(const Duration(days: 3)));
-
-      todayEarlySchedule = MedicationSchedule(
-        id: 6,
-        name: 'TodayEarlyMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 7),
-        startDate: today.subtract(const Duration(days: 14)),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(6))
-          .thenReturn(today.subtract(const Duration(days: 5)));
-
-      overdueSchedule = MedicationSchedule(
-        id: 2,
-        name: 'OverdueMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today.subtract(const Duration(days: 9)),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(2))
-          .thenReturn(today.subtract(const Duration(days: 4)));
-
-      upcomingSchedule = MedicationSchedule(
-        id: 3,
-        name: 'UpcomingMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today.add(const Duration(days: 10)),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(3))
-          .thenReturn(null);
-    });
-
+  group('getSlots', () {
     test('returns empty list when there are no schedules', () {
-      when(mockScheduleProvider.schedules).thenReturn([]);
+      when(scheduleProvider.schedules).thenReturn([]);
 
       expect(manager.getSlots(), isEmpty);
     });
 
-    test('schedule due today, not late, not taken yields today', () {
-      when(mockScheduleProvider.schedules).thenReturn([todaySchedule]);
-
-      final slot = manager.getSlots().single;
-
-      expect(slot.schedule, todaySchedule);
-      expect(slot.status, ScheduleStatus.today);
-    });
-
-    test('schedule taken today or later yields taken', () {
-      when(mockScheduleProvider.schedules).thenReturn([todayTakenSchedule]);
-
-      final slot = manager.getSlots().single;
-
-      expect(slot.schedule, todayTakenSchedule);
-      expect(slot.status, ScheduleStatus.taken);
-    });
-
-    test('taken interval slot carries the latest taken intake', () {
+    test('maps occurrence status / time / intake onto each slot', () {
       final intake = MedicationIntake(
-        id: 999,
+        id: 99,
         dose: Decimal.one,
-        takenDateTime: DateTime.utc(2025, 9, 14, 12),
+        takenDateTime: DateTime.utc(2025, 1, 1, 8),
         takenTimeZone: 'Etc/UTC',
-        scheduleId: 5,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
-      when(mockScheduleProvider.schedules).thenReturn([todayTakenSchedule]);
-      when(mockIntakeProvider.getLastTakenIntakeForSchedule(5))
-          .thenReturn(intake);
+      final s = schedule(id: 1);
+      const time = TimeOfDay(hour: 8, minute: 0);
+
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.currentFor(s)).thenReturn([
+        occurrence(
+            status: ScheduleStatus.taken, time: time, intake: intake),
+      ]);
 
       final slot = manager.getSlots().single;
 
+      expect(slot.schedule, s);
+      expect(slot.status, ScheduleStatus.taken);
+      expect(slot.time, time);
       expect(slot.intake, intake);
     });
 
-    test('non-taken interval slot has no intake attached', () {
-      when(mockScheduleProvider.schedules).thenReturn([todaySchedule]);
+    test('flattens multiple occurrences from a single schedule', () {
+      final s = schedule(id: 1);
 
-      final slot = manager.getSlots().single;
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.currentFor(s)).thenReturn([
+        occurrence(time: const TimeOfDay(hour: 8, minute: 0)),
+        occurrence(time: const TimeOfDay(hour: 14, minute: 0)),
+        occurrence(time: const TimeOfDay(hour: 20, minute: 0)),
+      ]);
 
-      expect(slot.status, ScheduleStatus.today);
-      expect(slot.intake, isNull);
+      expect(manager.getSlots(), hasLength(3));
     });
 
-    test('schedule due today and late yields todayOverdue', () {
-      when(mockScheduleProvider.schedules).thenReturn([todayOverdueSchedule]);
+    test('preserves schedule order across multiple schedules', () {
+      final a = schedule(id: 1);
+      final b = schedule(id: 2);
 
-      final slot = manager.getSlots().single;
+      when(scheduleProvider.schedules).thenReturn([a, b]);
+      when(occurrences.currentFor(a))
+          .thenReturn([occurrence(status: ScheduleStatus.upcoming)]);
+      when(occurrences.currentFor(b))
+          .thenReturn([occurrence(status: ScheduleStatus.overdue)]);
 
-      expect(slot.schedule, todayOverdueSchedule);
-      expect(slot.status, ScheduleStatus.todayOverdue);
-    });
+      final slots = manager.getSlots();
 
-    test(
-        'schedule due today, last taken after previous scheduled date but not today, '
-        'yields todayEarly', () {
-      when(mockScheduleProvider.schedules).thenReturn([todayEarlySchedule]);
-
-      final slot = manager.getSlots().single;
-
-      expect(slot.schedule, todayEarlySchedule);
-      expect(slot.status, ScheduleStatus.todayEarly);
-    });
-
-    test('schedule not due today but late yields overdue', () {
-      when(mockScheduleProvider.schedules).thenReturn([overdueSchedule]);
-
-      final slot = manager.getSlots().single;
-
-      expect(slot.schedule, overdueSchedule);
-      expect(slot.status, ScheduleStatus.overdue);
-    });
-
-    test('schedule not due today and not late yields upcoming', () {
-      when(mockScheduleProvider.schedules).thenReturn([upcomingSchedule]);
-
-      final slot = manager.getSlots().single;
-
-      expect(slot.schedule, upcomingSchedule);
-      expect(slot.status, ScheduleStatus.upcoming);
+      expect(slots[0].schedule, a);
+      expect(slots[1].schedule, b);
     });
   });
 
-  group('ScheduleManager - splitSlotsByDay', () {
-    late MedicationSchedule todaySchedule;
-    late MedicationSchedule takenSchedule;
-    late MedicationSchedule overdueSchedule;
-    late MedicationSchedule upcomingSchedule;
-
-    setUp(() {
-      final today = Date.today();
-
-      todaySchedule = MedicationSchedule(
-        id: 1,
-        name: 'TodayMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today,
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(1))
-          .thenReturn(today.subtract(const Duration(days: 2)));
-
-      takenSchedule = MedicationSchedule(
-        id: 2,
-        name: 'TakenMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today,
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(2))
-          .thenReturn(today);
-
-      overdueSchedule = MedicationSchedule(
-        id: 3,
-        name: 'OverdueMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today.subtract(const Duration(days: 9)),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(3))
-          .thenReturn(today.subtract(const Duration(days: 4)));
-
-      upcomingSchedule = MedicationSchedule(
-        id: 4,
-        name: 'UpcomingMed',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: today.add(const Duration(days: 10)),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(4))
-          .thenReturn(null);
-    });
-
+  group('splitSlotsByDay', () {
     test('returns two empty lists when there are no schedules', () {
-      when(mockScheduleProvider.schedules).thenReturn([]);
+      when(scheduleProvider.schedules).thenReturn([]);
 
       final split = manager.splitSlotsByDay();
 
@@ -276,165 +127,67 @@ void main() {
       expect(split.upcoming, isEmpty);
     });
 
-    test('groups today, taken and overdue slots under today, overdue first',
+    test('routes upcoming status to `upcoming`, everything else to `today`',
         () {
-      when(mockScheduleProvider.schedules)
-          .thenReturn([todaySchedule, takenSchedule, overdueSchedule]);
+      final a = schedule(id: 1);
+      final b = schedule(id: 2);
+      final c = schedule(id: 3);
+      final d = schedule(id: 4);
+
+      when(scheduleProvider.schedules).thenReturn([a, b, c, d]);
+      when(occurrences.currentFor(a))
+          .thenReturn([occurrence(status: ScheduleStatus.today)]);
+      when(occurrences.currentFor(b))
+          .thenReturn([occurrence(status: ScheduleStatus.taken)]);
+      when(occurrences.currentFor(c))
+          .thenReturn([occurrence(status: ScheduleStatus.upcoming)]);
+      when(occurrences.currentFor(d))
+          .thenReturn([occurrence(status: ScheduleStatus.overdue)]);
 
       final split = manager.splitSlotsByDay();
 
-      expect(
-        split.today.map((slot) => slot.schedule),
-        [overdueSchedule, todaySchedule, takenSchedule],
-      );
-      expect(split.upcoming, isEmpty);
+      expect(split.today.map((s) => s.schedule), [d, a, b]);
+      expect(split.upcoming.map((s) => s.schedule), [c]);
     });
 
-    test('puts upcoming slots under upcoming', () {
-      when(mockScheduleProvider.schedules)
-          .thenReturn([todaySchedule, upcomingSchedule]);
-
-      final split = manager.splitSlotsByDay();
-
-      expect(split.today.map((slot) => slot.schedule), [todaySchedule]);
-      expect(split.upcoming.map((slot) => slot.schedule), [upcomingSchedule]);
-    });
-  });
-
-  group('ScheduleManager - DailySchedule', () {
-    const morning = TimeOfDay(hour: 8, minute: 0);
-    const afternoon = TimeOfDay(hour: 14, minute: 0);
-    const evening = TimeOfDay(hour: 20, minute: 30);
-
-    late MedicationSchedule dailySchedule;
-
-    MedicationIntake intakeAt(TimeOfDay time, {int id = 0}) {
-      return MedicationIntake(
-        id: id,
-        dose: Decimal.one,
-        takenDateTime: DateTime.utc(2025, 9, 14, time.hour, time.minute),
-        takenTimeZone: 'Etc/UTC',
-        scheduleId: 100,
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-        scheduledTime: time,
-      );
-    }
-
-    setUp(() {
-      dailySchedule = MedicationSchedule(
-        id: 100,
-        name: 'DailyMed',
-        dose: Decimal.one,
-        scheduling: const DailySchedule(
-          intakeTimes: [morning, afternoon, evening],
-          notify: false,
-        ),
-        startDate: Date.today(),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-    });
-
-    test('emits one slot per intakeTime, all today when none taken', () {
-      when(mockScheduleProvider.schedules).thenReturn([dailySchedule]);
-      when(mockIntakeProvider.getTakenIntakesForScheduleOn(100, Date.today()))
-          .thenReturn(<MedicationIntake>[]);
-
-      final slots = manager.getSlots();
-
-      expect(slots, hasLength(3));
-      expect(slots.map((s) => s.time), [morning, afternoon, evening]);
-      expect(
-        slots.map((s) => s.status),
-        everyElement(ScheduleStatus.today),
-      );
-      expect(slots.map((s) => s.schedule), everyElement(dailySchedule));
-      expect(slots.map((s) => s.intake), everyElement(isNull));
-    });
-
-    test('marks slot as taken and attaches the matching intake', () {
-      final morningIntake = intakeAt(morning, id: 1);
-      final eveningIntake = intakeAt(evening, id: 2);
-      when(mockScheduleProvider.schedules).thenReturn([dailySchedule]);
-      when(mockIntakeProvider.getTakenIntakesForScheduleOn(100, Date.today()))
-          .thenReturn([morningIntake, eveningIntake]);
-
-      final slots = manager.getSlots();
-
-      expect(
-        {for (final s in slots) s.time: s.status},
-        {
-          morning: ScheduleStatus.taken,
-          afternoon: ScheduleStatus.today,
-          evening: ScheduleStatus.taken,
-        },
-      );
-      expect(
-        {for (final s in slots) s.time: s.intake},
-        {
-          morning: morningIntake,
-          afternoon: null,
-          evening: eveningIntake,
-        },
-      );
-    });
-
-    test(
-        'splitSlotsByDay puts every daily slot under today, sorted by intake time',
+    test('places overdue and todayOverdue first within today, preserving order',
         () {
-      final unsorted = MedicationSchedule(
-        id: 101,
-        name: 'UnsortedDaily',
-        dose: Decimal.one,
-        scheduling: const DailySchedule(
-          intakeTimes: [evening, morning, afternoon],
-          notify: false,
-        ),
-        startDate: Date.today(),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockScheduleProvider.schedules).thenReturn([unsorted]);
-      when(mockIntakeProvider.getTakenIntakesForScheduleOn(101, Date.today()))
-          .thenReturn(<MedicationIntake>[]);
+      final a = schedule(id: 1);
+      final b = schedule(id: 2);
+      final c = schedule(id: 3);
+
+      when(scheduleProvider.schedules).thenReturn([a, b, c]);
+      when(occurrences.currentFor(a))
+          .thenReturn([occurrence(status: ScheduleStatus.today)]);
+      when(occurrences.currentFor(b))
+          .thenReturn([occurrence(status: ScheduleStatus.todayOverdue)]);
+      when(occurrences.currentFor(c))
+          .thenReturn([occurrence(status: ScheduleStatus.overdue)]);
 
       final split = manager.splitSlotsByDay();
 
-      expect(split.upcoming, isEmpty);
-      expect(
-        split.today.map((s) => s.time),
-        [morning, afternoon, evening],
-      );
+      expect(split.today.map((s) => s.schedule), [b, c, a]);
     });
 
-    test(
-        'splitSlotsByDay keeps overdue interval slots above daily slots in today',
-        () {
-      final overdueInterval = MedicationSchedule(
-        id: 200,
-        name: 'OverdueInterval',
-        dose: Decimal.one,
-        scheduling: IntervalDaysSchedule(intervalDays: 2),
-        startDate: Date.today().subtract(const Duration(days: 9)),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      when(mockIntakeProvider.getLastIntakeLocalDateForSchedule(200))
-          .thenReturn(Date.today().subtract(const Duration(days: 4)));
-      when(mockIntakeProvider.getTakenIntakesForScheduleOn(100, Date.today()))
-          .thenReturn(<MedicationIntake>[]);
-      when(mockScheduleProvider.schedules)
-          .thenReturn([dailySchedule, overdueInterval]);
+    test('sorts non-overdue today slots by time, with null times first', () {
+      final s = schedule(id: 1);
 
-      final split = manager.splitSlotsByDay();
+      when(scheduleProvider.schedules).thenReturn([s]);
+      when(occurrences.currentFor(s)).thenReturn([
+        occurrence(time: const TimeOfDay(hour: 20, minute: 30)),
+        occurrence(),
+        occurrence(time: const TimeOfDay(hour: 8, minute: 0)),
+        occurrence(time: const TimeOfDay(hour: 14, minute: 0)),
+      ]);
 
-      expect(split.upcoming, isEmpty);
-      expect(split.today.first.schedule, overdueInterval);
-      expect(
-        split.today.skip(1).map((s) => s.time),
-        [morning, afternoon, evening],
-      );
+      final times = manager.splitSlotsByDay().today.map((s) => s.time).toList();
+
+      expect(times, [
+        null,
+        const TimeOfDay(hour: 8, minute: 0),
+        const TimeOfDay(hour: 14, minute: 0),
+        const TimeOfDay(hour: 20, minute: 30),
+      ]);
     });
   });
 }

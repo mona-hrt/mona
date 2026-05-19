@@ -7,10 +7,9 @@ import 'dart:async' as _i5;
 import 'dart:ui' as _i6;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mona/data/model/date.dart' as _i9;
-import 'package:mona/data/model/medication_intake.dart' as _i8;
+import 'package:mona/controllers/schedule_occurrences.dart' as _i7;
 import 'package:mona/data/model/medication_schedule.dart' as _i4;
-import 'package:mona/data/providers/medication_intake_provider.dart' as _i7;
+import 'package:mona/data/model/scheduled_occurrence.dart' as _i8;
 import 'package:mona/data/providers/medication_schedule_provider.dart' as _i3;
 import 'package:mona/services/repository.dart' as _i2;
 
@@ -176,227 +175,34 @@ class MockMedicationScheduleProvider extends _i1.Mock
       );
 }
 
-/// A class which mocks [MedicationIntakeProvider].
+/// A class which mocks [ScheduleOccurrences].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMedicationIntakeProvider extends _i1.Mock
-    implements _i7.MedicationIntakeProvider {
+class MockScheduleOccurrences extends _i1.Mock
+    implements _i7.ScheduleOccurrences {
   @override
-  _i2.Repository<_i8.MedicationIntake> get repository => (super.noSuchMethod(
-        Invocation.getter(#repository),
-        returnValue: _FakeRepository_0<_i8.MedicationIntake>(
-          this,
-          Invocation.getter(#repository),
-        ),
-        returnValueForMissingStub: _FakeRepository_0<_i8.MedicationIntake>(
-          this,
-          Invocation.getter(#repository),
-        ),
-      ) as _i2.Repository<_i8.MedicationIntake>);
-
-  @override
-  bool get isLoading => (super.noSuchMethod(
-        Invocation.getter(#isLoading),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  List<_i8.MedicationIntake> get intakes => (super.noSuchMethod(
-        Invocation.getter(#intakes),
-        returnValue: <_i8.MedicationIntake>[],
-        returnValueForMissingStub: <_i8.MedicationIntake>[],
-      ) as List<_i8.MedicationIntake>);
-
-  @override
-  List<_i8.MedicationIntake> get takenIntakesSortedDesc => (super.noSuchMethod(
-        Invocation.getter(#takenIntakesSortedDesc),
-        returnValue: <_i8.MedicationIntake>[],
-        returnValueForMissingStub: <_i8.MedicationIntake>[],
-      ) as List<_i8.MedicationIntake>);
-
-  @override
-  List<_i8.MedicationIntake> get takenIntakes => (super.noSuchMethod(
-        Invocation.getter(#takenIntakes),
-        returnValue: <_i8.MedicationIntake>[],
-        returnValueForMissingStub: <_i8.MedicationIntake>[],
-      ) as List<_i8.MedicationIntake>);
-
-  @override
-  List<_i8.MedicationIntake> get notTakenIntakes => (super.noSuchMethod(
-        Invocation.getter(#notTakenIntakes),
-        returnValue: <_i8.MedicationIntake>[],
-        returnValueForMissingStub: <_i8.MedicationIntake>[],
-      ) as List<_i8.MedicationIntake>);
-
-  @override
-  List<_i8.MedicationIntake> get graphIntakes => (super.noSuchMethod(
-        Invocation.getter(#graphIntakes),
-        returnValue: <_i8.MedicationIntake>[],
-        returnValueForMissingStub: <_i8.MedicationIntake>[],
-      ) as List<_i8.MedicationIntake>);
-
-  @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  List<_i8.MedicationIntake> getTakenIntakesForSchedule(int? scheduleId) =>
+  List<_i8.ScheduledOccurrence> currentFor(_i4.MedicationSchedule? schedule) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getTakenIntakesForSchedule,
-          [scheduleId],
+          #currentFor,
+          [schedule],
         ),
-        returnValue: <_i8.MedicationIntake>[],
-        returnValueForMissingStub: <_i8.MedicationIntake>[],
-      ) as List<_i8.MedicationIntake>);
+        returnValue: <_i8.ScheduledOccurrence>[],
+        returnValueForMissingStub: <_i8.ScheduledOccurrence>[],
+      ) as List<_i8.ScheduledOccurrence>);
 
   @override
-  _i5.Future<void> fetchIntakes() => (super.noSuchMethod(
-        Invocation.method(
-          #fetchIntakes,
-          [],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<void> deleteIntakeFromId(int? id) => (super.noSuchMethod(
-        Invocation.method(
-          #deleteIntakeFromId,
-          [id],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<void> deleteIntake(_i8.MedicationIntake? intake) =>
+  List<_i8.ScheduledOccurrence> upcomingFor(
+    _i4.MedicationSchedule? schedule, {
+    required int? days,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
-          #deleteIntake,
-          [intake],
+          #upcomingFor,
+          [schedule],
+          {#days: days},
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<void> add(_i8.MedicationIntake? intake) => (super.noSuchMethod(
-        Invocation.method(
-          #add,
-          [intake],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<void> updateIntake(_i8.MedicationIntake? intake) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #updateIntake,
-          [intake],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  Map<int, _i7.GraphIntake> getDaysAndIntakes() => (super.noSuchMethod(
-        Invocation.method(
-          #getDaysAndIntakes,
-          [],
-        ),
-        returnValue: <int, _i7.GraphIntake>{},
-        returnValueForMissingStub: <int, _i7.GraphIntake>{},
-      ) as Map<int, _i7.GraphIntake>);
-
-  @override
-  _i9.Date? getLastIntakeLocalDateFromList(
-          List<_i8.MedicationIntake>? intakes) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getLastIntakeLocalDateFromList,
-          [intakes],
-        ),
-        returnValueForMissingStub: null,
-      ) as _i9.Date?);
-
-  @override
-  _i9.Date? getLastIntakeLocalDateForSchedule(int? scheduleId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getLastIntakeLocalDateForSchedule,
-          [scheduleId],
-        ),
-        returnValueForMissingStub: null,
-      ) as _i9.Date?);
-
-  @override
-  List<_i8.MedicationIntake> getTakenIntakesForScheduleOn(
-    int? scheduleId,
-    _i9.Date? date,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getTakenIntakesForScheduleOn,
-          [
-            scheduleId,
-            date,
-          ],
-        ),
-        returnValue: <_i8.MedicationIntake>[],
-        returnValueForMissingStub: <_i8.MedicationIntake>[],
-      ) as List<_i8.MedicationIntake>);
-
-  @override
-  _i8.MedicationIntake? getLastTakenIntakeForSchedule(int? scheduleId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getLastTakenIntakeForSchedule,
-          [scheduleId],
-        ),
-        returnValueForMissingStub: null,
-      ) as _i8.MedicationIntake?);
-
-  @override
-  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: <_i8.ScheduledOccurrence>[],
+        returnValueForMissingStub: <_i8.ScheduledOccurrence>[],
+      ) as List<_i8.ScheduledOccurrence>);
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mona/data/model/date.dart';
+import 'package:mona/controllers/schedule_occurrences.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
-import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 
 class ScheduleSlot {
@@ -21,49 +20,21 @@ class ScheduleSlot {
 }
 
 class ScheduleManager {
-  final MedicationScheduleProvider _medicationScheduleProvider;
-  final MedicationIntakeProvider _medicationIntakeProvider;
+  final MedicationScheduleProvider _scheduleProvider;
+  final ScheduleOccurrences _occurrences;
 
-  ScheduleManager(
-      this._medicationScheduleProvider, this._medicationIntakeProvider);
+  ScheduleManager(this._scheduleProvider, this._occurrences);
 
-  List<ScheduleSlot> getSlots() {
-    final today = Date.today();
-    final slots = <ScheduleSlot>[];
-
-    for (final schedule in _medicationScheduleProvider.schedules) {
-      switch (schedule.scheduling) {
-        case IntervalDaysSchedule scheduling:
-          slots.add(_toSlot(
-            schedule,
-            scheduling.slotInfoFor(
-              startDate: schedule.startDate,
-              lastTakenLocalDate: _medicationIntakeProvider
-                  .getLastIntakeLocalDateForSchedule(schedule.id),
-              lastTakenIntake: _medicationIntakeProvider
-                  .getLastTakenIntakeForSchedule(schedule.id),
+  List<ScheduleSlot> getSlots() => [
+        for (final schedule in _scheduleProvider.schedules)
+          for (final occ in _occurrences.currentFor(schedule))
+            ScheduleSlot(
+              schedule: schedule,
+              status: occ.status,
+              time: occ.time,
+              intake: occ.intake,
             ),
-          ));
-        case DailySchedule scheduling:
-          final takenToday = _medicationIntakeProvider
-              .getTakenIntakesForScheduleOn(schedule.id, today);
-          for (final info
-              in scheduling.slotInfosFor(takenIntakesToday: takenToday)) {
-            slots.add(_toSlot(schedule, info));
-          }
-      }
-    }
-
-    return slots;
-  }
-
-  static ScheduleSlot _toSlot(MedicationSchedule schedule, SlotInfo info) =>
-      ScheduleSlot(
-        schedule: schedule,
-        status: info.status,
-        time: info.time,
-        intake: info.intake,
-      );
+      ];
 
   ({List<ScheduleSlot> today, List<ScheduleSlot> upcoming}) splitSlotsByDay() {
     final overdueToday = <ScheduleSlot>[];

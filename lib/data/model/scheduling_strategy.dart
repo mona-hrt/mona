@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/custom_mappers.dart';
@@ -16,19 +15,6 @@ enum ScheduleStatus {
   today,
   upcoming,
   taken
-}
-
-@immutable
-class SlotInfo {
-  final ScheduleStatus status;
-  final TimeOfDay? time;
-  final MedicationIntake? intake;
-
-  const SlotInfo({
-    required this.status,
-    this.time,
-    this.intake,
-  });
 }
 
 @MappableClass(
@@ -139,29 +125,25 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
   }
 
-  ScheduleStatus _statusFor(Date date, Date? lastTaken) {
-    if (_isScheduledForToday(date)) {
+  ScheduleStatus statusFor({
+    required Date startDate,
+    required Date date,
+    Date? lastTaken,
+  }) {
+    if (!date.isToday) return ScheduleStatus.upcoming;
+
+    if (_isScheduledForToday(startDate)) {
       if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
-      if (_isLate(date, lastTaken)) return ScheduleStatus.todayOverdue;
-      if (_lastTakenLate(date, lastTaken)) {
+      if (_isLate(startDate, lastTaken)) return ScheduleStatus.todayOverdue;
+      if (_lastTakenLate(startDate, lastTaken)) {
         return ScheduleStatus.todayEarly;
       }
       return ScheduleStatus.today;
     }
 
-    if (_isLate(date, lastTaken)) return ScheduleStatus.overdue;
+    if (_isLate(startDate, lastTaken)) return ScheduleStatus.overdue;
 
     return ScheduleStatus.upcoming;
-  }
-
-  SlotInfo slotInfoFor({
-    required Date startDate,
-    Date? lastTakenLocalDate,
-    MedicationIntake? lastTakenIntake,
-  }) {
-    final status = _statusFor(startDate, lastTakenLocalDate);
-    final intake = status == ScheduleStatus.taken ? lastTakenIntake : null;
-    return SlotInfo(status: status, intake: intake);
   }
 
   static String? validateIntervalDays(AppLocalizations l10n, String? value) =>
@@ -181,22 +163,13 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
     this.notify = true,
   });
 
-  List<SlotInfo> slotInfosFor({
-    List<MedicationIntake> takenIntakesToday = const [],
-  }) =>
-      [
-        for (final time in intakeTimes)
-          () {
-            final match = takenIntakesToday
-                .firstWhereOrNull((i) => i.scheduledTime == time);
-            return SlotInfo(
-              status:
-                  match != null ? ScheduleStatus.taken : ScheduleStatus.today,
-              time: time,
-              intake: match,
-            );
-          }()
-      ];
+  ScheduleStatus statusFor({
+    required Date date,
+    MedicationIntake? matchedIntake,
+  }) {
+    if (matchedIntake != null) return ScheduleStatus.taken;
+    return date.isToday ? ScheduleStatus.today : ScheduleStatus.upcoming;
+  }
 
   static String? validateIntakeTimes(
           AppLocalizations l10n, List<TimeOfDay> value) =>
