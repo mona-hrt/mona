@@ -17,7 +17,7 @@ import 'package:mona/data/providers/medication_schedule_provider.dart';
   MockSpec<MedicationIntakeProvider>(),
   MockSpec<MedicationScheduleProvider>(),
 ])
-import 'schedule_occurrences_test.mocks.dart';
+import 'occurrences_manager_test.mocks.dart';
 
 MedicationSchedule schedule({
   int id = 1,
