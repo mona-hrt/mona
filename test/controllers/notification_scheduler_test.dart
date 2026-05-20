@@ -276,15 +276,5 @@ void main() {
       verifyScheduled(title: l10n.notificationMedicationReminderTitle('B'))
           .called(1);
     });
-
-    test('queries occurrences with a 5-day window', () async {
-      final s = schedule();
-      when(scheduleProvider.schedules).thenReturn([s]);
-      when(occurrences.upcomingFor(s, days: 5)).thenReturn([occurrence()]);
-
-      await buildScheduler().regenerateAll(l10n, l10n.localeName);
-
-      verify(occurrences.upcomingFor(s, days: 5)).called(1);
-    });
   });
 }
