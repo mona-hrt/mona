@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/util/string_parsing.dart';
@@ -119,7 +120,7 @@ class NotificationService {
     final supported =
         isPlatformSupported?.call() ?? (Platform.isAndroid || Platform.isIOS);
     if (!supported) {
-      print('Notification id $id: $title - $body');
+      debugPrint('Notification id $id: $title - $body');
       return;
     }
 

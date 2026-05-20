@@ -24,6 +24,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late MedicationScheduleProvider _medicationScheduleProvider;
   late MedicationIntakeProvider _medicationIntakeProvider;
   late PreferencesService _preferencesService;
+  late NotificationScheduler _notificationScheduler;
 
   ColorScheme _getLightColorScheme(ColorScheme? lightDynamic) {
     return lightDynamic ?? ColorScheme.fromSeed(seedColor: Colors.deepPurple);
@@ -49,6 +50,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _medicationScheduleProvider = context.read<MedicationScheduleProvider>();
       _medicationIntakeProvider = context.read<MedicationIntakeProvider>();
       _preferencesService = context.read<PreferencesService>();
+      _notificationScheduler = NotificationScheduler(
+          OccurrencesManager(
+              _medicationIntakeProvider, _medicationScheduleProvider),
+          _preferencesService);
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
       _preferencesService.addListener(_regenerateNotifications);
@@ -69,16 +74,11 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     if (!mounted) return;
 
     final locale = context.read<LocaleProvider>().locale;
-
     final l10n = await AppLocalizations.delegate.load(locale);
 
     if (!mounted) return;
 
-    NotificationScheduler(
-      OccurrencesManager(
-          _medicationIntakeProvider, _medicationScheduleProvider),
-      _preferencesService,
-    ).regenerateAll(l10n, locale.toLanguageTag());
+    _notificationScheduler.regenerateAll(l10n, locale.toLanguageTag());
   }
 
   void _checkTimezoneChange() {
@@ -122,7 +122,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
             colorScheme: darkColorScheme,
           ),
           themeMode: ThemeMode.system,
-          home: MainPage(),
+          home: const MainPage(),
         );
       },
     );

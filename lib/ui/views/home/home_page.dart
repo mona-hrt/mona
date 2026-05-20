@@ -13,6 +13,8 @@ import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<MedicationScheduleProvider>();
