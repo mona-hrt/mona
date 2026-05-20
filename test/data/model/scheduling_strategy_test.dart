@@ -6,11 +6,8 @@ import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
-import 'package:mona/l10n/app_localizations_en.dart';
 
 void main() {
-  final l10n = AppLocalizationsEn();
-
   group('SchedulingStrategy', () {
     group('JSON round-trip', () {
       test('IntervalDaysSchedule encodes and decodes via the discriminator',
