@@ -17,7 +17,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
   return [
     MainTabConfig(
       title: localizations.nav_home,
-      page: HomePage(),
+      page: const HomePage(),
       icon: Icons.home_outlined,
       selectedIcon: Icons.home,
       buildActions: (context) => [
