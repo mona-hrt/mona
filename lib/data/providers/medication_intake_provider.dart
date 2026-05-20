@@ -143,6 +143,16 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b);
   }
 
+  MedicationIntake? getLastTakenInjectionIntake() {
+    final injectionIntakes = takenIntakes
+        .where((intake) =>
+            intake.administrationRoute == AdministrationRoute.injection)
+        .toList();
+    if (injectionIntakes.isEmpty) return null;
+    return injectionIntakes
+        .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b);
+  }
+
   static final _medicationIntakeRepository = Repository<MedicationIntake>(
     tableName: 'medication_intakes',
     toMap: (MedicationIntake intake) => intake.toMap(),

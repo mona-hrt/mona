@@ -534,7 +534,7 @@ void main() {
     });
 
     group('getNextSide', () {
-      test('returns right when last side is left', () {
+      test('returns right when last injection side is left', () {
         // Arrange
         final firstIntake = MedicationIntake(
           id: 1,
@@ -544,9 +544,9 @@ void main() {
           scheduleId: 42,
           side: InjectionSide.left,
           molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.gel,
+          administrationRoute: AdministrationRoute.injection,
         );
-        when(mockMedicationIntakeProvider.getLastTakenIntake())
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
             .thenReturn(firstIntake);
 
         // Act
@@ -556,7 +556,7 @@ void main() {
         expect(nextSide, InjectionSide.right);
       });
 
-      test('returns left when last side is right', () {
+      test('returns left when last injection side is right', () {
         // Arrange
         final lastIntake = MedicationIntake(
           id: 2,
@@ -566,25 +566,25 @@ void main() {
           scheduleId: 42,
           side: InjectionSide.right,
           molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.gel,
+          administrationRoute: AdministrationRoute.injection,
         );
-        when(mockMedicationIntakeProvider.getLastTakenIntake())
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
             .thenReturn(lastIntake);
 
         // Act / Assert
         expect(manager.getNextSide(), InjectionSide.left);
       });
 
-      test('returns left when there is no last intake', () {
+      test('returns left when there is no last injection intake', () {
         // Arrange
-        when(mockMedicationIntakeProvider.getLastTakenIntake())
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
             .thenReturn(null);
 
         // Act / Assert
         expect(manager.getNextSide(), InjectionSide.left);
       });
 
-      test('returns left when last intake side is null', () {
+      test('returns left when last injection intake side is null', () {
         // Arrange
         final intake = MedicationIntake(
           id: 3,
@@ -594,13 +594,34 @@ void main() {
           scheduleId: 42,
           side: null,
           molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.gel,
+          administrationRoute: AdministrationRoute.injection,
         );
-        when(mockMedicationIntakeProvider.getLastTakenIntake())
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
             .thenReturn(intake);
 
         // Act / Assert
         expect(manager.getNextSide(), InjectionSide.left);
+      });
+
+      test(
+          'alternates from last injection even when a non-injection intake was taken more recently',
+          () {
+        // Arrange
+        final lastInjection = MedicationIntake(
+          id: 4,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
+          takenTimeZone: 'Etc/UTC',
+          scheduleId: 42,
+          side: InjectionSide.left,
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        );
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
+            .thenReturn(lastInjection);
+
+        // Act / Assert
+        expect(manager.getNextSide(), InjectionSide.right);
       });
     });
   });

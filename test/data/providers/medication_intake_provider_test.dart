@@ -488,5 +488,112 @@ void main() {
         expect(result?.id, 100);
       });
     });
+
+    group('getLastTakenInjectionIntake', () {
+      test('returns null when no taken intakes exist', () async {
+        // Arrange
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result, isNull);
+      });
+
+      test('returns null when no injection intakes exist', () async {
+        // Arrange (default setUp inserts only gel intakes)
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result, isNull);
+      });
+
+      test('returns the only injection intake', () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result?.id, 100);
+      });
+
+      test('returns the latest injection among multiple injection intakes',
+          () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        repo.insert(MedicationIntake(
+          id: 101,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 14, 20, 30),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        repo.insert(MedicationIntake(
+          id: 102,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 9, 0),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result?.id, 101);
+      });
+
+      test('ignores non-injection intakes even if they are more recent',
+          () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        repo.insert(MedicationIntake(
+          id: 200,
+          dose: Decimal.parse('10.0'),
+          takenDateTime: DateTime.utc(2025, 9, 20, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result?.id, 100);
+      });
+    });
   });
 }

@@ -84,7 +84,7 @@ class MedicationIntakeManager {
   }
 
   InjectionSide getNextSide() {
-    final lastIntake = _medicationIntakeProvider.getLastTakenIntake();
+    final lastIntake = _medicationIntakeProvider.getLastTakenInjectionIntake();
 
     if (lastIntake == null || lastIntake.side == null) {
       return InjectionSide.left;
