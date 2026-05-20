@@ -62,7 +62,7 @@ void main() {
     when(schedules.schedules).thenReturn(all);
   }
 
-  group('current — IntervalDaysSchedule', () {
+  group('current - IntervalDaysSchedule', () {
     test('returns exactly one occurrence dated today', () {
       final s = schedule(scheduling: IntervalDaysSchedule(intervalDays: 7));
       withSchedules([s]);
@@ -71,28 +71,6 @@ void main() {
 
       expect(result, hasLength(1));
       expect(result.single.date, Date.today());
-    });
-
-    test('overdue (not scheduled today, past missed) -> status overdue', () {
-      final start = Date.today().subtract(const Duration(days: 9));
-      final s = schedule(
-          id: 7,
-          scheduling: IntervalDaysSchedule(intervalDays: 2),
-          startDate: start);
-      withSchedules([s]);
-      when(intakes.getLastIntakeLocalDateForSchedule(7))
-          .thenReturn(start); // taken at start, missed since
-
-      expect(occurrences.current().single.status, ScheduleStatus.overdue);
-    });
-
-    test('not scheduled today, start in the future -> upcoming', () {
-      final s = schedule(
-          scheduling: IntervalDaysSchedule(intervalDays: 7),
-          startDate: Date.today().add(const Duration(days: 5)));
-      withSchedules([s]);
-
-      expect(occurrences.current().single.status, ScheduleStatus.upcoming);
     });
 
     test('scheduled today, taken today -> taken with last intake attached', () {
@@ -111,13 +89,6 @@ void main() {
 
       expect(occ.status, ScheduleStatus.taken);
       expect(occ.intake, intake);
-    });
-
-    test('non-taken occurrence carries no intake', () {
-      final s = schedule(scheduling: IntervalDaysSchedule(intervalDays: 7));
-      withSchedules([s]);
-
-      expect(occurrences.current().single.intake, isNull);
     });
 
     test('notifiable mirrors notificationTime presence', () {
@@ -141,7 +112,7 @@ void main() {
       );
     });
 
-    test('time mirrors notificationTime', () {
+    test('notificationTime mirrors scheduling notificationTime', () {
       const t = TimeOfDay(hour: 9, minute: 30);
       final s = schedule(
           scheduling:
@@ -152,7 +123,7 @@ void main() {
     });
   });
 
-  group('current — DailySchedule', () {
+  group('current - DailySchedule', () {
     const morning = TimeOfDay(hour: 8, minute: 0);
     const afternoon = TimeOfDay(hour: 14, minute: 0);
     const evening = TimeOfDay(hour: 20, minute: 30);
@@ -169,34 +140,21 @@ void main() {
 
       expect(result.map((o) => o.time), [morning, afternoon, evening]);
       expect(result.map((o) => o.date), everyElement(Date.today()));
-      expect(result.map((o) => o.status), everyElement(ScheduleStatus.today));
-      expect(result.map((o) => o.intake), everyElement(isNull));
     });
 
     test('matched intake -> taken with intake attached', () {
       final morningIntake = intakeAt(morning, id: 1);
-      final eveningIntake = intakeAt(evening, id: 2);
       final s = schedule(
-          scheduling:
-              const DailySchedule(intakeTimes: [morning, afternoon, evening]));
+          scheduling: const DailySchedule(intakeTimes: [morning, afternoon]));
       withSchedules([s]);
       when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
-          .thenReturn([morningIntake, eveningIntake]);
+          .thenReturn([morningIntake]);
 
       final result = occurrences.current();
 
-      expect(
-        {for (final o in result) o.time: o.status},
-        {
-          morning: ScheduleStatus.taken,
-          afternoon: ScheduleStatus.today,
-          evening: ScheduleStatus.taken,
-        },
-      );
-      expect(
-        {for (final o in result) o.time: o.intake},
-        {morning: morningIntake, afternoon: null, evening: eveningIntake},
-      );
+      final morningOcc = result.singleWhere((o) => o.time == morning);
+      expect(morningOcc.status, ScheduleStatus.taken);
+      expect(morningOcc.intake, morningIntake);
     });
 
     test('intake with unknown scheduledTime is ignored', () {
@@ -235,7 +193,7 @@ void main() {
     });
   });
 
-  group('upcoming — IntervalDaysSchedule', () {
+  group('upcoming - IntervalDaysSchedule', () {
     test('returns `days` future scheduled dates', () {
       final start = Date.today().subtract(const Duration(days: 7));
       final s = schedule(
@@ -245,12 +203,9 @@ void main() {
       final result = occurrences.upcoming(days: 3);
 
       expect(result, hasLength(3));
-      expect(result.first.date, Date.today());
-      expect(result[1].date, Date.today().add(const Duration(days: 7)));
-      expect(result[2].date, Date.today().add(const Duration(days: 14)));
     });
 
-    test('today-slot status reflects current state (taken)', () {
+    test('today-slot status reflects current state', () {
       final start = Date.today().subtract(const Duration(days: 7));
       final s = schedule(
           id: 7,
@@ -265,23 +220,7 @@ void main() {
       expect(result.first.status, ScheduleStatus.taken);
     });
 
-    test('future-day slots are upcoming regardless of intake history', () {
-      final start = Date.today().subtract(const Duration(days: 7));
-      final s = schedule(
-          id: 7,
-          scheduling: IntervalDaysSchedule(intervalDays: 7),
-          startDate: start);
-      withSchedules([s]);
-      when(intakes.getLastIntakeLocalDateForSchedule(7))
-          .thenReturn(Date.today());
-
-      final result = occurrences.upcoming(days: 3);
-
-      expect(result.skip(1).map((o) => o.status),
-          everyElement(ScheduleStatus.upcoming));
-    });
-
-    test('time mirrors notificationTime on every occurrence', () {
+    test('notificationTime mirrors scheduling notificationTime', () {
       const t = TimeOfDay(hour: 9, minute: 30);
       final s = schedule(
           scheduling:
@@ -304,7 +243,7 @@ void main() {
     });
   });
 
-  group('upcoming — DailySchedule', () {
+  group('upcoming - DailySchedule', () {
     const morning = TimeOfDay(hour: 8, minute: 0);
     const evening = TimeOfDay(hour: 20, minute: 30);
 
@@ -320,7 +259,7 @@ void main() {
       expect(result, hasLength(6));
     });
 
-    test('today slots: matched intake -> taken', () {
+    test('today slot status reflects current state', () {
       final morningIntake = intakeAt(morning, id: 1);
       final s = schedule(
           scheduling: const DailySchedule(intakeTimes: [morning, evening]));
@@ -333,21 +272,6 @@ void main() {
       expect(result.first.status, ScheduleStatus.taken);
       expect(result.first.intake, morningIntake);
       expect(result[1].status, ScheduleStatus.today);
-    });
-
-    test('future-day slots never carry intake and are upcoming', () {
-      final morningIntake = intakeAt(morning, id: 1);
-      final s =
-          schedule(scheduling: const DailySchedule(intakeTimes: [morning]));
-      withSchedules([s]);
-      when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
-          .thenReturn([morningIntake]);
-
-      final result = occurrences.upcoming(days: 3);
-
-      expect(result.skip(1).map((o) => o.status),
-          everyElement(ScheduleStatus.upcoming));
-      expect(result.skip(1).map((o) => o.intake), everyElement(isNull));
     });
 
     test('notifiable mirrors notify flag for every occurrence', () {

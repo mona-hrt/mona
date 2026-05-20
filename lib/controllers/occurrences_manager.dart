@@ -19,10 +19,10 @@ class OccurrencesManager {
 
     for (final schedule in schedules) {
       switch (schedule.scheduling) {
-        case IntervalDaysSchedule s:
-          occurrences.addAll(_interval(schedule, s, [Date.today()]));
-        case DailySchedule s:
-          occurrences.addAll(_daily(schedule, s, 1));
+        case IntervalDaysSchedule scheduling:
+          occurrences.addAll(_interval(schedule, scheduling, [Date.today()]));
+        case DailySchedule scheduling:
+          occurrences.addAll(_daily(schedule, scheduling, 1));
       }
     }
 
@@ -48,24 +48,24 @@ class OccurrencesManager {
 
   List<ScheduledOccurrence> _interval(
     MedicationSchedule schedule,
-    IntervalDaysSchedule s,
+    IntervalDaysSchedule scheduling,
     List<Date> dates,
   ) {
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
     final lastIntake =
         _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
-    final notifiable = s.notificationTime != null;
+    final notifiable = scheduling.notificationTime != null;
 
     return [
       for (final date in dates)
         () {
-          final status = s.statusFor(
+          final status = scheduling.statusFor(
               startDate: schedule.startDate, date: date, lastTaken: lastTaken);
           return ScheduledOccurrence(
             schedule: schedule,
             date: date,
-            notificationTime: s.notificationTime,
+            notificationTime: scheduling.notificationTime,
             status: status,
             intake: status == ScheduleStatus.taken ? lastIntake : null,
             notifiable: notifiable,
@@ -76,7 +76,7 @@ class OccurrencesManager {
 
   List<ScheduledOccurrence> _daily(
     MedicationSchedule schedule,
-    DailySchedule s,
+    DailySchedule scheduling,
     int days,
   ) {
     final today = Date.today();
@@ -85,7 +85,7 @@ class OccurrencesManager {
 
     return [
       for (var i = 0; i < days; i++)
-        for (final time in s.intakeTimes)
+        for (final time in scheduling.intakeTimes)
           () {
             final date = today.add(Duration(days: i));
             final match = date.isToday
@@ -96,9 +96,9 @@ class OccurrencesManager {
               date: date,
               time: time,
               notificationTime: time,
-              status: s.statusFor(date: date, matchedIntake: match),
+              status: scheduling.statusFor(date: date, matchedIntake: match),
               intake: match,
-              notifiable: s.notify,
+              notifiable: scheduling.notify,
             );
           }(),
     ];
