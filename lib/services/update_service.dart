@@ -24,7 +24,7 @@ class UpdateService {
   }
 
   Future<bool> isUpdateAvailable() async {
-    if (isPlayStoreDistribution || !Platform.isAndroid) return false;
+    if (isStoreDistribution || !Platform.isAndroid) return false;
     try {
       final packageInfo = await PackageInfo.fromPlatform();
       final data = await _fetchLatestRelease();
@@ -44,7 +44,7 @@ class UpdateService {
   }
 
   Future<void> checkForUpdates(BuildContext context) async {
-    if (isPlayStoreDistribution || !Platform.isAndroid) return;
+    if (isStoreDistribution || !Platform.isAndroid) return;
     final l10n = context.l10n;
 
     try {

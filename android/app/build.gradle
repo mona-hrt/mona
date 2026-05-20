@@ -57,11 +57,11 @@ android {
         versionName = flutterVersionName
     }
 
-    // `play`: Google Play (no REQUEST_INSTALL_PACKAGES; Dart hides sideload update UI).
-    // `standalone`: signed sideload / GitHub APK (in-app updates + install permission).
+    // `store`: App stores (no REQUEST_INSTALL_PACKAGES; Dart hides sideload update UI).
+    // `standalone`: sideload / GitHub APK (in-app updates + install permission).
     flavorDimensions "distribution"
     productFlavors {
-        play {
+        store {
             dimension "distribution"
         }
         standalone {

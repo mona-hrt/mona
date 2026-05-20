@@ -197,9 +197,9 @@ jobs:
           path: build/app/outputs/flutter-apk/mona-*.apk
           retention-days: 7
 
-  # ── Build Android release App Bundle + split-per-ABI APKs (signed, Play) ──
-  build_android_play:
-    name: Build Android AAB and APKs (play, signed)
+  # ── Build Android release App Bundle + split-per-ABI APKs (signed, Store) ─
+  build_android_store:
+    name: Build Android AAB and APKs (store, signed)
     runs-on: ubuntu-latest
     needs: [bump_version]
 
@@ -240,10 +240,10 @@ jobs:
           EOF
 
       - name: Build release App Bundle
-        run: flutter build appbundle --release --flavor play
+        run: flutter build appbundle --release --flavor store
 
       - name: Build release APKs (split per ABI)
-        run: flutter build apk --release --flavor play --split-per-abi
+        run: flutter build apk --release --flavor store --split-per-abi
 
       - name: Clean up signing files
         if: always()
@@ -254,29 +254,29 @@ jobs:
       - name: Rename AAB
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          mv build/app/outputs/bundle/playRelease/app-play-release.aab "build/app/outputs/bundle/playRelease/mona-${VERSION}.aab"
+          mv build/app/outputs/bundle/storeRelease/app-store-release.aab "build/app/outputs/bundle/storeRelease/mona-${VERSION}.aab"
 
       # Rename per-ABI APKs to mona-store-<abi>.apk
       - name: Rename per-ABI APKs
         run: |
           cd build/app/outputs/flutter-apk
-          for f in app-*-play-release.apk; do
+          for f in app-*-store-release.apk; do
             abi="${f#app-}"
-            abi="${abi%-play-release.apk}"
+            abi="${abi%-store-release.apk}"
             mv "$f" "mona-store-${abi}.apk"
           done
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v6
         with:
-          name: android-release-aab-play
-          path: build/app/outputs/bundle/playRelease/mona-*.aab
+          name: android-release-aab-store
+          path: build/app/outputs/bundle/storeRelease/mona-*.aab
           retention-days: 7
 
-      - name: Upload play APK artifacts
+      - name: Upload store APK artifacts
         uses: actions/upload-artifact@v6
         with:
-          name: android-release-apk-play
+          name: android-release-apk-store
           path: build/app/outputs/flutter-apk/mona-store-*.apk
           retention-days: 7
 
@@ -284,7 +284,7 @@ jobs:
   create_release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    needs: [build_android_standalone, build_android_play]
+    needs: [build_android_standalone, build_android_store]
     permissions:
       contents: write
 
@@ -295,10 +295,10 @@ jobs:
           name: android-release-apk-standalone
           path: artifacts/
 
-      - name: Download play split-per-ABI APK artifacts
+      - name: Download store split-per-ABI APK artifacts
         uses: actions/download-artifact@v6
         with:
-          name: android-release-apk-play
+          name: android-release-apk-store
           path: artifacts/
 
       # Create the release and attach the APKs.
