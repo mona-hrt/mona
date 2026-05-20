@@ -42,10 +42,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get upcoming => 'Próximamente';
 
   @override
-  String get today => 'Hoy';
-
-  @override
-  String get taken => 'tomado';
+  String get taken => 'Tomado';
 
   @override
   String daysAgoCount(int count) {
@@ -82,6 +79,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String scheduleFrequencyEveryNDays(num days) {
     return 'Cada $days días';
   }
+
+  @override
+  String get scheduleFrequencyInterval => 'Intervalo';
 
   @override
   String get newUpdateAvailable => '¡Hay una nueva actualización disponible!';
@@ -131,8 +131,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enableNotifications => 'Activar notificaciones';
 
   @override
-  String get enableNotificationsDescription =>
-      'Enviar recordatorios para los horarios';
+  String get enableNotificationsDescription => 'Enviar recordatorios';
 
   @override
   String get notificationsDisabledTitle =>
@@ -288,7 +287,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get startDate => 'Fecha de inicio';
 
   @override
+  String get pickATime => 'Elegir una hora';
+
+  @override
+  String get addIntakeTime => 'Agregar una hora';
+
+  @override
   String get editScheduleInfo => 'Editar información del horario';
+
+  @override
+  String get scheduling => 'Programación';
 
   @override
   String get noNotifications => 'Sin notificaciones';

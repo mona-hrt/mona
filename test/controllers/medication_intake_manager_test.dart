@@ -11,6 +11,7 @@ import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 
@@ -55,7 +56,6 @@ void main() {
           await expectLater(
             manager.takeMedication(
               dose: Decimal.parse('2'),
-              scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
             ),
@@ -71,7 +71,6 @@ void main() {
           try {
             await manager.takeMedication(
               dose: Decimal.parse('2'),
-              scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
             );
@@ -91,7 +90,6 @@ void main() {
           try {
             await manager.takeMedication(
               dose: Decimal.parse('2'),
-              scheduledDateTime: localDate,
               takenDateTime: localDate,
               schedule: schedule,
               supplyItem: supplyItem,
@@ -106,7 +104,6 @@ void main() {
       group('MedicationIntake creation', () {
         late MedicationIntake addedIntake;
         final dose = Decimal.parse('3');
-        final scheduledDate = DateTime(2025, 9, 14, 10, 30);
         final takenDate = DateTime.utc(2025, 9, 14, 12, 0);
         final notes = 'yummy';
         final supplyItemId = 99;
@@ -133,7 +130,6 @@ void main() {
           // Act
           await manager.takeMedication(
             dose: dose,
-            scheduledDateTime: scheduledDate,
             takenDateTime: takenDate,
             supplyItem: supplyItem,
             schedule: schedule,
@@ -150,11 +146,6 @@ void main() {
         test('propagates dose to the intake', () {
           // Assert
           expect(addedIntake.dose, dose);
-        });
-
-        test('propagates scheduledDateTime to the intake', () {
-          // Assert
-          expect(addedIntake.scheduledDateTime, scheduledDate);
         });
 
         test('propagates takenDateTime to the intake', () {
@@ -219,7 +210,6 @@ void main() {
           // Act
           await manager.takeMedication(
             dose: Decimal.parse('2'),
-            scheduledDateTime: date,
             takenDateTime: date,
             supplyItem: null,
             schedule: schedule,
@@ -259,7 +249,6 @@ void main() {
           // Act
           await manager.takeMedication(
             dose: Decimal.parse('2'),
-            scheduledDateTime: date,
             takenDateTime: date,
             supplyItem: supplyItem,
             schedule: schedule,
@@ -301,7 +290,6 @@ void main() {
             // Act
             await manager.takeMedication(
               dose: dose,
-              scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,
               schedule: schedule,
@@ -343,7 +331,6 @@ void main() {
             // Act
             await manager.takeMedication(
               dose: dose,
-              scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,
               schedule: schedule,
@@ -388,7 +375,6 @@ void main() {
             // Act
             await manager.takeMedication(
               dose: dose,
-              scheduledDateTime: date,
               takenDateTime: date,
               supplyItem: supplyItem,
               schedule: schedule,
@@ -548,20 +534,19 @@ void main() {
     });
 
     group('getNextSide', () {
-      test('returns right when last side is left', () {
+      test('returns right when last injection side is left', () {
         // Arrange
         final firstIntake = MedicationIntake(
           id: 1,
-          scheduledDateTime: DateTime(2025, 9, 14, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           takenTimeZone: 'Etc/UTC',
           scheduleId: 42,
           side: InjectionSide.left,
           molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.gel,
+          administrationRoute: AdministrationRoute.injection,
         );
-        when(mockMedicationIntakeProvider.getLastTakenIntake())
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
             .thenReturn(firstIntake);
 
         // Act
@@ -571,53 +556,72 @@ void main() {
         expect(nextSide, InjectionSide.right);
       });
 
-      test('returns left when last side is right', () {
+      test('returns left when last injection side is right', () {
         // Arrange
         final lastIntake = MedicationIntake(
           id: 2,
-          scheduledDateTime: DateTime(2025, 9, 15, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 15, 12, 0),
           takenTimeZone: 'Etc/UTC',
           scheduleId: 42,
           side: InjectionSide.right,
           molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.gel,
+          administrationRoute: AdministrationRoute.injection,
         );
-        when(mockMedicationIntakeProvider.getLastTakenIntake())
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
             .thenReturn(lastIntake);
 
         // Act / Assert
         expect(manager.getNextSide(), InjectionSide.left);
       });
 
-      test('returns left when there is no last intake', () {
+      test('returns left when there is no last injection intake', () {
         // Arrange
-        when(mockMedicationIntakeProvider.getLastTakenIntake())
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
             .thenReturn(null);
 
         // Act / Assert
         expect(manager.getNextSide(), InjectionSide.left);
       });
 
-      test('returns left when last intake side is null', () {
+      test('returns left when last injection intake side is null', () {
         // Arrange
         final intake = MedicationIntake(
           id: 3,
-          scheduledDateTime: DateTime(2025, 9, 16, 10, 30),
           dose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 16, 12, 0),
           takenTimeZone: 'Etc/UTC',
           scheduleId: 42,
           side: null,
           molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.gel,
+          administrationRoute: AdministrationRoute.injection,
         );
-        when(mockMedicationIntakeProvider.getLastTakenIntake())
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
             .thenReturn(intake);
 
         // Act / Assert
         expect(manager.getNextSide(), InjectionSide.left);
+      });
+
+      test(
+          'alternates from last injection even when a non-injection intake was taken more recently',
+          () {
+        // Arrange
+        final lastInjection = MedicationIntake(
+          id: 4,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
+          takenTimeZone: 'Etc/UTC',
+          scheduleId: 42,
+          side: InjectionSide.left,
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        );
+        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
+            .thenReturn(lastInjection);
+
+        // Act / Assert
+        expect(manager.getNextSide(), InjectionSide.right);
       });
     });
   });
@@ -633,11 +637,10 @@ MedicationSchedule _buildSchedule({
     id: id,
     name: 'ScheduleSingle',
     dose: dose ?? Decimal.parse('2'),
-    intervalDays: 1,
+    scheduling: IntervalDaysSchedule(intervalDays: 1),
     molecule: KnownMolecules.estradiol,
     administrationRoute: administrationRoute,
     ester: ester,
-    notificationTimes: List.empty(),
   );
 }
 
@@ -680,7 +683,6 @@ MedicationIntake _buildIntake({
 }) {
   return MedicationIntake(
     id: id,
-    scheduledDateTime: DateTime(2025, 9, 14, 10, 30),
     dose: dose ?? Decimal.parse('2'),
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.oral,

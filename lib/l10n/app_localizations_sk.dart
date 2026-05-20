@@ -42,10 +42,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get upcoming => 'Nadchádzajúce';
 
   @override
-  String get today => 'Dnes';
-
-  @override
-  String get taken => 'vzaté';
+  String get taken => 'Vzaté';
 
   @override
   String daysAgoCount(int count) {
@@ -89,6 +86,9 @@ class AppLocalizationsSk extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get scheduleFrequencyInterval => 'Interval';
 
   @override
   String get newUpdateAvailable => 'Je k dispozícii nová aktualizácia!';
@@ -139,7 +139,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get enableNotifications => 'Zapni notifikácie';
 
   @override
-  String get enableNotificationsDescription => 'Pripomienky plánov';
+  String get enableNotificationsDescription => 'Posielať pripomienky';
 
   @override
   String get notificationsDisabledTitle => 'Notifikácie sú vypnuté';
@@ -293,7 +293,16 @@ class AppLocalizationsSk extends AppLocalizations {
   String get startDate => 'Dátum začiatku';
 
   @override
+  String get pickATime => 'Vyber čas';
+
+  @override
+  String get addIntakeTime => 'Pridaj čas';
+
+  @override
   String get editScheduleInfo => 'Upraviť detaily plánu';
+
+  @override
+  String get scheduling => 'Plánovanie';
 
   @override
   String get noNotifications => 'Žiadne notifikácie';
