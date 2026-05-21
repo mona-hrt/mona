@@ -42,7 +42,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get upcoming => 'Ближайшие';
 
   @override
-  String get taken => 'принято';
+  String get taken => 'Принято';
 
   @override
   String daysAgoCount(int count) {
@@ -83,7 +83,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get scheduleFrequencyInterval => 'Interval';
+  String get scheduleFrequencyInterval => 'Интервально';
 
   @override
   String get newUpdateAvailable => 'Доступно новое обновление!';
@@ -127,8 +127,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get enableNotifications => 'Включить уведомления';
 
   @override
-  String get enableNotificationsDescription =>
-      'Отправлять напоминания о приёмах';
+  String get enableNotificationsDescription => 'Отправлять напоминания';
 
   @override
   String get notificationsDisabledTitle => 'Уведомления отключены';
@@ -281,16 +280,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get startDate => 'Дата начала';
 
   @override
-  String get pickATime => 'Pick a time';
+  String get pickATime => 'Выберите время';
 
   @override
-  String get addIntakeTime => 'Add time';
+  String get addIntakeTime => 'Добавить время';
 
   @override
   String get editScheduleInfo => 'Изменить информацию расписания';
 
   @override
-  String get scheduling => 'Scheduling';
+  String get scheduling => 'Расписание';
 
   @override
   String get noNotifications => 'Нет уведомлений';
