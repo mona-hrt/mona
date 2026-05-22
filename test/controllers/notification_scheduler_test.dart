@@ -353,4 +353,57 @@ void main() {
           .called(1);
     });
   });
+
+  group('notification ids', () {
+    List<int> capturedScheduledIds() => verify(plugin.zonedSchedule(
+          id: captureAnyNamed('id'),
+          title: anyNamed('title'),
+          body: anyNamed('body'),
+          scheduledDate: anyNamed('scheduledDate'),
+          notificationDetails: anyNamed('notificationDetails'),
+          androidScheduleMode: anyNamed('androidScheduleMode'),
+          payload: anyNamed('payload'),
+        )).captured.cast<int>();
+
+    test(
+        'the same (schedule, occurrence) pair yields the same id across regenerations',
+        () async {
+      final s = schedule(id: 7);
+      final occurrences3Days = [
+        occurrence(
+            schedule: s, date: Date.today().add(const Duration(days: 1))),
+        occurrence(
+            schedule: s, date: Date.today().add(const Duration(days: 2))),
+        occurrence(
+            schedule: s, date: Date.today().add(const Duration(days: 3))),
+      ];
+      when(occurrences.upcoming(days: 5)).thenReturn(occurrences3Days);
+      final sut = NotificationScheduler(occurrences, preferences);
+
+      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll(l10n, l10n.localeName);
+
+      final ids = capturedScheduledIds();
+      expect(ids.sublist(0, 3), equals(ids.sublist(3, 6)));
+    });
+
+    test('distinct (schedule, occurrence) pairs yield distinct ids', () async {
+      final a = schedule(id: 1, name: 'A');
+      final b = schedule(id: 2, name: 'B');
+      when(occurrences.upcoming(days: 5)).thenReturn([
+        occurrence(
+            schedule: a, date: Date.today().add(const Duration(days: 1))),
+        occurrence(
+            schedule: a, date: Date.today().add(const Duration(days: 2))),
+        occurrence(
+            schedule: b, date: Date.today().add(const Duration(days: 1))),
+      ]);
+      final sut = NotificationScheduler(occurrences, preferences);
+
+      await sut.regenerateAll(l10n, l10n.localeName);
+
+      final ids = capturedScheduledIds();
+      expect(ids[0], isNot(equals(ids[1])));
+    });
+  });
 }

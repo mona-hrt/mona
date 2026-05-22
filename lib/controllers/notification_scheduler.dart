@@ -6,6 +6,10 @@ import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 
+int _notificationIdFor(int scheduleId, DateTime dateTime) {
+  return Object.hash(scheduleId, dateTime.millisecondsSinceEpoch) & 0x7fffffff;
+}
+
 class NotificationScheduler {
   static const int _numberOfDays = 5;
 
@@ -52,6 +56,7 @@ class NotificationScheduler {
         final includeTime = entry.includeTime;
 
         return NotificationService().scheduleNotification(
+          id: _notificationIdFor(schedule.id, dateTime),
           title: l10n.notificationMedicationReminderTitle(schedule.name),
           body: l10n.notificationMedicationReminderBody(
             includeTime

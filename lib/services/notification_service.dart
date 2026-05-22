@@ -133,7 +133,7 @@ class NotificationService {
   }
 
   Future<void> scheduleNotification({
-    int? id,
+    required int id,
     required String title,
     required String body,
     required int year,
@@ -142,8 +142,6 @@ class NotificationService {
     required int hour,
     required int minute,
   }) async {
-    id ??= Random().nextInt(1 << 31);
-
     final scheduledDate =
         tz.TZDateTime(tz.local, year, month, day, hour, minute);
 
