@@ -358,7 +358,6 @@ jobs:
 
       - name: Build release APKs (split per ABI)
         run: |
-          flutter clean
           flutter build apk --release --flavor store --split-per-abi
 
       - name: Clean up signing files
