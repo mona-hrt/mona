@@ -218,11 +218,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get updateNoCompatibleApk => 'Совместимых обновлений не найдено.';
 
   @override
-  String get updateAppUpToDate => 'Установленна последняя версия приложения!';
+  String get updateAppUpToDate => 'Установлена последняя версия приложения!';
 
   @override
   String get updateCheckNetworkError =>
-      'Проверка наличия обновлений сейчас неуспешна.';
+      'Не удалось проверить наличие обновлений.';
 
   @override
   String get updateDialogTitle => 'Доступно обновление';
@@ -357,7 +357,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get amount => 'Количество';
 
   @override
-  String get none => 'Никакой';
+  String get none => 'Не выбрано';
 
   @override
   String get supplyItem => 'Препарат';
@@ -397,7 +397,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу.';
 
   @override
-  String get addBloodTest => 'Добавить анализа';
+  String get addBloodTest => 'Добавить анализ';
 
   @override
   String get editBloodTest => 'Изменение результатов анализа';
@@ -447,7 +447,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editItem => 'Изменение препарата';
 
   @override
-  String get usedAmount => 'Used amount';
+  String get usedAmount => 'Использовано';
 
   @override
   String deleteItem(Object name) {
@@ -481,7 +481,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get irreversibleAction => 'Данное действие отменить невозможно.';
 
   @override
-  String get name => 'Имя';
+  String get name => 'Название';
 
   @override
   String get molecule => 'Молекула';
@@ -535,7 +535,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pioglitazone => 'Пиоглитазон';
 
   @override
-  String get enanthate => 'Энатант';
+  String get enanthate => 'Энантат';
 
   @override
   String get valerate => 'Валерат';
@@ -553,7 +553,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cypionateSuspension => 'Суспензия ципионата';
 
   @override
-  String get medicationEstradiolEnanthate => 'Эстрадиола энатант';
+  String get medicationEstradiolEnanthate => 'Эстрадиола энантат';
 
   @override
   String get medicationEstradiolValerate => 'Эстрадиола валерат';
@@ -572,7 +572,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Суспензия эстрадиола ципионата';
 
   @override
-  String get medicationTestosteroneEnanthate => 'Тестостерона энатант';
+  String get medicationTestosteroneEnanthate => 'Тестостерона энантат';
 
   @override
   String get medicationTestosteroneValerate => 'Тестостерона валерат';
