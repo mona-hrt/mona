@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -318,6 +319,33 @@ void main() {
       // Act
       final results = cases
           .map((c) => requiredPositiveInt(l10n, c['value'] as String?))
+          .toList();
+      final expected = cases.map((c) => c['expected'] as Matcher).toList();
+
+      // Assert
+      expect(results, expected);
+    });
+
+    test('requiredListOfTimes works correctly', () {
+      // Arrange
+      final cases = [
+        {'value': <TimeOfDay>[], 'expected': isNotNull},
+        {
+          'value': const [TimeOfDay(hour: 8, minute: 0)],
+          'expected': isNull,
+        },
+        {
+          'value': const [
+            TimeOfDay(hour: 8, minute: 0),
+            TimeOfDay(hour: 20, minute: 30),
+          ],
+          'expected': isNull,
+        },
+      ];
+
+      // Act
+      final results = cases
+          .map((c) => requiredListOfTimes(l10n, c['value'] as List<TimeOfDay>))
           .toList();
       final expected = cases.map((c) => c['expected'] as Matcher).toList();
 

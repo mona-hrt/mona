@@ -41,7 +41,7 @@
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.8.0/mona-1.8.0.ipa",
           "size": 10700000,
           "version": "1.8.0",
-          "buildVersion": "1",
+          "buildVersion": "3",
           "date": "2026-05-13T11:00:00Z",
           "localizedDescription": "- Transdermal drops: Drops are now a supported route of administration.\n- Notes on intakes: You can now add free notes to any intake. Jot down whatever feels useful!\n- Units: A new setting lets you choose the units used across the whole app.\n- Import from older versions: You can now import data from previous versions of Mona. No one gets left behind!\n\nBug fixes:\n- The word 'schedule' now correctly shows in singular when you only have one\n- The graph's X axis now only looks at injections for its min/max range, instead of all intakes\n- Fixed a bug introduced in 1.7 that was blocking some imports\n- Android back button fix: Pressing back now takes you to the home tab instead of closing the app.\n- Import from older versions: You can now import data from previous versions of Mona. No one gets left behind!\n\nBug fixes:\n- The word 'schedule' now correctly shows in singular when you only have one\n- The graph's X axis now only looks at injections for its min/max range, instead of all intakes\n- Fixed a bug introduced in 1.7 that was blocking some imports",
           "minOSVersion": "13.0"

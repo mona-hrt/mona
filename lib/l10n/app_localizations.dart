@@ -175,16 +175,10 @@ abstract class AppLocalizations {
   /// **'Upcoming'**
   String get upcoming;
 
-  /// No description provided for @today.
-  ///
-  /// In en, this message translates to:
-  /// **'Today'**
-  String get today;
-
   /// No description provided for @taken.
   ///
   /// In en, this message translates to:
-  /// **'taken'**
+  /// **'Taken'**
   String get taken;
 
   /// Past offset in days; =1 is the word “yesterday”, not a numeric phrase.
@@ -222,6 +216,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Every {days} days'**
   String scheduleFrequencyEveryNDays(num days);
+
+  /// No description provided for @scheduleFrequencyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval'**
+  String get scheduleFrequencyInterval;
 
   /// No description provided for @newUpdateAvailable.
   ///
@@ -304,7 +304,7 @@ abstract class AppLocalizations {
   /// No description provided for @enableNotificationsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Send reminders for schedules'**
+  /// **'Send reminders'**
   String get enableNotificationsDescription;
 
   /// No description provided for @notificationsDisabledTitle.
@@ -559,11 +559,29 @@ abstract class AppLocalizations {
   /// **'Start date'**
   String get startDate;
 
+  /// No description provided for @pickATime.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time'**
+  String get pickATime;
+
+  /// No description provided for @addIntakeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Add time'**
+  String get addIntakeTime;
+
   /// No description provided for @editScheduleInfo.
   ///
   /// In en, this message translates to:
   /// **'Edit schedule info'**
   String get editScheduleInfo;
+
+  /// No description provided for @scheduling.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduling'**
+  String get scheduling;
 
   /// No description provided for @noNotifications.
   ///

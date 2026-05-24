@@ -360,6 +360,29 @@ class MockMedicationIntakeProvider extends _i1.Mock
       )) as _i14.Date?);
 
   @override
+  List<_i13.MedicationIntake> getTakenIntakesForScheduleOn(
+    int? scheduleId,
+    _i14.Date? date,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTakenIntakesForScheduleOn,
+          [
+            scheduleId,
+            date,
+          ],
+        ),
+        returnValue: <_i13.MedicationIntake>[],
+      ) as List<_i13.MedicationIntake>);
+
+  @override
+  _i13.MedicationIntake? getLastTakenIntakeForSchedule(int? scheduleId) =>
+      (super.noSuchMethod(Invocation.method(
+        #getLastTakenIntakeForSchedule,
+        [scheduleId],
+      )) as _i13.MedicationIntake?);
+
+  @override
   void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,

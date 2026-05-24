@@ -9,6 +9,8 @@
 //       |_____/_______| |___|
 //
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
@@ -27,9 +29,19 @@ void main() async {
 
   final preferencesService = await PreferencesService.init();
 
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent));
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  if (Platform.isAndroid) {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.edgeToEdge,
+      overlays: [SystemUiOverlay.top],
+    ).then((_) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle.dark.copyWith(
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarDividerColor: Colors.transparent,
+        ),
+      );
+    });
+  }
 
   runApp(
     MultiProvider(

@@ -1,16 +1,16 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/services/preferences_service.dart';
-import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_notifications_page.dart';
+import 'package:mona/ui/views/home/settings/schedules/new_schedule_scheduling_page.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
-import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
@@ -18,16 +18,17 @@ import 'package:mona/ui/widgets/forms/model_form.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
-class NewSchedulePage extends StatefulWidget {
+class NewScheduleMainInfoPage extends StatefulWidget {
+  const NewScheduleMainInfoPage({super.key});
+
   @override
-  State<NewSchedulePage> createState() => _NewSchedulePageState();
+  State<NewScheduleMainInfoPage> createState() =>
+      _NewScheduleMainInfoPageState();
 }
 
-class _NewSchedulePageState extends State<NewSchedulePage> {
+class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   late TextEditingController _nameController;
   late TextEditingController _doseController;
-  late TextEditingController _intervalDaysController;
-  late Date _startDate;
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
@@ -37,10 +38,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
       MedicationSchedule.validateName(context.l10n, _nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _intervalDaysError => MedicationSchedule.validateIntervalDays(
-      context.l10n, _intervalDaysController.text);
-  String? get _startDateError =>
-      MedicationSchedule.validateStartDate(context.l10n, _startDate);
   String? get _moleculeError =>
       MedicationSchedule.validateMolecule(context.l10n, _molecule);
   String? get _administrationRouteError =>
@@ -55,8 +52,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
-      _intervalDaysError == null &&
-      _startDateError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null;
@@ -69,7 +64,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     if (molecule != null) {
       setState(() {
         _molecule = molecule;
-
         if (!_useEsterField) {
           _ester = null;
         }
@@ -81,7 +75,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     if (administrationRoute != null) {
       setState(() {
         _administrationRoute = administrationRoute;
-
         if (!_useEsterField) {
           _ester = null;
         }
@@ -101,31 +94,18 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     setState(() {});
   }
 
-  void _addSchedule() {
+  void _next() {
     final name = _nameController.text;
-    final dose = _doseController.text.toDecimal;
-    final intervalDays = _intervalDaysController.text.toInt;
-    final startDate = _startDate;
+    final Decimal dose = _doseController.text.toDecimal;
 
-    final schedule = MedicationSchedule(
-      name: name,
-      dose: dose,
-      intervalDays: intervalDays,
-      startDate: startDate,
-      molecule: _molecule!,
-      administrationRoute: _administrationRoute!,
-      ester: _ester,
-      notificationTimes: List.empty(),
-    );
-
-    if (!mounted) return;
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditScheduleNotificationsPage(
-          schedule: schedule,
-          isNewSchedule: true,
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => NewScheduleSchedulingPage(
+          name: name,
+          dose: dose,
+          molecule: _molecule!,
+          administrationRoute: _administrationRoute!,
+          ester: _ester,
         ),
       ),
     );
@@ -138,15 +118,12 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
         Provider.of<PreferencesService>(context, listen: false);
     _nameController = TextEditingController();
     _doseController = TextEditingController();
-    _intervalDaysController = TextEditingController();
-    _startDate = Date.today();
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _doseController.dispose();
-    _intervalDaysController.dispose();
     super.dispose();
   }
 
@@ -158,7 +135,8 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
       title: localizations.newSchedule,
       submitButtonLabel: localizations.next,
       isFormValid: _isFormValid,
-      saveChanges: _addSchedule,
+      saveChanges: _next,
+      avatar: Symbols.prescriptions,
       fields: <Widget>[
         FormTextField(
           controller: _nameController,
@@ -197,22 +175,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: '[0-9.,]',
-        ),
-        FormTextField(
-          controller: _intervalDaysController,
-          label: localizations.every,
-          suffixText: localizations.days,
-          onChanged: _refresh,
-          inputType: TextInputType.number,
-          regexFormatter: '[0-9]',
-        ),
-        FormDateField(
-          date: _startDate,
-          label: localizations.startDate,
-          errorText: _startDateError,
-          onChanged: (date) => setState(() {
-            _startDate = date;
-          }),
         ),
       ],
     );

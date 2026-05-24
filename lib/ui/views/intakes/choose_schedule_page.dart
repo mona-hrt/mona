@@ -58,8 +58,7 @@ class ChooseScheduleTile extends StatelessWidget {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute<void>(
               fullscreenDialog: true,
-              builder: (context) =>
-                  TakeMedicationPage(schedule, DateTime.now()),
+              builder: (context) => TakeMedicationPage(schedule),
             ),
           );
         },

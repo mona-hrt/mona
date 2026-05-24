@@ -1,85 +1,81 @@
 import 'package:intl/intl.dart';
+import 'package:mona/controllers/occurrences_manager.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/providers/medication_intake_provider.dart';
-import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 
+int _notificationIdFor(int scheduleId, DateTime dateTime) {
+  return Object.hash(scheduleId, dateTime.millisecondsSinceEpoch) & 0x7fffffff;
+}
+
 class NotificationScheduler {
-  final MedicationScheduleProvider medicationScheduleProvider;
-  final MedicationIntakeProvider medicationIntakeProvider;
+  static const int _numberOfDays = 5;
+
+  final OccurrencesManager occurencesManager;
   final PreferencesService preferencesService;
 
-  NotificationScheduler(
-    this.medicationScheduleProvider,
-    this.medicationIntakeProvider,
-    this.preferencesService,
-  );
+  NotificationScheduler(this.occurencesManager, this.preferencesService);
 
-  Map<DateTime, MedicationSchedule> _getNotificationTimes() {
-    final Map<DateTime, MedicationSchedule> notificationsToSchedule = {};
+  List<_ScheduledNotification> _getScheduledNotifications() {
+    final notifications = <_ScheduledNotification>[];
     final now = DateTime.now();
 
-    for (final schedule in medicationScheduleProvider.schedules) {
-      final lastTaken = medicationIntakeProvider
-          .getLastIntakeLocalDateForSchedule(schedule.id);
-      final nextDates = schedule.getNextDates(5);
-
-      for (final date in nextDates) {
-        for (final time in schedule.notificationTimes) {
-          final dateTime = DateTime(
-            date.year,
-            date.month,
-            date.day,
-            time.hour,
-            time.minute,
-          );
-
-          if (now.isAfter(dateTime)) continue;
-          if (date.isToday && schedule.isTakenTodayOrLater(lastTaken)) {
-            continue;
-          }
-
-          notificationsToSchedule[dateTime] = schedule;
-        }
-      }
+    for (final occ in occurencesManager.upcoming(days: _numberOfDays)) {
+      if (!occ.notifiable) continue;
+      if (occ.status == ScheduleStatus.taken) continue;
+      final dt = occ.notificationDateTime;
+      if (dt == null || now.isAfter(dt)) continue;
+      final includeTime = occ.time != null;
+      notifications.add(
+          (dateTime: dt, schedule: occ.schedule, includeTime: includeTime));
     }
 
-    return notificationsToSchedule;
+    return notifications;
   }
 
   Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
-    NotificationService().triggerPastPendingNotifications();
-    NotificationService().cancelPendingNotifications();
+    await NotificationService().triggerPastPendingNotifications();
+    await NotificationService().cancelPendingNotifications();
 
     if (!preferencesService.notificationsEnabled) {
       return;
     }
 
-    final scheduledDateTimeFormat = DateFormat.MMMMd(localeName);
+    final scheduledDateFormat = DateFormat.MMMMd(localeName);
+    final scheduledDateTimeFormat = DateFormat.MMMMd(localeName)
+        .addPattern(DateFormat.Hm(localeName).pattern);
 
-    final notificationTimes = _getNotificationTimes();
+    final scheduledNotifications = _getScheduledNotifications();
 
     await Future.wait(
-      notificationTimes.entries.map(
-        (entry) {
-          final dateTime = entry.key;
-          final schedule = entry.value;
+      scheduledNotifications.map((entry) {
+        final dateTime = entry.dateTime;
+        final schedule = entry.schedule;
+        final includeTime = entry.includeTime;
 
-          return NotificationService().scheduleNotification(
-            title: l10n.notificationMedicationReminderTitle(schedule.name),
-            body: l10n.notificationMedicationReminderBody(
-              scheduledDateTimeFormat.format(dateTime),
-            ),
-            year: dateTime.year,
-            month: dateTime.month,
-            day: dateTime.day,
-            hour: dateTime.hour,
-            minute: dateTime.minute,
-          );
-        },
-      ),
+        return NotificationService().scheduleNotification(
+          id: _notificationIdFor(schedule.id, dateTime),
+          title: l10n.notificationMedicationReminderTitle(schedule.name),
+          body: l10n.notificationMedicationReminderBody(
+            includeTime
+                ? scheduledDateTimeFormat.format(dateTime)
+                : scheduledDateFormat.format(dateTime),
+          ),
+          year: dateTime.year,
+          month: dateTime.month,
+          day: dateTime.day,
+          hour: dateTime.hour,
+          minute: dateTime.minute,
+        );
+      }),
     );
   }
 }
+
+typedef _ScheduledNotification = ({
+  DateTime dateTime,
+  MedicationSchedule schedule,
+  bool includeTime,
+});

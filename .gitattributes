@@ -1,0 +1,2 @@
+lib/l10n/app_localizations*.dart linguist-generated
+**/*.mocks.dart linguist-generated
