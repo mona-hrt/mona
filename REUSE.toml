@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 Sienna "suprstarrd" M. <business@suprstarrd.com>
+# SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+# 
+# SPDX-License-Identifier: AGPL-3.0-only
+
+version = 1
+
+[[annotations]]
+path = "android/app/src/main/res/**/*.png"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
+SPDX-License-Identifier = "AGPL-3.0-only"
