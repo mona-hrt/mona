@@ -206,6 +206,33 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as _i6.Date?);
 
   @override
+  List<_i4.MedicationIntake> getTakenIntakesForScheduleOn(
+    int? scheduleId,
+    _i6.Date? date,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTakenIntakesForScheduleOn,
+          [
+            scheduleId,
+            date,
+          ],
+        ),
+        returnValue: <_i4.MedicationIntake>[],
+        returnValueForMissingStub: <_i4.MedicationIntake>[],
+      ) as List<_i4.MedicationIntake>);
+
+  @override
+  _i4.MedicationIntake? getLastTakenIntakeForSchedule(int? scheduleId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getLastTakenIntakeForSchedule,
+          [scheduleId],
+        ),
+        returnValueForMissingStub: null,
+      ) as _i4.MedicationIntake?);
+
+  @override
   void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,

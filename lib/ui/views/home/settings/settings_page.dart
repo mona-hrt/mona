@@ -272,7 +272,7 @@ class _SettingsPageState extends State<SettingsPage>
                   MaterialPageRoute<void>(builder: (context) => UnitsPage()));
             },
           ),
-          if (Platform.isAndroid && !isPlayStoreDistribution) ...[
+          if (Platform.isAndroid && !isStoreDistribution) ...[
             const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(

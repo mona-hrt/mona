@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- Stripped from play merges: declared by open_filex (unused in this flavor). -->
+    <!-- Stripped from store merges: declared by open_filex (unused in this flavor). -->
     <uses-permission
         android:name="android.permission.READ_MEDIA_IMAGES"
         tools:node="remove" />

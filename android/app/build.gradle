@@ -38,6 +38,14 @@ android {
         includeInBundle = false
     }
 
+    // Reproducible builds hygiene: PNG crunching during the build and runtime
+    // PNG generation from vector drawables both produce non-deterministic
+    // bytes between machines. Launcher icons are pre-rendered via
+    // flutter_launcher_icons, so disabling these has no visible effect.
+    aaptOptions {
+        cruncherEnabled = false
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -55,13 +63,24 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+        // Empty list disables generating density-specific PNGs from vector
+        // drawables at build time (nondeterministic across machines).
+        vectorDrawables.generatedDensities = []
+        // Defensive: strip ELF build-id from any plugin-compiled native libs.
+        // Most plugins ship prebuilt .so files (unaffected), but a few use
+        // CMake — this avoids a random build-id sneaking into their output.
+        externalNativeBuild {
+            cmake {
+                cFlags "-Wl,--build-id=none"
+            }
+        }
     }
 
-    // `play`: Google Play (no REQUEST_INSTALL_PACKAGES; Dart hides sideload update UI).
-    // `standalone`: signed sideload / GitHub APK (in-app updates + install permission).
+    // `store`: App stores (no REQUEST_INSTALL_PACKAGES; Dart hides sideload update UI).
+    // `standalone`: sideload / GitHub APK (in-app updates + install permission).
     flavorDimensions "distribution"
     productFlavors {
-        play {
+        store {
             dimension "distribution"
         }
         standalone {

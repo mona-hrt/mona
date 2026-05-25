@@ -134,6 +134,7 @@ void main() {
 
   test('scheduleNotification adds a notification', () async {
     await service.scheduleNotification(
+        id: 1,
         title: 'Test',
         body: 'Body',
         year: 2026,
@@ -144,6 +145,7 @@ void main() {
 
     expect(fakePlugin.scheduled.length, 1);
     final n = fakePlugin.scheduled.first;
+    expect(n['id'], 1);
     expect(n['title'], 'Test');
     expect(n['body'], 'Body');
     expect((n['date'] as tz.TZDateTime).hour, 10);
@@ -160,6 +162,7 @@ void main() {
 
   test('cancelAllNotifications clears scheduled', () async {
     await service.scheduleNotification(
+        id: 1,
         title: 'T1',
         body: 'B1',
         year: 2026,
@@ -173,6 +176,7 @@ void main() {
 
   test('cancelPendingNotifications removes only pending', () async {
     await service.scheduleNotification(
+        id: 1,
         title: 'T1',
         body: 'B1',
         year: 2026,
@@ -181,6 +185,7 @@ void main() {
         hour: 10,
         minute: 0);
     await service.scheduleNotification(
+        id: 2,
         title: 'T2',
         body: 'B2',
         year: 2026,

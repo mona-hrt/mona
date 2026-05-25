@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -11,7 +10,6 @@ import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
-import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
@@ -32,8 +30,6 @@ class EditScheduleMainInfoPage extends StatefulWidget {
 class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   late TextEditingController _nameController;
   late TextEditingController _doseController;
-  late List<int> _selectedDaysOfWeek;
-  late Date _startDate;
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
   late Ester? _ester;
@@ -44,10 +40,6 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       MedicationSchedule.validateName(context.l10n, _nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _daysOfWeekError =>
-      _selectedDaysOfWeek.isEmpty ? 'Please select at least one day' : null;
-  String? get _startDateError =>
-      MedicationSchedule.validateStartDate(context.l10n, _startDate);
   String? get _moleculeError =>
       MedicationSchedule.validateMolecule(context.l10n, _molecule);
   String? get _administrationRouteError =>
@@ -62,8 +54,6 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
-      _daysOfWeekError == null &&
-      _startDateError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null;
@@ -113,12 +103,9 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     final updatedSchedule = widget.schedule.copyWith(
       name: _nameController.text,
       dose: _doseController.text.toDecimal,
-      daysOfWeek: _selectedDaysOfWeek, // Save the updated list of days
-      startDate: _startDate,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
-      ester: _ester,
-      clearEster: !_useEsterField,
+      ester: _useEsterField ? _ester : null,
     );
     _medicationScheduleProvider.updateSchedule(updatedSchedule);
 
@@ -138,90 +125,90 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     }
   }
 
-  Widget _buildDaysOfWeekSelector() {
-    const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  // Widget _buildDaysOfWeekSelector() {
+  //   const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
-    Widget buildChip(int index) {
-      final dayInt = index + 1; // 1 = Monday, 7 = Sunday
-      final isSelected = _selectedDaysOfWeek.contains(dayInt);
+  //   Widget buildChip(int index) {
+  //     final dayInt = index + 1; // 1 = Monday, 7 = Sunday
+  //     final isSelected = _selectedDaysOfWeek.contains(dayInt);
 
-      return ActionChip(
-        label: Text(days[index]),
-        backgroundColor: isSelected
-            ? Theme.of(context).colorScheme.primaryContainer
-            : Theme.of(context).colorScheme.surface,
-        side: BorderSide(
-          color: isSelected
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.outlineVariant,
-        ),
-        onPressed: () {
-          setState(() {
-            if (isSelected) {
-              _selectedDaysOfWeek.remove(dayInt);
-            } else {
-              _selectedDaysOfWeek.add(dayInt);
-            }
-            _selectedDaysOfWeek.sort();
-          });
-        },
-      );
-    }
+  //     return ActionChip(
+  //       label: Text(days[index]),
+  //       backgroundColor: isSelected
+  //           ? Theme.of(context).colorScheme.primaryContainer
+  //           : Theme.of(context).colorScheme.surface,
+  //       side: BorderSide(
+  //         color: isSelected
+  //             ? Theme.of(context).colorScheme.primary
+  //             : Theme.of(context).colorScheme.outlineVariant,
+  //       ),
+  //       onPressed: () {
+  //         setState(() {
+  //           if (isSelected) {
+  //             _selectedDaysOfWeek.remove(dayInt);
+  //           } else {
+  //             _selectedDaysOfWeek.add(dayInt);
+  //           }
+  //           _selectedDaysOfWeek.sort();
+  //         });
+  //       },
+  //     );
+  //   }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Days of the week',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-          ),
-          const SizedBox(height: 12),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildChip(0),
-                  const SizedBox(width: 8),
-                  buildChip(1),
-                  const SizedBox(width: 8),
-                  buildChip(2),
-                  const SizedBox(width: 8),
-                  buildChip(3),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildChip(4),
-                  const SizedBox(width: 8),
-                  buildChip(5),
-                  const SizedBox(width: 8),
-                  buildChip(6),
-                ],
-              ),
-            ],
-          ),
-          if (_daysOfWeekError != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                _daysOfWeekError!,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.error,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Text(
+  //           'Days of the week',
+  //           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+  //                 color: Theme.of(context).colorScheme.onSurfaceVariant,
+  //               ),
+  //         ),
+  //         const SizedBox(height: 12),
+  //         Column(
+  //           children: [
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 buildChip(0),
+  //                 const SizedBox(width: 8),
+  //                 buildChip(1),
+  //                 const SizedBox(width: 8),
+  //                 buildChip(2),
+  //                 const SizedBox(width: 8),
+  //                 buildChip(3),
+  //               ],
+  //             ),
+  //             const SizedBox(height: 8),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 buildChip(4),
+  //                 const SizedBox(width: 8),
+  //                 buildChip(5),
+  //                 const SizedBox(width: 8),
+  //                 buildChip(6),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //         if (_daysOfWeekError != null)
+  //           Padding(
+  //             padding: const EdgeInsets.only(top: 8.0),
+  //             child: Text(
+  //               _daysOfWeekError!,
+  //               style: TextStyle(
+  //                 color: Theme.of(context).colorScheme.error,
+  //                 fontSize: 12,
+  //               ),
+  //             ),
+  //           ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   void initState() {
@@ -233,8 +220,6 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     _nameController = TextEditingController(text: widget.schedule.name);
     _doseController =
         TextEditingController(text: widget.schedule.dose.toString());
-    _selectedDaysOfWeek = List<int>.from(widget.schedule.daysOfWeek);
-    _startDate = widget.schedule.startDate;
     _molecule = widget.schedule.molecule;
     _administrationRoute = widget.schedule.administrationRoute;
     _ester = widget.schedule.ester;
@@ -297,15 +282,6 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           suffixText: _molecule.unit,
           errorText: _doseError,
           regexFormatter: r'[0-9.,]',
-        ),
-        _buildDaysOfWeekSelector(),
-        FormDateField(
-          date: _startDate,
-          label: localizations.startDate,
-          errorText: _startDateError,
-          onChanged: (date) => setState(() {
-            _startDate = date;
-          }),
         ),
       ],
     );

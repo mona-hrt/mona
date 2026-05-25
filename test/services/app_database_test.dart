@@ -76,7 +76,6 @@ void main() {
       });
 
       final id = await db.insert('medication_intakes', {
-        'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
         'dose': '2.5',
         'side': null,
@@ -112,8 +111,6 @@ void main() {
 
       expect(
           () async => await db.insert('medication_intakes', {
-                'scheduledDateTime':
-                    DateTime(2025, 9, 14, 10, 30).toIso8601String(),
                 'takenDateTime': null,
                 'dose': '2.5',
                 'side': null,
@@ -142,7 +139,6 @@ void main() {
       });
 
       final intakeId = await db.insert('medication_intakes', {
-        'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
         'dose': '2.5',
         'side': null,
@@ -168,11 +164,11 @@ void main() {
       final id = await db.insert('medication_schedules', {
         'name': 'Morning Med',
         'dose': '5',
-        'daysOfWeek': '[1, 2, 3, 4, 5, 6, 7]',
         'startDate': DateTime(2025, 9, 13).toIso8601String(),
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
-        'notificationTimes': '["12:30", "18:30"]',
+        'schedulingStrategy':
+            '{"type":"intervalDays","intervalDays":1,"notificationTime":"8:30"}',
       });
 
       final schedule = await db.query(
@@ -184,11 +180,11 @@ void main() {
       expect(
         [
           schedule.first['name'],
-          schedule.first['daysOfWeek'],
+          schedule.first['schedulingStrategy'],
         ],
         [
           'Morning Med',
-          '[1, 2, 3, 4, 5, 6, 7]',
+          '{"type":"intervalDays","intervalDays":1,"notificationTime":"8:30"}',
         ],
       );
     });
