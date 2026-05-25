@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/l10n/app_localizations_en.dart';
+import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 
 void main() {
   group('Ester', () {
@@ -26,18 +28,18 @@ void main() {
       });
     });
 
-    group('menuItems', () {
+    group('esterDropdownMenuItems', () {
       test('contains all esters', () {
         // Act
-        final items = Ester.menuItems;
+        final items = esterDropdownMenuItems(AppLocalizationsEn());
 
         // Assert
         expect(items.length, Ester.all.length);
       });
 
-      test('menu items have capitalized labels', () {
+      test('menu items labels match English localization', () {
         // Act
-        final items = Ester.menuItems;
+        final items = esterDropdownMenuItems(AppLocalizationsEn());
         final firstLabel = (items.first.child as Text).data;
 
         // Assert

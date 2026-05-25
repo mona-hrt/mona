@@ -6,9 +6,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/medication_schedule.dart';
+import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_main_info.dart';
-import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_notifications_page.dart';
+import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_scheduling_page.dart';
 import 'package:provider/provider.dart';
 
 class EditSchedulePage extends StatelessWidget {
@@ -20,6 +23,7 @@ class EditSchedulePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final medicationScheduleProvider =
         context.watch<MedicationScheduleProvider>();
+    final localizations = context.l10n;
     final currentSchedule = medicationScheduleProvider.schedules
         .firstWhereOrNull((s) => s.id == schedule.id);
 
@@ -30,6 +34,8 @@ class EditSchedulePage extends StatelessWidget {
       return SizedBox.shrink();
     }
 
+    final schedulingSubtitle = _schedulingSubtitle(currentSchedule, context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(currentSchedule.name),
@@ -37,12 +43,11 @@ class EditSchedulePage extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            title: Text('Edit schedule info'),
-            subtitle: Text(currentSchedule.toString()),
-            trailing: Icon(Icons.edit),
+            title: Text(localizations.editScheduleInfo),
+            subtitle: Text(currentSchedule.localizedSummary(localizations)),
+            trailing: Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute<void>(
-                fullscreenDialog: true,
                 builder: (context) => EditScheduleMainInfoPage(
                   schedule: currentSchedule,
                 ),
@@ -50,21 +55,12 @@ class EditSchedulePage extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Notifications'),
-            subtitle: currentSchedule.notificationTimes.isEmpty
-                ? const Text('No notifications')
-                : currentSchedule.notificationTimes.length > 4
-                    ? Text(
-                        '${currentSchedule.notificationTimes.length} notifications')
-                    : Text(
-                        currentSchedule.notificationTimes
-                            .map((time) => time.format(context))
-                            .join(', '),
-                      ),
+            title: Text(localizations.scheduling),
+            subtitle: Text(schedulingSubtitle),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute<void>(
-                builder: (context) => EditScheduleNotificationsPage(
+                builder: (context) => EditScheduleSchedulingPage(
                   schedule: currentSchedule,
                 ),
               ));
@@ -73,5 +69,22 @@ class EditSchedulePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _schedulingSubtitle(
+    MedicationSchedule schedule,
+    BuildContext context,
+  ) {
+    final localizations = context.l10n;
+    return switch (schedule.scheduling) {
+      IntervalDaysSchedule(
+        intervalDays: final intervalDays,
+      ) =>
+        intervalDays == 1
+            ? localizations.scheduleFrequencyDaily
+            : localizations.scheduleFrequencyEveryNDays(
+                intervalDays), // TODO use one, many ?
+      DailySchedule _ => localizations.scheduleFrequencyDaily,
+    };
   }
 }

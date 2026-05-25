@@ -5,9 +5,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mona/distribution.dart';
+import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,7 +17,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 class UpdateService {
   static const String _releaseUrl =
-      'https://api.github.com/repos/delia-cheminot/mona-hrt/releases/latest';
+      'https://api.github.com/repos/mona-hrt/mona/releases/latest';
 
   Future<Map<String, dynamic>?> _fetchLatestRelease() async {
     final response = await http.get(Uri.parse(_releaseUrl));
@@ -27,7 +28,7 @@ class UpdateService {
   }
 
   Future<bool> isUpdateAvailable() async {
-    if (!Platform.isAndroid) return false;
+    if (isStoreDistribution || !Platform.isAndroid) return false;
     try {
       final packageInfo = await PackageInfo.fromPlatform();
       final data = await _fetchLatestRelease();
@@ -47,7 +48,8 @@ class UpdateService {
   }
 
   Future<void> checkForUpdates(BuildContext context) async {
-    if (!Platform.isAndroid) return;
+    if (isStoreDistribution || !Platform.isAndroid) return;
+    final l10n = context.l10n;
 
     try {
       final packageInfo = await PackageInfo.fromPlatform();
@@ -64,22 +66,20 @@ class UpdateService {
         if (!context.mounted) return;
 
         if (latest > current) {
-          final bestAsset = await _getBestAssetForDevice(assets);
+          final asset = _getAsset(assets);
 
           if (!context.mounted) return;
 
-          if (bestAsset != null) {
-            _showUpdateDialog(
-                context, currentVersion, latestVersion, bestAsset);
+          if (asset != null) {
+            _showUpdateDialog(context, currentVersion, latestVersion, asset);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                  content: Text('No compatible update found for your device.')),
+              SnackBar(content: Text(l10n.updateNoCompatibleApk)),
             );
           }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Your app is up to date!')),
+            SnackBar(content: Text(l10n.updateAppUpToDate)),
           );
         }
       } else {
@@ -88,65 +88,46 @@ class UpdateService {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Could not check for updates right now.')),
+          SnackBar(content: Text(l10n.updateCheckNetworkError)),
         );
       }
     }
   }
 
-  Future<Map<String, dynamic>?> _getBestAssetForDevice(List assets) async {
+  Map<String, dynamic>? _getAsset(List assets) {
     final apkAssets =
         assets.where((a) => a['name'].toString().endsWith('.apk')).toList();
     if (apkAssets.isEmpty) return null;
 
-    final deviceInfo = DeviceInfoPlugin();
-    final androidInfo = await deviceInfo.androidInfo;
-    final supportedAbis = androidInfo.supportedAbis;
-
-    for (String abi in supportedAbis) {
-      for (var asset in apkAssets) {
-        if (asset['name']
-            .toString()
-            .toLowerCase()
-            .contains(abi.toLowerCase())) {
-          return asset;
-        }
+    for (var asset in apkAssets) {
+      final assetName = asset['name'].toString().toLowerCase();
+      if (assetName.contains('mona-') && !assetName.contains('store')) {
+        return asset;
       }
     }
-
-    final universalAssets = apkAssets.where((a) {
-      final name = a['name'].toString().toLowerCase();
-      return !name.contains('arm64') &&
-          !name.contains('armeabi') &&
-          !name.contains('x86');
-    }).toList();
-
-    if (universalAssets.isNotEmpty) return universalAssets.first;
-
-    return apkAssets.first;
+    return null;
   }
 
   void _showUpdateDialog(BuildContext context, String current, String latest,
       Map<String, dynamic> asset) {
+    final l10n = context.l10n;
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Update Available'),
-        content: Text(
-            'Version $latest is available! (Current: $current)\n\nAn update compatible with your device is ready to be installed.'),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.updateDialogTitle),
+        content: Text(l10n.updateDialogBody(latest, current)),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               _downloadAndInstall(
                   context, asset['browser_download_url'], asset['name']);
             },
-            child: const Text('Download & Install'),
+            child: Text(l10n.updateDownloadAndInstall),
           ),
         ],
       ),
@@ -155,11 +136,11 @@ class UpdateService {
 
   Future<void> _downloadAndInstall(
       BuildContext context, String url, String fileName) async {
+    final l10n = context.l10n;
     if (!await Permission.requestInstallPackages.request().isGranted) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Permission is required to install updates.')),
+          SnackBar(content: Text(l10n.updateInstallPermissionRequired)),
         );
       }
       return;
@@ -180,40 +161,42 @@ class UpdateService {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (dialogContext) => AlertDialog(
-          title: const Text('Downloading Update...'),
-          content: ValueListenableBuilder<double>(
-            valueListenable: progressNotifier,
-            builder: (context, progress, child) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LinearProgressIndicator(value: progress),
-                  const SizedBox(height: 16),
-                  Text('${(progress * 100).toStringAsFixed(1)}%'),
-                ],
-              );
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                isCancelled = true;
-                await subscription?.cancel();
-
-                await sink?.close();
-                if (file.existsSync()) {
-                  await file.delete();
-                }
-
-                if (dialogContext.mounted) {
-                  Navigator.of(dialogContext, rootNavigator: true).pop();
-                }
+        builder: (dialogContext) {
+          return AlertDialog(
+            title: Text(l10n.updateDownloadingTitle),
+            content: ValueListenableBuilder<double>(
+              valueListenable: progressNotifier,
+              builder: (ctx, progress, child) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LinearProgressIndicator(value: progress),
+                    const SizedBox(height: 16),
+                    Text('${(progress * 100).toStringAsFixed(1)}%'),
+                  ],
+                );
               },
-              child: const Text('Cancel'),
             ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  isCancelled = true;
+                  await subscription?.cancel();
+
+                  await sink?.close();
+                  if (file.existsSync()) {
+                    await file.delete();
+                  }
+
+                  if (dialogContext.mounted) {
+                    Navigator.of(dialogContext, rootNavigator: true).pop();
+                  }
+                },
+                child: Text(l10n.cancel),
+              ),
+            ],
+          );
+        },
       );
     }
 
@@ -250,7 +233,7 @@ class UpdateService {
         if (result.type != ResultType.done && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: Text('Failed to open installer: ${result.message}')),
+                content: Text(l10n.updateFailedOpenInstaller(result.message))),
           );
         }
       }
@@ -258,8 +241,7 @@ class UpdateService {
       if (!isCancelled && context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Download failed. Please check your connection.')),
+          SnackBar(content: Text(l10n.updateDownloadFailed)),
         );
       }
     } finally {

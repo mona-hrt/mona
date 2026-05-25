@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/administration_route.dart';
@@ -16,25 +15,6 @@ void main() {
 
         // Assert
         expect(route, AdministrationRoute.patch);
-      });
-    });
-
-    group('menuItems', () {
-      test('contains all items', () {
-        // Act
-        final items = AdministrationRoute.menuItems;
-
-        // Assert
-        expect(items.length, AdministrationRoute.all.length);
-      });
-
-      test('menu items labels are capitalized', () {
-        // Act
-        final items = AdministrationRoute.menuItems;
-        final firstLabel = (items.first.child as Text).data;
-
-        // Assert
-        expect(firstLabel, 'Injection');
       });
     });
 

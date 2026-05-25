@@ -5,22 +5,28 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'generic_repository_mock.dart';
 
 void main() {
   late MedicationIntakeProvider provider;
   late GenericRepositoryMock<MedicationIntake> repo;
 
+  setUpAll(() {
+    tz.initializeTimeZones();
+  });
+
   setUp(() {
     repo = GenericRepositoryMock<MedicationIntake>(
       withId: (i, id) => MedicationIntake(
           id: id,
-          scheduledDateTime: i.scheduledDateTime,
           dose: i.dose,
           takenDateTime: i.takenDateTime,
+          takenTimeZone: i.takenTimeZone,
           scheduleId: i.scheduleId,
           molecule: i.molecule,
           administrationRoute: i.administrationRoute,
@@ -29,15 +35,14 @@ void main() {
     provider = MedicationIntakeProvider(repository: repo);
     repo.insert(MedicationIntake(
       id: 1,
-      scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
       dose: Decimal.parse('10.5'),
-      takenDateTime: DateTime(2025, 9, 12, 8, 15),
+      takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+      takenTimeZone: 'Etc/UTC',
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.gel,
     ));
     repo.insert(MedicationIntake(
       id: 2,
-      scheduledDateTime: DateTime(2025, 9, 12, 20, 0),
       dose: Decimal.parse('5.0'),
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.gel,
@@ -52,22 +57,20 @@ void main() {
 
     test('add inserts a new item', () async {
       // Arrange
-      final newDate = DateTime(2025, 9, 13, 8, 0);
       final newDose = Decimal.parse('2.5');
 
       // Act
       await provider.add(MedicationIntake(
-        scheduledDateTime: newDate,
         dose: newDose,
-        takenDateTime: DateTime(2025, 9, 13, 8, 10),
+        takenDateTime: DateTime.utc(2025, 9, 13, 8, 10),
+        takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       ));
 
       // Assert
       expect(
-        provider.intakes
-            .any((i) => i.scheduledDateTime == newDate && i.dose == newDose),
+        provider.intakes.any((i) => i.dose == newDose),
         true,
       );
     });
@@ -77,9 +80,9 @@ void main() {
       final intakeToUpdate = repo.items.first;
       final updatedIntake = MedicationIntake(
         id: intakeToUpdate.id,
-        scheduledDateTime: intakeToUpdate.scheduledDateTime,
         dose: Decimal.parse('99.9'),
         takenDateTime: intakeToUpdate.takenDateTime,
+        takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       );
@@ -134,24 +137,23 @@ void main() {
       await provider.fetchIntakes();
       provider.add(MedicationIntake(
         id: 100,
-        scheduledDateTime: DateTime(2025, 9, 14, 8, 0),
         dose: Decimal.parse('1.0'),
-        takenDateTime: DateTime(2025, 9, 14, 8, 10),
+        takenDateTime: DateTime.utc(2025, 9, 14, 8, 10),
+        takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       ));
       provider.add(MedicationIntake(
         id: 101,
-        scheduledDateTime: DateTime(2025, 9, 15, 8, 0),
         dose: Decimal.parse('1.0'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       ));
       provider.add(MedicationIntake(
         id: 102,
-        scheduledDateTime: DateTime(2025, 9, 16, 8, 0),
         dose: Decimal.parse('1.0'),
-        takenDateTime: DateTime(2025, 9, 16, 8, 10),
+        takenDateTime: DateTime.utc(2025, 9, 16, 8, 10),
+        takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       ));
@@ -184,18 +186,18 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 100,
-          scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('10.0'),
-          takenDateTime: DateTime(2025, 9, 13, 8, 15),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
         ));
         repo.insert(MedicationIntake(
           id: 200,
           scheduleId: 200,
-          scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('10.0'),
-          takenDateTime: DateTime(2025, 9, 13, 8, 15),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
         ));
@@ -213,7 +215,7 @@ void main() {
 
     group('getLastIntakeDateFromList', () {
       test('returns null if the list is empty', () {
-        final result = provider.getLastIntakeDateFromList([]);
+        final result = provider.getLastIntakeLocalDateFromList([]);
         expect(result, isNull);
       });
 
@@ -221,24 +223,24 @@ void main() {
         final intake = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
           dose: Decimal.parse('10.5'),
-          takenDateTime: DateTime(2025, 9, 12, 8, 15),
+          takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+          takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
         );
 
-        final result = provider.getLastIntakeDateFromList([intake]);
-        expect(result, intake.takenDateTime);
+        final result = provider.getLastIntakeLocalDateFromList([intake]);
+        expect(result, intake.takenLocalDate);
       });
 
       test('returns the latest takenDateTime if list has multiple intakes', () {
         final intake1 = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          scheduledDateTime: DateTime(2025, 9, 12, 8, 0),
           dose: Decimal.parse('10.5'),
-          takenDateTime: DateTime(2025, 9, 12, 8, 15),
+          takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+          takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
         );
@@ -246,9 +248,9 @@ void main() {
         final intake2 = MedicationIntake(
           id: 2,
           scheduleId: 1,
-          scheduledDateTime: DateTime(2025, 9, 12, 20, 0),
           dose: Decimal.parse('5.0'),
-          takenDateTime: DateTime(2025, 9, 12, 20, 10),
+          takenDateTime: DateTime.utc(2025, 9, 12, 20, 10),
+          takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
         );
@@ -256,26 +258,26 @@ void main() {
         final intake3 = MedicationIntake(
           id: 3,
           scheduleId: 1,
-          scheduledDateTime: DateTime(2025, 9, 13, 8, 0),
           dose: Decimal.parse('2.5'),
-          takenDateTime: DateTime(2025, 9, 13, 8, 5),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 5),
+          takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
         );
 
-        final result =
-            provider.getLastIntakeDateFromList([intake1, intake2, intake3]);
-        expect(result, intake3.takenDateTime);
+        final result = provider
+            .getLastIntakeLocalDateFromList([intake1, intake2, intake3]);
+        expect(result, intake3.takenLocalDate);
       });
 
       test('handles intakes with same takenDateTime correctly', () {
-        final dt = DateTime(2025, 9, 12, 8, 0);
+        final dt = DateTime.utc(2025, 9, 12, 8, 0);
         final intake1 = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          scheduledDateTime: dt,
           dose: Decimal.parse('10.5'),
           takenDateTime: dt,
+          takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
         );
@@ -283,15 +285,318 @@ void main() {
         final intake2 = MedicationIntake(
           id: 2,
           scheduleId: 1,
-          scheduledDateTime: dt,
           dose: Decimal.parse('5.0'),
           takenDateTime: dt,
+          takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
         );
 
-        final result = provider.getLastIntakeDateFromList([intake1, intake2]);
-        expect(result, dt);
+        final result =
+            provider.getLastIntakeLocalDateFromList([intake1, intake2]);
+        expect(result, intake1.takenLocalDate);
+      });
+    });
+
+    group('getTakenIntakesForScheduleOn', () {
+      test('returns only taken intakes for the given schedule on given date',
+          () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          scheduleId: 42,
+          dose: Decimal.parse('10.0'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        repo.insert(MedicationIntake(
+          id: 101,
+          scheduleId: 42,
+          dose: Decimal.parse('5.0'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 20, 30),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        repo.insert(MedicationIntake(
+          id: 102,
+          scheduleId: 42,
+          dose: Decimal.parse('5.0'),
+          takenDateTime: DateTime.utc(2025, 9, 14, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        repo.insert(MedicationIntake(
+          id: 103,
+          scheduleId: 99,
+          dose: Decimal.parse('5.0'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+        final targetDate = Date(DateTime.utc(2025, 9, 13));
+
+        // Act
+        final result = provider.getTakenIntakesForScheduleOn(42, targetDate);
+
+        // Assert
+        expect(result.map((i) => i.id).toList(), [100, 101]);
+      });
+
+      test('returns empty list when no intakes match the date', () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          scheduleId: 42,
+          dose: Decimal.parse('10.0'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+        final otherDate = Date(DateTime.utc(2025, 9, 14));
+
+        // Act
+        final result = provider.getTakenIntakesForScheduleOn(42, otherDate);
+
+        // Assert
+        expect(result, isEmpty);
+      });
+
+      test('returns empty list when no intakes match the schedule', () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          scheduleId: 42,
+          dose: Decimal.parse('10.0'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+        final targetDate = Date(DateTime.utc(2025, 9, 13));
+
+        // Act
+        final result = provider.getTakenIntakesForScheduleOn(999, targetDate);
+
+        // Assert
+        expect(result, isEmpty);
+      });
+    });
+
+    group('getLastTakenIntakeForSchedule', () {
+      test('returns null when no taken intakes exist for schedule', () async {
+        // Arrange
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenIntakeForSchedule(999);
+
+        // Assert
+        expect(result, isNull);
+      });
+
+      test('returns the only intake when schedule has a single taken intake',
+          () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          scheduleId: 42,
+          dose: Decimal.parse('10.0'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenIntakeForSchedule(42);
+
+        // Assert
+        expect(result?.id, 100);
+      });
+
+      test('returns the latest taken intake among multiple for the schedule',
+          () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          scheduleId: 42,
+          dose: Decimal.parse('10.0'),
+          takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        repo.insert(MedicationIntake(
+          id: 101,
+          scheduleId: 42,
+          dose: Decimal.parse('5.0'),
+          takenDateTime: DateTime.utc(2025, 9, 14, 20, 30),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        repo.insert(MedicationIntake(
+          id: 102,
+          scheduleId: 42,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 9, 0),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenIntakeForSchedule(42);
+
+        // Assert
+        expect(result?.id, 101);
+      });
+
+      test('ignores intakes belonging to other schedules', () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          scheduleId: 42,
+          dose: Decimal.parse('10.0'),
+          takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        repo.insert(MedicationIntake(
+          id: 200,
+          scheduleId: 99,
+          dose: Decimal.parse('5.0'),
+          takenDateTime: DateTime.utc(2025, 9, 20, 20, 30),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenIntakeForSchedule(42);
+
+        // Assert
+        expect(result?.id, 100);
+      });
+    });
+
+    group('getLastTakenInjectionIntake', () {
+      test('returns null when no taken intakes exist', () async {
+        // Arrange
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result, isNull);
+      });
+
+      test('returns null when no injection intakes exist', () async {
+        // Arrange (default setUp inserts only gel intakes)
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result, isNull);
+      });
+
+      test('returns the only injection intake', () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result?.id, 100);
+      });
+
+      test('returns the latest injection among multiple injection intakes',
+          () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        repo.insert(MedicationIntake(
+          id: 101,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 14, 20, 30),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        repo.insert(MedicationIntake(
+          id: 102,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 13, 9, 0),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result?.id, 101);
+      });
+
+      test('ignores non-injection intakes even if they are more recent',
+          () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          dose: Decimal.parse('2.5'),
+          takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+        ));
+        repo.insert(MedicationIntake(
+          id: 200,
+          dose: Decimal.parse('10.0'),
+          takenDateTime: DateTime.utc(2025, 9, 20, 8, 15),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.getLastTakenInjectionIntake();
+
+        // Assert
+        expect(result?.id, 100);
       });
     });
   });

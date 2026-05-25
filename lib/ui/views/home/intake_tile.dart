@@ -5,40 +5,45 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mona/controllers/medication_intake_manager.dart';
-import 'package:mona/controllers/schedule_manager.dart';
-import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';
+import 'package:mona/data/model/scheduled_occurrence.dart';
+import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/ui/views/home/take_medication_page.dart';
-import 'package:mona/util/date_helpers.dart';
+import 'package:mona/ui/views/intakes/edit_intake_page.dart';
 import 'package:provider/provider.dart';
 
 class IntakeTile extends StatelessWidget {
-  const IntakeTile({
-    super.key,
-    required this.schedule,
-    required this.status,
-  });
+  const IntakeTile(this.occurrence, {super.key});
 
-  final MedicationSchedule schedule;
-  final ScheduleStatus status;
+  final ScheduledOccurrence occurrence;
+
+  MedicationSchedule get schedule => occurrence.schedule;
+  ScheduleStatus get status => occurrence.status;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final medicationIntakeProvider = context.watch<MedicationIntakeProvider>();
     final supplyItemProvider = context.watch<SupplyItemProvider>();
+    final localizations = context.l10n;
     final now = DateTime.now();
 
     final viewModel = IntakeTileViewModel(
       schedule: schedule,
       status: status,
+      slotTime: occurrence.time,
       intakeProvider: medicationIntakeProvider,
       supplyProvider: supplyItemProvider,
       now: now,
-      theme: Theme.of(context),
+      localizations: localizations,
+      languageTag: context.languageTag,
+      context: context,
     );
 
     final textColor =
@@ -47,13 +52,19 @@ class IntakeTile extends StatelessWidget {
     return Card.filled(
       color: viewModel.isActive ? theme.colorScheme.primaryContainer : null,
       clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.symmetric(vertical: 4),
       child: InkWell(
         onTap: () {
+          final intake = occurrence.intake;
           Navigator.of(context).push(
             MaterialPageRoute<void>(
               fullscreenDialog: true,
-              builder: (context) =>
-                  TakeMedicationPage(schedule, normalizedToday()),
+              builder: (context) => intake != null
+                  ? EditIntakePage(intake)
+                  : TakeMedicationPage(
+                      schedule,
+                      scheduledTime: occurrence.time,
+                    ),
             ),
           );
         },
@@ -62,10 +73,12 @@ class IntakeTile extends StatelessWidget {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                viewModel.scheduledText,
-                style: theme.textTheme.labelMedium?.copyWith(color: textColor),
-              ),
+              if (viewModel.scheduledText != null)
+                Text(
+                  viewModel.scheduledText!,
+                  style:
+                      theme.textTheme.labelMedium?.copyWith(color: textColor),
+                ),
               Text(
                 schedule.name,
                 style: theme.textTheme.titleMedium?.copyWith(color: textColor),
@@ -111,95 +124,114 @@ class IntakeTileViewModel {
   IntakeTileViewModel(
       {required this.schedule,
       required this.status,
+      required this.slotTime,
       required this.intakeProvider,
       required this.supplyProvider,
       required this.now,
-      required this.theme});
+      required this.localizations,
+      required this.languageTag,
+      required this.context});
 
   final MedicationSchedule schedule;
   final ScheduleStatus status;
+  final TimeOfDay? slotTime;
   final MedicationIntakeProvider intakeProvider;
   final SupplyItemProvider supplyProvider;
   final DateTime now;
-  final ThemeData theme;
+  final AppLocalizations localizations;
+  final String languageTag;
+  final BuildContext context;
 
-  DateTime get nextScheduled => schedule.getNextDate();
-  DateTime? get lastScheduled => schedule.getLastDate();
-  DateTime? get lastTaken =>
-      intakeProvider.getLastIntakeDateForSchedule(schedule.id);
+  bool get _isDailySlot => slotTime != null;
 
-  int get daysUntilIntake => daysBetweenDate(nextScheduled, origin: now);
+  IntervalDaysSchedule get _intervalScheduling =>
+      schedule.scheduling as IntervalDaysSchedule;
 
-  int? get daysSinceLastTaken =>
-      lastTaken != null ? daysBetweenDate(lastTaken!, origin: now) : null;
+  Date get nextScheduled => _intervalScheduling.nextDate(schedule.startDate);
 
-  int? get daysSinceLastScheduled => lastScheduled != null
-      ? daysBetweenDate(lastScheduled!, origin: now)
-      : null;
+  Date? get lastScheduled =>
+      _intervalScheduling.previousDate(schedule.startDate);
+
+  Date? get lastTaken =>
+      intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
+
+  int get daysUntilIntake => nextScheduled.daysAwayFromToday;
+
+  int? get daysSinceLastTaken => lastTaken?.daysAwayFromToday;
+
+  int? get daysSinceLastScheduled => lastScheduled?.daysAwayFromToday;
 
   String get intakeInfo {
-    final nextSide = MedicationIntakeManager(
-      intakeProvider,
-      supplyProvider,
-    ).getNextSide();
+    if (status == ScheduleStatus.taken) {
+      return localizations.taken;
+    }
 
-    return "${schedule.dose} mg • ${schedule.molecule.name} "
-        "${schedule.ester != null ? "${schedule.ester!.name} " : ""}"
-        "${schedule.administrationRoute.name}"
-        "${schedule.administrationRoute == AdministrationRoute.injection ? " • ${nextSide.name} side" : ""}";
+    return "${schedule.dose} ${schedule.molecule.unit} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)}";
   }
 
-  String get scheduledText {
+  String? get scheduledText {
+    if (_isDailySlot) {
+      return slotTime?.format(context);
+    }
+
     switch (status) {
       case ScheduleStatus.today:
       case ScheduleStatus.todayOverdue:
-        return "Today";
+      case ScheduleStatus.todayEarly:
+      case ScheduleStatus.taken:
+        return null;
 
       case ScheduleStatus.overdue:
-        final formatted = DateFormat.MMMMd().format(lastScheduled!);
-        return "$formatted - $daysSinceLastScheduled days ago";
+        final formatted = lastScheduled!.format(DateFormat.MMMMd(languageTag));
+        return "$formatted - ${localizations.daysAgoCount(daysSinceLastScheduled!)}";
 
       case ScheduleStatus.upcoming:
-        final formatted = DateFormat.MMMMd().format(nextScheduled);
-        return "$formatted - in $daysUntilIntake days";
-
-      case ScheduleStatus.taken:
-        return "taken";
+        final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
+        return "$formatted - ${localizations.inDaysCount(daysUntilIntake)}";
     }
   }
 
   String? get warningText {
     switch (status) {
       case ScheduleStatus.today:
-        if (lastTaken != null &&
-            lastScheduled != null &&
-            !isSameDayAs(lastTaken!, lastScheduled!)) {
-          final formatted = DateFormat.MMMd().format(lastTaken!);
-          return "Last taken $daysSinceLastTaken days ago ($formatted)";
-        }
-        return null;
-
       case ScheduleStatus.upcoming:
       case ScheduleStatus.taken:
+      case ScheduleStatus.overdue:
         return null;
 
-      case ScheduleStatus.overdue:
+      case ScheduleStatus.todayEarly:
       case ScheduleStatus.todayOverdue:
         if (lastTaken == null) {
-          return "Never taken yet";
+          return localizations.neverTakenYet;
         }
 
-        final formatted = DateFormat.MMMd().format(lastTaken!);
-        return "Last taken $daysSinceLastTaken days ago ($formatted)";
+        final formatted = lastTaken!.format(DateFormat.MMMd(languageTag));
+        return "${localizations.lastTaken} ${localizations.daysAgoCount(daysSinceLastTaken!)} ($formatted)";
     }
   }
 
   bool get isActive =>
-      status == ScheduleStatus.today ||
+      (status == ScheduleStatus.today && slotTime == null) ||
+      (status == ScheduleStatus.today &&
+          slotTime != null &&
+          !(slotTime!.isAfter(TimeOfDay.now()))) ||
       status == ScheduleStatus.overdue ||
-      status == ScheduleStatus.todayOverdue;
+      status == ScheduleStatus.todayOverdue ||
+      status == ScheduleStatus.todayEarly;
 
   Widget get tileIcon {
+    final theme = Theme.of(context);
+
+    if (status == ScheduleStatus.taken) {
+      return CircleAvatar(
+        backgroundColor: theme.colorScheme.tertiary,
+        child: Icon(
+          Symbols.check,
+          color: theme.colorScheme.onTertiary,
+        ),
+      );
+    }
+
     if (status == ScheduleStatus.upcoming) {
       return CircleAvatar(
         backgroundColor: theme.colorScheme.secondary,
@@ -213,15 +245,17 @@ class IntakeTileViewModel {
       );
     }
 
-    final icon = status == ScheduleStatus.today
+    final icon = status == ScheduleStatus.today ||
+            status == ScheduleStatus.todayOverdue ||
+            status == ScheduleStatus.todayEarly
         ? schedule.administrationRoute.icon
         : Symbols.schedule;
 
     return CircleAvatar(
-      backgroundColor: theme.colorScheme.onPrimaryContainer,
+      backgroundColor: theme.colorScheme.primary,
       child: Icon(
         icon,
-        color: theme.colorScheme.primaryContainer,
+        color: theme.colorScheme.onPrimary,
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'generic_repository_mock.dart';
 
@@ -20,11 +21,10 @@ void main() {
         id: id,
         name: i.name,
         dose: i.dose,
-        intervalDays: i.intervalDays,
+        scheduling: i.scheduling,
         molecule: i.molecule,
         administrationRoute: i.administrationRoute,
         ester: i.ester,
-        notificationTimes: i.notificationTimes,
       ),
     );
     provider = MedicationScheduleProvider(repository: repo);
@@ -33,19 +33,17 @@ void main() {
       id: 1,
       name: 'Estradiol',
       dose: Decimal.parse('2.0'),
-      intervalDays: 1,
+      scheduling: IntervalDaysSchedule(intervalDays: 1),
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.oral,
-      notificationTimes: List.empty(),
     ));
     repo.insert(MedicationSchedule(
       id: 2,
       name: 'Spironolactone',
       dose: Decimal.parse('100.0'),
-      intervalDays: 1,
+      scheduling: IntervalDaysSchedule(intervalDays: 1),
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.oral,
-      notificationTimes: List.empty(),
     ));
   });
 
@@ -60,10 +58,9 @@ void main() {
       final schedule = MedicationSchedule(
         name: 'Progesterone',
         dose: Decimal.parse('200.0'),
-        intervalDays: 1,
+        scheduling: IntervalDaysSchedule(intervalDays: 1),
         molecule: KnownMolecules.progesterone,
         administrationRoute: AdministrationRoute.suppository,
-        notificationTimes: List.empty(),
       );
 
       // Act
@@ -80,10 +77,9 @@ void main() {
         id: scheduleToUpdate.id,
         name: scheduleToUpdate.name,
         dose: Decimal.parse('5.0'),
-        intervalDays: scheduleToUpdate.intervalDays,
+        scheduling: scheduleToUpdate.scheduling,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
-        notificationTimes: List.empty(),
       );
 
       // Act

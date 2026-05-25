@@ -8,16 +8,19 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
-import 'dart:ui' as _i6;
+import 'dart:ui' as _i7;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mona/data/model/administration_route.dart' as _i10;
-import 'package:mona/data/model/ester.dart' as _i11;
+import 'package:mona/data/model/administration_route.dart' as _i13;
+import 'package:mona/data/model/date.dart' as _i6;
+import 'package:mona/data/model/ester.dart' as _i14;
+import 'package:mona/data/model/generic_supply_item.dart' as _i11;
 import 'package:mona/data/model/medication_intake.dart' as _i4;
-import 'package:mona/data/model/molecule.dart' as _i9;
-import 'package:mona/data/model/supply_item.dart' as _i8;
+import 'package:mona/data/model/medication_supply_item.dart' as _i10;
+import 'package:mona/data/model/molecule.dart' as _i12;
+import 'package:mona/data/model/supply_item.dart' as _i9;
 import 'package:mona/data/providers/medication_intake_provider.dart' as _i3;
-import 'package:mona/data/providers/supply_item_provider.dart' as _i7;
+import 'package:mona/data/providers/supply_item_provider.dart' as _i8;
 import 'package:mona/services/repository.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -186,27 +189,55 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as Map<int, _i3.GraphIntake>);
 
   @override
-  DateTime? getLastIntakeDateFromList(List<_i4.MedicationIntake>? intakes) =>
+  _i6.Date? getLastIntakeLocalDateFromList(
+          List<_i4.MedicationIntake>? intakes) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getLastIntakeDateFromList,
+          #getLastIntakeLocalDateFromList,
           [intakes],
         ),
         returnValueForMissingStub: null,
-      ) as DateTime?);
+      ) as _i6.Date?);
 
   @override
-  DateTime? getLastIntakeDateForSchedule(int? scheduleId) =>
+  _i6.Date? getLastIntakeLocalDateForSchedule(int? scheduleId) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getLastIntakeDateForSchedule,
+          #getLastIntakeLocalDateForSchedule,
           [scheduleId],
         ),
         returnValueForMissingStub: null,
-      ) as DateTime?);
+      ) as _i6.Date?);
 
   @override
-  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  List<_i4.MedicationIntake> getTakenIntakesForScheduleOn(
+    int? scheduleId,
+    _i6.Date? date,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTakenIntakesForScheduleOn,
+          [
+            scheduleId,
+            date,
+          ],
+        ),
+        returnValue: <_i4.MedicationIntake>[],
+        returnValueForMissingStub: <_i4.MedicationIntake>[],
+      ) as List<_i4.MedicationIntake>);
+
+  @override
+  _i4.MedicationIntake? getLastTakenIntakeForSchedule(int? scheduleId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getLastTakenIntakeForSchedule,
+          [scheduleId],
+        ),
+        returnValueForMissingStub: null,
+      ) as _i4.MedicationIntake?);
+
+  @override
+  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -215,7 +246,7 @@ class MockMedicationIntakeProvider extends _i1.Mock
       );
 
   @override
-  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -246,26 +277,19 @@ class MockMedicationIntakeProvider extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSupplyItemProvider extends _i1.Mock
-    implements _i7.SupplyItemProvider {
+    implements _i8.SupplyItemProvider {
   @override
-  _i2.Repository<_i8.SupplyItem> get repository => (super.noSuchMethod(
+  _i2.Repository<_i9.SupplyItem> get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeRepository_0<_i8.SupplyItem>(
+        returnValue: _FakeRepository_0<_i9.SupplyItem>(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeRepository_0<_i8.SupplyItem>(
+        returnValueForMissingStub: _FakeRepository_0<_i9.SupplyItem>(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i2.Repository<_i8.SupplyItem>);
-
-  @override
-  List<_i8.SupplyItem> get items => (super.noSuchMethod(
-        Invocation.getter(#items),
-        returnValue: <_i8.SupplyItem>[],
-        returnValueForMissingStub: <_i8.SupplyItem>[],
-      ) as List<_i8.SupplyItem>);
+      ) as _i2.Repository<_i9.SupplyItem>);
 
   @override
   bool get isLoading => (super.noSuchMethod(
@@ -275,11 +299,33 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as bool);
 
   @override
-  List<_i8.SupplyItem> get orderedByRemainingDose => (super.noSuchMethod(
-        Invocation.getter(#orderedByRemainingDose),
-        returnValue: <_i8.SupplyItem>[],
-        returnValueForMissingStub: <_i8.SupplyItem>[],
-      ) as List<_i8.SupplyItem>);
+  List<_i9.SupplyItem> get items => (super.noSuchMethod(
+        Invocation.getter(#items),
+        returnValue: <_i9.SupplyItem>[],
+        returnValueForMissingStub: <_i9.SupplyItem>[],
+      ) as List<_i9.SupplyItem>);
+
+  @override
+  List<_i10.MedicationSupplyItem> get medicationItems => (super.noSuchMethod(
+        Invocation.getter(#medicationItems),
+        returnValue: <_i10.MedicationSupplyItem>[],
+        returnValueForMissingStub: <_i10.MedicationSupplyItem>[],
+      ) as List<_i10.MedicationSupplyItem>);
+
+  @override
+  List<_i11.GenericSupply> get genericItems => (super.noSuchMethod(
+        Invocation.getter(#genericItems),
+        returnValue: <_i11.GenericSupply>[],
+        returnValueForMissingStub: <_i11.GenericSupply>[],
+      ) as List<_i11.GenericSupply>);
+
+  @override
+  List<_i10.MedicationSupplyItem> get medicationItemsOrderedByRatio =>
+      (super.noSuchMethod(
+        Invocation.getter(#medicationItemsOrderedByRatio),
+        returnValue: <_i10.MedicationSupplyItem>[],
+        returnValueForMissingStub: <_i10.MedicationSupplyItem>[],
+      ) as List<_i10.MedicationSupplyItem>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -299,10 +345,10 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as _i5.Future<void>);
 
   @override
-  _i8.SupplyItem? getMostUsedItemForMedication(
-    _i9.Molecule? molecule,
-    _i10.AdministrationRoute? administrationRoute,
-    _i11.Ester? ester,
+  _i10.MedicationSupplyItem? getMostUsedItemForMedication(
+    _i12.Molecule? molecule,
+    _i13.AdministrationRoute? administrationRoute,
+    _i14.Ester? ester,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -314,13 +360,13 @@ class MockSupplyItemProvider extends _i1.Mock
           ],
         ),
         returnValueForMissingStub: null,
-      ) as _i8.SupplyItem?);
+      ) as _i10.MedicationSupplyItem?);
 
   @override
-  List<_i8.SupplyItem> getItemsForMedication(
-    _i9.Molecule? molecule,
-    _i10.AdministrationRoute? administrationRoute,
-    _i11.Ester? ester,
+  List<_i10.MedicationSupplyItem> getItemsForMedication(
+    _i12.Molecule? molecule,
+    _i13.AdministrationRoute? administrationRoute,
+    _i14.Ester? ester,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -331,22 +377,12 @@ class MockSupplyItemProvider extends _i1.Mock
             ester,
           ],
         ),
-        returnValue: <_i8.SupplyItem>[],
-        returnValueForMissingStub: <_i8.SupplyItem>[],
-      ) as List<_i8.SupplyItem>);
+        returnValue: <_i10.MedicationSupplyItem>[],
+        returnValueForMissingStub: <_i10.MedicationSupplyItem>[],
+      ) as List<_i10.MedicationSupplyItem>);
 
   @override
-  _i5.Future<void> deleteItemFromId(int? id) => (super.noSuchMethod(
-        Invocation.method(
-          #deleteItemFromId,
-          [id],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<void> deleteItem(_i8.SupplyItem? item) => (super.noSuchMethod(
+  _i5.Future<void> deleteItem(_i9.SupplyItem? item) => (super.noSuchMethod(
         Invocation.method(
           #deleteItem,
           [item],
@@ -356,7 +392,7 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as _i5.Future<void>);
 
   @override
-  _i5.Future<void> add(_i8.SupplyItem? supplyItem) => (super.noSuchMethod(
+  _i5.Future<void> add(_i9.SupplyItem? supplyItem) => (super.noSuchMethod(
         Invocation.method(
           #add,
           [supplyItem],
@@ -366,7 +402,7 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as _i5.Future<void>);
 
   @override
-  _i5.Future<void> updateItem(_i8.SupplyItem? item) => (super.noSuchMethod(
+  _i5.Future<void> updateItem(_i9.SupplyItem? item) => (super.noSuchMethod(
         Invocation.method(
           #updateItem,
           [item],
@@ -376,7 +412,7 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as _i5.Future<void>);
 
   @override
-  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -385,7 +421,7 @@ class MockSupplyItemProvider extends _i1.Mock
       );
 
   @override
-  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

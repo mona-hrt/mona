@@ -8,14 +8,17 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
-import 'package:mona/ui/widgets/forms/form_date_field.dart';
+import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
+import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
+import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
-import 'package:mona/util/decimal_helpers.dart';
+import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
 class EditScheduleMainInfoPage extends StatefulWidget {
@@ -31,8 +34,6 @@ class EditScheduleMainInfoPage extends StatefulWidget {
 class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   late TextEditingController _nameController;
   late TextEditingController _doseController;
-  late TextEditingController _intervalDaysController;
-  late DateTime _startDate;
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
   late Ester? _ester;
@@ -40,27 +41,23 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   late MedicationScheduleProvider _medicationScheduleProvider;
 
   String? get _nameError =>
-      MedicationSchedule.validateName(_nameController.text);
+      MedicationSchedule.validateName(context.l10n, _nameController.text);
   String? get _doseError =>
-      MedicationSchedule.validateDose(_doseController.text);
-  String? get _intervalDaysError =>
-      MedicationSchedule.validateIntervalDays(_intervalDaysController.text);
-  String? get _startDateError =>
-      MedicationSchedule.validateStartDate(_startDate);
-  String? get _moleculeError => MedicationSchedule.validateMolecule(_molecule);
+      MedicationSchedule.validateDose(context.l10n, _doseController.text);
+  String? get _moleculeError =>
+      MedicationSchedule.validateMolecule(context.l10n, _molecule);
   String? get _administrationRouteError =>
-      MedicationSchedule.validateAdministrationRoute(_administrationRoute);
+      MedicationSchedule.validateAdministrationRoute(
+          context.l10n, _administrationRoute);
   String? get _esterError {
-    final validator =
-        MedicationSchedule.esterValidator(_molecule, _administrationRoute);
+    final validator = MedicationSchedule.esterValidator(
+        context.l10n, _molecule, _administrationRoute);
     return validator(_ester);
   }
 
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
-      _intervalDaysError == null &&
-      _startDateError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null;
@@ -109,13 +106,10 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
 
     final updatedSchedule = widget.schedule.copyWith(
       name: _nameController.text,
-      dose: parseDecimal(_doseController.text),
-      intervalDays: int.parse(_intervalDaysController.text),
-      startDate: _startDate,
+      dose: _doseController.text.toDecimal,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
-      ester: _ester,
-      clearEster: !_useEsterField,
+      ester: _useEsterField ? _ester : null,
     );
     _medicationScheduleProvider.updateSchedule(updatedSchedule);
 
@@ -123,8 +117,11 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   }
 
   Future<void> _confirmDelete() async {
-    final confirmed = await Dialogs.confirmDialog(
-        context: context, title: "Delete this schedule?");
+    final localizations = context.l10n;
+    final confirmed = await Dialogs.confirmDeleteDialog(
+      context: context,
+      title: localizations.deleteSchedule(widget.schedule.name),
+    );
 
     if (confirmed == true && mounted) {
       _medicationScheduleProvider.deleteSchedule(widget.schedule);
@@ -142,9 +139,6 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     _nameController = TextEditingController(text: widget.schedule.name);
     _doseController =
         TextEditingController(text: widget.schedule.dose.toString());
-    _intervalDaysController =
-        TextEditingController(text: widget.schedule.intervalDays.toString());
-    _startDate = widget.schedule.startDate;
     _molecule = widget.schedule.molecule;
     _administrationRoute = widget.schedule.administrationRoute;
     _ester = widget.schedule.ester;
@@ -154,22 +148,23 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   void dispose() {
     _nameController.dispose();
     _doseController.dispose();
-    _intervalDaysController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = context.l10n;
+
     return ModelForm(
-      title: 'Edit schedule',
-      submitButtonLabel: 'Save',
+      title: localizations.editSchedule,
+      submitButtonLabel: localizations.save,
       isFormValid: _isFormValid,
       saveChanges: _saveSchedule,
       onDelete: _confirmDelete,
       fields: [
         FormTextField(
           controller: _nameController,
-          label: 'Name',
+          label: localizations.name,
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,
@@ -177,49 +172,35 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
         FormSpacer(),
         FormDropdownField<Molecule>(
           value: _molecule,
-          items: _preferencesService.moleculeDropdownItems,
+          items: moleculeDropdownMenuItems(
+            _preferencesService.allMolecules,
+            localizations,
+          ),
           onChanged: _onMoleculeChanged,
-          label: 'Molecule',
+          label: localizations.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
-          items: AdministrationRoute.menuItems,
+          items: administrationRouteDropdownMenuItems(localizations),
           onChanged: _onAdministrationRouteChanged,
-          label: 'Administration route',
+          label: localizations.adminRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
-            items: Ester.menuItems,
+            items: esterDropdownMenuItems(localizations),
             onChanged: _onEsterChanged,
-            label: 'Ester',
+            label: localizations.ester,
           ),
         FormSpacer(),
         FormTextField(
           controller: _doseController,
-          label: 'Amount',
+          label: localizations.amount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _molecule.unit,
           errorText: _doseError,
           regexFormatter: r'[0-9.,]',
-        ),
-        FormTextField(
-          controller: _intervalDaysController,
-          label: 'Every',
-          suffixText: 'days',
-          onChanged: _refresh,
-          inputType: TextInputType.number,
-          errorText: _intervalDaysError,
-          regexFormatter: r'[0-9]',
-        ),
-        FormDateField(
-          date: _startDate,
-          label: 'Start date',
-          errorText: _startDateError,
-          onChanged: (date) => setState(() {
-            _startDate = date;
-          }),
         ),
       ],
     );

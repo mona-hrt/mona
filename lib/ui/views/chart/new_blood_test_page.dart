@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/units.dart';
+import 'package:mona/data/providers/blood_test_provider.dart';
+import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/services/preferences_service.dart';
+import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
+import 'package:mona/ui/widgets/forms/form_spacer.dart';
+import 'package:mona/ui/widgets/forms/form_text_field.dart';
+import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/string_parsing.dart';
+import 'package:provider/provider.dart';
+
+class NewBloodTestPage extends StatefulWidget {
+  @override
+  State<NewBloodTestPage> createState() => _NewBloodTestPageState();
+}
+
+class _NewBloodTestPageState extends State<NewBloodTestPage> {
+  late TextEditingController _estradiolLevelsController;
+  late TextEditingController _testosteroneLevelsController;
+  late DateTime _testDateTime;
+  late PreferencesService _preferencesService;
+
+  String? get _testDateError =>
+      BloodTest.validateDate(context.l10n, _testDateTime);
+
+  String? get _estradiolError =>
+      BloodTest.validateLevel(context.l10n, _estradiolLevelsController.text);
+
+  String? get _testosteroneError =>
+      BloodTest.validateLevel(context.l10n, _testosteroneLevelsController.text);
+
+  bool get _isFormValid =>
+      _testDateError == null &&
+      _estradiolError == null &&
+      _testosteroneError == null;
+
+  void _refresh() {
+    setState(() {});
+  }
+
+  void _onDateTimeChanged(DateTime dateTime) {
+    setState(() {
+      _testDateTime = dateTime;
+    });
+  }
+
+  void _addBloodTest() async {
+    final bloodTestProvider =
+        Provider.of<BloodTestProvider>(context, listen: false);
+    final estradiolLevels = _estradiolLevelsController.text.toDecimalOrNull;
+    final testosteroneLevels =
+        _testosteroneLevelsController.text.toDecimalOrNull;
+    final timezone = await FlutterTimezone.getLocalTimezone();
+    final tzName = timezone.identifier;
+    final units = _preferencesService.units;
+
+    final bloodtest = BloodTest(
+      dateTime: _testDateTime.toUtc(),
+      timeZone: tzName,
+      estradiolLevels: estradiolLevels != null
+          ? UnitValue(estradiolLevels, units.estradiol)
+          : null,
+      testosteroneLevels: testosteroneLevels != null
+          ? UnitValue(testosteroneLevels, units.testosterone)
+          : null,
+    );
+    await bloodTestProvider.add(bloodtest);
+
+    if (!mounted) return;
+    Navigator.pop(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _estradiolLevelsController = TextEditingController();
+    _testosteroneLevelsController = TextEditingController();
+    _testDateTime = DateTime.now();
+    _preferencesService = Provider.of(context, listen: false);
+  }
+
+  @override
+  void dispose() {
+    _estradiolLevelsController.dispose();
+    _testosteroneLevelsController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final units = _preferencesService.units;
+    return ModelForm(
+      title: l10n.newBloodTest,
+      submitButtonLabel: l10n.add,
+      isFormValid: _isFormValid,
+      saveChanges: _addBloodTest,
+      fields: <Widget>[
+        FormTextField(
+          controller: _estradiolLevelsController,
+          label: l10n.estradiolLevelLabel,
+          onChanged: _refresh,
+          inputType: TextInputType.numberWithOptions(decimal: true),
+          regexFormatter: '[0-9.,]',
+          errorText: _estradiolError,
+          suffixText: units.estradiol.name,
+        ),
+        FormTextField(
+          controller: _testosteroneLevelsController,
+          label: l10n.testosteroneLevelLabel,
+          onChanged: _refresh,
+          inputType: TextInputType.numberWithOptions(decimal: true),
+          regexFormatter: '[0-9.,]',
+          errorText: _testosteroneError,
+          suffixText: units.testosterone.name,
+        ),
+        FormSpacer(),
+        FormDateTimeField(
+          datetime: _testDateTime,
+          label: l10n.bloodTestDateLabel,
+          errorText: _testDateError,
+          onChanged: _onDateTimeChanged,
+        ),
+      ],
+    );
+  }
+}

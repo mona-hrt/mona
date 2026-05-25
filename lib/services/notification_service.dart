@@ -5,9 +5,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:mona/util/string_parsing.dart';
+import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
@@ -39,7 +41,7 @@ class NotificationService {
   Future<void> initialize() async {
     if (_initialized) return;
 
-    tz.initializeTimeZones();
+    tzdata.initializeTimeZones();
     final TimezoneInfo currentTimeZone =
         await FlutterTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(currentTimeZone.identifier));
@@ -122,7 +124,7 @@ class NotificationService {
     final supported =
         isPlatformSupported?.call() ?? (Platform.isAndroid || Platform.isIOS);
     if (!supported) {
-      print('Notification id $id: $title - $body');
+      debugPrint('Notification id $id: $title - $body');
       return;
     }
 
@@ -135,7 +137,7 @@ class NotificationService {
   }
 
   Future<void> scheduleNotification({
-    int? id,
+    required int id,
     required String title,
     required String body,
     required int year,
@@ -144,8 +146,6 @@ class NotificationService {
     required int hour,
     required int minute,
   }) async {
-    id ??= Random().nextInt(1 << 31);
-
     final scheduledDate =
         tz.TZDateTime(tz.local, year, month, day, hour, minute);
 
@@ -189,7 +189,8 @@ class NotificationService {
 
     return pendingNotifications.where((notification) {
       final payload = jsonDecode(notification.payload ?? '{}');
-      final scheduledTime = DateTime.tryParse(payload['scheduledTime'] ?? '');
+      final scheduledTime =
+          (payload['scheduledTime'] as String).toDateTimeOrNull;
       if (scheduledTime == null) return false;
       return scheduledTime.isBefore(DateTime.now());
     }).toList();
