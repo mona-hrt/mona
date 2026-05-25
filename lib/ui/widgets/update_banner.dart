@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Mel "Melinokey"
+// SPDX-FileCopyrightText: 2026 Meline "Alwenyfae"
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 

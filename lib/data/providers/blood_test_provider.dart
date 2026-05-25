@@ -1,3 +1,9 @@
+// SPDX-FileCopyrightText: 2026 Alice Lorido <alice@lori.do>
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Eva Tatarka <eva@tatarka.me>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/date.dart';

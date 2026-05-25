@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SPDX-FileCopyrightText: 2026 Mel "Melinokey"
+# SPDX-FileCopyrightText: 2026 Meline "Alwenyfae"
 # SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only

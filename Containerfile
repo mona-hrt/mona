@@ -1,3 +1,10 @@
+# SPDX-FileCopyrightText: 2026 Alice Boars <contact@ffi.lol>
+#
+# SPDX-LicenseIdentifier: AGPL-3.0-only
+
+# SPDX-SnippetBegin
+# SPDX-License-Identifier: MIT
+# SPDX-SnippetCopyrightText: 2019 Leo Farias
 # --- BEGIN THIRD-PARTY CODE NOTICE ---
 # The snippet below is taken directly from the Flutter Version Manager project,
 # which is licensed under the MIT license. Below is a copy of that license
@@ -39,6 +46,7 @@ RUN apt-get update && apt-get install -y curl git unzip xz-utils zip \
 RUN dart compile exe bin/main.dart -o /out/fvm
 RUN /out/fvm --version
 # --- END THIRD-PARTY CODE ---
+# SPDX-SnippetEnd
 
 FROM docker.io/library/fedora:latest AS development
 

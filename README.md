@@ -1,7 +1,7 @@
 <!--
 SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
 SPDX-FileContributor: Alice Lorido <alice@lori.do>
-SPDX-FileContributor: Mel "Melinokey"
+SPDX-FileContributor: Meline "Alwenyfae"
 SPDX-FileContributor: irismessage
 SPDX-FileContributor: Luna Fox
 
