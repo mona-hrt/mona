@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Elaine "Elai_nya"
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 {
   description = "Mona";
 

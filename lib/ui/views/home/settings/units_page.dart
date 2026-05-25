@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Eva Tatarka <eva@tatarka.me>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/l10n/build_context_extensions.dart';

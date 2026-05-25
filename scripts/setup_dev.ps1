@@ -1,3 +1,9 @@
+# SPDX-FileCopyrightText: 2026 Thomas "Seremptos"
+# SPDX-FileContributor: 2026 Alwenyfae
+# SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 Write-Host "Preparing local repository for development...`n" -ForegroundColor Magenta;
 
 $dart = Get-Command dart -ErrorAction SilentlyContinue;

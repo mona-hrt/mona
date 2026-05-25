@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Alice Lorido <alice@lori.do>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:flutter/material.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';

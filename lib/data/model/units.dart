@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: Eva Tatarka <eva@tatarka.me>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:decimal/decimal.dart';
 
 abstract interface class Unit<T> implements Enum {

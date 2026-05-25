@@ -1,3 +1,9 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Alice Lorido <alice@lori.do>
+// SPDX-FileContributor: Thomas "Seremptos"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:mona/services/db/db_tables.dart';
