@@ -12,14 +12,14 @@
   "noIntakesDue": "На сегодня нет приёмов",
   "upcoming": "Ближайшие",
   "taken": "Принято",
-  "daysAgoCount": "{count, plural, =1{вчера} few{{count} дня назад} other{{count} дней назад}}",
+  "daysAgoCount": "{count, plural, =1{вчера} one{{count} день назад} few{{count} дня назад} other{{count} дней назад}}",
   "@daysAgoCount": {
     "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "inDaysCount": "{count, plural, =1{завтра} few{через {count} дня} other{через {count} дней}}",
+  "inDaysCount": "{count, plural, =1{завтра} one{через {count} день} few{через {count} дня} other{через {count} дней}}",
   "@inDaysCount": {
     "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
@@ -96,7 +96,7 @@
   "editScheduleInfo": "Изменить информацию расписания",
   "scheduling": "Расписание",
   "noNotifications": "Нет уведомлений",
-  "notificationsCount": "{count, plural, =1{одно уведомление} few{{count} уведомления} other{{count} уведомлений}}",
+  "notificationsCount": "{count, plural, =1{одно уведомление} one{{count} уведомление} few{{count} уведомления} other{{count} уведомлений}}",
   "editSchedule": "Изменение расписания",
   "deleteSchedule": "Удалить {name}?",
   "scheduleNotifications": "Уведомления расписания",
@@ -205,13 +205,13 @@
   "transdermalSpray": "Трансдермальный спрей",
   "transdermalDrops": "Трансдермальные капли",
 
-  "administrationRouteUnitMl": "{count, plural, =1{мл} other{мл}}",
-  "administrationRouteUnitPill": "{count, plural, =1{таблетка} few{таблетки} other{таблеток}}",
-  "administrationRouteUnitPatch": "{count, plural, =1{пластырь} few{пластыря} other{пластырей}}",
-  "administrationRouteUnitPump": "{count, plural, =1{помпа} few{помпы} other{помп}}",
-  "administrationRouteUnitImplant": "{count, plural, =1{имплант} few{импланта} other{имплантов}}",
-  "administrationRouteUnitSuppository": "{count, plural, =1{суппозитория} few{суппозитории} other{суппозиторий}}",
-  "administrationRouteUnitSpray": "{count, plural, =1{брызг} few{брызг} other{брызгов}}",
+  "administrationRouteUnitMl": "{count, plural, other{мл}}",
+  "administrationRouteUnitPill": "{count, plural, one{таблетка} few{таблетки} other{таблеток}}",
+  "administrationRouteUnitPatch": "{count, plural, one{пластырь} few{пластыря} other{пластырей}}",
+  "administrationRouteUnitPump": "{count, plural, one{помпа} few{помпы} other{помп}}",
+  "administrationRouteUnitImplant": "{count, plural, one{имплант} few{импланта} other{имплантов}}",
+  "administrationRouteUnitSuppository": "{count, plural, one{суппозитория} few{суппозитории} other{суппозиторий}}",
+  "administrationRouteUnitSpray": "{count, plural, one{брызг} few{брызг} other{брызгов}}",
 
   "injectionSideLeft": "Левая",
   "injectionSideRight": "Правая",

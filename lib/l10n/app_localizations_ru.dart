@@ -51,7 +51,7 @@ class AppLocalizationsRu extends AppLocalizations {
       locale: localeName,
       other: '$count дней назад',
       few: '$count дня назад',
-      one: 'вчера',
+      one: '$count день назад',
     );
     return '$_temp0';
   }
@@ -63,7 +63,7 @@ class AppLocalizationsRu extends AppLocalizations {
       locale: localeName,
       other: 'через $count дней',
       few: 'через $count дня',
-      one: 'завтра',
+      one: 'через $count день',
     );
     return '$_temp0';
   }
@@ -301,7 +301,7 @@ class AppLocalizationsRu extends AppLocalizations {
       locale: localeName,
       other: '$count уведомлений',
       few: '$count уведомления',
-      one: 'одно уведомление',
+      one: '$count уведомление',
     );
     return '$_temp0';
   }
@@ -623,7 +623,6 @@ class AppLocalizationsRu extends AppLocalizations {
       count,
       locale: localeName,
       other: 'мл',
-      one: 'мл',
     );
     return '$_temp0';
   }
