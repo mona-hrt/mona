@@ -163,6 +163,8 @@ class _EditScheduleSchedulingPageState
         _dailyIntakeTimes.addAll(intakeTimes);
         _sortDailyIntakeTimes();
         _dailyNotify = notify;
+      case WeeklySchedule():
+      // TODO implement
     }
   }
 

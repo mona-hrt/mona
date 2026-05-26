@@ -19,7 +19,7 @@ enum ScheduleStatus {
 
 @MappableClass(
   discriminatorKey: 'type',
-  includeCustomMappers: [TimeOfDayMapper()],
+  includeCustomMappers: [TimeOfDayMapper()], // TODO needed ?
 )
 sealed class SchedulingStrategy with SchedulingStrategyMappable {
   const SchedulingStrategy();
@@ -174,4 +174,17 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
   static String? validateIntakeTimes(
           AppLocalizations l10n, List<TimeOfDay> value) =>
       requiredListOfTimes(l10n, value);
+}
+
+@MappableClass(
+  discriminatorValue: 'weekly',
+)
+class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
+  final List<int> daysOfWeek;
+  final TimeOfDay? notificationTime;
+
+  const WeeklySchedule({
+    required this.daysOfWeek,
+    this.notificationTime,
+  });
 }

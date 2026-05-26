@@ -16,6 +16,7 @@ extension MedicationScheduleL10n on MedicationSchedule {
       IntervalDaysSchedule(intervalDays: final n) =>
         localizations.scheduleFrequencyEveryNDays(n),
       DailySchedule _ => localizations.scheduleFrequencyDaily,
+      WeeklySchedule _ => localizations.scheduleFrequencyEveryNDays(7), // TODO
     };
 
     return '${localizedSummary(localizations)}\n$frequency';

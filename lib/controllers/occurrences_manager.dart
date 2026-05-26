@@ -23,6 +23,8 @@ class OccurrencesManager {
           occurrences.addAll(_interval(schedule, scheduling, [Date.today()]));
         case DailySchedule scheduling:
           occurrences.addAll(_daily(schedule, scheduling, 1));
+        case WeeklySchedule scheduling:
+        // implement
       }
     }
 
@@ -40,6 +42,8 @@ class OccurrencesManager {
               _interval(schedule, s, s.getNextDates(schedule.startDate, days)));
         case DailySchedule s:
           occurrences.addAll(_daily(schedule, s, days));
+        case WeeklySchedule s:
+        // implement
       }
     }
 

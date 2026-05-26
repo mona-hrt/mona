@@ -80,6 +80,8 @@ class EditSchedulePage extends StatelessWidget {
             : localizations.scheduleFrequencyEveryNDays(
                 intervalDays), // TODO use one, many ?
       DailySchedule _ => localizations.scheduleFrequencyDaily,
+      WeeklySchedule _ => localizations
+          .scheduleFrequencyEveryNDays(7), // TODO add method to l10n summary
     };
   }
 }
