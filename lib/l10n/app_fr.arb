@@ -31,6 +31,7 @@
   "scheduleFrequencyDaily": "Tous les jours",
   "scheduleFrequencyEveryNDays": "Tous les {days} jours",
   "scheduleFrequencyInterval": "Intervalle",
+  "scheduleFrequencyWeekly": "Hebdomadaire",
   "newUpdateAvailable": "Une nouvelle mise à jour est disponible !",
   "goToSettings": "Aller aux paramètres",
 

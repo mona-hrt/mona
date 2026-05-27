@@ -91,6 +91,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Interval';
 
   @override
+  String get scheduleFrequencyWeekly => 'Weekly';
+
+  @override
   String get newUpdateAvailable => 'Je k dispozícii nová aktualizácia!';
 
   @override
@@ -151,22 +154,19 @@ class AppLocalizationsSk extends AppLocalizations {
   String get exactRemindersDisabled => 'Presné časy pripomienok sú vypnuté';
 
   @override
-  String get remindersDelayed =>
-      'Pripomienky môžu byť jemne oneskorené. Klikni pre otvorenie nastavení.';
+  String get remindersDelayed => 'Pripomienky môžu byť jemne oneskorené. Klikni pre otvorenie nastavení.';
 
   @override
   String get autoUpdate => 'Automatické aktualizácie';
 
   @override
-  String get autoUpdateDescription =>
-      'Automaticky skontrolovať najnovšie aktualizácie pre otvorení apky';
+  String get autoUpdateDescription => 'Automaticky skontrolovať najnovšie aktualizácie pre otvorení apky';
 
   @override
   String get checkForUpdates => 'Skontrolovať aktualizácie';
 
   @override
-  String get checkForUpdatesDescription =>
-      'Skontrolovať najnovšiu verziu manuálne\nTáto akcia ťa pripojí na internet.\n(Žiadne dáta nebudú odoslané)';
+  String get checkForUpdatesDescription => 'Skontrolovať najnovšiu verziu manuálne\nTáto akcia ťa pripojí na internet.\n(Žiadne dáta nebudú odoslané)';
 
   @override
   String appVersion(Object version) {
@@ -190,8 +190,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get importDataSubtitle => 'Obnoviť dáta pomocou JSON zálohy';
 
   @override
-  String get importDataOverwriteWarning =>
-      'Týmto sa všetky tvoje dáta prepíšu zálohou. Túto akciu nie je možné vrátiť späť. Chceš pokračovať?';
+  String get importDataOverwriteWarning => 'Týmto sa všetky tvoje dáta prepíšu zálohou. Túto akciu nie je možné vrátiť späť. Chceš pokračovať?';
 
   @override
   String get importConfirm => 'Import';
@@ -200,8 +199,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get importSuccessfulTitle => 'Import úspešný';
 
   @override
-  String get importRestartRequired =>
-      'Prosím reštartuj apku pre načítanie importovaných dát.';
+  String get importRestartRequired => 'Prosím reštartuj apku pre načítanie importovaných dát.';
 
   @override
   String get closeApp => 'Zavrieť apku';
@@ -227,15 +225,13 @@ class AppLocalizationsSk extends AppLocalizations {
   String get units => 'Jednotky';
 
   @override
-  String get updateNoCompatibleApk =>
-      'Pre tvoje zariadenie nebola nájdená kompatibilná aktualizácia.';
+  String get updateNoCompatibleApk => 'Pre tvoje zariadenie nebola nájdená kompatibilná aktualizácia.';
 
   @override
   String get updateAppUpToDate => 'Tvoja apka má najnovšiu aktualizáciu!';
 
   @override
-  String get updateCheckNetworkError =>
-      'Nebolo možné skontrolovať aktualizácie.';
+  String get updateCheckNetworkError => 'Nebolo možné skontrolovať aktualizácie.';
 
   @override
   String get updateDialogTitle => 'Dostupná aktualizácia';
@@ -249,8 +245,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get updateDownloadAndInstall => 'Stiahni & nainštaluj';
 
   @override
-  String get updateInstallPermissionRequired =>
-      'Pre inštaláciu aktualizácií je potrebné povolenie.';
+  String get updateInstallPermissionRequired => 'Pre inštaláciu aktualizácií je potrebné povolenie.';
 
   @override
   String get updateDownloadingTitle => 'Sťahovanie aktualizácie...';
@@ -261,8 +256,7 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
-  String get updateDownloadFailed =>
-      'Sťahovanie sa nepodarilo. Prosím skontroluj svoje pripojenie.';
+  String get updateDownloadFailed => 'Sťahovanie sa nepodarilo. Prosím skontroluj svoje pripojenie.';
 
   @override
   String notificationMedicationReminderTitle(Object scheduleName) {
@@ -342,8 +336,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get notificationsUpdated => 'Notifikácie boli aktualizované!';
 
   @override
-  String get notificationsUpdatedDescription =>
-      'Každý plán má teraz vlastné notifikácie.\n\nZapni si notifikácie pre svoje plány, aby ti nič neušlo.';
+  String get notificationsUpdatedDescription => 'Každý plán má teraz vlastné notifikácie.\n\nZapni si notifikácie pre svoje plány, aby ti nič neušlo.';
 
   @override
   String get dontShowAgain => 'Nezobrazovať znovu';
@@ -405,8 +398,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get bloodTestsTitle => 'Krvné testy';
 
   @override
-  String get empty_blood_tests =>
-      'Krvné testy sa zobrazia tu. Začni tlačidlom Pridať!';
+  String get empty_blood_tests => 'Krvné testy sa zobrazia tu. Začni tlačidlom Pridať!';
 
   @override
   String get addBloodTest => 'Pridaj krvný test';
@@ -585,8 +577,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get medicationEstradiolBenzoate => 'Estradiol benzoát';
 
   @override
-  String get medicationEstradiolCypionateSuspension =>
-      'Estradiolová suspenzia cypionátu';
+  String get medicationEstradiolCypionateSuspension => 'Estradiolová suspenzia cypionátu';
 
   @override
   String get medicationTestosteroneEnanthate => 'Testosterón enantát';
@@ -604,8 +595,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get medicationTestosteroneBenzoate => 'Testosterón benzoát';
 
   @override
-  String get medicationTestosteroneCypionateSuspension =>
-      'Testosterónová suspenzia cypionátu';
+  String get medicationTestosteroneCypionateSuspension => 'Testosterónová suspenzia cypionátu';
 
   @override
   String get injection => 'Injekcia';
