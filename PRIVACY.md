@@ -1,3 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+SPDX-FileContributor: Alwenyfae
+
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 # Privacy Policy
 
 ## Introduction
@@ -13,6 +20,7 @@ Mona does not collect any personal information or user data.
 All data created or used by the application is stored locally on the user’s device only.
 
 Mona does NOT:
+
 - create user accounts;
 - track users;
 - use analytics services;
@@ -41,6 +49,7 @@ Data remains on the device until the user deletes it.
 ## Data Deletion
 
 Users can delete their data at any time by:
+
 - clearing the application data through the device settings; or
 - uninstalling the application.
 

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';

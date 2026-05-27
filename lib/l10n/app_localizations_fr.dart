@@ -1,3 +1,11 @@
+// SPDX-FileCopyrightText: 2026 Luna Fox
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Alwenyfae
+// SPDX-FileContributor: Ashley "AshleyTransFox"
+// SPDX-FileContributor: Lyxen "lyxenmodz"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';

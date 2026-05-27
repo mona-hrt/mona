@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 

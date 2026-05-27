@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /// Android `--flavor` is forwarded as a compile-time define by the Flutter tool.
 /// See `android/app/build.gradle` (`store`, `standalone`).
 const String _flutterAppFlavor = String.fromEnvironment(

@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Lyxen "lyxenmodz"
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
