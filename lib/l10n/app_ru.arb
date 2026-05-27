@@ -31,6 +31,7 @@
   "scheduleFrequencyDaily": "Ежедневно",
   "scheduleFrequencyEveryNDays": "Каждые {days} дней",
   "scheduleFrequencyInterval": "Интервально",
+  "scheduleFrequencyWeekly": "Еженедельно",
   "newUpdateAvailable": "Доступно новое обновление!",
   "goToSettings": "Перейти в настройки",
 

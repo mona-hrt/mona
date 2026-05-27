@@ -86,6 +86,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Интервально';
 
   @override
+  String get scheduleFrequencyWeekly => 'Еженедельно';
+
+  @override
   String get newUpdateAvailable => 'Доступно новое обновление!';
 
   @override
