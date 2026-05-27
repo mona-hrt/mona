@@ -243,8 +243,8 @@ class _EditScheduleSchedulingPageState
       },
       actions: [
         M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyDaily)),
-        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyWeekly)),
         M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyInterval)),
+        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyWeekly)),
       ],
     );
   }
@@ -342,37 +342,41 @@ class _EditScheduleSchedulingPageState
   Widget _dayPicker() {
     final weekdays = [1, 2, 3, 4, 5, 6, 7]; // 1=Mon, 7=Sun
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(context.l10n.days, style: Theme.of(context).textTheme.labelLarge),
-        if (_weeklyDaysError != null)
-          Text(_weeklyDaysError!,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: Theme.of(context).colorScheme.error)),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          children: weekdays.map((day) {
-            final isSelected = _weeklyDays.contains(day);
-            return FilterChip(
-              label: Text(_getWeekdayName(day)),
-              selected: isSelected,
-              onSelected: (selected) {
-                setState(() {
-                  if (selected) {
-                    _weeklyDays.add(day);
-                  } else {
-                    _weeklyDays.remove(day);
-                  }
-                });
-              },
-            );
-          }).toList(),
-        ),
-      ],
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (_weeklyDaysError != null)
+            Text(_weeklyDaysError!,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: Theme.of(context).colorScheme.error)),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            alignment: WrapAlignment.center,
+            children: weekdays.map((day) {
+              final isSelected = _weeklyDays.contains(day);
+              return FilterChip(
+                label: Text(_getWeekdayName(day)),
+                selected: isSelected,
+                showCheckmark: false,
+                onSelected: (selected) {
+                  setState(() {
+                    if (selected) {
+                      _weeklyDays.add(day);
+                    } else {
+                      _weeklyDays.remove(day);
+                    }
+                  });
+                },
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 
