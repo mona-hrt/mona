@@ -178,13 +178,31 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
 
 @MappableClass(
   discriminatorValue: 'weekly',
+  includeCustomMappers: [TimeOfDayMapper()],
 )
 class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   final List<int> daysOfWeek;
-  final TimeOfDay? notificationTime;
+  final List<TimeOfDay> intakeTimes;
+  final bool notify;
 
   const WeeklySchedule({
     required this.daysOfWeek,
-    this.notificationTime,
+    required this.intakeTimes,
+    this.notify = true,
   });
+
+  ScheduleStatus statusFor({
+    required Date date,
+    MedicationIntake? matchedIntake,
+  }) {
+    if (matchedIntake != null) return ScheduleStatus.taken;
+    return date.isToday ? ScheduleStatus.today : ScheduleStatus.upcoming;
+  }
+
+  static String? validateIntakeTimes(
+          AppLocalizations l10n, List<TimeOfDay> value) =>
+      requiredListOfTimes(l10n, value);
+
+  static String? validateDaysOfWeek(AppLocalizations l10n, List<int> value) =>
+      value.isEmpty ? l10n.requiredField : null;
 }

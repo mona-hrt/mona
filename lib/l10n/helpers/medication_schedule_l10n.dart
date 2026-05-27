@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/l10n/app_localizations.dart';
@@ -16,7 +17,16 @@ extension MedicationScheduleL10n on MedicationSchedule {
       IntervalDaysSchedule(intervalDays: final n) =>
         localizations.scheduleFrequencyEveryNDays(n),
       DailySchedule _ => localizations.scheduleFrequencyDaily,
-      WeeklySchedule _ => localizations.scheduleFrequencyEveryNDays(7), // TODO
+      WeeklySchedule s => () {
+          if (s.daysOfWeek.length == 7) {
+            return localizations.scheduleFrequencyDaily;
+          }
+          final formatter = DateFormat.E(localizations.localeName);
+          final days = s.daysOfWeek
+              .map((d) => formatter.format(DateTime(2024, 1, d)))
+              .join(', ');
+          return days;
+        }(),
     };
 
     return '${localizedSummary(localizations)}\n$frequency';
