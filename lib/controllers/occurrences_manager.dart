@@ -24,7 +24,7 @@ class OccurrencesManager {
         case DailySchedule scheduling:
           occurrences.addAll(_daily(schedule, scheduling, 1));
         case WeeklySchedule scheduling:
-        // implement
+          occurrences.addAll(_weekly(schedule, scheduling, 1));
       }
     }
 
@@ -43,7 +43,7 @@ class OccurrencesManager {
         case DailySchedule s:
           occurrences.addAll(_daily(schedule, s, days));
         case WeeklySchedule s:
-        // implement
+          occurrences.addAll(_weekly(schedule, s, days));
       }
     }
 
@@ -106,5 +106,46 @@ class OccurrencesManager {
             );
           }(),
     ];
+  }
+
+  List<ScheduledOccurrence> _weekly(
+    MedicationSchedule schedule,
+    WeeklySchedule scheduling,
+    int days,
+  ) {
+    final today = Date.today();
+    final takenToday = _medicationIntakeProvider.getTakenIntakesForScheduleOn(
+        schedule.id, today);
+
+    return [
+      for (var i = 0; i < days; i++)
+        () {
+          final date = today.add(Duration(days: i));
+          if (!scheduling.daysOfWeek.contains(date.weekday) ||
+              date.isBefore(schedule.startDate)) {
+            return <ScheduledOccurrence>[];
+          }
+
+          return [
+            for (final time in scheduling.intakeTimes)
+              () {
+                final match = date.isToday
+                    ? takenToday
+                        .firstWhereOrNull((it) => it.scheduledTime == time)
+                    : null;
+                return ScheduledOccurrence(
+                  schedule: schedule,
+                  date: date,
+                  time: time,
+                  notificationTime: time,
+                  status:
+                      scheduling.statusFor(date: date, matchedIntake: match),
+                  intake: match,
+                  notifiable: scheduling.notify,
+                );
+              }(),
+          ];
+        }(),
+    ].flattened.toList();
   }
 }
