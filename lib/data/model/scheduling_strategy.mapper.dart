@@ -52,20 +52,12 @@ class SchedulingStrategyMapper extends ClassMapperBase<SchedulingStrategy> {
 mixin SchedulingStrategyMappable {
   String toJson();
   Map<String, dynamic> toMap();
-  SchedulingStrategyCopyWith<
-    SchedulingStrategy,
-    SchedulingStrategy,
-    SchedulingStrategy
-  >
-  get copyWith;
+  SchedulingStrategyCopyWith<SchedulingStrategy, SchedulingStrategy,
+      SchedulingStrategy> get copyWith;
 }
 
-abstract class SchedulingStrategyCopyWith<
-  $R,
-  $In extends SchedulingStrategy,
-  $Out
->
-    implements ClassCopyWith<$R, $In, $Out> {
+abstract class SchedulingStrategyCopyWith<$R, $In extends SchedulingStrategy,
+    $Out> implements ClassCopyWith<$R, $In, $Out> {
   $R call();
   SchedulingStrategyCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -143,16 +135,10 @@ mixin IntervalDaysScheduleMappable {
         .encodeMap<IntervalDaysSchedule>(this as IntervalDaysSchedule);
   }
 
-  IntervalDaysScheduleCopyWith<
-    IntervalDaysSchedule,
-    IntervalDaysSchedule,
-    IntervalDaysSchedule
-  >
-  get copyWith =>
-      _IntervalDaysScheduleCopyWithImpl<
-        IntervalDaysSchedule,
-        IntervalDaysSchedule
-      >(this as IntervalDaysSchedule, $identity, $identity);
+  IntervalDaysScheduleCopyWith<IntervalDaysSchedule, IntervalDaysSchedule,
+      IntervalDaysSchedule> get copyWith => _IntervalDaysScheduleCopyWithImpl<
+          IntervalDaysSchedule, IntervalDaysSchedule>(
+      this as IntervalDaysSchedule, $identity, $identity);
   @override
   String toString() {
     return IntervalDaysScheduleMapper.ensureInitialized().stringifyValue(
@@ -179,17 +165,15 @@ mixin IntervalDaysScheduleMappable {
 extension IntervalDaysScheduleValueCopy<$R, $Out>
     on ObjectCopyWith<$R, IntervalDaysSchedule, $Out> {
   IntervalDaysScheduleCopyWith<$R, IntervalDaysSchedule, $Out>
-  get $asIntervalDaysSchedule => $base.as(
-    (v, t, t2) => _IntervalDaysScheduleCopyWithImpl<$R, $Out>(v, t, t2),
-  );
+      get $asIntervalDaysSchedule => $base.as(
+            (v, t, t2) => _IntervalDaysScheduleCopyWithImpl<$R, $Out>(v, t, t2),
+          );
 }
 
 abstract class IntervalDaysScheduleCopyWith<
-  $R,
-  $In extends IntervalDaysSchedule,
-  $Out
->
-    implements SchedulingStrategyCopyWith<$R, $In, $Out> {
+    $R,
+    $In extends IntervalDaysSchedule,
+    $Out> implements SchedulingStrategyCopyWith<$R, $In, $Out> {
   @override
   $R call({int? intervalDays, TimeOfDay? notificationTime});
   IntervalDaysScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
@@ -207,21 +191,22 @@ class _IntervalDaysScheduleCopyWithImpl<$R, $Out>
       IntervalDaysScheduleMapper.ensureInitialized();
   @override
   $R call({int? intervalDays, Object? notificationTime = $none}) => $apply(
-    FieldCopyWithData({
-      if (intervalDays != null) #intervalDays: intervalDays,
-      if (notificationTime != $none) #notificationTime: notificationTime,
-    }),
-  );
+        FieldCopyWithData({
+          if (intervalDays != null) #intervalDays: intervalDays,
+          if (notificationTime != $none) #notificationTime: notificationTime,
+        }),
+      );
   @override
   IntervalDaysSchedule $make(CopyWithData data) => IntervalDaysSchedule(
-    intervalDays: data.get(#intervalDays, or: $value.intervalDays),
-    notificationTime: data.get(#notificationTime, or: $value.notificationTime),
-  );
+        intervalDays: data.get(#intervalDays, or: $value.intervalDays),
+        notificationTime:
+            data.get(#notificationTime, or: $value.notificationTime),
+      );
 
   @override
   IntervalDaysScheduleCopyWith<$R2, IntervalDaysSchedule, $Out2>
-  $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-      _IntervalDaysScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _IntervalDaysScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 
 class DailyScheduleMapper extends SubClassMapperBase<DailySchedule> {
@@ -300,11 +285,11 @@ mixin DailyScheduleMappable {
   }
 
   DailyScheduleCopyWith<DailySchedule, DailySchedule, DailySchedule>
-  get copyWith => _DailyScheduleCopyWithImpl<DailySchedule, DailySchedule>(
-    this as DailySchedule,
-    $identity,
-    $identity,
-  );
+      get copyWith => _DailyScheduleCopyWithImpl<DailySchedule, DailySchedule>(
+            this as DailySchedule,
+            $identity,
+            $identity,
+          );
   @override
   String toString() {
     return DailyScheduleMapper.ensureInitialized().stringifyValue(
@@ -337,7 +322,7 @@ extension DailyScheduleValueCopy<$R, $Out>
 abstract class DailyScheduleCopyWith<$R, $In extends DailySchedule, $Out>
     implements SchedulingStrategyCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
-  get intakeTimes;
+      get intakeTimes;
   @override
   $R call({List<TimeOfDay>? intakeTimes, bool? notify});
   DailyScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -353,28 +338,29 @@ class _DailyScheduleCopyWithImpl<$R, $Out>
       DailyScheduleMapper.ensureInitialized();
   @override
   ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
-  get intakeTimes => ListCopyWith(
-    $value.intakeTimes,
-    (v, t) => ObjectCopyWith(v, $identity, t),
-    (v) => call(intakeTimes: v),
-  );
+      get intakeTimes => ListCopyWith(
+            $value.intakeTimes,
+            (v, t) => ObjectCopyWith(v, $identity, t),
+            (v) => call(intakeTimes: v),
+          );
   @override
   $R call({List<TimeOfDay>? intakeTimes, bool? notify}) => $apply(
-    FieldCopyWithData({
-      if (intakeTimes != null) #intakeTimes: intakeTimes,
-      if (notify != null) #notify: notify,
-    }),
-  );
+        FieldCopyWithData({
+          if (intakeTimes != null) #intakeTimes: intakeTimes,
+          if (notify != null) #notify: notify,
+        }),
+      );
   @override
   DailySchedule $make(CopyWithData data) => DailySchedule(
-    intakeTimes: data.get(#intakeTimes, or: $value.intakeTimes),
-    notify: data.get(#notify, or: $value.notify),
-  );
+        intakeTimes: data.get(#intakeTimes, or: $value.intakeTimes),
+        notify: data.get(#notify, or: $value.notify),
+      );
 
   @override
   DailyScheduleCopyWith<$R2, DailySchedule, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
-  ) => _DailyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  ) =>
+      _DailyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 
 class WeeklyScheduleMapper extends SubClassMapperBase<WeeklySchedule> {
@@ -460,11 +446,12 @@ mixin WeeklyScheduleMappable {
   }
 
   WeeklyScheduleCopyWith<WeeklySchedule, WeeklySchedule, WeeklySchedule>
-  get copyWith => _WeeklyScheduleCopyWithImpl<WeeklySchedule, WeeklySchedule>(
-    this as WeeklySchedule,
-    $identity,
-    $identity,
-  );
+      get copyWith =>
+          _WeeklyScheduleCopyWithImpl<WeeklySchedule, WeeklySchedule>(
+            this as WeeklySchedule,
+            $identity,
+            $identity,
+          );
   @override
   String toString() {
     return WeeklyScheduleMapper.ensureInitialized().stringifyValue(
@@ -498,7 +485,7 @@ abstract class WeeklyScheduleCopyWith<$R, $In extends WeeklySchedule, $Out>
     implements SchedulingStrategyCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, int, ObjectCopyWith<$R, int, int>> get daysOfWeek;
   ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
-  get intakeTimes;
+      get intakeTimes;
   @override
   $R call({List<int>? daysOfWeek, List<TimeOfDay>? intakeTimes, bool? notify});
   WeeklyScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
@@ -523,33 +510,34 @@ class _WeeklyScheduleCopyWithImpl<$R, $Out>
       );
   @override
   ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
-  get intakeTimes => ListCopyWith(
-    $value.intakeTimes,
-    (v, t) => ObjectCopyWith(v, $identity, t),
-    (v) => call(intakeTimes: v),
-  );
+      get intakeTimes => ListCopyWith(
+            $value.intakeTimes,
+            (v, t) => ObjectCopyWith(v, $identity, t),
+            (v) => call(intakeTimes: v),
+          );
   @override
   $R call({
     List<int>? daysOfWeek,
     List<TimeOfDay>? intakeTimes,
     bool? notify,
-  }) => $apply(
-    FieldCopyWithData({
-      if (daysOfWeek != null) #daysOfWeek: daysOfWeek,
-      if (intakeTimes != null) #intakeTimes: intakeTimes,
-      if (notify != null) #notify: notify,
-    }),
-  );
+  }) =>
+      $apply(
+        FieldCopyWithData({
+          if (daysOfWeek != null) #daysOfWeek: daysOfWeek,
+          if (intakeTimes != null) #intakeTimes: intakeTimes,
+          if (notify != null) #notify: notify,
+        }),
+      );
   @override
   WeeklySchedule $make(CopyWithData data) => WeeklySchedule(
-    daysOfWeek: data.get(#daysOfWeek, or: $value.daysOfWeek),
-    intakeTimes: data.get(#intakeTimes, or: $value.intakeTimes),
-    notify: data.get(#notify, or: $value.notify),
-  );
+        daysOfWeek: data.get(#daysOfWeek, or: $value.daysOfWeek),
+        intakeTimes: data.get(#intakeTimes, or: $value.intakeTimes),
+        notify: data.get(#notify, or: $value.notify),
+      );
 
   @override
   WeeklyScheduleCopyWith<$R2, WeeklySchedule, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
-  ) => _WeeklyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  ) =>
+      _WeeklyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
-
