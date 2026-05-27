@@ -19,6 +19,8 @@ We use a standard **Fork and Pull Request** workflow. To keep our main branch st
 
 ### 2. Set Up the Environment
 
+**Linux / macOS**
+
 We have provided a script to automatically set up FVM, configure your shell, and fetch the necessary dependencies.
 
 ```bash
@@ -26,13 +28,20 @@ chmod +x scripts/setup_dev.sh
 ./scripts/setup_dev.sh
 ```
 
-Windows users :
+> [!NOTE]
+> After running the script, you may need to restart your terminal or run `source ~/.bashrc` (or `~/.zshrc`) to use the FVM commands.
+
+**NixOS**
+
+The repo ships a `flake.nix` with a ready-made dev shell. The only system-level requirement is `programs.nix-ld.enable = true` in your NixOS configuration, which lets FVM's pre-built Dart binaries run.
+
+Enter the shell with `nix develop` (or `direnv allow` if you use direnv), then `fvm flutter run` works as usual.
+
+**Windows**
+
 ```powershell
 ./scripts/setup_dev.ps1
 ```
-
-> [!NOTE]
-> After running the script, you may need to restart your terminal or run `source ~/.bashrc` (or `~/.zshrc`) to use the FVM commands.
 
 ### 3. Create a Feature Branch
 
