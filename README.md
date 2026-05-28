@@ -95,6 +95,16 @@ We welcome pull requests from external contributors! The app is currently under 
 
 Please see our **[Contributing Guidelines](https://github.com/mona-hrt/mona/blob/main/.github/CONTRIBUTING.md)** for full instructions on how to set up your local development environment using FVM, our branching strategy, and how to submit a Pull Request.
 
+## Translations
+
+Mona is translated using [Weblate](https://hosted.weblate.org/projects/mona/), a libre web-based translation platform. If you'd like to help translate Mona into your language, head over to our [Weblate project](https://hosted.weblate.org/projects/mona/).
+
+<p align="center">
+  <a href="https://hosted.weblate.org/engage/mona/">
+    <img alt="Translation status" title="Weblate translation status" src="https://hosted.weblate.org/widget/mona/multi-auto.svg">
+  </a>
+</p>
+
 # Support
 
 <p align="center">
