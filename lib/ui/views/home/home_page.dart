@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
             children: [
               _SectionTitle(_todayTitle(context)),
               if (occurrences.today.isEmpty)
-                _NoIntakesDueCard(message: localizations.noIntakesDue)
+                _NoIntakesDueCard()
               else
                 ...occurrences.today.map(IntakeTile.new),
               if (occurrences.upcoming.isNotEmpty) ...[
@@ -74,13 +74,11 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _NoIntakesDueCard extends StatelessWidget {
-  const _NoIntakesDueCard({required this.message});
-
-  final String message;
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = context.l10n;
+
     return Card.filled(
       margin: const EdgeInsets.symmetric(vertical: 4),
       child: ListTile(
@@ -88,7 +86,8 @@ class _NoIntakesDueCard extends StatelessWidget {
           backgroundColor: theme.colorScheme.tertiary,
           child: Icon(Symbols.check, color: theme.colorScheme.onTertiary),
         ),
-        title: Text(message, style: theme.textTheme.titleMedium),
+        title: Text(localizations.allDone, style: theme.textTheme.titleMedium),
+        subtitle: Text(localizations.noIntakesDue),
       ),
     );
   }

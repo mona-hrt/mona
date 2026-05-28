@@ -52,3 +52,6 @@ android/build/
 
 # Code coverage
 coverage/
+
+# Nix/direnv
+.direnv/
