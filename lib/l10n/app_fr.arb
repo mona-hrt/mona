@@ -6,7 +6,6 @@
   "nav_supplies": "Pharmacie",
   "takeAnIntake": "Prendre une prise",
   "addAnItem": "Ajouter un élément",
-
   "empty_home": "Commencez par ajouter un planning dans les paramètres",
   "allDone": "Terminé !",
   "noIntakesDue": "Aucune prise prévue aujourd'hui",
@@ -16,14 +15,18 @@
   "@daysAgoCount": {
     "description": "Décalage passé en jours ; =1 = hier (mot, pas « il y a 1 jour »).",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "inDaysCount": "{count, plural, =1{demain} other{dans {count} jours}}",
   "@inDaysCount": {
     "description": "Décalage futur en jours ; =1 = demain (mot, pas « dans 1 jour »).",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "lastTaken": "Dernière prise",
@@ -33,7 +36,6 @@
   "scheduleFrequencyInterval": "Intervalle",
   "newUpdateAvailable": "Une nouvelle mise à jour est disponible !",
   "goToSettings": "Aller aux paramètres",
-
   "settingsTitle": "Paramètres",
   "notifications": "Notifications",
   "schedulesAndNotifications": "Plannings et notifications",
@@ -70,7 +72,6 @@
   "exportDataTitle": "Exporter les données",
   "exportDataSubtitle": "Enregistrer vos données dans un fichier JSON",
   "units": "Unités",
-
   "updateNoCompatibleApk": "Aucune mise à jour compatible avec votre appareil.",
   "updateAppUpToDate": "Votre application est à jour !",
   "updateCheckNetworkError": "Impossible de vérifier les mises à jour pour le moment.",
@@ -81,10 +82,8 @@
   "updateDownloadingTitle": "Téléchargement de la mise à jour...",
   "updateFailedOpenInstaller": "Échec de l'ouverture de l'installateur : {message}",
   "updateDownloadFailed": "Échec du téléchargement. Vérifiez votre connexion.",
-
   "notificationMedicationReminderTitle": "Il est temps de prendre {scheduleName}",
   "notificationMedicationReminderBody": "Prévu pour {dateTime}",
-
   "addSchedule": "Ajouter un planning",
   "addScheduleToGetStarted": "Ajoutez un planning pour commencer.",
   "newSchedule": "Nouveau planning",
@@ -102,12 +101,10 @@
   "scheduleNotifications": "Notifications du planning",
   "addNotification": "Ajouter une notification",
   "noNotificationsForSchedule": "Aucune notification pour {scheduleName}. Vous pouvez en ajouter une en utilisant le bouton Ajouter.",
-
   "notificationsUpdated": "Les notifications ont été mises à jour !",
   "notificationsUpdatedDescription": "Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.",
   "dontShowAgain": "Ne plus afficher",
   "scheduleSettings": "Paramètres des plannings",
-
   "empty_intakes": "Les prises enregistrées apparaîtront ici",
   "chooseSchedule": "Choisir un planning",
   "addSchedulesFirst": "Ajoutez d'abord des plannings.",
@@ -123,7 +120,6 @@
   "needleDeadSpace": "Espace mort de l'aiguille",
   "notes": "Notes",
   "microliters": "μL",
-
   "empty_levels": "Les injections d’estradiol s’afficheront dans cet onglet",
   "bloodTestsTitle": "Prises de sang",
   "empty_blood_tests": "Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !",
@@ -133,10 +129,9 @@
   "deleteBloodTest": "Supprimer cette prise de sang ?",
   "estradiolLevelLabel": "Taux d'estradiol",
   "testosteroneLevelLabel": "Taux de testostérone",
-  "bloodTestDateLabel": "Date",
+  "bloodTestDateLabel": "Date de la prise",
   "chartNowConcentration": "Maintenant {value}",
   "chartBloodTestLevelTooltip": "{date} : {level}",
-
   "empty_supplies": "Aucun consommable. Ajoutez un élément pour commencer.",
   "newItem": "Nouvel élément",
   "adminRoute": "Voie d'administration",
@@ -146,7 +141,6 @@
   "usedAmount": "Quantité utilisée",
   "deleteItem": "Supprimer {name} ?",
   "remaining": "Reste {amount} {unit}",
-
   "add": "Ajouter",
   "save": "Enregistrer",
   "cancel": "Annuler",
@@ -154,11 +148,9 @@
   "delete": "Supprimer",
   "deleteElement": "Supprimer cet élément ?",
   "irreversibleAction": "Cette action est irréversible.",
-
   "name": "Nom",
   "molecule": "Molécule",
   "ester": "Ester",
-
   "estradiol": "Œstradiol",
   "progesterone": "Progestérone",
   "testosterone": "Testostérone",
@@ -174,14 +166,12 @@
   "dutasteride": "Dutastéride",
   "minoxidil": "Minoxidil",
   "pioglitazone": "Pioglitazone",
-
   "enanthate": "Énanthate",
   "valerate": "Valérate",
   "cypionate": "Cypionate",
   "undecylate": "Undécylate",
   "benzoate": "Benzoate",
   "cypionateSuspension": "Suspension de cypionate",
-
   "medicationEstradiolEnanthate": "Énanthate d'œstradiol",
   "medicationEstradiolValerate": "Valérate d'œstradiol",
   "medicationEstradiolCypionate": "Cypionate d'œstradiol",
@@ -194,7 +184,6 @@
   "medicationTestosteroneUndecylate": "Undécylate de testostérone",
   "medicationTestosteroneBenzoate": "Benzoate de testostérone",
   "medicationTestosteroneCypionateSuspension": "Suspension de cypionate de testostérone",
-
   "injection": "Injection",
   "oral": "Oral",
   "sublingual": "Sublingual",
@@ -204,7 +193,6 @@
   "suppository": "Suppositoire",
   "transdermalSpray": "Spray transdermique",
   "transdermalDrops": "Gouttes transdermiques",
-
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{comprimé} other{comprimés}}",
   "administrationRouteUnitPatch": "{count, plural, =1{patch} other{patchs}}",
@@ -212,12 +200,10 @@
   "administrationRouteUnitImplant": "{count, plural, =1{implant} other{implants}}",
   "administrationRouteUnitSuppository": "{count, plural, =1{suppositoire} other{suppositoires}}",
   "administrationRouteUnitSpray": "{count, plural, =1{pulvérisation} other{pulvérisations}}",
-
   "injectionSideLeft": "Gauche",
   "injectionSideRight": "Droite",
   "intakeSummaryInjectionSideLeft": "Côté gauche",
   "intakeSummaryInjectionSideRight": "Côté droit",
-
   "requiredField": "Champ obligatoire",
   "mustBePositiveNumber": "Doit être un nombre positif",
   "invalidTotalAmount": "Montant total invalide",
