@@ -99,7 +99,7 @@ Please see our **[Contributing Guidelines](https://github.com/mona-hrt/mona/blob
 
 Mona is translated using [Weblate](https://hosted.weblate.org/projects/mona/), a libre web-based translation platform. If you'd like to help translate Mona into your language, head over to our [Weblate project](https://hosted.weblate.org/projects/mona/).
 
-<p align="center">
+<p>
   <a href="https://hosted.weblate.org/engage/mona/">
     <img alt="Translation status" title="Weblate translation status" src="https://hosted.weblate.org/widget/mona/multi-auto.svg">
   </a>
