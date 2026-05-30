@@ -18,9 +18,9 @@ import 'package:flutter_local_notifications/src/types.dart' as _i15;
 import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
     as _i11;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mona/controllers/occurrences_manager.dart' as _i2;
+import 'package:mona/controllers/occurrences_manager.dart' as _i3;
 import 'package:mona/data/model/molecule.dart' as _i6;
-import 'package:mona/data/model/scheduled_occurrence.dart' as _i3;
+import 'package:mona/data/model/scheduled_occurrence.dart' as _i2;
 import 'package:mona/data/model/units.dart' as _i5;
 import 'package:mona/services/preferences_service.dart' as _i4;
 import 'package:timezone/timezone.dart' as _i13;
@@ -40,32 +40,67 @@ import 'package:timezone/timezone.dart' as _i13;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
+class _FakeOccurrences_0 extends _i1.SmartFake implements _i2.Occurrences {
+  _FakeOccurrences_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [OccurrencesManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockOccurrencesManager extends _i1.Mock
-    implements _i2.OccurrencesManager {
+    implements _i3.OccurrencesManager {
   @override
-  List<_i3.ScheduledOccurrence> current() => (super.noSuchMethod(
+  _i2.Occurrences current() => (super.noSuchMethod(
         Invocation.method(
           #current,
           [],
         ),
-        returnValue: <_i3.ScheduledOccurrence>[],
-        returnValueForMissingStub: <_i3.ScheduledOccurrence>[],
-      ) as List<_i3.ScheduledOccurrence>);
+        returnValue: _FakeOccurrences_0(
+          this,
+          Invocation.method(
+            #current,
+            [],
+          ),
+        ),
+        returnValueForMissingStub: _FakeOccurrences_0(
+          this,
+          Invocation.method(
+            #current,
+            [],
+          ),
+        ),
+      ) as _i2.Occurrences);
 
   @override
-  List<_i3.ScheduledOccurrence> upcoming({required int? days}) =>
-      (super.noSuchMethod(
+  _i2.Occurrences upcoming({required int? days}) => (super.noSuchMethod(
         Invocation.method(
           #upcoming,
           [],
           {#days: days},
         ),
-        returnValue: <_i3.ScheduledOccurrence>[],
-        returnValueForMissingStub: <_i3.ScheduledOccurrence>[],
-      ) as List<_i3.ScheduledOccurrence>);
+        returnValue: _FakeOccurrences_0(
+          this,
+          Invocation.method(
+            #upcoming,
+            [],
+            {#days: days},
+          ),
+        ),
+        returnValueForMissingStub: _FakeOccurrences_0(
+          this,
+          Invocation.method(
+            #upcoming,
+            [],
+            {#days: days},
+          ),
+        ),
+      ) as _i2.Occurrences);
 }
 
 /// A class which mocks [PreferencesService].

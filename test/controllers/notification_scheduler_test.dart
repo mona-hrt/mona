@@ -94,6 +94,8 @@ void main() {
     NotificationService.createPlugin = () => plugin;
 
     when(preferences.notificationsEnabled).thenReturn(true);
+    when(occurrences.upcoming(days: anyNamed('days')))
+        .thenReturn(Occurrences([]));
     when(plugin.zonedSchedule(
       id: anyNamed('id'),
       title: anyNamed('title'),
@@ -192,14 +194,14 @@ void main() {
 
     test('schedules one notification per emitted future occurrence', () async {
       final s = schedule();
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 1))),
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 2))),
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 3))),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -209,14 +211,14 @@ void main() {
 
     test('skips occurrences with status taken', () async {
       final s = schedule();
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(
             schedule: s,
             date: Date.today().add(const Duration(days: 1)),
             status: ScheduleStatus.taken),
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 2))),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -226,14 +228,14 @@ void main() {
 
     test('skips occurrences flagged as not notifiable', () async {
       final s = schedule();
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(
             schedule: s,
             date: Date.today().add(const Duration(days: 1)),
             notifiable: false),
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 2))),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -243,14 +245,14 @@ void main() {
 
     test('skips occurrences with no notification time', () async {
       final s = schedule();
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(
             schedule: s,
             date: Date.today().add(const Duration(days: 1)),
             notificationTime: null),
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 2))),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -263,14 +265,14 @@ void main() {
         () async {
       final s = schedule(name: 'My Med');
       final date = Date.today().add(const Duration(days: 1));
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(
           schedule: s,
           date: date,
           time: null,
           notificationTime: const TimeOfDay(hour: 8, minute: 30),
         ),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -287,13 +289,13 @@ void main() {
         () async {
       final s = schedule(name: 'My Med');
       final date = Date.today().add(const Duration(days: 1));
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(
             schedule: s,
             date: date,
             time: const TimeOfDay(hour: 8, minute: 30),
             notificationTime: const TimeOfDay(hour: 8, minute: 30)),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -314,10 +316,10 @@ void main() {
       final futureTime =
           TimeOfDay.fromDateTime(now.add(const Duration(hours: 1)));
 
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(schedule: s, date: Date.today(), time: pastTime),
         occurrence(schedule: s, date: Date.today(), time: futureTime),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -327,7 +329,8 @@ void main() {
 
     test('titles notifications with the schedule name', () async {
       final s = schedule(name: 'My Med');
-      when(occurrences.upcoming(days: 5)).thenReturn([occurrence(schedule: s)]);
+      when(occurrences.upcoming(days: 30))
+          .thenReturn(Occurrences([occurrence(schedule: s)]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -339,10 +342,10 @@ void main() {
     test('two schedules at the same time both get scheduled', () async {
       final a = schedule(id: 1, name: 'A');
       final b = schedule(id: 2, name: 'B');
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(schedule: a),
         occurrence(schedule: b),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -351,6 +354,23 @@ void main() {
           .called(1);
       verifyScheduled(title: l10n.notificationMedicationReminderTitle('B'))
           .called(1);
+    });
+
+    test('schedules at most 64 notifications', () async {
+      final s = schedule();
+      final occs = List.generate(
+        100,
+        (i) => occurrence(
+          schedule: s,
+          date: Date.today().add(Duration(days: i + 1)),
+        ),
+      );
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences(occs));
+      final sut = NotificationScheduler(occurrences, preferences);
+
+      await sut.regenerateAll(l10n, l10n.localeName);
+
+      verifyScheduled().called(64);
     });
   });
 
@@ -369,15 +389,15 @@ void main() {
         'the same (schedule, occurrence) pair yields the same id across regenerations',
         () async {
       final s = schedule(id: 7);
-      final occurrences3Days = [
+      final occurrences3Days = Occurrences([
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 1))),
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 2))),
         occurrence(
             schedule: s, date: Date.today().add(const Duration(days: 3))),
-      ];
-      when(occurrences.upcoming(days: 5)).thenReturn(occurrences3Days);
+      ]);
+      when(occurrences.upcoming(days: 30)).thenReturn(occurrences3Days);
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -390,14 +410,14 @@ void main() {
     test('distinct (schedule, occurrence) pairs yield distinct ids', () async {
       final a = schedule(id: 1, name: 'A');
       final b = schedule(id: 2, name: 'B');
-      when(occurrences.upcoming(days: 5)).thenReturn([
+      when(occurrences.upcoming(days: 30)).thenReturn(Occurrences([
         occurrence(
             schedule: a, date: Date.today().add(const Duration(days: 1))),
         occurrence(
             schedule: a, date: Date.today().add(const Duration(days: 2))),
         occurrence(
             schedule: b, date: Date.today().add(const Duration(days: 1))),
-      ]);
+      ]));
       final sut = NotificationScheduler(occurrences, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
