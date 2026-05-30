@@ -9,7 +9,8 @@ const String createSupplyItemsTable = '''
       moleculeJson TEXT,
       administrationRouteName TEXT,
       esterName TEXT,
-      amount INTEGER
+      amount INTEGER,
+      genericSupplyType TEXT
     )
     ''';
 
