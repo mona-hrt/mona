@@ -227,7 +227,7 @@ class _EditScheduleSchedulingPageState
             _intervalTimeRow(i),
           ListTile(
             leading: const Icon(Icons.add),
-            title: Text(l10n.addIntakeTime),
+            title: Text(l10n.addNotification),
             onTap: () => _addDailyTime(),
           ),
         ],
