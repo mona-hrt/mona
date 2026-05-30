@@ -93,10 +93,12 @@ void main() {
 
     test('notifiable mirrors notificationTime presence', () {
       final withTime = schedule(
-          id: 1,
-          scheduling: IntervalDaysSchedule(
-              intervalDays: 7,
-              notificationTime: const TimeOfDay(hour: 9, minute: 0)));
+        id: 1,
+        scheduling: IntervalDaysSchedule(
+          intervalDays: 7,
+          notificationTimes: [const TimeOfDay(hour: 9, minute: 0)],
+        ),
+      );
       final withoutTime =
           schedule(id: 2, scheduling: IntervalDaysSchedule(intervalDays: 7));
       withSchedules([withTime, withoutTime]);
@@ -110,16 +112,6 @@ void main() {
         result.singleWhere((it) => it.schedule.id == withoutTime.id).notifiable,
         isFalse,
       );
-    });
-
-    test('notificationTime mirrors scheduling notificationTime', () {
-      const t = TimeOfDay(hour: 9, minute: 30);
-      final s = schedule(
-          scheduling:
-              IntervalDaysSchedule(intervalDays: 7, notificationTime: t));
-      withSchedules([s]);
-
-      expect(occurrences.current().single.notificationTime, t);
     });
   });
 
@@ -197,7 +189,10 @@ void main() {
     test('returns `days` future scheduled dates', () {
       final start = Date.today().subtract(const Duration(days: 7));
       final s = schedule(
-          scheduling: IntervalDaysSchedule(intervalDays: 7), startDate: start);
+          scheduling: IntervalDaysSchedule(
+              intervalDays: 7,
+              notificationTimes: [const TimeOfDay(hour: 9, minute: 0)]),
+          startDate: start);
       withSchedules([s]);
 
       final result = occurrences.upcoming(days: 3);
@@ -209,7 +204,9 @@ void main() {
       final start = Date.today().subtract(const Duration(days: 7));
       final s = schedule(
           id: 7,
-          scheduling: IntervalDaysSchedule(intervalDays: 7),
+          scheduling: IntervalDaysSchedule(
+              intervalDays: 7,
+              notificationTimes: [const TimeOfDay(hour: 9, minute: 0)]),
           startDate: start);
       withSchedules([s]);
       when(intakes.getLastIntakeLocalDateForSchedule(7))
@@ -224,7 +221,7 @@ void main() {
       const t = TimeOfDay(hour: 9, minute: 30);
       final s = schedule(
           scheduling:
-              IntervalDaysSchedule(intervalDays: 1, notificationTime: t));
+              IntervalDaysSchedule(intervalDays: 1, notificationTimes: [t]));
       withSchedules([s]);
 
       final result = occurrences.upcoming(days: 3);
