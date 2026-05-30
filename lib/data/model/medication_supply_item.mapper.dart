@@ -67,7 +67,7 @@ class MedicationSupplyItemMapper
   static AdministrationRoute _$administrationRoute(MedicationSupplyItem v) =>
       v.administrationRoute;
   static const Field<MedicationSupplyItem, AdministrationRoute>
-  _f$administrationRoute = Field(
+      _f$administrationRoute = Field(
     'administrationRoute',
     _$administrationRoute,
     key: r'administrationRouteName',
@@ -135,16 +135,10 @@ mixin MedicationSupplyItemMappable {
         .encodeMap<MedicationSupplyItem>(this as MedicationSupplyItem);
   }
 
-  MedicationSupplyItemCopyWith<
-    MedicationSupplyItem,
-    MedicationSupplyItem,
-    MedicationSupplyItem
-  >
-  get copyWith =>
-      _MedicationSupplyItemCopyWithImpl<
-        MedicationSupplyItem,
-        MedicationSupplyItem
-      >(this as MedicationSupplyItem, $identity, $identity);
+  MedicationSupplyItemCopyWith<MedicationSupplyItem, MedicationSupplyItem,
+      MedicationSupplyItem> get copyWith => _MedicationSupplyItemCopyWithImpl<
+          MedicationSupplyItem, MedicationSupplyItem>(
+      this as MedicationSupplyItem, $identity, $identity);
   @override
   String toString() {
     return MedicationSupplyItemMapper.ensureInitialized().stringifyValue(
@@ -171,17 +165,15 @@ mixin MedicationSupplyItemMappable {
 extension MedicationSupplyItemValueCopy<$R, $Out>
     on ObjectCopyWith<$R, MedicationSupplyItem, $Out> {
   MedicationSupplyItemCopyWith<$R, MedicationSupplyItem, $Out>
-  get $asMedicationSupplyItem => $base.as(
-    (v, t, t2) => _MedicationSupplyItemCopyWithImpl<$R, $Out>(v, t, t2),
-  );
+      get $asMedicationSupplyItem => $base.as(
+            (v, t, t2) => _MedicationSupplyItemCopyWithImpl<$R, $Out>(v, t, t2),
+          );
 }
 
 abstract class MedicationSupplyItemCopyWith<
-  $R,
-  $In extends MedicationSupplyItem,
-  $Out
->
-    implements SupplyItemCopyWith<$R, $In, $Out> {
+    $R,
+    $In extends MedicationSupplyItem,
+    $Out> implements SupplyItemCopyWith<$R, $In, $Out> {
   @override
   $R call({
     int? id,
@@ -216,37 +208,37 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
-  }) => $apply(
-    FieldCopyWithData({
-      if (id != $none) #id: id,
-      if (name != null) #name: name,
-      if (totalDose != null) #totalDose: totalDose,
-      if (concentration != null) #concentration: concentration,
-      if (usedDose != $none) #usedDose: usedDose,
-      if (molecule != null) #molecule: molecule,
-      if (administrationRoute != null)
-        #administrationRoute: administrationRoute,
-      if (ester != $none) #ester: ester,
-    }),
-  );
+  }) =>
+      $apply(
+        FieldCopyWithData({
+          if (id != $none) #id: id,
+          if (name != null) #name: name,
+          if (totalDose != null) #totalDose: totalDose,
+          if (concentration != null) #concentration: concentration,
+          if (usedDose != $none) #usedDose: usedDose,
+          if (molecule != null) #molecule: molecule,
+          if (administrationRoute != null)
+            #administrationRoute: administrationRoute,
+          if (ester != $none) #ester: ester,
+        }),
+      );
   @override
   MedicationSupplyItem $make(CopyWithData data) => MedicationSupplyItem(
-    id: data.get(#id, or: $value.id),
-    name: data.get(#name, or: $value.name),
-    totalDose: data.get(#totalDose, or: $value.totalDose),
-    concentration: data.get(#concentration, or: $value.concentration),
-    usedDose: data.get(#usedDose, or: $value.usedDose),
-    molecule: data.get(#molecule, or: $value.molecule),
-    administrationRoute: data.get(
-      #administrationRoute,
-      or: $value.administrationRoute,
-    ),
-    ester: data.get(#ester, or: $value.ester),
-  );
+        id: data.get(#id, or: $value.id),
+        name: data.get(#name, or: $value.name),
+        totalDose: data.get(#totalDose, or: $value.totalDose),
+        concentration: data.get(#concentration, or: $value.concentration),
+        usedDose: data.get(#usedDose, or: $value.usedDose),
+        molecule: data.get(#molecule, or: $value.molecule),
+        administrationRoute: data.get(
+          #administrationRoute,
+          or: $value.administrationRoute,
+        ),
+        ester: data.get(#ester, or: $value.ester),
+      );
 
   @override
   MedicationSupplyItemCopyWith<$R2, MedicationSupplyItem, $Out2>
-  $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-      _MedicationSupplyItemCopyWithImpl<$R2, $Out2>($value, $cast, t);
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _MedicationSupplyItemCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
-
