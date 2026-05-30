@@ -15,7 +15,7 @@ class SupplyItemProvider extends ChangeNotifier {
   static final defaultRepository = Repository<SupplyItem>(
     tableName: 'supply_items',
     toMap: (item) => item.toMap(),
-    fromMap: (map) => SupplyItem.fromMap(map),
+    fromMap: (map) => SupplyItemMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 
   bool get isLoading => _isLoading;

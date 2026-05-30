@@ -598,13 +598,13 @@ class MockSupplyItemManager extends _i1.Mock implements _i17.SupplyItemManager {
       ) as _i7.Future<void>);
 
   @override
-  void switchDoses(
+  _i7.Future<void> switchDoses(
     _i5.MedicationSupplyItem? previousItem,
     _i5.MedicationSupplyItem? nextItem,
     _i18.Decimal? previousDose,
     _i18.Decimal? nextDose,
   ) =>
-      super.noSuchMethod(
+      (super.noSuchMethod(
         Invocation.method(
           #switchDoses,
           [
@@ -614,6 +614,7 @@ class MockSupplyItemManager extends _i1.Mock implements _i17.SupplyItemManager {
             nextDose,
           ],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
