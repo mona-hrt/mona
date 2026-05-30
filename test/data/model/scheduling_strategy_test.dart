@@ -14,7 +14,7 @@ void main() {
           () {
         final original = IntervalDaysSchedule(
           intervalDays: 7,
-          notificationTime: const TimeOfDay(hour: 8, minute: 30),
+          notificationTimes: [const TimeOfDay(hour: 8, minute: 30)],
         );
 
         final json = original.toJson();
@@ -23,7 +23,7 @@ void main() {
         expect(decoded, isA<IntervalDaysSchedule>());
         final round = decoded as IntervalDaysSchedule;
         expect(round.intervalDays, 7);
-        expect(round.notificationTime, const TimeOfDay(hour: 8, minute: 30));
+        expect(round.notificationTimes, [const TimeOfDay(hour: 8, minute: 30)]);
       });
 
       test('IntervalDaysSchedule round-trips with a null notificationTime', () {
@@ -33,7 +33,7 @@ void main() {
             as IntervalDaysSchedule;
 
         expect(decoded.intervalDays, 3);
-        expect(decoded.notificationTime, isNull);
+        expect(decoded.notificationTimes, isEmpty);
       });
 
       test('DailySchedule encodes and decodes via the discriminator', () {
