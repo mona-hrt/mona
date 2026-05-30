@@ -8,6 +8,64 @@
 
 part of 'generic_supply_item.dart';
 
+class GenericSupplyTypeMapper extends EnumMapper<GenericSupplyType> {
+  GenericSupplyTypeMapper._();
+
+  static GenericSupplyTypeMapper? _instance;
+  static GenericSupplyTypeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = GenericSupplyTypeMapper._());
+    }
+    return _instance!;
+  }
+
+  static GenericSupplyType fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  GenericSupplyType decode(dynamic value) {
+    switch (value) {
+      case r'syringe':
+        return GenericSupplyType.syringe;
+      case r'wipe':
+        return GenericSupplyType.wipe;
+      case r'needle':
+        return GenericSupplyType.needle;
+      case r'gloves':
+        return GenericSupplyType.gloves;
+      case r'bandage':
+        return GenericSupplyType.bandage;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(GenericSupplyType self) {
+    switch (self) {
+      case GenericSupplyType.syringe:
+        return r'syringe';
+      case GenericSupplyType.wipe:
+        return r'wipe';
+      case GenericSupplyType.needle:
+        return r'needle';
+      case GenericSupplyType.gloves:
+        return r'gloves';
+      case GenericSupplyType.bandage:
+        return r'bandage';
+    }
+  }
+}
+
+extension GenericSupplyTypeMapperExtension on GenericSupplyType {
+  String toValue() {
+    GenericSupplyTypeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<GenericSupplyType>(this) as String;
+  }
+}
+
 class GenericSupplyMapper extends SubClassMapperBase<GenericSupply> {
   GenericSupplyMapper._();
 
@@ -16,6 +74,7 @@ class GenericSupplyMapper extends SubClassMapperBase<GenericSupply> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = GenericSupplyMapper._());
       SupplyItemMapper.ensureInitialized().addSubMapper(_instance!);
+      GenericSupplyTypeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -29,12 +88,17 @@ class GenericSupplyMapper extends SubClassMapperBase<GenericSupply> {
   static const Field<GenericSupply, String> _f$name = Field('name', _$name);
   static int _$amount(GenericSupply v) => v.amount;
   static const Field<GenericSupply, int> _f$amount = Field('amount', _$amount);
+  static GenericSupplyType _$genericSupplyType(GenericSupply v) =>
+      v.genericSupplyType;
+  static const Field<GenericSupply, GenericSupplyType> _f$genericSupplyType =
+      Field('genericSupplyType', _$genericSupplyType);
 
   @override
   final MappableFields<GenericSupply> fields = const {
     #id: _f$id,
     #name: _f$name,
     #amount: _f$amount,
+    #genericSupplyType: _f$genericSupplyType,
   };
 
   @override
@@ -49,6 +113,7 @@ class GenericSupplyMapper extends SubClassMapperBase<GenericSupply> {
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       amount: data.dec(_f$amount),
+      genericSupplyType: data.dec(_f$genericSupplyType),
     );
   }
 
@@ -115,7 +180,12 @@ extension GenericSupplyValueCopy<$R, $Out>
 abstract class GenericSupplyCopyWith<$R, $In extends GenericSupply, $Out>
     implements SupplyItemCopyWith<$R, $In, $Out> {
   @override
-  $R call({int? id, String? name, int? amount});
+  $R call({
+    int? id,
+    String? name,
+    int? amount,
+    GenericSupplyType? genericSupplyType,
+  });
   GenericSupplyCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -128,11 +198,18 @@ class _GenericSupplyCopyWithImpl<$R, $Out>
   late final ClassMapperBase<GenericSupply> $mapper =
       GenericSupplyMapper.ensureInitialized();
   @override
-  $R call({Object? id = $none, String? name, int? amount}) => $apply(
+  $R call({
+    Object? id = $none,
+    String? name,
+    int? amount,
+    GenericSupplyType? genericSupplyType,
+  }) =>
+      $apply(
         FieldCopyWithData({
           if (id != $none) #id: id,
           if (name != null) #name: name,
           if (amount != null) #amount: amount,
+          if (genericSupplyType != null) #genericSupplyType: genericSupplyType,
         }),
       );
   @override
@@ -140,6 +217,10 @@ class _GenericSupplyCopyWithImpl<$R, $Out>
         id: data.get(#id, or: $value.id),
         name: data.get(#name, or: $value.name),
         amount: data.get(#amount, or: $value.amount),
+        genericSupplyType: data.get(
+          #genericSupplyType,
+          or: $value.genericSupplyType,
+        ),
       );
 
   @override

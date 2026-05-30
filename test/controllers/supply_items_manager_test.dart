@@ -79,7 +79,11 @@ void main() {
       test('decrements amount by 1', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = GenericSupply(id: 7, name: 'Syringe', amount: 5);
+        final item = GenericSupply(
+            id: 7,
+            name: 'Syringe',
+            amount: 5,
+            genericSupplyType: GenericSupplyType.syringe);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
@@ -96,7 +100,11 @@ void main() {
       test('increments amount by 1', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = GenericSupply(id: 7, name: 'Syringe', amount: 5);
+        final item = GenericSupply(
+            id: 7,
+            name: 'Syringe',
+            amount: 5,
+            genericSupplyType: GenericSupplyType.syringe);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });

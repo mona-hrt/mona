@@ -35,6 +35,7 @@ GenericSupply makeGeneric({
     id: id,
     name: name,
     amount: amount,
+    genericSupplyType: GenericSupplyType.syringe,
   );
 }
 
