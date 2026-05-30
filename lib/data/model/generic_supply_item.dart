@@ -22,17 +22,5 @@ class GenericSupply extends SupplyItem with GenericSupplyMappable {
   // coverage:ignore-start
   static String? validateAmount(AppLocalizations l10n, String? value) =>
       requiredPositiveInt(l10n, value);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is GenericSupply && other.id == id;
-
-  @override
-  int get hashCode => id.hashCode;
-
-  @override
-  String toString() {
-    return 'GenericSupply(id: $id, name: $name, amount: $amount)';
-  }
   // coverage:ignore-end
 }
