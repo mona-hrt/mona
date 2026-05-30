@@ -23,7 +23,8 @@ class DbUpgradeV9 implements DbUpgrade {
       if (strategy['type'] != 'intervalDays') continue;
 
       final previous = strategy.remove('notificationTime') as String?;
-      strategy['notificationTimes'] = previous == null ? <String>[] : [previous];
+      strategy['notificationTimes'] =
+          previous == null ? <String>[] : [previous];
 
       await db.update(
         'medication_schedules',
