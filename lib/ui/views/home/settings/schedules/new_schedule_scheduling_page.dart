@@ -43,9 +43,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   _ScheduleType _type = _ScheduleType.daily;
 
   late TextEditingController _intervalDaysController;
-  bool _intervalNotify = false;
-  TimeOfDay? _intervalTime;
-
   final List<TimeOfDay> _dailyIntakeTimes = [];
   bool _dailyNotify = true;
 
@@ -61,8 +58,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   bool get _isFormValid {
     if (_startDateError != null) return false;
     return switch (_type) {
-      _ScheduleType.intervalDays => _intervalDaysError == null &&
-          (!_intervalNotify || _intervalTime != null),
+      _ScheduleType.intervalDays => _intervalDaysError == null,
       _ScheduleType.daily => _dailyIntakeTimesError == null,
     };
   }
@@ -73,18 +69,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     Navigator.of(context)
       ..pop()
       ..pop();
-  }
-
-  Future<void> _pickIntervalTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: _intervalTime ?? TimeOfDay.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        _intervalTime = picked;
-      });
-    }
   }
 
   Future<void> _addDailyTime() async {
@@ -136,7 +120,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     final SchedulingStrategy scheduling = switch (_type) {
       _ScheduleType.intervalDays => IntervalDaysSchedule(
           intervalDays: _intervalDaysController.text.toInt,
-          notificationTime: _intervalNotify ? _intervalTime : null,
+          notificationTimes: List.unmodifiable(_dailyIntakeTimes),
         ),
       _ScheduleType.daily => DailySchedule(
           intakeTimes: List.unmodifiable(_dailyIntakeTimes),
@@ -225,6 +209,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   }
 
   List<Widget> _intervalDaysSpecifics() {
+    final addCardIndex = _dailyIntakeTimes.length;
     final l10n = context.l10n;
     return [
       FormTextField(
@@ -238,19 +223,17 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       FormSpacer(),
       M3ECardColumn(
         padding: EdgeInsets.zero,
+        onTap: (index) {
+          if (index == addCardIndex) _addDailyTime();
+        },
         children: [
-          SwitchListTile(
-            title: Text(l10n.enableNotifications),
-            subtitle: Text(l10n.enableNotificationsDescription),
-            value: _intervalNotify,
-            onChanged: (value) => setState(() => _intervalNotify = value),
+          for (int i = 0; i < _dailyIntakeTimes.length; i++)
+            _intervalTimeRow(i),
+          ListTile(
+            leading: const Icon(Icons.add),
+            title: Text(l10n.addIntakeTime),
+            onTap: () => _addDailyTime(),
           ),
-          if (_intervalNotify)
-            ListTile(
-              leading: const Icon(Icons.alarm),
-              title: Text(_intervalTime?.format(context) ?? l10n.pickATime),
-              onTap: _pickIntervalTime,
-            ),
         ],
       ),
     ];
@@ -287,6 +270,23 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     final time = _dailyIntakeTimes[index];
     return ListTile(
       leading: Icon(widget.administrationRoute.icon),
+      title: Text(time.format(context)),
+      onTap: () => _editDailyTime(index),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete_outline),
+        onPressed: () {
+          setState(() {
+            _dailyIntakeTimes.removeAt(index);
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _intervalTimeRow(int index) {
+    final time = _dailyIntakeTimes[index];
+    return ListTile(
+      leading: Icon(Icons.alarm),
       title: Text(time.format(context)),
       onTap: () => _editDailyTime(index),
       trailing: IconButton(

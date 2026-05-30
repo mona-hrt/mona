@@ -20,7 +20,8 @@ class OccurrencesManager {
     for (final schedule in schedules) {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
-          occurrences.addAll(_interval(schedule, scheduling, [Date.today()]));
+          occurrences
+              .addAll(_interval(schedule, scheduling, [Date.today()], true));
         case DailySchedule scheduling:
           occurrences.addAll(_daily(schedule, scheduling, 1));
       }
@@ -36,8 +37,8 @@ class OccurrencesManager {
     for (final schedule in schedules) {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule s:
-          occurrences.addAll(
-              _interval(schedule, s, s.getNextDates(schedule.startDate, days)));
+          occurrences.addAll(_interval(
+              schedule, s, s.getNextDates(schedule.startDate, days), false));
         case DailySchedule s:
           occurrences.addAll(_daily(schedule, s, days));
       }
@@ -50,27 +51,48 @@ class OccurrencesManager {
     MedicationSchedule schedule,
     IntervalDaysSchedule scheduling,
     List<Date> dates,
+    bool current,
   ) {
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
     final lastIntake =
         _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
-    final notifiable = scheduling.notificationTime != null;
+    final notifiable = scheduling.notificationTimes.isNotEmpty;
+
+    if (current) {
+      final status = scheduling.statusFor(
+          startDate: schedule.startDate,
+          date: Date.today(),
+          lastTaken: lastTaken);
+      return [
+        ScheduledOccurrence(
+          schedule: schedule,
+          date: Date.today(),
+          notificationTime: null,
+          status: status,
+          intake: status == ScheduleStatus.taken ? lastIntake : null,
+          notifiable: notifiable,
+        ),
+      ];
+    }
 
     return [
       for (final date in dates)
-        () {
-          final status = scheduling.statusFor(
-              startDate: schedule.startDate, date: date, lastTaken: lastTaken);
-          return ScheduledOccurrence(
-            schedule: schedule,
-            date: date,
-            notificationTime: scheduling.notificationTime,
-            status: status,
-            intake: status == ScheduleStatus.taken ? lastIntake : null,
-            notifiable: notifiable,
-          );
-        }(),
+        for (final time in scheduling.notificationTimes)
+          () {
+            final status = scheduling.statusFor(
+                startDate: schedule.startDate,
+                date: date,
+                lastTaken: lastTaken);
+            return ScheduledOccurrence(
+              schedule: schedule,
+              date: date,
+              notificationTime: time,
+              status: status,
+              intake: status == ScheduleStatus.taken ? lastIntake : null,
+              notifiable: notifiable,
+            );
+          }(),
     ];
   }
 
