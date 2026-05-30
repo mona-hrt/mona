@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:mona/controllers/occurrences_manager.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -11,7 +10,7 @@ int _notificationIdFor(int scheduleId, DateTime dateTime) {
 }
 
 class NotificationScheduler {
-  static const int _numberOfDays = 5;
+  static const int _numberOfDays = 30;
 
   final OccurrencesManager occurencesManager;
   final PreferencesService preferencesService;
@@ -19,20 +18,18 @@ class NotificationScheduler {
   NotificationScheduler(this.occurencesManager, this.preferencesService);
 
   List<_ScheduledNotification> _getScheduledNotifications() {
-    final notifications = <_ScheduledNotification>[];
     final now = DateTime.now();
 
-    for (final occ in occurencesManager.upcoming(days: _numberOfDays)) {
-      if (!occ.notifiable) continue;
-      if (occ.status == ScheduleStatus.taken) continue;
-      final dt = occ.notificationDateTime;
-      if (dt == null || now.isAfter(dt)) continue;
-      final includeTime = occ.time != null;
-      notifications.add(
-          (dateTime: dt, schedule: occ.schedule, includeTime: includeTime));
-    }
-
-    return notifications;
+    return occurencesManager
+        .upcoming(days: _numberOfDays)
+        .notifiable
+        .map((occ) => (
+              dateTime: occ.notificationDateTime!,
+              schedule: occ.schedule,
+              includeTime: occ.time != null,
+            ))
+        .where((entry) => entry.dateTime.isAfter(now))
+        .toList();
   }
 
   Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
@@ -47,7 +44,7 @@ class NotificationScheduler {
     final scheduledDateTimeFormat = DateFormat.MMMMd(localeName)
         .addPattern(DateFormat.Hm(localeName).pattern);
 
-    final scheduledNotifications = _getScheduledNotifications();
+    final scheduledNotifications = _getScheduledNotifications().take(64);
 
     await Future.wait(
       scheduledNotifications.map((entry) {

@@ -13,7 +13,7 @@ class OccurrencesManager {
   const OccurrencesManager(
       this._medicationIntakeProvider, this._medicationScheduleProvider);
 
-  List<ScheduledOccurrence> current() {
+  Occurrences current() {
     final schedules = _medicationScheduleProvider.schedules;
     final occurrences = <ScheduledOccurrence>[];
 
@@ -28,10 +28,10 @@ class OccurrencesManager {
       }
     }
 
-    return occurrences;
+    return Occurrences(occurrences);
   }
 
-  List<ScheduledOccurrence> upcoming({required int days}) {
+  Occurrences upcoming({required int days}) {
     final schedules = _medicationScheduleProvider.schedules;
     final occurrences = <ScheduledOccurrence>[];
 
@@ -47,7 +47,7 @@ class OccurrencesManager {
       }
     }
 
-    return occurrences;
+    return Occurrences(occurrences);
   }
 
   List<ScheduledOccurrence> _interval(

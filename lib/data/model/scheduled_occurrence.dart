@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -29,4 +30,13 @@ class ScheduledOccurrence {
     if (t == null) return null;
     return DateTime(date.year, date.month, date.day, t.hour, t.minute);
   }
+}
+
+class Occurrences extends DelegatingList<ScheduledOccurrence> {
+  Occurrences(super.base);
+
+  Iterable<ScheduledOccurrence> get notifiable => where((occ) =>
+      occ.notifiable &&
+      occ.status != ScheduleStatus.taken &&
+      occ.notificationDateTime != null);
 }
