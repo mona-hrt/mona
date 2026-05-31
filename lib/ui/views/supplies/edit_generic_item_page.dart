@@ -89,6 +89,7 @@ class _EditItemPageState extends State<EditItemPage> {
 
     return ModelForm(
       title: localizations.editItem,
+      avatar: _genericSupplyType.icon,
       submitButtonLabel: localizations.save,
       isFormValid: _isFormValid,
       saveChanges: _saveChanges,
