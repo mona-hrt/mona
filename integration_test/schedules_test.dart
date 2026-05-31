@@ -103,9 +103,6 @@ void main() {
     await $(_delete).tap(); // form's Delete button -> confirmation dialog
     await $(AlertDialog).$(_delete).tap(); // confirm in the dialog
 
-    await $.tester.pageBack(); // EditSchedulePage -> schedules list
-    await $.pumpAndSettle();
-
     await $(_emptyState).waitUntilVisible();
     expect($('To Delete'), findsNothing);
     expect($(_emptyState), findsOneWidget);
