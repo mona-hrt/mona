@@ -185,7 +185,7 @@ class _EditItemPageState extends State<EditItemPage> {
 
     return ModelForm(
       title: localizations.editItem,
-      avatar: widget.item.administrationRoute.icon,
+      avatar: _administrationRoute.icon,
       submitButtonLabel: localizations.save,
       isFormValid: _isFormValid,
       saveChanges: _saveChanges,
