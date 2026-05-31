@@ -2,25 +2,23 @@
 
 End-to-end UI tests for Mona, written with [Patrol](https://patrol.leancode.co)
 on top of Flutter's `integration_test`. They launch the real app and drive it
-the way a user would. The first suite covers **Medication Schedules**
-([schedules_test.dart](schedules_test.dart)): empty state, creating interval and
-daily schedules, editing a name, and deleting with confirmation.
+the way a user would.
 
 ## Important: where these can run
 
-Patrol's native automation supports **Android, iOS, macOS** — **not Linux
+Patrol's native automation supports **Android, iOS, macOS** - **not Linux
 desktop**. The dev container only has a Linux desktop target and no
 KVM/emulator, so these tests **cannot run inside the container**. Run them on:
 
 - a local machine with an Android emulator or a physical device, or
-- CI — see [.github/workflows/ci-e2e.yml](../.github/workflows/ci-e2e.yml),
+- CI - see [.github/workflows/ci-e2e.yml](../.github/workflows/ci-e2e.yml),
   which boots a KVM-accelerated emulator via `android-emulator-runner`.
 
 What *can* be verified in the container is that everything compiles, including
 the instrumentation APK:
 
 ```bash
-patrol build android --flavor standalone --target integration_test/schedules_test.dart
+patrol build android --flavor standalone
 ```
 
 ## One-time setup
@@ -32,15 +30,15 @@ patrol build android --flavor standalone --target integration_test/schedules_tes
 
 Native wiring already done in this branch:
 
-- `android/app/build.gradle` — `PatrolJUnitRunner` test runner, the
+- `android/app/build.gradle` - `PatrolJUnitRunner` test runner, the
   `ANDROIDX_TEST_ORCHESTRATOR` test option, and the `orchestrator` dependency.
 - `android/app/src/androidTest/java/com/deliacheminot/mona/MainActivityTest.java`
-  — the JUnit entrypoint Patrol uses to enumerate and run the Dart tests.
+  - the JUnit entrypoint Patrol uses to enumerate and run the Dart tests.
 
 ## Running
 
 ```bash
-# All E2E tests on a running emulator/device (note the flavor — the app
+# All E2E tests on a running emulator/device (note the flavor - the app
 # defines store/standalone flavors, so a flavor is required):
 patrol test --flavor standalone
 
@@ -56,16 +54,16 @@ Debug builds append `applicationIdSuffix ".dev"`
 to the base id `com.deliacheminot.mona`. If Patrol can't find the app under
 test, change it to `com.deliacheminot.mona.dev`.
 
-## Writing tests — notes for this app
+## Writing tests - notes for this app
 
 The schedules UI defines **no widget `Key`s**, so tests target widgets by their
 visible (English) label, e.g. `$(TextField).containing('Name')`. This is
 deliberate: when a route is pushed the previous route stays mounted, so
-index-based `TextField` finders are ambiguous across the navigation stack —
+index-based `TextField` finders are ambiguous across the navigation stack -
 prefer label-scoped finders. If the UI strings change, update the `const`
 labels at the top of the test file.
 
-## iOS (follow-up — not yet wired)
+## iOS (follow-up - not yet wired)
 
 The chosen target is Android-in-CI, and iOS requires Xcode project changes that
 can't be made or verified from this Linux container. To add iOS later:
