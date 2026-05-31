@@ -62,42 +62,39 @@ class SupplyItemCard extends StatelessWidget {
   }
 
   void _openEditPage(BuildContext context) {
-    final supplyItem = item;
-    final route = switch (supplyItem) {
-      final MedicationSupplyItem m => MaterialPageRoute<void>(
-          fullscreenDialog: true,
-          builder: (context) => medication.EditItemPage(item: m),
-        ),
-      final GenericSupply g => MaterialPageRoute<void>(
-          fullscreenDialog: true,
-          builder: (context) => generic.EditItemPage(item: g),
-        ),
+    final WidgetBuilder? builder = switch (item) {
+      final MedicationSupplyItem m => (_) => medication.EditItemPage(item: m),
+      final GenericSupply g => (_) => generic.EditItemPage(item: g),
       _ => null,
     };
-    if (route == null) return;
-    Navigator.of(context).push(route);
+
+    if (builder == null) return;
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(fullscreenDialog: true, builder: builder),
+    );
   }
 
   Widget _buildHeroIcon(BuildContext context) {
+    const size = 100.0;
     final colorScheme = Theme.of(context).colorScheme;
-    final supplyItem = item;
-    return switch (supplyItem) {
-      final MedicationSupplyItem m =>
-        m.administrationRoute == AdministrationRoute.injection
-            ? SvgPicture.asset(
-                _getVialAsset(m.getRatio()),
-                fit: BoxFit.contain,
-                width: 100,
-                height: 100,
-              )
-            : Icon(
-                m.administrationRoute.icon,
-                size: 100,
-                color: colorScheme.onPrimary,
-              ),
+
+    return switch (item) {
+      final MedicationSupplyItem m
+          when m.administrationRoute == AdministrationRoute.injection =>
+        SvgPicture.asset(
+          _getVialAsset(m.getRatio()),
+          fit: BoxFit.contain,
+          width: size,
+          height: size,
+        ),
+      final MedicationSupplyItem m => Icon(
+          m.administrationRoute.icon,
+          size: size,
+          color: colorScheme.onPrimary,
+        ),
       final GenericSupply g => Icon(
           g.genericSupplyType.icon,
-          size: 100,
+          size: size,
           color: colorScheme.onSecondary,
         ),
       _ => const SizedBox.shrink(),
