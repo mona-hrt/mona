@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/supplies/supply_item_card.dart';
@@ -11,21 +12,44 @@ import 'package:provider/provider.dart';
 
 enum _Filter { all, medication, generic }
 
+extension _FilterX on _Filter {
+  String label(AppLocalizations l) => switch (this) {
+        _Filter.all => l.allItemsFilter,
+        _Filter.medication => l.medicationItemsFilter,
+        _Filter.generic => l.genericItemsFilter,
+      };
+
+  List<SupplyItem> items(SupplyItemProvider p) => switch (this) {
+        _Filter.all => p.allItemsOrderedByName,
+        _Filter.medication => p.medicationItemsOrderedByName,
+        _Filter.generic => p.genericItemsOrderedByName,
+      };
+
+  M3EToggleButtonDecoration? decoration(ThemeData t) => switch (this) {
+        _Filter.generic => M3EToggleButtonDecoration.styleFrom(
+            checkedBackgroundColor: t.colorScheme.secondary,
+            checkedForegroundColor: t.colorScheme.onSecondary,
+          ),
+        _ => null,
+      };
+
+  bool isAvailable({required bool hasMed, required bool hasGen}) =>
+      switch (this) {
+        _Filter.all => true,
+        _Filter.medication => hasMed,
+        _Filter.generic => hasGen,
+      };
+}
+
 class PharmacyPage extends StatefulWidget {
+  const PharmacyPage({super.key});
+
   @override
   State<PharmacyPage> createState() => _PharmacyPageState();
 }
 
 class _PharmacyPageState extends State<PharmacyPage> {
   _Filter _filter = _Filter.all;
-
-  List<SupplyItem> _itemsFor(_Filter filter, SupplyItemProvider provider) {
-    return switch (filter) {
-      _Filter.all => provider.allItemsOrderedByName,
-      _Filter.medication => provider.medicationItemsOrderedByName,
-      _Filter.generic => provider.genericItemsOrderedByName,
-    };
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +59,12 @@ class _PharmacyPageState extends State<PharmacyPage> {
         final hasGeneric = supplyItemProvider.genericItems.isNotEmpty;
         final shouldDisplayFilter = hasMedication && hasGeneric;
 
-        final effectiveFilter = switch (_filter) {
-          _Filter.medication when !hasMedication => _Filter.all,
-          _Filter.generic when !hasGeneric => _Filter.all,
-          _ => _filter,
-        };
+        final effectiveFilter =
+            _filter.isAvailable(hasMed: hasMedication, hasGen: hasGeneric)
+                ? _filter
+                : _Filter.all;
 
-        final items = _itemsFor(effectiveFilter, supplyItemProvider);
+        final items = effectiveFilter.items(supplyItemProvider);
 
         return MainPageWrapper(
           isLoading: supplyItemProvider.isLoading,
@@ -57,12 +80,7 @@ class _PharmacyPageState extends State<PharmacyPage> {
                         const EdgeInsets.only(top: 16, bottom: 16),
                     child: Align(
                       alignment: Alignment.center,
-                      child: _filterToggle(
-                        effectiveFilter,
-                        hasMedication: hasMedication,
-                        hasGeneric: hasGeneric,
-                        context: context,
-                      ),
+                      child: _filterToggle(effectiveFilter, context),
                     ),
                   ),
                 MasonryGridView.builder(
@@ -70,12 +88,16 @@ class _PharmacyPageState extends State<PharmacyPage> {
                       pagePadding - const EdgeInsets.symmetric(horizontal: 4),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 300),
+                  gridDelegate:
+                      const SliverSimpleGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 300),
                   itemCount: items.length,
                   itemBuilder: (context, index) {
                     final item = items[index];
-                    return SupplyItemCard(item: item);
+                    return SupplyItemCard(
+                      key: ValueKey(item.id),
+                      item: item,
+                    );
                   },
                 ),
                 SizedBox(height: 80),
@@ -87,12 +109,7 @@ class _PharmacyPageState extends State<PharmacyPage> {
     );
   }
 
-  Widget _filterToggle(
-    _Filter effectiveFilter, {
-    required bool hasMedication,
-    required bool hasGeneric,
-    required BuildContext context,
-  }) {
+  Widget _filterToggle(_Filter effectiveFilter, BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
 
@@ -110,17 +127,11 @@ class _PharmacyPageState extends State<PharmacyPage> {
         });
       },
       actions: [
-        M3EToggleButtonGroupAction(label: Text(l10n.allItemsFilter)),
-        M3EToggleButtonGroupAction(
-          label: Text(l10n.medicationItemsFilter),
-        ),
-        M3EToggleButtonGroupAction(
-          label: Text(l10n.genericItemsFilter),
-          decoration: M3EToggleButtonDecoration.styleFrom(
-            checkedBackgroundColor: theme.colorScheme.secondary,
-            checkedForegroundColor: theme.colorScheme.onSecondary,
+        for (final filter in _Filter.values)
+          M3EToggleButtonGroupAction(
+            label: Text(filter.label(l10n)),
+            decoration: filter.decoration(theme),
           ),
-        ),
       ],
     );
   }
