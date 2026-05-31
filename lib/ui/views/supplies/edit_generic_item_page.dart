@@ -5,6 +5,7 @@ import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
+import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -23,6 +24,7 @@ class EditItemPage extends StatefulWidget {
 class _EditItemPageState extends State<EditItemPage> {
   late TextEditingController _nameController;
   late TextEditingController _amountController;
+  late GenericSupplyType _genericSupplyType;
   late SupplyItemProvider _supplyItemProvider;
 
   String? get _nameError =>
@@ -42,6 +44,7 @@ class _EditItemPageState extends State<EditItemPage> {
     final updatedItem = widget.item.copyWith(
       name: _nameController.text,
       amount: _amountController.text.toInt,
+      genericSupplyType: _genericSupplyType,
     );
     _supplyItemProvider.updateItem(updatedItem);
 
@@ -68,6 +71,7 @@ class _EditItemPageState extends State<EditItemPage> {
     _amountController =
         TextEditingController(text: widget.item.amount.toString());
     _nameController = TextEditingController(text: widget.item.name);
+    _genericSupplyType = widget.item.genericSupplyType;
     _supplyItemProvider =
         Provider.of<SupplyItemProvider>(context, listen: false);
   }
@@ -98,6 +102,22 @@ class _EditItemPageState extends State<EditItemPage> {
           errorText: _nameError,
         ),
         FormSpacer(),
+        FormDropdownField<GenericSupplyType>(
+          value: _genericSupplyType,
+          items: GenericSupplyType.values
+              .map(
+                (type) => DropdownMenuItem<GenericSupplyType>(
+                  value: type,
+                  child: Text(type.name),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            if (value == null) return;
+            setState(() => _genericSupplyType = value);
+          },
+          label: 'Type',
+        ),
         FormTextField(
           controller: _amountController,
           label: 'amount', // TODO localize
