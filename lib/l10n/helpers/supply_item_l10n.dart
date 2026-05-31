@@ -32,7 +32,6 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
         amountRemaining % Decimal.one == Decimal.zero
             ? amountRemaining.toDouble().toInt()
             : amountRemaining.toDouble();
-    // int if whole number, otherwise double
 
     final remainingLine = localizations.remaining(
       amountRemainingFormatted,
