@@ -23,7 +23,7 @@ class PharmacyPage extends StatelessWidget {
                 maxCrossAxisExtent: 300),
             itemCount: supplyItemProvider.items.length,
             itemBuilder: (context, index) {
-              SupplyItem item = supplyItemProvider.items[index];
+              SupplyItem item = supplyItemProvider.allItemsOrderedByName[index];
               return SupplyItemCard(item: item);
             },
           ),
