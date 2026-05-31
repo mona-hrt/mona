@@ -6,13 +6,7 @@ import 'package:sqflite/sqlite_api.dart';
 class DbUpgradeV9 implements DbUpgrade {
   @override
   Future<void> upgrade(Database db, int oldVersion, int newVersion) async {
-    await _addGenericSupplyType(db);
     await _migrateIntervalDaysNotificationTimes(db);
-  }
-
-  Future<void> _addGenericSupplyType(Database db) async {
-    await db
-        .execute('ALTER TABLE supply_items ADD COLUMN genericSupplyType TEXT');
   }
 
   // IntervalDaysSchedule: notificationTime (string|null)
