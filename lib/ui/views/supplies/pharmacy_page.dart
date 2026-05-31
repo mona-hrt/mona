@@ -10,37 +10,6 @@ import 'package:mona/ui/views/supplies/supply_item_card.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:provider/provider.dart';
 
-enum _Filter { all, medication, generic }
-
-extension _FilterX on _Filter {
-  String label(AppLocalizations l) => switch (this) {
-        _Filter.all => l.allItemsFilter,
-        _Filter.medication => l.medicationItemsFilter,
-        _Filter.generic => l.genericItemsFilter,
-      };
-
-  List<SupplyItem> items(SupplyItemProvider p) => switch (this) {
-        _Filter.all => p.allItemsOrderedByName,
-        _Filter.medication => p.medicationItemsOrderedByName,
-        _Filter.generic => p.genericItemsOrderedByName,
-      };
-
-  M3EToggleButtonDecoration? decoration(ThemeData t) => switch (this) {
-        _Filter.generic => M3EToggleButtonDecoration.styleFrom(
-            checkedBackgroundColor: t.colorScheme.secondary,
-            checkedForegroundColor: t.colorScheme.onSecondary,
-          ),
-        _ => null,
-      };
-
-  bool isAvailable({required bool hasMed, required bool hasGen}) =>
-      switch (this) {
-        _Filter.all => true,
-        _Filter.medication => hasMed,
-        _Filter.generic => hasGen,
-      };
-}
-
 class PharmacyPage extends StatefulWidget {
   const PharmacyPage({super.key});
 
@@ -58,12 +27,10 @@ class _PharmacyPageState extends State<PharmacyPage> {
         final hasMedication = supplyItemProvider.medicationItems.isNotEmpty;
         final hasGeneric = supplyItemProvider.genericItems.isNotEmpty;
         final shouldDisplayFilter = hasMedication && hasGeneric;
-
         final effectiveFilter =
             _filter.isAvailable(hasMed: hasMedication, hasGen: hasGeneric)
                 ? _filter
                 : _Filter.all;
-
         final items = effectiveFilter.items(supplyItemProvider);
 
         return MainPageWrapper(
@@ -135,4 +102,35 @@ class _PharmacyPageState extends State<PharmacyPage> {
       ],
     );
   }
+}
+
+enum _Filter { all, medication, generic }
+
+extension _FilterX on _Filter {
+  String label(AppLocalizations l) => switch (this) {
+        _Filter.all => l.allItemsFilter,
+        _Filter.medication => l.medicationItemsFilter,
+        _Filter.generic => l.genericItemsFilter,
+      };
+
+  List<SupplyItem> items(SupplyItemProvider p) => switch (this) {
+        _Filter.all => p.allItemsOrderedByName,
+        _Filter.medication => p.medicationItemsOrderedByName,
+        _Filter.generic => p.genericItemsOrderedByName,
+      };
+
+  M3EToggleButtonDecoration? decoration(ThemeData t) => switch (this) {
+        _Filter.generic => M3EToggleButtonDecoration.styleFrom(
+            checkedBackgroundColor: t.colorScheme.secondary,
+            checkedForegroundColor: t.colorScheme.onSecondary,
+          ),
+        _ => null,
+      };
+
+  bool isAvailable({required bool hasMed, required bool hasGen}) =>
+      switch (this) {
+        _Filter.all => true,
+        _Filter.medication => hasMed,
+        _Filter.generic => hasGen,
+      };
 }
