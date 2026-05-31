@@ -10,7 +10,7 @@ on:
 
 jobs:
   e2e_android:
-    name: Patrol schedules E2E
+    name: Patrol E2E
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -26,12 +26,10 @@ jobs:
           cache: true
 
       - name: Get dependencies
+        # Installs the Patrol framework AND the Patrol CLI: patrol_cli is a
+        # dev_dependency (pinned in pubspec.lock), so there is no separate
+        # `dart pub global activate`. The CLI is run as `dart run patrol_cli:main`.
         run: flutter pub get
-
-      - name: Install Patrol CLI
-        run: |
-          dart pub global activate patrol_cli
-          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
 
       - name: Enable KVM
         run: |
@@ -42,8 +40,9 @@ jobs:
 
       # The app builds debug with applicationIdSuffix ".dev" (see
       # android/app/build.gradle), so the installed package under test is
-      # com.deliacheminot.mona.dev. If Patrol reports it cannot find the app,
-      # set patrol.android.package_name in pubspec.yaml to that suffixed id.
+      # com.deliacheminot.mona.dev — already set as patrol.android.package_name
+      # in pubspec.yaml. Omitting --target runs every *_test.dart under
+      # integration_test/ (the test_directory in pubspec.yaml).
       - name: Run Patrol tests on emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -54,7 +53,7 @@ jobs:
           ram-size: 4096M
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: patrol test --flavor standalone --target integration_test/schedules_test.dart
+          script: dart run patrol_cli:main test --flavor standalone
 
       - name: Upload Patrol results
         if: always()
