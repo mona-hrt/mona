@@ -44,8 +44,8 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
 
 extension GenericSupplyL10n on GenericSupply {
   String localizedSummary(AppLocalizations localizations) {
-    return '${genericSupplyType.localizedName(localizations)}\n${localizations.remaining(amount, genericSupplyType.localizedName(localizations))}';
-    // TODO pluralization of the type name
+    return '${genericSupplyType.localizedName(localizations)}\n'
+        '${localizations.remaining(amount, genericSupplyType.localizedName(localizations, amount))}';
   }
 }
 
