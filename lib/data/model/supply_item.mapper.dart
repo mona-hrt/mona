@@ -15,6 +15,8 @@ class SupplyItemMapper extends ClassMapperBase<SupplyItem> {
   static SupplyItemMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SupplyItemMapper._());
+      MedicationSupplyItemMapper.ensureInitialized();
+      GenericSupplyMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -26,7 +28,11 @@ class SupplyItemMapper extends ClassMapperBase<SupplyItem> {
   final MappableFields<SupplyItem> fields = const {};
 
   static SupplyItem _instantiate(DecodingData data) {
-    throw MapperException.missingConstructor('SupplyItem');
+    throw MapperException.missingSubclass(
+      'SupplyItem',
+      'type',
+      '${data.value['type']}',
+    );
   }
 
   @override
