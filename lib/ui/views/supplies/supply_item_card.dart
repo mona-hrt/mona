@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
+import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/l10n/helpers/supply_item_l10n.dart';
-import 'package:mona/ui/views/supplies/edit_item_page.dart';
+import 'package:mona/ui/views/supplies/edit_generic_item_page.dart' as generic;
+import 'package:mona/ui/views/supplies/edit_item_page.dart' as medication;
 
 class SupplyItemCard extends StatelessWidget {
-  final MedicationSupplyItem item;
+  final SupplyItem item;
 
   const SupplyItemCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isGeneric = item is GenericSupply;
+    final heroBackground =
+        isGeneric ? colorScheme.secondary : colorScheme.primary;
+
     return Card.filled(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute<void>(
-            fullscreenDialog: true,
-            builder: (context) => EditItemPage(item: item),
-          ));
-        },
+        onTap: () => _openEditPage(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,22 +34,8 @@ class SupplyItemCard extends StatelessWidget {
                 aspectRatio: 1,
                 child: Container(
                   width: double.infinity,
-                  color: Theme.of(context).colorScheme.primary,
-                  child: Center(
-                    child: item.administrationRoute ==
-                            AdministrationRoute.injection
-                        ? SvgPicture.asset(
-                            _getVialAsset(item.getRatio()),
-                            fit: BoxFit.contain,
-                            width: 100,
-                            height: 100,
-                          )
-                        : Icon(
-                            item.administrationRoute.icon,
-                            size: 100,
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
-                  ),
+                  color: heroBackground,
+                  child: Center(child: _buildHeroIcon(context)),
                 ),
               ),
             ),
@@ -70,6 +59,49 @@ class SupplyItemCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _openEditPage(BuildContext context) {
+    final supplyItem = item;
+    final route = switch (supplyItem) {
+      final MedicationSupplyItem m => MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (context) => medication.EditItemPage(item: m),
+        ),
+      final GenericSupply g => MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (context) => generic.EditItemPage(item: g),
+        ),
+      _ => null,
+    };
+    if (route == null) return;
+    Navigator.of(context).push(route);
+  }
+
+  Widget _buildHeroIcon(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final supplyItem = item;
+    return switch (supplyItem) {
+      final MedicationSupplyItem m =>
+        m.administrationRoute == AdministrationRoute.injection
+            ? SvgPicture.asset(
+                _getVialAsset(m.getRatio()),
+                fit: BoxFit.contain,
+                width: 100,
+                height: 100,
+              )
+            : Icon(
+                m.administrationRoute.icon,
+                size: 100,
+                color: colorScheme.onPrimary,
+              ),
+      final GenericSupply g => Icon(
+          g.genericSupplyType.icon,
+          size: 100,
+          color: colorScheme.onSecondary,
+        ),
+      _ => const SizedBox.shrink(),
+    };
   }
 
   String _getVialAsset(double ratio) {
