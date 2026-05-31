@@ -24,13 +24,6 @@ class ScheduledOccurrence {
     this.intake,
   });
 
-  DateTime? get notificationDateTime {
-    final t = notificationTime;
-    if (t == null) return null;
-    final dt = DateTime(date.year, date.month, date.day, t.hour, t.minute);
-    if (t.hour < 4) {
-      return dt.add(const Duration(days: 1));
-    }
-    return dt;
-  }
+  DateTime? get notificationDateTime =>
+      (notificationTime == null) ? null : date.toDateTimeAt(notificationTime!);
 }
