@@ -42,11 +42,16 @@ RUN /out/fvm --version
 
 FROM docker.io/library/fedora:latest AS development
 
-# install OpenJDK, CMake; Copy FVM and the SDK.
+# Install Android-specific dependencies.
 RUN dnf in java-25-openjdk-devel java-25-openjdk java-25-openjdk-src \
     --assumeyes
-COPY --from=fvm /out/fvm /usr/bin/fvm
 COPY --from=docker.io/runmymind/docker-android-sdk:latest \
     /opt/android-sdk-linux /opt/android-sdk-linux
 ENV ANDROID_HOME=/opt/android-sdk-linux
+
+# Install Linux-specific dependencies.
+RUN dnf in cmake clang ninja gtk3-devel glib2-devel --assumeyes
+
+# Finalise.
+COPY --from=fvm /out/fvm /usr/bin/fvm
 USER vscode
