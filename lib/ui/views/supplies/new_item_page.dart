@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/ui/views/supplies/new_generic_item_specifics_page.dart';
@@ -58,6 +59,7 @@ class _NewItemPageState extends State<NewItemPage> {
 
     return ModelForm(
       title: localizations.newItem,
+      avatar: Symbols.medication,
       submitButtonLabel: localizations.next,
       isFormValid: _isFormValid,
       saveChanges: _next,
@@ -75,20 +77,26 @@ class _NewItemPageState extends State<NewItemPage> {
   }
 
   Widget _typeToggle() {
-    return M3EToggleButtonGroup(
-      type: M3EButtonGroupType.standard,
-      size: M3EButtonSize.md,
-      selectedIndex: _type.index,
-      onSelectedIndexChanged: (index) {
-        if (index == null) return;
-        setState(() {
-          _type = _ItemType.values[index];
-        });
-      },
-      actions: const [
-        M3EToggleButtonGroupAction(label: Text('Medication')),
-        M3EToggleButtonGroupAction(label: Text('Generic supply')),
-      ],
+    return Align(
+      alignment: Alignment.center,
+      child: M3EToggleButtonGroup(
+        type: M3EButtonGroupType.standard,
+        size: M3EButtonSize.md,
+        decoration: M3EToggleButtonDecoration.styleFrom(
+          haptic: M3EHapticFeedback.light,
+        ),
+        selectedIndex: _type.index,
+        onSelectedIndexChanged: (index) {
+          if (index == null) return;
+          setState(() {
+            _type = _ItemType.values[index];
+          });
+        },
+        actions: const [
+          M3EToggleButtonGroupAction(label: Text('Medication')),
+          M3EToggleButtonGroupAction(label: Text('Generic supply')),
+        ],
+      ),
     );
   }
 }

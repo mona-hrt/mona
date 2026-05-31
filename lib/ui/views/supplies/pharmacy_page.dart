@@ -33,6 +33,7 @@ class _PharmacyPageState extends State<PharmacyPage> {
       builder: (context, supplyItemProvider, child) {
         final hasMedication = supplyItemProvider.medicationItems.isNotEmpty;
         final hasGeneric = supplyItemProvider.genericItems.isNotEmpty;
+        final shouldDisplayFilter = hasMedication && hasGeneric;
 
         final effectiveFilter = switch (_filter) {
           _Filter.medication when !hasMedication => _Filter.all,
@@ -46,26 +47,29 @@ class _PharmacyPageState extends State<PharmacyPage> {
           isLoading: supplyItemProvider.isLoading,
           isEmpty: supplyItemProvider.items.isEmpty,
           emptyMessage: context.l10n.empty_supplies,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding:
-                    pagePadding + const EdgeInsets.only(top: 16, bottom: 16),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: _filterToggle(
-                    effectiveFilter,
-                    hasMedication: hasMedication,
-                    hasGeneric: hasGeneric,
-                    context: context,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (shouldDisplayFilter)
+                  Padding(
+                    padding: pagePadding +
+                        const EdgeInsets.only(top: 16, bottom: 16),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: _filterToggle(
+                        effectiveFilter,
+                        hasMedication: hasMedication,
+                        hasGeneric: hasGeneric,
+                        context: context,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Expanded(
-                child: MasonryGridView.builder(
+                MasonryGridView.builder(
                   padding:
                       pagePadding - const EdgeInsets.symmetric(horizontal: 4),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 300),
                   itemCount: items.length,
@@ -74,8 +78,9 @@ class _PharmacyPageState extends State<PharmacyPage> {
                     return SupplyItemCard(item: item);
                   },
                 ),
-              ),
-            ],
+                SizedBox(height: 80),
+              ],
+            ),
           ),
         );
       },

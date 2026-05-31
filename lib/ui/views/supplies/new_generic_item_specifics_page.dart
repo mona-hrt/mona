@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
@@ -70,6 +71,7 @@ class _NewGenericItemSpecificsPageState
 
     return ModelForm(
       title: widget.name,
+      avatar: _genericSupplyType?.icon ?? Symbols.medication,
       submitButtonLabel: localizations.add,
       isFormValid: _isFormValid,
       saveChanges: _addItem,
