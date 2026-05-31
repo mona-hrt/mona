@@ -27,6 +27,10 @@ class ScheduledOccurrence {
   DateTime? get notificationDateTime {
     final t = notificationTime;
     if (t == null) return null;
-    return DateTime(date.year, date.month, date.day, t.hour, t.minute);
+    final dt = DateTime(date.year, date.month, date.day, t.hour, t.minute);
+    if (t.hour < 4) {
+      return dt.add(const Duration(days: 1));
+    }
+    return dt;
   }
 }
