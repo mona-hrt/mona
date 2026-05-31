@@ -68,8 +68,7 @@ import 'app_localizations_uk.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -77,8 +76,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -90,8 +88,7 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -867,6 +864,72 @@ abstract class AppLocalizations {
   /// **'{amount} {unit} remaining'**
   String remaining(num amount, Object unit);
 
+  /// No description provided for @allItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allItemsFilter;
+
+  /// No description provided for @medicationItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication'**
+  String get medicationItemsFilter;
+
+  /// No description provided for @genericItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumables'**
+  String get genericItemsFilter;
+
+  /// No description provided for @medicationType.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication'**
+  String get medicationType;
+
+  /// No description provided for @genericType.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumable'**
+  String get genericType;
+
+  /// No description provided for @genericItemType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get genericItemType;
+
+  /// No description provided for @syringe.
+  ///
+  /// In en, this message translates to:
+  /// **'Syringe'**
+  String get syringe;
+
+  /// No description provided for @wipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Wipe'**
+  String get wipe;
+
+  /// No description provided for @needle.
+  ///
+  /// In en, this message translates to:
+  /// **'Needle'**
+  String get needle;
+
+  /// No description provided for @gloves.
+  ///
+  /// In en, this message translates to:
+  /// **'Gloves'**
+  String get gloves;
+
+  /// No description provided for @bandage.
+  ///
+  /// In en, this message translates to:
+  /// **'Bandage'**
+  String get bandage;
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -1270,8 +1333,7 @@ abstract class AppLocalizations {
   String get cannotExceedTotalCapacity;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -1280,57 +1342,40 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) => <String>[
-        'de',
-        'en',
-        'es',
-        'fr',
-        'pt',
-        'ru',
-        'sk',
-        'uk'
-      ].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'pt', 'ru', 'sk', 'uk'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
   // Lookup logic when language+country codes are specified.
   switch (locale.languageCode) {
-    case 'pt':
-      {
-        switch (locale.countryCode) {
-          case 'BR':
-            return AppLocalizationsPtBr();
-        }
-        break;
-      }
+    case 'pt': {
+  switch (locale.countryCode) {
+    case 'BR': return AppLocalizationsPtBr();
+   }
+  break;
+   }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'de':
-      return AppLocalizationsDe();
-    case 'en':
-      return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
-    case 'fr':
-      return AppLocalizationsFr();
-    case 'pt':
-      return AppLocalizationsPt();
-    case 'ru':
-      return AppLocalizationsRu();
-    case 'sk':
-      return AppLocalizationsSk();
-    case 'uk':
-      return AppLocalizationsUk();
+    case 'de': return AppLocalizationsDe();
+    case 'en': return AppLocalizationsEn();
+    case 'es': return AppLocalizationsEs();
+    case 'fr': return AppLocalizationsFr();
+    case 'pt': return AppLocalizationsPt();
+    case 'ru': return AppLocalizationsRu();
+    case 'sk': return AppLocalizationsSk();
+    case 'uk': return AppLocalizationsUk();
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

@@ -71,12 +71,13 @@ class _NewItemPageState extends State<NewItemPage> {
           inputType: TextInputType.text,
         ),
         FormSpacer(),
-        _typeToggle(),
+        _typeToggle(context),
       ],
     );
   }
 
-  Widget _typeToggle() {
+  Widget _typeToggle(BuildContext context) {
+    final localizations = context.l10n;
     return Align(
       alignment: Alignment.center,
       child: M3EToggleButtonGroup(
@@ -92,9 +93,9 @@ class _NewItemPageState extends State<NewItemPage> {
             _type = _ItemType.values[index];
           });
         },
-        actions: const [
-          M3EToggleButtonGroupAction(label: Text('Medication')),
-          M3EToggleButtonGroupAction(label: Text('Generic supply')),
+        actions: [
+          M3EToggleButtonGroupAction(label: Text(localizations.medicationType)),
+          M3EToggleButtonGroupAction(label: Text(localizations.genericType)),
         ],
       ),
     );

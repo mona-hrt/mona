@@ -30,8 +30,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get addAnItem => 'Ajouter un élément';
 
   @override
-  String get empty_home =>
-      'Commencez par ajouter un planning dans les paramètres';
+  String get empty_home => 'Commencez par ajouter un planning dans les paramètres';
 
   @override
   String get allDone => 'Terminé !';
@@ -141,26 +140,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get clickToOpenSettings => 'Cliquez pour ouvrir les paramètres';
 
   @override
-  String get exactRemindersDisabled =>
-      'Les heures de rappel exactes sont désactivées';
+  String get exactRemindersDisabled => 'Les heures de rappel exactes sont désactivées';
 
   @override
-  String get remindersDelayed =>
-      'Les rappels peuvent être légèrement retardés. Appuyez pour ouvrir les paramètres.';
+  String get remindersDelayed => 'Les rappels peuvent être légèrement retardés. Appuyez pour ouvrir les paramètres.';
 
   @override
   String get autoUpdate => 'Mise à jour automatique';
 
   @override
-  String get autoUpdateDescription =>
-      'Vérifier automatiquement les nouvelles mises à jour au lancement de l\'application';
+  String get autoUpdateDescription => 'Vérifier automatiquement les nouvelles mises à jour au lancement de l\'application';
 
   @override
   String get checkForUpdates => 'Vérifier les mises à jour';
 
   @override
-  String get checkForUpdatesDescription =>
-      'Vérifier manuellement la dernière version\nCela vous connectera à Internet\n(Aucune donnée ne sera envoyée)';
+  String get checkForUpdatesDescription => 'Vérifier manuellement la dernière version\nCela vous connectera à Internet\n(Aucune donnée ne sera envoyée)';
 
   @override
   String appVersion(Object version) {
@@ -181,12 +176,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get importDataTitle => 'Importer des données';
 
   @override
-  String get importDataSubtitle =>
-      'Restaurer les données depuis une sauvegarde JSON';
+  String get importDataSubtitle => 'Restaurer les données depuis une sauvegarde JSON';
 
   @override
-  String get importDataOverwriteWarning =>
-      'Cela remplacera toutes vos données actuelles par la sauvegarde. Cette action est irréversible. Voulez-vous continuer ?';
+  String get importDataOverwriteWarning => 'Cela remplacera toutes vos données actuelles par la sauvegarde. Cette action est irréversible. Voulez-vous continuer ?';
 
   @override
   String get importConfirm => 'Importer';
@@ -195,8 +188,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get importSuccessfulTitle => 'Import réussi';
 
   @override
-  String get importRestartRequired =>
-      'Veuillez redémarrer l\'application pour appliquer les données restaurées.';
+  String get importRestartRequired => 'Veuillez redémarrer l\'application pour appliquer les données restaurées.';
 
   @override
   String get closeApp => 'Fermer l\'application';
@@ -216,22 +208,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get exportDataTitle => 'Exporter les données';
 
   @override
-  String get exportDataSubtitle =>
-      'Enregistrer vos données dans un fichier JSON';
+  String get exportDataSubtitle => 'Enregistrer vos données dans un fichier JSON';
 
   @override
   String get units => 'Unités';
 
   @override
-  String get updateNoCompatibleApk =>
-      'Aucune mise à jour compatible avec votre appareil.';
+  String get updateNoCompatibleApk => 'Aucune mise à jour compatible avec votre appareil.';
 
   @override
   String get updateAppUpToDate => 'Votre application est à jour !';
 
   @override
-  String get updateCheckNetworkError =>
-      'Impossible de vérifier les mises à jour pour le moment.';
+  String get updateCheckNetworkError => 'Impossible de vérifier les mises à jour pour le moment.';
 
   @override
   String get updateDialogTitle => 'Mise à jour disponible';
@@ -245,8 +234,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get updateDownloadAndInstall => 'Télécharger et installer';
 
   @override
-  String get updateInstallPermissionRequired =>
-      'Une autorisation est requise pour installer les mises à jour.';
+  String get updateInstallPermissionRequired => 'Une autorisation est requise pour installer les mises à jour.';
 
   @override
   String get updateDownloadingTitle => 'Téléchargement de la mise à jour...';
@@ -257,8 +245,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get updateDownloadFailed =>
-      'Échec du téléchargement. Vérifiez votre connexion.';
+  String get updateDownloadFailed => 'Échec du téléchargement. Vérifiez votre connexion.';
 
   @override
   String notificationMedicationReminderTitle(Object scheduleName) {
@@ -331,8 +318,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notificationsUpdated => 'Les notifications ont été mises à jour !';
 
   @override
-  String get notificationsUpdatedDescription =>
-      'Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.';
+  String get notificationsUpdatedDescription => 'Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.';
 
   @override
   String get dontShowAgain => 'Ne plus afficher';
@@ -388,15 +374,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get microliters => 'μL';
 
   @override
-  String get empty_levels =>
-      'Les injections d’estradiol s’afficheront dans cet onglet';
+  String get empty_levels => 'Les injections d’estradiol s’afficheront dans cet onglet';
 
   @override
   String get bloodTestsTitle => 'Prises de sang';
 
   @override
-  String get empty_blood_tests =>
-      'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !';
+  String get empty_blood_tests => 'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !';
 
   @override
   String get addBloodTest => 'Ajouter une analyse de sang';
@@ -430,8 +414,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get empty_supplies =>
-      'Aucun consommable. Ajoutez un élément pour commencer.';
+  String get empty_supplies => 'Aucun consommable. Ajoutez un élément pour commencer.';
 
   @override
   String get newItem => 'Nouvel élément';
@@ -460,6 +443,39 @@ class AppLocalizationsFr extends AppLocalizations {
   String remaining(num amount, Object unit) {
     return 'Reste $amount $unit';
   }
+
+  @override
+  String get allItemsFilter => 'Tout';
+
+  @override
+  String get medicationItemsFilter => 'Médicaments';
+
+  @override
+  String get genericItemsFilter => 'Matériel';
+
+  @override
+  String get medicationType => 'Médicament';
+
+  @override
+  String get genericType => 'Matériel';
+
+  @override
+  String get genericItemType => 'Type';
+
+  @override
+  String get syringe => 'Seringue';
+
+  @override
+  String get wipe => 'Lingette';
+
+  @override
+  String get needle => 'Aiguille';
+
+  @override
+  String get gloves => 'Gants';
+
+  @override
+  String get bandage => 'Pansement';
 
   @override
   String get add => 'Ajouter';
@@ -570,8 +586,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get medicationEstradiolBenzoate => 'Benzoate d\'œstradiol';
 
   @override
-  String get medicationEstradiolCypionateSuspension =>
-      'Suspension de cypionate d\'œstradiol';
+  String get medicationEstradiolCypionateSuspension => 'Suspension de cypionate d\'œstradiol';
 
   @override
   String get medicationTestosteroneEnanthate => 'Énanthate de testostérone';
@@ -589,8 +604,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get medicationTestosteroneBenzoate => 'Benzoate de testostérone';
 
   @override
-  String get medicationTestosteroneCypionateSuspension =>
-      'Suspension de cypionate de testostérone';
+  String get medicationTestosteroneCypionateSuspension => 'Suspension de cypionate de testostérone';
 
   @override
   String get injection => 'Injection';
@@ -718,6 +732,5 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invalidTotalAmount => 'Montant total invalide';
 
   @override
-  String get cannotExceedTotalCapacity =>
-      'Ne peut pas dépasser la capacité totale';
+  String get cannotExceedTotalCapacity => 'Ne peut pas dépasser la capacité totale';
 }

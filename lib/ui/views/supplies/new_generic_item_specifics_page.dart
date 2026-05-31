@@ -88,7 +88,7 @@ class _NewGenericItemSpecificsPageState
               )
               .toList(),
           onChanged: (value) => setState(() => _genericSupplyType = value),
-          label: 'Type',
+          label: localizations.genericItemType,
         ),
         FormTextField(
           controller: _amountController,

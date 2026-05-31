@@ -93,6 +93,9 @@ class _PharmacyPageState extends State<PharmacyPage> {
     required bool hasGeneric,
     required BuildContext context,
   }) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+
     return M3EToggleButtonGroup(
       type: M3EButtonGroupType.standard,
       size: M3EButtonSize.md,
@@ -107,17 +110,15 @@ class _PharmacyPageState extends State<PharmacyPage> {
         });
       },
       actions: [
-        const M3EToggleButtonGroupAction(label: Text('All')),
+        M3EToggleButtonGroupAction(label: Text(l10n.allItemsFilter)),
         M3EToggleButtonGroupAction(
-          label: const Text('Medication'),
-          enabled: hasMedication,
+          label: Text(l10n.medicationItemsFilter),
         ),
         M3EToggleButtonGroupAction(
-          label: const Text('Generic'),
-          enabled: hasGeneric,
+          label: Text(l10n.genericItemsFilter),
           decoration: M3EToggleButtonDecoration.styleFrom(
-            checkedBackgroundColor: Theme.of(context).colorScheme.secondary,
-            checkedForegroundColor: Theme.of(context).colorScheme.onSecondary,
+            checkedBackgroundColor: theme.colorScheme.secondary,
+            checkedForegroundColor: theme.colorScheme.onSecondary,
           ),
         ),
       ],

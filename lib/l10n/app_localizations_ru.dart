@@ -139,22 +139,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exactRemindersDisabled => 'Точные напоминания недоступны';
 
   @override
-  String get remindersDelayed =>
-      'Напоминания могут отставать. Нажмите для открытия настроек.';
+  String get remindersDelayed => 'Напоминания могут отставать. Нажмите для открытия настроек.';
 
   @override
   String get autoUpdate => 'Авто-обновления';
 
   @override
-  String get autoUpdateDescription =>
-      'Автоматически проверять наличие обновлений при запуске приложения';
+  String get autoUpdateDescription => 'Автоматически проверять наличие обновлений при запуске приложения';
 
   @override
   String get checkForUpdates => 'Проверить наличие обновлений';
 
   @override
-  String get checkForUpdatesDescription =>
-      'Вручную проверить наличие обновлений\nДанное действие подключит вас к интернету\n(Данные переданы не будут)';
+  String get checkForUpdatesDescription => 'Вручную проверить наличие обновлений\nДанное действие подключит вас к интернету\n(Данные переданы не будут)';
 
   @override
   String appVersion(Object version) {
@@ -178,8 +175,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get importDataSubtitle => 'Восстановить копию данных из JSON-файла';
 
   @override
-  String get importDataOverwriteWarning =>
-      'Восстановление старой копии данных перезапишет все текущие данные, что невозможно отменить. Продолжить?';
+  String get importDataOverwriteWarning => 'Восстановление старой копии данных перезапишет все текущие данные, что невозможно отменить. Продолжить?';
 
   @override
   String get importConfirm => 'Импортировать';
@@ -188,8 +184,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get importSuccessfulTitle => 'Импорт успешен';
 
   @override
-  String get importRestartRequired =>
-      'Перезапустите приложение для завершения восстановления данных.';
+  String get importRestartRequired => 'Перезапустите приложение для завершения восстановления данных.';
 
   @override
   String get closeApp => 'Закрыть';
@@ -221,8 +216,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get updateAppUpToDate => 'Установлена последняя версия приложения!';
 
   @override
-  String get updateCheckNetworkError =>
-      'Не удалось проверить наличие обновлений.';
+  String get updateCheckNetworkError => 'Не удалось проверить наличие обновлений.';
 
   @override
   String get updateDialogTitle => 'Доступно обновление';
@@ -236,8 +230,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get updateDownloadAndInstall => 'Обновить';
 
   @override
-  String get updateInstallPermissionRequired =>
-      'Для установки обновления необходимо выдать разрешение.';
+  String get updateInstallPermissionRequired => 'Для установки обновления необходимо выдать разрешение.';
 
   @override
   String get updateDownloadingTitle => 'Обновление скачивается...';
@@ -248,8 +241,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get updateDownloadFailed =>
-      'Ошибка скачивания. Пожалуйста, проверьте своё интернет соединение.';
+  String get updateDownloadFailed => 'Ошибка скачивания. Пожалуйста, проверьте своё интернет соединение.';
 
   @override
   String notificationMedicationReminderTitle(Object scheduleName) {
@@ -329,8 +321,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notificationsUpdated => 'Уведомления были обновлены!';
 
   @override
-  String get notificationsUpdatedDescription =>
-      'Каждое расписание теперь имеет свои уведомления.\n\nПожалуйста, (пере)настройте уведомления для своих расписаний.';
+  String get notificationsUpdatedDescription => 'Каждое расписание теперь имеет свои уведомления.\n\nПожалуйста, (пере)настройте уведомления для своих расписаний.';
 
   @override
   String get dontShowAgain => 'Больше не показывать';
@@ -386,15 +377,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get microliters => 'мкл';
 
   @override
-  String get empty_levels =>
-      'Приёмы эстрадиола будут отображаться в данной вкладке';
+  String get empty_levels => 'Приёмы эстрадиола будут отображаться в данной вкладке';
 
   @override
   String get bloodTestsTitle => 'Анализы крови';
 
   @override
-  String get empty_blood_tests =>
-      'Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу.';
+  String get empty_blood_tests => 'Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу.';
 
   @override
   String get addBloodTest => 'Добавить анализ';
@@ -428,8 +417,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get empty_supplies =>
-      'Нет препаратов. Для начала работы добавьте препарат.';
+  String get empty_supplies => 'Нет препаратов. Для начала работы добавьте препарат.';
 
   @override
   String get newItem => 'Новый препарат';
@@ -458,6 +446,39 @@ class AppLocalizationsRu extends AppLocalizations {
   String remaining(num amount, Object unit) {
     return '$amount $unit осталось';
   }
+
+  @override
+  String get allItemsFilter => 'All';
+
+  @override
+  String get medicationItemsFilter => 'Medication';
+
+  @override
+  String get genericItemsFilter => 'Consumables';
+
+  @override
+  String get medicationType => 'Medication';
+
+  @override
+  String get genericType => 'Consumable';
+
+  @override
+  String get genericItemType => 'Type';
+
+  @override
+  String get syringe => 'Syringe';
+
+  @override
+  String get wipe => 'Wipe';
+
+  @override
+  String get needle => 'Needle';
+
+  @override
+  String get gloves => 'Gloves';
+
+  @override
+  String get bandage => 'Bandage';
 
   @override
   String get add => 'Добавить';
@@ -568,8 +589,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get medicationEstradiolBenzoate => 'Эстрадиола бензоат';
 
   @override
-  String get medicationEstradiolCypionateSuspension =>
-      'Суспензия эстрадиола ципионата';
+  String get medicationEstradiolCypionateSuspension => 'Суспензия эстрадиола ципионата';
 
   @override
   String get medicationTestosteroneEnanthate => 'Тестостерона энантат';
@@ -587,8 +607,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get medicationTestosteroneBenzoate => 'Тестостерона бензоат';
 
   @override
-  String get medicationTestosteroneCypionateSuspension =>
-      'Суспензия тестостерона ципионата';
+  String get medicationTestosteroneCypionateSuspension => 'Суспензия тестостерона ципионата';
 
   @override
   String get injection => 'Инъекционно';

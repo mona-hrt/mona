@@ -4,6 +4,7 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/helpers/administration_route_l10n.dart';
+import 'package:mona/l10n/helpers/generic_type_l10n.dart';
 import 'package:mona/l10n/helpers/molecule_l10n.dart';
 
 extension MedicationSupplyItemL10n on MedicationSupplyItem {
@@ -43,8 +44,8 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
 
 extension GenericSupplyL10n on GenericSupply {
   String localizedSummary(AppLocalizations localizations) {
-    // TODO localize
-    return '${genericSupplyType.name}\n$amount remaining';
+    return '${genericSupplyType.localizedName(localizations)}\n${localizations.remaining(amount, genericSupplyType.localizedName(localizations))}';
+    // TODO pluralization of the type name
   }
 }
 
@@ -53,7 +54,7 @@ extension SupplyItemL10n on SupplyItem {
     return switch (this) {
       final MedicationSupplyItem m => m.localizedSummary(localizations),
       final GenericSupply g => g.localizedSummary(localizations),
-      _ => '', // TODO localize unknown item summary
+      _ => '',
     };
   }
 }
