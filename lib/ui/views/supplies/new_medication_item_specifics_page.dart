@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -144,6 +145,7 @@ class _NewMedicationItemSpecificsPageState
 
     return ModelForm(
       title: widget.name,
+      avatar: _administrationRoute?.icon ?? Symbols.medication,
       submitButtonLabel: localizations.add,
       isFormValid: _isFormValid,
       saveChanges: _addItem,
