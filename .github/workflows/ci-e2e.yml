@@ -1,0 +1,67 @@
+name: CI - E2E (Patrol Android)
+
+# Patrol drives the real app on an Android emulator. Patrol has no Linux-desktop
+# support, so these tests cannot run on a plain runner — they need the
+# KVM-accelerated emulator from reactivecircus/android-emulator-runner. This job
+# is intentionally separate from ci-pr.yml because the emulator makes it slow.
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  e2e_android:
+    name: Patrol schedules E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Install Patrol CLI
+        run: |
+          dart pub global activate patrol_cli
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      # The app builds debug with applicationIdSuffix ".dev" (see
+      # android/app/build.gradle), so the installed package under test is
+      # com.deliacheminot.mona.dev. If Patrol reports it cannot find the app,
+      # set patrol.android.package_name in pubspec.yaml to that suffixed id.
+      - name: Run Patrol tests on emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 4096M
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: patrol test --flavor standalone --target integration_test/schedules_test.dart
+
+      - name: Upload Patrol results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: patrol-results
+          path: |
+            build/app/outputs/androidTest-results/
+            build/app/reports/
+          if-no-files-found: ignore
