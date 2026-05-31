@@ -48,10 +48,19 @@ RUN dnf in java-25-openjdk-devel java-25-openjdk java-25-openjdk-src \
 COPY --from=docker.io/runmymind/docker-android-sdk:latest \
     /opt/android-sdk-linux /opt/android-sdk-linux
 ENV ANDROID_HOME=/opt/android-sdk-linux
+ENV ANDROID_SDK_ROOT=/opt/android-sdk-linux
 
 # Install Linux-specific dependencies.
 RUN dnf in cmake clang ninja gtk3-devel glib2-devel --assumeyes
 
 # Finalise.
 COPY --from=fvm /out/fvm /usr/bin/fvm
+# Put the Patrol E2E toolchain on PATH for every shell (login/non-login) and for
+# `exec`/CI, not just the interactive terminal:
+#   - $HOME/fvm/default/bin        -> fvm-pinned `flutter`/`dart` (created by `fvm install`)
+#   - $HOME/.pub-cache/bin         -> binaries from any `dart pub global activate`
+#   - $ANDROID_HOME/platform-tools -> `adb`, used to reach a host emulator over TCP
+# The Patrol CLI is a dev_dependency (see pubspec.yaml), invoked as
+# `fvm dart run patrol_cli:main ...` — it does not need to be on PATH.
+ENV PATH="/home/vscode/fvm/default/bin:/home/vscode/.pub-cache/bin:${ANDROID_HOME}/platform-tools:${PATH}"
 USER vscode

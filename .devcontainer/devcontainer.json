@@ -21,6 +21,7 @@
         },
         "ghcr.io/devcontainers/features/git:1": {}
     },
+    "runArgs": ["--add-host=host.docker.internal:host-gateway"],
     "onCreateCommand": {
         "take ownership of android sdk": "sudo chown vscode:vscode /opt -Rc",
         "install flutter and dependencies": "fvm install && fvm flutter pub get",
