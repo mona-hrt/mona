@@ -50,13 +50,15 @@ class _PharmacyPageState extends State<PharmacyPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: pagePadding + const EdgeInsets.only(top: 8, bottom: 8),
+                padding:
+                    pagePadding + const EdgeInsets.only(top: 16, bottom: 16),
                 child: Align(
                   alignment: Alignment.center,
                   child: _filterToggle(
                     effectiveFilter,
                     hasMedication: hasMedication,
                     hasGeneric: hasGeneric,
+                    context: context,
                   ),
                 ),
               ),
@@ -84,10 +86,14 @@ class _PharmacyPageState extends State<PharmacyPage> {
     _Filter effectiveFilter, {
     required bool hasMedication,
     required bool hasGeneric,
+    required BuildContext context,
   }) {
     return M3EToggleButtonGroup(
       type: M3EButtonGroupType.standard,
       size: M3EButtonSize.md,
+      decoration: M3EToggleButtonDecoration.styleFrom(
+        haptic: M3EHapticFeedback.light,
+      ),
       selectedIndex: effectiveFilter.index,
       onSelectedIndexChanged: (index) {
         if (index == null) return;
@@ -104,6 +110,10 @@ class _PharmacyPageState extends State<PharmacyPage> {
         M3EToggleButtonGroupAction(
           label: const Text('Generic'),
           enabled: hasGeneric,
+          decoration: M3EToggleButtonDecoration.styleFrom(
+            checkedBackgroundColor: Theme.of(context).colorScheme.secondary,
+            checkedForegroundColor: Theme.of(context).colorScheme.onSecondary,
+          ),
         ),
       ],
     );
