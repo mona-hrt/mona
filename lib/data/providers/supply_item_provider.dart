@@ -33,6 +33,15 @@ class SupplyItemProvider extends ChangeNotifier {
           (a, b) => a.getRatio().compareTo(b.getRatio()),
         );
 
+  List<SupplyItem> get allItemsOrderedByName => [..._items]
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+  List<SupplyItem> get medicationItemsOrderedByName => medicationItems
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+  List<SupplyItem> get genericItemsOrderedByName => genericItems
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
   SupplyItem? getItemById(int? id) {
     try {
       return items.firstWhere((item) => item.id == id);

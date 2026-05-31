@@ -168,6 +168,56 @@ void main() {
       });
     });
 
+    group('orderedByName', () {
+      test('allItemsOrderedByName orders items alphabetically by name',
+          () async {
+        // Arrange
+        await repo.insert(defaultMedicationItem(id: 1, name: 'Banana'));
+        await repo.insert(defaultGenericItem(id: 2, name: 'Apple'));
+        await repo.insert(defaultMedicationItem(id: 3, name: 'Carrot'));
+        await provider.fetchItems();
+
+        // Act
+        final ordered = provider.allItemsOrderedByName;
+
+        // Assert
+        expect(
+            ordered.map((i) => i.name).toList(), ['Apple', 'Banana', 'Carrot']);
+      });
+
+      test(
+          'medicationItemsOrderedByName orders only medication items alphabetically by name',
+          () async {
+        // Arrange
+        await repo.insert(defaultMedicationItem(id: 1, name: 'Banana'));
+        await repo.insert(defaultGenericItem(id: 2, name: 'Apple'));
+        await repo.insert(defaultMedicationItem(id: 3, name: 'Carrot'));
+        await provider.fetchItems();
+
+        // Act
+        final ordered = provider.medicationItemsOrderedByName;
+
+        // Assert
+        expect(ordered.map((i) => i.name).toList(), ['Banana', 'Carrot']);
+      });
+
+      test(
+          'genericItemsOrderedByName orders only generic items alphabetically by name',
+          () async {
+        // Arrange
+        await repo.insert(defaultMedicationItem(id: 1, name: 'Banana'));
+        await repo.insert(defaultGenericItem(id: 2, name: 'Apple'));
+        await repo.insert(defaultGenericItem(id: 3, name: 'Carrot'));
+        await provider.fetchItems();
+
+        // Act
+        final ordered = provider.genericItemsOrderedByName;
+
+        // Assert
+        expect(ordered.map((i) => i.name).toList(), ['Apple', 'Carrot']);
+      });
+    });
+
     group('getItemById', () {
       test('returns the matching item', () async {
         // Arrange
