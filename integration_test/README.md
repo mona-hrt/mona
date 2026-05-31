@@ -72,13 +72,21 @@ adb devices               # confirm the device is listed
 fvm dart run patrol_cli:main test --flavor standalone
 ```
 
-### Flavors and the `.dev` suffix
+### Flavors, the `.dev` suffix, and not wiping a real install
 
 Debug builds append `applicationIdSuffix ".dev"`
 (`android/app/build.gradle`), so the package installed during tests is
-`com.deliacheminot.mona.dev`. `pubspec.yaml` sets `patrol.android.package_name`
-to the base id `com.deliacheminot.mona`. If Patrol can't find the app under
-test, change it to `com.deliacheminot.mona.dev`.
+`com.deliacheminot.mona.dev` - deliberately separate from a released
+`com.deliacheminot.mona`. `pubspec.yaml` sets `patrol.android.package_name` to
+the `.dev` id to match, so Patrol only ever manages the test build.
+
+> **Do not point `package_name` at the base id `com.deliacheminot.mona`.**
+> Patrol uninstalls/reinstalls that package, and `clearPackageData` (enabled in
+> `build.gradle` for test isolation) runs `pm clear` on it between tests - so
+> targeting the base id would **erase a production Mona install and all its
+> data**. Even with the `.dev` split, prefer running E2E on a dedicated
+> emulator or throwaway device rather than a phone holding real data: a debug
+> (`flutter run`) install of the app *also* lives at `.dev` and would be wiped.
 
 ## Writing tests - notes for this app
 

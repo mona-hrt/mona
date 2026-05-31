@@ -83,13 +83,16 @@ dev_dependencies:
   mockito: ^5.4.4
 
 # Patrol E2E configuration. See integration_test/README.md for how to run.
-# package_name is the base applicationId; debug test builds append `.dev`
-# (see android/app/build.gradle buildTypes.debug) and require a --flavor.
+# package_name MUST match the package the test build actually installs. Debug
+# builds append `.dev` (see android/app/build.gradle buildTypes.debug), so this
+# is the `.dev` id, NOT the base `com.deliacheminot.mona`. This matters: Patrol
+# uninstalls/reinstalls this package and `clearPackageData` wipes its data
+# between tests — pointing it at the base id would destroy a production install.
 patrol:
   app_name: Mona
   test_directory: integration_test
   android:
-    package_name: com.deliacheminot.mona
+    package_name: com.deliacheminot.mona.dev
   ios:
     bundle_id: com.deliacheminot.mona
 
