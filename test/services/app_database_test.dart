@@ -192,7 +192,7 @@ void main() {
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
         'schedulingStrategy':
-            '{"type":"intervalDays","intervalDays":1,"notificationTime":"8:30"}',
+            '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
       });
 
       final schedule = await db.query(
@@ -208,7 +208,7 @@ void main() {
         ],
         [
           'Morning Med',
-          '{"type":"intervalDays","intervalDays":1,"notificationTime":"8:30"}',
+          '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
         ],
       );
     });
