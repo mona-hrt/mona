@@ -231,7 +231,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
             _intervalTimeRow(i),
           ListTile(
             leading: const Icon(Icons.add),
-            title: Text(l10n.addIntakeTime),
+            title: Text(l10n.addNotification),
             onTap: () => _addDailyTime(),
           ),
         ],
@@ -252,7 +252,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
           for (int i = 0; i < _dailyIntakeTimes.length; i++) _intakeTimeRow(i),
           ListTile(
             leading: const Icon(Icons.add),
-            title: Text(l10n.addNotification),
+            title: Text(l10n.addIntakeTime),
             onTap: () => _addDailyTime(),
           ),
           SwitchListTile(
