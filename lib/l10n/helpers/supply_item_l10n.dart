@@ -7,6 +7,16 @@ import 'package:mona/l10n/helpers/administration_route_l10n.dart';
 import 'package:mona/l10n/helpers/generic_type_l10n.dart';
 import 'package:mona/l10n/helpers/molecule_l10n.dart';
 
+extension SupplyItemL10n on SupplyItem {
+  String localizedSummary(AppLocalizations localizations) {
+    return switch (this) {
+      final MedicationSupplyItem m => m.localizedSummary(localizations),
+      final GenericSupply g => g.localizedSummary(localizations),
+      _ => '',
+    };
+  }
+}
+
 extension MedicationSupplyItemL10n on MedicationSupplyItem {
   String localizedSupplyAmount(
     AppLocalizations localizations,
@@ -18,42 +28,25 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
         '${administrationRoute.localizedUnit(localizations, amount.toDouble())}';
   }
 
-  String localizedSummary(AppLocalizations localizations) {
+  String localizedSummary(AppLocalizations l10n) {
     final amountRemaining = getAmount(remainingDose);
-    final routeUnitRemaining = administrationRoute.localizedUnit(
-      localizations,
-      amountRemaining.toDouble(),
-    );
-    final headline =
-        '${molecule.localizedNameWithEster(ester, localizations)} • '
-        '$concentration ${molecule.unit}/${administrationRoute.localizedUnit(localizations, 1)}';
-
     final amountRemainingFormatted =
         amountRemaining % Decimal.one == Decimal.zero
             ? amountRemaining.toDouble().toInt()
             : amountRemaining.toDouble();
+    final routeUnitRemaining =
+        administrationRoute.localizedUnit(l10n, amountRemaining.toDouble());
+    final routeConcentrationUnit = administrationRoute.localizedUnit(l10n, 1);
 
-    final remainingLine = localizations.remaining(
-      amountRemainingFormatted,
-      routeUnitRemaining,
-    );
-    return '$headline\n$remainingLine';
+    return '${molecule.localizedNameWithEster(ester, l10n)} • '
+        '$concentration ${molecule.unit}/$routeConcentrationUnit\n'
+        '${l10n.remaining(amountRemainingFormatted, routeUnitRemaining)}';
   }
 }
 
 extension GenericSupplyL10n on GenericSupply {
-  String localizedSummary(AppLocalizations localizations) {
-    return '${genericSupplyType.localizedName(localizations)}\n'
-        '${localizations.remaining(amount, genericSupplyType.localizedName(localizations, amount))}';
-  }
-}
-
-extension SupplyItemL10n on SupplyItem {
-  String localizedSummary(AppLocalizations localizations) {
-    return switch (this) {
-      final MedicationSupplyItem m => m.localizedSummary(localizations),
-      final GenericSupply g => g.localizedSummary(localizations),
-      _ => '',
-    };
+  String localizedSummary(AppLocalizations l10n) {
+    return '${genericSupplyType.localizedName(l10n)}\n'
+        '${l10n.remaining(amount, genericSupplyType.localizedName(l10n, amount))}';
   }
 }
