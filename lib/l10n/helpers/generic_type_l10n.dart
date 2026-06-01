@@ -1,7 +1,7 @@
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/l10n/app_localizations.dart';
 
-extension genericItemTypeL10n on GenericSupplyType {
+extension GenericItemTypeL10n on GenericSupplyType {
   String localizedName(AppLocalizations l10n, [num count = 1]) {
     switch (this) {
       case GenericSupplyType.syringe:
