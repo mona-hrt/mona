@@ -33,6 +33,22 @@ const _editScheduleInfo = 'Edit schedule info';
 const _delete = 'Delete';
 
 void main() {
+  patrolTest('deletes a schedule with confirmation', ($) async {
+    await _launchApp($);
+    await _openSchedules($);
+    await _createIntervalSchedule($, name: 'To Delete');
+
+    await $(ListTile).containing('To Delete').tap();
+    await $(_editScheduleInfo).tap();
+
+    await $(_delete).tap(); // form's Delete button -> confirmation dialog
+    await $(AlertDialog).$(_delete).tap(); // confirm in the dialog
+
+    await $(_emptyState).waitUntilVisible();
+    expect($('To Delete'), findsNothing);
+    expect($(_emptyState), findsOneWidget);
+  });
+
   patrolTest('shows empty state when there are no schedules', ($) async {
     await _launchApp($);
     await _openSchedules($);
@@ -90,22 +106,6 @@ void main() {
     await $('New Name').waitUntilVisible();
     expect($('New Name'), findsOneWidget);
     expect($('Old Name'), findsNothing);
-  });
-
-  patrolTest('deletes a schedule with confirmation', ($) async {
-    await _launchApp($);
-    await _openSchedules($);
-    await _createIntervalSchedule($, name: 'To Delete');
-
-    await $(ListTile).containing('To Delete').tap();
-    await $(_editScheduleInfo).tap();
-
-    await $(_delete).tap(); // form's Delete button -> confirmation dialog
-    await $(AlertDialog).$(_delete).tap(); // confirm in the dialog
-
-    await $(_emptyState).waitUntilVisible();
-    expect($('To Delete'), findsNothing);
-    expect($(_emptyState), findsOneWidget);
   });
 }
 
