@@ -94,8 +94,10 @@ class _NewItemPageState extends State<NewItemPage> {
           });
         },
         actions: [
-          M3EToggleButtonGroupAction(label: Text(localizations.medicationType)),
-          M3EToggleButtonGroupAction(label: Text(localizations.genericType)),
+          M3EToggleButtonGroupAction(
+              label: Text(localizations.medicationItemType)),
+          M3EToggleButtonGroupAction(
+              label: Text(localizations.genericItemType)),
         ],
       ),
     );

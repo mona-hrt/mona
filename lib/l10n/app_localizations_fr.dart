@@ -471,13 +471,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get genericItemsFilter => 'Matériel';
 
   @override
-  String get medicationType => 'Médicament';
+  String get medicationItemType => 'Médicament';
 
   @override
-  String get genericType => 'Matériel';
+  String get genericItemType => 'Matériel';
 
   @override
-  String get genericItemType => 'Type';
+  String get supplyType => 'Type';
 
   @override
   String syringe(num count) {

@@ -467,13 +467,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get genericItemsFilter => 'Consumables';
 
   @override
-  String get medicationType => 'Medication';
+  String get medicationItemType => 'Medication';
 
   @override
-  String get genericType => 'Consumable';
+  String get genericItemType => 'Consumable';
 
   @override
-  String get genericItemType => 'Type';
+  String get supplyType => 'Type';
 
   @override
   String syringe(num count) {

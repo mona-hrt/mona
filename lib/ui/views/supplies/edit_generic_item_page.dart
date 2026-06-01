@@ -106,12 +106,12 @@ class _EditItemPageState extends State<EditItemPage> {
         FormSpacer(),
         FormDropdownField<GenericSupplyType>(
           value: _genericSupplyType,
-          items: genericTypeDropdownMenuItems(localizations),
+          items: genericItemTypeDropdownMenuItems(localizations),
           onChanged: (value) {
             if (value == null) return;
             setState(() => _genericSupplyType = value);
           },
-          label: localizations.genericItemType,
+          label: localizations.supplyType,
         ),
         FormTextField(
           controller: _amountController,

@@ -885,23 +885,23 @@ abstract class AppLocalizations {
   /// **'Consumables'**
   String get genericItemsFilter;
 
-  /// No description provided for @medicationType.
+  /// No description provided for @medicationItemType.
   ///
   /// In en, this message translates to:
   /// **'Medication'**
-  String get medicationType;
-
-  /// No description provided for @genericType.
-  ///
-  /// In en, this message translates to:
-  /// **'Consumable'**
-  String get genericType;
+  String get medicationItemType;
 
   /// No description provided for @genericItemType.
   ///
   /// In en, this message translates to:
-  /// **'Type'**
+  /// **'Consumable'**
   String get genericItemType;
+
+  /// No description provided for @supplyType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get supplyType;
 
   /// No description provided for @syringe.
   ///
