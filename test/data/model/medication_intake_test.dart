@@ -17,7 +17,7 @@ void main() {
       expect(
         () => MedicationIntake(
           dose: Decimal.one,
-          takenDateTime: DateTime(2025, 9, 14, 12, 0), // local (non-UTC)
+          takenDateTime: DateTime(2025, 9, 14, 12, 0),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
