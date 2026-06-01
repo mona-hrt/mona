@@ -55,6 +55,4 @@ RUN dnf in cmake clang ninja gtk3-devel glib2-devel --assumeyes
 
 # Finalise.
 COPY --from=fvm /out/fvm /usr/bin/fvm
-# Put the Patrol E2E toolchain on PATH for every shell (login/non-login) 
-ENV PATH="/home/vscode/fvm/default/bin:/home/vscode/.pub-cache/bin:${ANDROID_HOME}/platform-tools:${PATH}"
 USER vscode
