@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:clock/clock.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
+
+import '../util/test_clock.dart';
 
 class FakeFlutterLocalNotificationsPlugin
     implements FlutterLocalNotificationsPlugin {
@@ -199,20 +202,22 @@ void main() {
   });
 
   test('triggerPastPendingNotifications shows past notifications', () async {
-    final payload = jsonEncode({
-      'scheduledTime':
-          DateTime.now().subtract(Duration(days: 1)).toIso8601String()
-    });
-    fakePlugin.scheduled.add({
-      'id': 1,
-      'title': 'Past',
-      'body': 'B',
-      'date': DateTime.now(),
-      'payload': payload
-    });
+    await withFixedClockAsync(() async {
+      final payload = jsonEncode({
+        'scheduledTime':
+            clock.now().subtract(Duration(days: 1)).toIso8601String()
+      });
+      fakePlugin.scheduled.add({
+        'id': 1,
+        'title': 'Past',
+        'body': 'B',
+        'date': clock.now(),
+        'payload': payload
+      });
 
-    await service.triggerPastPendingNotifications();
-    expect(fakePlugin.shown.length, 1);
-    expect(fakePlugin.shown.first['title'], 'Past');
+      await service.triggerPastPendingNotifications();
+      expect(fakePlugin.shown.length, 1);
+      expect(fakePlugin.shown.first['title'], 'Past');
+    });
   });
 }
