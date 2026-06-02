@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -22,7 +23,7 @@ class Date {
 
   Date.fromDateTime(DateTime input) : value = _logicalDay(input);
 
-  Date.today() : value = _logicalDay(DateTime.now());
+  Date.today() : value = _logicalDay(clock.now());
 
   Date.fromString(String input) : value = DateTime.parse(input) {
     if (!_isUtcMidnight(value)) {

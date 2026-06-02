@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.10.0/mona-1.10.0.ipa",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.10.1/mona-1.10.1.ipa",
       "size": 10700000,
-      "version": "1.10.0",
-      "versionDate": "2026-05-29T00:00:00Z",
-      "versionDescription": "- Added Russian translation. Привет to our new Russian-speaking users!\n- Removed unused internet permission. Your data stays on your device, as it should.\n- Fixed missing title on the 'no intakes today' message.",
+      "version": "1.10.1",
+      "versionDate": "2026-05-30T00:00:00Z",
+      "versionDescription": "Fix: Add back multiple notifications for interval schedules",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.10.1/mona-1.10.1.ipa",
+          "size": 10700000,
+          "version": "1.10.1",
+          "buildVersion": "10",
+          "date": "2026-05-30T00:00:00Z",
+          "localizedDescription": "Fix: Add back multiple notifications for interval schedules",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.10.0/mona-1.10.0.ipa",
           "size": 10700000,
