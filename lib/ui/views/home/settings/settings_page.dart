@@ -196,6 +196,7 @@ class _SettingsPageState extends State<SettingsPage>
             ),
           ),
           ListTile(
+            key: const ValueKey('settingsSchedulesTile'),
             title: Text(localizations.schedules),
             subtitle: Text(medicationScheduleProvider.schedules.isEmpty
                 ? localizations.noSchedules
