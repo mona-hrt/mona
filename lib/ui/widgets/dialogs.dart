@@ -24,6 +24,7 @@ class Dialogs {
               child: Text(cancel ?? l10n.cancel),
             ),
             TextButton(
+              key: const ValueKey('confirmDeleteConfirmButton'),
               onPressed: () => Navigator.of(context).pop(true),
               child: Text(confirm ?? l10n.delete,
                   style: TextStyle(color: Theme.of(context).colorScheme.error)),
