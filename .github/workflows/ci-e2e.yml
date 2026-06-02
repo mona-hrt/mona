@@ -54,7 +54,7 @@ jobs:
       # Build the app + instrumentation APKs outside the emulator.
       - name: Build Patrol APKs
         timeout-minutes: 25
-        run: dart run patrol_cli:main build android --flavor standalone --verbose
+        run: dart run patrol_cli:main build android --flavor standalone
 
       - name: Enable KVM
         run: |
