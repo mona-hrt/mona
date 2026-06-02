@@ -9,11 +9,6 @@
 // data between Dart tests, so each test starts from an empty database and must
 // seed its own preconditions. Recording an intake requires at least one
 // schedule to exist, so the tests create one via Settings -> Schedules first.
-//
-// Finder strategy: the intakes UI defines no widget Keys, so we target fields
-// by their decoration label (`$(TextField).containing('Notes')`) rather than by
-// index — pushed routes stay mounted underneath, so index-based TextField
-// finders would be ambiguous across the navigation stack.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,18 +17,25 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/main.dart' as app;
 import 'package:patrol/patrol.dart';
 
-// English l10n strings exercised by these tests (see lib/l10n/app_en.arb).
-const _navIntakes = 'Intakes';
+// Widget Keys on intake interaction targets (must match the ValueKeys set in
+// the production widgets: main_tabs.dart, model_form.dart, form_text_field.dart,
+// dialogs.dart).
+const _navTabIntakes = ValueKey('navTabIntakes');
+const _takeIntakeSubmit = ValueKey('takeIntakeSubmit');
+const _editIntakeSave = ValueKey('editIntakeSave');
+const _editIntakeDelete = ValueKey('editIntakeDelete');
+const _editIntakeNotes = ValueKey('editIntakeNotes');
+const _confirmDelete = ValueKey('confirmDeleteConfirmButton');
+
+// User-visible strings asserted by these tests (see lib/l10n/app_en.arb).
 const _emptyIntakes = 'Taken intakes will appear here';
+const _addSchedulesFirst = 'Add schedules first.';
 const _editIntake = 'Edit intake';
-const _takeIntake = 'Take intake';
-const _notesLabel = 'Notes';
-const _amountLabel = 'Amount';
-const _delete = 'Delete';
 
 // Strings reused from the schedules flow to seed a schedule precondition.
 const _schedulesTile = 'Schedules';
 const _nameLabel = 'Name';
+const _amountLabel = 'Amount';
 const _moleculeEstradiol = 'Estradiol';
 const _routeOral = 'Oral';
 const _next = 'Next';
@@ -48,6 +50,17 @@ void main() {
 
     await $(_emptyIntakes).waitUntilVisible();
     expect($(_emptyIntakes), findsOneWidget);
+  });
+
+  patrolTest('prompts to add a schedule when none exist', ($) async {
+    // With no schedules, the record-intake entry view (ChooseSchedulePage)
+    // shows a prompt instead of a selectable schedule list.
+    await _launchApp($);
+    await _openIntakes($);
+
+    await $(Icons.add).tap(); // FAB: "Take an intake" -> ChooseSchedulePage
+    await $(_addSchedulesFirst).waitUntilVisible();
+    expect($(_addSchedulesFirst), findsOneWidget);
   });
 
   patrolTest('records an intake from the intakes tab', ($) async {
@@ -74,8 +87,8 @@ void main() {
     // Open the recorded intake and add a note.
     await $(ListTile).tap(); // -> EditIntakePage
     await $(_editIntake).waitUntilVisible();
-    await $(TextField).containing(_notesLabel).enterText('Felt fine');
-    await $(_save).tap(); // pops back to the intakes list
+    await $(_editIntakeNotes).enterText('Felt fine');
+    await $(_editIntakeSave).tap(); // pops back to the intakes list
 
     // Reopen the intake; the note must have persisted.
     await $(ListTile).waitUntilVisible();
@@ -94,8 +107,8 @@ void main() {
     await $(ListTile).tap(); // -> EditIntakePage
     await $(_editIntake).waitUntilVisible();
 
-    await $(_delete).tap(); // form's Delete button -> confirmation dialog
-    await $(AlertDialog).$(_delete).tap(); // confirm in the dialog
+    await $(_editIntakeDelete).tap(); // form's Delete button -> confirmation dialog
+    await $(_confirmDelete).tap(); // confirm in the dialog
 
     await $(_emptyIntakes).waitUntilVisible();
     expect($(_emptyIntakes), findsOneWidget);
@@ -114,7 +127,7 @@ Future<void> _launchApp(PatrolIntegrationTester $) async {
 
 /// Switches from the Home tab to the Intakes tab via the bottom navigation bar.
 Future<void> _openIntakes(PatrolIntegrationTester $) async {
-  await $(_navIntakes).tap(); // NavigationDestination label
+  await $(_navTabIntakes).tap(); // keyed NavigationDestination
 }
 
 /// Seeds a minimal interval schedule (Estradiol + Oral) so an intake can be
@@ -156,7 +169,7 @@ Future<void> _recordIntake(
   required String scheduleName,
 }) async {
   await $(Icons.add).tap(); // FAB: "Take an intake" -> ChooseSchedulePage
-  await $(scheduleName).tap(); // pick the schedule -> TakeMedicationPage
-  await $(_takeIntake).tap(); // submit, pops back to the intakes list
+  await $(scheduleName).tap(); // pick the schedule (data, not localized)
+  await $(_takeIntakeSubmit).tap(); // submit, pops back to the intakes list
 }
 
