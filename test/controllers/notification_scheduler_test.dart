@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -19,6 +20,8 @@ import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+import '../util/test_clock.dart';
 
 @GenerateNiceMocks([
   MockSpec<OccurrencesManager>(),
@@ -125,49 +128,53 @@ void main() {
 
   group('pending notifications', () {
     test('regenerateAll triggers past pending notifications', () async {
-      final pending = PendingNotificationRequest(
-        1,
-        'title',
-        'body',
-        '{"scheduledTime":"${DateTime.now().subtract(const Duration(days: 1)).toIso8601String()}"}',
-      );
-      when(plugin.pendingNotificationRequests())
-          .thenAnswer((_) async => [pending]);
-      when(plugin.show(
-        id: anyNamed('id'),
-        title: anyNamed('title'),
-        body: anyNamed('body'),
-        notificationDetails: anyNamed('notificationDetails'),
-        payload: anyNamed('payload'),
-      )).thenAnswer((_) async {});
-      final sut = NotificationScheduler(occurrences, preferences);
+      await withFixedClockAsync(() async {
+        final pending = PendingNotificationRequest(
+          1,
+          'title',
+          'body',
+          '{"scheduledTime":"${clock.now().subtract(const Duration(days: 1)).toIso8601String()}"}',
+        );
+        when(plugin.pendingNotificationRequests())
+            .thenAnswer((_) async => [pending]);
+        when(plugin.show(
+          id: anyNamed('id'),
+          title: anyNamed('title'),
+          body: anyNamed('body'),
+          notificationDetails: anyNamed('notificationDetails'),
+          payload: anyNamed('payload'),
+        )).thenAnswer((_) async {});
+        final sut = NotificationScheduler(occurrences, preferences);
 
-      await sut.regenerateAll(l10n, 'en');
+        await sut.regenerateAll(l10n, 'en');
 
-      verify(plugin.show(
-        id: anyNamed('id'),
-        title: argThat(equals('title'), named: 'title'),
-        body: argThat(equals('body'), named: 'body'),
-        notificationDetails: anyNamed('notificationDetails'),
-        payload: anyNamed('payload'),
-      )).called(1);
+        verify(plugin.show(
+          id: anyNamed('id'),
+          title: argThat(equals('title'), named: 'title'),
+          body: argThat(equals('body'), named: 'body'),
+          notificationDetails: anyNamed('notificationDetails'),
+          payload: anyNamed('payload'),
+        )).called(1);
+      });
     });
 
     test('regenerateAll cancels pending notifications', () async {
-      final pending = PendingNotificationRequest(
-        1,
-        'title',
-        'body',
-        '{"scheduledTime":"${DateTime.now().add(const Duration(days: 1)).toIso8601String()}"}',
-      );
-      when(plugin.pendingNotificationRequests())
-          .thenAnswer((_) async => [pending]);
-      when(plugin.cancel(id: anyNamed('id'))).thenAnswer((_) async {});
-      final sut = NotificationScheduler(occurrences, preferences);
+      await withFixedClockAsync(() async {
+        final pending = PendingNotificationRequest(
+          1,
+          'title',
+          'body',
+          '{"scheduledTime":"${clock.now().add(const Duration(days: 1)).toIso8601String()}"}',
+        );
+        when(plugin.pendingNotificationRequests())
+            .thenAnswer((_) async => [pending]);
+        when(plugin.cancel(id: anyNamed('id'))).thenAnswer((_) async {});
+        final sut = NotificationScheduler(occurrences, preferences);
 
-      await sut.regenerateAll(l10n, l10n.localeName);
+        await sut.regenerateAll(l10n, l10n.localeName);
 
-      verify(plugin.cancel(id: anyNamed('id'))).called(1);
+        verify(plugin.cancel(id: anyNamed('id'))).called(1);
+      });
     });
   });
 
@@ -307,22 +314,24 @@ void main() {
     });
 
     test('skips occurrences whose dateTime is in the past', () async {
-      final s = schedule();
-      final now = DateTime.now();
-      final pastTime =
-          TimeOfDay.fromDateTime(now.subtract(const Duration(hours: 1)));
-      final futureTime =
-          TimeOfDay.fromDateTime(now.add(const Duration(hours: 1)));
+      await withFixedClockAsync(() async {
+        final s = schedule();
+        final now = clock.now();
+        final pastTime =
+            TimeOfDay.fromDateTime(now.subtract(const Duration(hours: 1)));
+        final futureTime =
+            TimeOfDay.fromDateTime(now.add(const Duration(hours: 1)));
 
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(schedule: s, date: Date.today(), time: pastTime),
-        occurrence(schedule: s, date: Date.today(), time: futureTime),
-      ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+        when(occurrences.upcoming(days: 5)).thenReturn([
+          occurrence(schedule: s, date: Date.today(), time: pastTime),
+          occurrence(schedule: s, date: Date.today(), time: futureTime),
+        ]);
+        final sut = NotificationScheduler(occurrences, preferences);
 
-      await sut.regenerateAll(l10n, l10n.localeName);
+        await sut.regenerateAll(l10n, l10n.localeName);
 
-      verifyScheduled().called(1);
+        verifyScheduled().called(1);
+      });
     });
 
     test('titles notifications with the schedule name', () async {
