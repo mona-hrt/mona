@@ -1,4 +1,4 @@
-name: CI - E2E/Patrol Android
+name: CI - E2E
 
 # Patrol drives the real app on an Android emulator. Patrol has no Linux-desktop
 # support, so these tests cannot run on a plain runner — they need the
