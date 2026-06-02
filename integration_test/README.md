@@ -82,12 +82,30 @@ the `.dev` id to match, so Patrol only ever manages the test build.
 
 ## Writing tests - notes for this app
 
-The schedules UI defines **no widget `Key`s**, so tests target widgets by their
-visible (English) label, e.g. `$(TextField).containing('Name')`. This is
-deliberate: when a route is pushed the previous route stays mounted, so
-index-based `TextField` finders are ambiguous across the navigation stack -
-prefer label-scoped finders. If the UI strings change, update the `const`
-labels at the top of the test file.
+### Finder strategy (hybrid)
+
+Drive **interactions** (taps, text entry) through stable widget `Key`s set in
+the production code, and keep **assertions** matching on user-visible text.
+
+- **Interaction targets : Keys.** Targeting a button or input by its visible
+  label couples the test to (a) the English copy and (b) the device locale, and
+  can be ambiguous when a pushed route leaves the previous one mounted
+  underneath. A `ValueKey` on the production widget avoids all three. Declare
+  the keys as `const ValueKey(...)` at the top of the test file, matching the
+  ones set in `lib/ui/...`. For widgets reused across routes (e.g. a form's
+  submit button), pass a **page-specific** key rather than one shared key -
+  pushed routes stay mounted, so a single key would be ambiguous across the
+  navigation stack.
+- **Assertions : visible text.** When the displayed copy *is* the behaviour
+  under test (empty states, dialog titles, persisted values), assert on the
+  text directly (`$('Taken intakes will appear here')`). A key there would
+  weaken the assertion.
+- **Stable non-text finders are fine as-is** Icons (`$(Icons.add)`), widget
+  types (`$(ListTile)`), and user data that isn't localized (a schedule's name).
+
+When adding keys, prefer threading an optional key param through the shared
+widgets (`ModelForm`, `FormTextField`, `Dialogs`, `MainTabConfig`) so other
+features can reuse them; the params are optional and backward-compatible.
 
 ## iOS (follow-up - not yet wired)
 
