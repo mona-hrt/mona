@@ -107,7 +107,8 @@ void main() {
     await $(ListTile).tap(); // -> EditIntakePage
     await $(_editIntake).waitUntilVisible();
 
-    await $(_editIntakeDelete).tap(); // form's Delete button -> confirmation dialog
+    await $(_editIntakeDelete)
+        .tap(); // form's Delete button -> confirmation dialog
     await $(_confirmDelete).tap(); // confirm in the dialog
 
     await $(_emptyIntakes).waitUntilVisible();
@@ -146,7 +147,9 @@ Future<void> _seedSchedule(
   await $(_moleculeEstradiol).tap();
   await $(DropdownButtonFormField<AdministrationRoute>).tap();
   await $(_routeOral).tap();
-  await $(TextField).containing(_amountLabel).enterText('2'); // sets schedule dose
+  await $(TextField)
+      .containing(_amountLabel)
+      .enterText('2'); // sets schedule dose
   await $(_next).tap();
 
   await $(_intervalToggle).tap();
@@ -172,4 +175,3 @@ Future<void> _recordIntake(
   await $(scheduleName).tap(); // pick the schedule (data, not localized)
   await $(_takeIntakeSubmit).tap(); // submit, pops back to the intakes list
 }
-
