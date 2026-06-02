@@ -21,6 +21,7 @@
         },
         "ghcr.io/devcontainers/features/git:1": {}
     },
+    "runArgs": ["--add-host=host.docker.internal:host-gateway"],
     "onCreateCommand": {
         "take ownership of android sdk": "sudo chown vscode:vscode /opt -Rc",
         "install flutter and dependencies": "fvm install && fvm flutter pub get",
@@ -32,6 +33,9 @@
         "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
         "XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}",
         "DBUS_SYSTEM_BUS_ADDRESS": "unix:path=/var/run/dbus/system_bus_socket"
+    },
+    "remoteEnv": {
+        "PATH": "${containerEnv:HOME}/fvm/default/bin:${containerEnv:HOME}/.pub-cache/bin:${containerEnv:ANDROID_HOME}/platform-tools:${containerEnv:PATH}"
     },
     "mounts": [
         "source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached",

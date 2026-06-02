@@ -55,3 +55,5 @@ coverage/
 
 # Nix/direnv
 .direnv/
+# Patrol E2E: generated test bundle (regenerated on every `patrol test`/`build`)
+integration_test/test_bundle.dart
