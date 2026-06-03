@@ -570,7 +570,7 @@ abstract class AppLocalizations {
   /// No description provided for @addIntakeTime.
   ///
   /// In en, this message translates to:
-  /// **'Add time'**
+  /// **'Add a time'**
   String get addIntakeTime;
 
   /// No description provided for @editScheduleInfo.

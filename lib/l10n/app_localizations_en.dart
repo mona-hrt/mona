@@ -282,7 +282,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pickATime => 'Pick a time';
 
   @override
-  String get addIntakeTime => 'Add time';
+  String get addIntakeTime => 'Add a time';
 
   @override
   String get editScheduleInfo => 'Edit schedule info';

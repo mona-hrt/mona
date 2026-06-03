@@ -28,7 +28,7 @@ const _next = 'Next';
 const _save = 'Save';
 const _intervalToggle = 'Interval';
 const _everyLabel = 'Every';
-const _addNotification = 'Add a notification';
+const _addNotification = 'Add a time';
 const _editScheduleInfo = 'Edit schedule info';
 const _delete = 'Delete';
 
