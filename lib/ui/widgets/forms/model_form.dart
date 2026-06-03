@@ -68,7 +68,7 @@ class ModelForm extends StatelessWidget {
             top: borderPadding,
             left: borderPadding,
             right: borderPadding,
-            bottom: borderPadding,
+            bottom: borderPadding + MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Row(
             children: [

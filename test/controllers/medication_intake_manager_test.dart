@@ -673,6 +673,7 @@ GenericSupply _buildGenericSupply({
     id: id,
     name: name,
     amount: amount,
+    genericSupplyType: GenericSupplyType.syringe,
   );
 }
 

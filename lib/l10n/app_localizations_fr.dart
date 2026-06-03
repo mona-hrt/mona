@@ -462,6 +462,79 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get allItemsFilter => 'Tout';
+
+  @override
+  String get medicationItemsFilter => 'Médicaments';
+
+  @override
+  String get genericItemsFilter => 'Matériel';
+
+  @override
+  String get medicationItemType => 'Médicament';
+
+  @override
+  String get genericItemType => 'Matériel';
+
+  @override
+  String get supplyType => 'Type';
+
+  @override
+  String syringe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Seringues',
+      one: 'Seringue',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Lingettes',
+      one: 'Lingette',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Aiguilles',
+      one: 'Aiguille',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gloves(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Gants',
+      one: 'Gants',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandage(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pansements',
+      one: 'Pansement',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get add => 'Ajouter';
 
   @override

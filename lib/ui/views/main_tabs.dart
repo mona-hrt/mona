@@ -66,7 +66,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
     ),
     MainTabConfig(
       title: localizations.nav_supplies,
-      page: PharmacyPage(),
+      page: const PharmacyPage(),
       icon: Icons.medication_outlined,
       selectedIcon: Icons.medication,
       buildFab: (context) => FloatingActionButton(

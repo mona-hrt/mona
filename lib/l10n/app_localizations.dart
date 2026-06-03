@@ -570,7 +570,7 @@ abstract class AppLocalizations {
   /// No description provided for @addIntakeTime.
   ///
   /// In en, this message translates to:
-  /// **'Add time'**
+  /// **'Add a time'**
   String get addIntakeTime;
 
   /// No description provided for @editScheduleInfo.
@@ -866,6 +866,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} {unit} remaining'**
   String remaining(num amount, Object unit);
+
+  /// No description provided for @allItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allItemsFilter;
+
+  /// No description provided for @medicationItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication'**
+  String get medicationItemsFilter;
+
+  /// No description provided for @genericItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumables'**
+  String get genericItemsFilter;
+
+  /// No description provided for @medicationItemType.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication'**
+  String get medicationItemType;
+
+  /// No description provided for @genericItemType.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumable'**
+  String get genericItemType;
+
+  /// No description provided for @supplyType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get supplyType;
+
+  /// No description provided for @syringe.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Syringe} other{Syringes}}'**
+  String syringe(num count);
+
+  /// No description provided for @wipe.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Wipe} other{Wipes}}'**
+  String wipe(num count);
+
+  /// No description provided for @needle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Needle} other{Needles}}'**
+  String needle(num count);
+
+  /// No description provided for @gloves.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Gloves} other{Gloves}}'**
+  String gloves(num count);
+
+  /// No description provided for @bandage.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Bandage} other{Bandages}}'**
+  String bandage(num count);
 
   /// No description provided for @add.
   ///

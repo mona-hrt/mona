@@ -1,4 +1,5 @@
 import 'package:clock/clock.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 bool _isUtcMidnight(DateTime dt) =>
@@ -8,6 +9,8 @@ bool _isUtcMidnight(DateTime dt) =>
     dt.second == 0 &&
     dt.millisecond == 0 &&
     dt.microsecond == 0;
+
+int logicalDayStartHour = 4;
 
 class Date {
   final DateTime value;
@@ -60,6 +63,14 @@ class Date {
 
   DateTime toDateTime() => DateTime(year, month, day);
 
+  DateTime toDateTimeAt(TimeOfDay time) {
+    Duration dayDifference = (time.hour < logicalDayStartHour)
+        ? const Duration(days: 1)
+        : Duration.zero;
+    return DateTime(year, month, day, time.hour, time.minute)
+        .add(dayDifference);
+  }
+
   String format(DateFormat formatter) => formatter.format(value);
 
   @override
@@ -79,7 +90,7 @@ class Date {
 
   // Applies the 4am rule: times before 4am belong to the previous day.
   static DateTime _logicalDay(DateTime input) {
-    final dayDifference = input.hour < 4 ? 1 : 0;
+    final dayDifference = input.hour < logicalDayStartHour ? 1 : 0;
     return DateTime.utc(input.year, input.month, input.day - dayDifference);
   }
   // coverage:ignore-end

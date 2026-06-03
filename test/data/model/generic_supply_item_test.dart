@@ -10,6 +10,7 @@ GenericSupply makeGeneric({
     id: id,
     name: name,
     amount: amount,
+    genericSupplyType: GenericSupplyType.syringe,
   );
 }
 
@@ -25,7 +26,7 @@ void main() {
         );
 
         // Act
-        final result = GenericSupply.fromMap(original.toMap());
+        final result = GenericSupplyMapper.fromMap(original.toMap());
 
         // Assert
         expect(
