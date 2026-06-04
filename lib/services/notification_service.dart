@@ -10,18 +10,26 @@ import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
+  static NotificationService? _instance;
+
+  factory NotificationService({FlutterLocalNotificationsPlugin? plugin}) {
+    if (plugin != null) {
+      return NotificationService._internal(plugin: plugin);
+    }
+    return _instance ??= NotificationService._internal();
+  }
+
   static FlutterLocalNotificationsPlugin Function()? createPlugin =
       () => FlutterLocalNotificationsPlugin();
 
   static bool Function()? isPlatformSupported =
       () => Platform.isAndroid || Platform.isIOS;
 
-  late final FlutterLocalNotificationsPlugin _notificationsPlugin;
+  final FlutterLocalNotificationsPlugin _notificationsPlugin;
 
-  NotificationService({FlutterLocalNotificationsPlugin? plugin}) {
-    _notificationsPlugin =
-        plugin ?? (createPlugin?.call() ?? FlutterLocalNotificationsPlugin());
-  }
+  NotificationService._internal({FlutterLocalNotificationsPlugin? plugin})
+      : _notificationsPlugin = plugin ??
+            (createPlugin?.call() ?? FlutterLocalNotificationsPlugin());
 
   bool _initialized = false;
 
@@ -238,11 +246,15 @@ class NotificationService {
         await _notificationsPlugin.pendingNotificationRequests();
 
     return pendingNotifications.where((notification) {
-      final payload = jsonDecode(notification.payload ?? '{}');
-      final scheduledTime =
-          (payload['scheduledTime'] as String).toDateTimeOrNull;
-      if (scheduledTime == null) return false;
-      return scheduledTime.isBefore(clock.now());
+      try {
+        final payload = jsonDecode(notification.payload ?? '{}');
+        final scheduledTime =
+            (payload['scheduledTime'] as String?)?.toDateTimeOrNull;
+        if (scheduledTime == null) return false;
+        return scheduledTime.isBefore(clock.now());
+      } catch (_) {
+        return false;
+      }
     }).toList();
   }
 
