@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:intl/intl.dart';
 import 'package:mona/controllers/occurrences_manager.dart';
 import 'package:mona/data/model/medication_schedule.dart';
@@ -18,7 +19,7 @@ class NotificationScheduler {
   NotificationScheduler(this.occurencesManager, this.preferencesService);
 
   List<_ScheduledNotification> _getScheduledNotifications() {
-    final now = DateTime.now();
+    final now = clock.now();
 
     return occurencesManager
         .upcoming(days: _numberOfDays)

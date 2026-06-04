@@ -25,11 +25,8 @@ class ScheduledOccurrence {
     this.intake,
   });
 
-  DateTime? get notificationDateTime {
-    final t = notificationTime;
-    if (t == null) return null;
-    return DateTime(date.year, date.month, date.day, t.hour, t.minute);
-  }
+  DateTime? get notificationDateTime =>
+      (notificationTime == null) ? null : date.toDateTimeAt(notificationTime!);
 }
 
 class Occurrences extends DelegatingList<ScheduledOccurrence> {

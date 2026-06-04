@@ -86,15 +86,20 @@ class IntervalDaysScheduleMapper
     'intervalDays',
     _$intervalDays,
   );
-  static TimeOfDay? _$notificationTime(IntervalDaysSchedule v) =>
-      v.notificationTime;
-  static const Field<IntervalDaysSchedule, TimeOfDay> _f$notificationTime =
-      Field('notificationTime', _$notificationTime, opt: true);
+  static List<TimeOfDay> _$notificationTimes(IntervalDaysSchedule v) =>
+      v.notificationTimes;
+  static const Field<IntervalDaysSchedule, List<TimeOfDay>>
+      _f$notificationTimes = Field(
+    'notificationTimes',
+    _$notificationTimes,
+    opt: true,
+    def: const [],
+  );
 
   @override
   final MappableFields<IntervalDaysSchedule> fields = const {
     #intervalDays: _f$intervalDays,
-    #notificationTime: _f$notificationTime,
+    #notificationTimes: _f$notificationTimes,
   };
 
   @override
@@ -108,7 +113,7 @@ class IntervalDaysScheduleMapper
   static IntervalDaysSchedule _instantiate(DecodingData data) {
     return IntervalDaysSchedule(
       intervalDays: data.dec(_f$intervalDays),
-      notificationTime: data.dec(_f$notificationTime),
+      notificationTimes: data.dec(_f$notificationTimes),
     );
   }
 
@@ -174,8 +179,10 @@ abstract class IntervalDaysScheduleCopyWith<
     $R,
     $In extends IntervalDaysSchedule,
     $Out> implements SchedulingStrategyCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
+      get notificationTimes;
   @override
-  $R call({int? intervalDays, TimeOfDay? notificationTime});
+  $R call({int? intervalDays, List<TimeOfDay>? notificationTimes});
   IntervalDaysScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -190,17 +197,26 @@ class _IntervalDaysScheduleCopyWithImpl<$R, $Out>
   late final ClassMapperBase<IntervalDaysSchedule> $mapper =
       IntervalDaysScheduleMapper.ensureInitialized();
   @override
-  $R call({int? intervalDays, Object? notificationTime = $none}) => $apply(
+  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
+      get notificationTimes => ListCopyWith(
+            $value.notificationTimes,
+            (v, t) => ObjectCopyWith(v, $identity, t),
+            (v) => call(notificationTimes: v),
+          );
+  @override
+  $R call({int? intervalDays, List<TimeOfDay>? notificationTimes}) => $apply(
         FieldCopyWithData({
           if (intervalDays != null) #intervalDays: intervalDays,
-          if (notificationTime != $none) #notificationTime: notificationTime,
+          if (notificationTimes != null) #notificationTimes: notificationTimes,
         }),
       );
   @override
   IntervalDaysSchedule $make(CopyWithData data) => IntervalDaysSchedule(
         intervalDays: data.get(#intervalDays, or: $value.intervalDays),
-        notificationTime:
-            data.get(#notificationTime, or: $value.notificationTime),
+        notificationTimes: data.get(
+          #notificationTimes,
+          or: $value.notificationTimes,
+        ),
       );
 
   @override

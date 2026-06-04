@@ -119,6 +119,7 @@ class _EditItemPageState extends State<EditItemPage> {
     final concentration = _concentrationController.text.toDecimal;
     final totalDose = concentration * _totalAmountController.text.toDecimal;
     final usedDose = concentration * _usedAmountController.text.toDecimal;
+    final ester = _useEsterField ? _ester : null;
 
     final updatedItem = widget.item.copyWith(
       name: _nameController.text,
@@ -127,8 +128,7 @@ class _EditItemPageState extends State<EditItemPage> {
       usedDose: usedDose,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
-      ester: _ester,
-      clearEster: !_useEsterField,
+      ester: ester,
     );
     _supplyItemProvider.updateItem(updatedItem);
 
@@ -185,7 +185,7 @@ class _EditItemPageState extends State<EditItemPage> {
 
     return ModelForm(
       title: localizations.editItem,
-      avatar: widget.item.administrationRoute.icon,
+      avatar: _administrationRoute.icon,
       submitButtonLabel: localizations.save,
       isFormValid: _isFormValid,
       saveChanges: _saveChanges,

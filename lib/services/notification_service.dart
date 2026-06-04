@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -241,7 +242,7 @@ class NotificationService {
       final scheduledTime =
           (payload['scheduledTime'] as String).toDateTimeOrNull;
       if (scheduledTime == null) return false;
-      return scheduledTime.isBefore(DateTime.now());
+      return scheduledTime.isBefore(clock.now());
     }).toList();
   }
 

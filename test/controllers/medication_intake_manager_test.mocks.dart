@@ -324,6 +324,27 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as List<_i10.MedicationSupplyItem>);
 
   @override
+  List<_i9.SupplyItem> get allItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#allItemsOrderedByName),
+        returnValue: <_i9.SupplyItem>[],
+        returnValueForMissingStub: <_i9.SupplyItem>[],
+      ) as List<_i9.SupplyItem>);
+
+  @override
+  List<_i9.SupplyItem> get medicationItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#medicationItemsOrderedByName),
+        returnValue: <_i9.SupplyItem>[],
+        returnValueForMissingStub: <_i9.SupplyItem>[],
+      ) as List<_i9.SupplyItem>);
+
+  @override
+  List<_i9.SupplyItem> get genericItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#genericItemsOrderedByName),
+        returnValue: <_i9.SupplyItem>[],
+        returnValueForMissingStub: <_i9.SupplyItem>[],
+      ) as List<_i9.SupplyItem>);
+
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,

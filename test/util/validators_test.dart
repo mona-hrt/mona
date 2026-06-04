@@ -32,7 +32,7 @@ void main() {
       // Arrange
       final cases = [
         {'value': null, 'expected': isNotNull},
-        {'value': DateTime.now(), 'expected': isNull},
+        {'value': DateTime(2026, 6, 1, 12, 0), 'expected': isNull},
       ];
 
       // Act

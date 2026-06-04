@@ -64,6 +64,31 @@ void main() {
       );
     });
 
+    test('can insert and query generic supply_items', () async {
+      // Act
+      final id = await db.insert('supply_items', {
+        'type': 'generic',
+        'name': 'Test generic Item',
+        'amount': 5,
+        'genericSupplyType': 'syringe',
+      });
+
+      final item = await db.query(
+        'supply_items',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      // Assert
+      expect(
+          item.single,
+          allOf(
+            containsPair('name', 'Test generic Item'),
+            containsPair('amount', 5),
+            containsPair('genericSupplyType', 'syringe'),
+          ));
+    });
+
     test('can insert and query medication_intakes', () async {
       final supplyItemId = await db.insert('supply_items', {
         'type': 'medication',
@@ -168,7 +193,7 @@ void main() {
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
         'schedulingStrategy':
-            '{"type":"intervalDays","intervalDays":1,"notificationTime":"8:30"}',
+            '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
       });
 
       final schedule = await db.query(
@@ -184,7 +209,7 @@ void main() {
         ],
         [
           'Morning Med',
-          '{"type":"intervalDays","intervalDays":1,"notificationTime":"8:30"}',
+          '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
         ],
       );
     });

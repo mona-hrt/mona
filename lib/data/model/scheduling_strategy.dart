@@ -32,11 +32,11 @@ sealed class SchedulingStrategy with SchedulingStrategyMappable {
 class IntervalDaysSchedule extends SchedulingStrategy
     with IntervalDaysScheduleMappable {
   final int intervalDays;
-  final TimeOfDay? notificationTime;
+  final List<TimeOfDay> notificationTimes;
 
   const IntervalDaysSchedule({
     required this.intervalDays,
-    this.notificationTime,
+    this.notificationTimes = const [],
   });
 
   /// Returns the next scheduled injection date relative to today.
