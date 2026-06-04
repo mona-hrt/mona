@@ -329,7 +329,7 @@ class _EditScheduleSchedulingPageState
   }
 
   Widget _dayPicker() {
-    final weekdays = [1, 2, 3, 4, 5, 6, 7]; // 1=Mon, 7=Sun
+    final weekdays = [1, 2, 3, 4, 5, 6, 7];
 
     return Center(
       child: Column(

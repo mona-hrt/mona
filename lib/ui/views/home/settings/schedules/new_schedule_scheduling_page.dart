@@ -326,8 +326,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(context.l10n.days,
-              style: Theme.of(context).textTheme.labelLarge),
           if (_weeklyDaysError != null)
             Text(_weeklyDaysError!,
                 textAlign: TextAlign.center,
