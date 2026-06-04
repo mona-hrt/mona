@@ -100,8 +100,10 @@ void main() {
     await $(TextField).containing(_nameLabel).enterText('New Name');
     await $(_save).tap(); // pops back to EditSchedulePage
 
-    await $.tester.pageBack(); // back to the schedules list
-    await $.pumpAndSettle();
+    // Wait for the change to be reflected in the EditSchedulePage title before
+    // navigating back, ensuring the provider update has finished.
+    await $('New Name').waitUntilVisible();
+    await $(Icons.arrow_back).tap(); // back to the schedules list
 
     await $('New Name').waitUntilVisible();
     expect($('New Name'), findsOneWidget);
