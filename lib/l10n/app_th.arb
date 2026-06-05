@@ -116,7 +116,7 @@
   "deleteIntake": "ลบโดสยานี้?",
   "takeMedication": "ทาน {scheduleName}",
   "takeIntake": "ทานโดสยา",
-  "needleDeadSpace": "พื้นที่ว่างในเข็ม",
+  "needleDeadSpace": "ปริมาณเว้นเปล่าในเข็ม",
   "notes": "บันทึก",
   "microliters": "ไมโครลิตร",
   "empty_levels": "การฉีดเอสตราไดออลจะขึ้นในแท็บนี้",
