@@ -191,6 +191,45 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
     this.notify = true,
   });
 
+  /// Returns the next scheduled date relative to today, restricted to weekdays
+  /// in [daysOfWeek].
+  ///
+  /// - If [startDate] is in the future or today, search starts from
+  ///   [startDate] (the schedule has not begun before then).
+  /// - Otherwise, search starts from today.
+  ///
+  /// Assumes [daysOfWeek] is non-empty; otherwise returns the search-start
+  /// date unchanged after walking a full week.
+  Date nextDate(Date startDate) {
+    Date candidate = startDate.isAfterToday ? startDate : Date.today();
+    for (int i = 0; i < 7; i++) {
+      if (daysOfWeek.contains(candidate.weekday)) {
+        return candidate;
+      }
+      candidate = candidate.add(const Duration(days: 1));
+    }
+    return candidate;
+  }
+
+  /// Returns the most recent scheduled date strictly before today, restricted
+  /// to weekdays in [daysOfWeek] and never before [startDate].
+  ///
+  /// Returns null if [startDate] is today or in the future, or if no scheduled
+  /// weekday exists in the window `[startDate, today)`.
+  Date? previousDate(Date startDate) {
+    if (!startDate.isBeforeToday) {
+      return null;
+    }
+    Date candidate = Date.today().subtract(const Duration(days: 1));
+    for (int i = 0; i < 7; i++) {
+      if (daysOfWeek.contains(candidate.weekday)) {
+        return candidate.isBefore(startDate) ? null : candidate;
+      }
+      candidate = candidate.subtract(const Duration(days: 1));
+    }
+    return null;
+  }
+
   ScheduleStatus statusFor({
     required Date date,
     MedicationIntake? matchedIntake,
