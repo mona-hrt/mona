@@ -400,24 +400,15 @@ class WeeklyScheduleMapper extends SubClassMapperBase<WeeklySchedule> {
     'daysOfWeek',
     _$daysOfWeek,
   );
-  static List<TimeOfDay> _$intakeTimes(WeeklySchedule v) => v.intakeTimes;
-  static const Field<WeeklySchedule, List<TimeOfDay>> _f$intakeTimes = Field(
-    'intakeTimes',
-    _$intakeTimes,
-  );
-  static bool _$notify(WeeklySchedule v) => v.notify;
-  static const Field<WeeklySchedule, bool> _f$notify = Field(
-    'notify',
-    _$notify,
-    opt: true,
-    def: true,
-  );
+  static List<TimeOfDay> _$notificationTimes(WeeklySchedule v) =>
+      v.notificationTimes;
+  static const Field<WeeklySchedule, List<TimeOfDay>> _f$notificationTimes =
+      Field('notificationTimes', _$notificationTimes, opt: true, def: const []);
 
   @override
   final MappableFields<WeeklySchedule> fields = const {
     #daysOfWeek: _f$daysOfWeek,
-    #intakeTimes: _f$intakeTimes,
-    #notify: _f$notify,
+    #notificationTimes: _f$notificationTimes,
   };
 
   @override
@@ -431,8 +422,7 @@ class WeeklyScheduleMapper extends SubClassMapperBase<WeeklySchedule> {
   static WeeklySchedule _instantiate(DecodingData data) {
     return WeeklySchedule(
       daysOfWeek: data.dec(_f$daysOfWeek),
-      intakeTimes: data.dec(_f$intakeTimes),
-      notify: data.dec(_f$notify),
+      notificationTimes: data.dec(_f$notificationTimes),
     );
   }
 
@@ -501,9 +491,9 @@ abstract class WeeklyScheduleCopyWith<$R, $In extends WeeklySchedule, $Out>
     implements SchedulingStrategyCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, int, ObjectCopyWith<$R, int, int>> get daysOfWeek;
   ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
-      get intakeTimes;
+      get notificationTimes;
   @override
-  $R call({List<int>? daysOfWeek, List<TimeOfDay>? intakeTimes, bool? notify});
+  $R call({List<int>? daysOfWeek, List<TimeOfDay>? notificationTimes});
   WeeklyScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -526,29 +516,26 @@ class _WeeklyScheduleCopyWithImpl<$R, $Out>
       );
   @override
   ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
-      get intakeTimes => ListCopyWith(
-            $value.intakeTimes,
+      get notificationTimes => ListCopyWith(
+            $value.notificationTimes,
             (v, t) => ObjectCopyWith(v, $identity, t),
-            (v) => call(intakeTimes: v),
+            (v) => call(notificationTimes: v),
           );
   @override
-  $R call({
-    List<int>? daysOfWeek,
-    List<TimeOfDay>? intakeTimes,
-    bool? notify,
-  }) =>
+  $R call({List<int>? daysOfWeek, List<TimeOfDay>? notificationTimes}) =>
       $apply(
         FieldCopyWithData({
           if (daysOfWeek != null) #daysOfWeek: daysOfWeek,
-          if (intakeTimes != null) #intakeTimes: intakeTimes,
-          if (notify != null) #notify: notify,
+          if (notificationTimes != null) #notificationTimes: notificationTimes,
         }),
       );
   @override
   WeeklySchedule $make(CopyWithData data) => WeeklySchedule(
         daysOfWeek: data.get(#daysOfWeek, or: $value.daysOfWeek),
-        intakeTimes: data.get(#intakeTimes, or: $value.intakeTimes),
-        notify: data.get(#notify, or: $value.notify),
+        notificationTimes: data.get(
+          #notificationTimes,
+          or: $value.notificationTimes,
+        ),
       );
 
   @override

@@ -56,12 +56,43 @@ void main() {
         expect(round.notify, isFalse);
       });
 
+      test('WeeklySchedule encodes and decodes via the discriminator', () {
+        const original = WeeklySchedule(
+          daysOfWeek: [1, 3, 5],
+          notificationTimes: [
+            TimeOfDay(hour: 8, minute: 0),
+            TimeOfDay(hour: 20, minute: 30),
+          ],
+        );
+
+        final json = original.toJson();
+        final decoded = SchedulingStrategyMapper.fromJson(json);
+
+        expect(decoded, isA<WeeklySchedule>());
+        final round = decoded as WeeklySchedule;
+        expect(round.daysOfWeek, original.daysOfWeek);
+        expect(round.notificationTimes, original.notificationTimes);
+      });
+
+      test('WeeklySchedule round-trips with empty notificationTimes', () {
+        const original = WeeklySchedule(daysOfWeek: [2]);
+
+        final decoded = SchedulingStrategyMapper.fromJson(original.toJson())
+            as WeeklySchedule;
+
+        expect(decoded.daysOfWeek, [2]);
+        expect(decoded.notificationTimes, isEmpty);
+      });
+
       test('discriminator value is `type`', () {
         final map = IntervalDaysSchedule(intervalDays: 7).toMap();
         expect(map['type'], 'intervalDays');
 
         final dailyMap = DailySchedule(intakeTimes: const []).toMap();
         expect(dailyMap['type'], 'daily');
+
+        final weeklyMap = const WeeklySchedule(daysOfWeek: [1]).toMap();
+        expect(weeklyMap['type'], 'weekly');
       });
     });
 
@@ -459,7 +490,7 @@ void main() {
           () {
         withFixedClock(() {
           final start = Date.today().add(const Duration(days: 2)); // Wed
-          const s = WeeklySchedule(daysOfWeek: [3], intakeTimes: []);
+          const s = WeeklySchedule(daysOfWeek: [3]);
 
           expect(s.nextDate(start), start);
         });
@@ -470,7 +501,7 @@ void main() {
           () {
         withFixedClock(() {
           final start = Date.today().add(const Duration(days: 2)); // Wed
-          const s = WeeklySchedule(daysOfWeek: [5], intakeTimes: []); // Fri
+          const s = WeeklySchedule(daysOfWeek: [5]); // Fri
 
           expect(s.nextDate(start), Date.today().add(const Duration(days: 4)));
         });
@@ -478,7 +509,7 @@ void main() {
 
       test('startDate == today and today is scheduled -> returns today', () {
         withFixedClock(() {
-          const s = WeeklySchedule(daysOfWeek: [1], intakeTimes: []); // Mon
+          const s = WeeklySchedule(daysOfWeek: [1]); // Mon
 
           expect(s.nextDate(Date.today()), Date.today());
         });
@@ -488,7 +519,7 @@ void main() {
           'startDate == today and today is not scheduled -> returns next scheduled day after today',
           () {
         withFixedClock(() {
-          const s = WeeklySchedule(daysOfWeek: [3], intakeTimes: []); // Wed
+          const s = WeeklySchedule(daysOfWeek: [3]); // Wed
 
           expect(s.nextDate(Date.today()),
               Date.today().add(const Duration(days: 2)));
@@ -498,7 +529,7 @@ void main() {
       test('startDate < today and today is scheduled -> returns today', () {
         withFixedClock(() {
           final start = Date.today().subtract(const Duration(days: 14));
-          const s = WeeklySchedule(daysOfWeek: [1], intakeTimes: []); // Mon
+          const s = WeeklySchedule(daysOfWeek: [1]); // Mon
 
           expect(s.nextDate(start), Date.today());
         });
@@ -509,7 +540,7 @@ void main() {
           () {
         withFixedClock(() {
           final start = Date.today().subtract(const Duration(days: 14));
-          const s = WeeklySchedule(daysOfWeek: [3], intakeTimes: []); // Wed
+          const s = WeeklySchedule(daysOfWeek: [3]); // Wed
 
           expect(s.nextDate(start), Date.today().add(const Duration(days: 2)));
         });
@@ -518,8 +549,7 @@ void main() {
       test('multiple daysOfWeek -> returns the earliest match', () {
         withFixedClock(() {
           // testNow Mon. Wed = +2, Fri = +4. Expect Wed.
-          const s =
-              WeeklySchedule(daysOfWeek: [3, 5], intakeTimes: []); // Wed, Fri
+          const s = WeeklySchedule(daysOfWeek: [3, 5]); // Wed, Fri
 
           expect(s.nextDate(Date.today()),
               Date.today().add(const Duration(days: 2)));
@@ -531,7 +561,7 @@ void main() {
       test('startDate > today -> returns null', () {
         withFixedClock(() {
           final start = Date.today().add(const Duration(days: 7));
-          const s = WeeklySchedule(daysOfWeek: [1], intakeTimes: []);
+          const s = WeeklySchedule(daysOfWeek: [1]);
 
           expect(s.previousDate(start), isNull);
         });
@@ -539,7 +569,7 @@ void main() {
 
       test('startDate == today -> returns null', () {
         withFixedClock(() {
-          const s = WeeklySchedule(daysOfWeek: [1], intakeTimes: []);
+          const s = WeeklySchedule(daysOfWeek: [1]);
 
           expect(s.previousDate(Date.today()), isNull);
         });
@@ -550,7 +580,7 @@ void main() {
           () {
         withFixedClock(() {
           final start = Date.today().subtract(const Duration(days: 14));
-          const s = WeeklySchedule(daysOfWeek: [1], intakeTimes: []); // Mon
+          const s = WeeklySchedule(daysOfWeek: [1]); // Mon
 
           expect(s.previousDate(start),
               Date.today().subtract(const Duration(days: 7)));
@@ -563,7 +593,7 @@ void main() {
         withFixedClock(() {
           // testNow Mon. Last Fri = -3 (Mon -> Sun -> Sat -> Fri).
           final start = Date.today().subtract(const Duration(days: 14));
-          const s = WeeklySchedule(daysOfWeek: [5], intakeTimes: []); // Fri
+          const s = WeeklySchedule(daysOfWeek: [5]); // Fri
 
           expect(s.previousDate(start),
               Date.today().subtract(const Duration(days: 3)));
@@ -577,7 +607,7 @@ void main() {
           // testNow Mon. daysOfWeek = Wed. startDate = Sun (yesterday).
           // No Wed in [Sun, Mon).
           final start = Date.today().subtract(const Duration(days: 1));
-          const s = WeeklySchedule(daysOfWeek: [3], intakeTimes: []);
+          const s = WeeklySchedule(daysOfWeek: [3]);
 
           expect(s.previousDate(start), isNull);
         });
@@ -589,7 +619,7 @@ void main() {
         withFixedClock(() {
           // testNow Mon. daysOfWeek = Sun. startDate = Sun (yesterday).
           final start = Date.today().subtract(const Duration(days: 1));
-          const s = WeeklySchedule(daysOfWeek: [7], intakeTimes: []);
+          const s = WeeklySchedule(daysOfWeek: [7]);
 
           expect(s.previousDate(start), start);
         });
@@ -599,11 +629,199 @@ void main() {
         withFixedClock(() {
           // testNow Mon. Last Fri = -3. Last Wed = -5. Expect Fri.
           final start = Date.today().subtract(const Duration(days: 14));
-          const s =
-              WeeklySchedule(daysOfWeek: [3, 5], intakeTimes: []); // Wed, Fri
+          const s = WeeklySchedule(daysOfWeek: [3, 5]); // Wed, Fri
 
           expect(s.previousDate(start),
               Date.today().subtract(const Duration(days: 3)));
+        });
+      });
+    });
+
+    group('WeeklySchedule.statusFor', () {
+      // Today's weekday is Mon (1) under testNow.
+      WeeklySchedule scheduledForToday() =>
+          const WeeklySchedule(daysOfWeek: [1]);
+
+      Date scheduledForTodayStart() =>
+          Date.today().subtract(const Duration(days: 14));
+
+      group('date == today', () {
+        test('scheduled for today, taken today -> taken', () {
+          withFixedClock(() {
+            final s = scheduledForToday();
+            expect(
+                s.statusFor(
+                    startDate: scheduledForTodayStart(),
+                    date: Date.today(),
+                    lastTaken: Date.today()),
+                ScheduleStatus.taken);
+          });
+        });
+
+        test('scheduled for today, taken in the future -> taken', () {
+          withFixedClock(() {
+            final s = scheduledForToday();
+            expect(
+                s.statusFor(
+                    startDate: scheduledForTodayStart(),
+                    date: Date.today(),
+                    lastTaken: Date.today().add(const Duration(days: 1))),
+                ScheduleStatus.taken);
+          });
+        });
+
+        test(
+            'scheduled for today, last intake before previous scheduled date -> todayOverdue',
+            () {
+          withFixedClock(() {
+            final s = scheduledForToday();
+            final start = scheduledForTodayStart();
+            final lastTaken =
+                s.previousDate(start)!.subtract(const Duration(days: 1));
+            expect(
+                s.statusFor(
+                    startDate: start, date: Date.today(), lastTaken: lastTaken),
+                ScheduleStatus.todayOverdue);
+          });
+        });
+
+        test('scheduled for today, never taken -> todayOverdue', () {
+          withFixedClock(() {
+            final s = scheduledForToday();
+            expect(
+                s.statusFor(
+                    startDate: scheduledForTodayStart(), date: Date.today()),
+                ScheduleStatus.todayOverdue);
+          });
+        });
+
+        test(
+            'scheduled for today, last intake strictly between previous scheduled date and today -> todayEarly',
+            () {
+          withFixedClock(() {
+            final s = scheduledForToday();
+            final start = scheduledForTodayStart();
+            final lastTaken =
+                s.previousDate(start)!.add(const Duration(days: 1));
+            expect(
+                s.statusFor(
+                    startDate: start, date: Date.today(), lastTaken: lastTaken),
+                ScheduleStatus.todayEarly);
+          });
+        });
+
+        test(
+            'scheduled for today, last intake equals previous scheduled date -> today',
+            () {
+          withFixedClock(() {
+            final s = scheduledForToday();
+            final start = scheduledForTodayStart();
+            expect(
+                s.statusFor(
+                    startDate: start,
+                    date: Date.today(),
+                    lastTaken: s.previousDate(start)),
+                ScheduleStatus.today);
+          });
+        });
+
+        test(
+            'scheduled for today with no previous date and never taken -> today',
+            () {
+          withFixedClock(() {
+            const s = WeeklySchedule(daysOfWeek: [1]);
+            expect(s.previousDate(Date.today()), isNull);
+            expect(s.statusFor(startDate: Date.today(), date: Date.today()),
+                ScheduleStatus.today);
+          });
+        });
+
+        test('not scheduled for today, last intake is overdue -> overdue', () {
+          withFixedClock(() {
+            // Fri schedule. testNow Mon. previousDate = last Fri (-3).
+            const s = WeeklySchedule(daysOfWeek: [5]);
+            final start = Date.today().subtract(const Duration(days: 14));
+            final lastTaken =
+                s.previousDate(start)!.subtract(const Duration(days: 1));
+            expect(
+                s.statusFor(
+                    startDate: start, date: Date.today(), lastTaken: lastTaken),
+                ScheduleStatus.overdue);
+          });
+        });
+
+        test('not scheduled for today, never taken and overdue -> overdue', () {
+          withFixedClock(() {
+            const s = WeeklySchedule(daysOfWeek: [5]); // Fri
+            final start = Date.today().subtract(const Duration(days: 14));
+            expect(s.statusFor(startDate: start, date: Date.today()),
+                ScheduleStatus.overdue);
+          });
+        });
+
+        test('not scheduled for today, start date in the future -> upcoming',
+            () {
+          withFixedClock(() {
+            const s = WeeklySchedule(daysOfWeek: [5]);
+            expect(
+                s.statusFor(
+                    startDate: Date.today().add(const Duration(days: 5)),
+                    date: Date.today()),
+                ScheduleStatus.upcoming);
+          });
+        });
+
+        test(
+            'not scheduled for today, last intake on or after previous scheduled date -> upcoming',
+            () {
+          withFixedClock(() {
+            const s = WeeklySchedule(daysOfWeek: [5]);
+            final start = Date.today().subtract(const Duration(days: 14));
+            expect(
+                s.statusFor(
+                    startDate: start,
+                    date: Date.today(),
+                    lastTaken: s.previousDate(start)),
+                ScheduleStatus.upcoming);
+          });
+        });
+
+        test('taken takes priority over todayEarly', () {
+          withFixedClock(() {
+            final s = scheduledForToday();
+            expect(
+                s.statusFor(
+                    startDate: scheduledForTodayStart(),
+                    date: Date.today(),
+                    lastTaken: Date.today()),
+                ScheduleStatus.taken);
+          });
+        });
+      });
+
+      group('date != today', () {
+        test('future date -> upcoming regardless of overdue history', () {
+          withFixedClock(() {
+            const s = WeeklySchedule(daysOfWeek: [1]);
+            final start = Date.today().subtract(const Duration(days: 14));
+            expect(
+                s.statusFor(
+                    startDate: start,
+                    date: Date.today().add(const Duration(days: 7))),
+                ScheduleStatus.upcoming);
+          });
+        });
+
+        test('future date -> upcoming even when taken today', () {
+          withFixedClock(() {
+            final s = scheduledForToday();
+            expect(
+                s.statusFor(
+                    startDate: scheduledForTodayStart(),
+                    date: Date.today().add(const Duration(days: 7)),
+                    lastTaken: Date.today()),
+                ScheduleStatus.upcoming);
+          });
         });
       });
     });

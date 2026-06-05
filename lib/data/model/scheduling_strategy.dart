@@ -123,13 +123,14 @@ class IntervalDaysSchedule extends SchedulingStrategy
     if (lastTakenDate == null) return false;
 
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
-  }
+  } // TODO make private
 
   ScheduleStatus statusFor({
     required Date startDate,
     required Date date,
     Date? lastTaken,
   }) {
+    // TODO remove date parameter, should only be today
     if (!date.isToday) return ScheduleStatus.upcoming;
 
     if (_isScheduledForToday(startDate)) {
@@ -182,13 +183,11 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
 )
 class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   final List<int> daysOfWeek;
-  final List<TimeOfDay> intakeTimes;
-  final bool notify;
+  final List<TimeOfDay> notificationTimes;
 
   const WeeklySchedule({
     required this.daysOfWeek,
-    required this.intakeTimes,
-    this.notify = true,
+    this.notificationTimes = const [],
   });
 
   /// Returns the next scheduled date relative to today, restricted to weekdays
@@ -230,17 +229,45 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
     return null;
   }
 
-  ScheduleStatus statusFor({
-    required Date date,
-    MedicationIntake? matchedIntake,
-  }) {
-    if (matchedIntake != null) return ScheduleStatus.taken;
-    return date.isToday ? ScheduleStatus.today : ScheduleStatus.upcoming;
+  bool _isScheduledForToday(Date startDate) => nextDate(startDate).isToday;
+
+  bool _isLate(Date startDate, Date? lastTakenDate) {
+    final prev = previousDate(startDate);
+    if (prev == null) return false;
+    return lastTakenDate == null || lastTakenDate.isBefore(prev);
   }
 
-  static String? validateIntakeTimes(
-          AppLocalizations l10n, List<TimeOfDay> value) =>
-      requiredListOfTimes(l10n, value);
+  bool _lastTakenLate(Date startDate, Date? lastTakenDate) {
+    final prev = previousDate(startDate);
+    if (lastTakenDate == null || prev == null) return false;
+    return lastTakenDate.isAfter(prev);
+  }
+
+  bool isTakenTodayOrLater(Date? lastTakenDate) {
+    if (lastTakenDate == null) return false;
+    return lastTakenDate.isToday || lastTakenDate.isAfterToday;
+  } // TODO make private
+
+  ScheduleStatus statusFor({
+    required Date startDate,
+    required Date date,
+    Date? lastTaken,
+  }) {
+    if (!date.isToday) return ScheduleStatus.upcoming;
+
+    if (_isScheduledForToday(startDate)) {
+      if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
+      if (_isLate(startDate, lastTaken)) return ScheduleStatus.todayOverdue;
+      if (_lastTakenLate(startDate, lastTaken)) {
+        return ScheduleStatus.todayEarly;
+      }
+      return ScheduleStatus.today;
+    }
+
+    if (_isLate(startDate, lastTaken)) return ScheduleStatus.overdue;
+
+    return ScheduleStatus.upcoming;
+  }
 
   static String? validateDaysOfWeek(AppLocalizations l10n, List<int> value) =>
       value.isEmpty ? l10n.requiredField : null;

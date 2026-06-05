@@ -140,13 +140,21 @@ class IntakeTileViewModel {
 
   bool get _isDailySlot => slotTime != null;
 
-  IntervalDaysSchedule get _intervalScheduling =>
-      schedule.scheduling as IntervalDaysSchedule;
+  Date get nextScheduled {
+    final s = schedule.scheduling;
+    if (s is IntervalDaysSchedule) return s.nextDate(schedule.startDate);
+    if (s is WeeklySchedule) return s.nextDate(schedule.startDate);
+    throw StateError(
+        'nextScheduled is not meaningful for daily slots (use slotTime)');
+  }
 
-  Date get nextScheduled => _intervalScheduling.nextDate(schedule.startDate);
-
-  Date? get lastScheduled =>
-      _intervalScheduling.previousDate(schedule.startDate);
+  Date? get lastScheduled {
+    final s = schedule.scheduling;
+    if (s is IntervalDaysSchedule) return s.previousDate(schedule.startDate);
+    if (s is WeeklySchedule) return s.previousDate(schedule.startDate);
+    throw StateError(
+        'lastScheduled is not meaningful for daily slots (use slotTime)');
+  }
 
   Date? get lastTaken =>
       intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);

@@ -13,6 +13,8 @@ import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 
+import '../util/test_clock.dart';
+
 @GenerateNiceMocks([
   MockSpec<MedicationIntakeProvider>(),
   MockSpec<MedicationScheduleProvider>(),
@@ -182,6 +184,118 @@ void main() {
         result.singleWhere((it) => it.schedule.id == silent.id).notifiable,
         isFalse,
       );
+    });
+  });
+
+  // testNow (2026-06-01) is a Monday.
+  group('current - WeeklySchedule', () {
+    test('returns exactly one occurrence dated today when today is scheduled',
+        () {
+      withFixedClock(() {
+        final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [1]));
+        withSchedules([s]);
+
+        final result = occurrences.current();
+
+        expect(result, hasLength(1));
+        expect(result.single.date, Date.today());
+      });
+    });
+
+    test(
+        'returns exactly one occurrence dated today when today is not scheduled',
+        () {
+      withFixedClock(() {
+        final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [3]));
+        withSchedules([s]);
+
+        final result = occurrences.current();
+
+        expect(result, hasLength(1));
+        expect(result.single.date, Date.today());
+      });
+    });
+
+    test('scheduled today, taken today -> taken with last intake attached', () {
+      withFixedClock(() {
+        final start = Date.today().subtract(const Duration(days: 14));
+        final intake = intakeAt(const TimeOfDay(hour: 8, minute: 0), id: 42);
+        final s = schedule(
+            id: 7,
+            scheduling: const WeeklySchedule(daysOfWeek: [1]),
+            startDate: start);
+        withSchedules([s]);
+        when(intakes.getLastIntakeLocalDateForSchedule(7))
+            .thenReturn(Date.today());
+        when(intakes.getLastTakenIntakeForSchedule(7)).thenReturn(intake);
+
+        final occ = occurrences.current().single;
+
+        expect(occ.status, ScheduleStatus.taken);
+        expect(occ.intake, intake);
+      });
+    });
+
+    test('not scheduled today, never taken on a past scheduled day -> overdue',
+        () {
+      withFixedClock(() {
+        // Fri schedule. Today is Mon. Last Fri was -3 days ago, never taken.
+        final start = Date.today().subtract(const Duration(days: 14));
+        final s = schedule(
+            id: 7,
+            scheduling: const WeeklySchedule(daysOfWeek: [5]),
+            startDate: start);
+        withSchedules([s]);
+
+        final occ = occurrences.current().single;
+
+        expect(occ.status, ScheduleStatus.overdue);
+      });
+    });
+
+    test('notifiable mirrors notificationTimes presence', () {
+      withFixedClock(() {
+        final withTimes = schedule(
+          id: 1,
+          scheduling: const WeeklySchedule(
+            daysOfWeek: [1],
+            notificationTimes: [TimeOfDay(hour: 9, minute: 0)],
+          ),
+        );
+        final withoutTimes = schedule(
+          id: 2,
+          scheduling: const WeeklySchedule(daysOfWeek: [1]),
+        );
+        withSchedules([withTimes, withoutTimes]);
+
+        final result = occurrences.current();
+        expect(
+          result.singleWhere((it) => it.schedule.id == withTimes.id).notifiable,
+          isTrue,
+        );
+        expect(
+          result
+              .singleWhere((it) => it.schedule.id == withoutTimes.id)
+              .notifiable,
+          isFalse,
+        );
+      });
+    });
+
+    test('current occurrence has no time or notificationTime set', () {
+      withFixedClock(() {
+        final s = schedule(
+            scheduling: const WeeklySchedule(
+          daysOfWeek: [1],
+          notificationTimes: [TimeOfDay(hour: 9, minute: 0)],
+        ));
+        withSchedules([s]);
+
+        final occ = occurrences.current().single;
+
+        expect(occ.time, isNull);
+        expect(occ.notificationTime, isNull);
+      });
     });
   });
 

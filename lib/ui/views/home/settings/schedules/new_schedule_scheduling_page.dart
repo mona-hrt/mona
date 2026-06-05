@@ -48,8 +48,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   bool _dailyNotify = true;
 
   final List<int> _weeklyDays = [];
-  final List<TimeOfDay> _weeklyIntakeTimes = [];
-  bool _weeklyNotify = true;
+  final List<TimeOfDay> _weeklyNotificationTimes = [];
 
   late Date _startDate;
 
@@ -59,8 +58,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       MedicationSchedule.validateStartDate(context.l10n, _startDate);
   String? get _dailyIntakeTimesError =>
       DailySchedule.validateIntakeTimes(context.l10n, _dailyIntakeTimes);
-  String? get _weeklyIntakeTimesError =>
-      WeeklySchedule.validateIntakeTimes(context.l10n, _weeklyIntakeTimes);
   String? get _weeklyDaysError =>
       WeeklySchedule.validateDaysOfWeek(context.l10n, _weeklyDays);
 
@@ -69,8 +66,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     return switch (_type) {
       _ScheduleType.intervalDays => _intervalDaysError == null,
       _ScheduleType.daily => _dailyIntakeTimesError == null,
-      _ScheduleType.weekly =>
-        _weeklyDaysError == null && _weeklyIntakeTimesError == null,
+      _ScheduleType.weekly => _weeklyDaysError == null,
     };
   }
 
@@ -143,8 +139,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         ),
       _ScheduleType.weekly => WeeklySchedule(
           daysOfWeek: List.unmodifiable(_weeklyDays),
-          intakeTimes: List.unmodifiable(_weeklyIntakeTimes),
-          notify: _weeklyNotify,
+          notificationTimes: List.unmodifiable(_weeklyNotificationTimes),
         ),
     };
 
@@ -291,28 +286,22 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
 
   List<Widget> _weeklySpecifics() {
     final l10n = context.l10n;
-    final addCardIndex = _weeklyIntakeTimes.length;
+    final addCardIndex = _weeklyNotificationTimes.length;
     return [
       _dayPicker(),
       const SizedBox(height: 16),
       M3ECardColumn(
         padding: EdgeInsets.zero,
         onTap: (index) {
-          if (index == addCardIndex) _addTime(_weeklyIntakeTimes);
+          if (index == addCardIndex) _addTime(_weeklyNotificationTimes);
         },
         children: [
-          for (int i = 0; i < _weeklyIntakeTimes.length; i++)
-            _intakeTimeRow(_weeklyIntakeTimes, i),
+          for (int i = 0; i < _weeklyNotificationTimes.length; i++)
+            _intakeTimeRow(_weeklyNotificationTimes, i),
           ListTile(
             leading: const Icon(Icons.add),
-            title: Text(l10n.addIntakeTime),
-            onTap: () => _addTime(_weeklyIntakeTimes),
-          ),
-          SwitchListTile(
-            title: Text(l10n.enableNotifications),
-            subtitle: Text(l10n.enableNotificationsDescription),
-            value: _weeklyNotify,
-            onChanged: (value) => setState(() => _weeklyNotify = value),
+            title: Text(l10n.addNotification),
+            onTap: () => _addTime(_weeklyNotificationTimes),
           ),
         ],
       ),
