@@ -14,20 +14,20 @@ class NotificationPlanner {
       this._medicationIntakeProvider, this._medicationScheduleProvider);
 
   List<PlannedNotification> planNotifications({required int days}) {
-    final plans = <PlannedNotification>[];
+    final planned = <PlannedNotification>[];
 
     for (final schedule in _medicationScheduleProvider.schedules) {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
-          plans.addAll(_intervalPlans(schedule, scheduling, days));
+          planned.addAll(_intervalPlans(schedule, scheduling, days));
         case DailySchedule scheduling:
-          plans.addAll(_dailyPlans(schedule, scheduling));
+          planned.addAll(_dailyPlans(schedule, scheduling));
         case WeeklySchedule scheduling:
-          plans.addAll(_weeklyPlans(schedule, scheduling));
+          planned.addAll(_weeklyPlans(schedule, scheduling));
       }
     }
 
-    return plans;
+    return planned;
   }
 
   List<PlannedNotification> _intervalPlans(
