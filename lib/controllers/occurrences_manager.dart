@@ -15,8 +15,8 @@ class OccurrencesManager {
   const OccurrencesManager(
       this._medicationIntakeProvider, this._medicationScheduleProvider);
 
-  List<ScheduledOccurrence> current() {
-    final occurrences = <ScheduledOccurrence>[];
+  List<IntakeSlot> intakeSlots() {
+    final occurrences = <IntakeSlot>[];
 
     for (final schedule in _medicationScheduleProvider.schedules) {
       switch (schedule.scheduling) {
@@ -143,7 +143,7 @@ class OccurrencesManager {
     ];
   }
 
-  ScheduledOccurrence _interval(
+  IntakeSlot _interval(
     MedicationSchedule schedule,
     IntervalDaysSchedule scheduling,
   ) {
@@ -157,7 +157,7 @@ class OccurrencesManager {
       date: Date.today(),
       lastTaken: lastTaken,
     );
-    return ScheduledOccurrence(
+    return IntakeSlot(
       schedule: schedule,
       date: Date.today(),
       status: status,
@@ -165,7 +165,7 @@ class OccurrencesManager {
     );
   }
 
-  List<ScheduledOccurrence> _daily(
+  List<IntakeSlot> _daily(
     MedicationSchedule schedule,
     DailySchedule scheduling,
   ) {
@@ -178,7 +178,7 @@ class OccurrencesManager {
         () {
           final match =
               takenToday.firstWhereOrNull((it) => it.scheduledTime == time);
-          return ScheduledOccurrence(
+          return IntakeSlot(
             schedule: schedule,
             date: today,
             time: time,
@@ -189,7 +189,7 @@ class OccurrencesManager {
     ];
   }
 
-  ScheduledOccurrence _weekly(
+  IntakeSlot _weekly(
     MedicationSchedule schedule,
     WeeklySchedule scheduling,
   ) {
@@ -203,7 +203,7 @@ class OccurrencesManager {
       date: Date.today(),
       lastTaken: lastTaken,
     );
-    return ScheduledOccurrence(
+    return IntakeSlot(
       schedule: schedule,
       date: Date.today(),
       status: status,

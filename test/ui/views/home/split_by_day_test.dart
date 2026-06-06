@@ -18,12 +18,12 @@ MedicationSchedule schedule({int id = 1}) => MedicationSchedule(
       administrationRoute: AdministrationRoute.oral,
     );
 
-ScheduledOccurrence occurrence({
+IntakeSlot occurrence({
   MedicationSchedule? schedule,
   ScheduleStatus status = ScheduleStatus.today,
   TimeOfDay? time,
 }) =>
-    ScheduledOccurrence(
+    IntakeSlot(
       schedule: schedule ??
           MedicationSchedule(
             id: 0,

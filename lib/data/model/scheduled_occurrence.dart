@@ -5,14 +5,14 @@ import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 
 @immutable
-class ScheduledOccurrence {
+class IntakeSlot {
   final MedicationSchedule schedule;
   final Date date;
   final TimeOfDay? time;
   final ScheduleStatus status;
   final MedicationIntake? intake;
 
-  const ScheduledOccurrence({
+  const IntakeSlot({
     required this.schedule,
     required this.date,
     required this.status,

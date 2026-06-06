@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 class IntakeTile extends StatelessWidget {
   const IntakeTile(this.occurrence, {super.key});
 
-  final ScheduledOccurrence occurrence;
+  final IntakeSlot occurrence;
 
   MedicationSchedule get schedule => occurrence.schedule;
   ScheduleStatus get status => occurrence.status;

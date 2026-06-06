@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
     final localizations = context.l10n;
 
     final occurrences = splitByDay(
-      OccurrencesManager(intakeProvider, scheduleProvider).current(),
+      OccurrencesManager(intakeProvider, scheduleProvider).intakeSlots(),
     );
 
     return MainPageWrapper(

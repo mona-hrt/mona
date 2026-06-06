@@ -57,7 +57,7 @@ class _FakeOccurrences_0 extends _i1.SmartFake implements _i2.Occurrences {
 class MockOccurrencesManager extends _i1.Mock
     implements _i3.OccurrencesManager {
   @override
-  _i2.Occurrences current() => (super.noSuchMethod(
+  _i2.Occurrences intakeSlots() => (super.noSuchMethod(
         Invocation.method(
           #current,
           [],

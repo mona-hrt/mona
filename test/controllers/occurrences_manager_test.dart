@@ -70,7 +70,7 @@ void main() {
       final s = schedule(scheduling: IntervalDaysSchedule(intervalDays: 7));
       withSchedules([s]);
 
-      final result = occurrences.current();
+      final result = occurrences.intakeSlots();
 
       expect(result, hasLength(1));
       expect(result.single.date, Date.today());
@@ -88,12 +88,11 @@ void main() {
           .thenReturn(Date.today());
       when(intakes.getLastTakenIntakeForSchedule(7)).thenReturn(intake);
 
-      final occ = occurrences.current().single;
+      final occ = occurrences.intakeSlots().single;
 
       expect(occ.status, ScheduleStatus.taken);
       expect(occ.intake, intake);
     });
-
   });
 
   group('current - DailySchedule', () {
@@ -109,7 +108,7 @@ void main() {
       when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
           .thenReturn(<MedicationIntake>[]);
 
-      final result = occurrences.current();
+      final result = occurrences.intakeSlots();
 
       expect(result.map((o) => o.time), [morning, afternoon, evening]);
       expect(result.map((o) => o.date), everyElement(Date.today()));
@@ -123,7 +122,7 @@ void main() {
       when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
           .thenReturn([morningIntake]);
 
-      final result = occurrences.current();
+      final result = occurrences.intakeSlots();
 
       final morningOcc = result.singleWhere((o) => o.time == morning);
       expect(morningOcc.status, ScheduleStatus.taken);
@@ -138,12 +137,11 @@ void main() {
       when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
           .thenReturn([stray]);
 
-      final result = occurrences.current();
+      final result = occurrences.intakeSlots();
 
       expect(result.map((o) => o.status), everyElement(ScheduleStatus.today));
       expect(result.map((o) => o.intake), everyElement(isNull));
     });
-
   });
 
   // testNow (2026-06-01) is a Monday.
@@ -154,7 +152,7 @@ void main() {
         final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [1]));
         withSchedules([s]);
 
-        final result = occurrences.current();
+        final result = occurrences.intakeSlots();
 
         expect(result, hasLength(1));
         expect(result.single.date, Date.today());
@@ -168,7 +166,7 @@ void main() {
         final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [3]));
         withSchedules([s]);
 
-        final result = occurrences.current();
+        final result = occurrences.intakeSlots();
 
         expect(result, hasLength(1));
         expect(result.single.date, Date.today());
@@ -188,7 +186,7 @@ void main() {
             .thenReturn(Date.today());
         when(intakes.getLastTakenIntakeForSchedule(7)).thenReturn(intake);
 
-        final occ = occurrences.current().single;
+        final occ = occurrences.intakeSlots().single;
 
         expect(occ.status, ScheduleStatus.taken);
         expect(occ.intake, intake);
@@ -206,7 +204,7 @@ void main() {
             startDate: start);
         withSchedules([s]);
 
-        final occ = occurrences.current().single;
+        final occ = occurrences.intakeSlots().single;
 
         expect(occ.status, ScheduleStatus.overdue);
       });
@@ -221,7 +219,7 @@ void main() {
         ));
         withSchedules([s]);
 
-        final occ = occurrences.current().single;
+        final occ = occurrences.intakeSlots().single;
 
         expect(occ.time, isNull);
       });
