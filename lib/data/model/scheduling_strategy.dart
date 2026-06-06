@@ -17,10 +17,7 @@ enum ScheduleStatus {
   taken
 }
 
-@MappableClass(
-  discriminatorKey: 'type',
-  includeCustomMappers: [TimeOfDayMapper()], // TODO needed ?
-)
+@MappableClass(discriminatorKey: 'type')
 sealed class SchedulingStrategy with SchedulingStrategyMappable {
   const SchedulingStrategy();
 }
