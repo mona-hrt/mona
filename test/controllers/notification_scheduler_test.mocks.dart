@@ -46,16 +46,27 @@ import 'package:timezone/timezone.dart' as _i13;
 class MockNotificationPlanner extends _i1.Mock
     implements _i2.NotificationPlanner {
   @override
-  List<_i3.PlannedNotification> planNotifications({required int? days}) =>
+  List<_i3.PlannedNotification> planNotifications({required int? daysAhead}) =>
       (super.noSuchMethod(
         Invocation.method(
           #planNotifications,
           [],
-          {#days: days},
+          {#days: daysAhead},
         ),
         returnValue: <_i3.PlannedNotification>[],
         returnValueForMissingStub: <_i3.PlannedNotification>[],
       ) as List<_i3.PlannedNotification>);
+
+  @override
+  int daysAhead({required int? maxScheduled}) => (super.noSuchMethod(
+        Invocation.method(
+          #daysAhead,
+          [],
+          {#maxScheduled: maxScheduled},
+        ),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
 }
 
 /// A class which mocks [PreferencesService].

@@ -6,18 +6,24 @@ sealed class PlannedNotification {
   final MedicationSchedule schedule;
 
   const PlannedNotification(this.schedule);
+
+  DateTime get firstFire;
 }
 
 class PlannedOccurrence extends PlannedNotification {
   final DateTime dateTime;
 
   const PlannedOccurrence(super.schedule, {required this.dateTime});
+
+  @override
+  DateTime get firstFire => dateTime;
 }
 
 enum Periodicity { daily, weekly }
 
 class PlannedRepeating extends PlannedNotification {
   final Periodicity periodicity;
+  @override
   final DateTime firstFire;
   final TimeOfDay time;
 

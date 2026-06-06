@@ -71,7 +71,7 @@ void main() {
         final s = schedule(scheduling: IntervalDaysSchedule(intervalDays: 7));
         withSchedules([s]);
 
-        final plans = planner.planNotifications(days: 30);
+        final plans = planner.planNotifications(daysAhead: 30);
 
         expect(plans, isEmpty);
       });
@@ -92,7 +92,7 @@ void main() {
         // No taken intake -> today's slots not filtered as 'taken'.
         when(intakes.getLastIntakeLocalDateForSchedule(any)).thenReturn(null);
 
-        final plans = planner.planNotifications(days: 3);
+        final plans = planner.planNotifications(daysAhead: 3);
 
         // 3 dates x 2 times = 6, but today's 09:00 is before noon -> filtered.
         // So 5 plans (today 21:00, +7d 09:00 / 21:00, +14d 09:00 / 21:00).
@@ -114,7 +114,7 @@ void main() {
         withSchedules([s]);
 
         final plans =
-            planner.planNotifications(days: 1).cast<PlannedOccurrence>();
+            planner.planNotifications(daysAhead: 1).cast<PlannedOccurrence>();
 
         expect(plans, hasLength(1));
         expect(plans.single.dateTime.hour, 15);
@@ -134,7 +134,7 @@ void main() {
         when(intakes.getLastIntakeLocalDateForSchedule(7))
             .thenReturn(Date.today());
 
-        final plans = planner.planNotifications(days: 1);
+        final plans = planner.planNotifications(daysAhead: 1);
 
         // Today is scheduled and taken -> skipped entirely.
         expect(plans, isEmpty);
@@ -149,8 +149,10 @@ void main() {
                 intervalDays: 1, notificationTimes: const [time]));
         withSchedules([s]);
 
-        final plan =
-            planner.planNotifications(days: 1).cast<PlannedOccurrence>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 1)
+            .cast<PlannedOccurrence>()
+            .single;
 
         expect(plan.dateTime, Date.today().toDateTimeAt(time));
       });
@@ -168,7 +170,7 @@ void main() {
                 const DailySchedule(intakeTimes: [afternoon], notify: false));
         withSchedules([s]);
 
-        final plans = planner.planNotifications(days: 30);
+        final plans = planner.planNotifications(daysAhead: 30);
 
         expect(plans, isEmpty);
       });
@@ -181,7 +183,7 @@ void main() {
         withSchedules([s]);
 
         final plans =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>();
+            planner.planNotifications(daysAhead: 30).cast<PlannedRepeating>();
 
         expect(plans, hasLength(2));
         expect(
@@ -198,8 +200,10 @@ void main() {
             schedule(scheduling: const DailySchedule(intakeTimes: [afternoon]));
         withSchedules([s]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
       });
@@ -211,8 +215,10 @@ void main() {
             schedule(scheduling: const DailySchedule(intakeTimes: [morning]));
         withSchedules([s]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(morning));
@@ -227,8 +233,10 @@ void main() {
         when(intakes.getTakenIntakesForScheduleOn(7, Date.today()))
             .thenReturn([intakeAt(afternoon)]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(afternoon));
@@ -246,7 +254,7 @@ void main() {
             .thenReturn([intakeAt(morning)]);
 
         final plans =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>();
+            planner.planNotifications(daysAhead: 30).cast<PlannedRepeating>();
 
         final afternoonPlan = plans.singleWhere((p) => p.time == afternoon);
         // Afternoon is in the future and not taken -> today.
@@ -262,11 +270,164 @@ void main() {
             startDate: start);
         withSchedules([s]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire, start.toDateTimeAt(morning));
       });
+    });
+  });
+
+  group('daysAhead', () {
+    const t1 = TimeOfDay(hour: 9, minute: 0);
+    const t2 = TimeOfDay(hour: 21, minute: 0);
+
+    test('returns 0 when there are no schedules', () {
+      expect(planner.daysAhead(maxScheduled: 64), 0);
+    });
+
+    test('returns 0 when interval schedules have no notification times', () {
+      withSchedules([
+        schedule(scheduling: IntervalDaysSchedule(intervalDays: 7)),
+      ]);
+
+      expect(planner.daysAhead(maxScheduled: 64), 0);
+    });
+
+    test('returns 0 when only daily/weekly schedules exist (no interval)', () {
+      withSchedules([
+        schedule(scheduling: const DailySchedule(intakeTimes: [t1])),
+        schedule(
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [1, 3], notificationTimes: [t1])),
+      ]);
+
+      expect(planner.daysAhead(maxScheduled: 64), 0);
+    });
+
+    test('single interval schedule with one time gets the full budget', () {
+      withSchedules([
+        schedule(
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1])),
+      ]);
+
+      expect(planner.daysAhead(maxScheduled: 64), 64);
+    });
+
+    test('single interval schedule with two times halves the budget', () {
+      withSchedules([
+        schedule(
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1, t2])),
+      ]);
+
+      expect(planner.daysAhead(maxScheduled: 64), 32);
+    });
+
+    test('budget is shared across all interval schedules', () {
+      withSchedules([
+        schedule(
+            id: 1,
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1])),
+        schedule(
+            id: 2,
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1, t2])),
+      ]);
+
+      // perOccurrence = 1 + 2 = 3 -> 64 ~/ 3 = 21
+      expect(planner.daysAhead(maxScheduled: 64), 21);
+    });
+
+    test('daily schedules with notify reserve one slot per intake time', () {
+      withSchedules([
+        schedule(
+            id: 1,
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1])),
+        schedule(id: 2, scheduling: const DailySchedule(intakeTimes: [t1, t2])),
+      ]);
+
+      // remaining = 64 - 2 = 62, perOccurrence = 1 -> 62
+      expect(planner.daysAhead(maxScheduled: 64), 62);
+    });
+
+    test('daily schedules with notify=false reserve nothing', () {
+      withSchedules([
+        schedule(
+            id: 1,
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1])),
+        schedule(
+            id: 2,
+            scheduling:
+                const DailySchedule(intakeTimes: [t1, t2], notify: false)),
+      ]);
+
+      expect(planner.daysAhead(maxScheduled: 64), 64);
+    });
+
+    test('weekly schedules reserve daysOfWeek x notificationTimes slots', () {
+      withSchedules([
+        schedule(
+            id: 1,
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1])),
+        schedule(
+            id: 2,
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [1, 3, 5], notificationTimes: [t1, t2])),
+      ]);
+
+      // reserved = 3 * 2 = 6, remaining = 58, perOccurrence = 1 -> 58
+      expect(planner.daysAhead(maxScheduled: 64), 58);
+    });
+
+    test(
+        'returns 1 when daily/weekly reservations exhaust the budget but interval schedules exist',
+        () {
+      withSchedules([
+        schedule(
+            id: 1,
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1])),
+        schedule(
+            id: 2,
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [1, 2, 3, 4, 5, 6, 7],
+                notificationTimes: [t1, t2])),
+      ]);
+
+      // reserved = 7 * 2 = 14, remaining = 0 -> floors to 0 but clamped to 1.
+      expect(planner.daysAhead(maxScheduled: 14), 1);
+      // Also true when reservations overshoot maxScheduled.
+      expect(planner.daysAhead(maxScheduled: 10), 1);
+    });
+
+    test('returns 1 when remaining budget is smaller than perOccurrence', () {
+      withSchedules([
+        schedule(
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1, t2, t1])),
+      ]);
+
+      // perOccurrence = 3, 2 ~/ 3 = 0 -> clamped to 1.
+      expect(planner.daysAhead(maxScheduled: 2), 1);
+    });
+
+    test('floors instead of rounding when budget is not a clean multiple', () {
+      withSchedules([
+        schedule(
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7, notificationTimes: const [t1, t2])),
+      ]);
+
+      // 65 ~/ 2 = 32, not 33.
+      expect(planner.daysAhead(maxScheduled: 65), 32);
     });
   });
 
@@ -279,7 +440,7 @@ void main() {
         final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [1]));
         withSchedules([s]);
 
-        final plans = planner.planNotifications(days: 30);
+        final plans = planner.planNotifications(daysAhead: 30);
 
         expect(plans, isEmpty);
       });
@@ -293,7 +454,7 @@ void main() {
         withSchedules([s]);
 
         final plans =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>();
+            planner.planNotifications(daysAhead: 30).cast<PlannedRepeating>();
 
         expect(plans, hasLength(3));
         expect(plans.map((p) => p.dayOfWeek).toSet(), {1, 3, 5});
@@ -310,8 +471,10 @@ void main() {
                 daysOfWeek: [1], notificationTimes: [afternoon]));
         withSchedules([s]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
       });
@@ -325,8 +488,10 @@ void main() {
                 daysOfWeek: [1], notificationTimes: [morning]));
         withSchedules([s]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(morning));
@@ -345,8 +510,10 @@ void main() {
         when(intakes.getTakenIntakesForScheduleOn(7, Date.today()))
             .thenReturn([intakeAt(const TimeOfDay(hour: 8, minute: 0))]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
@@ -363,8 +530,10 @@ void main() {
                 daysOfWeek: [3], notificationTimes: [afternoon]));
         withSchedules([s]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 2)).toDateTimeAt(afternoon));
@@ -381,8 +550,10 @@ void main() {
             startDate: start);
         withSchedules([s]);
 
-        final plan =
-            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
 
         expect(plan.firstFire, start.toDateTimeAt(afternoon));
       });

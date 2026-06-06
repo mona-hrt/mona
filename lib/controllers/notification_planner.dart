@@ -13,15 +13,36 @@ class NotificationPlanner {
   const NotificationPlanner(
       this._medicationIntakeProvider, this._medicationScheduleProvider);
 
-  List<PlannedNotification> planNotifications({required int days}) => [
+  List<PlannedNotification> planNotifications({required int daysAhead}) => [
         for (final schedule in _medicationScheduleProvider.schedules)
           ...switch (schedule.scheduling) {
             IntervalDaysSchedule scheduling =>
-              _intervalPlans(schedule, scheduling, days),
+              _intervalPlans(schedule, scheduling, daysAhead),
             DailySchedule scheduling => _dailyPlans(schedule, scheduling),
             WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
           },
       ];
+
+  int daysAhead({required int maxScheduled}) {
+    int reserved = 0;
+    int perOccurrence = 0;
+
+    for (final schedule in _medicationScheduleProvider.schedules) {
+      switch (schedule.scheduling) {
+        case IntervalDaysSchedule scheduling:
+          perOccurrence += scheduling.notificationTimes.length;
+        case DailySchedule scheduling:
+          if (scheduling.notify) reserved += scheduling.intakeTimes.length;
+        case WeeklySchedule scheduling:
+          reserved += scheduling.daysOfWeek.length *
+              scheduling.notificationTimes.length;
+      }
+    }
+
+    if (perOccurrence == 0) return 0;
+    final fit = (maxScheduled - reserved) ~/ perOccurrence;
+    return fit < 1 ? 1 : fit;
+  }
 
   List<PlannedNotification> _intervalPlans(
     MedicationSchedule schedule,

@@ -10,8 +10,7 @@ int _notificationIdFor(int scheduleId, DateTime dateTime) {
 }
 
 class NotificationScheduler {
-  static const int _numberOfDays = 30;
-  static const int _maxScheduled = 64;
+  static const int _maxScheduled = 60; // below iOS limit
 
   final NotificationPlanner planner;
   final PreferencesService preferencesService;
@@ -26,10 +25,13 @@ class NotificationScheduler {
       return;
     }
 
-    final plans =
-        planner.planNotifications(days: _numberOfDays).take(_maxScheduled);
+    final daysAhead = planner.daysAhead(maxScheduled: _maxScheduled);
+    final plans = planner.planNotifications(daysAhead: daysAhead)
+      ..sort((a, b) => a.firstFire.compareTo(b.firstFire));
 
-    await Future.wait(plans.map((plan) => _schedule(plan, l10n, localeName)));
+    await Future.wait(plans
+        .take(_maxScheduled)
+        .map((plan) => _schedule(plan, l10n, localeName)));
   }
 
   Future<void> _schedule(
