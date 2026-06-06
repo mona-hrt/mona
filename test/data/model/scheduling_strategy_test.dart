@@ -557,6 +557,72 @@ void main() {
       });
     });
 
+    group('WeeklySchedule.nextDateOn', () {
+      const s = WeeklySchedule(daysOfWeek: [1]);
+
+      test('weekday == today and startDate in past -> returns today', () {
+        withFixedClock(() {
+          final start = Date.today().subtract(const Duration(days: 14));
+
+          expect(s.nextDateOn(1, start), Date.today()); // testNow = Mon
+        });
+      });
+
+      test('weekday is later this week -> returns that day this week', () {
+        withFixedClock(() {
+          // testNow Mon. Target Wed = +2.
+          final start = Date.today().subtract(const Duration(days: 14));
+
+          expect(s.nextDateOn(3, start),
+              Date.today().add(const Duration(days: 2)));
+        });
+      });
+
+      test('weekday already passed this week -> wraps to next week', () {
+        withFixedClock(() {
+          // testNow Mon. Target Sun = +6 (wraps Mon->Tue->...->Sun).
+          final start = Date.today().subtract(const Duration(days: 14));
+
+          expect(s.nextDateOn(7, start),
+              Date.today().add(const Duration(days: 6)));
+        });
+      });
+
+      test('startDate in the future and matches weekday -> returns startDate',
+          () {
+        withFixedClock(() {
+          // startDate Wed (+2). Target Wed = startDate.
+          final start = Date.today().add(const Duration(days: 2));
+
+          expect(s.nextDateOn(3, start), start);
+        });
+      });
+
+      test(
+          'startDate in the future, does not match weekday -> walks from startDate',
+          () {
+        withFixedClock(() {
+          // startDate Wed (+2). Target Fri = startDate + 2 = +4.
+          final start = Date.today().add(const Duration(days: 2));
+
+          expect(s.nextDateOn(5, start),
+              Date.today().add(const Duration(days: 4)));
+        });
+      });
+
+      test('ignores daysOfWeek - target weekday is honoured even if not in it',
+          () {
+        withFixedClock(() {
+          // Schedule says daysOfWeek=[Mon], but caller asks for Wed.
+          const monOnly = WeeklySchedule(daysOfWeek: [1]);
+          final start = Date.today().subtract(const Duration(days: 14));
+
+          expect(monOnly.nextDateOn(3, start),
+              Date.today().add(const Duration(days: 2)));
+        });
+      });
+    });
+
     group('WeeklySchedule.previousDate', () {
       test('startDate > today -> returns null', () {
         withFixedClock(() {

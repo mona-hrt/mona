@@ -196,15 +196,23 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   /// - If [startDate] is in the future or today, search starts from
   ///   [startDate] (the schedule has not begun before then).
   /// - Otherwise, search starts from today.
-  ///
-  /// Assumes [daysOfWeek] is non-empty; otherwise returns the search-start
-  /// date unchanged after walking a full week.
   Date nextDate(Date startDate) {
     Date candidate = startDate.isAfterToday ? startDate : Date.today();
     for (int i = 0; i < 7; i++) {
       if (daysOfWeek.contains(candidate.weekday)) {
         return candidate;
       }
+      candidate = candidate.add(const Duration(days: 1));
+    }
+    return candidate;
+  }
+
+  /// Returns the next date matching [weekday] (ISO 1=Monday..7=Sunday) on or
+  /// after the schedule's effective start date.
+  Date nextDateOn(int weekday, Date startDate) {
+    Date candidate = startDate.isAfterToday ? startDate : Date.today();
+    for (int i = 0; i < 7; i++) {
+      if (candidate.weekday == weekday) return candidate;
       candidate = candidate.add(const Duration(days: 1));
     }
     return candidate;
