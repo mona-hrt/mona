@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:mona/controllers/occurrences_manager.dart';
+import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/services/notification_service.dart';
@@ -13,7 +13,7 @@ class NotificationScheduler {
   static const int _numberOfDays = 30;
   static const int _maxScheduled = 64;
 
-  final OccurrencesManager occurencesManager;
+  final SlotsBuilder occurencesManager;
   final PreferencesService preferencesService;
 
   NotificationScheduler(this.occurencesManager, this.preferencesService);

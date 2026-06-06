@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mona/controllers/occurrences_manager.dart';
+import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
     final localizations = context.l10n;
 
     final occurrences = splitByDay(
-      OccurrencesManager(intakeProvider, scheduleProvider).intakeSlots(),
+      SlotsBuilder(intakeProvider, scheduleProvider).intakeSlots(),
     );
 
     return MainPageWrapper(

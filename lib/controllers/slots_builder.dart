@@ -8,28 +8,28 @@ import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 
-class OccurrencesManager {
+class SlotsBuilder {
   final MedicationIntakeProvider _medicationIntakeProvider;
   final MedicationScheduleProvider _medicationScheduleProvider;
 
-  const OccurrencesManager(
+  const SlotsBuilder(
       this._medicationIntakeProvider, this._medicationScheduleProvider);
 
   List<IntakeSlot> intakeSlots() {
-    final occurrences = <IntakeSlot>[];
+    final slots = <IntakeSlot>[];
 
     for (final schedule in _medicationScheduleProvider.schedules) {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
-          occurrences.add(_interval(schedule, scheduling));
+          slots.add(_interval(schedule, scheduling));
         case DailySchedule scheduling:
-          occurrences.addAll(_daily(schedule, scheduling));
+          slots.addAll(_daily(schedule, scheduling));
         case WeeklySchedule scheduling:
-          occurrences.add(_weekly(schedule, scheduling));
+          slots.add(_weekly(schedule, scheduling));
       }
     }
 
-    return occurrences;
+    return slots;
   }
 
   List<PlannedNotification> planNotifications({required int days}) {

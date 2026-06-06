@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:mona/controllers/occurrences_manager.dart';
+import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -52,13 +52,13 @@ MedicationIntake intakeAt(TimeOfDay time, {int id = 0, int scheduleId = 1}) =>
 void main() {
   late MockMedicationIntakeProvider intakes;
   late MockMedicationScheduleProvider schedules;
-  late OccurrencesManager occurrences;
+  late SlotsBuilder occurrences;
 
   setUp(() {
     intakes = MockMedicationIntakeProvider();
     schedules = MockMedicationScheduleProvider();
     when(schedules.schedules).thenReturn([]);
-    occurrences = OccurrencesManager(intakes, schedules);
+    occurrences = SlotsBuilder(intakes, schedules);
   });
 
   void withSchedules(List<MedicationSchedule> all) {

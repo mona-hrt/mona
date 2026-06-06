@@ -2,7 +2,7 @@ import 'package:dynamic_system_colors/dynamic_system_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
-import 'package:mona/controllers/occurrences_manager.dart';
+import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/l10n/app_localizations.dart';
@@ -51,8 +51,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _medicationIntakeProvider = context.read<MedicationIntakeProvider>();
       _preferencesService = context.read<PreferencesService>();
       _notificationScheduler = NotificationScheduler(
-          OccurrencesManager(
-              _medicationIntakeProvider, _medicationScheduleProvider),
+          SlotsBuilder(_medicationIntakeProvider, _medicationScheduleProvider),
           _preferencesService);
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);

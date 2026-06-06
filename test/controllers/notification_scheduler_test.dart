@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
-import 'package:mona/controllers/occurrences_manager.dart';
+import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -23,7 +23,7 @@ import 'package:timezone/timezone.dart' as tz;
 import '../util/test_clock.dart';
 
 @GenerateNiceMocks([
-  MockSpec<OccurrencesManager>(),
+  MockSpec<SlotsBuilder>(),
   MockSpec<PreferencesService>(),
   MockSpec<FlutterLocalNotificationsPlugin>(),
 ])
@@ -79,7 +79,7 @@ MedicationSchedule _defaultSchedule() => schedule();
 void main() {
   final l10n = AppLocalizationsEn();
 
-  late MockOccurrencesManager occurrences;
+  late MockSlotsBuilder occurrences;
   late MockPreferencesService preferences;
   late MockFlutterLocalNotificationsPlugin plugin;
   late bool Function()? origPlatformCheck;
@@ -92,7 +92,7 @@ void main() {
   });
 
   setUp(() {
-    occurrences = MockOccurrencesManager();
+    occurrences = MockSlotsBuilder();
     preferences = MockPreferencesService();
     plugin = MockFlutterLocalNotificationsPlugin();
 
