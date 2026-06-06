@@ -10,12 +10,12 @@ extension MedicationScheduleL10n on MedicationSchedule {
       '$dose ${molecule.unit} • ${molecule.localizedNameWithEster(ester, localizations)} • '
       '${administrationRoute.localizedName(localizations)}';
 
-  String localizedSummaryWithFrequency(AppLocalizations localizations) {
-    final frequency = switch (scheduling) {
+  String localizedFrequency(AppLocalizations localizations) {
+    return switch (scheduling) {
       IntervalDaysSchedule(intervalDays: 1) =>
         localizations.scheduleFrequencyDaily,
       IntervalDaysSchedule(intervalDays: final n) =>
-        localizations.scheduleFrequencyEveryNDays(n),
+        localizations.scheduleFrequencyEveryNDays(n), // TODO use one, many ?
       DailySchedule _ => localizations.scheduleFrequencyDaily,
       WeeklySchedule s => () {
           if (s.daysOfWeek.length == 7) {
@@ -28,7 +28,9 @@ extension MedicationScheduleL10n on MedicationSchedule {
           return days;
         }(),
     };
+  }
 
-    return '${localizedSummary(localizations)}\n$frequency';
+  String localizedSummaryWithFrequency(AppLocalizations localizations) {
+    return '${localizedSummary(localizations)}\n${localizedFrequency(localizations)}';
   }
 }
