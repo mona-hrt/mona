@@ -75,15 +75,6 @@ class MedicationSchedule with MedicationScheduleMappable {
   static String? validateMolecule(AppLocalizations l10n, Molecule? value) =>
       requiredMolecule(l10n, value);
 
-  // String formatFrequency() {
-  //   if (daysOfWeek.length == 7) return "every day";
-  //   if (daysOfWeek.isEmpty) return "no days selected";
-
-  //   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  //   final selectedDays = daysOfWeek.map((d) => weekdays[d - 1]).join(', ');
-  //   return "Every $selectedDays";
-  // }
-
   static String? validateAdministrationRoute(
           AppLocalizations l10n, AdministrationRoute? value) =>
       requiredAdministrationRoute(l10n, value);
