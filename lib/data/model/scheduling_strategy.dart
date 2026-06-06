@@ -119,22 +119,18 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return lastTakenDate.isAfter(prev);
   }
 
-  bool isTakenTodayOrLater(Date? lastTakenDate) {
+  bool _isTakenTodayOrLater(Date? lastTakenDate) {
     if (lastTakenDate == null) return false;
 
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
-  } // TODO make private
+  }
 
   ScheduleStatus statusFor({
     required Date startDate,
-    required Date date,
     Date? lastTaken,
   }) {
-    // TODO remove date parameter, should only be today
-    if (!date.isToday) return ScheduleStatus.upcoming;
-
     if (_isScheduledForToday(startDate)) {
-      if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
+      if (_isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
       if (_isLate(startDate, lastTaken)) return ScheduleStatus.todayOverdue;
       if (_lastTakenLate(startDate, lastTaken)) {
         return ScheduleStatus.todayEarly;
@@ -251,10 +247,10 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
     return lastTakenDate.isAfter(prev);
   }
 
-  bool isTakenTodayOrLater(Date? lastTakenDate) {
+  bool _isTakenTodayOrLater(Date? lastTakenDate) {
     if (lastTakenDate == null) return false;
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
-  } // TODO make private
+  }
 
   ScheduleStatus statusFor({
     required Date startDate,
@@ -264,7 +260,7 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
     if (!date.isToday) return ScheduleStatus.upcoming;
 
     if (_isScheduledForToday(startDate)) {
-      if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
+      if (_isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
       if (_isLate(startDate, lastTaken)) return ScheduleStatus.todayOverdue;
       if (_lastTakenLate(startDate, lastTaken)) {
         return ScheduleStatus.todayEarly;

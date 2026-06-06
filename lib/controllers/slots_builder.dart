@@ -41,7 +41,6 @@ class SlotsBuilder {
 
     final status = scheduling.statusFor(
       startDate: schedule.startDate,
-      date: Date.today(),
       lastTaken: lastTaken,
     );
     return IntakeSlot(

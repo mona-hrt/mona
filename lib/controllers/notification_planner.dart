@@ -40,16 +40,12 @@ class NotificationPlanner {
     final now = clock.now();
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
+    final takenToday = lastTaken != null && !lastTaken.isBefore(Date.today());
     final dates = scheduling.getNextDates(schedule.startDate, days);
 
     final plans = <PlannedNotification>[];
     for (final date in dates) {
-      final status = scheduling.statusFor(
-        startDate: schedule.startDate,
-        date: date,
-        lastTaken: lastTaken,
-      );
-      if (status == ScheduleStatus.taken) continue;
+      if (date.isToday && takenToday) continue;
 
       for (final time in scheduling.notificationTimes) {
         final dateTime = date.toDateTimeAt(time);

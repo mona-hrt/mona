@@ -268,30 +268,6 @@ void main() {
       });
     });
 
-    group('IntervalDaysSchedule.isTakenTodayOrLater', () {
-      final s = IntervalDaysSchedule(intervalDays: 7);
-
-      test('returns false if no last taken', () {
-        expect(s.isTakenTodayOrLater(null), isFalse);
-      });
-
-      test('returns false if last taken date is before today', () {
-        expect(
-            s.isTakenTodayOrLater(
-                Date.today().subtract(const Duration(days: 1))),
-            isFalse);
-      });
-
-      test('returns true if last taken date is after today', () {
-        expect(s.isTakenTodayOrLater(Date.today().add(const Duration(days: 1))),
-            isTrue);
-      });
-
-      test('returns true if last taken date is today', () {
-        expect(s.isTakenTodayOrLater(Date.today()), isTrue);
-      });
-    });
-
     group('IntervalDaysSchedule.statusFor', () {
       IntervalDaysSchedule scheduledForToday() =>
           IntervalDaysSchedule(intervalDays: 7);
@@ -304,9 +280,7 @@ void main() {
           final s = scheduledForToday();
           expect(
               s.statusFor(
-                  startDate: scheduledForTodayStart(),
-                  date: Date.today(),
-                  lastTaken: Date.today()),
+                  startDate: scheduledForTodayStart(), lastTaken: Date.today()),
               ScheduleStatus.taken);
         });
 
@@ -315,7 +289,6 @@ void main() {
           expect(
               s.statusFor(
                   startDate: scheduledForTodayStart(),
-                  date: Date.today(),
                   lastTaken: Date.today().add(Duration(days: 1))),
               ScheduleStatus.taken);
         });
@@ -326,17 +299,13 @@ void main() {
           final s = scheduledForToday();
           final start = scheduledForTodayStart();
           final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
-          expect(
-              s.statusFor(
-                  startDate: start, date: Date.today(), lastTaken: lastTaken),
+          expect(s.statusFor(startDate: start, lastTaken: lastTaken),
               ScheduleStatus.todayOverdue);
         });
 
         test('scheduled for today, never taken -> todayOverdue', () {
           final s = scheduledForToday();
-          expect(
-              s.statusFor(
-                  startDate: scheduledForTodayStart(), date: Date.today()),
+          expect(s.statusFor(startDate: scheduledForTodayStart()),
               ScheduleStatus.todayOverdue);
         });
 
@@ -346,9 +315,7 @@ void main() {
           final s = scheduledForToday();
           final start = scheduledForTodayStart();
           final lastTaken = s.previousDate(start)!.add(Duration(days: 1));
-          expect(
-              s.statusFor(
-                  startDate: start, date: Date.today(), lastTaken: lastTaken),
+          expect(s.statusFor(startDate: start, lastTaken: lastTaken),
               ScheduleStatus.todayEarly);
         });
 
@@ -358,10 +325,7 @@ void main() {
           final s = scheduledForToday();
           final start = scheduledForTodayStart();
           expect(
-              s.statusFor(
-                  startDate: start,
-                  date: Date.today(),
-                  lastTaken: s.previousDate(start)),
+              s.statusFor(startDate: start, lastTaken: s.previousDate(start)),
               ScheduleStatus.today);
         });
 
@@ -370,34 +334,27 @@ void main() {
             () {
           final s = IntervalDaysSchedule(intervalDays: 7);
           expect(s.previousDate(Date.today()), isNull);
-          expect(s.statusFor(startDate: Date.today(), date: Date.today()),
-              ScheduleStatus.today);
+          expect(s.statusFor(startDate: Date.today()), ScheduleStatus.today);
         });
 
         test('not scheduled for today, last intake is overdue -> overdue', () {
           final s = IntervalDaysSchedule(intervalDays: 7);
           final start = Date.today().subtract(Duration(days: 10));
           final lastTaken = s.previousDate(start)!.subtract(Duration(days: 1));
-          expect(
-              s.statusFor(
-                  startDate: start, date: Date.today(), lastTaken: lastTaken),
+          expect(s.statusFor(startDate: start, lastTaken: lastTaken),
               ScheduleStatus.overdue);
         });
 
         test('not scheduled for today, never taken and overdue -> overdue', () {
           final s = IntervalDaysSchedule(intervalDays: 7);
           final start = Date.today().subtract(Duration(days: 10));
-          expect(s.statusFor(startDate: start, date: Date.today()),
-              ScheduleStatus.overdue);
+          expect(s.statusFor(startDate: start), ScheduleStatus.overdue);
         });
 
         test('not scheduled for today, start date in the future -> upcoming',
             () {
           final s = IntervalDaysSchedule(intervalDays: 7);
-          expect(
-              s.statusFor(
-                  startDate: Date.today().add(Duration(days: 5)),
-                  date: Date.today()),
+          expect(s.statusFor(startDate: Date.today().add(Duration(days: 5))),
               ScheduleStatus.upcoming);
         });
 
@@ -407,10 +364,7 @@ void main() {
           final s = IntervalDaysSchedule(intervalDays: 7);
           final start = Date.today().subtract(Duration(days: 10));
           expect(
-              s.statusFor(
-                  startDate: start,
-                  date: Date.today(),
-                  lastTaken: s.previousDate(start)),
+              s.statusFor(startDate: start, lastTaken: s.previousDate(start)),
               ScheduleStatus.upcoming);
         });
 
@@ -418,31 +372,8 @@ void main() {
           final s = scheduledForToday();
           expect(
               s.statusFor(
-                  startDate: scheduledForTodayStart(),
-                  date: Date.today(),
-                  lastTaken: Date.today()),
+                  startDate: scheduledForTodayStart(), lastTaken: Date.today()),
               ScheduleStatus.taken);
-        });
-      });
-
-      group('date != today', () {
-        test('future date -> upcoming regardless of overdue history', () {
-          final s = IntervalDaysSchedule(intervalDays: 7);
-          final start = Date.today().subtract(Duration(days: 10));
-          expect(
-              s.statusFor(
-                  startDate: start, date: Date.today().add(Duration(days: 1))),
-              ScheduleStatus.upcoming);
-        });
-
-        test('future date -> upcoming even when taken today', () {
-          final s = scheduledForToday();
-          expect(
-              s.statusFor(
-                  startDate: scheduledForTodayStart(),
-                  date: Date.today().add(Duration(days: 7)),
-                  lastTaken: Date.today()),
-              ScheduleStatus.upcoming);
         });
       });
     });
