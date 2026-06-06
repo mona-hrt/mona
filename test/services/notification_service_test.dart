@@ -49,6 +49,7 @@ class FakeFlutterLocalNotificationsPlugin
       'body': body,
       'date': scheduledDate,
       'payload': payload,
+      'matchDateTimeComponents': matchDateTimeComponents,
     });
   }
 
@@ -219,5 +220,50 @@ void main() {
       expect(fakePlugin.shown.length, 1);
       expect(fakePlugin.shown.first['title'], 'Past');
     });
+  });
+
+  test('scheduleDailyNotification matches on time only and marks repeating',
+      () async {
+    final firstFire = DateTime.utc(2026, 2, 8, 10, 30);
+    await service.scheduleDailyNotification(
+      id: 7,
+      title: 'D',
+      body: 'B',
+      firstOccurrence: firstFire,
+    );
+
+    expect(fakePlugin.scheduled.length, 1);
+    final n = fakePlugin.scheduled.first;
+    expect(n['id'], 7);
+    expect(n['matchDateTimeComponents'], DateTimeComponents.time);
+    expect((n['date'] as tz.TZDateTime).hour, 10);
+    expect((n['date'] as tz.TZDateTime).minute, 30);
+
+    final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
+    expect(payload['scheduledTime'], firstFire.toIso8601String());
+    expect(payload['isRepeating'], isTrue);
+  });
+
+  test(
+      'scheduleWeeklyNotification matches on dayOfWeek+time and marks repeating',
+      () async {
+    final firstFire = DateTime.utc(2026, 2, 9, 8, 0); // Mon
+    await service.scheduleWeeklyNotification(
+      id: 9,
+      title: 'W',
+      body: 'B',
+      firstOccurrence: firstFire,
+    );
+
+    expect(fakePlugin.scheduled.length, 1);
+    final n = fakePlugin.scheduled.first;
+    expect(n['id'], 9);
+    expect(n['matchDateTimeComponents'], DateTimeComponents.dayOfWeekAndTime);
+    expect((n['date'] as tz.TZDateTime).hour, 8);
+    expect((n['date'] as tz.TZDateTime).minute, 0);
+
+    final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
+    expect(payload['scheduledTime'], firstFire.toIso8601String());
+    expect(payload['isRepeating'], isTrue);
   });
 }

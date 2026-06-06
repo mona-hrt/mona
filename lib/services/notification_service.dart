@@ -167,35 +167,41 @@ class NotificationService {
     );
   }
 
-  Future<void> scheduleWeeklyNotification({
-    int? id,
+  Future<void> scheduleDailyNotification({
+    required int id,
     required String title,
     required String body,
-    required int dayOfWeek,
-    required int hour,
-    required int minute,
-    required DateTime startDate,
+    required DateTime firstOccurrence,
+  }) =>
+      _scheduleRepeating(
+        id: id,
+        title: title,
+        body: body,
+        firstOccurrence: firstOccurrence,
+        matchComponents: DateTimeComponents.time,
+      );
+
+  Future<void> scheduleWeeklyNotification({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime firstOccurrence,
+  }) =>
+      _scheduleRepeating(
+        id: id,
+        title: title,
+        body: body,
+        firstOccurrence: firstOccurrence,
+        matchComponents: DateTimeComponents.dayOfWeekAndTime,
+      );
+
+  Future<void> _scheduleRepeating({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime firstOccurrence,
+    required DateTimeComponents matchComponents,
   }) async {
-    id ??= Random().nextInt(1 << 31);
-
-    // Find the first occurrence on or after startDate that matches dayOfWeek
-    DateTime firstOccurrence = startDate;
-    while (firstOccurrence.weekday != dayOfWeek) {
-      firstOccurrence = firstOccurrence.add(const Duration(days: 1));
-    }
-    firstOccurrence = DateTime(
-      firstOccurrence.year,
-      firstOccurrence.month,
-      firstOccurrence.day,
-      hour,
-      minute,
-    );
-
-    // If the first occurrence is in the past, move to next week
-    if (firstOccurrence.isBefore(DateTime.now())) {
-      firstOccurrence = firstOccurrence.add(const Duration(days: 7));
-    }
-
     final scheduledDate = tz.TZDateTime.from(firstOccurrence, tz.local);
 
     final payload = jsonEncode({
@@ -215,7 +221,7 @@ class NotificationService {
       scheduledDate: scheduledDate,
       notificationDetails: _notificationDetails(),
       androidScheduleMode: scheduleMode,
-      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+      matchDateTimeComponents: matchComponents,
       payload: payload,
     );
   }
