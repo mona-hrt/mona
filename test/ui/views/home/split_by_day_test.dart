@@ -35,7 +35,6 @@ ScheduledOccurrence occurrence({
           ),
       date: Date.today(),
       status: status,
-      notifiable: true,
       time: time,
     );
 

@@ -94,28 +94,6 @@ void main() {
       expect(occ.intake, intake);
     });
 
-    test('notifiable mirrors notificationTime presence', () {
-      final withTime = schedule(
-        id: 1,
-        scheduling: IntervalDaysSchedule(
-          intervalDays: 7,
-          notificationTimes: [const TimeOfDay(hour: 9, minute: 0)],
-        ),
-      );
-      final withoutTime =
-          schedule(id: 2, scheduling: IntervalDaysSchedule(intervalDays: 7));
-      withSchedules([withTime, withoutTime]);
-
-      final result = occurrences.current();
-      expect(
-        result.singleWhere((it) => it.schedule.id == withTime.id).notifiable,
-        isTrue,
-      );
-      expect(
-        result.singleWhere((it) => it.schedule.id == withoutTime.id).notifiable,
-        isFalse,
-      );
-    });
   });
 
   group('current - DailySchedule', () {
@@ -166,26 +144,6 @@ void main() {
       expect(result.map((o) => o.intake), everyElement(isNull));
     });
 
-    test('notifiable mirrors notify flag', () {
-      final loud = schedule(
-          id: 1, scheduling: const DailySchedule(intakeTimes: [morning]));
-      final silent = schedule(
-          id: 2,
-          scheduling:
-              const DailySchedule(intakeTimes: [morning], notify: false));
-      withSchedules([loud, silent]);
-      when(intakes.getTakenIntakesForScheduleOn(any, any)).thenReturn([]);
-
-      final result = occurrences.current();
-      expect(
-        result.singleWhere((it) => it.schedule.id == loud.id).notifiable,
-        isTrue,
-      );
-      expect(
-        result.singleWhere((it) => it.schedule.id == silent.id).notifiable,
-        isFalse,
-      );
-    });
   });
 
   // testNow (2026-06-01) is a Monday.
@@ -254,36 +212,7 @@ void main() {
       });
     });
 
-    test('notifiable mirrors notificationTimes presence', () {
-      withFixedClock(() {
-        final withTimes = schedule(
-          id: 1,
-          scheduling: const WeeklySchedule(
-            daysOfWeek: [1],
-            notificationTimes: [TimeOfDay(hour: 9, minute: 0)],
-          ),
-        );
-        final withoutTimes = schedule(
-          id: 2,
-          scheduling: const WeeklySchedule(daysOfWeek: [1]),
-        );
-        withSchedules([withTimes, withoutTimes]);
-
-        final result = occurrences.current();
-        expect(
-          result.singleWhere((it) => it.schedule.id == withTimes.id).notifiable,
-          isTrue,
-        );
-        expect(
-          result
-              .singleWhere((it) => it.schedule.id == withoutTimes.id)
-              .notifiable,
-          isFalse,
-        );
-      });
-    });
-
-    test('current occurrence has no time or notificationTime set', () {
+    test('current occurrence has no slot time set', () {
       withFixedClock(() {
         final s = schedule(
             scheduling: const WeeklySchedule(
@@ -295,107 +224,7 @@ void main() {
         final occ = occurrences.current().single;
 
         expect(occ.time, isNull);
-        expect(occ.notificationTime, isNull);
       });
-    });
-  });
-
-  group('upcoming - IntervalDaysSchedule', () {
-    test('returns `days` future scheduled dates', () {
-      final start = Date.today().subtract(const Duration(days: 7));
-      final s = schedule(
-          scheduling: IntervalDaysSchedule(
-              intervalDays: 7,
-              notificationTimes: [const TimeOfDay(hour: 9, minute: 0)]),
-          startDate: start);
-      withSchedules([s]);
-
-      final result = occurrences.upcoming(days: 3);
-
-      expect(result, hasLength(3));
-    });
-
-    test('today-slot status reflects current state', () {
-      final start = Date.today().subtract(const Duration(days: 7));
-      final s = schedule(
-          id: 7,
-          scheduling: IntervalDaysSchedule(
-              intervalDays: 7,
-              notificationTimes: [const TimeOfDay(hour: 9, minute: 0)]),
-          startDate: start);
-      withSchedules([s]);
-      when(intakes.getLastIntakeLocalDateForSchedule(7))
-          .thenReturn(Date.today());
-
-      final result = occurrences.upcoming(days: 2);
-
-      expect(result.first.status, ScheduleStatus.taken);
-    });
-
-    test('notificationTime mirrors scheduling notificationTime', () {
-      const t = TimeOfDay(hour: 9, minute: 30);
-      final s = schedule(
-          scheduling:
-              IntervalDaysSchedule(intervalDays: 1, notificationTimes: [t]));
-      withSchedules([s]);
-
-      final result = occurrences.upcoming(days: 3);
-
-      expect(result.map((o) => o.notificationTime), everyElement(t));
-    });
-
-    test('notifiable mirrors notificationTime presence', () {
-      final withoutTime =
-          schedule(scheduling: IntervalDaysSchedule(intervalDays: 1));
-      withSchedules([withoutTime]);
-
-      final result = occurrences.upcoming(days: 2);
-
-      expect(result.map((o) => o.notifiable), everyElement(isFalse));
-    });
-  });
-
-  group('upcoming - DailySchedule', () {
-    const morning = TimeOfDay(hour: 8, minute: 0);
-    const evening = TimeOfDay(hour: 20, minute: 30);
-
-    test('emits `days * intakeTimes` occurrences', () {
-      final s = schedule(
-          scheduling: const DailySchedule(intakeTimes: [morning, evening]));
-      withSchedules([s]);
-      when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
-          .thenReturn(<MedicationIntake>[]);
-
-      final result = occurrences.upcoming(days: 3);
-
-      expect(result, hasLength(6));
-    });
-
-    test('today slot status reflects current state', () {
-      final morningIntake = intakeAt(morning, id: 1);
-      final s = schedule(
-          scheduling: const DailySchedule(intakeTimes: [morning, evening]));
-      withSchedules([s]);
-      when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
-          .thenReturn([morningIntake]);
-
-      final result = occurrences.upcoming(days: 1);
-
-      expect(result.first.status, ScheduleStatus.taken);
-      expect(result.first.intake, morningIntake);
-      expect(result[1].status, ScheduleStatus.today);
-    });
-
-    test('notifiable mirrors notify flag for every occurrence', () {
-      final silent = schedule(
-          scheduling:
-              const DailySchedule(intakeTimes: [morning], notify: false));
-      withSchedules([silent]);
-      when(intakes.getTakenIntakesForScheduleOn(any, any)).thenReturn([]);
-
-      final result = occurrences.upcoming(days: 3);
-
-      expect(result.map((o) => o.notifiable), everyElement(isFalse));
     });
   });
 

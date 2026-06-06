@@ -15,42 +15,21 @@ class OccurrencesManager {
   const OccurrencesManager(
       this._medicationIntakeProvider, this._medicationScheduleProvider);
 
-  Occurrences current() {
-    final schedules = _medicationScheduleProvider.schedules;
+  List<ScheduledOccurrence> current() {
     final occurrences = <ScheduledOccurrence>[];
 
-    for (final schedule in schedules) {
+    for (final schedule in _medicationScheduleProvider.schedules) {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
-          occurrences
-              .addAll(_interval(schedule, scheduling, [Date.today()], true));
+          occurrences.add(_interval(schedule, scheduling));
         case DailySchedule scheduling:
-          occurrences.addAll(_daily(schedule, scheduling, 1));
+          occurrences.addAll(_daily(schedule, scheduling));
         case WeeklySchedule scheduling:
-          occurrences.addAll(_weekly(schedule, scheduling, 1, true));
+          occurrences.add(_weekly(schedule, scheduling));
       }
     }
 
-    return Occurrences(occurrences);
-  }
-
-  Occurrences upcoming({required int days}) {
-    final schedules = _medicationScheduleProvider.schedules;
-    final occurrences = <ScheduledOccurrence>[];
-
-    for (final schedule in schedules) {
-      switch (schedule.scheduling) {
-        case IntervalDaysSchedule s:
-          occurrences.addAll(_interval(
-              schedule, s, s.getNextDates(schedule.startDate, days), false));
-        case DailySchedule s:
-          occurrences.addAll(_daily(schedule, s, days));
-        case WeeklySchedule s:
-          occurrences.addAll(_weekly(schedule, s, days, false));
-      }
-    }
-
-    return Occurrences(occurrences);
+    return occurrences;
   }
 
   List<PlannedNotification> planNotifications({required int days}) {
@@ -58,12 +37,12 @@ class OccurrencesManager {
 
     for (final schedule in _medicationScheduleProvider.schedules) {
       switch (schedule.scheduling) {
-        case IntervalDaysSchedule s:
-          plans.addAll(_intervalPlans(schedule, s, days));
-        case DailySchedule s:
-          plans.addAll(_dailyPlans(schedule, s));
-        case WeeklySchedule s:
-          plans.addAll(_weeklyPlans(schedule, s));
+        case IntervalDaysSchedule scheduling:
+          plans.addAll(_intervalPlans(schedule, scheduling, days));
+        case DailySchedule scheduling:
+          plans.addAll(_dailyPlans(schedule, scheduling));
+        case WeeklySchedule scheduling:
+          plans.addAll(_weeklyPlans(schedule, scheduling));
       }
     }
 
@@ -164,138 +143,71 @@ class OccurrencesManager {
     ];
   }
 
-  List<ScheduledOccurrence> _interval(
+  ScheduledOccurrence _interval(
     MedicationSchedule schedule,
     IntervalDaysSchedule scheduling,
-    List<Date> dates,
-    bool current,
   ) {
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
     final lastIntake =
         _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
-    final notifiable = scheduling.notificationTimes.isNotEmpty;
 
-    if (current) {
-      final status = scheduling.statusFor(
-          startDate: schedule.startDate,
-          date: Date.today(),
-          lastTaken: lastTaken);
-      return [
-        ScheduledOccurrence(
-          schedule: schedule,
-          date: Date.today(),
-          notificationTime: null,
-          status: status,
-          intake: status == ScheduleStatus.taken ? lastIntake : null,
-          notifiable: notifiable,
-        ),
-      ];
-    }
-
-    return [
-      for (final date in dates)
-        for (final time in scheduling.notificationTimes)
-          () {
-            final status = scheduling.statusFor(
-                startDate: schedule.startDate,
-                date: date,
-                lastTaken: lastTaken);
-            return ScheduledOccurrence(
-              schedule: schedule,
-              date: date,
-              notificationTime: time,
-              status: status,
-              intake: status == ScheduleStatus.taken ? lastIntake : null,
-              notifiable: notifiable,
-            );
-          }(),
-    ];
+    final status = scheduling.statusFor(
+      startDate: schedule.startDate,
+      date: Date.today(),
+      lastTaken: lastTaken,
+    );
+    return ScheduledOccurrence(
+      schedule: schedule,
+      date: Date.today(),
+      status: status,
+      intake: status == ScheduleStatus.taken ? lastIntake : null,
+    );
   }
 
   List<ScheduledOccurrence> _daily(
     MedicationSchedule schedule,
     DailySchedule scheduling,
-    int days,
   ) {
     final today = Date.today();
     final takenToday = _medicationIntakeProvider.getTakenIntakesForScheduleOn(
         schedule.id, today);
 
     return [
-      for (var i = 0; i < days; i++)
-        for (final time in scheduling.intakeTimes)
-          () {
-            final date = today.add(Duration(days: i));
-            final match = date.isToday
-                ? takenToday.firstWhereOrNull((it) => it.scheduledTime == time)
-                : null;
-            return ScheduledOccurrence(
-              schedule: schedule,
-              date: date,
-              time: time,
-              notificationTime: time,
-              status: scheduling.statusFor(date: date, matchedIntake: match),
-              intake: match,
-              notifiable: scheduling.notify,
-            );
-          }(),
+      for (final time in scheduling.intakeTimes)
+        () {
+          final match =
+              takenToday.firstWhereOrNull((it) => it.scheduledTime == time);
+          return ScheduledOccurrence(
+            schedule: schedule,
+            date: today,
+            time: time,
+            status: scheduling.statusFor(date: today, matchedIntake: match),
+            intake: match,
+          );
+        }(),
     ];
   }
 
-  List<ScheduledOccurrence> _weekly(
+  ScheduledOccurrence _weekly(
     MedicationSchedule schedule,
     WeeklySchedule scheduling,
-    int days,
-    bool current,
   ) {
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
     final lastIntake =
         _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
-    final notifiable = scheduling.notificationTimes.isNotEmpty;
 
-    if (current) {
-      final status = scheduling.statusFor(
-          startDate: schedule.startDate,
-          date: Date.today(),
-          lastTaken: lastTaken);
-      return [
-        ScheduledOccurrence(
-          schedule: schedule,
-          date: Date.today(),
-          notificationTime: null,
-          status: status,
-          intake: status == ScheduleStatus.taken ? lastIntake : null,
-          notifiable: notifiable,
-        ),
-      ];
-    }
-
-    return [
-      for (var i = 0; i < days; i++)
-        () {
-          final date = Date.today().add(Duration(days: i));
-          if (!scheduling.daysOfWeek.contains(date.weekday) ||
-              date.isBefore(schedule.startDate)) {
-            return <ScheduledOccurrence>[];
-          }
-
-          final status = scheduling.statusFor(
-              startDate: schedule.startDate, date: date, lastTaken: lastTaken);
-
-          return [
-            for (final time in scheduling.notificationTimes)
-              ScheduledOccurrence(
-                schedule: schedule,
-                date: date,
-                notificationTime: time,
-                status: status,
-                intake: status == ScheduleStatus.taken ? lastIntake : null,
-                notifiable: notifiable,
-              ),
-          ];
-        }(),
-    ].flattened.toList();
+    final status = scheduling.statusFor(
+      startDate: schedule.startDate,
+      date: Date.today(),
+      lastTaken: lastTaken,
+    );
+    return ScheduledOccurrence(
+      schedule: schedule,
+      date: Date.today(),
+      status: status,
+      intake: status == ScheduleStatus.taken ? lastIntake : null,
+    );
   }
 }
