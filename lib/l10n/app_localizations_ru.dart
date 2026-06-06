@@ -260,8 +260,18 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Запланировано на $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Запланировано на $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Запланировано на $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Запланировано на $weekday';
   }
 
   @override

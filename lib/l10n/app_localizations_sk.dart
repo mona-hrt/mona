@@ -273,8 +273,18 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Naplánovaná na $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Naplánovaná na $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Naplánovaná na $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Naplánovaná na $weekday';
   }
 
   @override

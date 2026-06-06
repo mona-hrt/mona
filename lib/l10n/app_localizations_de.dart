@@ -263,8 +263,18 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Geplant für $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Geplant für den $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Geplant für $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Geplant für $weekday';
   }
 
   @override

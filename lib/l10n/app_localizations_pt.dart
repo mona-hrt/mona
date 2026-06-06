@@ -266,8 +266,18 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Agendado para $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Agendado para $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Agendado para $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Agendado para $weekday';
   }
 
   @override
@@ -1052,8 +1062,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Agendado para $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Agendado para $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Agendado para $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Agendado para $weekday';
   }
 
   @override

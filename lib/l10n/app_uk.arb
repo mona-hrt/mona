@@ -83,7 +83,9 @@
   "updateDownloadFailed": "Завантаження невдалося. Будь ласка, перевірте вашу мережу..",
 
   "notificationMedicationReminderTitle": "Час прийняти {scheduleName}",
-  "notificationMedicationReminderBody": "Заплановано на {dateTime}",
+  "notificationMedicationReminderBodyDate": "Заплановано на {date}",
+  "notificationMedicationReminderBodyTime": "Заплановано на {time}",
+  "notificationMedicationReminderBodyWeekday": "Заплановано на {weekday}",
 
   "addSchedule": "Додати розклад",
   "addScheduleToGetStarted": "Додайте розклад щоб почати.",

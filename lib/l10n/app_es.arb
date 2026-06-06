@@ -83,7 +83,9 @@
     "updateDownloadFailed": "Error en la descarga. Comprueba tu conexión.",
 
     "notificationMedicationReminderTitle": "Es hora de tomar {scheduleName}",
-    "notificationMedicationReminderBody": "Programado para {dateTime}",
+    "notificationMedicationReminderBodyDate": "Programado para el {date}",
+    "notificationMedicationReminderBodyTime": "Programado para {time}",
+    "notificationMedicationReminderBodyWeekday": "Programado para el {weekday}",
 
     "addSchedule": "Agregar un horario",
     "addScheduleToGetStarted": "Agrega un horario para comenzar.",

@@ -83,7 +83,9 @@
   "updateDownloadFailed": "Sťahovanie sa nepodarilo. Prosím skontroluj svoje pripojenie.",
 
   "notificationMedicationReminderTitle": "Prišiel čas si vziať {scheduleName}",
-  "notificationMedicationReminderBody": "Naplánovaná na {dateTime}",
+  "notificationMedicationReminderBodyDate": "Naplánovaná na {date}",
+  "notificationMedicationReminderBodyTime": "Naplánovaná na {time}",
+  "notificationMedicationReminderBodyWeekday": "Naplánovaná na {weekday}",
 
   "addSchedule": "Pridaj plán",
   "addScheduleToGetStarted": "Pridaj plán pre začatie.",

@@ -84,7 +84,9 @@
   "updateDownloadFailed": "Échec du téléchargement. Vérifiez votre connexion.",
 
   "notificationMedicationReminderTitle": "Il est temps de prendre {scheduleName}",
-  "notificationMedicationReminderBody": "Prévu pour {dateTime}",
+  "notificationMedicationReminderBodyDate": "Prévu pour le {date}",
+  "notificationMedicationReminderBodyTime": "Prévu pour {time}",
+  "notificationMedicationReminderBodyWeekday": "Prévu pour {weekday}",
 
   "addSchedule": "Ajouter un planning",
   "addScheduleToGetStarted": "Ajoutez un planning pour commencer.",

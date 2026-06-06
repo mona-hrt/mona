@@ -84,7 +84,9 @@
   "updateDownloadFailed": "Ошибка скачивания. Пожалуйста, проверьте своё интернет соединение.",
 
   "notificationMedicationReminderTitle": "Пора принять {scheduleName}",
-  "notificationMedicationReminderBody": "Запланировано на {dateTime}",
+  "notificationMedicationReminderBodyDate": "Запланировано на {date}",
+  "notificationMedicationReminderBodyTime": "Запланировано на {time}",
+  "notificationMedicationReminderBodyWeekday": "Запланировано на {weekday}",
 
   "addSchedule": "Добавить расписание",
   "addScheduleToGetStarted": "Добавьте расписание для начала.",
