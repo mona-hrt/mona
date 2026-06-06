@@ -143,11 +143,11 @@ mixin GenericSupplyMappable {
   }
 
   GenericSupplyCopyWith<GenericSupply, GenericSupply, GenericSupply>
-  get copyWith => _GenericSupplyCopyWithImpl<GenericSupply, GenericSupply>(
-    this as GenericSupply,
-    $identity,
-    $identity,
-  );
+      get copyWith => _GenericSupplyCopyWithImpl<GenericSupply, GenericSupply>(
+            this as GenericSupply,
+            $identity,
+            $identity,
+          );
   @override
   String toString() {
     return GenericSupplyMapper.ensureInitialized().stringifyValue(
@@ -203,28 +203,29 @@ class _GenericSupplyCopyWithImpl<$R, $Out>
     String? name,
     int? amount,
     GenericSupplyType? genericSupplyType,
-  }) => $apply(
-    FieldCopyWithData({
-      if (id != $none) #id: id,
-      if (name != null) #name: name,
-      if (amount != null) #amount: amount,
-      if (genericSupplyType != null) #genericSupplyType: genericSupplyType,
-    }),
-  );
+  }) =>
+      $apply(
+        FieldCopyWithData({
+          if (id != $none) #id: id,
+          if (name != null) #name: name,
+          if (amount != null) #amount: amount,
+          if (genericSupplyType != null) #genericSupplyType: genericSupplyType,
+        }),
+      );
   @override
   GenericSupply $make(CopyWithData data) => GenericSupply(
-    id: data.get(#id, or: $value.id),
-    name: data.get(#name, or: $value.name),
-    amount: data.get(#amount, or: $value.amount),
-    genericSupplyType: data.get(
-      #genericSupplyType,
-      or: $value.genericSupplyType,
-    ),
-  );
+        id: data.get(#id, or: $value.id),
+        name: data.get(#name, or: $value.name),
+        amount: data.get(#amount, or: $value.amount),
+        genericSupplyType: data.get(
+          #genericSupplyType,
+          or: $value.genericSupplyType,
+        ),
+      );
 
   @override
   GenericSupplyCopyWith<$R2, GenericSupply, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
-  ) => _GenericSupplyCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  ) =>
+      _GenericSupplyCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
-

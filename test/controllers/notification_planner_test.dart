@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:mona/controllers/slots_builder.dart';
+import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -20,7 +20,7 @@ import '../util/test_clock.dart';
   MockSpec<MedicationIntakeProvider>(),
   MockSpec<MedicationScheduleProvider>(),
 ])
-import 'occurrences_manager_test.mocks.dart';
+import 'notification_planner_test.mocks.dart';
 
 MedicationSchedule schedule({
   int id = 1,
@@ -52,179 +52,18 @@ MedicationIntake intakeAt(TimeOfDay time, {int id = 0, int scheduleId = 1}) =>
 void main() {
   late MockMedicationIntakeProvider intakes;
   late MockMedicationScheduleProvider schedules;
-  late SlotsBuilder occurrences;
+  late NotificationPlanner planner;
 
   setUp(() {
     intakes = MockMedicationIntakeProvider();
     schedules = MockMedicationScheduleProvider();
     when(schedules.schedules).thenReturn([]);
-    occurrences = SlotsBuilder(intakes, schedules);
+    planner = NotificationPlanner(intakes, schedules);
   });
 
   void withSchedules(List<MedicationSchedule> all) {
     when(schedules.schedules).thenReturn(all);
   }
-
-  group('current - IntervalDaysSchedule', () {
-    test('returns exactly one occurrence dated today', () {
-      final s = schedule(scheduling: IntervalDaysSchedule(intervalDays: 7));
-      withSchedules([s]);
-
-      final result = occurrences.intakeSlots();
-
-      expect(result, hasLength(1));
-      expect(result.single.date, Date.today());
-    });
-
-    test('scheduled today, taken today -> taken with last intake attached', () {
-      final start = Date.today().subtract(const Duration(days: 14));
-      final intake = intakeAt(const TimeOfDay(hour: 8, minute: 0), id: 42);
-      final s = schedule(
-          id: 7,
-          scheduling: IntervalDaysSchedule(intervalDays: 7),
-          startDate: start);
-      withSchedules([s]);
-      when(intakes.getLastIntakeLocalDateForSchedule(7))
-          .thenReturn(Date.today());
-      when(intakes.getLastTakenIntakeForSchedule(7)).thenReturn(intake);
-
-      final occ = occurrences.intakeSlots().single;
-
-      expect(occ.status, ScheduleStatus.taken);
-      expect(occ.intake, intake);
-    });
-  });
-
-  group('current - DailySchedule', () {
-    const morning = TimeOfDay(hour: 8, minute: 0);
-    const afternoon = TimeOfDay(hour: 14, minute: 0);
-    const evening = TimeOfDay(hour: 20, minute: 30);
-
-    test('emits one occurrence per intakeTime, all dated today', () {
-      final s = schedule(
-          scheduling:
-              const DailySchedule(intakeTimes: [morning, afternoon, evening]));
-      withSchedules([s]);
-      when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
-          .thenReturn(<MedicationIntake>[]);
-
-      final result = occurrences.intakeSlots();
-
-      expect(result.map((o) => o.time), [morning, afternoon, evening]);
-      expect(result.map((o) => o.date), everyElement(Date.today()));
-    });
-
-    test('matched intake -> taken with intake attached', () {
-      final morningIntake = intakeAt(morning, id: 1);
-      final s = schedule(
-          scheduling: const DailySchedule(intakeTimes: [morning, afternoon]));
-      withSchedules([s]);
-      when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
-          .thenReturn([morningIntake]);
-
-      final result = occurrences.intakeSlots();
-
-      final morningOcc = result.singleWhere((o) => o.time == morning);
-      expect(morningOcc.status, ScheduleStatus.taken);
-      expect(morningOcc.intake, morningIntake);
-    });
-
-    test('intake with unknown scheduledTime is ignored', () {
-      final stray = intakeAt(afternoon);
-      final s = schedule(
-          scheduling: const DailySchedule(intakeTimes: [morning, evening]));
-      withSchedules([s]);
-      when(intakes.getTakenIntakesForScheduleOn(1, Date.today()))
-          .thenReturn([stray]);
-
-      final result = occurrences.intakeSlots();
-
-      expect(result.map((o) => o.status), everyElement(ScheduleStatus.today));
-      expect(result.map((o) => o.intake), everyElement(isNull));
-    });
-  });
-
-  // testNow (2026-06-01) is a Monday.
-  group('current - WeeklySchedule', () {
-    test('returns exactly one occurrence dated today when today is scheduled',
-        () {
-      withFixedClock(() {
-        final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [1]));
-        withSchedules([s]);
-
-        final result = occurrences.intakeSlots();
-
-        expect(result, hasLength(1));
-        expect(result.single.date, Date.today());
-      });
-    });
-
-    test(
-        'returns exactly one occurrence dated today when today is not scheduled',
-        () {
-      withFixedClock(() {
-        final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [3]));
-        withSchedules([s]);
-
-        final result = occurrences.intakeSlots();
-
-        expect(result, hasLength(1));
-        expect(result.single.date, Date.today());
-      });
-    });
-
-    test('scheduled today, taken today -> taken with last intake attached', () {
-      withFixedClock(() {
-        final start = Date.today().subtract(const Duration(days: 14));
-        final intake = intakeAt(const TimeOfDay(hour: 8, minute: 0), id: 42);
-        final s = schedule(
-            id: 7,
-            scheduling: const WeeklySchedule(daysOfWeek: [1]),
-            startDate: start);
-        withSchedules([s]);
-        when(intakes.getLastIntakeLocalDateForSchedule(7))
-            .thenReturn(Date.today());
-        when(intakes.getLastTakenIntakeForSchedule(7)).thenReturn(intake);
-
-        final occ = occurrences.intakeSlots().single;
-
-        expect(occ.status, ScheduleStatus.taken);
-        expect(occ.intake, intake);
-      });
-    });
-
-    test('not scheduled today, never taken on a past scheduled day -> overdue',
-        () {
-      withFixedClock(() {
-        // Fri schedule. Today is Mon. Last Fri was -3 days ago, never taken.
-        final start = Date.today().subtract(const Duration(days: 14));
-        final s = schedule(
-            id: 7,
-            scheduling: const WeeklySchedule(daysOfWeek: [5]),
-            startDate: start);
-        withSchedules([s]);
-
-        final occ = occurrences.intakeSlots().single;
-
-        expect(occ.status, ScheduleStatus.overdue);
-      });
-    });
-
-    test('current occurrence has no slot time set', () {
-      withFixedClock(() {
-        final s = schedule(
-            scheduling: const WeeklySchedule(
-          daysOfWeek: [1],
-          notificationTimes: [TimeOfDay(hour: 9, minute: 0)],
-        ));
-        withSchedules([s]);
-
-        final occ = occurrences.intakeSlots().single;
-
-        expect(occ.time, isNull);
-      });
-    });
-  });
 
   group('planNotifications - IntervalDaysSchedule', () {
     test('empty notificationTimes -> no plans', () {
@@ -232,7 +71,7 @@ void main() {
         final s = schedule(scheduling: IntervalDaysSchedule(intervalDays: 7));
         withSchedules([s]);
 
-        final plans = occurrences.planNotifications(days: 30);
+        final plans = planner.planNotifications(days: 30);
 
         expect(plans, isEmpty);
       });
@@ -253,7 +92,7 @@ void main() {
         // No taken intake -> today's slots not filtered as 'taken'.
         when(intakes.getLastIntakeLocalDateForSchedule(any)).thenReturn(null);
 
-        final plans = occurrences.planNotifications(days: 3);
+        final plans = planner.planNotifications(days: 3);
 
         // 3 dates x 2 times = 6, but today's 09:00 is before noon -> filtered.
         // So 5 plans (today 21:00, +7d 09:00 / 21:00, +14d 09:00 / 21:00).
@@ -275,7 +114,7 @@ void main() {
         withSchedules([s]);
 
         final plans =
-            occurrences.planNotifications(days: 1).cast<PlannedOccurrence>();
+            planner.planNotifications(days: 1).cast<PlannedOccurrence>();
 
         expect(plans, hasLength(1));
         expect(plans.single.dateTime.hour, 15);
@@ -295,7 +134,7 @@ void main() {
         when(intakes.getLastIntakeLocalDateForSchedule(7))
             .thenReturn(Date.today());
 
-        final plans = occurrences.planNotifications(days: 1);
+        final plans = planner.planNotifications(days: 1);
 
         // Today is scheduled and taken -> skipped entirely.
         expect(plans, isEmpty);
@@ -310,10 +149,8 @@ void main() {
                 intervalDays: 1, notificationTimes: const [time]));
         withSchedules([s]);
 
-        final plan = occurrences
-            .planNotifications(days: 1)
-            .cast<PlannedOccurrence>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 1).cast<PlannedOccurrence>().single;
 
         expect(plan.dateTime, Date.today().toDateTimeAt(time));
       });
@@ -331,7 +168,7 @@ void main() {
                 const DailySchedule(intakeTimes: [afternoon], notify: false));
         withSchedules([s]);
 
-        final plans = occurrences.planNotifications(days: 30);
+        final plans = planner.planNotifications(days: 30);
 
         expect(plans, isEmpty);
       });
@@ -344,7 +181,7 @@ void main() {
         withSchedules([s]);
 
         final plans =
-            occurrences.planNotifications(days: 30).cast<PlannedRepeating>();
+            planner.planNotifications(days: 30).cast<PlannedRepeating>();
 
         expect(plans, hasLength(2));
         expect(
@@ -361,10 +198,8 @@ void main() {
             schedule(scheduling: const DailySchedule(intakeTimes: [afternoon]));
         withSchedules([s]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
       });
@@ -376,10 +211,8 @@ void main() {
             schedule(scheduling: const DailySchedule(intakeTimes: [morning]));
         withSchedules([s]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(morning));
@@ -394,10 +227,8 @@ void main() {
         when(intakes.getTakenIntakesForScheduleOn(7, Date.today()))
             .thenReturn([intakeAt(afternoon)]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(afternoon));
@@ -415,7 +246,7 @@ void main() {
             .thenReturn([intakeAt(morning)]);
 
         final plans =
-            occurrences.planNotifications(days: 30).cast<PlannedRepeating>();
+            planner.planNotifications(days: 30).cast<PlannedRepeating>();
 
         final afternoonPlan = plans.singleWhere((p) => p.time == afternoon);
         // Afternoon is in the future and not taken -> today.
@@ -431,10 +262,8 @@ void main() {
             startDate: start);
         withSchedules([s]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire, start.toDateTimeAt(morning));
       });
@@ -450,7 +279,7 @@ void main() {
         final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [1]));
         withSchedules([s]);
 
-        final plans = occurrences.planNotifications(days: 30);
+        final plans = planner.planNotifications(days: 30);
 
         expect(plans, isEmpty);
       });
@@ -464,7 +293,7 @@ void main() {
         withSchedules([s]);
 
         final plans =
-            occurrences.planNotifications(days: 30).cast<PlannedRepeating>();
+            planner.planNotifications(days: 30).cast<PlannedRepeating>();
 
         expect(plans, hasLength(3));
         expect(plans.map((p) => p.dayOfWeek).toSet(), {1, 3, 5});
@@ -481,10 +310,8 @@ void main() {
                 daysOfWeek: [1], notificationTimes: [afternoon]));
         withSchedules([s]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
       });
@@ -498,10 +325,8 @@ void main() {
                 daysOfWeek: [1], notificationTimes: [morning]));
         withSchedules([s]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(morning));
@@ -520,10 +345,8 @@ void main() {
         when(intakes.getTakenIntakesForScheduleOn(7, Date.today()))
             .thenReturn([intakeAt(const TimeOfDay(hour: 8, minute: 0))]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
@@ -540,10 +363,8 @@ void main() {
                 daysOfWeek: [3], notificationTimes: [afternoon]));
         withSchedules([s]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 2)).toDateTimeAt(afternoon));
@@ -560,10 +381,8 @@ void main() {
             startDate: start);
         withSchedules([s]);
 
-        final plan = occurrences
-            .planNotifications(days: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plan =
+            planner.planNotifications(days: 30).cast<PlannedRepeating>().single;
 
         expect(plan.firstFire, start.toDateTimeAt(afternoon));
       });

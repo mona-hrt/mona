@@ -7,8 +7,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
-import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -23,7 +23,7 @@ import 'package:timezone/timezone.dart' as tz;
 import '../util/test_clock.dart';
 
 @GenerateNiceMocks([
-  MockSpec<SlotsBuilder>(),
+  MockSpec<NotificationPlanner>(),
   MockSpec<PreferencesService>(),
   MockSpec<FlutterLocalNotificationsPlugin>(),
 ])
@@ -79,7 +79,7 @@ MedicationSchedule _defaultSchedule() => schedule();
 void main() {
   final l10n = AppLocalizationsEn();
 
-  late MockSlotsBuilder occurrences;
+  late MockNotificationPlanner planner;
   late MockPreferencesService preferences;
   late MockFlutterLocalNotificationsPlugin plugin;
   late bool Function()? origPlatformCheck;
@@ -92,7 +92,7 @@ void main() {
   });
 
   setUp(() {
-    occurrences = MockSlotsBuilder();
+    planner = MockNotificationPlanner();
     preferences = MockPreferencesService();
     plugin = MockFlutterLocalNotificationsPlugin();
 
@@ -102,7 +102,7 @@ void main() {
     NotificationService.createPlugin = () => plugin;
 
     when(preferences.notificationsEnabled).thenReturn(true);
-    when(occurrences.planNotifications(days: anyNamed('days')))
+    when(planner.planNotifications(days: anyNamed('days')))
         .thenReturn(const []);
     when(plugin.zonedSchedule(
       id: anyNamed('id'),
@@ -159,7 +159,7 @@ void main() {
           notificationDetails: anyNamed('notificationDetails'),
           payload: anyNamed('payload'),
         )).thenAnswer((_) async {});
-        final sut = NotificationScheduler(occurrences, preferences);
+        final sut = NotificationScheduler(planner, preferences);
 
         await sut.regenerateAll(l10n, 'en');
 
@@ -184,7 +184,7 @@ void main() {
         when(plugin.pendingNotificationRequests())
             .thenAnswer((_) async => [pending]);
         when(plugin.cancel(id: anyNamed('id'))).thenAnswer((_) async {});
-        final sut = NotificationScheduler(occurrences, preferences);
+        final sut = NotificationScheduler(planner, preferences);
 
         await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -196,11 +196,11 @@ void main() {
   group('regenerateAll', () {
     test('returns early when notifications are disabled', () async {
       when(preferences.notificationsEnabled).thenReturn(false);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      verifyNever(occurrences.planNotifications(days: anyNamed('days')));
+      verifyNever(planner.planNotifications(days: anyNamed('days')));
       verifyNever(plugin.zonedSchedule(
         id: anyNamed('id'),
         title: anyNamed('title'),
@@ -215,7 +215,7 @@ void main() {
 
     test('schedules one zonedSchedule call per plan', () async {
       final s = schedule();
-      when(occurrences.planNotifications(days: 30)).thenReturn([
+      when(planner.planNotifications(days: 30)).thenReturn([
         occurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
         dailyPlan(
             schedule: s,
@@ -227,7 +227,7 @@ void main() {
             time: const TimeOfDay(hour: 20, minute: 0),
             firstFire: DateTime.utc(2026, 6, 3, 20, 0)),
       ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -237,9 +237,9 @@ void main() {
     test('PlannedOccurrence -> one-shot, body uses date only', () async {
       final s = schedule(name: 'My Med');
       final fire = DateTime.utc(2026, 6, 7, 8, 30);
-      when(occurrences.planNotifications(days: 30))
+      when(planner.planNotifications(days: 30))
           .thenReturn([occurrencePlan(schedule: s, dateTime: fire)]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -254,13 +254,13 @@ void main() {
         () async {
       final s = schedule(name: 'My Med');
       final fire = DateTime.utc(2026, 6, 2, 8, 30);
-      when(occurrences.planNotifications(days: 30)).thenReturn([
+      when(planner.planNotifications(days: 30)).thenReturn([
         dailyPlan(
             schedule: s,
             time: const TimeOfDay(hour: 8, minute: 30),
             firstFire: fire),
       ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -277,14 +277,14 @@ void main() {
       final s = schedule(name: 'My Med');
       // 2026-06-08 is a Monday.
       final fire = DateTime.utc(2026, 6, 8, 20, 0);
-      when(occurrences.planNotifications(days: 30)).thenReturn([
+      when(planner.planNotifications(days: 30)).thenReturn([
         weeklyPlan(
             schedule: s,
             dayOfWeek: 1,
             time: const TimeOfDay(hour: 20, minute: 0),
             firstFire: fire),
       ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -298,9 +298,9 @@ void main() {
 
     test('titles notifications with the schedule name', () async {
       final s = schedule(name: 'My Med');
-      when(occurrences.planNotifications(days: 30))
+      when(planner.planNotifications(days: 30))
           .thenReturn([occurrencePlan(schedule: s)]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -311,11 +311,11 @@ void main() {
     test('two schedules each get their own notification', () async {
       final a = schedule(id: 1, name: 'A');
       final b = schedule(id: 2, name: 'B');
-      when(occurrences.planNotifications(days: 30)).thenReturn([
+      when(planner.planNotifications(days: 30)).thenReturn([
         occurrencePlan(schedule: a),
         occurrencePlan(schedule: b),
       ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -334,8 +334,8 @@ void main() {
           dateTime: DateTime.utc(2026, 6, 2, 9, 0).add(Duration(days: i + 1)),
         ),
       );
-      when(occurrences.planNotifications(days: 30)).thenReturn(plans);
-      final sut = NotificationScheduler(occurrences, preferences);
+      when(planner.planNotifications(days: 30)).thenReturn(plans);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -363,8 +363,8 @@ void main() {
         occurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
         occurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 4, 9, 0)),
       ];
-      when(occurrences.planNotifications(days: 30)).thenReturn(plans);
-      final sut = NotificationScheduler(occurrences, preferences);
+      when(planner.planNotifications(days: 30)).thenReturn(plans);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -380,8 +380,8 @@ void main() {
         schedule: s,
         time: const TimeOfDay(hour: 8, minute: 30),
       );
-      when(occurrences.planNotifications(days: 30)).thenReturn([plan]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      when(planner.planNotifications(days: 30)).thenReturn([plan]);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -399,8 +399,8 @@ void main() {
         dayOfWeek: 3,
         time: const TimeOfDay(hour: 8, minute: 30),
       );
-      when(occurrences.planNotifications(days: 30)).thenReturn([plan]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      when(planner.planNotifications(days: 30)).thenReturn([plan]);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
       await sut.regenerateAll(l10n, l10n.localeName);
@@ -416,13 +416,13 @@ void main() {
       final a = schedule(id: 1, name: 'A'); // interval-days
       final b = schedule(id: 2, name: 'B'); // daily
       final c = schedule(id: 3, name: 'C'); // weekly
-      when(occurrences.planNotifications(days: 30)).thenReturn([
+      when(planner.planNotifications(days: 30)).thenReturn([
         occurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
         occurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
         dailyPlan(schedule: b, firstFire: DateTime.utc(2026, 6, 2, 9, 0)),
         weeklyPlan(schedule: c, firstFire: DateTime.utc(2026, 6, 8, 9, 0)),
       ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 

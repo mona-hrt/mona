@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:mona/controllers/slots_builder.dart';
+import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/services/notification_service.dart';
@@ -13,10 +13,10 @@ class NotificationScheduler {
   static const int _numberOfDays = 30;
   static const int _maxScheduled = 64;
 
-  final SlotsBuilder occurencesManager;
+  final NotificationPlanner planner;
   final PreferencesService preferencesService;
 
-  NotificationScheduler(this.occurencesManager, this.preferencesService);
+  NotificationScheduler(this.planner, this.preferencesService);
 
   Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
     await NotificationService().triggerPastPendingNotifications();
@@ -26,9 +26,8 @@ class NotificationScheduler {
       return;
     }
 
-    final plans = occurencesManager
-        .planNotifications(days: _numberOfDays)
-        .take(_maxScheduled);
+    final plans =
+        planner.planNotifications(days: _numberOfDays).take(_maxScheduled);
 
     await Future.wait(plans.map((plan) => _schedule(plan, l10n, localeName)));
   }
