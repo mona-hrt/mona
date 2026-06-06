@@ -9,6 +9,7 @@ import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
@@ -395,6 +396,350 @@ void main() {
       final result = occurrences.upcoming(days: 3);
 
       expect(result.map((o) => o.notifiable), everyElement(isFalse));
+    });
+  });
+
+  group('planNotifications - IntervalDaysSchedule', () {
+    test('empty notificationTimes -> no plans', () {
+      withFixedClock(() {
+        final s = schedule(scheduling: IntervalDaysSchedule(intervalDays: 7));
+        withSchedules([s]);
+
+        final plans = occurrences.planNotifications(days: 30);
+
+        expect(plans, isEmpty);
+      });
+    });
+
+    test('emits one PlannedOccurrence per (scheduled date, notificationTime)',
+        () {
+      withFixedClock(() {
+        final start = Date.today().subtract(const Duration(days: 7));
+        final s = schedule(
+            scheduling:
+                IntervalDaysSchedule(intervalDays: 7, notificationTimes: const [
+              TimeOfDay(hour: 9, minute: 0),
+              TimeOfDay(hour: 21, minute: 0),
+            ]),
+            startDate: start);
+        withSchedules([s]);
+        // No taken intake -> today's slots not filtered as 'taken'.
+        when(intakes.getLastIntakeLocalDateForSchedule(any)).thenReturn(null);
+
+        final plans = occurrences.planNotifications(days: 3);
+
+        // 3 dates x 2 times = 6, but today's 09:00 is before noon -> filtered.
+        // So 5 plans (today 21:00, +7d 09:00 / 21:00, +14d 09:00 / 21:00).
+        expect(plans, hasLength(5));
+        expect(plans.every((p) => p is PlannedOccurrence), isTrue);
+      });
+    });
+
+    test('filters dateTime <= after', () {
+      withFixedClock(() {
+        final start = Date.today();
+        final s = schedule(
+            scheduling:
+                IntervalDaysSchedule(intervalDays: 7, notificationTimes: const [
+              TimeOfDay(hour: 9, minute: 0), // 09:00 < noon -> filtered
+              TimeOfDay(hour: 15, minute: 0), // 15:00 > noon -> kept
+            ]),
+            startDate: start);
+        withSchedules([s]);
+
+        final plans =
+            occurrences.planNotifications(days: 1).cast<PlannedOccurrence>();
+
+        expect(plans, hasLength(1));
+        expect(plans.single.dateTime.hour, 15);
+      });
+    });
+
+    test('skips today when status is taken', () {
+      withFixedClock(() {
+        final start = Date.today().subtract(const Duration(days: 7));
+        final s = schedule(
+            id: 7,
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 7,
+                notificationTimes: const [TimeOfDay(hour: 15, minute: 0)]),
+            startDate: start);
+        withSchedules([s]);
+        when(intakes.getLastIntakeLocalDateForSchedule(7))
+            .thenReturn(Date.today());
+
+        final plans = occurrences.planNotifications(days: 1);
+
+        // Today is scheduled and taken -> skipped entirely.
+        expect(plans, isEmpty);
+      });
+    });
+
+    test('dateTime equals date.toDateTimeAt(time)', () {
+      withFixedClock(() {
+        const time = TimeOfDay(hour: 15, minute: 30);
+        final s = schedule(
+            scheduling: IntervalDaysSchedule(
+                intervalDays: 1, notificationTimes: const [time]));
+        withSchedules([s]);
+
+        final plan = occurrences
+            .planNotifications(days: 1)
+            .cast<PlannedOccurrence>()
+            .single;
+
+        expect(plan.dateTime, Date.today().toDateTimeAt(time));
+      });
+    });
+  });
+
+  group('planNotifications - DailySchedule', () {
+    const morning = TimeOfDay(hour: 9, minute: 0); // before noon
+    const afternoon = TimeOfDay(hour: 15, minute: 0); // after noon
+
+    test('notify=false -> no plans', () {
+      withFixedClock(() {
+        final s = schedule(
+            scheduling:
+                const DailySchedule(intakeTimes: [afternoon], notify: false));
+        withSchedules([s]);
+
+        final plans = occurrences.planNotifications(days: 30);
+
+        expect(plans, isEmpty);
+      });
+    });
+
+    test('one PlannedRepeating(daily) per intake time', () {
+      withFixedClock(() {
+        final s = schedule(
+            scheduling: const DailySchedule(intakeTimes: [morning, afternoon]));
+        withSchedules([s]);
+
+        final plans =
+            occurrences.planNotifications(days: 30).cast<PlannedRepeating>();
+
+        expect(plans, hasLength(2));
+        expect(
+            plans.map((p) => p.periodicity), everyElement(Periodicity.daily));
+        expect(plans.map((p) => p.dayOfWeek), everyElement(isNull));
+        expect(plans.map((p) => p.time).toSet(), {morning, afternoon});
+      });
+    });
+
+    test('firstFire = today @ time when time is in the future and not taken',
+        () {
+      withFixedClock(() {
+        final s =
+            schedule(scheduling: const DailySchedule(intakeTimes: [afternoon]));
+        withSchedules([s]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+      });
+    });
+
+    test('firstFire bumps by 1 day when today @ time is already past', () {
+      withFixedClock(() {
+        final s =
+            schedule(scheduling: const DailySchedule(intakeTimes: [morning]));
+        withSchedules([s]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire,
+            Date.today().add(const Duration(days: 1)).toDateTimeAt(morning));
+      });
+    });
+
+    test('firstFire bumps by 1 day when this slot is already taken today', () {
+      withFixedClock(() {
+        final s = schedule(
+            id: 7, scheduling: const DailySchedule(intakeTimes: [afternoon]));
+        withSchedules([s]);
+        when(intakes.getTakenIntakesForScheduleOn(7, Date.today()))
+            .thenReturn([intakeAt(afternoon)]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire,
+            Date.today().add(const Duration(days: 1)).toDateTimeAt(afternoon));
+      });
+    });
+
+    test('taken intake for a different slot does not advance this slot', () {
+      withFixedClock(() {
+        final s = schedule(
+            id: 7,
+            scheduling: const DailySchedule(intakeTimes: [morning, afternoon]));
+        withSchedules([s]);
+        // Morning already taken; afternoon untouched.
+        when(intakes.getTakenIntakesForScheduleOn(7, Date.today()))
+            .thenReturn([intakeAt(morning)]);
+
+        final plans =
+            occurrences.planNotifications(days: 30).cast<PlannedRepeating>();
+
+        final afternoonPlan = plans.singleWhere((p) => p.time == afternoon);
+        // Afternoon is in the future and not taken -> today.
+        expect(afternoonPlan.firstFire, Date.today().toDateTimeAt(afternoon));
+      });
+    });
+
+    test('firstFire = startDate @ time when startDate is in the future', () {
+      withFixedClock(() {
+        final start = Date.today().add(const Duration(days: 5));
+        final s = schedule(
+            scheduling: const DailySchedule(intakeTimes: [morning]),
+            startDate: start);
+        withSchedules([s]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire, start.toDateTimeAt(morning));
+      });
+    });
+  });
+
+  group('planNotifications - WeeklySchedule', () {
+    const morning = TimeOfDay(hour: 9, minute: 0); // before noon
+    const afternoon = TimeOfDay(hour: 15, minute: 0); // after noon
+
+    test('empty notificationTimes -> no plans', () {
+      withFixedClock(() {
+        final s = schedule(scheduling: const WeeklySchedule(daysOfWeek: [1]));
+        withSchedules([s]);
+
+        final plans = occurrences.planNotifications(days: 30);
+
+        expect(plans, isEmpty);
+      });
+    });
+
+    test('emits daysOfWeek x notificationTimes cross product', () {
+      withFixedClock(() {
+        final s = schedule(
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [1, 3, 5], notificationTimes: [afternoon]));
+        withSchedules([s]);
+
+        final plans =
+            occurrences.planNotifications(days: 30).cast<PlannedRepeating>();
+
+        expect(plans, hasLength(3));
+        expect(plans.map((p) => p.dayOfWeek).toSet(), {1, 3, 5});
+        expect(
+            plans.map((p) => p.periodicity), everyElement(Periodicity.weekly));
+      });
+    });
+
+    test('firstFire on today when today matches and time is in the future', () {
+      withFixedClock(() {
+        // testNow Mon. daysOfWeek=[Mon=1], afternoon=15:00.
+        final s = schedule(
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [1], notificationTimes: [afternoon]));
+        withSchedules([s]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+      });
+    });
+
+    test('firstFire bumps by 7 days when today matches but time is past', () {
+      withFixedClock(() {
+        // testNow Mon noon. daysOfWeek=[Mon], morning=09:00 (past).
+        final s = schedule(
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [1], notificationTimes: [morning]));
+        withSchedules([s]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire,
+            Date.today().add(const Duration(days: 7)).toDateTimeAt(morning));
+      });
+    });
+
+    test(
+        'firstFire bumps by 7 days when any taken intake exists today (date-level skip)',
+        () {
+      withFixedClock(() {
+        final s = schedule(
+            id: 7,
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [1], notificationTimes: [afternoon]));
+        withSchedules([s]);
+        when(intakes.getTakenIntakesForScheduleOn(7, Date.today()))
+            .thenReturn([intakeAt(const TimeOfDay(hour: 8, minute: 0))]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire,
+            Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
+      });
+    });
+
+    test(
+        'firstFire walks to the next matching weekday when today does not match',
+        () {
+      withFixedClock(() {
+        // testNow Mon. daysOfWeek=[Wed=3], afternoon=15:00.
+        final s = schedule(
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [3], notificationTimes: [afternoon]));
+        withSchedules([s]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire,
+            Date.today().add(const Duration(days: 2)).toDateTimeAt(afternoon));
+      });
+    });
+
+    test('firstFire from startDate when startDate is in the future', () {
+      withFixedClock(() {
+        // testNow Mon. startDate next Wed. daysOfWeek=[Wed=3], afternoon.
+        final start = Date.today().add(const Duration(days: 2));
+        final s = schedule(
+            scheduling: const WeeklySchedule(
+                daysOfWeek: [3], notificationTimes: [afternoon]),
+            startDate: start);
+        withSchedules([s]);
+
+        final plan = occurrences
+            .planNotifications(days: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        expect(plan.firstFire, start.toDateTimeAt(afternoon));
+      });
     });
   });
 }
