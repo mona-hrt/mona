@@ -13,22 +13,15 @@ class NotificationPlanner {
   const NotificationPlanner(
       this._medicationIntakeProvider, this._medicationScheduleProvider);
 
-  List<PlannedNotification> planNotifications({required int days}) {
-    final planned = <PlannedNotification>[];
-
-    for (final schedule in _medicationScheduleProvider.schedules) {
-      switch (schedule.scheduling) {
-        case IntervalDaysSchedule scheduling:
-          planned.addAll(_intervalPlans(schedule, scheduling, days));
-        case DailySchedule scheduling:
-          planned.addAll(_dailyPlans(schedule, scheduling));
-        case WeeklySchedule scheduling:
-          planned.addAll(_weeklyPlans(schedule, scheduling));
-      }
-    }
-
-    return planned;
-  }
+  List<PlannedNotification> planNotifications({required int days}) => [
+        for (final schedule in _medicationScheduleProvider.schedules)
+          ...switch (schedule.scheduling) {
+            IntervalDaysSchedule scheduling =>
+              _intervalPlans(schedule, scheduling, days),
+            DailySchedule scheduling => _dailyPlans(schedule, scheduling),
+            WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
+          },
+      ];
 
   List<PlannedNotification> _intervalPlans(
     MedicationSchedule schedule,
@@ -53,6 +46,7 @@ class NotificationPlanner {
         plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
       }
     }
+
     return plans;
   }
 
