@@ -592,6 +592,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get nandrolone => 'Nandrolón';
 
   @override
+  String get dihydrotestosterone => 'Dihydrotestosterone';
+
+  @override
   String get spironolactone => 'Spironolaktón';
 
   @override

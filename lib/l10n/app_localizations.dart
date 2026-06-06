@@ -1017,6 +1017,12 @@ abstract class AppLocalizations {
   /// **'Nandrolone'**
   String get nandrolone;
 
+  /// No description provided for @dihydrotestosterone.
+  ///
+  /// In en, this message translates to:
+  /// **'Dihydrotestosterone'**
+  String get dihydrotestosterone;
+
   /// No description provided for @spironolactone.
   ///
   /// In en, this message translates to:

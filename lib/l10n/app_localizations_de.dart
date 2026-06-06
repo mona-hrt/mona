@@ -573,6 +573,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get nandrolone => 'Nandrolon';
 
   @override
+  String get dihydrotestosterone => 'Dihydrotestosterone';
+
+  @override
   String get spironolactone => 'Spironolacton';
 
   @override
