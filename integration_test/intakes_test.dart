@@ -1,14 +1,4 @@
 // Patrol E2E tests for the Intakes feature.
-//
-// These run on a real Android device/emulator (Patrol does not support Linux
-// desktop), driving the actual app launched via `main()`. Run with:
-//   patrol test --target integration_test/intakes_test.dart --flavor standalone
-// See integration_test/README.md for the full setup and CI notes.
-//
-// State note: `clearPackageData: "true"` (android/app/build.gradle) wipes app
-// data between Dart tests, so each test starts from an empty database and must
-// seed its own preconditions. Recording an intake requires at least one
-// schedule to exist, so the tests create one via Settings -> Schedules first.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -27,12 +17,10 @@ const _editIntakeDelete = ValueKey('editIntakeDelete');
 const _editIntakeNotes = ValueKey('editIntakeNotes');
 const _confirmDelete = ValueKey('confirmDeleteConfirmButton');
 
-// User-visible strings asserted by these tests (see lib/l10n/app_en.arb).
 const _emptyIntakes = 'Taken intakes will appear here';
 const _addSchedulesFirst = 'Add schedules first.';
 const _editIntake = 'Edit intake';
 
-// Strings reused from the schedules flow to seed a schedule precondition.
 const _schedulesTile = 'Schedules';
 const _nameLabel = 'Name';
 const _amountLabel = 'Amount';
@@ -84,13 +72,11 @@ void main() {
     await _recordIntake($, scheduleName: 'Estradiol');
     await $(ListTile).waitUntilVisible();
 
-    // Open the recorded intake and add a note.
     await $(ListTile).tap(); // -> EditIntakePage
     await $(_editIntake).waitUntilVisible();
     await $(_editIntakeNotes).enterText('Felt fine');
     await $(_editIntakeSave).tap(); // pops back to the intakes list
 
-    // Reopen the intake; the note must have persisted.
     await $(ListTile).waitUntilVisible();
     await $(ListTile).tap();
     await $('Felt fine').waitUntilVisible();

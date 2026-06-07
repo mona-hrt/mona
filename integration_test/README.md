@@ -82,6 +82,12 @@ the `.dev` id to match, so Patrol only ever manages the test build.
 
 ## Writing tests - notes for this app
 
+### State between tests
+
+`clearPackageData: "true"` (`android/app/build.gradle`) wipes app data between
+Dart tests, so each test starts from an empty database and must seed its own
+preconditions (e.g. recording an intake needs a schedule to exist first).
+
 ### Finder strategy (hybrid)
 
 Drive **interactions** (taps, text entry) through stable widget `Key`s set in
