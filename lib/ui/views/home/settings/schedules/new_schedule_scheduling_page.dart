@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
@@ -14,6 +13,7 @@ import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/weekday_picker.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -288,7 +288,11 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     final l10n = context.l10n;
     final addCardIndex = _weeklyNotificationTimes.length;
     return [
-      _dayPicker(),
+      WeekdayPicker(
+        selectedDays: _weeklyDays,
+        errorText: _weeklyDaysError,
+        onDayToggled: _toggleWeeklyDay,
+      ),
       const SizedBox(height: 16),
       M3ECardColumn(
         padding: EdgeInsets.zero,
@@ -308,51 +312,14 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     ];
   }
 
-  Widget _dayPicker() {
-    final weekdays = [1, 2, 3, 4, 5, 6, 7];
-
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (_weeklyDaysError != null)
-            Text(_weeklyDaysError!,
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Theme.of(context).colorScheme.error)),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            alignment: WrapAlignment.center,
-            children: weekdays.map((day) {
-              final isSelected = _weeklyDays.contains(day);
-              return FilterChip(
-                label: Text(_getWeekdayName(day)),
-                selected: isSelected,
-                showCheckmark: false,
-                onSelected: (selected) {
-                  setState(() {
-                    if (selected) {
-                      _weeklyDays.add(day);
-                    } else {
-                      _weeklyDays.remove(day);
-                    }
-                  });
-                },
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _getWeekdayName(int day) {
-    final date = DateTime(2024, 1, day);
-    return DateFormat.E(Localizations.localeOf(context).languageCode)
-        .format(date);
+  void _toggleWeeklyDay(int day, bool selected) {
+    setState(() {
+      if (selected) {
+        _weeklyDays.add(day);
+      } else {
+        _weeklyDays.remove(day);
+      }
+    });
   }
 
   Widget _intakeTimeRow(List<TimeOfDay> times, int index) {

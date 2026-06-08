@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';
@@ -10,6 +9,7 @@ import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/weekday_picker.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -30,12 +30,9 @@ class _EditScheduleSchedulingPageState
   late _ScheduleType _type;
 
   late TextEditingController _intervalDaysController;
-  final List<TimeOfDay> _dailyIntakeTimes = [];
+  final List<TimeOfDay> _intakeOrNotificationTimes = [];
   bool _dailyNotify = true;
-
   final List<int> _weeklyDays = [];
-  final List<TimeOfDay> _weeklyNotificationTimes = [];
-
   late Date _startDate;
 
   late MedicationScheduleProvider _medicationScheduleProvider;
@@ -44,8 +41,8 @@ class _EditScheduleSchedulingPageState
       context.l10n, _intervalDaysController.text);
   String? get _startDateError =>
       MedicationSchedule.validateStartDate(context.l10n, _startDate);
-  String? get _dailyIntakeTimesError =>
-      DailySchedule.validateIntakeTimes(context.l10n, _dailyIntakeTimes);
+  String? get _dailyIntakeTimesError => DailySchedule.validateIntakeTimes(
+      context.l10n, _intakeOrNotificationTimes);
   String? get _weeklyDaysError =>
       WeeklySchedule.validateDaysOfWeek(context.l10n, _weeklyDays);
 
@@ -60,31 +57,25 @@ class _EditScheduleSchedulingPageState
 
   void _refresh() => setState(() {});
 
-  Future<void> _addDailyTime() => _addTime(_dailyIntakeTimes);
-
-  Future<void> _editDailyTime(int index) => _editTime(_dailyIntakeTimes, index);
-
-  void _sortDailyIntakeTimes() => _sortTimes(_dailyIntakeTimes);
-
-  Future<void> _addTime(List<TimeOfDay> times) async {
+  Future<void> _addTime() async {
     final picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
     if (picked == null) return;
 
-    final alreadyExists =
-        times.any((t) => t.hour == picked.hour && t.minute == picked.minute);
+    final alreadyExists = _intakeOrNotificationTimes
+        .any((t) => t.hour == picked.hour && t.minute == picked.minute);
     if (alreadyExists) return;
 
     setState(() {
-      times.add(picked);
-      _sortTimes(times);
+      _intakeOrNotificationTimes.add(picked);
+      _sortTimes();
     });
   }
 
-  Future<void> _editTime(List<TimeOfDay> times, int index) async {
-    final current = times[index];
+  Future<void> _editTime(int index) async {
+    final current = _intakeOrNotificationTimes[index];
     final picked = await showTimePicker(
       context: context,
       initialTime: current,
@@ -92,18 +83,18 @@ class _EditScheduleSchedulingPageState
     if (picked == null) return;
     if (picked.hour == current.hour && picked.minute == current.minute) return;
 
-    final isDuplicate =
-        times.any((t) => t.hour == picked.hour && t.minute == picked.minute);
+    final isDuplicate = _intakeOrNotificationTimes
+        .any((t) => t.hour == picked.hour && t.minute == picked.minute);
     if (isDuplicate) return;
 
     setState(() {
-      times[index] = picked;
-      _sortTimes(times);
+      _intakeOrNotificationTimes[index] = picked;
+      _sortTimes();
     });
   }
 
-  void _sortTimes(List<TimeOfDay> times) {
-    times.sort((a, b) {
+  void _sortTimes() {
+    _intakeOrNotificationTimes.sort((a, b) {
       final hourCompare = a.hour.compareTo(b.hour);
       return hourCompare != 0 ? hourCompare : a.minute.compareTo(b.minute);
     });
@@ -116,15 +107,15 @@ class _EditScheduleSchedulingPageState
     final SchedulingStrategy scheduling = switch (_type) {
       _ScheduleType.intervalDays => IntervalDaysSchedule(
           intervalDays: _intervalDaysController.text.toInt,
-          notificationTimes: List.unmodifiable(_dailyIntakeTimes),
+          notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
         ),
       _ScheduleType.daily => DailySchedule(
-          intakeTimes: List.unmodifiable(_dailyIntakeTimes),
+          intakeTimes: List.unmodifiable(_intakeOrNotificationTimes),
           notify: _dailyNotify,
         ),
       _ScheduleType.weekly => WeeklySchedule(
           daysOfWeek: List.unmodifiable(_weeklyDays),
-          notificationTimes: List.unmodifiable(_weeklyNotificationTimes),
+          notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
         ),
     };
 
@@ -153,16 +144,16 @@ class _EditScheduleSchedulingPageState
         _type = _ScheduleType.intervalDays;
         _intervalDaysController =
             TextEditingController(text: intervalDays.toString());
-        _dailyIntakeTimes.addAll(notificationTimes);
-        _sortDailyIntakeTimes();
+        _intakeOrNotificationTimes.addAll(notificationTimes);
+        _sortTimes();
       case DailySchedule(
           intakeTimes: final intakeTimes,
           notify: final notify,
         ):
         _type = _ScheduleType.daily;
         _intervalDaysController = TextEditingController();
-        _dailyIntakeTimes.addAll(intakeTimes);
-        _sortTimes(_dailyIntakeTimes);
+        _intakeOrNotificationTimes.addAll(intakeTimes);
+        _sortTimes();
         _dailyNotify = notify;
       case WeeklySchedule(
           daysOfWeek: final daysOfWeek,
@@ -171,8 +162,8 @@ class _EditScheduleSchedulingPageState
         _type = _ScheduleType.weekly;
         _intervalDaysController = TextEditingController();
         _weeklyDays.addAll(daysOfWeek);
-        _weeklyNotificationTimes.addAll(notificationTimes);
-        _sortTimes(_weeklyNotificationTimes);
+        _intakeOrNotificationTimes.addAll(notificationTimes);
+        _sortTimes();
     }
   }
 
@@ -233,7 +224,7 @@ class _EditScheduleSchedulingPageState
   }
 
   List<Widget> _intervalDaysSpecifics() {
-    final addCardIndex = _dailyIntakeTimes.length;
+    final addCardIndex = _intakeOrNotificationTimes.length;
     final l10n = context.l10n;
     return [
       FormTextField(
@@ -248,15 +239,15 @@ class _EditScheduleSchedulingPageState
       M3ECardColumn(
         padding: EdgeInsets.zero,
         onTap: (index) {
-          if (index == addCardIndex) _addDailyTime();
+          if (index == addCardIndex) _addTime();
         },
         children: [
-          for (int i = 0; i < _dailyIntakeTimes.length; i++)
+          for (int i = 0; i < _intakeOrNotificationTimes.length; i++)
             _intervalTimeRow(i),
           ListTile(
             leading: const Icon(Icons.add),
             title: Text(l10n.addNotification),
-            onTap: () => _addDailyTime(),
+            onTap: () => _addTime(),
           ),
         ],
       ),
@@ -265,20 +256,20 @@ class _EditScheduleSchedulingPageState
 
   List<Widget> _dailySpecifics() {
     final l10n = context.l10n;
-    final addCardIndex = _dailyIntakeTimes.length;
+    final addCardIndex = _intakeOrNotificationTimes.length;
     return [
       M3ECardColumn(
         padding: EdgeInsets.zero,
         onTap: (index) {
-          if (index == addCardIndex) _addTime(_dailyIntakeTimes);
+          if (index == addCardIndex) _addTime();
         },
         children: [
-          for (int i = 0; i < _dailyIntakeTimes.length; i++)
-            _intakeTimeRow(_dailyIntakeTimes, i),
+          for (int i = 0; i < _intakeOrNotificationTimes.length; i++)
+            _intakeTimeRow(i),
           ListTile(
             leading: const Icon(Icons.add),
             title: Text(l10n.addIntakeTime),
-            onTap: () => _addTime(_dailyIntakeTimes),
+            onTap: () => _addTime(),
           ),
           SwitchListTile(
             title: Text(l10n.enableNotifications),
@@ -293,87 +284,53 @@ class _EditScheduleSchedulingPageState
 
   List<Widget> _weeklySpecifics() {
     final l10n = context.l10n;
-    final addCardIndex = _weeklyNotificationTimes.length;
+    final addCardIndex = _intakeOrNotificationTimes.length;
     return [
-      _dayPicker(),
+      WeekdayPicker(
+        selectedDays: _weeklyDays,
+        errorText: _weeklyDaysError,
+        onDayToggled: _toggleWeeklyDay,
+      ),
       const SizedBox(height: 16),
       M3ECardColumn(
         padding: EdgeInsets.zero,
         onTap: (index) {
-          if (index == addCardIndex) _addTime(_weeklyNotificationTimes);
+          if (index == addCardIndex) _addTime();
         },
         children: [
-          for (int i = 0; i < _weeklyNotificationTimes.length; i++)
-            _intakeTimeRow(_weeklyNotificationTimes, i),
+          for (int i = 0; i < _intakeOrNotificationTimes.length; i++)
+            _intakeTimeRow(i),
           ListTile(
             leading: const Icon(Icons.add),
             title: Text(l10n.addNotification),
-            onTap: () => _addTime(_weeklyNotificationTimes),
+            onTap: () => _addTime(),
           ),
         ],
       ),
     ];
   }
 
-  Widget _dayPicker() {
-    final weekdays = [1, 2, 3, 4, 5, 6, 7];
-
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (_weeklyDaysError != null)
-            Text(_weeklyDaysError!,
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Theme.of(context).colorScheme.error)),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            alignment: WrapAlignment.center,
-            children: weekdays.map((day) {
-              final isSelected = _weeklyDays.contains(day);
-              return FilterChip(
-                label: Text(_getWeekdayName(day)),
-                selected: isSelected,
-                showCheckmark: false,
-                onSelected: (selected) {
-                  setState(() {
-                    if (selected) {
-                      _weeklyDays.add(day);
-                    } else {
-                      _weeklyDays.remove(day);
-                    }
-                  });
-                },
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
+  void _toggleWeeklyDay(int day, bool selected) {
+    setState(() {
+      if (selected) {
+        _weeklyDays.add(day);
+      } else {
+        _weeklyDays.remove(day);
+      }
+    });
   }
 
-  String _getWeekdayName(int day) {
-    // 1=Mon, 7=Sun. Jan 1, 2024 is a Monday.
-    final date = DateTime(2024, 1, day);
-    return DateFormat.E(Localizations.localeOf(context).languageCode)
-        .format(date);
-  }
-
-  Widget _intakeTimeRow(List<TimeOfDay> times, int index) {
-    final time = times[index];
+  Widget _intakeTimeRow(int index) {
+    final time = _intakeOrNotificationTimes[index];
     return ListTile(
       leading: Icon(widget.schedule.administrationRoute.icon),
       title: Text(time.format(context)),
-      onTap: () => _editTime(times, index),
+      onTap: () => _editTime(index),
       trailing: IconButton(
         icon: const Icon(Icons.delete_outline),
         onPressed: () {
           setState(() {
-            times.removeAt(index);
+            _intakeOrNotificationTimes.removeAt(index);
           });
         },
       ),
@@ -381,16 +338,16 @@ class _EditScheduleSchedulingPageState
   }
 
   Widget _intervalTimeRow(int index) {
-    final time = _dailyIntakeTimes[index];
+    final time = _intakeOrNotificationTimes[index];
     return ListTile(
       leading: Icon(Icons.alarm),
       title: Text(time.format(context)),
-      onTap: () => _editDailyTime(index),
+      onTap: () => _editTime(index),
       trailing: IconButton(
         icon: const Icon(Icons.delete_outline),
         onPressed: () {
           setState(() {
-            _dailyIntakeTimes.removeAt(index);
+            _intakeOrNotificationTimes.removeAt(index);
           });
         },
       ),
