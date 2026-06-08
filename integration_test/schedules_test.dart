@@ -1,9 +1,5 @@
 // Patrol E2E tests for the Medication Schedules feature.
-//
-// These run on a real Android device/emulator (Patrol does not support Linux
-// desktop), driving the actual app launched via `main()`. Run with:
-//   patrol test --target integration_test/schedules_test.dart --flavor standalone
-// See integration_test/README.md for the full setup and CI notes.
+// See integration_test/README.md for setup, running, state, and CI notes.
 //
 // Finder strategy: the schedules UI defines no widget Keys, so we target
 // fields by their decoration label (`$(TextField).containing('Name')`) rather

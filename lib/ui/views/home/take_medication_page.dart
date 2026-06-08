@@ -184,6 +184,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           title: localizations.takeMedication(widget.schedule.name),
           avatar: widget.schedule.administrationRoute.icon,
           submitButtonLabel: localizations.takeIntake,
+          submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid)
               ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider)

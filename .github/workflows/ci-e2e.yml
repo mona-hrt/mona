@@ -25,11 +25,36 @@ jobs:
           flutter-version-file: .fvmrc
           cache: true
 
+      # Pin a JDK for the Android Gradle build so it never falls back to an
+      # invalid JAVA_HOME (AGP needs JDK 17).
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
       - name: Get dependencies
         # Installs the Patrol framework AND the Patrol CLI: patrol_cli is a
         # dev_dependency (pinned in pubspec.lock), so there is no separate
         # `dart pub global activate`. The CLI is run as `dart run patrol_cli:main`.
         run: flutter pub get
+
+      # Cache the Gradle home so the Android build isn't cold on every run
+      # (a cold build re-downloads AGP + deps and can take 10–20 min by itself).
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/gradle/wrapper/gradle-wrapper.properties', 'pubspec.lock') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      # Build the app + instrumentation APKs outside the emulator.
+      - name: Build Patrol APKs
+        timeout-minutes: 25
+        run: dart run patrol_cli:main build android --flavor standalone
 
       - name: Enable KVM
         run: |
@@ -44,6 +69,7 @@ jobs:
       # in pubspec.yaml. Omitting --target runs every *_test.dart under
       # integration_test/ (the test_directory in pubspec.yaml).
       - name: Run Patrol tests on emulator
+        timeout-minutes: 30
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
