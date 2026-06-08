@@ -16,6 +16,8 @@ const morning = TimeOfDay(hour: 9, minute: 0);
 /// A time after the [testNow] hour (noon).
 const afternoon = TimeOfDay(hour: 15, minute: 0);
 
+const evening = TimeOfDay(hour: 20, minute: 30);
+
 int _nextId = 1;
 int _generateId() => _nextId++;
 
@@ -68,15 +70,17 @@ WeeklySchedule aWeeklyStrategy({
       notificationTimes: notificationTimes,
     );
 
-MedicationIntake intakeAt(
-  TimeOfDay time, {
+MedicationIntake aMedicationIntake({
+  TimeOfDay? time,
   int? id,
   int? scheduleId,
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
       dose: Decimal.one,
-      takenDateTime: DateTime.utc(2025, 1, 1, time.hour, time.minute),
+      takenDateTime: time != null
+          ? DateTime.utc(2025, 1, 1, time.hour, time.minute)
+          : DateTime.utc(2025, 1, 1),
       takenTimeZone: 'Etc/UTC',
       scheduleId: scheduleId ?? _generateId(),
       molecule: KnownMolecules.estradiol,

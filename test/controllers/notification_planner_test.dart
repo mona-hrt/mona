@@ -200,7 +200,7 @@ void main() {
           )
         ]);
         when(intakesProvider.getTakenIntakesForScheduleOn(any, Date.today()))
-            .thenReturn([intakeAt(afternoon)]);
+            .thenReturn([aMedicationIntake(time: afternoon)]);
 
         // Act
         final plan = planner
@@ -223,7 +223,7 @@ void main() {
           )
         ]);
         when(intakesProvider.getTakenIntakesForScheduleOn(any, Date.today()))
-            .thenReturn([intakeAt(morning)]);
+            .thenReturn([aMedicationIntake(time: morning)]);
 
         // Act
         final plans =
@@ -474,7 +474,7 @@ void main() {
                   daysOfWeek: const [1], notificationTimes: const [afternoon]))
         ]);
         when(intakesProvider.getTakenIntakesForScheduleOn(any, Date.today()))
-            .thenReturn([intakeAt(morning)]);
+            .thenReturn([aMedicationIntake(time: morning)]);
 
         // Act
         final plan = planner

@@ -45,7 +45,6 @@ class SlotsBuilder {
     );
     return IntakeSlot(
       schedule: schedule,
-      date: Date.today(),
       status: status,
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
@@ -66,7 +65,6 @@ class SlotsBuilder {
               takenToday.firstWhereOrNull((it) => it.scheduledTime == time);
           return IntakeSlot(
             schedule: schedule,
-            date: today,
             time: time,
             status: scheduling.statusFor(date: today, matchedIntake: match),
             intake: match,
@@ -91,7 +89,6 @@ class SlotsBuilder {
     );
     return IntakeSlot(
       schedule: schedule,
-      date: Date.today(),
       status: status,
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
