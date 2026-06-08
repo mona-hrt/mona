@@ -269,7 +269,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     return [
       WeekdayPicker(
         selectedDays: _weeklyDays,
-        errorText: _weeklyDaysError,
         onDayToggled: _toggleWeeklyDay,
       ),
       FormSpacer(),
