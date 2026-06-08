@@ -25,7 +25,7 @@ extension MedicationScheduleL10n on MedicationSchedule {
           final days = s.daysOfWeek
               .map((d) => formatter.format(DateTime(2024, 1, d)))
               .join(', ');
-          return days;
+          return days[0].toUpperCase() + days.substring(1);
         }(),
     };
   }
