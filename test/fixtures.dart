@@ -7,6 +7,7 @@ import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 
 /// A time before the [testNow] hour (noon).
@@ -81,4 +82,45 @@ MedicationIntake intakeAt(
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.oral,
       scheduledTime: time,
+    );
+
+/// The day after [testNow] at 09:00 UTC.
+final _tomorrowMorning = DateTime.utc(2026, 6, 2, 9, 0);
+
+/// The next Monday after [testNow] at 09:00 UTC.
+final _nextMondayMorning = DateTime.utc(2026, 6, 8, 9, 0);
+
+PlannedOccurrence anOccurrencePlan({
+  MedicationSchedule? schedule,
+  DateTime? dateTime,
+}) =>
+    PlannedOccurrence(
+      schedule ?? aMedicationSchedule(),
+      dateTime: dateTime ?? _tomorrowMorning,
+    );
+
+PlannedRepeating aDailyPlan({
+  MedicationSchedule? schedule,
+  TimeOfDay time = morning,
+  DateTime? firstFire,
+}) =>
+    PlannedRepeating(
+      schedule ?? aMedicationSchedule(),
+      periodicity: Periodicity.daily,
+      firstFire: firstFire ?? _tomorrowMorning,
+      time: time,
+    );
+
+PlannedRepeating aWeeklyPlan({
+  MedicationSchedule? schedule,
+  int dayOfWeek = 1,
+  TimeOfDay time = morning,
+  DateTime? firstFire,
+}) =>
+    PlannedRepeating(
+      schedule ?? aMedicationSchedule(),
+      periodicity: Periodicity.weekly,
+      firstFire: firstFire ?? _nextMondayMorning,
+      time: time,
+      dayOfWeek: dayOfWeek,
     );

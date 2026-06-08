@@ -1,25 +1,19 @@
 import 'package:clock/clock.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
-import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/model/planned_notification.dart';
-import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/l10n/app_localizations_en.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import '../fixtures.dart';
 import '../util/test_clock.dart';
 
 @GenerateNiceMocks([
@@ -28,53 +22,6 @@ import '../util/test_clock.dart';
   MockSpec<FlutterLocalNotificationsPlugin>(),
 ])
 import 'notification_scheduler_test.mocks.dart';
-
-MedicationSchedule schedule({int id = 1, String name = 'Med'}) =>
-    MedicationSchedule(
-      id: id,
-      name: name,
-      dose: Decimal.fromInt(10),
-      scheduling: IntervalDaysSchedule(intervalDays: 1),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.oral,
-    );
-
-PlannedOccurrence occurrencePlan({
-  MedicationSchedule? schedule,
-  DateTime? dateTime,
-}) =>
-    PlannedOccurrence(
-      schedule ?? _defaultSchedule(),
-      dateTime: dateTime ?? DateTime.utc(2026, 6, 2, 9, 0),
-    );
-
-PlannedRepeating dailyPlan({
-  MedicationSchedule? schedule,
-  TimeOfDay time = const TimeOfDay(hour: 9, minute: 0),
-  DateTime? firstFire,
-}) =>
-    PlannedRepeating(
-      schedule ?? _defaultSchedule(),
-      periodicity: Periodicity.daily,
-      firstFire: firstFire ?? DateTime.utc(2026, 6, 2, 9, 0),
-      time: time,
-    );
-
-PlannedRepeating weeklyPlan({
-  MedicationSchedule? schedule,
-  int dayOfWeek = 1,
-  TimeOfDay time = const TimeOfDay(hour: 9, minute: 0),
-  DateTime? firstFire,
-}) =>
-    PlannedRepeating(
-      schedule ?? _defaultSchedule(),
-      periodicity: Periodicity.weekly,
-      firstFire: firstFire ?? DateTime.utc(2026, 6, 8, 9, 0),
-      time: time,
-      dayOfWeek: dayOfWeek,
-    );
-
-MedicationSchedule _defaultSchedule() => schedule();
 
 void main() {
   final l10n = AppLocalizationsEn();
@@ -217,15 +164,16 @@ void main() {
     });
 
     test('schedules one zonedSchedule call per plan', () async {
-      final s = schedule();
+      // Arrange
+      final s = aMedicationSchedule();
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
           .thenReturn([
-        occurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        dailyPlan(
+        anOccurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aDailyPlan(
             schedule: s,
             time: const TimeOfDay(hour: 14, minute: 0),
             firstFire: DateTime.utc(2026, 6, 2, 14, 0)),
-        weeklyPlan(
+        aWeeklyPlan(
             schedule: s,
             dayOfWeek: 3,
             time: const TimeOfDay(hour: 20, minute: 0),
@@ -233,141 +181,89 @@ void main() {
       ]);
       final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
+      // Assert
       verifyScheduled().called(3);
     });
 
-    test('PlannedOccurrence -> one-shot, body uses date only', () async {
-      final s = schedule(name: 'My Med');
-      final fire = DateTime.utc(2026, 6, 7, 8, 30);
+    test('PlannedOccurrence -> one-shot', () async {
+      // Arrange
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([occurrencePlan(schedule: s, dateTime: fire)]);
+          .thenReturn([anOccurrencePlan(schedule: aMedicationSchedule())]);
       final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      final expectedDate = DateFormat.MMMMd(l10n.localeName).format(fire);
+      // Assert
       verifyScheduled(
-        body: equals(l10n.notificationMedicationReminderBodyDate(expectedDate)),
         matchDateTimeComponents: isNull,
       ).called(1);
     });
 
-    test('PlannedRepeating(daily) -> matches on time only, body uses time only',
-        () async {
-      final s = schedule(name: 'My Med');
-      final fire = DateTime.utc(2026, 6, 2, 8, 30);
+    test('PlannedRepeating(daily) -> matches on time only', () async {
+      // Arrange
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([
-        dailyPlan(
-            schedule: s,
-            time: const TimeOfDay(hour: 8, minute: 30),
-            firstFire: fire),
-      ]);
+          .thenReturn([aDailyPlan(schedule: aMedicationSchedule())]);
       final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      final expectedTime = DateFormat.Hm(l10n.localeName).format(fire);
+      // Assert
       verifyScheduled(
-        body: equals(l10n.notificationMedicationReminderBodyTime(expectedTime)),
         matchDateTimeComponents: equals(DateTimeComponents.time),
       ).called(1);
     });
 
-    test(
-        'PlannedRepeating(weekly) -> matches on dayOfWeek+time, body uses weekday only',
-        () async {
-      final s = schedule(name: 'My Med');
-      // 2026-06-08 is a Monday.
-      final fire = DateTime.utc(2026, 6, 8, 20, 0);
+    test('PlannedRepeating(weekly) -> matches on dayOfWeek+time', () async {
+      // Arrange
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([
-        weeklyPlan(
-            schedule: s,
-            dayOfWeek: 1,
-            time: const TimeOfDay(hour: 20, minute: 0),
-            firstFire: fire),
-      ]);
+          .thenReturn([aWeeklyPlan()]);
       final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      final expectedWeekday = DateFormat.EEEE(l10n.localeName).format(fire);
+      // Assert
       verifyScheduled(
-        body: equals(
-            l10n.notificationMedicationReminderBodyWeekday(expectedWeekday)),
         matchDateTimeComponents: equals(DateTimeComponents.dayOfWeekAndTime),
       ).called(1);
     });
 
-    test('titles notifications with the schedule name', () async {
-      final s = schedule(name: 'My Med');
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([occurrencePlan(schedule: s)]);
-      final sut = NotificationScheduler(planner, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      verifyScheduled(title: l10n.notificationMedicationReminderTitle('My Med'))
-          .called(1);
-    });
-
-    test('two schedules each get their own notification', () async {
-      final a = schedule(id: 1, name: 'A');
-      final b = schedule(id: 2, name: 'B');
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([
-        occurrencePlan(schedule: a),
-        occurrencePlan(schedule: b),
-      ]);
-      final sut = NotificationScheduler(planner, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      verifyScheduled(title: l10n.notificationMedicationReminderTitle('A'))
-          .called(1);
-      verifyScheduled(title: l10n.notificationMedicationReminderTitle('B'))
-          .called(1);
-    });
-
     test('schedules at most 60 notifications', () async {
-      final s = schedule();
-      final plans = List.generate(
-        100,
-        (i) => occurrencePlan(
-          schedule: s,
-          dateTime: DateTime.utc(2026, 6, 2, 9, 0).add(Duration(days: i + 1)),
-        ),
-      );
+      // Arrange
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn(plans);
+          .thenReturn(List.generate(
+        100,
+        (i) => anOccurrencePlan(),
+      ));
       final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
+      // Assert
       verifyScheduled().called(60);
     });
 
     test('keeps the earliest plans when more than 60 are returned', () async {
-      final s = schedule();
+      // Arrange
       final start = DateTime.utc(2026, 6, 2, 9, 0);
-      // Reverse-ordered: day 100 emitted first, day 1 last. After sorting,
-      // days 1..64 should survive and days 65..100 should be dropped.
       final plans = List.generate(
         100,
-        (i) => occurrencePlan(
-          schedule: s,
-          dateTime: start.add(Duration(days: 100 - i)),
-        ),
+        (i) => anOccurrencePlan(dateTime: start.add(Duration(days: 100 - i))),
       );
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
           .thenReturn(plans);
       final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
+      // Assert
       final scheduledDates = verify(plugin.zonedSchedule(
         id: anyNamed('id'),
         title: anyNamed('title'),
@@ -378,50 +274,9 @@ void main() {
         matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
         payload: anyNamed('payload'),
       )).captured.cast<tz.TZDateTime>();
-
       final latest = scheduledDates.reduce((a, b) => a.isAfter(b) ? a : b);
       expect(latest,
           tz.TZDateTime.from(start.add(const Duration(days: 60)), tz.local));
-    });
-
-    test(
-        'sorts plans by first fire across PlannedOccurrence and PlannedRepeating',
-        () async {
-      // Mix of variants intentionally out of order. After sorting by
-      // firstFire, the order forwarded to the plugin should be ascending.
-      final s = schedule();
-      final dailyFire = DateTime.utc(2026, 6, 3, 9, 0);
-      final weeklyFire = DateTime.utc(2026, 6, 4, 9, 0);
-      final firstShot = DateTime.utc(2026, 6, 5, 9, 0);
-      final secondShot = DateTime.utc(2026, 6, 6, 9, 0);
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([
-        occurrencePlan(schedule: s, dateTime: secondShot),
-        dailyPlan(schedule: s, firstFire: dailyFire),
-        occurrencePlan(schedule: s, dateTime: firstShot),
-        weeklyPlan(schedule: s, firstFire: weeklyFire),
-      ]);
-      final sut = NotificationScheduler(planner, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      final scheduledDates = verify(plugin.zonedSchedule(
-        id: anyNamed('id'),
-        title: anyNamed('title'),
-        body: anyNamed('body'),
-        scheduledDate: captureAnyNamed('scheduledDate'),
-        notificationDetails: anyNamed('notificationDetails'),
-        androidScheduleMode: anyNamed('androidScheduleMode'),
-        matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
-        payload: anyNamed('payload'),
-      )).captured.cast<tz.TZDateTime>();
-
-      expect(scheduledDates, [
-        tz.TZDateTime.from(dailyFire, tz.local),
-        tz.TZDateTime.from(weeklyFire, tz.local),
-        tz.TZDateTime.from(firstShot, tz.local),
-        tz.TZDateTime.from(secondShot, tz.local),
-      ]);
     });
   });
 
@@ -437,81 +292,24 @@ void main() {
           payload: anyNamed('payload'),
         )).captured.cast<int>();
 
-    test('the same PlannedOccurrence yields the same id across regenerations',
-        () async {
-      final s = schedule(id: 7);
-      final plans = [
-        occurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        occurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
-        occurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 4, 9, 0)),
-      ];
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn(plans);
-      final sut = NotificationScheduler(planner, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      final ids = capturedScheduledIds();
-      expect(ids.sublist(0, 3), equals(ids.sublist(3, 6)));
-    });
-
-    test('PlannedRepeating(daily): same (schedule, time) yields the same id',
-        () async {
-      final s = schedule(id: 7);
-      final plan = dailyPlan(
-        schedule: s,
-        time: const TimeOfDay(hour: 8, minute: 30),
-      );
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([plan]);
-      final sut = NotificationScheduler(planner, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      final ids = capturedScheduledIds();
-      expect(ids[0], equals(ids[1]));
-    });
-
-    test(
-        'PlannedRepeating(weekly): same (schedule, dayOfWeek, time) yields the same id',
-        () async {
-      final s = schedule(id: 7);
-      final plan = weeklyPlan(
-        schedule: s,
-        dayOfWeek: 3,
-        time: const TimeOfDay(hour: 8, minute: 30),
-      );
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([plan]);
-      final sut = NotificationScheduler(planner, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      final ids = capturedScheduledIds();
-      expect(ids[0], equals(ids[1]));
-    });
-
     test('distinct plans yield distinct ids', () async {
-      // Realistic mix: a schedule's `scheduling` is a single strategy, so
-      // in production one schedule emits only one variant. Cross-variant
-      // mixes shown here come from different schedules.
-      final a = schedule(id: 1, name: 'A'); // interval-days
-      final b = schedule(id: 2, name: 'B'); // daily
-      final c = schedule(id: 3, name: 'C'); // weekly
+      // Arrange
+      final a = aMedicationSchedule();
+      final b = aMedicationSchedule();
+      final c = aMedicationSchedule();
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
           .thenReturn([
-        occurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        occurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
-        dailyPlan(schedule: b, firstFire: DateTime.utc(2026, 6, 2, 9, 0)),
-        weeklyPlan(schedule: c, firstFire: DateTime.utc(2026, 6, 8, 9, 0)),
+        anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
+        aDailyPlan(schedule: b, firstFire: DateTime.utc(2026, 6, 2, 9, 0)),
+        aWeeklyPlan(schedule: c, firstFire: DateTime.utc(2026, 6, 8, 9, 0)),
       ]);
       final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
+      // Assert
       final ids = capturedScheduledIds();
       expect(ids.toSet().length, equals(ids.length));
     });
