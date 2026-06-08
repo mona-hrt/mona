@@ -135,36 +135,22 @@ class _EditScheduleSchedulingPageState
         Provider.of<MedicationScheduleProvider>(context, listen: false);
     _startDate = widget.schedule.startDate;
 
-    final scheduling = widget.schedule.scheduling;
-    switch (scheduling) {
-      case IntervalDaysSchedule(
-          intervalDays: final intervalDays,
-          notificationTimes: final notificationTimes,
-        ):
+    _intervalDaysController = TextEditingController();
+    switch (widget.schedule.scheduling) {
+      case IntervalDaysSchedule(:final intervalDays, :final notificationTimes):
         _type = _ScheduleType.intervalDays;
-        _intervalDaysController =
-            TextEditingController(text: intervalDays.toString());
+        _intervalDaysController.text = intervalDays.toString();
         _intakeOrNotificationTimes.addAll(notificationTimes);
-        _sortTimes();
-      case DailySchedule(
-          intakeTimes: final intakeTimes,
-          notify: final notify,
-        ):
+      case DailySchedule(:final intakeTimes, :final notify):
         _type = _ScheduleType.daily;
-        _intervalDaysController = TextEditingController();
         _intakeOrNotificationTimes.addAll(intakeTimes);
-        _sortTimes();
         _dailyNotify = notify;
-      case WeeklySchedule(
-          daysOfWeek: final daysOfWeek,
-          notificationTimes: final notificationTimes,
-        ):
+      case WeeklySchedule(:final daysOfWeek, :final notificationTimes):
         _type = _ScheduleType.weekly;
-        _intervalDaysController = TextEditingController();
         _weeklyDays.addAll(daysOfWeek);
         _intakeOrNotificationTimes.addAll(notificationTimes);
-        _sortTimes();
     }
+    _sortTimes();
   }
 
   @override
