@@ -44,6 +44,7 @@ class HomePage extends StatelessWidget {
                 _SectionTitle(localizations.upcoming),
                 ...occurrences.upcoming.map(IntakeTile.new),
               ],
+              const SizedBox(height: borderPadding),
             ],
           ),
         ),
