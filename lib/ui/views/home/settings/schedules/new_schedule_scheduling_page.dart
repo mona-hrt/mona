@@ -179,13 +179,13 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       closeAll: _closeAll,
       fields: <Widget>[
         _typeToggle(),
-        const SizedBox(height: 16),
+        FormSpacer(),
         ...switch (_type) {
           _ScheduleType.intervalDays => _intervalDaysSpecifics(),
           _ScheduleType.daily => _dailySpecifics(),
           _ScheduleType.weekly => _weeklySpecifics(),
         },
-        const SizedBox(height: 16),
+        FormSpacer(),
         FormDateField(
           date: _startDate,
           label: l10n.startDate,
@@ -286,7 +286,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         errorText: _weeklyDaysError,
         onDayToggled: _toggleWeeklyDay,
       ),
-      const SizedBox(height: 16),
+      FormSpacer(),
       M3ECardColumn(
         padding: EdgeInsets.zero,
         onTap: (index) {
