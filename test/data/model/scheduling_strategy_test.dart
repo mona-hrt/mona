@@ -1,10 +1,5 @@
-import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/medication_intake.dart';
-import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 
 import '../../fixtures.dart';
@@ -526,8 +521,8 @@ void main() {
 
       test('startDate in the future -> upcoming', () {
         // Act
-        final status = s.statusFor(
-            startDate: Date.today().add(const Duration(days: 5)));
+        final status =
+            s.statusFor(startDate: Date.today().add(const Duration(days: 5)));
 
         // Assert
         expect(status, ScheduleStatus.upcoming);
