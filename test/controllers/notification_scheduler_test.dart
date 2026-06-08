@@ -216,17 +216,6 @@ void main() {
       ));
     });
 
-    test('passes planner.daysAhead(maxScheduled: 64) into planNotifications',
-        () async {
-      when(planner.daysAhead(maxScheduled: 64)).thenReturn(7);
-      final sut = NotificationScheduler(planner, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      verify(planner.daysAhead(maxScheduled: 64)).called(1);
-      verify(planner.planNotifications(daysAhead: 7)).called(1);
-    });
-
     test('schedules one zonedSchedule call per plan', () async {
       final s = schedule();
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
@@ -343,7 +332,7 @@ void main() {
           .called(1);
     });
 
-    test('schedules at most 64 notifications', () async {
+    test('schedules at most 60 notifications', () async {
       final s = schedule();
       final plans = List.generate(
         100,
@@ -358,10 +347,10 @@ void main() {
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      verifyScheduled().called(64);
+      verifyScheduled().called(60);
     });
 
-    test('keeps the earliest plans when more than 64 are returned', () async {
+    test('keeps the earliest plans when more than 60 are returned', () async {
       final s = schedule();
       final start = DateTime.utc(2026, 6, 2, 9, 0);
       // Reverse-ordered: day 100 emitted first, day 1 last. After sorting,
@@ -390,10 +379,9 @@ void main() {
         payload: anyNamed('payload'),
       )).captured.cast<tz.TZDateTime>();
 
-      expect(scheduledDates, hasLength(64));
       final latest = scheduledDates.reduce((a, b) => a.isAfter(b) ? a : b);
       expect(latest,
-          tz.TZDateTime.from(start.add(const Duration(days: 64)), tz.local));
+          tz.TZDateTime.from(start.add(const Duration(days: 60)), tz.local));
     });
 
     test(

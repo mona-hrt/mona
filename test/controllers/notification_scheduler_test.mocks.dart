@@ -51,7 +51,7 @@ class MockNotificationPlanner extends _i1.Mock
         Invocation.method(
           #planNotifications,
           [],
-          {#days: daysAhead},
+          {#daysAhead: daysAhead},
         ),
         returnValue: <_i3.PlannedNotification>[],
         returnValueForMissingStub: <_i3.PlannedNotification>[],

@@ -15,7 +15,6 @@ class SchedulingStrategyMapper extends ClassMapperBase<SchedulingStrategy> {
   static SchedulingStrategyMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SchedulingStrategyMapper._());
-      MapperContainer.globals.useAll([TimeOfDayMapper()]);
       IntervalDaysScheduleMapper.ensureInitialized();
       DailyScheduleMapper.ensureInitialized();
       WeeklyScheduleMapper.ensureInitialized();

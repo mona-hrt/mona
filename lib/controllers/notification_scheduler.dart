@@ -26,7 +26,7 @@ class NotificationScheduler {
     }
 
     final daysAhead = planner.daysAhead(maxScheduled: _maxScheduled);
-    final plans = planner.planNotifications(daysAhead: daysAhead)
+    final plans = [...planner.planNotifications(daysAhead: daysAhead)]
       ..sort((a, b) => a.firstFire.compareTo(b.firstFire));
 
     await Future.wait(plans
