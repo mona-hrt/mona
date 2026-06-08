@@ -140,21 +140,10 @@ class IntakeTileViewModel {
 
   bool get _isDailySlot => slotTime != null;
 
-  Date get nextScheduled {
-    final s = schedule.scheduling;
-    if (s is IntervalDaysSchedule) return s.nextDate(schedule.startDate);
-    if (s is WeeklySchedule) return s.nextDate(schedule.startDate);
-    throw StateError(
-        'nextScheduled is not meaningful for daily slots (use slotTime)');
-  }
+  Date get nextScheduled => schedule.scheduling.nextDate(schedule.startDate);
 
-  Date? get lastScheduled {
-    final s = schedule.scheduling;
-    if (s is IntervalDaysSchedule) return s.previousDate(schedule.startDate);
-    if (s is WeeklySchedule) return s.previousDate(schedule.startDate);
-    throw StateError(
-        'lastScheduled is not meaningful for daily slots (use slotTime)');
-  }
+  Date? get lastScheduled =>
+      schedule.scheduling.previousDate(schedule.startDate);
 
   Date? get lastTaken =>
       intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
@@ -174,6 +163,11 @@ class IntakeTileViewModel {
   }
 
   String? get scheduledText {
+    if (status == ScheduleStatus.upcoming) {
+      final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
+      return "$formatted - ${localizations.inDaysCount(daysUntilIntake)}";
+    }
+
     if (_isDailySlot) {
       return slotTime?.format(context);
     }
@@ -189,9 +183,8 @@ class IntakeTileViewModel {
         final formatted = lastScheduled!.format(DateFormat.MMMMd(languageTag));
         return "$formatted - ${localizations.daysAgoCount(daysSinceLastScheduled!)}";
 
-      case ScheduleStatus.upcoming:
-        final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
-        return "$formatted - ${localizations.inDaysCount(daysUntilIntake)}";
+      case _:
+        return null;
     }
   }
 

@@ -20,6 +20,14 @@ enum ScheduleStatus {
 @MappableClass(discriminatorKey: 'type')
 sealed class SchedulingStrategy with SchedulingStrategyMappable {
   const SchedulingStrategy();
+
+  /// Returns the next scheduled intake date on or after today, relative to
+  /// [startDate].
+  Date nextDate(Date startDate);
+
+  /// Returns the most recent scheduled intake date strictly before today,
+  /// relative to [startDate], or null if no such date exists.
+  Date? previousDate(Date startDate);
 }
 
 @MappableClass(
@@ -41,6 +49,7 @@ class IntervalDaysSchedule extends SchedulingStrategy
   /// - If the [startDate] is in the future or today, returns [startDate].
   /// - If today falls exactly on a scheduled injection date, returns today.
   /// - Otherwise, returns the next scheduled date after today.
+  @override
   Date nextDate(Date startDate) {
     if (!startDate.isBeforeToday) {
       return startDate;
@@ -62,6 +71,7 @@ class IntervalDaysSchedule extends SchedulingStrategy
   /// - If today falls exactly on a scheduled injection date, returns the
   ///   scheduled date before today.
   /// - Otherwise, returns the last scheduled date before today.
+  @override
   Date? previousDate(Date startDate) {
     if (!startDate.isBeforeToday) {
       return null;
@@ -157,9 +167,26 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
     this.notify = true,
   });
 
+  /// Returns the next scheduled intake date relative to today.
+  ///
+  /// - If the [startDate] is in the future, returns [startDate].
+  /// - Otherwise, returns today (a daily schedule fires every day once it
+  ///   has started).
+  @override
+  Date nextDate(Date startDate) {
+    if (startDate.isAfterToday) return startDate;
+    return Date.today();
+  }
+
+  /// A daily schedule has no meaningful "previous" intake date.
+  @override
+  Date? previousDate(Date startDate) => null;
+
   ScheduleStatus statusFor({
+    required Date startDate,
     MedicationIntake? matchedIntake,
   }) {
+    if (startDate.isAfterToday) return ScheduleStatus.upcoming;
     if (matchedIntake != null) return ScheduleStatus.taken;
     return ScheduleStatus.today;
   }
@@ -188,6 +215,7 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   /// - If [startDate] is in the future or today, search starts from
   ///   [startDate] (the schedule has not begun before then).
   /// - Otherwise, search starts from today.
+  @override
   Date nextDate(Date startDate) {
     Date candidate = startDate.isAfterToday ? startDate : Date.today();
     for (int i = 0; i < 7; i++) {
@@ -215,6 +243,7 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   ///
   /// Returns null if [startDate] is today or in the future, or if no scheduled
   /// weekday exists in the window `[startDate, today)`.
+  @override
   Date? previousDate(Date startDate) {
     if (!startDate.isBeforeToday) {
       return null;

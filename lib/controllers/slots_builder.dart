@@ -66,7 +66,10 @@ class SlotsBuilder {
           return IntakeSlot(
             schedule: schedule,
             time: time,
-            status: scheduling.statusFor(matchedIntake: match),
+            status: scheduling.statusFor(
+              startDate: schedule.startDate,
+              matchedIntake: match,
+            ),
             intake: match,
           );
         }(),

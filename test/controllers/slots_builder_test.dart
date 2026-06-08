@@ -104,6 +104,24 @@ void main() {
       expect([morningSlot.status, morningSlot.intake],
           [ScheduleStatus.taken, morningIntake]);
     });
+
+    test('startDate in the future -> all slots are upcoming', () {
+      // Arrange
+      withSchedules([
+        aMedicationSchedule(
+            scheduling: aDailyStrategy(intakeTimes: const [morning, afternoon]),
+            startDate: Date.today().add(const Duration(days: 5)))
+      ]);
+      when(intakes.getTakenIntakesForScheduleOn(any, Date.today()))
+          .thenReturn(<MedicationIntake>[]);
+
+      // Act
+      final result = slotsBuilder.intakeSlots();
+
+      // Assert
+      expect(
+          result.map((o) => o.status), everyElement(ScheduleStatus.upcoming));
+    });
   });
 
   group('intakeSlots - WeeklySchedule', () {

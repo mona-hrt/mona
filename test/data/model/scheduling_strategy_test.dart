@@ -455,6 +455,43 @@ void main() {
       });
     });
 
+    group('DailySchedule.nextDate', () {
+      test('startDate > today -> returns startDate', () {
+        // Arrange
+        final start = Date.today().add(const Duration(days: 5));
+        final s = aDailyStrategy(intakeTimes: const [morning]);
+
+        // Act
+        final next = s.nextDate(start);
+
+        // Assert
+        expect(next, start);
+      });
+
+      test('startDate == today -> returns today', () {
+        // Arrange
+        final s = aDailyStrategy(intakeTimes: const [morning]);
+
+        // Act
+        final next = s.nextDate(Date.today());
+
+        // Assert
+        expect(next, Date.today());
+      });
+
+      test('startDate < today -> returns today', () {
+        // Arrange
+        final start = Date.today().subtract(const Duration(days: 4));
+        final s = aDailyStrategy(intakeTimes: const [morning]);
+
+        // Act
+        final next = s.nextDate(start);
+
+        // Assert
+        expect(next, Date.today());
+      });
+    });
+
     group('DailySchedule.statusFor', () {
       final s = aDailyStrategy(intakeTimes: const [morning]);
 
@@ -463,18 +500,51 @@ void main() {
         final intake = aMedicationIntake();
 
         // Act
-        final status = s.statusFor(matchedIntake: intake);
+        final status =
+            s.statusFor(startDate: Date.today(), matchedIntake: intake);
 
         // Assert
         expect(status, ScheduleStatus.taken);
       });
 
-      test('no matched intake -> today', () {
+      test('no matched intake, startDate == today -> today', () {
         // Act
-        final status = s.statusFor();
+        final status = s.statusFor(startDate: Date.today());
 
         // Assert
         expect(status, ScheduleStatus.today);
+      });
+
+      test('no matched intake, startDate < today -> today', () {
+        // Act
+        final status = s.statusFor(
+            startDate: Date.today().subtract(const Duration(days: 3)));
+
+        // Assert
+        expect(status, ScheduleStatus.today);
+      });
+
+      test('startDate in the future -> upcoming', () {
+        // Act
+        final status = s.statusFor(
+            startDate: Date.today().add(const Duration(days: 5)));
+
+        // Assert
+        expect(status, ScheduleStatus.upcoming);
+      });
+
+      test('startDate in the future takes priority over matched intake', () {
+        // Arrange
+        final intake = aMedicationIntake();
+
+        // Act
+        final status = s.statusFor(
+          startDate: Date.today().add(const Duration(days: 5)),
+          matchedIntake: intake,
+        );
+
+        // Assert
+        expect(status, ScheduleStatus.upcoming);
       });
     });
 
