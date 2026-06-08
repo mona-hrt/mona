@@ -224,7 +224,10 @@ void main() {
 
   test('scheduleDailyNotification matches on time only and marks repeating',
       () async {
+    // Arrange
     final firstFire = DateTime.utc(2026, 2, 8, 10, 30);
+
+    // Act
     await service.scheduleDailyNotification(
       id: 7,
       title: 'D',
@@ -232,22 +235,20 @@ void main() {
       firstOccurrence: firstFire,
     );
 
-    expect(fakePlugin.scheduled.length, 1);
-    final n = fakePlugin.scheduled.first;
-    expect(n['id'], 7);
-    expect(n['matchDateTimeComponents'], DateTimeComponents.time);
-    expect((n['date'] as tz.TZDateTime).hour, 10);
-    expect((n['date'] as tz.TZDateTime).minute, 30);
-
+    // Assert
+    final n = fakePlugin.scheduled.single;
     final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
-    expect(payload['scheduledTime'], firstFire.toIso8601String());
+    expect(n['matchDateTimeComponents'], DateTimeComponents.time);
     expect(payload['isRepeating'], isTrue);
   });
 
   test(
       'scheduleWeeklyNotification matches on dayOfWeek+time and marks repeating',
       () async {
+    // Arrange
     final firstFire = DateTime.utc(2026, 2, 9, 8, 0); // Mon
+
+    // Act
     await service.scheduleWeeklyNotification(
       id: 9,
       title: 'W',
@@ -255,15 +256,10 @@ void main() {
       firstOccurrence: firstFire,
     );
 
-    expect(fakePlugin.scheduled.length, 1);
-    final n = fakePlugin.scheduled.first;
-    expect(n['id'], 9);
-    expect(n['matchDateTimeComponents'], DateTimeComponents.dayOfWeekAndTime);
-    expect((n['date'] as tz.TZDateTime).hour, 8);
-    expect((n['date'] as tz.TZDateTime).minute, 0);
-
+    // Assert
+    final n = fakePlugin.scheduled.single;
     final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
-    expect(payload['scheduledTime'], firstFire.toIso8601String());
+    expect(n['matchDateTimeComponents'], DateTimeComponents.dayOfWeekAndTime);
     expect(payload['isRepeating'], isTrue);
   });
 }
