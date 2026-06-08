@@ -158,11 +158,10 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
   });
 
   ScheduleStatus statusFor({
-    required Date date,
     MedicationIntake? matchedIntake,
   }) {
     if (matchedIntake != null) return ScheduleStatus.taken;
-    return date.isToday ? ScheduleStatus.today : ScheduleStatus.upcoming;
+    return ScheduleStatus.today;
   }
 
   static String? validateIntakeTimes(
