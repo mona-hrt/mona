@@ -13,6 +13,7 @@ import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/time_list_card.dart';
 import 'package:mona/ui/widgets/weekday_picker.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
@@ -219,7 +220,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   }
 
   List<Widget> _intervalDaysSpecifics() {
-    final addCardIndex = _intakeOrNotificationTimes.length;
     final l10n = context.l10n;
     return [
       FormTextField(
@@ -231,41 +231,28 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         regexFormatter: '[0-9]',
       ),
       FormSpacer(),
-      M3ECardColumn(
-        padding: EdgeInsets.zero,
-        onTap: (index) {
-          if (index == addCardIndex) _addTime();
-        },
-        children: [
-          for (int i = 0; i < _intakeOrNotificationTimes.length; i++)
-            _intervalTimeRow(i),
-          ListTile(
-            leading: const Icon(Icons.add),
-            title: Text(l10n.addNotification),
-            onTap: () => _addTime(),
-          ),
-        ],
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: Icons.alarm,
+        addLabel: l10n.addNotification,
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
       ),
     ];
   }
 
   List<Widget> _dailySpecifics() {
     final l10n = context.l10n;
-    final addCardIndex = _intakeOrNotificationTimes.length;
     return [
-      M3ECardColumn(
-        padding: EdgeInsets.zero,
-        onTap: (index) {
-          if (index == addCardIndex) _addTime();
-        },
-        children: [
-          for (int i = 0; i < _intakeOrNotificationTimes.length; i++)
-            _intakeTimeRow(i),
-          ListTile(
-            leading: const Icon(Icons.add),
-            title: Text(l10n.addIntakeTime),
-            onTap: () => _addTime(),
-          ),
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: widget.administrationRoute.icon,
+        addLabel: l10n.addIntakeTime,
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
+        trailingChildren: [
           SwitchListTile(
             title: Text(l10n.enableNotifications),
             subtitle: Text(l10n.enableNotificationsDescription),
@@ -279,7 +266,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
 
   List<Widget> _weeklySpecifics() {
     final l10n = context.l10n;
-    final addCardIndex = _intakeOrNotificationTimes.length;
     return [
       WeekdayPicker(
         selectedDays: _weeklyDays,
@@ -287,20 +273,13 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         onDayToggled: _toggleWeeklyDay,
       ),
       FormSpacer(),
-      M3ECardColumn(
-        padding: EdgeInsets.zero,
-        onTap: (index) {
-          if (index == addCardIndex) _addTime();
-        },
-        children: [
-          for (int i = 0; i < _intakeOrNotificationTimes.length; i++)
-            _intakeTimeRow(i),
-          ListTile(
-            leading: const Icon(Icons.add),
-            title: Text(l10n.addNotification),
-            onTap: () => _addTime(),
-          ),
-        ],
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: widget.administrationRoute.icon,
+        addLabel: l10n.addNotification,
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
       ),
     ];
   }
@@ -315,37 +294,9 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     });
   }
 
-  Widget _intakeTimeRow(int index) {
-    final time = _intakeOrNotificationTimes[index];
-    return ListTile(
-      leading: Icon(widget.administrationRoute.icon),
-      title: Text(time.format(context)),
-      onTap: () => _editTime(index),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete_outline),
-        onPressed: () {
-          setState(() {
-            _intakeOrNotificationTimes.removeAt(index);
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _intervalTimeRow(int index) {
-    final time = _intakeOrNotificationTimes[index];
-    return ListTile(
-      leading: Icon(Icons.alarm),
-      title: Text(time.format(context)),
-      onTap: () => _editTime(index),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete_outline),
-        onPressed: () {
-          setState(() {
-            _intakeOrNotificationTimes.removeAt(index);
-          });
-        },
-      ),
-    );
+  void _deleteTime(int index) {
+    setState(() {
+      _intakeOrNotificationTimes.removeAt(index);
+    });
   }
 }
