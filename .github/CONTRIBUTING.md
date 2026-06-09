@@ -62,7 +62,7 @@ Because the project uses FVM, you must prefix all standard Flutter commands with
 fvm flutter pub get
 
 # Run the app
-fvm flutter run
+fvm flutter run --flavor standalone
 
 # Run tests
 fvm flutter test

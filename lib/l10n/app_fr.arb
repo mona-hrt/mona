@@ -31,6 +31,7 @@
   "scheduleFrequencyDaily": "Tous les jours",
   "scheduleFrequencyEveryNDays": "Tous les {days} jours",
   "scheduleFrequencyInterval": "Intervalle",
+  "scheduleFrequencyWeekly": "Hebdomadaire",
   "newUpdateAvailable": "Une nouvelle mise à jour est disponible !",
   "goToSettings": "Aller aux paramètres",
 
@@ -83,7 +84,9 @@
   "updateDownloadFailed": "Échec du téléchargement. Vérifiez votre connexion.",
 
   "notificationMedicationReminderTitle": "Il est temps de prendre {scheduleName}",
-  "notificationMedicationReminderBody": "Prévu pour {dateTime}",
+  "notificationMedicationReminderBodyDate": "Prévu pour le {date}",
+  "notificationMedicationReminderBodyTime": "Prévu pour {time}",
+  "notificationMedicationReminderBodyWeekday": "Prévu pour {weekday}",
 
   "addSchedule": "Ajouter un planning",
   "addScheduleToGetStarted": "Ajoutez un planning pour commencer.",

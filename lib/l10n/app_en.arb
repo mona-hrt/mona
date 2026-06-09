@@ -31,6 +31,7 @@
   "scheduleFrequencyDaily": "Every day",
   "scheduleFrequencyEveryNDays": "Every {days} days",
   "scheduleFrequencyInterval": "Interval",
+  "scheduleFrequencyWeekly": "Weekly",
   "newUpdateAvailable": "A new update is available!",
   "goToSettings": "Go to Settings",
 
@@ -83,7 +84,9 @@
   "updateDownloadFailed": "Download failed. Please check your connection.",
 
   "notificationMedicationReminderTitle": "Time to take {scheduleName}",
-  "notificationMedicationReminderBody": "Scheduled for {dateTime}",
+  "notificationMedicationReminderBodyDate": "Scheduled for {date}",
+  "notificationMedicationReminderBodyTime": "Scheduled for {time}",
+  "notificationMedicationReminderBodyWeekday": "Scheduled for {weekday}",
 
   "addSchedule": "Add a schedule",
   "addScheduleToGetStarted": "Add a schedule to get started.",

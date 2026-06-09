@@ -1,80 +1,32 @@
 import 'package:clock/clock.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
-import 'package:mona/controllers/occurrences_manager.dart';
-import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/model/scheduled_occurrence.dart';
-import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/l10n/app_localizations_en.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import '../fixtures.dart';
 import '../util/test_clock.dart';
 
 @GenerateNiceMocks([
-  MockSpec<OccurrencesManager>(),
+  MockSpec<NotificationPlanner>(),
   MockSpec<PreferencesService>(),
   MockSpec<FlutterLocalNotificationsPlugin>(),
 ])
 import 'notification_scheduler_test.mocks.dart';
 
-MedicationSchedule schedule({int id = 1, String name = 'Med'}) =>
-    MedicationSchedule(
-      id: id,
-      name: name,
-      dose: Decimal.fromInt(10),
-      scheduling: IntervalDaysSchedule(intervalDays: 1),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.oral,
-    );
-
-const _unset = Object();
-
-ScheduledOccurrence occurrence({
-  MedicationSchedule? schedule,
-  Date? date,
-  TimeOfDay? time = const TimeOfDay(hour: 12, minute: 0),
-  Object? notificationTime = _unset,
-  ScheduleStatus status = ScheduleStatus.upcoming,
-  bool notifiable = true,
-}) {
-  final notifTime = identical(notificationTime, _unset)
-      ? time
-      : notificationTime as TimeOfDay?;
-  return ScheduledOccurrence(
-    schedule: schedule ??
-        MedicationSchedule(
-          id: 0,
-          name: 'Med',
-          dose: Decimal.fromInt(10),
-          scheduling: IntervalDaysSchedule(intervalDays: 1),
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.oral,
-        ),
-    date: date ?? Date.today().add(const Duration(days: 1)),
-    time: time,
-    notificationTime: notifTime,
-    status: status,
-    notifiable: notifiable,
-  );
-}
-
 void main() {
   final l10n = AppLocalizationsEn();
 
-  late MockOccurrencesManager occurrences;
+  late MockNotificationPlanner planner;
   late MockPreferencesService preferences;
   late MockFlutterLocalNotificationsPlugin plugin;
   late bool Function()? origPlatformCheck;
@@ -87,7 +39,7 @@ void main() {
   });
 
   setUp(() {
-    occurrences = MockOccurrencesManager();
+    planner = MockNotificationPlanner();
     preferences = MockPreferencesService();
     plugin = MockFlutterLocalNotificationsPlugin();
 
@@ -97,6 +49,10 @@ void main() {
     NotificationService.createPlugin = () => plugin;
 
     when(preferences.notificationsEnabled).thenReturn(true);
+    when(planner.daysAhead(maxScheduled: anyNamed('maxScheduled')))
+        .thenReturn(0);
+    when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+        .thenReturn(const []);
     when(plugin.zonedSchedule(
       id: anyNamed('id'),
       title: anyNamed('title'),
@@ -104,6 +60,7 @@ void main() {
       scheduledDate: anyNamed('scheduledDate'),
       notificationDetails: anyNamed('notificationDetails'),
       androidScheduleMode: anyNamed('androidScheduleMode'),
+      matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
       payload: anyNamed('payload'),
     )).thenAnswer((_) async {});
   });
@@ -113,7 +70,11 @@ void main() {
     NotificationService.createPlugin = origCreatePlugin;
   });
 
-  VerificationResult verifyScheduled({String? title, Matcher? body}) =>
+  VerificationResult verifyScheduled({
+    String? title,
+    Matcher? body,
+    Matcher? matchDateTimeComponents,
+  }) =>
       verify(plugin.zonedSchedule(
         id: anyNamed('id'),
         title: title != null
@@ -123,6 +84,9 @@ void main() {
         scheduledDate: anyNamed('scheduledDate'),
         notificationDetails: anyNamed('notificationDetails'),
         androidScheduleMode: anyNamed('androidScheduleMode'),
+        matchDateTimeComponents: matchDateTimeComponents != null
+            ? argThat(matchDateTimeComponents, named: 'matchDateTimeComponents')
+            : anyNamed('matchDateTimeComponents'),
         payload: anyNamed('payload'),
       ));
 
@@ -144,7 +108,7 @@ void main() {
           notificationDetails: anyNamed('notificationDetails'),
           payload: anyNamed('payload'),
         )).thenAnswer((_) async {});
-        final sut = NotificationScheduler(occurrences, preferences);
+        final sut = NotificationScheduler(planner, preferences);
 
         await sut.regenerateAll(l10n, 'en');
 
@@ -169,7 +133,7 @@ void main() {
         when(plugin.pendingNotificationRequests())
             .thenAnswer((_) async => [pending]);
         when(plugin.cancel(id: anyNamed('id'))).thenAnswer((_) async {});
-        final sut = NotificationScheduler(occurrences, preferences);
+        final sut = NotificationScheduler(planner, preferences);
 
         await sut.regenerateAll(l10n, l10n.localeName);
 
@@ -181,11 +145,12 @@ void main() {
   group('regenerateAll', () {
     test('returns early when notifications are disabled', () async {
       when(preferences.notificationsEnabled).thenReturn(false);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      verifyNever(occurrences.upcoming(days: anyNamed('days')));
+      verifyNever(planner.daysAhead(maxScheduled: anyNamed('maxScheduled')));
+      verifyNever(planner.planNotifications(daysAhead: anyNamed('daysAhead')));
       verifyNever(plugin.zonedSchedule(
         id: anyNamed('id'),
         title: anyNamed('title'),
@@ -193,173 +158,125 @@ void main() {
         scheduledDate: anyNamed('scheduledDate'),
         notificationDetails: anyNamed('notificationDetails'),
         androidScheduleMode: anyNamed('androidScheduleMode'),
+        matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
         payload: anyNamed('payload'),
       ));
     });
 
-    test('schedules one notification per emitted future occurrence', () async {
-      final s = schedule();
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 1))),
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 2))),
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 3))),
+    test('schedules one zonedSchedule call per plan', () async {
+      // Arrange
+      final s = aMedicationSchedule();
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn([
+        anOccurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aDailyPlan(
+            schedule: s,
+            time: const TimeOfDay(hour: 14, minute: 0),
+            firstFire: DateTime.utc(2026, 6, 2, 14, 0)),
+        aWeeklyPlan(
+            schedule: s,
+            dayOfWeek: 3,
+            time: const TimeOfDay(hour: 20, minute: 0),
+            firstFire: DateTime.utc(2026, 6, 3, 20, 0)),
       ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
+      // Assert
       verifyScheduled().called(3);
     });
 
-    test('skips occurrences with status taken', () async {
-      final s = schedule();
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(
-            schedule: s,
-            date: Date.today().add(const Duration(days: 1)),
-            status: ScheduleStatus.taken),
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 2))),
-      ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+    test('PlannedOccurrence -> one-shot', () async {
+      // Arrange
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn([anOccurrencePlan(schedule: aMedicationSchedule())]);
+      final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      verifyScheduled().called(1);
-    });
-
-    test('skips occurrences flagged as not notifiable', () async {
-      final s = schedule();
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(
-            schedule: s,
-            date: Date.today().add(const Duration(days: 1)),
-            notifiable: false),
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 2))),
-      ]);
-      final sut = NotificationScheduler(occurrences, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      verifyScheduled().called(1);
-    });
-
-    test('skips occurrences with no notification time', () async {
-      final s = schedule();
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(
-            schedule: s,
-            date: Date.today().add(const Duration(days: 1)),
-            notificationTime: null),
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 2))),
-      ]);
-      final sut = NotificationScheduler(occurrences, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      verifyScheduled().called(1);
-    });
-
-    test(
-        'schedules occurrences with a notification time but no time-of-day, using a date-only body',
-        () async {
-      final s = schedule(name: 'My Med');
-      final date = Date.today().add(const Duration(days: 1));
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(
-          schedule: s,
-          date: date,
-          time: null,
-          notificationTime: const TimeOfDay(hour: 8, minute: 30),
-        ),
-      ]);
-      final sut = NotificationScheduler(occurrences, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      final expectedDate = DateFormat.MMMMd(l10n.localeName)
-          .format(DateTime(date.year, date.month, date.day));
+      // Assert
       verifyScheduled(
-        body: equals(l10n.notificationMedicationReminderBody(expectedDate)),
+        matchDateTimeComponents: isNull,
       ).called(1);
     });
 
-    test(
-        'schedules occurrences with a notification time and time-of-day, using a date-time body',
-        () async {
-      final s = schedule(name: 'My Med');
-      final date = Date.today().add(const Duration(days: 1));
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(
-            schedule: s,
-            date: date,
-            time: const TimeOfDay(hour: 8, minute: 30),
-            notificationTime: const TimeOfDay(hour: 8, minute: 30)),
-      ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+    test('PlannedRepeating(daily) -> matches on time only', () async {
+      // Arrange
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn([aDailyPlan(schedule: aMedicationSchedule())]);
+      final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      final expectedDate = DateFormat.MMMMd(l10n.localeName)
-          .addPattern(DateFormat.Hm(l10n.localeName).pattern)
-          .format(DateTime(date.year, date.month, date.day, 8, 30));
+      // Assert
       verifyScheduled(
-        body: equals(l10n.notificationMedicationReminderBody(expectedDate)),
+        matchDateTimeComponents: equals(DateTimeComponents.time),
       ).called(1);
     });
 
-    test('skips occurrences whose dateTime is in the past', () async {
-      await withFixedClockAsync(() async {
-        final s = schedule();
-        final now = clock.now();
-        final pastTime =
-            TimeOfDay.fromDateTime(now.subtract(const Duration(hours: 1)));
-        final futureTime =
-            TimeOfDay.fromDateTime(now.add(const Duration(hours: 1)));
+    test('PlannedRepeating(weekly) -> matches on dayOfWeek+time', () async {
+      // Arrange
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn([aWeeklyPlan()]);
+      final sut = NotificationScheduler(planner, preferences);
 
-        when(occurrences.upcoming(days: 5)).thenReturn([
-          occurrence(schedule: s, date: Date.today(), time: pastTime),
-          occurrence(schedule: s, date: Date.today(), time: futureTime),
-        ]);
-        final sut = NotificationScheduler(occurrences, preferences);
-
-        await sut.regenerateAll(l10n, l10n.localeName);
-
-        verifyScheduled().called(1);
-      });
-    });
-
-    test('titles notifications with the schedule name', () async {
-      final s = schedule(name: 'My Med');
-      when(occurrences.upcoming(days: 5)).thenReturn([occurrence(schedule: s)]);
-      final sut = NotificationScheduler(occurrences, preferences);
-
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      verifyScheduled(title: l10n.notificationMedicationReminderTitle('My Med'))
-          .called(1);
+      // Assert
+      verifyScheduled(
+        matchDateTimeComponents: equals(DateTimeComponents.dayOfWeekAndTime),
+      ).called(1);
     });
 
-    test('two schedules at the same time both get scheduled', () async {
-      final a = schedule(id: 1, name: 'A');
-      final b = schedule(id: 2, name: 'B');
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(schedule: a),
-        occurrence(schedule: b),
-      ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+    test('schedules at most 60 notifications', () async {
+      // Arrange
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn(List.generate(
+        100,
+        (i) => anOccurrencePlan(),
+      ));
+      final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
-      verifyScheduled(title: l10n.notificationMedicationReminderTitle('A'))
-          .called(1);
-      verifyScheduled(title: l10n.notificationMedicationReminderTitle('B'))
-          .called(1);
+      // Assert
+      verifyScheduled().called(60);
+    });
+
+    test('keeps the earliest plans when more than 60 are returned', () async {
+      // Arrange
+      final start = DateTime.utc(2026, 6, 2, 9, 0);
+      final plans = List.generate(
+        100,
+        (i) => anOccurrencePlan(dateTime: start.add(Duration(days: 100 - i))),
+      );
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn(plans);
+      final sut = NotificationScheduler(planner, preferences);
+
+      // Act
+      await sut.regenerateAll(l10n, l10n.localeName);
+
+      // Assert
+      final scheduledDates = verify(plugin.zonedSchedule(
+        id: anyNamed('id'),
+        title: anyNamed('title'),
+        body: anyNamed('body'),
+        scheduledDate: captureAnyNamed('scheduledDate'),
+        notificationDetails: anyNamed('notificationDetails'),
+        androidScheduleMode: anyNamed('androidScheduleMode'),
+        matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
+        payload: anyNamed('payload'),
+      )).captured.cast<tz.TZDateTime>();
+      final latest = scheduledDates.reduce((a, b) => a.isAfter(b) ? a : b);
+      expect(latest,
+          tz.TZDateTime.from(start.add(const Duration(days: 60)), tz.local));
     });
   });
 
@@ -371,48 +288,30 @@ void main() {
           scheduledDate: anyNamed('scheduledDate'),
           notificationDetails: anyNamed('notificationDetails'),
           androidScheduleMode: anyNamed('androidScheduleMode'),
+          matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
           payload: anyNamed('payload'),
         )).captured.cast<int>();
 
-    test(
-        'the same (schedule, occurrence) pair yields the same id across regenerations',
-        () async {
-      final s = schedule(id: 7);
-      final occurrences3Days = [
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 1))),
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 2))),
-        occurrence(
-            schedule: s, date: Date.today().add(const Duration(days: 3))),
-      ];
-      when(occurrences.upcoming(days: 5)).thenReturn(occurrences3Days);
-      final sut = NotificationScheduler(occurrences, preferences);
-
-      await sut.regenerateAll(l10n, l10n.localeName);
-      await sut.regenerateAll(l10n, l10n.localeName);
-
-      final ids = capturedScheduledIds();
-      expect(ids.sublist(0, 3), equals(ids.sublist(3, 6)));
-    });
-
-    test('distinct (schedule, occurrence) pairs yield distinct ids', () async {
-      final a = schedule(id: 1, name: 'A');
-      final b = schedule(id: 2, name: 'B');
-      when(occurrences.upcoming(days: 5)).thenReturn([
-        occurrence(
-            schedule: a, date: Date.today().add(const Duration(days: 1))),
-        occurrence(
-            schedule: a, date: Date.today().add(const Duration(days: 2))),
-        occurrence(
-            schedule: b, date: Date.today().add(const Duration(days: 1))),
+    test('distinct plans yield distinct ids', () async {
+      // Arrange
+      final a = aMedicationSchedule();
+      final b = aMedicationSchedule();
+      final c = aMedicationSchedule();
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn([
+        anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
+        aDailyPlan(schedule: b, firstFire: DateTime.utc(2026, 6, 2, 9, 0)),
+        aWeeklyPlan(schedule: c, firstFire: DateTime.utc(2026, 6, 8, 9, 0)),
       ]);
-      final sut = NotificationScheduler(occurrences, preferences);
+      final sut = NotificationScheduler(planner, preferences);
 
+      // Act
       await sut.regenerateAll(l10n, l10n.localeName);
 
+      // Assert
       final ids = capturedScheduledIds();
-      expect(ids[0], isNot(equals(ids[1])));
+      expect(ids.toSet().length, equals(ids.length));
     });
   });
 }

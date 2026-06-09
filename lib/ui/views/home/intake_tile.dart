@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 class IntakeTile extends StatelessWidget {
   const IntakeTile(this.occurrence, {super.key});
 
-  final ScheduledOccurrence occurrence;
+  final IntakeSlot occurrence;
 
   MedicationSchedule get schedule => occurrence.schedule;
   ScheduleStatus get status => occurrence.status;
@@ -140,13 +140,10 @@ class IntakeTileViewModel {
 
   bool get _isDailySlot => slotTime != null;
 
-  IntervalDaysSchedule get _intervalScheduling =>
-      schedule.scheduling as IntervalDaysSchedule;
-
-  Date get nextScheduled => _intervalScheduling.nextDate(schedule.startDate);
+  Date get nextScheduled => schedule.scheduling.nextDate(schedule.startDate);
 
   Date? get lastScheduled =>
-      _intervalScheduling.previousDate(schedule.startDate);
+      schedule.scheduling.previousDate(schedule.startDate);
 
   Date? get lastTaken =>
       intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
@@ -166,6 +163,11 @@ class IntakeTileViewModel {
   }
 
   String? get scheduledText {
+    if (status == ScheduleStatus.upcoming) {
+      final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
+      return "$formatted - ${localizations.inDaysCount(daysUntilIntake)}";
+    }
+
     if (_isDailySlot) {
       return slotTime?.format(context);
     }
@@ -181,9 +183,8 @@ class IntakeTileViewModel {
         final formatted = lastScheduled!.format(DateFormat.MMMMd(languageTag));
         return "$formatted - ${localizations.daysAgoCount(daysSinceLastScheduled!)}";
 
-      case ScheduleStatus.upcoming:
-        final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
-        return "$formatted - ${localizations.inDaysCount(daysUntilIntake)}";
+      case _:
+        return null;
     }
   }
 

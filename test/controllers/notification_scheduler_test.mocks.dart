@@ -18,9 +18,9 @@ import 'package:flutter_local_notifications/src/types.dart' as _i15;
 import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
     as _i11;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mona/controllers/occurrences_manager.dart' as _i2;
+import 'package:mona/controllers/notification_planner.dart' as _i2;
 import 'package:mona/data/model/molecule.dart' as _i6;
-import 'package:mona/data/model/scheduled_occurrence.dart' as _i3;
+import 'package:mona/data/model/planned_notification.dart' as _i3;
 import 'package:mona/data/model/units.dart' as _i5;
 import 'package:mona/services/preferences_service.dart' as _i4;
 import 'package:timezone/timezone.dart' as _i13;
@@ -40,32 +40,33 @@ import 'package:timezone/timezone.dart' as _i13;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-/// A class which mocks [OccurrencesManager].
+/// A class which mocks [NotificationPlanner].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockOccurrencesManager extends _i1.Mock
-    implements _i2.OccurrencesManager {
+class MockNotificationPlanner extends _i1.Mock
+    implements _i2.NotificationPlanner {
   @override
-  List<_i3.ScheduledOccurrence> current() => (super.noSuchMethod(
-        Invocation.method(
-          #current,
-          [],
-        ),
-        returnValue: <_i3.ScheduledOccurrence>[],
-        returnValueForMissingStub: <_i3.ScheduledOccurrence>[],
-      ) as List<_i3.ScheduledOccurrence>);
-
-  @override
-  List<_i3.ScheduledOccurrence> upcoming({required int? days}) =>
+  List<_i3.PlannedNotification> planNotifications({required int? daysAhead}) =>
       (super.noSuchMethod(
         Invocation.method(
-          #upcoming,
+          #planNotifications,
           [],
-          {#days: days},
+          {#daysAhead: daysAhead},
         ),
-        returnValue: <_i3.ScheduledOccurrence>[],
-        returnValueForMissingStub: <_i3.ScheduledOccurrence>[],
-      ) as List<_i3.ScheduledOccurrence>);
+        returnValue: <_i3.PlannedNotification>[],
+        returnValueForMissingStub: <_i3.PlannedNotification>[],
+      ) as List<_i3.PlannedNotification>);
+
+  @override
+  int daysAhead({required int? maxScheduled}) => (super.noSuchMethod(
+        Invocation.method(
+          #daysAhead,
+          [],
+          {#maxScheduled: maxScheduled},
+        ),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
 }
 
 /// A class which mocks [PreferencesService].

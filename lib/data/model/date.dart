@@ -36,6 +36,7 @@ class Date {
   int get year => value.year;
   int get month => value.month;
   int get day => value.day;
+  int get weekday => value.weekday;
   bool get isToday => this == Date.today();
   bool get isBeforeToday => isBefore(Date.today());
   bool get isAfterToday => isAfter(Date.today());
@@ -61,7 +62,7 @@ class Date {
 
   DateTime toUtcDateTime() => value;
 
-  DateTime toDateTime() => DateTime(year, month, day);
+  DateTime toDateTime() => DateTime(year, month, day, 12, 0);
 
   DateTime toDateTimeAt(TimeOfDay time) {
     Duration dayDifference = (time.hour < logicalDayStartHour)

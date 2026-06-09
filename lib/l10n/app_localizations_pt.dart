@@ -84,6 +84,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Intervalo';
 
   @override
+  String get scheduleFrequencyWeekly => 'Weekly';
+
+  @override
   String get newUpdateAvailable => 'Uma nova atualização está disponível!';
 
   @override
@@ -263,8 +266,18 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Agendado para $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Agendado para $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Agendado para $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Agendado para $weekday';
   }
 
   @override
@@ -1049,8 +1062,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Agendado para $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Agendado para $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Agendado para $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Agendado para $weekday';
   }
 
   @override

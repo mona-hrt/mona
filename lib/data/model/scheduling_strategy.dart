@@ -17,12 +17,19 @@ enum ScheduleStatus {
   taken
 }
 
-@MappableClass(
-  discriminatorKey: 'type',
-  includeCustomMappers: [TimeOfDayMapper()],
-)
+@MappableClass(discriminatorKey: 'type')
 sealed class SchedulingStrategy with SchedulingStrategyMappable {
   const SchedulingStrategy();
+
+  /// Returns the next scheduled intake date on or after today, relative to
+  /// [startDate].
+  Date nextDate(Date startDate);
+
+  /// Returns the most recent scheduled intake date strictly before today,
+  /// relative to [startDate], or null if no such date exists.
+  Date? previousDate(Date startDate);
+
+  bool get isNotifiable;
 }
 
 @MappableClass(
@@ -44,6 +51,7 @@ class IntervalDaysSchedule extends SchedulingStrategy
   /// - If the [startDate] is in the future or today, returns [startDate].
   /// - If today falls exactly on a scheduled injection date, returns today.
   /// - Otherwise, returns the next scheduled date after today.
+  @override
   Date nextDate(Date startDate) {
     if (!startDate.isBeforeToday) {
       return startDate;
@@ -65,6 +73,7 @@ class IntervalDaysSchedule extends SchedulingStrategy
   /// - If today falls exactly on a scheduled injection date, returns the
   ///   scheduled date before today.
   /// - Otherwise, returns the last scheduled date before today.
+  @override
   Date? previousDate(Date startDate) {
     if (!startDate.isBeforeToday) {
       return null;
@@ -98,6 +107,9 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return dates;
   }
 
+  @override
+  bool get isNotifiable => notificationTimes.isNotEmpty;
+
   bool _isScheduledForToday(Date startDate) {
     return nextDate(startDate).isToday;
   }
@@ -119,7 +131,7 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return lastTakenDate.isAfter(prev);
   }
 
-  bool isTakenTodayOrLater(Date? lastTakenDate) {
+  bool _isTakenTodayOrLater(Date? lastTakenDate) {
     if (lastTakenDate == null) return false;
 
     return lastTakenDate.isToday || lastTakenDate.isAfterToday;
@@ -127,13 +139,10 @@ class IntervalDaysSchedule extends SchedulingStrategy
 
   ScheduleStatus statusFor({
     required Date startDate,
-    required Date date,
     Date? lastTaken,
   }) {
-    if (!date.isToday) return ScheduleStatus.upcoming;
-
     if (_isScheduledForToday(startDate)) {
-      if (isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
+      if (_isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
       if (_isLate(startDate, lastTaken)) return ScheduleStatus.todayOverdue;
       if (_lastTakenLate(startDate, lastTaken)) {
         return ScheduleStatus.todayEarly;
@@ -163,15 +172,143 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
     this.notify = true,
   });
 
+  /// Returns the next scheduled intake date relative to today.
+  ///
+  /// - If the [startDate] is in the future, returns [startDate].
+  /// - Otherwise, returns today (a daily schedule fires every day once it
+  ///   has started).
+  @override
+  Date nextDate(Date startDate) {
+    if (startDate.isAfterToday) return startDate;
+    return Date.today();
+  }
+
+  /// A daily schedule has no meaningful "previous" intake date.
+  @override
+  Date? previousDate(Date startDate) => null;
+
   ScheduleStatus statusFor({
-    required Date date,
+    required Date startDate,
     MedicationIntake? matchedIntake,
   }) {
+    if (startDate.isAfterToday) return ScheduleStatus.upcoming;
     if (matchedIntake != null) return ScheduleStatus.taken;
-    return date.isToday ? ScheduleStatus.today : ScheduleStatus.upcoming;
+    return ScheduleStatus.today;
   }
+
+  @override
+  bool get isNotifiable => notify && intakeTimes.isNotEmpty;
 
   static String? validateIntakeTimes(
           AppLocalizations l10n, List<TimeOfDay> value) =>
-      requiredListOfTimes(l10n, value);
+      requiredList(l10n, value);
+}
+
+@MappableClass(
+  discriminatorValue: 'weekly',
+  includeCustomMappers: [TimeOfDayMapper()],
+)
+class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
+  final List<int> daysOfWeek;
+  final List<TimeOfDay> notificationTimes;
+
+  const WeeklySchedule({
+    required this.daysOfWeek,
+    this.notificationTimes = const [],
+  });
+
+  /// Returns the next scheduled date relative to today, restricted to weekdays
+  /// in [daysOfWeek].
+  ///
+  /// - If [startDate] is in the future or today, search starts from
+  ///   [startDate] (the schedule has not begun before then).
+  /// - Otherwise, search starts from today.
+  @override
+  Date nextDate(Date startDate) {
+    Date candidate = startDate.isAfterToday ? startDate : Date.today();
+    for (int i = 0; i < 7; i++) {
+      if (daysOfWeek.contains(candidate.weekday)) {
+        return candidate;
+      }
+      candidate = candidate.add(const Duration(days: 1));
+    }
+    return candidate;
+  }
+
+  /// Returns the next date matching [weekday] (ISO 1=Monday..7=Sunday) on or
+  /// after the schedule's effective start date.
+  Date nextDateOn(int weekday, Date startDate) {
+    Date candidate = startDate.isAfterToday ? startDate : Date.today();
+    for (int i = 0; i < 7; i++) {
+      if (candidate.weekday == weekday) return candidate;
+      candidate = candidate.add(const Duration(days: 1));
+    }
+    return candidate;
+  }
+
+  /// Returns the most recent scheduled date strictly before today, restricted
+  /// to weekdays in [daysOfWeek] and never before [startDate].
+  ///
+  /// Returns null if [startDate] is today or in the future, or if no scheduled
+  /// weekday exists in the window `[startDate, today)`.
+  @override
+  Date? previousDate(Date startDate) {
+    if (!startDate.isBeforeToday) {
+      return null;
+    }
+    Date candidate = Date.today().subtract(const Duration(days: 1));
+    for (int i = 0; i < 7; i++) {
+      if (daysOfWeek.contains(candidate.weekday)) {
+        return candidate.isBefore(startDate) ? null : candidate;
+      }
+      candidate = candidate.subtract(const Duration(days: 1));
+    }
+    return null;
+  }
+
+  @override
+  bool get isNotifiable => notificationTimes.isNotEmpty;
+
+  bool _isScheduledForToday(Date startDate) => nextDate(startDate).isToday;
+
+  bool _isLate(Date startDate, Date? lastTakenDate) {
+    final prev = previousDate(startDate);
+    if (prev == null) return false;
+    return lastTakenDate == null || lastTakenDate.isBefore(prev);
+  }
+
+  bool _lastTakenLate(Date startDate, Date? lastTakenDate) {
+    final prev = previousDate(startDate);
+    if (lastTakenDate == null || prev == null) return false;
+    return lastTakenDate.isAfter(prev);
+  }
+
+  bool _isTakenTodayOrLater(Date? lastTakenDate) {
+    if (lastTakenDate == null) return false;
+    return lastTakenDate.isToday || lastTakenDate.isAfterToday;
+  }
+
+  ScheduleStatus statusFor({
+    required Date startDate,
+    required Date date,
+    Date? lastTaken,
+  }) {
+    if (!date.isToday) return ScheduleStatus.upcoming;
+
+    if (_isScheduledForToday(startDate)) {
+      if (_isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
+      if (_isLate(startDate, lastTaken)) return ScheduleStatus.todayOverdue;
+      if (_lastTakenLate(startDate, lastTaken)) {
+        return ScheduleStatus.todayEarly;
+      }
+      return ScheduleStatus.today;
+    }
+
+    if (_isLate(startDate, lastTaken)) return ScheduleStatus.overdue;
+
+    return ScheduleStatus.upcoming;
+  }
+
+  static String? validateDaysOfWeek(AppLocalizations l10n, List<int> value) =>
+      requiredList(l10n, value);
 }

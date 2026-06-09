@@ -87,6 +87,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Інтервал';
 
   @override
+  String get scheduleFrequencyWeekly => 'Weekly';
+
+  @override
   String get newUpdateAvailable => 'Нове оновлення!';
 
   @override
@@ -265,8 +268,18 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Заплановано на $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Заплановано на $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Заплановано на $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Заплановано на $weekday';
   }
 
   @override

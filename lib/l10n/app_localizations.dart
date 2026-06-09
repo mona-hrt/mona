@@ -225,6 +225,12 @@ abstract class AppLocalizations {
   /// **'Interval'**
   String get scheduleFrequencyInterval;
 
+  /// No description provided for @scheduleFrequencyWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get scheduleFrequencyWeekly;
+
   /// No description provided for @newUpdateAvailable.
   ///
   /// In en, this message translates to:
@@ -519,11 +525,23 @@ abstract class AppLocalizations {
   /// **'Time to take {scheduleName}'**
   String notificationMedicationReminderTitle(Object scheduleName);
 
-  /// No description provided for @notificationMedicationReminderBody.
+  /// No description provided for @notificationMedicationReminderBodyDate.
   ///
   /// In en, this message translates to:
-  /// **'Scheduled for {dateTime}'**
-  String notificationMedicationReminderBody(Object dateTime);
+  /// **'Scheduled for {date}'**
+  String notificationMedicationReminderBodyDate(Object date);
+
+  /// No description provided for @notificationMedicationReminderBodyTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {time}'**
+  String notificationMedicationReminderBodyTime(Object time);
+
+  /// No description provided for @notificationMedicationReminderBodyWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {weekday}'**
+  String notificationMedicationReminderBodyWeekday(Object weekday);
 
   /// No description provided for @addSchedule.
   ///

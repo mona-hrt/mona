@@ -416,7 +416,7 @@ void main() {
     });
 
     group('export', () {
-      test('toDateTime returns a DateTime at midnight of the same day', () {
+      test('toDateTime returns a DateTime at noon of the same day', () {
         // Arrange
         final date = Date(DateTime.utc(2024, 6, 15));
 
@@ -424,7 +424,7 @@ void main() {
         final dateTime = date.toDateTime();
 
         // Assert
-        expect(dateTime, DateTime(2024, 6, 15));
+        expect(dateTime, DateTime(2024, 6, 15, 12));
       });
 
       test('toUtcDateTime returns the original UTC DateTime value', () {
