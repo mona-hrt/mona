@@ -61,11 +61,7 @@ class NotificationScheduler {
       body: l10n.notificationMedicationReminderBodyDate(
         dateFormat.format(plan.dateTime),
       ),
-      year: plan.dateTime.year,
-      month: plan.dateTime.month,
-      day: plan.dateTime.day,
-      hour: plan.dateTime.hour,
-      minute: plan.dateTime.minute,
+      scheduledTime: plan.dateTime,
     );
   }
 

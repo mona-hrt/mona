@@ -138,14 +138,11 @@ void main() {
 
   test('scheduleNotification adds a notification', () async {
     await service.scheduleNotification(
-        id: 1,
-        title: 'Test',
-        body: 'Body',
-        year: 2026,
-        month: 2,
-        day: 8,
-        hour: 10,
-        minute: 30);
+      id: 1,
+      title: 'Test',
+      body: 'Body',
+      scheduledTime: DateTime(2026, 2, 8, 10, 30),
+    );
 
     expect(fakePlugin.scheduled.length, 1);
     final n = fakePlugin.scheduled.first;
@@ -166,37 +163,28 @@ void main() {
 
   test('cancelAllNotifications clears scheduled', () async {
     await service.scheduleNotification(
-        id: 1,
-        title: 'T1',
-        body: 'B1',
-        year: 2026,
-        month: 2,
-        day: 8,
-        hour: 10,
-        minute: 0);
+      id: 1,
+      title: 'T1',
+      body: 'B1',
+      scheduledTime: DateTime(2026, 2, 8, 10, 0),
+    );
     await service.cancelAllNotifications();
     expect(fakePlugin.scheduled.length, 0);
   });
 
   test('cancelPendingNotifications removes only pending', () async {
     await service.scheduleNotification(
-        id: 1,
-        title: 'T1',
-        body: 'B1',
-        year: 2026,
-        month: 2,
-        day: 8,
-        hour: 10,
-        minute: 0);
+      id: 1,
+      title: 'T1',
+      body: 'B1',
+      scheduledTime: DateTime(2026, 2, 8, 10, 0),
+    );
     await service.scheduleNotification(
-        id: 2,
-        title: 'T2',
-        body: 'B2',
-        year: 2026,
-        month: 2,
-        day: 9,
-        hour: 10,
-        minute: 0);
+      id: 2,
+      title: 'T2',
+      body: 'B2',
+      scheduledTime: DateTime(2026, 2, 9, 10, 0),
+    );
 
     await service.cancelPendingNotifications();
     expect(fakePlugin.scheduled.length, 0);
