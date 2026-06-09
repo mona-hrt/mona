@@ -9,17 +9,19 @@ const String createSupplyItemsTable = '''
       moleculeJson TEXT,
       administrationRouteName TEXT,
       esterName TEXT,
-      amount INTEGER
+      amount INTEGER,
+      genericSupplyType TEXT
     )
     ''';
 
 const String createMedicationIntakesTable = '''
     CREATE TABLE medication_intakes(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      scheduledDateTime TEXT NOT NULL,
+      scheduledTime TEXT,
       takenDateTime TEXT,
       takenTimeZone TEXT,
       dose TEXT NOT NULL,
+      wastedDose TEXT,
       scheduleId INTEGER,
       side TEXT,
       moleculeJson TEXT NOT NULL,
@@ -36,12 +38,11 @@ const String createMedicationSchedulesTable = '''
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       dose TEXT NOT NULL,
-      intervalDays INTEGER NOT NULL,
       startDate TEXT NOT NULL,
       moleculeJson TEXT NOT NULL,
       administrationRouteName TEXT NOT NULL,
       esterName TEXT,
-      notificationTimes TEXT NOT NULL
+      schedulingStrategy TEXT NOT NULL
     )
     ''';
 

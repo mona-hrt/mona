@@ -64,6 +64,31 @@ void main() {
       );
     });
 
+    test('can insert and query generic supply_items', () async {
+      // Act
+      final id = await db.insert('supply_items', {
+        'type': 'generic',
+        'name': 'Test generic Item',
+        'amount': 5,
+        'genericSupplyType': 'syringe',
+      });
+
+      final item = await db.query(
+        'supply_items',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      // Assert
+      expect(
+          item.single,
+          allOf(
+            containsPair('name', 'Test generic Item'),
+            containsPair('amount', 5),
+            containsPair('genericSupplyType', 'syringe'),
+          ));
+    });
+
     test('can insert and query medication_intakes', () async {
       final supplyItemId = await db.insert('supply_items', {
         'type': 'medication',
@@ -76,7 +101,6 @@ void main() {
       });
 
       final id = await db.insert('medication_intakes', {
-        'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
         'dose': '2.5',
         'side': null,
@@ -112,8 +136,6 @@ void main() {
 
       expect(
           () async => await db.insert('medication_intakes', {
-                'scheduledDateTime':
-                    DateTime(2025, 9, 14, 10, 30).toIso8601String(),
                 'takenDateTime': null,
                 'dose': '2.5',
                 'side': null,
@@ -142,7 +164,6 @@ void main() {
       });
 
       final intakeId = await db.insert('medication_intakes', {
-        'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
         'dose': '2.5',
         'side': null,
@@ -168,11 +189,11 @@ void main() {
       final id = await db.insert('medication_schedules', {
         'name': 'Morning Med',
         'dose': '5',
-        'intervalDays': 1,
         'startDate': DateTime(2025, 9, 13).toIso8601String(),
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
         'administrationRouteName': 'oral',
-        'notificationTimes': '["12:30", "18:30"]',
+        'schedulingStrategy':
+            '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
       });
 
       final schedule = await db.query(
@@ -184,11 +205,11 @@ void main() {
       expect(
         [
           schedule.first['name'],
-          schedule.first['intervalDays'],
+          schedule.first['schedulingStrategy'],
         ],
         [
           'Morning Med',
-          1,
+          '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
         ],
       );
     });

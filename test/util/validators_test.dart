@@ -31,7 +31,7 @@ void main() {
       // Arrange
       final cases = [
         {'value': null, 'expected': isNotNull},
-        {'value': DateTime.now(), 'expected': isNull},
+        {'value': DateTime(2026, 6, 1, 12, 0), 'expected': isNull},
       ];
 
       // Act
@@ -318,6 +318,30 @@ void main() {
       // Act
       final results = cases
           .map((c) => requiredPositiveInt(l10n, c['value'] as String?))
+          .toList();
+      final expected = cases.map((c) => c['expected'] as Matcher).toList();
+
+      // Assert
+      expect(results, expected);
+    });
+
+    test('requiredList works correctly', () {
+      // Arrange
+      final cases = [
+        {'value': <int>[], 'expected': isNotNull},
+        {
+          'value': const [4],
+          'expected': isNull,
+        },
+        {
+          'value': const [6, 7],
+          'expected': isNull,
+        },
+      ];
+
+      // Act
+      final results = cases
+          .map((c) => requiredList(l10n, c['value'] as List<int>))
           .toList();
       final expected = cases.map((c) => c['expected'] as Matcher).toList();
 

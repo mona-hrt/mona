@@ -42,10 +42,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get upcoming => 'Próximos';
 
   @override
-  String get today => 'Hoje';
-
-  @override
-  String get taken => 'tomado';
+  String get taken => 'Tomado';
 
   @override
   String daysAgoCount(int count) {
@@ -82,6 +79,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String scheduleFrequencyEveryNDays(num days) {
     return 'A cada $days dias';
   }
+
+  @override
+  String get scheduleFrequencyInterval => 'Intervalo';
+
+  @override
+  String get scheduleFrequencyWeekly => 'Weekly';
 
   @override
   String get newUpdateAvailable => 'Uma nova atualização está disponível!';
@@ -131,8 +134,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get enableNotifications => 'Ativar notificações';
 
   @override
-  String get enableNotificationsDescription =>
-      'Enviar lembretes dos cronogramas';
+  String get enableNotificationsDescription => 'Enviar lembretes';
 
   @override
   String get notificationsDisabledTitle => 'As notificações estão desativadas';
@@ -264,8 +266,18 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Agendado para $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Agendado para $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Agendado para $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Agendado para $weekday';
   }
 
   @override
@@ -287,7 +299,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get startDate => 'Data de início';
 
   @override
+  String get pickATime => 'Escolher um horário';
+
+  @override
+  String get addIntakeTime => 'Adicionar horário';
+
+  @override
   String get editScheduleInfo => 'Editar informações do cronograma';
+
+  @override
+  String get scheduling => 'Programação';
 
   @override
   String get noNotifications => 'Sem notificações';
@@ -456,6 +477,79 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String remaining(num amount, Object unit) {
     return '$amount $unit restantes';
+  }
+
+  @override
+  String get allItemsFilter => 'All';
+
+  @override
+  String get medicationItemsFilter => 'Medication';
+
+  @override
+  String get genericItemsFilter => 'Consumables';
+
+  @override
+  String get medicationItemType => 'Medication';
+
+  @override
+  String get genericItemType => 'Consumable';
+
+  @override
+  String get supplyType => 'Type';
+
+  @override
+  String syringe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Syringes',
+      one: 'Syringe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wipes',
+      one: 'Wipe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Needles',
+      one: 'Needle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gloves(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Gloves',
+      one: 'Gloves',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandage(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bandages',
+      one: 'Bandage',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -756,10 +850,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get upcoming => 'Próximos';
 
   @override
-  String get today => 'Hoje';
-
-  @override
-  String get taken => 'tomado';
+  String get taken => 'Tomado';
 
   @override
   String daysAgoCount(int count) {
@@ -796,6 +887,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String scheduleFrequencyEveryNDays(num days) {
     return 'A cada $days dias';
   }
+
+  @override
+  String get scheduleFrequencyInterval => 'Intervalo';
 
   @override
   String get newUpdateAvailable => 'Uma nova atualização está disponível!';
@@ -845,8 +939,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get enableNotifications => 'Ativar notificações';
 
   @override
-  String get enableNotificationsDescription =>
-      'Enviar lembretes dos cronogramas';
+  String get enableNotificationsDescription => 'Enviar lembretes';
 
   @override
   String get notificationsDisabledTitle => 'As notificações estão desativadas';
@@ -978,8 +1071,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Agendado para $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Agendado para $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Agendado para $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Agendado para $weekday';
   }
 
   @override
@@ -1001,7 +1104,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get startDate => 'Data de início';
 
   @override
+  String get pickATime => 'Escolher um horário';
+
+  @override
+  String get addIntakeTime => 'Adicionar horário';
+
+  @override
   String get editScheduleInfo => 'Editar informações do cronograma';
+
+  @override
+  String get scheduling => 'Programação';
 
   @override
   String get noNotifications => 'Sem notificações';

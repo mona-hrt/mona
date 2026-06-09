@@ -66,6 +66,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
         AdministrationRouteNameMapper(),
         EsterNameMapper(),
         DecimalStringMapper(),
+        TimeOfDayMapper(),
       ]);
       InjectionSideMapper.ensureInitialized();
     }
@@ -81,11 +82,11 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$id,
     opt: true,
   );
-  static DateTime _$scheduledDateTime(MedicationIntake v) =>
-      v.scheduledDateTime;
-  static const Field<MedicationIntake, DateTime> _f$scheduledDateTime = Field(
-    'scheduledDateTime',
-    _$scheduledDateTime,
+  static TimeOfDay? _$scheduledTime(MedicationIntake v) => v.scheduledTime;
+  static const Field<MedicationIntake, TimeOfDay> _f$scheduledTime = Field(
+    'scheduledTime',
+    _$scheduledTime,
+    opt: true,
   );
   static Decimal _$takenDose(MedicationIntake v) => v.takenDose;
   static const Field<MedicationIntake, Decimal> _f$takenDose = Field(
@@ -132,7 +133,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   static AdministrationRoute _$administrationRoute(MedicationIntake v) =>
       v.administrationRoute;
   static const Field<MedicationIntake, AdministrationRoute>
-  _f$administrationRoute = Field(
+      _f$administrationRoute = Field(
     'administrationRoute',
     _$administrationRoute,
     key: r'administrationRouteName',
@@ -216,12 +217,12 @@ mixin MedicationIntakeMappable {
   }
 
   MedicationIntakeCopyWith<MedicationIntake, MedicationIntake, MedicationIntake>
-  get copyWith =>
-      _MedicationIntakeCopyWithImpl<MedicationIntake, MedicationIntake>(
-        this as MedicationIntake,
-        $identity,
-        $identity,
-      );
+      get copyWith =>
+          _MedicationIntakeCopyWithImpl<MedicationIntake, MedicationIntake>(
+            this as MedicationIntake,
+            $identity,
+            $identity,
+          );
   @override
   String toString() {
     return MedicationIntakeMapper.ensureInitialized().stringifyValue(
@@ -248,8 +249,8 @@ mixin MedicationIntakeMappable {
 extension MedicationIntakeValueCopy<$R, $Out>
     on ObjectCopyWith<$R, MedicationIntake, $Out> {
   MedicationIntakeCopyWith<$R, MedicationIntake, $Out>
-  get $asMedicationIntake =>
-      $base.as((v, t, t2) => _MedicationIntakeCopyWithImpl<$R, $Out>(v, t, t2));
+      get $asMedicationIntake => $base
+          .as((v, t, t2) => _MedicationIntakeCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
@@ -297,50 +298,51 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     Object? ester = $none,
     Object? supplyItemId = $none,
     Object? notes = $none,
-  }) => $apply(
-    FieldCopyWithData({
-      if (id != $none) #id: id,
-      if (scheduledDateTime != null) #scheduledDateTime: scheduledDateTime,
-      if (takenDose != null) #takenDose: takenDose,
-      if (wastedDose != $none) #wastedDose: wastedDose,
-      if (takenDateTime != $none) #takenDateTime: takenDateTime,
-      if (takenTimeZone != $none) #takenTimeZone: takenTimeZone,
-      if (scheduleId != $none) #scheduleId: scheduleId,
-      if (side != $none) #side: side,
-      if (molecule != null) #molecule: molecule,
-      if (administrationRoute != null)
-        #administrationRoute: administrationRoute,
-      if (ester != $none) #ester: ester,
-      if (supplyItemId != $none) #supplyItemId: supplyItemId,
-      if (notes != $none) #notes: notes,
-    }),
-  );
+  }) =>
+      $apply(
+        FieldCopyWithData({
+          if (id != $none) #id: id,
+          if (scheduledDateTime != null) #scheduledDateTime: scheduledDateTime,
+          if (takenDose != null) #takenDose: takenDose,
+          if (wastedDose != $none) #wastedDose: wastedDose,
+          if (takenDateTime != $none) #takenDateTime: takenDateTime,
+          if (takenTimeZone != $none) #takenTimeZone: takenTimeZone,
+          if (scheduleId != $none) #scheduleId: scheduleId,
+          if (side != $none) #side: side,
+          if (molecule != null) #molecule: molecule,
+          if (administrationRoute != null)
+            #administrationRoute: administrationRoute,
+          if (ester != $none) #ester: ester,
+          if (supplyItemId != $none) #supplyItemId: supplyItemId,
+          if (notes != $none) #notes: notes,
+        }),
+      );
   @override
   MedicationIntake $make(CopyWithData data) => MedicationIntake(
-    id: data.get(#id, or: $value.id),
-    scheduledDateTime: data.get(
-      #scheduledDateTime,
-      or: $value.scheduledDateTime,
-    ),
-    takenDose: data.get(#takenDose, or: $value.takenDose),
-    wastedDose: data.get(#wastedDose, or: $value.wastedDose),
-    takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),
-    takenTimeZone: data.get(#takenTimeZone, or: $value.takenTimeZone),
-    scheduleId: data.get(#scheduleId, or: $value.scheduleId),
-    side: data.get(#side, or: $value.side),
-    molecule: data.get(#molecule, or: $value.molecule),
-    administrationRoute: data.get(
-      #administrationRoute,
-      or: $value.administrationRoute,
-    ),
-    ester: data.get(#ester, or: $value.ester),
-    supplyItemId: data.get(#supplyItemId, or: $value.supplyItemId),
-    notes: data.get(#notes, or: $value.notes),
-  );
+        id: data.get(#id, or: $value.id),
+        scheduledDateTime: data.get(
+          #scheduledDateTime,
+          or: $value.scheduledDateTime,
+        ),
+        takenDose: data.get(#takenDose, or: $value.takenDose),
+        wastedDose: data.get(#wastedDose, or: $value.wastedDose),
+        takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),
+        takenTimeZone: data.get(#takenTimeZone, or: $value.takenTimeZone),
+        scheduleId: data.get(#scheduleId, or: $value.scheduleId),
+        side: data.get(#side, or: $value.side),
+        molecule: data.get(#molecule, or: $value.molecule),
+        administrationRoute: data.get(
+          #administrationRoute,
+          or: $value.administrationRoute,
+        ),
+        ester: data.get(#ester, or: $value.ester),
+        supplyItemId: data.get(#supplyItemId, or: $value.supplyItemId),
+        notes: data.get(#notes, or: $value.notes),
+      );
 
   @override
   MedicationIntakeCopyWith<$R2, MedicationIntake, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
-  ) => _MedicationIntakeCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  ) =>
+      _MedicationIntakeCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
-

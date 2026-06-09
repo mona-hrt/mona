@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
@@ -15,9 +16,8 @@ void main() {
     test('constructor should throw if takenDateTime is not UTC', () {
       expect(
         () => MedicationIntake(
-          scheduledDateTime: DateTime.now(),
           takenDose: Decimal.one,
-          takenDateTime: DateTime.now(),
+          takenDateTime: DateTime(2025, 9, 14, 12, 0),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -31,7 +31,6 @@ void main() {
         () {
       expect(
         () => MedicationIntake(
-          scheduledDateTime: DateTime.now(),
           takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           molecule: KnownMolecules.estradiol,
@@ -42,12 +41,10 @@ void main() {
     });
 
     test('toMap and fromMap should preserve values', () {
-      final scheduled = DateTime.utc(2025, 9, 14, 10, 30);
       final taken = DateTime.utc(2025, 9, 14, 12, 0);
 
       final intake = MedicationIntake(
           id: 1,
-          scheduledDateTime: scheduled,
           takenDose: Decimal.parse('2.5'),
           takenDateTime: taken,
           takenTimeZone: 'Etc/UTC',
@@ -55,7 +52,8 @@ void main() {
           side: InjectionSide.left,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
-          ester: Ester.cypionate);
+          ester: Ester.cypionate,
+          scheduledTime: const TimeOfDay(hour: 8, minute: 30));
 
       final map = intake.toMap();
       final fromMap =
@@ -65,8 +63,6 @@ void main() {
         fromMap,
         isA<MedicationIntake>()
             .having((i) => i.id, 'id', intake.id)
-            .having((i) => i.scheduledDateTime, 'scheduledDateTime',
-                intake.scheduledDateTime)
             .having(
                 (i) => i.takenDateTime, 'takenDateTime', intake.takenDateTime)
             .having(
@@ -77,15 +73,14 @@ void main() {
             .having((i) => i.molecule, 'molecule', intake.molecule)
             .having((i) => i.administrationRoute, 'administrationRoute',
                 intake.administrationRoute)
-            .having((i) => i.ester, 'ester', intake.ester),
+            .having((i) => i.ester, 'ester', intake.ester)
+            .having(
+                (i) => i.scheduledTime, 'scheduledTime', intake.scheduledTime),
       );
     });
 
     test('isTaken returns correct value', () {
-      final scheduled = DateTime(2025, 9, 14, 10, 30);
-
       final intakeTaken = MedicationIntake(
-        scheduledDateTime: scheduled,
         takenDose: Decimal.one,
         takenDateTime: DateTime.utc(2025, 9, 14, 11, 0),
         takenTimeZone: 'Etc/UTC',
@@ -94,7 +89,6 @@ void main() {
       );
 
       final intakeNotTaken = MedicationIntake(
-        scheduledDateTime: scheduled,
         takenDose: Decimal.one,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
@@ -116,7 +110,6 @@ void main() {
       test('takenLocalDateTime returns null when takenDateTime is null', () {
         // Arrange
         final intake = MedicationIntake(
-          scheduledDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenDose: Decimal.one,
           takenDateTime: null,
           takenTimeZone: 'Europe/Paris',
@@ -136,7 +129,6 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          scheduledDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 8, 0),
           takenTimeZone: 'Europe/Paris',
@@ -155,7 +147,6 @@ void main() {
           'takenLocalDateTime works with timezone names not in the reduced database',
           () {
         final intake = MedicationIntake(
-          scheduledDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenTimeZone:
@@ -172,7 +163,6 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          scheduledDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 1, 0),
           takenTimeZone: 'America/New_York',
@@ -190,7 +180,6 @@ void main() {
       test('takenLocalDate returns null when takenDateTime is null', () {
         // Arrange
         final intake = MedicationIntake(
-          scheduledDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenDose: Decimal.one,
           takenDateTime: null,
           takenTimeZone: 'Europe/Paris',
@@ -208,7 +197,6 @@ void main() {
       test('takenLocalDate returns correct date in Europe/Paris timezone', () {
         // Arrange
         final intake = MedicationIntake(
-          scheduledDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenTimeZone: 'Europe/Paris',
@@ -228,7 +216,6 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          scheduledDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 1, 0),
           takenTimeZone: 'America/New_York',
@@ -248,7 +235,6 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          scheduledDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 2, 0),
           takenTimeZone: 'Etc/UTC',

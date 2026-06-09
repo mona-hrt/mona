@@ -15,7 +15,7 @@ class SupplyItemProvider extends ChangeNotifier {
   static final defaultRepository = Repository<SupplyItem>(
     tableName: 'supply_items',
     toMap: (item) => item.toMap(),
-    fromMap: (map) => SupplyItem.fromMap(map),
+    fromMap: (map) => SupplyItemMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 
   bool get isLoading => _isLoading;
@@ -32,6 +32,15 @@ class SupplyItemProvider extends ChangeNotifier {
       [...medicationItems]..sort(
           (a, b) => a.getRatio().compareTo(b.getRatio()),
         );
+
+  List<SupplyItem> get allItemsOrderedByName => [..._items]
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+  List<SupplyItem> get medicationItemsOrderedByName => medicationItems
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+  List<SupplyItem> get genericItemsOrderedByName => genericItems
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
   SupplyItem? getItemById(int? id) {
     try {

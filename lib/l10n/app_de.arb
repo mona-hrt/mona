@@ -11,8 +11,7 @@
     "allDone": "Alles erledigt!",
     "noIntakesDue": "Heute sind keine Einnahmen fällig",
     "upcoming": "Bevorstehend",
-    "today": "Heute",
-    "taken": "genommen",
+    "taken": "Genommen",
     "daysAgoCount": "{count, plural, =1{gestern} other{vor {count} Tagen}}",
     "@daysAgoCount": {
         "description": "=1 „gestern“; sonst „vor # Tagen“.",
@@ -31,6 +30,7 @@
     "neverTakenYet": "Noch nie genommen",
     "scheduleFrequencyDaily": "Täglich",
     "scheduleFrequencyEveryNDays": "Alle {days} Tage",
+    "scheduleFrequencyInterval": "Intervall",
     "newUpdateAvailable": "Ein neues Update ist verfügbar!",
     "goToSettings": "Zu den Einstellungen",
 
@@ -45,7 +45,7 @@
     "languageFollowDevice": "Gerätesprache verwenden",
     "selectLanguage": "Sprache auswählen",
     "enableNotifications": "Benachrichtigungen aktivieren",
-    "enableNotificationsDescription": "Erinnerungen für Zeitpläne senden",
+    "enableNotificationsDescription": "Erinnerungen senden",
     "notificationsDisabledTitle": "Benachrichtigungen sind deaktiviert",
     "clickToOpenSettings": "Tippe, um die Einstellungen zu öffnen",
     "exactRemindersDisabled": "Exakte Erinnerungszeiten sind deaktiviert",
@@ -83,7 +83,9 @@
     "updateDownloadFailed": "Download fehlgeschlagen. Bitte prüfe deine Verbindung.",
 
     "notificationMedicationReminderTitle": "Zeit, {scheduleName} einzunehmen",
-    "notificationMedicationReminderBody": "Geplant für {dateTime}",
+    "notificationMedicationReminderBodyDate": "Geplant für den {date}",
+    "notificationMedicationReminderBodyTime": "Geplant für {time}",
+    "notificationMedicationReminderBodyWeekday": "Geplant für {weekday}",
 
     "addSchedule": "Zeitplan hinzufügen",
     "addScheduleToGetStarted": "Füge einen Zeitplan hinzu, um zu beginnen.",
@@ -91,7 +93,10 @@
     "every": "Alle",
     "days": "Tage",
     "startDate": "Startdatum",
+    "pickATime": "Uhrzeit auswählen",
+    "addIntakeTime": "Uhrzeit hinzufügen",
     "editScheduleInfo": "Zeitplan bearbeiten",
+    "scheduling": "Zeitplanung",
     "noNotifications": "Keine Benachrichtigungen",
     "notificationsCount": "{count} Benachrichtigungen",
     "editSchedule": "Zeitplan bearbeiten",

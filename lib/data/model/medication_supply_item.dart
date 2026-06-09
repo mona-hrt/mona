@@ -1,7 +1,7 @@
-import 'dart:convert';
-
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
@@ -9,7 +9,20 @@ import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/validators.dart';
 
-class MedicationSupplyItem implements SupplyItem {
+part 'medication_supply_item.mapper.dart';
+
+@MappableClass(
+  discriminatorValue: 'medication',
+  includeCustomMappers: [
+    DateStringMapper(),
+    DecimalStringMapper(),
+    MoleculeJsonMapper(),
+    AdministrationRouteNameMapper(),
+    EsterNameMapper(),
+  ],
+)
+class MedicationSupplyItem extends SupplyItem
+    with MedicationSupplyItemMappable {
   @override
   final int id;
   @override
@@ -17,8 +30,11 @@ class MedicationSupplyItem implements SupplyItem {
   final Decimal totalDose;
   final Decimal usedDose;
   final Decimal concentration;
+  @MappableField(key: 'moleculeJson')
   final Molecule molecule;
+  @MappableField(key: 'administrationRouteName')
   final AdministrationRoute administrationRoute;
+  @MappableField(key: 'esterName')
   final Ester? ester;
 
   MedicationSupplyItem({
@@ -32,20 +48,6 @@ class MedicationSupplyItem implements SupplyItem {
     this.ester,
   })  : usedDose = usedDose ?? Decimal.zero,
         id = id ?? DateTime.now().millisecondsSinceEpoch;
-
-  factory MedicationSupplyItem.fromMap(Map<String, Object?> map) {
-    return MedicationSupplyItem(
-      id: map['id'] as int?,
-      name: map['name'] as String,
-      totalDose: (map['totalDose'] as String).toDecimal,
-      usedDose: (map['usedDose'] as String).toDecimal,
-      concentration: (map['concentration'] as String).toDecimal,
-      molecule: Molecule.fromJson(jsonDecode(map['moleculeJson'] as String)),
-      administrationRoute: AdministrationRoute.fromName(
-          map['administrationRouteName'] as String),
-      ester: Ester.fromName(map['esterName'] as String?),
-    );
-  }
 
   bool get isUsed => usedDose > Decimal.zero;
   Decimal get remainingDose => totalDose - usedDose;
@@ -68,49 +70,11 @@ class MedicationSupplyItem implements SupplyItem {
         .toDouble();
   }
 
-  @override
-  Map<String, Object?> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'totalDose': totalDose.toString(),
-      'usedDose': usedDose.toString(),
-      'concentration': concentration.toString(),
-      'moleculeJson': jsonEncode(molecule.toJson()),
-      'administrationRouteName': administrationRoute.name,
-      'esterName': ester?.name,
-      'type': SupplyType.medication.name,
-    };
-  }
-
   Decimal getAmount(Decimal dose) =>
       (dose.toRational() / concentration.toRational())
           .toDecimal(scaleOnInfinitePrecision: 3);
 
   Decimal getDose(Decimal amount) => amount * concentration;
-
-  MedicationSupplyItem copyWith({
-    int? id,
-    String? name,
-    Decimal? totalDose,
-    Decimal? usedDose,
-    Decimal? concentration,
-    Molecule? molecule,
-    AdministrationRoute? administrationRoute,
-    Ester? ester,
-    bool clearEster = false,
-  }) {
-    return MedicationSupplyItem(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      totalDose: totalDose ?? this.totalDose,
-      usedDose: usedDose ?? this.usedDose,
-      concentration: concentration ?? this.concentration,
-      molecule: molecule ?? this.molecule,
-      administrationRoute: administrationRoute ?? this.administrationRoute,
-      ester: clearEster ? null : (ester ?? this.ester),
-    );
-  }
 
   static String? Function(String?) usedAmountValidator(
       AppLocalizations l10n, String totalAmount) {
@@ -149,20 +113,5 @@ class MedicationSupplyItem implements SupplyItem {
   static String? validateAdministrationRoute(
           AppLocalizations l10n, AdministrationRoute? value) =>
       requiredAdministrationRoute(l10n, value);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is MedicationSupplyItem && other.id == id;
-
-  @override
-  int get hashCode => id.hashCode;
-
-  @override
-  String toString() {
-    return 'SupplyItem(id: $id, name: $name, molecule: ${molecule.name}, '
-        'ester: ${ester?.name}, route: ${administrationRoute.name}, '
-        'concentration: $concentration ${molecule.unit}/${administrationRoute.unit}, '
-        'totalDose: $totalDose, usedDose: $usedDose)';
-  }
   // coverage:ignore-end
 }

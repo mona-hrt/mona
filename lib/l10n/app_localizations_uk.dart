@@ -42,9 +42,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get upcoming => 'Найближче';
 
   @override
-  String get today => 'Сьогодні';
-
-  @override
   String get taken => 'Прийнято';
 
   @override
@@ -85,6 +82,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String scheduleFrequencyEveryNDays(num days) {
     return 'Кожні $days днів';
   }
+
+  @override
+  String get scheduleFrequencyInterval => 'Інтервал';
+
+  @override
+  String get scheduleFrequencyWeekly => 'Weekly';
 
   @override
   String get newUpdateAvailable => 'Нове оновлення!';
@@ -135,7 +138,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get enableNotifications => 'Увімкнути сповіщення';
 
   @override
-  String get enableNotificationsDescription => 'Увімкнути нагадування';
+  String get enableNotificationsDescription => 'Надсилати нагадування';
 
   @override
   String get notificationsDisabledTitle => 'Сповіщення вимкнено';
@@ -265,8 +268,18 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Заплановано на $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Заплановано на $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Заплановано на $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Заплановано на $weekday';
   }
 
   @override
@@ -288,7 +301,16 @@ class AppLocalizationsUk extends AppLocalizations {
   String get startDate => 'Дата початку';
 
   @override
+  String get pickATime => 'Вибрати час';
+
+  @override
+  String get addIntakeTime => 'Додати час';
+
+  @override
   String get editScheduleInfo => 'Виправити інформацію';
+
+  @override
+  String get scheduling => 'Планування';
 
   @override
   String get noNotifications => 'Сповіщення відсутні';
@@ -456,6 +478,79 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String remaining(num amount, Object unit) {
     return '$amount $unit залишилось';
+  }
+
+  @override
+  String get allItemsFilter => 'All';
+
+  @override
+  String get medicationItemsFilter => 'Medication';
+
+  @override
+  String get genericItemsFilter => 'Consumables';
+
+  @override
+  String get medicationItemType => 'Medication';
+
+  @override
+  String get genericItemType => 'Consumable';
+
+  @override
+  String get supplyType => 'Type';
+
+  @override
+  String syringe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Syringes',
+      one: 'Syringe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wipes',
+      one: 'Wipe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Needles',
+      one: 'Needle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gloves(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Gloves',
+      one: 'Gloves',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandage(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bandages',
+      one: 'Bandage',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -632,8 +727,9 @@ class AppLocalizationsUk extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'pills',
-      one: 'pill',
+      few: 'пігулки',
+      other: 'пігулок',
+      one: 'пігулка',
     );
     return '$_temp0';
   }
@@ -643,8 +739,9 @@ class AppLocalizationsUk extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'patches',
-      one: 'patch',
+      few: 'патчі',
+      other: 'патчів',
+      one: 'патч',
     );
     return '$_temp0';
   }
@@ -654,8 +751,9 @@ class AppLocalizationsUk extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'pumps',
-      one: 'pump',
+      other: 'натискань',
+      few: 'натискання',
+      one: 'натискання',
     );
     return '$_temp0';
   }
@@ -665,8 +763,9 @@ class AppLocalizationsUk extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'implants',
-      one: 'implant',
+      few: 'імпланти',
+      other: 'імплантів',
+      one: 'імплант',
     );
     return '$_temp0';
   }
@@ -676,8 +775,9 @@ class AppLocalizationsUk extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'suppositories',
-      one: 'suppository',
+      few: 'супозиторії',
+      other: 'супозиторіїв',
+      one: 'супозиторій',
     );
     return '$_temp0';
   }
@@ -687,8 +787,9 @@ class AppLocalizationsUk extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'sprays',
-      one: 'spray',
+      few: 'спреї',
+      other: 'спреїв',
+      one: 'спрей',
     );
     return '$_temp0';
   }

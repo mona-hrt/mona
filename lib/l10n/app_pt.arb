@@ -11,8 +11,7 @@
     "allDone": "Tudo pronto!",
     "noIntakesDue": "Nenhuma dose pendente hoje",
     "upcoming": "Próximos",
-    "today": "Hoje",
-    "taken": "tomado",
+    "taken": "Tomado",
     "daysAgoCount": "{count, plural, =1{ontem} other{há {count} dias}}",
     "@daysAgoCount": {
         "description": "=1 ontem; resto há # dias.",
@@ -31,6 +30,7 @@
     "neverTakenYet": "Ainda não tomado",
     "scheduleFrequencyDaily": "Todos os dias",
     "scheduleFrequencyEveryNDays": "A cada {days} dias",
+    "scheduleFrequencyInterval": "Intervalo",
     "newUpdateAvailable": "Uma nova atualização está disponível!",
     "goToSettings": "Ir para Configurações",
 
@@ -45,7 +45,7 @@
     "languageFollowDevice": "Seguir o idioma do dispositivo",
     "selectLanguage": "Selecionar idioma",
     "enableNotifications": "Ativar notificações",
-    "enableNotificationsDescription": "Enviar lembretes dos cronogramas",
+    "enableNotificationsDescription": "Enviar lembretes",
     "notificationsDisabledTitle": "As notificações estão desativadas",
     "clickToOpenSettings": "Toque para abrir as configurações",
     "exactRemindersDisabled": "Os horários exatos de lembrete estão desativados",
@@ -83,7 +83,9 @@
     "updateDownloadFailed": "Falha na transferência. Verifique a sua ligação.",
 
     "notificationMedicationReminderTitle": "Hora de tomar {scheduleName}",
-    "notificationMedicationReminderBody": "Agendado para {dateTime}",
+    "notificationMedicationReminderBodyDate": "Agendado para {date}",
+    "notificationMedicationReminderBodyTime": "Agendado para {time}",
+    "notificationMedicationReminderBodyWeekday": "Agendado para {weekday}",
 
     "addSchedule": "Adicionar cronograma",
     "addScheduleToGetStarted": "Adicione um cronograma para começar.",
@@ -91,7 +93,10 @@
     "every": "A cada",
     "days": "dias",
     "startDate": "Data de início",
+    "pickATime": "Escolher um horário",
+    "addIntakeTime": "Adicionar horário",
     "editScheduleInfo": "Editar informações do cronograma",
+    "scheduling": "Programação",
     "noNotifications": "Sem notificações",
     "notificationsCount": "{count} notificações",
     "editSchedule": "Editar cronograma",

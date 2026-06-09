@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
@@ -18,7 +19,7 @@ class MedicationIntakeManager {
 
   Future<void> takeMedication({
     required Decimal takenDose,
-    required DateTime scheduledDateTime,
+    TimeOfDay? scheduledTime,
     required DateTime takenDateTime,
     SupplyItem? supplyItem,
     required MedicationSchedule schedule,
@@ -36,7 +37,7 @@ class MedicationIntakeManager {
 
     await _medicationIntakeProvider.add(MedicationIntake(
       takenDose: takenDose,
-      scheduledDateTime: scheduledDateTime,
+      scheduledTime: scheduledTime,
       takenDateTime: takenDateTime,
       takenTimeZone: tzName,
       side: side,
@@ -60,7 +61,8 @@ class MedicationIntakeManager {
       case MedicationSupplyItem _:
         if (deadSpace != null && deadSpace > Decimal.zero) {
           final microlitersToMilliliters = Decimal.parse('0.001');
-          takenDose += (supplyItem).getDose(deadSpace * microlitersToMilliliters);
+          takenDose +=
+              (supplyItem).getDose(deadSpace * microlitersToMilliliters);
         }
         if (wastedDose != null && wastedDose > Decimal.zero) {
           takenDose += (supplyItem).getDose(wastedDose);
@@ -88,7 +90,7 @@ class MedicationIntakeManager {
   }
 
   InjectionSide getNextSide() {
-    final lastIntake = _medicationIntakeProvider.getLastTakenIntake();
+    final lastIntake = _medicationIntakeProvider.getLastTakenInjectionIntake();
 
     if (lastIntake == null || lastIntake.side == null) {
       return InjectionSide.left;

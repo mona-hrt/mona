@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'main_tabs.dart';
 
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   State<MainPage> createState() => _MainPageState();
 }
@@ -18,7 +20,8 @@ class _MainPageState extends State<MainPage> {
   bool _isUpdateAvailable = false;
   bool _hideUpdateBanner = false;
 
-  MainTabConfig get currentTab => getMainTabs(context)[_selectedIndex];
+  List<MainTabConfig> get tabs => getMainTabs(context);
+  MainTabConfig get currentTab => tabs[_selectedIndex];
 
   void _selectIndex(int index) {
     setState(() => _selectedIndex = index);
@@ -33,7 +36,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> _runAutomaticUpdateCheck() async {
-    if (isPlayStoreDistribution) return;
+    if (isStoreDistribution) return;
     final prefs = context.read<PreferencesService>();
     if (!prefs.autoCheckUpdatesEnabled) return;
 
@@ -88,8 +91,9 @@ class _MainPageState extends State<MainPage> {
               selectedIndex: _selectedIndex,
               onDestinationSelected: _selectIndex,
               destinations: [
-                for (final tab in getMainTabs(context))
+                for (final tab in tabs)
                   NavigationDestination(
+                    key: tab.navKey,
                     label: tab.title,
                     icon: Icon(tab.icon),
                     selectedIcon: Icon(tab.selectedIcon),

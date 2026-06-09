@@ -43,10 +43,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get upcoming => 'À venir';
 
   @override
-  String get today => 'Aujourd\'hui';
-
-  @override
-  String get taken => 'pris';
+  String get taken => 'Pris';
 
   @override
   String daysAgoCount(int count) {
@@ -83,6 +80,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String scheduleFrequencyEveryNDays(num days) {
     return 'Tous les $days jours';
   }
+
+  @override
+  String get scheduleFrequencyInterval => 'Intervalle';
+
+  @override
+  String get scheduleFrequencyWeekly => 'Hebdomadaire';
 
   @override
   String get newUpdateAvailable => 'Une nouvelle mise à jour est disponible !';
@@ -132,8 +135,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enableNotifications => 'Activer les notifications';
 
   @override
-  String get enableNotificationsDescription =>
-      'Envoyer des rappels pour vos plannings';
+  String get enableNotificationsDescription => 'Envoyer des rappels';
 
   @override
   String get notificationsDisabledTitle => 'Les notifications sont désactivées';
@@ -267,8 +269,18 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Prévu pour $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Prévu pour le $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Prévu pour $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Prévu pour $weekday';
   }
 
   @override
@@ -290,7 +302,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get startDate => 'Date de début';
 
   @override
+  String get pickATime => 'Choisir une heure';
+
+  @override
+  String get addIntakeTime => 'Ajouter une heure';
+
+  @override
   String get editScheduleInfo => 'Modifier les informations du planning';
+
+  @override
+  String get scheduling => 'Programme';
 
   @override
   String get noNotifications => 'Aucune notification';
@@ -460,6 +481,79 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String remaining(num amount, Object unit) {
     return 'Reste $amount $unit';
+  }
+
+  @override
+  String get allItemsFilter => 'Tout';
+
+  @override
+  String get medicationItemsFilter => 'Médicaments';
+
+  @override
+  String get genericItemsFilter => 'Matériel';
+
+  @override
+  String get medicationItemType => 'Médicament';
+
+  @override
+  String get genericItemType => 'Matériel';
+
+  @override
+  String get supplyType => 'Type';
+
+  @override
+  String syringe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Seringues',
+      one: 'Seringue',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Lingettes',
+      one: 'Lingette',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Aiguilles',
+      one: 'Aiguille',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gloves(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Gants',
+      one: 'Gants',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandage(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pansements',
+      one: 'Pansement',
+    );
+    return '$_temp0';
   }
 
   @override

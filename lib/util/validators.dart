@@ -51,3 +51,6 @@ String? requiredMolecule(AppLocalizations l10n, Molecule? value) =>
 String? requiredAdministrationRoute(
         AppLocalizations l10n, AdministrationRoute? value) =>
     value == null ? l10n.requiredField : null;
+
+String? requiredList<T>(AppLocalizations l10n, List<T> value) =>
+    value.isEmpty ? l10n.requiredField : null;

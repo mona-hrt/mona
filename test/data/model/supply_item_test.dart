@@ -35,6 +35,7 @@ GenericSupply makeGeneric({
     id: id,
     name: name,
     amount: amount,
+    genericSupplyType: GenericSupplyType.syringe,
   );
 }
 
@@ -46,7 +47,7 @@ void main() {
         final map = makeMed().toMap();
 
         // Act
-        final result = SupplyItem.fromMap(map);
+        final result = SupplyItemMapper.fromMap(map);
 
         // Assert
         expect(result, isA<MedicationSupplyItem>());
@@ -57,7 +58,7 @@ void main() {
         final map = makeGeneric().toMap();
 
         // Act
-        final result = SupplyItem.fromMap(map);
+        final result = SupplyItemMapper.fromMap(map);
 
         // Assert
         expect(result, isA<GenericSupply>());

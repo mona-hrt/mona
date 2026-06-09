@@ -98,6 +98,24 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as List<_i5.MedicationSupplyItem>);
 
   @override
+  List<_i4.SupplyItem> get allItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#allItemsOrderedByName),
+        returnValue: <_i4.SupplyItem>[],
+      ) as List<_i4.SupplyItem>);
+
+  @override
+  List<_i4.SupplyItem> get medicationItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#medicationItemsOrderedByName),
+        returnValue: <_i4.SupplyItem>[],
+      ) as List<_i4.SupplyItem>);
+
+  @override
+  List<_i4.SupplyItem> get genericItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#genericItemsOrderedByName),
+        returnValue: <_i4.SupplyItem>[],
+      ) as List<_i4.SupplyItem>);
+
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
@@ -360,6 +378,29 @@ class MockMedicationIntakeProvider extends _i1.Mock
       )) as _i14.Date?);
 
   @override
+  List<_i13.MedicationIntake> getTakenIntakesForScheduleOn(
+    int? scheduleId,
+    _i14.Date? date,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTakenIntakesForScheduleOn,
+          [
+            scheduleId,
+            date,
+          ],
+        ),
+        returnValue: <_i13.MedicationIntake>[],
+      ) as List<_i13.MedicationIntake>);
+
+  @override
+  _i13.MedicationIntake? getLastTakenIntakeForSchedule(int? scheduleId) =>
+      (super.noSuchMethod(Invocation.method(
+        #getLastTakenIntakeForSchedule,
+        [scheduleId],
+      )) as _i13.MedicationIntake?);
+
+  @override
   void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
@@ -575,13 +616,13 @@ class MockSupplyItemManager extends _i1.Mock implements _i17.SupplyItemManager {
       ) as _i7.Future<void>);
 
   @override
-  void switchDoses(
+  _i7.Future<void> switchDoses(
     _i5.MedicationSupplyItem? previousItem,
     _i5.MedicationSupplyItem? nextItem,
     _i18.Decimal? previousDose,
     _i18.Decimal? nextDose,
   ) =>
-      super.noSuchMethod(
+      (super.noSuchMethod(
         Invocation.method(
           #switchDoses,
           [
@@ -591,6 +632,7 @@ class MockSupplyItemManager extends _i1.Mock implements _i17.SupplyItemManager {
             nextDose,
           ],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }

@@ -42,10 +42,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get upcoming => 'Nadchádzajúce';
 
   @override
-  String get today => 'Dnes';
-
-  @override
-  String get taken => 'vzaté';
+  String get taken => 'Vzaté';
 
   @override
   String daysAgoCount(int count) {
@@ -89,6 +86,12 @@ class AppLocalizationsSk extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get scheduleFrequencyInterval => 'Interval';
+
+  @override
+  String get scheduleFrequencyWeekly => 'Weekly';
 
   @override
   String get newUpdateAvailable => 'Je k dispozícii nová aktualizácia!';
@@ -139,7 +142,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get enableNotifications => 'Zapni notifikácie';
 
   @override
-  String get enableNotificationsDescription => 'Pripomienky plánov';
+  String get enableNotificationsDescription => 'Posielať pripomienky';
 
   @override
   String get notificationsDisabledTitle => 'Notifikácie sú vypnuté';
@@ -270,8 +273,18 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Naplánovaná na $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Naplánovaná na $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Naplánovaná na $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Naplánovaná na $weekday';
   }
 
   @override
@@ -293,7 +306,16 @@ class AppLocalizationsSk extends AppLocalizations {
   String get startDate => 'Dátum začiatku';
 
   @override
+  String get pickATime => 'Vyber čas';
+
+  @override
+  String get addIntakeTime => 'Pridaj čas';
+
+  @override
   String get editScheduleInfo => 'Upraviť detaily plánu';
+
+  @override
+  String get scheduling => 'Plánovanie';
 
   @override
   String get noNotifications => 'Žiadne notifikácie';
@@ -472,6 +494,79 @@ class AppLocalizationsSk extends AppLocalizations {
       locale: localeName,
       other: 'Zostáva $amount $unit',
       few: 'Zostávajú $amount $unit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get allItemsFilter => 'All';
+
+  @override
+  String get medicationItemsFilter => 'Medication';
+
+  @override
+  String get genericItemsFilter => 'Consumables';
+
+  @override
+  String get medicationItemType => 'Medication';
+
+  @override
+  String get genericItemType => 'Consumable';
+
+  @override
+  String get supplyType => 'Type';
+
+  @override
+  String syringe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Syringes',
+      one: 'Syringe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wipes',
+      one: 'Wipe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Needles',
+      one: 'Needle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gloves(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Gloves',
+      one: 'Gloves',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandage(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bandages',
+      one: 'Bandage',
     );
     return '$_temp0';
   }

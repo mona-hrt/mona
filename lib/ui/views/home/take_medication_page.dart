@@ -23,9 +23,10 @@ import 'package:provider/provider.dart';
 
 class TakeMedicationPage extends StatefulWidget {
   final MedicationSchedule schedule;
-  final DateTime scheduledDate;
 
-  TakeMedicationPage(this.schedule, this.scheduledDate);
+  final TimeOfDay? scheduledTime;
+
+  TakeMedicationPage(this.schedule, {this.scheduledTime});
 
   @override
   State<TakeMedicationPage> createState() => _TakeMedicationPageState();
@@ -65,16 +66,15 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
     MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
         .takeMedication(
-      takenDose: _takenDose,
-      scheduledDateTime: widget.scheduledDate,
-      takenDateTime: _takenDate.toUtc(),
-      supplyItem: _selectedSupplyItem,
-      schedule: widget.schedule,
-      side: _selectedSide,
-      deadSpace: _deadSpace,
-      notes: notes,
-      wastedDose: _wastedAmount
-    );
+            takenDose: _takenDose,
+            scheduledTime: widget.scheduledTime,
+            takenDateTime: _takenDate.toUtc(),
+            supplyItem: _selectedSupplyItem,
+            schedule: widget.schedule,
+            side: _selectedSide,
+            deadSpace: _deadSpace,
+            notes: notes,
+            wastedDose: _wastedAmount);
 
     Navigator.of(context).pop();
   }
@@ -205,6 +205,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           title: localizations.takeMedication(widget.schedule.name),
           avatar: widget.schedule.administrationRoute.icon,
           submitButtonLabel: localizations.takeIntake,
+          submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid)
               ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider)
@@ -217,14 +218,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             ),
             FormSpacer(),
             FormTextField(
-              controller: _takenDoseController,
-              label: localizations.takenAmount,
-              onChanged: _onTakenDoseChanged,
-              inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.schedule.molecule.unit,
-              errorText: _takenDoseError,
-              regexFormatter: RegexPatterns.floatNumber
-            ),
+                controller: _takenDoseController,
+                label: localizations.takenAmount,
+                onChanged: _onTakenDoseChanged,
+                inputType: TextInputType.numberWithOptions(decimal: true),
+                suffixText: widget.schedule.molecule.unit,
+                errorText: _takenDoseError,
+                regexFormatter: RegexPatterns.floatNumber),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
                 infoText: supplyItem.localizedSupplyAmount(
@@ -254,17 +254,15 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   inputType: TextInputType.numberWithOptions(decimal: true),
                   suffixText: localizations.milliliters,
                   errorText: _wastedAmountError,
-                  regexFormatter: RegexPatterns.floatNumber
-              ),
+                  regexFormatter: RegexPatterns.floatNumber),
               FormTextField(
-                controller: _deadSpaceController,
-                label: localizations.needleDeadSpace,
-                onChanged: _onDeadSpaceChanged,
-                inputType: TextInputType.numberWithOptions(decimal: true),
-                suffixText: localizations.microliters,
-                errorText: _deadSpaceError,
-                regexFormatter: RegexPatterns.floatNumber
-              ),
+                  controller: _deadSpaceController,
+                  label: localizations.needleDeadSpace,
+                  onChanged: _onDeadSpaceChanged,
+                  inputType: TextInputType.numberWithOptions(decimal: true),
+                  suffixText: localizations.microliters,
+                  errorText: _deadSpaceError,
+                  regexFormatter: RegexPatterns.floatNumber),
             ],
             FormSpacer(),
             FormTextField(

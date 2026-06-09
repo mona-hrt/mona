@@ -26,7 +26,7 @@ import 'package:provider/provider.dart';
 class EditIntakePage extends StatefulWidget {
   final MedicationIntake intake;
 
-  EditIntakePage(this.intake);
+  const EditIntakePage(this.intake, {super.key});
 
   @override
   State<EditIntakePage> createState() => _EditIntakePageState();
@@ -230,6 +230,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
           title: localizations.editIntake,
           avatar: widget.intake.administrationRoute.icon,
           submitButtonLabel: localizations.save,
+          submitButtonKey: const ValueKey('editIntakeSave'),
+          deleteButtonKey: const ValueKey('editIntakeDelete'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid)
               ? () => _editIntake(medicationIntakeProvider, supplyItemProvider,
@@ -288,11 +290,12 @@ class _EditIntakePageState extends State<EditIntakePage> {
                 errorText: _wastedAmountError,
                 regexFormatter: RegexPatterns.floatNumber,
               ),
-          ],
+            ],
             FormSpacer(),
             FormTextField(
               controller: _notesController,
               label: localizations.notes,
+              fieldKey: const ValueKey('editIntakeNotes'),
               onChanged: _refresh,
               inputType: TextInputType.multiline,
               multiline: true,

@@ -42,21 +42,24 @@ class SupplyItemManager {
   }
 
   /// Switch doses between two [MedicationSupplyItem]
-  void switchDoses(MedicationSupplyItem? previousItem,
-      MedicationSupplyItem? nextItem, Decimal previousDose, Decimal nextDose) {
+  Future<void> switchDoses(
+      MedicationSupplyItem? previousItem,
+      MedicationSupplyItem? nextItem,
+      Decimal previousDose,
+      Decimal nextDose) async {
     bool sameItems = nextItem == previousItem;
 
     if (previousItem != null) {
       if (sameItems) {
         Decimal doseDifference = nextDose - previousDose;
-        useDose(previousItem, doseDifference);
+        await useDose(previousItem, doseDifference);
       } else {
-        useDose(previousItem, -previousDose);
+        await useDose(previousItem, -previousDose);
       }
     }
 
     if (nextItem != null && !sameItems) {
-      useDose(nextItem, nextDose);
+      await useDose(nextItem, nextDose);
     }
   }
 }

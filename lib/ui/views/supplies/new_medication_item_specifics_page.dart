@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/medication_schedule.dart';
+import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/administration_route_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
-import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_notifications_page.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
-import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
@@ -19,45 +19,43 @@ import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
-class NewSchedulePage extends StatefulWidget {
+class NewMedicationItemSpecificsPage extends StatefulWidget {
+  final String name;
+
+  const NewMedicationItemSpecificsPage({super.key, required this.name});
+
   @override
-  State<NewSchedulePage> createState() => _NewSchedulePageState();
+  State<NewMedicationItemSpecificsPage> createState() =>
+      _NewMedicationItemSpecificsPageState();
 }
 
-class _NewSchedulePageState extends State<NewSchedulePage> {
-  late TextEditingController _nameController;
-  late TextEditingController _doseController;
-  late TextEditingController _intervalDaysController;
-  late Date _startDate;
+class _NewMedicationItemSpecificsPageState
+    extends State<NewMedicationItemSpecificsPage> {
+  late TextEditingController _totalAmountController;
+  late TextEditingController _concentrationController;
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
   late PreferencesService _preferencesService;
 
-  String? get _nameError =>
-      MedicationSchedule.validateName(context.l10n, _nameController.text);
-  String? get _doseError =>
-      MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _intervalDaysError => MedicationSchedule.validateIntervalDays(
-      context.l10n, _intervalDaysController.text);
-  String? get _startDateError =>
-      MedicationSchedule.validateStartDate(context.l10n, _startDate);
+  String? get _totalAmountError => MedicationSupplyItem.validateTotalAmount(
+      context.l10n, _totalAmountController.text);
+  String? get _concentrationError => MedicationSupplyItem.validateConcentration(
+      context.l10n, _concentrationController.text);
   String? get _moleculeError =>
-      MedicationSchedule.validateMolecule(context.l10n, _molecule);
+      MedicationSupplyItem.validateMolecule(context.l10n, _molecule);
   String? get _administrationRouteError =>
-      MedicationSchedule.validateAdministrationRoute(
+      MedicationSupplyItem.validateAdministrationRoute(
           context.l10n, _administrationRoute);
   String? get _esterError {
-    final validator = MedicationSchedule.esterValidator(
+    final validator = MedicationSupplyItem.esterValidator(
         context.l10n, _molecule, _administrationRoute);
     return validator(_ester);
   }
 
   bool get _isFormValid =>
-      _nameError == null &&
-      _doseError == null &&
-      _intervalDaysError == null &&
-      _startDateError == null &&
+      _totalAmountError == null &&
+      _concentrationError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null;
@@ -70,7 +68,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     if (molecule != null) {
       setState(() {
         _molecule = molecule;
-
         if (!_useEsterField) {
           _ester = null;
         }
@@ -82,7 +79,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     if (administrationRoute != null) {
       setState(() {
         _administrationRoute = administrationRoute;
-
         if (!_useEsterField) {
           _ester = null;
         }
@@ -102,34 +98,30 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     setState(() {});
   }
 
-  void _addSchedule() {
-    final name = _nameController.text;
-    final dose = _doseController.text.toDecimal;
-    final intervalDays = _intervalDaysController.text.toInt;
-    final startDate = _startDate;
+  void _closeAll() {
+    Navigator.of(context)
+      ..pop()
+      ..pop();
+  }
 
-    final schedule = MedicationSchedule(
-      name: name,
-      dose: dose,
-      intervalDays: intervalDays,
-      startDate: startDate,
+  void _addItem() {
+    final totalAmount = _totalAmountController.text.toDecimal;
+    final concentration = _concentrationController.text.toDecimal;
+    final totalDose = concentration * totalAmount;
+
+    final item = MedicationSupplyItem(
+      name: widget.name,
+      totalDose: totalDose,
+      concentration: concentration,
       molecule: _molecule!,
       administrationRoute: _administrationRoute!,
       ester: _ester,
-      notificationTimes: List.empty(),
     );
+    Provider.of<SupplyItemProvider>(context, listen: false).add(item);
 
-    if (!mounted) return;
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditScheduleNotificationsPage(
-          schedule: schedule,
-          isNewSchedule: true,
-        ),
-      ),
-    );
+    Navigator.of(context)
+      ..pop()
+      ..pop();
   }
 
   @override
@@ -137,17 +129,14 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     super.initState();
     _preferencesService =
         Provider.of<PreferencesService>(context, listen: false);
-    _nameController = TextEditingController();
-    _doseController = TextEditingController();
-    _intervalDaysController = TextEditingController();
-    _startDate = Date.today();
+    _totalAmountController = TextEditingController();
+    _concentrationController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _doseController.dispose();
-    _intervalDaysController.dispose();
+    _totalAmountController.dispose();
+    _concentrationController.dispose();
     super.dispose();
   }
 
@@ -156,18 +145,13 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     final localizations = context.l10n;
 
     return ModelForm(
-      title: localizations.newSchedule,
-      submitButtonLabel: localizations.next,
+      title: widget.name,
+      avatar: _administrationRoute?.icon ?? Symbols.medication,
+      submitButtonLabel: localizations.add,
       isFormValid: _isFormValid,
-      saveChanges: _addSchedule,
-      fields: <Widget>[
-        FormTextField(
-          controller: _nameController,
-          label: localizations.name,
-          onChanged: _refresh,
-          inputType: TextInputType.text,
-        ),
-        FormSpacer(),
+      saveChanges: _addItem,
+      closeAll: _closeAll,
+      fields: [
         FormDropdownField<Molecule>(
           value: _molecule,
           items: moleculeDropdownMenuItems(
@@ -192,28 +176,22 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
           ),
         FormSpacer(),
         FormTextField(
-          controller: _doseController,
-          label: localizations.takenAmount,
-          suffixText: _molecule?.unit,
+          controller: _totalAmountController,
+          label: localizations.totalAmount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
+          suffixText: _administrationRoute?.localizedUnit(localizations, 1),
           regexFormatter: RegexPatterns.floatNumber,
         ),
         FormTextField(
-          controller: _intervalDaysController,
-          label: localizations.every,
-          suffixText: localizations.days,
+          controller: _concentrationController,
+          label: localizations.concentration,
           onChanged: _refresh,
-          inputType: TextInputType.number,
-          regexFormatter: RegexPatterns.intNumber,
-        ),
-        FormDateField(
-          date: _startDate,
-          label: localizations.startDate,
-          errorText: _startDateError,
-          onChanged: (date) => setState(() {
-            _startDate = date;
-          }),
+          inputType: TextInputType.numberWithOptions(decimal: true),
+          suffixText: _molecule != null && _administrationRoute != null
+              ? '${_molecule!.unit}/${_administrationRoute!.localizedUnit(localizations, 1)}'
+              : null,
+          regexFormatter: RegexPatterns.floatNumber,
         ),
       ],
     );

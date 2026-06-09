@@ -206,6 +206,33 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as _i6.Date?);
 
   @override
+  List<_i4.MedicationIntake> getTakenIntakesForScheduleOn(
+    int? scheduleId,
+    _i6.Date? date,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTakenIntakesForScheduleOn,
+          [
+            scheduleId,
+            date,
+          ],
+        ),
+        returnValue: <_i4.MedicationIntake>[],
+        returnValueForMissingStub: <_i4.MedicationIntake>[],
+      ) as List<_i4.MedicationIntake>);
+
+  @override
+  _i4.MedicationIntake? getLastTakenIntakeForSchedule(int? scheduleId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getLastTakenIntakeForSchedule,
+          [scheduleId],
+        ),
+        returnValueForMissingStub: null,
+      ) as _i4.MedicationIntake?);
+
+  @override
   void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
@@ -295,6 +322,27 @@ class MockSupplyItemProvider extends _i1.Mock
         returnValue: <_i10.MedicationSupplyItem>[],
         returnValueForMissingStub: <_i10.MedicationSupplyItem>[],
       ) as List<_i10.MedicationSupplyItem>);
+
+  @override
+  List<_i9.SupplyItem> get allItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#allItemsOrderedByName),
+        returnValue: <_i9.SupplyItem>[],
+        returnValueForMissingStub: <_i9.SupplyItem>[],
+      ) as List<_i9.SupplyItem>);
+
+  @override
+  List<_i9.SupplyItem> get medicationItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#medicationItemsOrderedByName),
+        returnValue: <_i9.SupplyItem>[],
+        returnValueForMissingStub: <_i9.SupplyItem>[],
+      ) as List<_i9.SupplyItem>);
+
+  @override
+  List<_i9.SupplyItem> get genericItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#genericItemsOrderedByName),
+        returnValue: <_i9.SupplyItem>[],
+        returnValueForMissingStub: <_i9.SupplyItem>[],
+      ) as List<_i9.SupplyItem>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(

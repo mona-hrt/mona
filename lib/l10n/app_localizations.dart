@@ -10,6 +10,7 @@ import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
 import 'app_localizations_pt.dart';
+import 'app_localizations_ru.dart';
 import 'app_localizations_sk.dart';
 import 'app_localizations_uk.dart';
 
@@ -105,6 +106,7 @@ abstract class AppLocalizations {
     Locale('fr'),
     Locale('pt'),
     Locale('pt', 'BR'),
+    Locale('ru'),
     Locale('sk'),
     Locale('uk')
   ];
@@ -175,16 +177,10 @@ abstract class AppLocalizations {
   /// **'Upcoming'**
   String get upcoming;
 
-  /// No description provided for @today.
-  ///
-  /// In en, this message translates to:
-  /// **'Today'**
-  String get today;
-
   /// No description provided for @taken.
   ///
   /// In en, this message translates to:
-  /// **'taken'**
+  /// **'Taken'**
   String get taken;
 
   /// Past offset in days; =1 is the word “yesterday”, not a numeric phrase.
@@ -222,6 +218,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Every {days} days'**
   String scheduleFrequencyEveryNDays(num days);
+
+  /// No description provided for @scheduleFrequencyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval'**
+  String get scheduleFrequencyInterval;
+
+  /// No description provided for @scheduleFrequencyWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get scheduleFrequencyWeekly;
 
   /// No description provided for @newUpdateAvailable.
   ///
@@ -304,7 +312,7 @@ abstract class AppLocalizations {
   /// No description provided for @enableNotificationsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Send reminders for schedules'**
+  /// **'Send reminders'**
   String get enableNotificationsDescription;
 
   /// No description provided for @notificationsDisabledTitle.
@@ -517,11 +525,23 @@ abstract class AppLocalizations {
   /// **'Time to take {scheduleName}'**
   String notificationMedicationReminderTitle(Object scheduleName);
 
-  /// No description provided for @notificationMedicationReminderBody.
+  /// No description provided for @notificationMedicationReminderBodyDate.
   ///
   /// In en, this message translates to:
-  /// **'Scheduled for {dateTime}'**
-  String notificationMedicationReminderBody(Object dateTime);
+  /// **'Scheduled for {date}'**
+  String notificationMedicationReminderBodyDate(Object date);
+
+  /// No description provided for @notificationMedicationReminderBodyTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {time}'**
+  String notificationMedicationReminderBodyTime(Object time);
+
+  /// No description provided for @notificationMedicationReminderBodyWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {weekday}'**
+  String notificationMedicationReminderBodyWeekday(Object weekday);
 
   /// No description provided for @addSchedule.
   ///
@@ -559,11 +579,29 @@ abstract class AppLocalizations {
   /// **'Start date'**
   String get startDate;
 
+  /// No description provided for @pickATime.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time'**
+  String get pickATime;
+
+  /// No description provided for @addIntakeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a time'**
+  String get addIntakeTime;
+
   /// No description provided for @editScheduleInfo.
   ///
   /// In en, this message translates to:
   /// **'Edit schedule info'**
   String get editScheduleInfo;
+
+  /// No description provided for @scheduling.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduling'**
+  String get scheduling;
 
   /// No description provided for @noNotifications.
   ///
@@ -864,6 +902,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} {unit} remaining'**
   String remaining(num amount, Object unit);
+
+  /// No description provided for @allItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allItemsFilter;
+
+  /// No description provided for @medicationItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication'**
+  String get medicationItemsFilter;
+
+  /// No description provided for @genericItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumables'**
+  String get genericItemsFilter;
+
+  /// No description provided for @medicationItemType.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication'**
+  String get medicationItemType;
+
+  /// No description provided for @genericItemType.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumable'**
+  String get genericItemType;
+
+  /// No description provided for @supplyType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get supplyType;
+
+  /// No description provided for @syringe.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Syringe} other{Syringes}}'**
+  String syringe(num count);
+
+  /// No description provided for @wipe.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Wipe} other{Wipes}}'**
+  String wipe(num count);
+
+  /// No description provided for @needle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Needle} other{Needles}}'**
+  String needle(num count);
+
+  /// No description provided for @gloves.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Gloves} other{Gloves}}'**
+  String gloves(num count);
+
+  /// No description provided for @bandage.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Bandage} other{Bandages}}'**
+  String bandage(num count);
 
   /// No description provided for @add.
   ///
@@ -1284,6 +1388,7 @@ class _AppLocalizationsDelegate
         'es',
         'fr',
         'pt',
+        'ru',
         'sk',
         'uk'
       ].contains(locale.languageCode);
@@ -1317,6 +1422,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsFr();
     case 'pt':
       return AppLocalizationsPt();
+    case 'ru':
+      return AppLocalizationsRu();
     case 'sk':
       return AppLocalizationsSk();
     case 'uk':
