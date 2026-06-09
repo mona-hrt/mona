@@ -28,6 +28,8 @@ sealed class SchedulingStrategy with SchedulingStrategyMappable {
   /// Returns the most recent scheduled intake date strictly before today,
   /// relative to [startDate], or null if no such date exists.
   Date? previousDate(Date startDate);
+
+  bool get isNotifiable;
 }
 
 @MappableClass(
@@ -104,6 +106,9 @@ class IntervalDaysSchedule extends SchedulingStrategy
     }
     return dates;
   }
+
+  @override
+  bool get isNotifiable => notificationTimes.isNotEmpty;
 
   bool _isScheduledForToday(Date startDate) {
     return nextDate(startDate).isToday;
@@ -191,6 +196,9 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
     return ScheduleStatus.today;
   }
 
+  @override
+  bool get isNotifiable => notify && intakeTimes.isNotEmpty;
+
   static String? validateIntakeTimes(
           AppLocalizations l10n, List<TimeOfDay> value) =>
       requiredListOfTimes(l10n, value);
@@ -257,6 +265,9 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
     }
     return null;
   }
+
+  @override
+  bool get isNotifiable => notificationTimes.isNotEmpty;
 
   bool _isScheduledForToday(Date startDate) => nextDate(startDate).isToday;
 

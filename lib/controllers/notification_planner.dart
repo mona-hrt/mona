@@ -15,12 +15,13 @@ class NotificationPlanner {
 
   List<PlannedNotification> planNotifications({required int daysAhead}) => [
         for (final schedule in _medicationScheduleProvider.schedules)
-          ...switch (schedule.scheduling) {
-            IntervalDaysSchedule scheduling =>
-              _intervalPlans(schedule, scheduling, daysAhead),
-            DailySchedule scheduling => _dailyPlans(schedule, scheduling),
-            WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
-          },
+          if (schedule.scheduling.isNotifiable)
+            ...switch (schedule.scheduling) {
+              IntervalDaysSchedule scheduling =>
+                _intervalPlans(schedule, scheduling, daysAhead),
+              DailySchedule scheduling => _dailyPlans(schedule, scheduling),
+              WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
+            },
       ];
 
   int daysAhead({required int maxScheduled}) {
@@ -49,8 +50,6 @@ class NotificationPlanner {
     IntervalDaysSchedule scheduling,
     int days,
   ) {
-    if (scheduling.notificationTimes.isEmpty) return const [];
-
     final now = clock.now();
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
@@ -75,8 +74,6 @@ class NotificationPlanner {
     MedicationSchedule schedule,
     DailySchedule scheduling,
   ) {
-    if (!scheduling.notify || scheduling.intakeTimes.isEmpty) return const [];
-
     final today = Date.today();
     final now = clock.now();
     final start = schedule.startDate.isAfterToday ? schedule.startDate : today;
@@ -107,8 +104,6 @@ class NotificationPlanner {
     MedicationSchedule schedule,
     WeeklySchedule scheduling,
   ) {
-    if (scheduling.notificationTimes.isEmpty) return const [];
-
     final today = Date.today();
     final now = clock.now();
     final takenToday = _medicationIntakeProvider
