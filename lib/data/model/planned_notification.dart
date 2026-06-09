@@ -26,7 +26,6 @@ class PlannedRepeating extends PlannedNotification {
   @override
   final DateTime firstFire;
   final TimeOfDay time;
-
   final int? dayOfWeek;
 
   const PlannedRepeating(
