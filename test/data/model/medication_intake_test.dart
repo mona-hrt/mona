@@ -46,6 +46,7 @@ void main() {
       final intake = MedicationIntake(
           id: 1,
           takenDose: Decimal.parse('2.5'),
+          wastedAmount: Decimal.parse('0.1'),
           takenDateTime: taken,
           takenTimeZone: 'Etc/UTC',
           scheduleId: 42,
@@ -68,6 +69,7 @@ void main() {
             .having(
                 (i) => i.takenTimeZone, 'takenTimeZone', intake.takenTimeZone)
             .having((i) => i.takenDose, 'dose', intake.takenDose)
+            .having((i) => i.wastedAmount, 'wastedAmount', intake.wastedAmount)
             .having((i) => i.scheduleId, 'scheduleId', intake.scheduleId)
             .having((i) => i.side, 'side', intake.side)
             .having((i) => i.molecule, 'molecule', intake.molecule)

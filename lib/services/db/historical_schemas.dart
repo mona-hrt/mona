@@ -184,7 +184,7 @@ const String _medicationIntakesV11 = '''
       takenDateTime TEXT,
       takenTimeZone TEXT,
       dose TEXT NOT NULL,
-      wastedDose TEXT,
+      wastedAmount TEXT,
       scheduleId INTEGER,
       side TEXT,
       moleculeJson TEXT NOT NULL,

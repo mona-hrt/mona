@@ -74,7 +74,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             side: _selectedSide,
             deadSpace: _deadSpace,
             notes: notes,
-            wastedDose: _wastedAmount);
+            wastedAmount: _wastedAmount);
 
     Navigator.of(context).pop();
   }

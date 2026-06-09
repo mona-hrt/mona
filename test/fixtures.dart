@@ -77,7 +77,7 @@ MedicationIntake aMedicationIntake({
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
-      dose: Decimal.one,
+      takenDose: Decimal.one,
       takenDateTime: time != null
           ? DateTime.utc(2025, 1, 1, time.hour, time.minute)
           : DateTime.utc(2025, 1, 1),

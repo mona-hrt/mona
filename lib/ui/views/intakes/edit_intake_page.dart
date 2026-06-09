@@ -69,11 +69,16 @@ class _EditIntakePageState extends State<EditIntakePage> {
     final previousMedication = previousItem as MedicationSupplyItem?;
     final newMedication = newItem as MedicationSupplyItem?;
 
-    Decimal wastedDose = newMedication?.getDose(_wastedAmount) ?? Decimal.zero;
-    Decimal usedDose = _takenDose + wastedDose;
+    final Decimal previousWastedDose =
+        previousMedication?.getDose(intake.wastedAmount ?? Decimal.zero) ??
+            Decimal.zero;
+    final Decimal previousUsedDose = intake.takenDose + previousWastedDose;
+    final Decimal newWastedDose =
+        newMedication?.getDose(_wastedAmount) ?? Decimal.zero;
+    final Decimal newUsedDose = _takenDose + newWastedDose;
 
     SupplyItemManager(supplyItemProvider).switchDoses(
-        previousMedication, newMedication, intake.usedDose, usedDose);
+        previousMedication, newMedication, previousUsedDose, newUsedDose);
 
     String? timezoneIdentifier = intake.takenTimeZone;
     if (_takenDateChanged) {
@@ -88,7 +93,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
       takenDateTime: _takenDate.toUtc(),
       takenTimeZone: timezoneIdentifier,
       takenDose: _takenDose,
-      wastedDose: wastedDose,
+      wastedAmount: _wastedAmount,
       side: _selectedSide,
       supplyItemId: newItem?.id,
       notes: notes,
@@ -168,11 +173,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
     super.initState();
     _takenDate = widget.intake.takenDateTime?.toLocal() ?? DateTime.now();
     _takenDose = widget.intake.takenDose;
-    MedicationSupplyItem? item = context
-        .read<SupplyItemProvider>()
-        .getItemById(widget.intake.supplyItemId) as MedicationSupplyItem?;
-    _wastedAmount = item?.getAmount(widget.intake.wastedDose ?? Decimal.zero) ??
-        Decimal.zero;
+    _wastedAmount = widget.intake.wastedAmount ?? Decimal.zero;
     _takenDoseController = TextEditingController(text: _takenDose.toString());
     _wastedAmountController =
         TextEditingController(text: _wastedAmount.toString());

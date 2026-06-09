@@ -5,6 +5,6 @@ class DbUpgradeV11 implements DbUpgrade {
   @override
   Future<void> upgrade(Database db, int oldVersion, int newVersion) async {
     await db
-        .execute('ALTER TABLE medication_intakes ADD COLUMN wastedDose TEXT');
+        .execute('ALTER TABLE medication_intakes ADD COLUMN wastedAmount TEXT');
   }
 }

@@ -94,10 +94,10 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$takenDose,
     key: r'dose',
   );
-  static Decimal? _$wastedDose(MedicationIntake v) => v.wastedDose;
-  static const Field<MedicationIntake, Decimal> _f$wastedDose = Field(
-    'wastedDose',
-    _$wastedDose,
+  static Decimal? _$wastedAmount(MedicationIntake v) => v.wastedAmount;
+  static const Field<MedicationIntake, Decimal> _f$wastedAmount = Field(
+    'wastedAmount',
+    _$wastedAmount,
     opt: true,
   );
   static DateTime? _$takenDateTime(MedicationIntake v) => v.takenDateTime;
@@ -163,7 +163,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #id: _f$id,
     #scheduledTime: _f$scheduledTime,
     #takenDose: _f$takenDose,
-    #wastedDose: _f$wastedDose,
+    #wastedAmount: _f$wastedAmount,
     #takenDateTime: _f$takenDateTime,
     #takenTimeZone: _f$takenTimeZone,
     #scheduleId: _f$scheduleId,
@@ -180,7 +180,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       id: data.dec(_f$id),
       scheduledTime: data.dec(_f$scheduledTime),
       takenDose: data.dec(_f$takenDose),
-      wastedDose: data.dec(_f$wastedDose),
+      wastedAmount: data.dec(_f$wastedAmount),
       takenDateTime: data.dec(_f$takenDateTime),
       takenTimeZone: data.dec(_f$takenTimeZone),
       scheduleId: data.dec(_f$scheduleId),
@@ -259,7 +259,7 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     int? id,
     TimeOfDay? scheduledTime,
     Decimal? takenDose,
-    Decimal? wastedDose,
+    Decimal? wastedAmount,
     DateTime? takenDateTime,
     String? takenTimeZone,
     int? scheduleId,
@@ -288,7 +288,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     Object? id = $none,
     Object? scheduledTime = $none,
     Decimal? takenDose,
-    Object? wastedDose = $none,
+    Object? wastedAmount = $none,
     Object? takenDateTime = $none,
     Object? takenTimeZone = $none,
     Object? scheduleId = $none,
@@ -304,7 +304,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           if (id != $none) #id: id,
           if (scheduledTime != $none) #scheduledTime: scheduledTime,
           if (takenDose != null) #takenDose: takenDose,
-          if (wastedDose != $none) #wastedDose: wastedDose,
+          if (wastedAmount != $none) #wastedAmount: wastedAmount,
           if (takenDateTime != $none) #takenDateTime: takenDateTime,
           if (takenTimeZone != $none) #takenTimeZone: takenTimeZone,
           if (scheduleId != $none) #scheduleId: scheduleId,
@@ -322,7 +322,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         id: data.get(#id, or: $value.id),
         scheduledTime: data.get(#scheduledTime, or: $value.scheduledTime),
         takenDose: data.get(#takenDose, or: $value.takenDose),
-        wastedDose: data.get(#wastedDose, or: $value.wastedDose),
+        wastedAmount: data.get(#wastedAmount, or: $value.wastedAmount),
         takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),
         takenTimeZone: data.get(#takenTimeZone, or: $value.takenTimeZone),
         scheduleId: data.get(#scheduleId, or: $value.scheduleId),

@@ -387,6 +387,63 @@ void main() {
             expect(updatedSupplyItem.usedDose, supplyItem.usedDose + dose);
           });
         });
+
+        group('with wastedAmount > 0', () {
+          late MedicationIntake addedIntake;
+          late MedicationSupplyItem updatedSupplyItem;
+          final supplyItem = _buildMedicationSupplyItem(
+            usedDose: Decimal.parse('1'),
+            concentration: Decimal.parse('10'),
+          );
+          final dose = Decimal.parse('2');
+          // 0.5 mL × concentration 10 = 5 extra dose units.
+          final wastedAmount = Decimal.parse('0.5');
+          final expectedExtra = Decimal.parse('5');
+
+          setUp(() async {
+            // Arrange
+            final schedule = _buildSchedule(dose: dose);
+            final date = DateTime.utc(2025, 9, 14, 12, 0);
+
+            when(mockMedicationIntakeProvider.add(any)).thenAnswer((inv) async {
+              addedIntake = inv.positionalArguments.first as MedicationIntake;
+            });
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedSupplyItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act
+            await manager.takeMedication(
+              takenDose: dose,
+              takenDateTime: date,
+              supplyItem: supplyItem,
+              schedule: schedule,
+              wastedAmount: wastedAmount,
+            );
+          });
+
+          test('adds the wasted dose (concentration × mL) to usedDose', () {
+            // Assert
+            expect(
+              updatedSupplyItem.usedDose,
+              supplyItem.usedDose + dose + expectedExtra,
+            );
+          });
+
+          test('persists wastedAmount in mL on the intake', () {
+            // Assert
+            expect(addedIntake.wastedAmount, wastedAmount);
+          });
+
+          test(
+              'records the original takenDose (in molecule units) on the intake',
+              () {
+            // Assert
+            expect(addedIntake.takenDose, dose);
+          });
+        });
       });
     });
 
@@ -528,6 +585,46 @@ void main() {
           test('deletes the intake on the provider', () {
             // Assert
             verify(mockMedicationIntakeProvider.deleteIntake(intake)).called(1);
+          });
+        });
+
+        group('when intake has a wastedAmount', () {
+          late MedicationSupplyItem updatedSupplyItem;
+          final supplyItem = _buildMedicationSupplyItem(
+            totalDose: Decimal.parse('100'),
+            usedDose: Decimal.parse('20'),
+            concentration: Decimal.parse('10'),
+          );
+          final dose = Decimal.parse('2');
+          // 0.5 mL × concentration 10 = 5 dose units to put back on top of dose.
+          final wastedAmount = Decimal.parse('0.5');
+          final expectedRollback = Decimal.parse('7'); // 2 + 5
+          final intake = _buildIntake(
+            supplyItemId: supplyItem.id,
+            dose: dose,
+            wastedAmount: wastedAmount,
+          );
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(supplyItem.id))
+                .thenReturn(supplyItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedSupplyItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act
+            await manager.deleteIntake(intake);
+          });
+
+          test(
+              'decreases usedDose by takenDose + (concentration × wastedAmount)',
+              () {
+            // Assert
+            expect(updatedSupplyItem.usedDose,
+                supplyItem.usedDose - expectedRollback);
           });
         });
       });
@@ -681,6 +778,7 @@ MedicationIntake _buildIntake({
   int? id,
   Decimal? dose,
   int? supplyItemId,
+  Decimal? wastedAmount,
 }) {
   return MedicationIntake(
     id: id,
@@ -688,5 +786,6 @@ MedicationIntake _buildIntake({
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.oral,
     supplyItemId: supplyItemId,
+    wastedAmount: wastedAmount,
   );
 }

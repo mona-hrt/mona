@@ -26,7 +26,7 @@ class MedicationIntakeManager {
     InjectionSide? side,
     Decimal? deadSpace, //in μL
     String? notes,
-    Decimal? wastedDose,
+    Decimal? wastedAmount, // in mL
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -47,7 +47,7 @@ class MedicationIntakeManager {
       ester: schedule.ester,
       supplyItemId: supplyItem?.id,
       notes: notes,
-      wastedDose: wastedDose,
+      wastedAmount: wastedAmount,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
@@ -64,8 +64,8 @@ class MedicationIntakeManager {
           takenDose +=
               (supplyItem).getDose(deadSpace * microlitersToMilliliters);
         }
-        if (wastedDose != null && wastedDose > Decimal.zero) {
-          takenDose += (supplyItem).getDose(wastedDose);
+        if (wastedAmount != null && wastedAmount > Decimal.zero) {
+          takenDose += (supplyItem).getDose(wastedAmount);
         }
         await itemManager.useDose(supplyItem, takenDose);
     }
@@ -85,7 +85,8 @@ class MedicationIntakeManager {
         await itemManager.putBack(item);
         return;
       case MedicationSupplyItem _:
-        await itemManager.useDose(item, -intake.usedDose);
+        final wastedDose = item.getDose(intake.wastedAmount ?? Decimal.zero);
+        await itemManager.useDose(item, -(intake.takenDose + wastedDose));
     }
   }
 
