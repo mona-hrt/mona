@@ -586,6 +586,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get nandrolone => 'Nandrolona';
 
   @override
+  String get dihydrotestosterone => 'Di-hidrotestosterona';
+
+  @override
   String get spironolactone => 'Espironolactona';
 
   @override
@@ -1307,6 +1310,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get nandrolone => 'Nandrolona';
+
+  @override
+  String get dihydrotestosterone => 'Di-hidrotestosterona';
 
   @override
   String get spironolactone => 'Espironolactona';
