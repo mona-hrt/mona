@@ -21,7 +21,7 @@ for attempt in $(seq 1 "$ATTEMPTS"); do
   # an `if` whose condition is false and which has no `else` is itself status 0.
   # --kill-after escalates to SIGKILL if patrol_cli ignores the initial SIGTERM.
   timeout --kill-after=30s "$ATTEMPT_TIMEOUT" \
-    dart run patrol_cli:main test --flavor standalone --verbose
+    dart run patrol_cli:main test --flavor standalone
   status=$?
   echo "::endgroup::"
 
