@@ -191,13 +191,14 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           ),
         FormSpacer(),
         FormTextField(
-            controller: _doseController,
-            label: localizations.amount,
-            onChanged: _refresh,
-            inputType: TextInputType.numberWithOptions(decimal: true),
-            suffixText: _molecule.unit,
-            errorText: _doseError,
-            regexFormatter: RegexPatterns.floatNumber),
+          controller: _doseController,
+          label: localizations.amount,
+          onChanged: _refresh,
+          inputType: TextInputType.numberWithOptions(decimal: true),
+          suffixText: _molecule.unit,
+          errorText: _doseError,
+          regexFormatter: RegexPatterns.floatNumber,
+        ),
       ],
     );
   }
