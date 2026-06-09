@@ -63,11 +63,39 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      # Cache the AVD and a warm boot snapshot so the emulator loads from a saved
+      # state instead of cold-booting on every run
+      - name: Cache AVD snapshot
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-api34-google_apis-x86_64-pixel_6
+
+      # On a cache miss, boot the emulator once with snapshot-save enabled and
+      # immediately exit. Skipped entirely on a cache hit.
+      - name: Create AVD snapshot
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          force-avd-creation: false
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          script: echo "AVD snapshot generated."
+
       # The app builds debug with applicationIdSuffix ".dev" (see
       # android/app/build.gradle), so the installed package under test is
       # com.deliacheminot.mona.dev — already set as patrol.android.package_name
       # in pubspec.yaml. Omitting --target runs every *_test.dart under
       # integration_test/ (the test_directory in pubspec.yaml).
+      #
+      # force-avd-creation: false reuses the cached AVD
       - name: Run Patrol tests on emulator
         timeout-minutes: 45
         uses: reactivecircus/android-emulator-runner@v2
@@ -76,8 +104,9 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_6
+          force-avd-creation: false
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot-save -noaudio -no-boot-anim
           script: bash scripts/run_patrol_e2e.sh
 
       - name: Upload Patrol results
