@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
-import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -64,23 +63,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
     if (!_isFormValid) return;
     if (!mounted) return;
 
-    SupplyItem? previousItem =
-        supplyItemProvider.getItemById(intake.supplyItemId);
-    final previousMedication = previousItem as MedicationSupplyItem?;
-    final newMedication = newItem as MedicationSupplyItem?;
-
-    final Decimal previousWastedDose =
-        previousMedication?.getDose(intake.wastedAmount ?? Decimal.zero) ??
-            Decimal.zero;
-    final Decimal previousUsedDose = intake.takenDose + previousWastedDose;
-    final Decimal newWastedDose =
-        newMedication?.getDose(_wastedAmount) ?? Decimal.zero;
-    final Decimal newUsedDose = _takenDose + newWastedDose;
-
-    SupplyItemManager(supplyItemProvider).switchDoses(
-        previousMedication, newMedication, previousUsedDose, newUsedDose);
-
-    String? timezoneIdentifier = intake.takenTimeZone;
+    String timezoneIdentifier = intake.takenTimeZone!;
     if (_takenDateChanged) {
       final TimezoneInfo timezone = await FlutterTimezone.getLocalTimezone();
       timezoneIdentifier = timezone.identifier;
@@ -89,17 +72,17 @@ class _EditIntakePageState extends State<EditIntakePage> {
     final String? notes =
         _notesController.text.isEmpty ? null : _notesController.text;
 
-    MedicationIntake updatedIntake = intake.copyWith(
-      takenDateTime: _takenDate.toUtc(),
-      takenTimeZone: timezoneIdentifier,
+    await MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
+        .editIntake(
+      intake,
       takenDose: _takenDose,
       wastedAmount: _wastedAmount,
+      takenDateTime: _takenDate.toUtc(),
+      takenTimeZone: timezoneIdentifier,
       side: _selectedSide,
-      supplyItemId: newItem?.id,
+      supplyItem: newItem,
       notes: notes,
     );
-
-    medicationIntakeProvider.updateIntake(updatedIntake);
 
     if (!mounted) return;
     Navigator.of(context).pop();

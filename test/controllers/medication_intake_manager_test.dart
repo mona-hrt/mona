@@ -12,6 +12,7 @@ import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
+import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 
@@ -625,6 +626,520 @@ void main() {
             // Assert
             expect(updatedSupplyItem.usedDose,
                 supplyItem.usedDose - expectedRollback);
+          });
+        });
+      });
+    });
+
+    group('editIntake', () {
+      final takenDate = DateTime.utc(2025, 10, 1, 8, 0);
+
+      group('takenDateTime validation', () {
+        test('throws ArgumentError when takenDateTime is not UTC', () async {
+          // Arrange
+          final intake = _buildIntake();
+
+          // Act / Assert
+          await expectLater(
+            manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('2'),
+              takenDateTime: DateTime(2025, 10, 1, 8, 0),
+              takenTimeZone: 'Etc/UTC',
+            ),
+            throwsArgumentError,
+          );
+        });
+      });
+
+      group('intake update', () {
+        late MedicationIntake updatedIntake;
+        final intake = _buildIntake(
+          id: 1,
+          dose: Decimal.parse('2'),
+          supplyItemId: null,
+          wastedAmount: null,
+        );
+        final newDose = Decimal.parse('3');
+        final newWasted = Decimal.parse('0.2');
+        final newDate = takenDate;
+        final newTimezone = 'Europe/Paris';
+        final newNotes = 'edited';
+
+        setUp(() async {
+          // Arrange
+          when(mockMedicationIntakeProvider.updateIntake(any))
+              .thenAnswer((inv) async {
+            updatedIntake = inv.positionalArguments.first as MedicationIntake;
+          });
+
+          // Act
+          await manager.editIntake(
+            intake,
+            takenDose: newDose,
+            wastedAmount: newWasted,
+            takenDateTime: newDate,
+            takenTimeZone: newTimezone,
+            side: InjectionSide.left,
+            supplyItem: null,
+            notes: newNotes,
+          );
+        });
+
+        test('preserves the intake id', () {
+          // Assert
+          expect(updatedIntake.id, intake.id);
+        });
+
+        test('updates takenDose', () {
+          // Assert
+          expect(updatedIntake.takenDose, newDose);
+        });
+
+        test('updates wastedAmount', () {
+          // Assert
+          expect(updatedIntake.wastedAmount, newWasted);
+        });
+
+        test('updates takenDateTime', () {
+          // Assert
+          expect(updatedIntake.takenDateTime, newDate);
+        });
+
+        test('updates takenTimeZone', () {
+          // Assert
+          expect(updatedIntake.takenTimeZone, newTimezone);
+        });
+
+        test('updates side', () {
+          // Assert
+          expect(updatedIntake.side, InjectionSide.left);
+        });
+
+        test('updates notes', () {
+          // Assert
+          expect(updatedIntake.notes, newNotes);
+        });
+
+        test('clears supplyItemId when supplyItem is null', () {
+          // Assert
+          expect(updatedIntake.supplyItemId, isNull);
+        });
+      });
+
+      group('supply transitions', () {
+        group('previous null, new null', () {
+          final intake = _buildIntake(supplyItemId: null);
+
+          setUp(() async {
+            // Act
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+            );
+          });
+
+          test('does not update any supply', () {
+            // Assert
+            verifyNever(mockSupplyItemProvider.updateItem(any));
+          });
+        });
+
+        group('previous null, new GenericSupply', () {
+          final newItem = _buildGenericSupply(id: 7, amount: 5);
+          final intake = _buildIntake(supplyItemId: null);
+          late GenericSupply updatedItem;
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedItem = inv.positionalArguments.first as GenericSupply;
+            });
+
+            // Act
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: newItem,
+            );
+          });
+
+          test('decrements the new GenericSupply by 1', () {
+            // Assert
+            expect(updatedItem.amount, newItem.amount - 1);
+          });
+        });
+
+        group('previous GenericSupply, new null', () {
+          final previousItem = _buildGenericSupply(id: 7, amount: 5);
+          final intake = _buildIntake(supplyItemId: previousItem.id);
+          late GenericSupply updatedItem;
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(previousItem.id))
+                .thenReturn(previousItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedItem = inv.positionalArguments.first as GenericSupply;
+            });
+
+            // Act
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: null,
+            );
+          });
+
+          test('increments the previous GenericSupply by 1', () {
+            // Assert
+            expect(updatedItem.amount, previousItem.amount + 1);
+          });
+        });
+
+        group('previous and new are the same GenericSupply', () {
+          final item = _buildGenericSupply(id: 7, amount: 5);
+          final intake = _buildIntake(supplyItemId: item.id);
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(item.id)).thenReturn(item);
+
+            // Act
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: item,
+            );
+          });
+
+          test('does not adjust the supply', () {
+            // Assert
+            verifyNever(mockSupplyItemProvider.updateItem(any));
+          });
+        });
+
+        group('previous and new are different GenericSupply', () {
+          final previousItem = _buildGenericSupply(id: 7, amount: 5);
+          final newItem = _buildGenericSupply(id: 8, amount: 2);
+          final intake = _buildIntake(supplyItemId: previousItem.id);
+          final updates = <GenericSupply>[];
+
+          setUp(() async {
+            // Arrange
+            updates.clear();
+            when(mockSupplyItemProvider.getItemById(previousItem.id))
+                .thenReturn(previousItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updates.add(inv.positionalArguments.first as GenericSupply);
+            });
+
+            // Act
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: newItem,
+            );
+          });
+
+          test('puts back one on the previous and uses one on the new', () {
+            // Assert
+            final previousUpdate =
+                updates.firstWhere((u) => u.id == previousItem.id);
+            final newUpdate = updates.firstWhere((u) => u.id == newItem.id);
+            expect(previousUpdate.amount, previousItem.amount + 1);
+            expect(newUpdate.amount, newItem.amount - 1);
+          });
+        });
+
+        group('previous null, new MedicationSupplyItem with wastedAmount', () {
+          final newItem = _buildMedicationSupplyItem(
+            usedDose: Decimal.parse('1'),
+            concentration: Decimal.parse('10'),
+          );
+          final intake = _buildIntake(supplyItemId: null);
+          final takenDose = Decimal.parse('2');
+          // 0.5 mL × concentration 10 = 5 dose units on top of takenDose.
+          final wastedAmount = Decimal.parse('0.5');
+          final expectedUsed = Decimal.parse('8'); // 1 + 2 + 5
+          late MedicationSupplyItem updatedItem;
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act
+            await manager.editIntake(
+              intake,
+              takenDose: takenDose,
+              wastedAmount: wastedAmount,
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: newItem,
+            );
+          });
+
+          test(
+              'increases usedDose by takenDose + (concentration × wastedAmount)',
+              () {
+            // Assert
+            expect(updatedItem.usedDose, expectedUsed);
+          });
+        });
+
+        group('previous MedicationSupplyItem, new null', () {
+          final previousItem = _buildMedicationSupplyItem(
+            usedDose: Decimal.parse('10'),
+            concentration: Decimal.parse('10'),
+          );
+          // Old intake recorded: dose 2 + 0.5 mL × 10 = 7 used.
+          final intake = _buildIntake(
+            supplyItemId: previousItem.id,
+            dose: Decimal.parse('2'),
+            wastedAmount: Decimal.parse('0.5'),
+          );
+          late MedicationSupplyItem updatedItem;
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(previousItem.id))
+                .thenReturn(previousItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('2'),
+              wastedAmount: Decimal.parse('0.5'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: null,
+            );
+          });
+
+          test('rolls back usedDose by the previous used dose', () {
+            // Assert
+            // 10 - (2 + 5) = 3
+            expect(updatedItem.usedDose, Decimal.parse('3'));
+          });
+        });
+
+        group('previous and new are the same MedicationSupplyItem', () {
+          final item = _buildMedicationSupplyItem(
+            usedDose: Decimal.parse('10'),
+            concentration: Decimal.parse('10'),
+          );
+          // Old intake: dose 2 + 0.5 mL × 10 = 7 used.
+          final intake = _buildIntake(
+            supplyItemId: item.id,
+            dose: Decimal.parse('2'),
+            wastedAmount: Decimal.parse('0.5'),
+          );
+          late MedicationSupplyItem updatedItem;
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(item.id)).thenReturn(item);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act: new dose 3 + 0.2 mL × 10 = 5 used.
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('3'),
+              wastedAmount: Decimal.parse('0.2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: item,
+            );
+          });
+
+          test('adjusts usedDose by the delta between old and new used dose',
+              () {
+            // Assert
+            // 10 + (5 - 7) = 8
+            expect(updatedItem.usedDose, Decimal.parse('8'));
+          });
+
+          test('writes the supply once', () {
+            // Assert
+            verify(mockSupplyItemProvider.updateItem(any)).called(1);
+          });
+        });
+
+        group('previous and new are different MedicationSupplyItem', () {
+          final previousItem = _buildMedicationSupplyItem(
+            id: 10,
+            usedDose: Decimal.parse('10'),
+            concentration: Decimal.parse('10'),
+          );
+          final newItem = _buildMedicationSupplyItem(
+            id: 11,
+            usedDose: Decimal.parse('4'),
+            concentration: Decimal.parse('10'),
+          );
+          // Old intake: 2 + 0.5 × 10 = 7 used.
+          final intake = _buildIntake(
+            supplyItemId: previousItem.id,
+            dose: Decimal.parse('2'),
+            wastedAmount: Decimal.parse('0.5'),
+          );
+          final updates = <MedicationSupplyItem>[];
+
+          setUp(() async {
+            // Arrange
+            updates.clear();
+            when(mockSupplyItemProvider.getItemById(previousItem.id))
+                .thenReturn(previousItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updates
+                  .add(inv.positionalArguments.first as MedicationSupplyItem);
+            });
+
+            // Act: new dose 3 + 0.2 mL × 10 = 5 used.
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('3'),
+              wastedAmount: Decimal.parse('0.2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: newItem,
+            );
+          });
+
+          test('rolls back previous and uses new', () {
+            // Assert
+            final previousUpdate =
+                updates.firstWhere((u) => u.id == previousItem.id);
+            final newUpdate = updates.firstWhere((u) => u.id == newItem.id);
+            // previous: 10 - 7 = 3, new: 4 + 5 = 9
+            expect(previousUpdate.usedDose, Decimal.parse('3'));
+            expect(newUpdate.usedDose, Decimal.parse('9'));
+          });
+        });
+
+        group('previous GenericSupply, new MedicationSupplyItem', () {
+          final previousItem = _buildGenericSupply(id: 7, amount: 5);
+          final newItem = _buildMedicationSupplyItem(
+            id: 11,
+            usedDose: Decimal.parse('4'),
+            concentration: Decimal.parse('10'),
+          );
+          final intake = _buildIntake(supplyItemId: previousItem.id);
+          final updates = <SupplyItem>[];
+
+          setUp(() async {
+            // Arrange
+            updates.clear();
+            when(mockSupplyItemProvider.getItemById(previousItem.id))
+                .thenReturn(previousItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updates.add(inv.positionalArguments.first as SupplyItem);
+            });
+
+            // Act: new dose 3 + 0.2 mL × 10 = 5 used.
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('3'),
+              wastedAmount: Decimal.parse('0.2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: newItem,
+            );
+          });
+
+          test('puts back the GenericSupply and uses dose on the new item', () {
+            // Assert
+            final previousUpdate =
+                updates.whereType<GenericSupply>().firstWhere(
+                      (u) => u.id == previousItem.id,
+                    );
+            final newUpdate =
+                updates.whereType<MedicationSupplyItem>().firstWhere(
+                      (u) => u.id == newItem.id,
+                    );
+            expect(previousUpdate.amount, previousItem.amount + 1);
+            // 4 + 5 = 9
+            expect(newUpdate.usedDose, Decimal.parse('9'));
+          });
+        });
+
+        group('previous MedicationSupplyItem, new GenericSupply', () {
+          final previousItem = _buildMedicationSupplyItem(
+            id: 10,
+            usedDose: Decimal.parse('10'),
+            concentration: Decimal.parse('10'),
+          );
+          final newItem = _buildGenericSupply(id: 7, amount: 5);
+          // Old intake: 2 + 0.5 × 10 = 7 used.
+          final intake = _buildIntake(
+            supplyItemId: previousItem.id,
+            dose: Decimal.parse('2'),
+            wastedAmount: Decimal.parse('0.5'),
+          );
+          final updates = <SupplyItem>[];
+
+          setUp(() async {
+            // Arrange
+            updates.clear();
+            when(mockSupplyItemProvider.getItemById(previousItem.id))
+                .thenReturn(previousItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updates.add(inv.positionalArguments.first as SupplyItem);
+            });
+
+            // Act
+            await manager.editIntake(
+              intake,
+              takenDose: Decimal.parse('3'),
+              wastedAmount: Decimal.parse('0.2'),
+              takenDateTime: takenDate,
+              takenTimeZone: 'Etc/UTC',
+              supplyItem: newItem,
+            );
+          });
+
+          test(
+              'rolls back the previous MedicationSupplyItem and uses the new'
+              ' GenericSupply', () {
+            // Assert
+            final previousUpdate =
+                updates.whereType<MedicationSupplyItem>().firstWhere(
+                      (u) => u.id == previousItem.id,
+                    );
+            final newUpdate = updates.whereType<GenericSupply>().firstWhere(
+                  (u) => u.id == newItem.id,
+                );
+            // 10 - 7 = 3
+            expect(previousUpdate.usedDose, Decimal.parse('3'));
+            expect(newUpdate.amount, newItem.amount - 1);
           });
         });
       });

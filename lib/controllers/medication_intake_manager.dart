@@ -90,6 +90,64 @@ class MedicationIntakeManager {
     }
   }
 
+  Future<void> editIntake(
+    MedicationIntake intake, {
+    required Decimal takenDose,
+    Decimal? wastedAmount,
+    required DateTime takenDateTime,
+    required String takenTimeZone,
+    InjectionSide? side,
+    SupplyItem? supplyItem,
+    String? notes,
+  }) async {
+    if (!takenDateTime.isUtc) {
+      throw ArgumentError('takenDateTime must be in UTC');
+    }
+
+    final previousItem = _supplyItemProvider.getItemById(intake.supplyItemId);
+    final itemManager = SupplyItemManager(_supplyItemProvider);
+    final bool sameItem = previousItem == supplyItem;
+
+    if (!sameItem) {
+      if (previousItem is GenericSupply) {
+        await itemManager.putBack(previousItem);
+      }
+      if (supplyItem is GenericSupply) {
+        await itemManager.use(supplyItem);
+      }
+    }
+
+    final previousMedication =
+        previousItem is MedicationSupplyItem ? previousItem : null;
+    final newMedication =
+        supplyItem is MedicationSupplyItem ? supplyItem : null;
+
+    final previousUsedDose = previousMedication == null
+        ? Decimal.zero
+        : intake.takenDose +
+            previousMedication.getDose(intake.wastedAmount ?? Decimal.zero);
+    final newUsedDose = newMedication == null
+        ? Decimal.zero
+        : takenDose + newMedication.getDose(wastedAmount ?? Decimal.zero);
+
+    await itemManager.switchDoses(
+      previousMedication,
+      newMedication,
+      previousUsedDose,
+      newUsedDose,
+    );
+
+    await _medicationIntakeProvider.updateIntake(intake.copyWith(
+      takenDateTime: takenDateTime,
+      takenTimeZone: takenTimeZone,
+      takenDose: takenDose,
+      wastedAmount: wastedAmount,
+      side: side,
+      supplyItemId: supplyItem?.id,
+      notes: notes,
+    ));
+  }
+
   InjectionSide getNextSide() {
     final lastIntake = _medicationIntakeProvider.getLastTakenInjectionIntake();
 
