@@ -53,5 +53,5 @@ String? requiredAdministrationRoute(
         AppLocalizations l10n, AdministrationRoute? value) =>
     value == null ? l10n.requiredField : null;
 
-String? requiredListOfTimes(AppLocalizations l10n, List<TimeOfDay> value) =>
+String? requiredListOf<T>(AppLocalizations l10n, List<T> value) =>
     value.isEmpty ? l10n.requiredField : null;

@@ -326,26 +326,23 @@ void main() {
       expect(results, expected);
     });
 
-    test('requiredListOfTimes works correctly', () {
+    test('requiredListOf works correctly', () {
       // Arrange
       final cases = [
-        {'value': <TimeOfDay>[], 'expected': isNotNull},
+        {'value': <int>[], 'expected': isNotNull},
         {
-          'value': const [TimeOfDay(hour: 8, minute: 0)],
+          'value': const [4],
           'expected': isNull,
         },
         {
-          'value': const [
-            TimeOfDay(hour: 8, minute: 0),
-            TimeOfDay(hour: 20, minute: 30),
-          ],
+          'value': const [6, 7],
           'expected': isNull,
         },
       ];
 
       // Act
       final results = cases
-          .map((c) => requiredListOfTimes(l10n, c['value'] as List<TimeOfDay>))
+          .map((c) => requiredListOf(l10n, c['value'] as List<int>))
           .toList();
       final expected = cases.map((c) => c['expected'] as Matcher).toList();
 
