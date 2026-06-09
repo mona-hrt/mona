@@ -369,10 +369,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get amount => 'Quantidade';
 
   @override
-  String get takenAmount => 'Taken amount';
+  String get takenAmount => 'Quantidade tomada';
 
   @override
-  String get wastedAmount => 'Wasted amount';
+  String get wastedAmount => 'Quantidade desperdiçada';
 
   @override
   String get none => 'Nenhum';
@@ -404,7 +404,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get microliters => 'μL';
 
   @override
-  String get milliliters => 'ml';
+  String get milliliters => 'mL';
 
   @override
   String get empty_levels => 'As injeções de estradiol aparecerão nesta aba';
@@ -1174,6 +1174,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get amount => 'Quantidade';
 
   @override
+  String get takenAmount => 'Quantidade tomada';
+
+  @override
+  String get wastedAmount => 'Quantidade desperdiçada';
+
+  @override
   String get none => 'Nenhum';
 
   @override
@@ -1201,6 +1207,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get microliters => 'μL';
+
+  @override
+  String get milliliters => 'mL';
 
   @override
   String get empty_levels => 'As injeções de estradiol aparecerão nesta aba';

@@ -407,7 +407,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get microliters => 'μL';
 
   @override
-  String get milliliters => 'ml';
+  String get milliliters => 'mL';
 
   @override
   String get empty_levels =>

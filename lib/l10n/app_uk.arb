@@ -116,6 +116,8 @@
   "editIntake": "Редагування прийому",
   "date": "Дата",
   "amount": "Кількість",
+  "takenAmount": "Прийнята кількість",
+  "wastedAmount": "Втрачена кількість",
   "none": "Відсутнє",
   "supplyItem": "Препарат",
   "injectionSide": "Сторона",
@@ -125,6 +127,7 @@
   "needleDeadSpace": "Мертва зона голки",
   "notes": "Примітки",
   "microliters": "μL",
+  "milliliters": "mL",
 
   "empty_levels": "Ін'єкції відображатимуться тут",
   "bloodTestsTitle": "Аналізи крові",

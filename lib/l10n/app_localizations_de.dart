@@ -367,10 +367,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get amount => 'Menge';
 
   @override
-  String get takenAmount => 'Taken amount';
+  String get takenAmount => 'Eingenommene Menge';
 
   @override
-  String get wastedAmount => 'Wasted amount';
+  String get wastedAmount => 'Verworfene Menge';
 
   @override
   String get none => 'Keine';
@@ -402,7 +402,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get microliters => 'μL';
 
   @override
-  String get milliliters => 'ml';
+  String get milliliters => 'mL';
 
   @override
   String get empty_levels =>

@@ -774,7 +774,7 @@ abstract class AppLocalizations {
   /// No description provided for @milliliters.
   ///
   /// In en, this message translates to:
-  /// **'ml'**
+  /// **'mL'**
   String get milliliters;
 
   /// No description provided for @empty_levels.

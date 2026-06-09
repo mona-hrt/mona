@@ -116,6 +116,8 @@
     "editIntake": "Editar toma",
     "date": "Fecha",
     "amount": "Cantidad",
+    "takenAmount": "Cantidad tomada",
+    "wastedAmount": "Cantidad desperdiciada",
     "none": "Ninguno",
     "supplyItem": "Elemento de suministro",
     "injectionSide": "Lado de inyección",
@@ -125,6 +127,7 @@
     "needleDeadSpace": "Espacio muerto de la aguja",
     "notes": "Notas",
     "microliters": "μL",
+    "milliliters": "mL",
 
     "empty_levels": "Las inyecciones de estradiol se mostrarán en esta pestaña",
     "bloodTestsTitle": "Análisis de sangre",
