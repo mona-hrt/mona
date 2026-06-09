@@ -113,6 +113,34 @@ When adding keys, prefer threading an optional key param through the shared
 widgets (`ModelForm`, `FormTextField`, `Dialogs`, `MainTabConfig`) so other
 features can reuse them; the params are optional and backward-compatible.
 
+## CI (Android emulator)
+
+[`ci-e2e.yml`](../.github/workflows/ci-e2e.yml) runs the suite on a
+KVM-accelerated emulator. Patrol's emulator path is inherently the least stable
+of its CI options, so a few things mitigate that:
+
+- **AVD snapshot caching.** The emulator loads a cached warm boot snapshot
+  instead of cold-booting every run.
+- **Per-file matrix.** Each `*_test.dart` runs as its own shard
+  (`PATROL_TARGET`), so a flaky file only retries itself and the shards run in
+  parallel. **When you add a test file, add a matching entry to the `matrix`.**
+- **Retries with device reset.** [`run_patrol_e2e.sh`](../scripts/run_patrol_e2e.sh)
+  retries a wedged/crashed attempt after resetting adb + Gradle.
+
+### Follow-up: Test Butler (only if flakiness persists)
+
+[Test Butler](https://github.com/linkedin/test-butler) stabilizes the emulator
+(suppresses system crash/ANR dialogs, keeps the device awake, locks system
+state) — which targets exactly the "wedged / instrumentation-process crash"
+failures the retry loop absorbs. Its main restriction, **no Google Play
+Services**, does *not* affect Mona (the app has no GMS/Firebase deps and CI
+already uses the `google_apis` image, not `google_apis_playstore`).
+
+It's deliberately **not** wired up yet: it adds a runtime dependency and needs
+its API-34 compatibility plus interaction with Patrol's mandatory
+`PatrolJUnitRunner` verified. Add it only if wedge/crash flakiness persists
+*after* the snapshot caching + matrix changes, so there's a clean before/after.
+
 ## iOS (follow-up - not yet wired)
 
 The chosen target is Android-in-CI, and iOS requires Xcode project changes that
