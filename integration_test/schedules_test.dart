@@ -1,10 +1,4 @@
 // Patrol E2E tests for the Medication Schedules feature.
-// See integration_test/README.md for setup, running, state, and CI notes.
-//
-// Finder strategy: the schedules UI defines no widget Keys, so we target
-// fields by their decoration label (`$(TextField).containing('Name')`) rather
-// than by index — pushed routes stay mounted underneath, so index-based
-// TextField finders would be ambiguous across the navigation stack.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
