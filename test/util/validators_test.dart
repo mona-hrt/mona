@@ -326,7 +326,7 @@ void main() {
       expect(results, expected);
     });
 
-    test('requiredListOf works correctly', () {
+    test('requiredList works correctly', () {
       // Arrange
       final cases = [
         {'value': <int>[], 'expected': isNotNull},
@@ -342,7 +342,7 @@ void main() {
 
       // Act
       final results = cases
-          .map((c) => requiredListOf(l10n, c['value'] as List<int>))
+          .map((c) => requiredList(l10n, c['value'] as List<int>))
           .toList();
       final expected = cases.map((c) => c['expected'] as Matcher).toList();
 

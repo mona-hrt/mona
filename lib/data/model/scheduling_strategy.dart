@@ -201,7 +201,7 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
 
   static String? validateIntakeTimes(
           AppLocalizations l10n, List<TimeOfDay> value) =>
-      requiredListOf(l10n, value);
+      requiredList(l10n, value);
 }
 
 @MappableClass(
@@ -310,5 +310,5 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   }
 
   static String? validateDaysOfWeek(AppLocalizations l10n, List<int> value) =>
-      requiredListOf(l10n, value);
+      requiredList(l10n, value);
 }
