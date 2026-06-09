@@ -76,18 +76,9 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_6
-          ram-size: 6144M
-          heap-size: 1024M
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: |
-            for attempt in 1 2 3; do
-              echo "::group::Patrol attempt $attempt"
-              dart run patrol_cli:main test --flavor standalone --verbose && exit 0
-              echo "::endgroup::"
-              echo "Patrol attempt $attempt failed (likely an instrumentation-process crash); retrying..."
-            done
-            exit 1
+          script: bash scripts/run_patrol_e2e.sh
 
       - name: Upload Patrol results
         if: always()
