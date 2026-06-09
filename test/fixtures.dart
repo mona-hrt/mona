@@ -33,10 +33,9 @@ MedicationSchedule aMedicationSchedule({
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
 }) {
-  final resolvedId = id ?? _generateId();
   return MedicationSchedule(
-    id: resolvedId,
-    name: name ?? 'Med-$resolvedId',
+    id: id ?? _generateId(),
+    name: name ?? 'nulcac2',
     dose: dose ?? Decimal.one,
     scheduling: scheduling ?? aSchedulingStrategy(),
     startDate: startDate ?? Date.today(),
