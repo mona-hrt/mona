@@ -10,9 +10,19 @@ on:
 
 jobs:
   e2e_android:
-    name: Patrol Android
+    name: Patrol Android (${{ matrix.shard }})
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      # One shard per test file: a flaky file only retries itself, the shards
+      # run in parallel, and failures are isolated per file in the checks UI.
+      fail-fast: false
+      matrix:
+        include:
+          - shard: intakes
+            test_file: integration_test/intakes_test.dart
+          - shard: schedules
+            test_file: integration_test/schedules_test.dart
 
     steps:
       - name: Checkout repository
@@ -92,13 +102,15 @@ jobs:
       # The app builds debug with applicationIdSuffix ".dev" (see
       # android/app/build.gradle), so the installed package under test is
       # com.deliacheminot.mona.dev — already set as patrol.android.package_name
-      # in pubspec.yaml. Omitting --target runs every *_test.dart under
-      # integration_test/ (the test_directory in pubspec.yaml).
+      # in pubspec.yaml. PATROL_TARGET selects this shard's single test file;
+      # run_patrol_e2e.sh passes it to `patrol test --target`.
       #
       # force-avd-creation: false reuses the cached AVD
       - name: Run Patrol tests on emulator
         timeout-minutes: 45
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+          PATROL_TARGET: ${{ matrix.test_file }}
         with:
           api-level: 34
           target: google_apis
@@ -113,7 +125,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: patrol-results
+          name: patrol-results-${{ matrix.shard }}
           path: |
             build/app/outputs/androidTest-results/
             build/app/reports/
