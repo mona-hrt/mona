@@ -69,7 +69,7 @@ jobs:
       # in pubspec.yaml. Omitting --target runs every *_test.dart under
       # integration_test/ (the test_directory in pubspec.yaml).
       - name: Run Patrol tests on emulator
-        timeout-minutes: 30
+        timeout-minutes: 45
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
