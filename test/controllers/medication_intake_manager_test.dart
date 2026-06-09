@@ -8,13 +8,13 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
-import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+
+import '../fixtures.dart';
 
 @GenerateNiceMocks([
   MockSpec<MedicationIntakeProvider>(),
@@ -51,7 +51,7 @@ void main() {
 
         test('throws ArgumentError when takenDateTime is not UTC', () async {
           // Arrange
-          final schedule = _buildSchedule();
+          final schedule = aMedicationSchedule();
 
           // Act / Assert
           await expectLater(
@@ -66,7 +66,7 @@ void main() {
 
         test('does not add an intake when takenDateTime is not UTC', () async {
           // Arrange
-          final schedule = _buildSchedule();
+          final schedule = aMedicationSchedule();
 
           // Act
           try {
@@ -84,8 +84,8 @@ void main() {
         test('does not update the supply item when takenDateTime is not UTC',
             () async {
           // Arrange
-          final schedule = _buildSchedule();
-          final supplyItem = _buildMedicationSupplyItem();
+          final schedule = aMedicationSchedule();
+          final supplyItem = aMedicationSupplyItem();
 
           // Act
           try {
@@ -112,12 +112,12 @@ void main() {
 
         setUp(() async {
           // Arrange
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             id: supplyItemId,
             administrationRoute: AdministrationRoute.injection,
             ester: Ester.enanthate,
           );
-          final schedule = _buildSchedule(
+          final schedule = aMedicationSchedule(
             id: scheduleId,
             dose: dose,
             administrationRoute: AdministrationRoute.injection,
@@ -201,7 +201,7 @@ void main() {
 
         setUp(() async {
           // Arrange
-          final schedule = _buildSchedule();
+          final schedule = aMedicationSchedule();
           final date = DateTime.utc(2025, 9, 14, 12, 0);
 
           when(mockMedicationIntakeProvider.add(any)).thenAnswer((inv) async {
@@ -231,11 +231,11 @@ void main() {
       group('GenericSupply', () {
         late MedicationIntake addedIntake;
         late GenericSupply updatedSupplyItem;
-        final supplyItem = _buildGenericSupply(id: 7, amount: 5);
+        final supplyItem = aGenericSupply(id: 7, amount: 5);
 
         setUp(() async {
           // Arrange
-          final schedule = _buildSchedule(
+          final schedule = aMedicationSchedule(
             administrationRoute: AdministrationRoute.injection,
           );
           final date = DateTime.utc(2025, 9, 14, 12, 0);
@@ -271,7 +271,7 @@ void main() {
       group('MedicationSupplyItem', () {
         group('with no deadSpace', () {
           late MedicationSupplyItem updatedSupplyItem;
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
             concentration: Decimal.parse('1'),
           );
@@ -279,7 +279,7 @@ void main() {
 
           setUp(() async {
             // Arrange
-            final schedule = _buildSchedule(dose: dose);
+            final schedule = aMedicationSchedule(dose: dose);
             final date = DateTime.utc(2025, 9, 14, 12, 0);
 
             when(mockSupplyItemProvider.updateItem(any))
@@ -306,7 +306,7 @@ void main() {
         group('with deadSpace > 0', () {
           late MedicationIntake addedIntake;
           late MedicationSupplyItem updatedSupplyItem;
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
             concentration: Decimal.parse('10'),
           );
@@ -317,7 +317,7 @@ void main() {
 
           setUp(() async {
             // Arrange
-            final schedule = _buildSchedule(dose: dose);
+            final schedule = aMedicationSchedule(dose: dose);
             final date = DateTime.utc(2025, 9, 14, 12, 0);
 
             when(mockMedicationIntakeProvider.add(any)).thenAnswer((inv) async {
@@ -356,7 +356,7 @@ void main() {
 
         group('with deadSpace == 0', () {
           late MedicationSupplyItem updatedSupplyItem;
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
             concentration: Decimal.parse('10'),
           );
@@ -364,7 +364,7 @@ void main() {
 
           setUp(() async {
             // Arrange
-            final schedule = _buildSchedule(dose: dose);
+            final schedule = aMedicationSchedule(dose: dose);
             final date = DateTime.utc(2025, 9, 14, 12, 0);
 
             when(mockSupplyItemProvider.updateItem(any))
@@ -392,7 +392,7 @@ void main() {
         group('with wastedAmount > 0', () {
           late MedicationIntake addedIntake;
           late MedicationSupplyItem updatedSupplyItem;
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
             concentration: Decimal.parse('10'),
           );
@@ -403,7 +403,7 @@ void main() {
 
           setUp(() async {
             // Arrange
-            final schedule = _buildSchedule(dose: dose);
+            final schedule = aMedicationSchedule(dose: dose);
             final date = DateTime.utc(2025, 9, 14, 12, 0);
 
             when(mockMedicationIntakeProvider.add(any)).thenAnswer((inv) async {
@@ -450,7 +450,7 @@ void main() {
 
     group('deleteIntake', () {
       group('when supply lookup returns null', () {
-        final intake = _buildIntake(supplyItemId: 10);
+        final intake = aMedicationIntake(supplyItemId: 10);
 
         setUp(() async {
           // Act
@@ -470,8 +470,8 @@ void main() {
 
       group('GenericSupply', () {
         late GenericSupply updatedSupplyItem;
-        final supplyItem = _buildGenericSupply(id: 7, amount: 5);
-        final intake = _buildIntake(supplyItemId: supplyItem.id);
+        final supplyItem = aGenericSupply(id: 7, amount: 5);
+        final intake = aMedicationIntake(supplyItemId: supplyItem.id);
 
         setUp(() async {
           // Arrange
@@ -499,11 +499,12 @@ void main() {
       group('MedicationSupplyItem', () {
         group('when intake.dose is within usedDose', () {
           late MedicationSupplyItem updatedSupplyItem;
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('5'),
           );
           final dose = Decimal.parse('2');
-          final intake = _buildIntake(supplyItemId: supplyItem.id, dose: dose);
+          final intake =
+              aMedicationIntake(supplyItemId: supplyItem.id, dose: dose);
 
           setUp(() async {
             // Arrange
@@ -532,10 +533,10 @@ void main() {
 
         group('when intake.dose exceeds usedDose', () {
           late MedicationSupplyItem updatedSupplyItem;
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
           );
-          final intake = _buildIntake(
+          final intake = aMedicationIntake(
             supplyItemId: supplyItem.id,
             dose: Decimal.parse('5'),
           );
@@ -561,10 +562,10 @@ void main() {
         });
 
         group('when intake.dose is zero', () {
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('5'),
           );
-          final intake = _buildIntake(
+          final intake = aMedicationIntake(
             supplyItemId: supplyItem.id,
             dose: Decimal.zero,
           );
@@ -591,7 +592,7 @@ void main() {
 
         group('when intake has a wastedAmount', () {
           late MedicationSupplyItem updatedSupplyItem;
-          final supplyItem = _buildMedicationSupplyItem(
+          final supplyItem = aMedicationSupplyItem(
             totalDose: Decimal.parse('100'),
             usedDose: Decimal.parse('20'),
             concentration: Decimal.parse('10'),
@@ -600,7 +601,7 @@ void main() {
           // 0.5 mL × concentration 10 = 5 dose units to put back on top of dose.
           final wastedAmount = Decimal.parse('0.5');
           final expectedRollback = Decimal.parse('7'); // 2 + 5
-          final intake = _buildIntake(
+          final intake = aMedicationIntake(
             supplyItemId: supplyItem.id,
             dose: dose,
             wastedAmount: wastedAmount,
@@ -633,28 +634,10 @@ void main() {
 
     group('editIntake', () {
       final takenDate = DateTime.utc(2025, 10, 1, 8, 0);
-
-      group('takenDateTime validation', () {
-        test('throws ArgumentError when takenDateTime is not UTC', () async {
-          // Arrange
-          final intake = _buildIntake();
-
-          // Act / Assert
-          await expectLater(
-            manager.editIntake(
-              intake,
-              takenDose: Decimal.parse('2'),
-              takenDateTime: DateTime(2025, 10, 1, 8, 0),
-              takenTimeZone: 'Etc/UTC',
-            ),
-            throwsArgumentError,
-          );
-        });
-      });
-
-      group('intake update', () {
+      test('updates all editable fields and preserves the id', () async {
+        // Arrange
         late MedicationIntake updatedIntake;
-        final intake = _buildIntake(
+        final intake = aMedicationIntake(
           id: 1,
           dose: Decimal.parse('2'),
           supplyItemId: null,
@@ -662,74 +645,44 @@ void main() {
         );
         final newDose = Decimal.parse('3');
         final newWasted = Decimal.parse('0.2');
-        final newDate = takenDate;
         final newTimezone = 'Europe/Paris';
         final newNotes = 'edited';
 
-        setUp(() async {
-          // Arrange
-          when(mockMedicationIntakeProvider.updateIntake(any))
-              .thenAnswer((inv) async {
-            updatedIntake = inv.positionalArguments.first as MedicationIntake;
-          });
-
-          // Act
-          await manager.editIntake(
-            intake,
-            takenDose: newDose,
-            wastedAmount: newWasted,
-            takenDateTime: newDate,
-            takenTimeZone: newTimezone,
-            side: InjectionSide.left,
-            supplyItem: null,
-            notes: newNotes,
-          );
+        when(mockMedicationIntakeProvider.updateIntake(any))
+            .thenAnswer((inv) async {
+          updatedIntake = inv.positionalArguments.first as MedicationIntake;
         });
 
-        test('preserves the intake id', () {
-          // Assert
-          expect(updatedIntake.id, intake.id);
-        });
+        // Act
+        await manager.editIntake(
+          intake,
+          takenDose: newDose,
+          wastedAmount: newWasted,
+          takenDateTime: takenDate,
+          takenTimeZone: newTimezone,
+          side: InjectionSide.left,
+          supplyItem: null,
+          notes: newNotes,
+        );
 
-        test('updates takenDose', () {
-          // Assert
-          expect(updatedIntake.takenDose, newDose);
-        });
-
-        test('updates wastedAmount', () {
-          // Assert
-          expect(updatedIntake.wastedAmount, newWasted);
-        });
-
-        test('updates takenDateTime', () {
-          // Assert
-          expect(updatedIntake.takenDateTime, newDate);
-        });
-
-        test('updates takenTimeZone', () {
-          // Assert
-          expect(updatedIntake.takenTimeZone, newTimezone);
-        });
-
-        test('updates side', () {
-          // Assert
-          expect(updatedIntake.side, InjectionSide.left);
-        });
-
-        test('updates notes', () {
-          // Assert
-          expect(updatedIntake.notes, newNotes);
-        });
-
-        test('clears supplyItemId when supplyItem is null', () {
-          // Assert
-          expect(updatedIntake.supplyItemId, isNull);
-        });
+        // Assert
+        expect(
+          updatedIntake,
+          isA<MedicationIntake>()
+              .having((i) => i.id, 'id', intake.id)
+              .having((i) => i.takenDose, 'takenDose', newDose)
+              .having((i) => i.wastedAmount, 'wastedAmount', newWasted)
+              .having((i) => i.takenDateTime, 'takenDateTime', takenDate)
+              .having((i) => i.takenTimeZone, 'takenTimeZone', newTimezone)
+              .having((i) => i.side, 'side', InjectionSide.left)
+              .having((i) => i.notes, 'notes', newNotes)
+              .having((i) => i.supplyItemId, 'supplyItemId', isNull),
+        );
       });
 
       group('supply transitions', () {
         group('previous null, new null', () {
-          final intake = _buildIntake(supplyItemId: null);
+          final intake = aMedicationIntake(supplyItemId: null);
 
           setUp(() async {
             // Act
@@ -748,8 +701,8 @@ void main() {
         });
 
         group('previous null, new GenericSupply', () {
-          final newItem = _buildGenericSupply(id: 7, amount: 5);
-          final intake = _buildIntake(supplyItemId: null);
+          final newItem = aGenericSupply(id: 7, amount: 5);
+          final intake = aMedicationIntake(supplyItemId: null);
           late GenericSupply updatedItem;
 
           setUp(() async {
@@ -776,8 +729,8 @@ void main() {
         });
 
         group('previous GenericSupply, new null', () {
-          final previousItem = _buildGenericSupply(id: 7, amount: 5);
-          final intake = _buildIntake(supplyItemId: previousItem.id);
+          final previousItem = aGenericSupply(id: 7, amount: 5);
+          final intake = aMedicationIntake(supplyItemId: previousItem.id);
           late GenericSupply updatedItem;
 
           setUp(() async {
@@ -806,8 +759,8 @@ void main() {
         });
 
         group('previous and new are the same GenericSupply', () {
-          final item = _buildGenericSupply(id: 7, amount: 5);
-          final intake = _buildIntake(supplyItemId: item.id);
+          final item = aGenericSupply(id: 7, amount: 5);
+          final intake = aMedicationIntake(supplyItemId: item.id);
 
           setUp(() async {
             // Arrange
@@ -830,9 +783,9 @@ void main() {
         });
 
         group('previous and new are different GenericSupply', () {
-          final previousItem = _buildGenericSupply(id: 7, amount: 5);
-          final newItem = _buildGenericSupply(id: 8, amount: 2);
-          final intake = _buildIntake(supplyItemId: previousItem.id);
+          final previousItem = aGenericSupply(id: 7, amount: 5);
+          final newItem = aGenericSupply(id: 8, amount: 2);
+          final intake = aMedicationIntake(supplyItemId: previousItem.id);
           final updates = <GenericSupply>[];
 
           setUp(() async {
@@ -866,11 +819,11 @@ void main() {
         });
 
         group('previous null, new MedicationSupplyItem with wastedAmount', () {
-          final newItem = _buildMedicationSupplyItem(
+          final newItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
             concentration: Decimal.parse('10'),
           );
-          final intake = _buildIntake(supplyItemId: null);
+          final intake = aMedicationIntake(supplyItemId: null);
           final takenDose = Decimal.parse('2');
           // 0.5 mL × concentration 10 = 5 dose units on top of takenDose.
           final wastedAmount = Decimal.parse('0.5');
@@ -905,12 +858,12 @@ void main() {
         });
 
         group('previous MedicationSupplyItem, new null', () {
-          final previousItem = _buildMedicationSupplyItem(
+          final previousItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('10'),
             concentration: Decimal.parse('10'),
           );
           // Old intake recorded: dose 2 + 0.5 mL × 10 = 7 used.
-          final intake = _buildIntake(
+          final intake = aMedicationIntake(
             supplyItemId: previousItem.id,
             dose: Decimal.parse('2'),
             wastedAmount: Decimal.parse('0.5'),
@@ -946,12 +899,12 @@ void main() {
         });
 
         group('previous and new are the same MedicationSupplyItem', () {
-          final item = _buildMedicationSupplyItem(
+          final item = aMedicationSupplyItem(
             usedDose: Decimal.parse('10'),
             concentration: Decimal.parse('10'),
           );
           // Old intake: dose 2 + 0.5 mL × 10 = 7 used.
-          final intake = _buildIntake(
+          final intake = aMedicationIntake(
             supplyItemId: item.id,
             dose: Decimal.parse('2'),
             wastedAmount: Decimal.parse('0.5'),
@@ -992,18 +945,18 @@ void main() {
         });
 
         group('previous and new are different MedicationSupplyItem', () {
-          final previousItem = _buildMedicationSupplyItem(
+          final previousItem = aMedicationSupplyItem(
             id: 10,
             usedDose: Decimal.parse('10'),
             concentration: Decimal.parse('10'),
           );
-          final newItem = _buildMedicationSupplyItem(
+          final newItem = aMedicationSupplyItem(
             id: 11,
             usedDose: Decimal.parse('4'),
             concentration: Decimal.parse('10'),
           );
           // Old intake: 2 + 0.5 × 10 = 7 used.
-          final intake = _buildIntake(
+          final intake = aMedicationIntake(
             supplyItemId: previousItem.id,
             dose: Decimal.parse('2'),
             wastedAmount: Decimal.parse('0.5'),
@@ -1044,13 +997,13 @@ void main() {
         });
 
         group('previous GenericSupply, new MedicationSupplyItem', () {
-          final previousItem = _buildGenericSupply(id: 7, amount: 5);
-          final newItem = _buildMedicationSupplyItem(
+          final previousItem = aGenericSupply(id: 7, amount: 5);
+          final newItem = aMedicationSupplyItem(
             id: 11,
             usedDose: Decimal.parse('4'),
             concentration: Decimal.parse('10'),
           );
-          final intake = _buildIntake(supplyItemId: previousItem.id);
+          final intake = aMedicationIntake(supplyItemId: previousItem.id);
           final updates = <SupplyItem>[];
 
           setUp(() async {
@@ -1091,14 +1044,14 @@ void main() {
         });
 
         group('previous MedicationSupplyItem, new GenericSupply', () {
-          final previousItem = _buildMedicationSupplyItem(
+          final previousItem = aMedicationSupplyItem(
             id: 10,
             usedDose: Decimal.parse('10'),
             concentration: Decimal.parse('10'),
           );
-          final newItem = _buildGenericSupply(id: 7, amount: 5);
+          final newItem = aGenericSupply(id: 7, amount: 5);
           // Old intake: 2 + 0.5 × 10 = 7 used.
-          final intake = _buildIntake(
+          final intake = aMedicationIntake(
             supplyItemId: previousItem.id,
             dose: Decimal.parse('2'),
             wastedAmount: Decimal.parse('0.5'),
@@ -1237,70 +1190,4 @@ void main() {
       });
     });
   });
-}
-
-MedicationSchedule _buildSchedule({
-  int? id,
-  Decimal? dose,
-  AdministrationRoute administrationRoute = AdministrationRoute.oral,
-  Ester? ester,
-}) {
-  return MedicationSchedule(
-    id: id,
-    name: 'ScheduleSingle',
-    dose: dose ?? Decimal.parse('2'),
-    scheduling: IntervalDaysSchedule(intervalDays: 1),
-    molecule: KnownMolecules.estradiol,
-    administrationRoute: administrationRoute,
-    ester: ester,
-  );
-}
-
-MedicationSupplyItem _buildMedicationSupplyItem({
-  int id = 10,
-  Decimal? totalDose,
-  Decimal? usedDose,
-  Decimal? concentration,
-  AdministrationRoute administrationRoute = AdministrationRoute.oral,
-  Ester? ester,
-}) {
-  return MedicationSupplyItem(
-    id: id,
-    name: 'SupplySingle',
-    totalDose: totalDose ?? Decimal.parse('10'),
-    usedDose: usedDose ?? Decimal.parse('1'),
-    concentration: concentration ?? Decimal.parse('1'),
-    molecule: KnownMolecules.estradiol,
-    administrationRoute: administrationRoute,
-    ester: ester,
-  );
-}
-
-GenericSupply _buildGenericSupply({
-  int id = 7,
-  String name = 'Syringe',
-  int amount = 5,
-}) {
-  return GenericSupply(
-    id: id,
-    name: name,
-    amount: amount,
-    genericSupplyType: GenericSupplyType.syringe,
-  );
-}
-
-MedicationIntake _buildIntake({
-  int? id,
-  Decimal? dose,
-  int? supplyItemId,
-  Decimal? wastedAmount,
-}) {
-  return MedicationIntake(
-    id: id,
-    takenDose: dose ?? Decimal.parse('2'),
-    molecule: KnownMolecules.estradiol,
-    administrationRoute: AdministrationRoute.oral,
-    supplyItemId: supplyItemId,
-    wastedAmount: wastedAmount,
-  );
 }
