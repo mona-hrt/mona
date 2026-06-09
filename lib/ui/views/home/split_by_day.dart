@@ -2,12 +2,12 @@ import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 
 ({
-  List<ScheduledOccurrence> today,
-  List<ScheduledOccurrence> upcoming,
-}) splitByDay(List<ScheduledOccurrence> occurrences) {
-  final overdueToday = <ScheduledOccurrence>[];
-  final otherToday = <ScheduledOccurrence>[];
-  final upcoming = <ScheduledOccurrence>[];
+  List<IntakeSlot> today,
+  List<IntakeSlot> upcoming,
+}) splitByDay(List<IntakeSlot> occurrences) {
+  final overdueToday = <IntakeSlot>[];
+  final otherToday = <IntakeSlot>[];
+  final upcoming = <IntakeSlot>[];
 
   for (final occurrence in occurrences) {
     if (occurrence.status == ScheduleStatus.upcoming) {
@@ -25,7 +25,7 @@ import 'package:mona/data/model/scheduling_strategy.dart';
   return (today: [...overdueToday, ...otherToday], upcoming: upcoming);
 }
 
-int _byTimeNullsFirst(ScheduledOccurrence a, ScheduledOccurrence b) {
+int _byTimeNullsFirst(IntakeSlot a, IntakeSlot b) {
   final at = a.time;
   final bt = b.time;
   if (at == null && bt == null) return 0;

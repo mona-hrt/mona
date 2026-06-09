@@ -36,6 +36,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       page: IntakesPage(),
       icon: Icons.event_outlined,
       selectedIcon: Icons.event_rounded,
+      navKey: const ValueKey('navTabIntakes'),
       buildFab: (context) => FloatingActionButton(
         tooltip: context.l10n.takeAnIntake,
         onPressed: () {
@@ -66,7 +67,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
     ),
     MainTabConfig(
       title: localizations.nav_supplies,
-      page: PharmacyPage(),
+      page: const PharmacyPage(),
       icon: Icons.medication_outlined,
       selectedIcon: Icons.medication,
       buildFab: (context) => FloatingActionButton(

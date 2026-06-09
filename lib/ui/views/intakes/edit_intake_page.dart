@@ -201,6 +201,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
           title: localizations.editIntake,
           avatar: widget.intake.administrationRoute.icon,
           submitButtonLabel: localizations.save,
+          submitButtonKey: const ValueKey('editIntakeSave'),
+          deleteButtonKey: const ValueKey('editIntakeDelete'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid)
               ? () => _editIntake(medicationIntakeProvider, supplyItemProvider,
@@ -254,6 +256,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
             FormTextField(
               controller: _notesController,
               label: localizations.notes,
+              fieldKey: const ValueKey('editIntakeNotes'),
               onChanged: _refresh,
               inputType: TextInputType.multiline,
               multiline: true,

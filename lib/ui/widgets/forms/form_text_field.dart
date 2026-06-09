@@ -12,6 +12,10 @@ class FormTextField extends StatelessWidget {
   final String? errorText;
   final String? regexFormatter;
 
+  /// Key applied to the inner [TextField] (not the outer widget), so e2e tests
+  /// can target the input without depending on its (localized) label.
+  final Key? fieldKey;
+
   const FormTextField({
     super.key,
     required this.controller,
@@ -23,6 +27,7 @@ class FormTextField extends StatelessWidget {
     this.regexFormatter,
     this.readonly = false,
     this.multiline = false,
+    this.fieldKey,
   });
 
   @override
@@ -30,6 +35,7 @@ class FormTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
+        key: fieldKey,
         controller: controller,
         keyboardType: multiline ? TextInputType.multiline : inputType,
         inputFormatters: regexFormatter != null

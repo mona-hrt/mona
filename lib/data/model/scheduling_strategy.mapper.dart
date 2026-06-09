@@ -15,9 +15,9 @@ class SchedulingStrategyMapper extends ClassMapperBase<SchedulingStrategy> {
   static SchedulingStrategyMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SchedulingStrategyMapper._());
-      MapperContainer.globals.useAll([TimeOfDayMapper()]);
       IntervalDaysScheduleMapper.ensureInitialized();
       DailyScheduleMapper.ensureInitialized();
+      WeeklyScheduleMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -376,4 +376,170 @@ class _DailyScheduleCopyWithImpl<$R, $Out>
     Then<$Out2, $R2> t,
   ) =>
       _DailyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class WeeklyScheduleMapper extends SubClassMapperBase<WeeklySchedule> {
+  WeeklyScheduleMapper._();
+
+  static WeeklyScheduleMapper? _instance;
+  static WeeklyScheduleMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = WeeklyScheduleMapper._());
+      SchedulingStrategyMapper.ensureInitialized().addSubMapper(_instance!);
+      MapperContainer.globals.useAll([TimeOfDayMapper()]);
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'WeeklySchedule';
+
+  static List<int> _$daysOfWeek(WeeklySchedule v) => v.daysOfWeek;
+  static const Field<WeeklySchedule, List<int>> _f$daysOfWeek = Field(
+    'daysOfWeek',
+    _$daysOfWeek,
+  );
+  static List<TimeOfDay> _$notificationTimes(WeeklySchedule v) =>
+      v.notificationTimes;
+  static const Field<WeeklySchedule, List<TimeOfDay>> _f$notificationTimes =
+      Field('notificationTimes', _$notificationTimes, opt: true, def: const []);
+
+  @override
+  final MappableFields<WeeklySchedule> fields = const {
+    #daysOfWeek: _f$daysOfWeek,
+    #notificationTimes: _f$notificationTimes,
+  };
+
+  @override
+  final String discriminatorKey = 'type';
+  @override
+  final dynamic discriminatorValue = 'weekly';
+  @override
+  late final ClassMapperBase superMapper =
+      SchedulingStrategyMapper.ensureInitialized();
+
+  static WeeklySchedule _instantiate(DecodingData data) {
+    return WeeklySchedule(
+      daysOfWeek: data.dec(_f$daysOfWeek),
+      notificationTimes: data.dec(_f$notificationTimes),
+    );
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static WeeklySchedule fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<WeeklySchedule>(map);
+  }
+
+  static WeeklySchedule fromJson(String json) {
+    return ensureInitialized().decodeJson<WeeklySchedule>(json);
+  }
+}
+
+mixin WeeklyScheduleMappable {
+  String toJson() {
+    return WeeklyScheduleMapper.ensureInitialized().encodeJson<WeeklySchedule>(
+      this as WeeklySchedule,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return WeeklyScheduleMapper.ensureInitialized().encodeMap<WeeklySchedule>(
+      this as WeeklySchedule,
+    );
+  }
+
+  WeeklyScheduleCopyWith<WeeklySchedule, WeeklySchedule, WeeklySchedule>
+      get copyWith =>
+          _WeeklyScheduleCopyWithImpl<WeeklySchedule, WeeklySchedule>(
+            this as WeeklySchedule,
+            $identity,
+            $identity,
+          );
+  @override
+  String toString() {
+    return WeeklyScheduleMapper.ensureInitialized().stringifyValue(
+      this as WeeklySchedule,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return WeeklyScheduleMapper.ensureInitialized().equalsValue(
+      this as WeeklySchedule,
+      other,
+    );
+  }
+
+  @override
+  int get hashCode {
+    return WeeklyScheduleMapper.ensureInitialized().hashValue(
+      this as WeeklySchedule,
+    );
+  }
+}
+
+extension WeeklyScheduleValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, WeeklySchedule, $Out> {
+  WeeklyScheduleCopyWith<$R, WeeklySchedule, $Out> get $asWeeklySchedule =>
+      $base.as((v, t, t2) => _WeeklyScheduleCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class WeeklyScheduleCopyWith<$R, $In extends WeeklySchedule, $Out>
+    implements SchedulingStrategyCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, int, ObjectCopyWith<$R, int, int>> get daysOfWeek;
+  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
+      get notificationTimes;
+  @override
+  $R call({List<int>? daysOfWeek, List<TimeOfDay>? notificationTimes});
+  WeeklyScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  );
+}
+
+class _WeeklyScheduleCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, WeeklySchedule, $Out>
+    implements WeeklyScheduleCopyWith<$R, WeeklySchedule, $Out> {
+  _WeeklyScheduleCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<WeeklySchedule> $mapper =
+      WeeklyScheduleMapper.ensureInitialized();
+  @override
+  ListCopyWith<$R, int, ObjectCopyWith<$R, int, int>> get daysOfWeek =>
+      ListCopyWith(
+        $value.daysOfWeek,
+        (v, t) => ObjectCopyWith(v, $identity, t),
+        (v) => call(daysOfWeek: v),
+      );
+  @override
+  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
+      get notificationTimes => ListCopyWith(
+            $value.notificationTimes,
+            (v, t) => ObjectCopyWith(v, $identity, t),
+            (v) => call(notificationTimes: v),
+          );
+  @override
+  $R call({List<int>? daysOfWeek, List<TimeOfDay>? notificationTimes}) =>
+      $apply(
+        FieldCopyWithData({
+          if (daysOfWeek != null) #daysOfWeek: daysOfWeek,
+          if (notificationTimes != null) #notificationTimes: notificationTimes,
+        }),
+      );
+  @override
+  WeeklySchedule $make(CopyWithData data) => WeeklySchedule(
+        daysOfWeek: data.get(#daysOfWeek, or: $value.daysOfWeek),
+        notificationTimes: data.get(
+          #notificationTimes,
+          or: $value.notificationTimes,
+        ),
+      );
+
+  @override
+  WeeklyScheduleCopyWith<$R2, WeeklySchedule, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) =>
+      _WeeklyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

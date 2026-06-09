@@ -83,7 +83,9 @@
     "updateDownloadFailed": "Download fehlgeschlagen. Bitte prüfe deine Verbindung.",
 
     "notificationMedicationReminderTitle": "Zeit, {scheduleName} einzunehmen",
-    "notificationMedicationReminderBody": "Geplant für {dateTime}",
+    "notificationMedicationReminderBodyDate": "Geplant für den {date}",
+    "notificationMedicationReminderBodyTime": "Geplant für {time}",
+    "notificationMedicationReminderBodyWeekday": "Geplant für {weekday}",
 
     "addSchedule": "Zeitplan hinzufügen",
     "addScheduleToGetStarted": "Füge einen Zeitplan hinzu, um zu beginnen.",
@@ -163,6 +165,7 @@
     "progesterone": "Progesteron",
     "testosterone": "Testosteron",
     "nandrolone": "Nandrolon",
+    "dihydrotestosterone": "Dihydrotestosteron",
     "spironolactone": "Spironolacton",
     "cyproteroneAcetate": "Cyproteronacetat",
     "leuprorelinAcetate": "Leuprorelinacetat",

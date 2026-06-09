@@ -84,6 +84,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Intervalo';
 
   @override
+  String get scheduleFrequencyWeekly => 'Weekly';
+
+  @override
   String get newUpdateAvailable => 'Uma nova atualização está disponível!';
 
   @override
@@ -263,8 +266,18 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Agendado para $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Agendado para $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Agendado para $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Agendado para $weekday';
   }
 
   @override
@@ -458,6 +471,79 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get allItemsFilter => 'All';
+
+  @override
+  String get medicationItemsFilter => 'Medication';
+
+  @override
+  String get genericItemsFilter => 'Consumables';
+
+  @override
+  String get medicationItemType => 'Medication';
+
+  @override
+  String get genericItemType => 'Consumable';
+
+  @override
+  String get supplyType => 'Type';
+
+  @override
+  String syringe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Syringes',
+      one: 'Syringe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wipes',
+      one: 'Wipe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Needles',
+      one: 'Needle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gloves(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Gloves',
+      one: 'Gloves',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandage(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bandages',
+      one: 'Bandage',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get add => 'Adicionar';
 
   @override
@@ -498,6 +584,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get nandrolone => 'Nandrolona';
+
+  @override
+  String get dihydrotestosterone => 'Di-hidrotestosterona';
 
   @override
   String get spironolactone => 'Espironolactona';
@@ -976,8 +1065,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Agendado para $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Agendado para $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Agendado para $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Agendado para $weekday';
   }
 
   @override
@@ -1211,6 +1310,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get nandrolone => 'Nandrolona';
+
+  @override
+  String get dihydrotestosterone => 'Di-hidrotestosterona';
 
   @override
   String get spironolactone => 'Espironolactona';

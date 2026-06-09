@@ -1,9 +1,12 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart';
+
+import '../../util/test_clock.dart';
 
 void main() {
   setUpAll(() async {
@@ -165,37 +168,40 @@ void main() {
     });
 
     group('today', () {
-      test('Date.today() is today (or yesterday if it is before 4am)', () {
-        // Arrange
-        final now = DateTime.now().toUtc();
-        final logicalDay =
-            now.hour < 4 ? now.subtract(const Duration(days: 1)) : now;
-        final todayWithConstructor = Date(
-            DateTime.utc(logicalDay.year, logicalDay.month, logicalDay.day));
+      test('Date.today() is the current logical day after 4am', () {
+        withFixedClock(() {
+          // Act & Assert
+          expect(Date.today(), Date(DateTime.utc(2026, 6, 1)));
+        }, at: DateTime(2026, 6, 1, 12, 0));
+      });
 
-        // Act
-        final today = Date.today();
-
-        // Assert
-        expect(today, todayWithConstructor);
+      test('Date.today() rolls back to the previous day before 4am', () {
+        withFixedClock(() {
+          // Act & Assert
+          expect(Date.today(), Date(DateTime.utc(2026, 5, 31)));
+        }, at: DateTime(2026, 6, 1, 3, 0));
       });
 
       test('isToday is true for today', () {
-        // Arrange
-        final today = Date.today();
+        withFixedClock(() {
+          // Arrange
+          final today = Date.today();
 
-        // Act & Assert
-        expect(today.isToday, isTrue);
+          // Act & Assert
+          expect(today.isToday, isTrue);
+        });
       });
 
       test('isToday is false for dates other than today', () {
-        // Arrange
-        final yesterday = Date.fromDateTime(
-          DateTime.now().subtract(const Duration(days: 1)),
-        );
+        withFixedClock(() {
+          // Arrange
+          final yesterday = Date.fromDateTime(
+            clock.now().subtract(const Duration(days: 1)),
+          );
 
-        // Act & Assert
-        expect(yesterday.isToday, isFalse);
+          // Act & Assert
+          expect(yesterday.isToday, isFalse);
+        });
       });
     });
 
@@ -237,23 +243,27 @@ void main() {
 
     group('daysAwayFromToday', () {
       test('today is 0 days away', () {
-        // Arrange
-        final today = Date.today();
+        withFixedClock(() {
+          // Arrange
+          final today = Date.today();
 
-        // Act & Assert
-        expect(today.daysAwayFromToday, 0);
+          // Act & Assert
+          expect(today.daysAwayFromToday, 0);
+        });
       });
 
       test('yesterday and tomorrow are both 1 day away', () {
-        // Arrange
-        final now = DateTime.now();
-        final yesterday =
-            Date.fromDateTime(now.subtract(const Duration(days: 1)));
-        final tomorrow = Date.fromDateTime(now.add(const Duration(days: 1)));
+        withFixedClock(() {
+          // Arrange
+          final now = clock.now();
+          final yesterday =
+              Date.fromDateTime(now.subtract(const Duration(days: 1)));
+          final tomorrow = Date.fromDateTime(now.add(const Duration(days: 1)));
 
-        // Act & Assert
-        expect(yesterday.daysAwayFromToday, 1);
-        expect(tomorrow.daysAwayFromToday, 1);
+          // Act & Assert
+          expect(yesterday.daysAwayFromToday, 1);
+          expect(tomorrow.daysAwayFromToday, 1);
+        });
       });
     });
 
@@ -406,7 +416,7 @@ void main() {
     });
 
     group('export', () {
-      test('toDateTime returns a DateTime at midnight of the same day', () {
+      test('toDateTime returns a DateTime at noon of the same day', () {
         // Arrange
         final date = Date(DateTime.utc(2024, 6, 15));
 
@@ -414,7 +424,7 @@ void main() {
         final dateTime = date.toDateTime();
 
         // Assert
-        expect(dateTime, DateTime(2024, 6, 15));
+        expect(dateTime, DateTime(2024, 6, 15, 12));
       });
 
       test('toUtcDateTime returns the original UTC DateTime value', () {

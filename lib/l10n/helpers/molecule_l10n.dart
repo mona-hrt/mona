@@ -73,6 +73,8 @@ abstract final class _KnownMoleculeDisplayNames {
     KnownMolecules.progesterone.normalizedName: (l) => l.progesterone,
     KnownMolecules.testosterone.normalizedName: (l) => l.testosterone,
     KnownMolecules.nandrolone.normalizedName: (l) => l.nandrolone,
+    KnownMolecules.dihydrotestosterone.normalizedName: (l) =>
+        l.dihydrotestosterone,
     KnownMolecules.spironolactone.normalizedName: (l) => l.spironolactone,
     KnownMolecules.cyproteroneAcetate.normalizedName: (l) =>
         l.cyproteroneAcetate,

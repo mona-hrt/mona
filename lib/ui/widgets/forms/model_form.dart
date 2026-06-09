@@ -14,6 +14,11 @@ class ModelForm extends StatelessWidget {
   final VoidCallback saveChanges;
   final String submitButtonLabel;
 
+  /// Keys for the submit/delete buttons, so e2e tests can target them without
+  /// depending on the (localized) button labels.
+  final Key? submitButtonKey;
+  final Key? deleteButtonKey;
+
   const ModelForm({
     required this.title,
     this.avatar,
@@ -23,6 +28,8 @@ class ModelForm extends StatelessWidget {
     required this.isFormValid,
     required this.saveChanges,
     required this.submitButtonLabel,
+    this.submitButtonKey,
+    this.deleteButtonKey,
   });
 
   @override
@@ -68,13 +75,14 @@ class ModelForm extends StatelessWidget {
             top: borderPadding,
             left: borderPadding,
             right: borderPadding,
-            bottom: borderPadding,
+            bottom: borderPadding + MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Row(
             children: [
               if (onDelete != null) ...[
                 Expanded(
                   child: M3EButton.icon(
+                    key: deleteButtonKey,
                     onPressed: onDelete,
                     icon: const Icon(Icons.delete),
                     label: Text(context.l10n.delete),
@@ -93,6 +101,7 @@ class ModelForm extends StatelessWidget {
               Expanded(
                 child: onDelete != null
                     ? M3EButton.icon(
+                        key: submitButtonKey,
                         onPressed: isFormValid ? saveChanges : null,
                         icon: const Icon(Icons.save),
                         label: Text(submitButtonLabel),
@@ -100,6 +109,7 @@ class ModelForm extends StatelessWidget {
                         size: M3EButtonSize.md,
                       )
                     : M3EButton(
+                        key: submitButtonKey,
                         onPressed: isFormValid ? saveChanges : null,
                         style: M3EButtonStyle.filled,
                         size: M3EButtonSize.md,

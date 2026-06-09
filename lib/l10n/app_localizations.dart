@@ -225,6 +225,12 @@ abstract class AppLocalizations {
   /// **'Interval'**
   String get scheduleFrequencyInterval;
 
+  /// No description provided for @scheduleFrequencyWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get scheduleFrequencyWeekly;
+
   /// No description provided for @newUpdateAvailable.
   ///
   /// In en, this message translates to:
@@ -519,11 +525,23 @@ abstract class AppLocalizations {
   /// **'Time to take {scheduleName}'**
   String notificationMedicationReminderTitle(Object scheduleName);
 
-  /// No description provided for @notificationMedicationReminderBody.
+  /// No description provided for @notificationMedicationReminderBodyDate.
   ///
   /// In en, this message translates to:
-  /// **'Scheduled for {dateTime}'**
-  String notificationMedicationReminderBody(Object dateTime);
+  /// **'Scheduled for {date}'**
+  String notificationMedicationReminderBodyDate(Object date);
+
+  /// No description provided for @notificationMedicationReminderBodyTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {time}'**
+  String notificationMedicationReminderBodyTime(Object time);
+
+  /// No description provided for @notificationMedicationReminderBodyWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {weekday}'**
+  String notificationMedicationReminderBodyWeekday(Object weekday);
 
   /// No description provided for @addSchedule.
   ///
@@ -570,7 +588,7 @@ abstract class AppLocalizations {
   /// No description provided for @addIntakeTime.
   ///
   /// In en, this message translates to:
-  /// **'Add time'**
+  /// **'Add a time'**
   String get addIntakeTime;
 
   /// No description provided for @editScheduleInfo.
@@ -867,6 +885,72 @@ abstract class AppLocalizations {
   /// **'{amount} {unit} remaining'**
   String remaining(num amount, Object unit);
 
+  /// No description provided for @allItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allItemsFilter;
+
+  /// No description provided for @medicationItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication'**
+  String get medicationItemsFilter;
+
+  /// No description provided for @genericItemsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumables'**
+  String get genericItemsFilter;
+
+  /// No description provided for @medicationItemType.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication'**
+  String get medicationItemType;
+
+  /// No description provided for @genericItemType.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumable'**
+  String get genericItemType;
+
+  /// No description provided for @supplyType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get supplyType;
+
+  /// No description provided for @syringe.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Syringe} other{Syringes}}'**
+  String syringe(num count);
+
+  /// No description provided for @wipe.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Wipe} other{Wipes}}'**
+  String wipe(num count);
+
+  /// No description provided for @needle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Needle} other{Needles}}'**
+  String needle(num count);
+
+  /// No description provided for @gloves.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Gloves} other{Gloves}}'**
+  String gloves(num count);
+
+  /// No description provided for @bandage.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Bandage} other{Bandages}}'**
+  String bandage(num count);
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -950,6 +1034,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nandrolone'**
   String get nandrolone;
+
+  /// No description provided for @dihydrotestosterone.
+  ///
+  /// In en, this message translates to:
+  /// **'Dihydrotestosterone'**
+  String get dihydrotestosterone;
 
   /// No description provided for @spironolactone.
   ///

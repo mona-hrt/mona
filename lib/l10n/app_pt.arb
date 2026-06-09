@@ -83,7 +83,9 @@
     "updateDownloadFailed": "Falha na transferência. Verifique a sua ligação.",
 
     "notificationMedicationReminderTitle": "Hora de tomar {scheduleName}",
-    "notificationMedicationReminderBody": "Agendado para {dateTime}",
+    "notificationMedicationReminderBodyDate": "Agendado para {date}",
+    "notificationMedicationReminderBodyTime": "Agendado para {time}",
+    "notificationMedicationReminderBodyWeekday": "Agendado para {weekday}",
 
     "addSchedule": "Adicionar cronograma",
     "addScheduleToGetStarted": "Adicione um cronograma para começar.",
@@ -163,6 +165,7 @@
     "progesterone": "Progesterona",
     "testosterone": "Testosterona",
     "nandrolone": "Nandrolona",
+    "dihydrotestosterone": "Di-hidrotestosterona",
     "spironolactone": "Espironolactona",
     "cyproteroneAcetate": "Acetato de ciproterona",
     "leuprorelinAcetate": "Acetato de leuprorelina",

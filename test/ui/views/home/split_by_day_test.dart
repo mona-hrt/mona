@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduled_occurrence.dart';
@@ -18,12 +17,12 @@ MedicationSchedule schedule({int id = 1}) => MedicationSchedule(
       administrationRoute: AdministrationRoute.oral,
     );
 
-ScheduledOccurrence occurrence({
+IntakeSlot occurrence({
   MedicationSchedule? schedule,
   ScheduleStatus status = ScheduleStatus.today,
   TimeOfDay? time,
 }) =>
-    ScheduledOccurrence(
+    IntakeSlot(
       schedule: schedule ??
           MedicationSchedule(
             id: 0,
@@ -33,9 +32,7 @@ ScheduledOccurrence occurrence({
             molecule: KnownMolecules.estradiol,
             administrationRoute: AdministrationRoute.oral,
           ),
-      date: Date.today(),
       status: status,
-      notifiable: true,
       time: time,
     );
 

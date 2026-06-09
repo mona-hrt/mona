@@ -84,6 +84,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Interval';
 
   @override
+  String get scheduleFrequencyWeekly => 'Weekly';
+
+  @override
   String get newUpdateAvailable => 'A new update is available!';
 
   @override
@@ -256,8 +259,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Scheduled for $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Scheduled for $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Scheduled for $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Scheduled for $weekday';
   }
 
   @override
@@ -282,7 +295,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pickATime => 'Pick a time';
 
   @override
-  String get addIntakeTime => 'Add time';
+  String get addIntakeTime => 'Add a time';
 
   @override
   String get editScheduleInfo => 'Edit schedule info';
@@ -450,6 +463,79 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get allItemsFilter => 'All';
+
+  @override
+  String get medicationItemsFilter => 'Medication';
+
+  @override
+  String get genericItemsFilter => 'Consumables';
+
+  @override
+  String get medicationItemType => 'Medication';
+
+  @override
+  String get genericItemType => 'Consumable';
+
+  @override
+  String get supplyType => 'Type';
+
+  @override
+  String syringe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Syringes',
+      one: 'Syringe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipe(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wipes',
+      one: 'Wipe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Needles',
+      one: 'Needle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gloves(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Gloves',
+      one: 'Gloves',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandage(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bandages',
+      one: 'Bandage',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get add => 'Add';
 
   @override
@@ -490,6 +576,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nandrolone => 'Nandrolone';
+
+  @override
+  String get dihydrotestosterone => 'Dihydrotestosterone';
 
   @override
   String get spironolactone => 'Spironolactone';

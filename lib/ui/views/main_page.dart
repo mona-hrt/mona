@@ -93,6 +93,7 @@ class _MainPageState extends State<MainPage> {
               destinations: [
                 for (final tab in tabs)
                   NavigationDestination(
+                    key: tab.navKey,
                     label: tab.title,
                     icon: Icon(tab.icon),
                     selectedIcon: Icon(tab.selectedIcon),
