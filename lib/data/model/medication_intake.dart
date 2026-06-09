@@ -89,7 +89,7 @@ class MedicationIntake with MedicationIntakeMappable {
       requiredStrictlyPositiveDecimal(l10n, value);
 
   static String? validateWastedAmount(AppLocalizations l10n, String? value) =>
-      requiredPositiveDecimal(l10n, value);
+      positiveDecimal(l10n, value);
 
   static String? validateDeadSpace(AppLocalizations l10n, String? value) =>
       positiveDecimal(l10n, value);
