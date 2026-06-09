@@ -69,17 +69,16 @@ jobs:
       # in pubspec.yaml. Omitting --target runs every *_test.dart under
       # integration_test/ (the test_directory in pubspec.yaml).
       - name: Run Patrol tests on emulator
-        timeout-minutes: 30
+        timeout-minutes: 45
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           target: google_apis
           arch: x86_64
           profile: pixel_6
-          ram-size: 4096M
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: dart run patrol_cli:main test --flavor standalone --verbose
+          script: bash scripts/run_patrol_e2e.sh
 
       - name: Upload Patrol results
         if: always()
