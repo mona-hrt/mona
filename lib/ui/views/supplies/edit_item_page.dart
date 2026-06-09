@@ -224,33 +224,30 @@ class _EditItemPageState extends State<EditItemPage> {
           ),
         FormSpacer(),
         FormTextField(
-          controller: _totalAmountController,
-          label: localizations.totalAmount,
-          onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _administrationRoute.localizedUnit(localizations, 1),
-          errorText: _totalAmountError,
-          regexFormatter: RegexPatterns.floatNumber
-        ),
+            controller: _totalAmountController,
+            label: localizations.totalAmount,
+            onChanged: _refresh,
+            inputType: TextInputType.numberWithOptions(decimal: true),
+            suffixText: _administrationRoute.localizedUnit(localizations, 1),
+            errorText: _totalAmountError,
+            regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
-          controller: _usedAmountController,
-          label: localizations.usedAmount,
-          onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _administrationRoute.localizedUnit(localizations, 1),
-          errorText: _usedAmountError,
-          regexFormatter: RegexPatterns.floatNumber
-        ),
+            controller: _usedAmountController,
+            label: localizations.usedAmount,
+            onChanged: _refresh,
+            inputType: TextInputType.numberWithOptions(decimal: true),
+            suffixText: _administrationRoute.localizedUnit(localizations, 1),
+            errorText: _usedAmountError,
+            regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
-          controller: _concentrationController,
-          label: localizations.concentration,
-          onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText:
-              '${_molecule.unit}/${_administrationRoute.localizedUnit(localizations, 1)}',
-          errorText: _concentrationError,
-          regexFormatter: RegexPatterns.floatNumber
-        ),
+            controller: _concentrationController,
+            label: localizations.concentration,
+            onChanged: _refresh,
+            inputType: TextInputType.numberWithOptions(decimal: true),
+            suffixText:
+                '${_molecule.unit}/${_administrationRoute.localizedUnit(localizations, 1)}',
+            errorText: _concentrationError,
+            regexFormatter: RegexPatterns.floatNumber),
       ],
     );
   }

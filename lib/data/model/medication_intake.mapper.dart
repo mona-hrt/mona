@@ -161,7 +161,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   @override
   final MappableFields<MedicationIntake> fields = const {
     #id: _f$id,
-    #scheduledDateTime: _f$scheduledDateTime,
+    #scheduledTime: _f$scheduledTime,
     #takenDose: _f$takenDose,
     #wastedDose: _f$wastedDose,
     #takenDateTime: _f$takenDateTime,
@@ -178,7 +178,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   static MedicationIntake _instantiate(DecodingData data) {
     return MedicationIntake(
       id: data.dec(_f$id),
-      scheduledDateTime: data.dec(_f$scheduledDateTime),
+      scheduledTime: data.dec(_f$scheduledTime),
       takenDose: data.dec(_f$takenDose),
       wastedDose: data.dec(_f$wastedDose),
       takenDateTime: data.dec(_f$takenDateTime),
@@ -257,7 +257,7 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({
     int? id,
-    DateTime? scheduledDateTime,
+    TimeOfDay? scheduledTime,
     Decimal? takenDose,
     Decimal? wastedDose,
     DateTime? takenDateTime,
@@ -286,7 +286,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
   @override
   $R call({
     Object? id = $none,
-    DateTime? scheduledDateTime,
+    Object? scheduledTime = $none,
     Decimal? takenDose,
     Object? wastedDose = $none,
     Object? takenDateTime = $none,
@@ -302,7 +302,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
       $apply(
         FieldCopyWithData({
           if (id != $none) #id: id,
-          if (scheduledDateTime != null) #scheduledDateTime: scheduledDateTime,
+          if (scheduledTime != $none) #scheduledTime: scheduledTime,
           if (takenDose != null) #takenDose: takenDose,
           if (wastedDose != $none) #wastedDose: wastedDose,
           if (takenDateTime != $none) #takenDateTime: takenDateTime,
@@ -320,10 +320,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
   @override
   MedicationIntake $make(CopyWithData data) => MedicationIntake(
         id: data.get(#id, or: $value.id),
-        scheduledDateTime: data.get(
-          #scheduledDateTime,
-          or: $value.scheduledDateTime,
-        ),
+        scheduledTime: data.get(#scheduledTime, or: $value.scheduledTime),
         takenDose: data.get(#takenDose, or: $value.takenDose),
         wastedDose: data.get(#wastedDose, or: $value.wastedDose),
         takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),

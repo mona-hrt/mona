@@ -116,13 +116,12 @@ class _EditItemPageState extends State<EditItemPage> {
           label: localizations.supplyType,
         ),
         FormTextField(
-          controller: _amountController,
-          label: localizations.amount,
-          onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          errorText: _amountError,
-          regexFormatter: RegexPatterns.floatNumber
-        ),
+            controller: _amountController,
+            label: localizations.amount,
+            onChanged: _refresh,
+            inputType: TextInputType.numberWithOptions(decimal: true),
+            errorText: _amountError,
+            regexFormatter: RegexPatterns.floatNumber),
       ],
     );
   }
