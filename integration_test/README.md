@@ -130,19 +130,6 @@ of its CI options, so a few things mitigate that:
   (keeping the Android SDK + Flutter/Java) so the system-image install and AVD
   snapshot don't hit "No space left on device".
 
-### Follow-up: Test Butler (only if flakiness persists)
-
-[Test Butler](https://github.com/linkedin/test-butler) stabilizes the emulator
-(suppresses system crash/ANR dialogs, keeps the device awake, locks system
-state) — which targets exactly the "wedged / instrumentation-process crash"
-failures the retry loop absorbs. Its main restriction, **no Google Play
-Services**, does *not* affect Mona (the app has no GMS/Firebase deps and CI
-already uses the `google_apis` image, not `google_apis_playstore`).
-
-It's deliberately **not** wired up yet: it adds a runtime dependency and needs
-its API-34 compatibility plus interaction with Patrol's mandatory
-`PatrolJUnitRunner` verified. Add it only if wedge/crash flakiness persists
-*after* the snapshot caching + matrix changes, so there's a clean before/after.
 
 ## iOS (follow-up - not yet wired)
 
