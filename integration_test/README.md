@@ -121,9 +121,11 @@ of its CI options, so a few things mitigate that:
 
 - **AVD snapshot caching.** The emulator loads a cached warm boot snapshot
   instead of cold-booting every run.
-- **Per-file matrix.** Each `*_test.dart` runs as its own shard
-  (`PATROL_TARGET`), so a flaky file only retries itself and the shards run in
-  parallel. **When you add a test file, add a matching entry to the `matrix`.**
+- **Per-file matrix (auto-discovered).** A `discover` job globs
+  `integration_test/*_test.dart` and emits the matrix, so **new test files are
+  picked up automatically — no workflow edit needed.** Each file runs as its own
+  shard (`PATROL_TARGET`), so a flaky file only retries itself and shards run in
+  parallel (bounded by `max-parallel`).
 - **Retries with device reset.** [`run_patrol_e2e.sh`](../scripts/run_patrol_e2e.sh)
   retries a wedged/crashed attempt after resetting adb + Gradle.
 - **Disk cleanup.** A `free-disk-space` step reclaims unused runner toolchains
