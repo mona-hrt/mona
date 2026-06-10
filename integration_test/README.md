@@ -126,6 +126,9 @@ of its CI options, so a few things mitigate that:
   parallel. **When you add a test file, add a matching entry to the `matrix`.**
 - **Retries with device reset.** [`run_patrol_e2e.sh`](../scripts/run_patrol_e2e.sh)
   retries a wedged/crashed attempt after resetting adb + Gradle.
+- **Disk cleanup.** A `free-disk-space` step reclaims unused runner toolchains
+  (keeping the Android SDK + Flutter/Java) so the system-image install and AVD
+  snapshot don't hit "No space left on device".
 
 ### Follow-up: Test Butler (only if flakiness persists)
 

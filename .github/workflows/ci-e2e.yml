@@ -28,6 +28,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      # ubuntu-latest ships ~30 GB of toolchains we don't use (.NET, Haskell,
+      # etc.). The Android system-image install + AVD snapshot can exhaust the
+      # remaining disk ("No space left on device"), failing the emulator before
+      # our test script even runs. Reclaim the unused space, but KEEP the Android
+      # SDK and the Flutter/Java tool-cache the next steps depend on.
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          android: false
+          tool-cache: false
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          swap-storage: true
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
