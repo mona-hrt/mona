@@ -214,7 +214,12 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       },
       actions: [
         M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyDaily)),
-        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyInterval)),
+        M3EToggleButtonGroupAction(
+          label: Text(
+            l10n.scheduleFrequencyInterval,
+            key: const ValueKey('scheduleTypeInterval'),
+          ),
+        ),
         M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyWeekly)),
       ],
     );
@@ -251,6 +256,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         times: _intakeOrNotificationTimes,
         rowIcon: widget.administrationRoute.icon,
         addLabel: l10n.addIntakeTime,
+        addTileKey: const ValueKey('addNotificationTile'),
         onAdd: _addTime,
         onEdit: _editTime,
         onDelete: _deleteTime,
