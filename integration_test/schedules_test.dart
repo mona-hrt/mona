@@ -34,13 +34,6 @@ const _emptyState = 'Add a schedule to get started.';
 // typed finder ($(DropdownButtonFormField<Molecule>)).
 const _moleculeEstradiol = 'Estradiol';
 const _routeOral = 'Oral';
-const _next = 'Next';
-const _save = 'Save';
-const _intervalToggle = 'Interval';
-const _everyLabel = 'Every';
-const _addNotification = 'Add a time';
-const _editScheduleInfo = 'Edit schedule info';
-const _delete = 'Delete';
 
 void main() {
   patrolTest('deletes a schedule with confirmation', ($) async {
@@ -51,7 +44,8 @@ void main() {
     await $(ListTile).containing('To Delete').tap(); // data, not localized
     await $(_editScheduleInfoTile).tap();
 
-    await $(_editScheduleDelete).tap(); // form's Delete button -> confirm dialog
+    await $(_editScheduleDelete)
+        .tap(); // form's Delete button -> confirm dialog
     await $(_confirmDelete).tap(); // confirm in the dialog
 
     await $(_emptyState).waitUntilVisible();
