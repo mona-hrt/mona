@@ -383,6 +383,12 @@ class AppLocalizationsSk extends AppLocalizations {
   String get amount => 'Množstvo';
 
   @override
+  String get takenAmount => 'Užité množstvo';
+
+  @override
+  String get wastedAmount => 'Stratené množstvo';
+
+  @override
   String get none => 'Žiadna';
 
   @override
@@ -410,6 +416,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get microliters => 'μL';
+
+  @override
+  String get milliliters => 'mL';
 
   @override
   String get empty_levels => 'Estradiolové injekcie sa zobrazia na tejto karte';

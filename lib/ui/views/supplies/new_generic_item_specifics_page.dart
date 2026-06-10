@@ -7,6 +7,7 @@ import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -96,7 +97,7 @@ class _NewGenericItemSpecificsPageState
           label: localizations.amount,
           onChanged: _refresh,
           inputType: TextInputType.number,
-          regexFormatter: r'[0-9]',
+          regexFormatter: RegexPatterns.intNumber,
         ),
       ],
     );

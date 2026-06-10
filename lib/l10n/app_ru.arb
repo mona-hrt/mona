@@ -117,6 +117,8 @@
   "editIntake": "Изменение приёма",
   "date": "Время",
   "amount": "Количество",
+  "takenAmount": "Принятое количество",
+  "wastedAmount": "Потерянное количество",
   "none": "Не выбрано",
   "supplyItem": "Препарат",
   "injectionSide": "Сторона",
@@ -126,6 +128,7 @@
   "needleDeadSpace": "Мёртвое (пустое) пространство иглы",
   "notes": "Заметки",
   "microliters": "мкл",
+  "milliliters": "мл",
 
   "empty_levels": "Приёмы эстрадиола будут отображаться в данной вкладке",
   "bloodTestsTitle": "Анализы крови",

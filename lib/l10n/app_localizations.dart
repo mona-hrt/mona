@@ -705,6 +705,18 @@ abstract class AppLocalizations {
   /// **'Amount'**
   String get amount;
 
+  /// No description provided for @takenAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Taken amount'**
+  String get takenAmount;
+
+  /// No description provided for @wastedAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Wasted amount'**
+  String get wastedAmount;
+
   /// No description provided for @none.
   ///
   /// In en, this message translates to:
@@ -758,6 +770,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'μL'**
   String get microliters;
+
+  /// No description provided for @milliliters.
+  ///
+  /// In en, this message translates to:
+  /// **'mL'**
+  String get milliliters;
 
   /// No description provided for @empty_levels.
   ///
