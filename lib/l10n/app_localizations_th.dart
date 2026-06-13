@@ -471,27 +471,27 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String syringe(num count) {
-    return 'เข็มฉีดยา $count เข็ม';
+    return 'กระบอกฉีดยา';
   }
 
   @override
   String wipe(num count) {
-    return 'ผ้าเช็ด $count ผืน';
+    return 'ผ้าเช็ด';
   }
 
   @override
   String needle(num count) {
-    return 'เข็ม $count เข็ม';
+    return 'เข็มฉีดยา';
   }
 
   @override
   String gloves(num count) {
-    return 'ถุงมือ $count ถุง';
+    return 'ถุงมือ';
   }
 
   @override
   String bandage(num count) {
-    return 'พลาสเตอร์ $count อัน';
+    return 'พลาสเตอร์';
   }
 
   @override
@@ -537,7 +537,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get nandrolone => 'นันโดรโลน';
 
   @override
-  String get dihydrotestosterone => 'Dihydrotestosterone';
+  String get dihydrotestosterone => 'ไดไฮโดรเทสโทสเตอโรน';
 
   @override
   String get spironolactone => 'สไปโรโนแลคโทน';
