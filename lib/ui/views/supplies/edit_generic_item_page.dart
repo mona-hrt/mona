@@ -11,6 +11,7 @@ import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -115,13 +116,12 @@ class _EditItemPageState extends State<EditItemPage> {
           label: localizations.supplyType,
         ),
         FormTextField(
-          controller: _amountController,
-          label: localizations.amount,
-          onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          errorText: _amountError,
-          regexFormatter: r'[0-9.,]',
-        ),
+            controller: _amountController,
+            label: localizations.amount,
+            onChanged: _refresh,
+            inputType: TextInputType.numberWithOptions(decimal: true),
+            errorText: _amountError,
+            regexFormatter: RegexPatterns.floatNumber),
       ],
     );
   }

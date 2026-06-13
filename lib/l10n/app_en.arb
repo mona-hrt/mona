@@ -117,6 +117,8 @@
   "editIntake": "Edit intake",
   "date": "Date",
   "amount": "Amount",
+  "takenAmount": "Taken amount",
+  "wastedAmount": "Wasted amount",
   "none": "None",
   "supplyItem": "Supply item",
   "injectionSide": "Injection side",
@@ -126,6 +128,7 @@
   "needleDeadSpace": "Needle dead space",
   "notes": "Notes",
   "microliters": "μL",
+  "milliliters": "mL",
 
   "empty_levels": "Estradiol injections will display in this tab",
   "bloodTestsTitle": "Blood Tests",

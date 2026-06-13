@@ -10,6 +10,7 @@ import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -120,7 +121,7 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           errorText: _estradiolLevelsError,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: '[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
           suffixText: widget.bloodtest.estradiolLevels?.unit.name ??
               defaultUnits.estradiol.name,
         ),
@@ -130,7 +131,7 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           errorText: _testosteroneLevelsError,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: '[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
           suffixText: widget.bloodtest.testosteroneLevels?.unit.name ??
               defaultUnits.testosterone.name,
         ),

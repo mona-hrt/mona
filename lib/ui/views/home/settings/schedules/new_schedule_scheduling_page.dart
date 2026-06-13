@@ -15,6 +15,7 @@ import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
 import 'package:mona/ui/widgets/time_list_card.dart';
 import 'package:mona/ui/widgets/weekday_picker.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -235,7 +236,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         suffixText: l10n.days,
         onChanged: _refresh,
         inputType: TextInputType.number,
-        regexFormatter: '[0-9]',
+        regexFormatter: RegexPatterns.intNumber,
       ),
       FormSpacer(),
       TimeListCard(

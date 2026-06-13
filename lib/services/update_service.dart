@@ -111,7 +111,7 @@ class UpdateService {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(l10n.updateDialogTitle),
-        content: Text(l10n.updateDialogBody(latest, current)),
+        content: Text(l10n.updateDialogBody(current, latest)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
