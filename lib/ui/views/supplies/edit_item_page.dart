@@ -241,15 +241,14 @@ class _EditItemPageState extends State<EditItemPage> {
             errorText: _usedAmountError,
             regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
-          controller: _concentrationController,
-          label: localizations.concentration,
-          onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText:
-              '${_molecule.localizedUnit(localizations)}/${_administrationRoute.localizedUnit(localizations, 1)}',
-          errorText: _concentrationError,
-          egexFormatter: RegexPatterns.floatNumber),
-        ),
+            controller: _concentrationController,
+            label: localizations.concentration,
+            onChanged: _refresh,
+            inputType: TextInputType.numberWithOptions(decimal: true),
+            suffixText:
+                '${_molecule.localizedUnit(localizations)}/${_administrationRoute.localizedUnit(localizations, 1)}',
+            errorText: _concentrationError,
+            regexFormatter: RegexPatterns.floatNumber),
       ],
     );
   }
