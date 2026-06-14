@@ -511,8 +511,8 @@ class AppLocalizationsRu extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count шприцев осталось',
-      one: '1 шприц осталось',
       few: '$count шприца осталось',
+      one: '1 шприц осталось',
     );
     return '$_temp0';
   }
@@ -523,8 +523,8 @@ class AppLocalizationsRu extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count салфеток осталось',
-      one: '1 салфетка осталось',
       few: '$count салфетки осталось',
+      one: '1 салфетка осталось',
     );
     return '$_temp0';
   }
@@ -535,8 +535,8 @@ class AppLocalizationsRu extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count игл осталось',
-      one: '1 игла осталось',
       few: '$count иглы осталось',
+      one: '1 игла осталось',
     );
     return '$_temp0';
   }
@@ -547,8 +547,8 @@ class AppLocalizationsRu extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count перчаток осталось',
-      one: '1 перчатка осталось',
       few: '$count перчатки осталось',
+      one: '1 перчатка осталось',
     );
     return '$_temp0';
   }
@@ -559,8 +559,8 @@ class AppLocalizationsRu extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count пластырей осталось',
-      one: '1 пластырь осталось',
       few: '$count пластыря осталось',
+      one: '1 пластырь осталось',
     );
     return '$_temp0';
   }

@@ -926,19 +926,19 @@ abstract class AppLocalizations {
   /// No description provided for @syringe.
   ///
   /// In en, this message translates to:
-  /// **'Syringe'**
+  /// **'Syringes'**
   String get syringe;
 
   /// No description provided for @wipe.
   ///
   /// In en, this message translates to:
-  /// **'Wipe'**
+  /// **'Wipes'**
   String get wipe;
 
   /// No description provided for @needle.
   ///
   /// In en, this message translates to:
-  /// **'Needle'**
+  /// **'Needles'**
   String get needle;
 
   /// No description provided for @gloves.
@@ -950,7 +950,7 @@ abstract class AppLocalizations {
   /// No description provided for @bandage.
   ///
   /// In en, this message translates to:
-  /// **'Bandage'**
+  /// **'Bandages'**
   String get bandage;
 
   /// No description provided for @syringeRemaining.

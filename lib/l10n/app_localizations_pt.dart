@@ -1300,7 +1300,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
+  String get syringe => 'Seringas';
+
+  @override
   String get wipe => 'Lenços';
+
+  @override
+  String get needle => 'Agulhas';
+
+  @override
+  String get gloves => 'Luvas';
 
   @override
   String get bandage => 'Curativos';

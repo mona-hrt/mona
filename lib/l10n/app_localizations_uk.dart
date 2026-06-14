@@ -510,8 +510,8 @@ class AppLocalizationsUk extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count шприців залишилось',
-      one: '1 шприц залишилось',
       few: '$count шприца залишилось',
+      one: '1 шприц залишилось',
     );
     return '$_temp0';
   }
@@ -522,8 +522,8 @@ class AppLocalizationsUk extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count серветок залишилось',
-      one: '1 серветка залишилось',
       few: '$count серветки залишилось',
+      one: '1 серветка залишилось',
     );
     return '$_temp0';
   }
@@ -534,8 +534,8 @@ class AppLocalizationsUk extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count голок залишилось',
-      one: '1 голка залишилось',
       few: '$count голки залишилось',
+      one: '1 голка залишилось',
     );
     return '$_temp0';
   }
@@ -546,8 +546,8 @@ class AppLocalizationsUk extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count рукавичок залишилось',
-      one: '1 рукавичка залишилось',
       few: '$count рукавички залишилось',
+      one: '1 рукавичка залишилось',
     );
     return '$_temp0';
   }
@@ -558,8 +558,8 @@ class AppLocalizationsUk extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count пластирів залишилось',
-      one: '1 пластир залишилось',
       few: '$count пластирі залишилось',
+      one: '1 пластир залишилось',
     );
     return '$_temp0';
   }

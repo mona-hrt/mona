@@ -528,8 +528,8 @@ class AppLocalizationsSk extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Zostáva $count striekačiek',
-      one: 'Zostáva 1 striekačka',
       few: 'Zostávajú $count striekačky',
+      one: 'Zostáva 1 striekačka',
     );
     return '$_temp0';
   }
@@ -540,8 +540,8 @@ class AppLocalizationsSk extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Zostáva $count utierok',
-      one: 'Zostáva 1 utierka',
       few: 'Zostávajú $count utierky',
+      one: 'Zostáva 1 utierka',
     );
     return '$_temp0';
   }
@@ -552,8 +552,8 @@ class AppLocalizationsSk extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Zostáva $count ihiel',
-      one: 'Zostáva 1 ihla',
       few: 'Zostávajú $count ihly',
+      one: 'Zostáva 1 ihla',
     );
     return '$_temp0';
   }
@@ -564,8 +564,8 @@ class AppLocalizationsSk extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Zostáva $count rukavíc',
-      one: 'Zostáva 1 rukavica',
       few: 'Zostávajú $count rukavice',
+      one: 'Zostáva 1 rukavica',
     );
     return '$_temp0';
   }
@@ -576,8 +576,8 @@ class AppLocalizationsSk extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Zostáva $count náplastí',
-      one: 'Zostáva 1 náplasť',
       few: 'Zostávajú $count náplaste',
+      one: 'Zostáva 1 náplasť',
     );
     return '$_temp0';
   }
