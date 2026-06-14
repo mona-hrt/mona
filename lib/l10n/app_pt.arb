@@ -12,20 +12,22 @@
     "noIntakesDue": "Nenhuma dose pendente hoje",
     "upcoming": "Próximos",
     "taken": "Tomado",
-    "daysAgoCount": "{count, plural, =1{ontem} other{há {count} dias}}",
+    "daysAgoCount": "{count, plural, other{há {count} dias}}",
     "@daysAgoCount": {
         "description": "=1 ontem; resto há # dias.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
-    "inDaysCount": "{count, plural, =1{amanhã} other{em {count} dias}}",
+    "yesterday": "ontem",
+    "inDaysCount": "{count, plural, other{em {count} dias}}",
     "@inDaysCount": {
         "description": "=1 amanhã; resto em # dias.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
+    "tomorrow": "amanhã",
     "lastTaken": "Última dose",
     "neverTakenYet": "Ainda não tomado",
     "scheduleFrequencyDaily": "Todos os dias",

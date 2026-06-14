@@ -12,20 +12,22 @@
   "noIntakesDue": "No intakes due today",
   "upcoming": "Upcoming",
   "taken": "Taken",
-  "daysAgoCount": "{count, plural, =1{yesterday} other{{count} days ago}}",
+  "daysAgoCount": "{count, plural, other{{count} days ago}}",
   "@daysAgoCount": {
-    "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
+    "description": "Past offset in days for count > 1. Use the 'yesterday' key for count == 1.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "inDaysCount": "{count, plural, =1{tomorrow} other{in {count} days}}",
+  "yesterday": "yesterday",
+  "inDaysCount": "{count, plural, other{in {count} days}}",
   "@inDaysCount": {
-    "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
+    "description": "Future offset in days for count > 1. Use the 'tomorrow' key for count == 1.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
+  "tomorrow": "tomorrow",
   "lastTaken": "Last taken",
   "neverTakenYet": "Never taken yet",
   "scheduleFrequencyDaily": "Every day",

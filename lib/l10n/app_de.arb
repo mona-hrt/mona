@@ -12,20 +12,22 @@
     "noIntakesDue": "Heute sind keine Einnahmen fällig",
     "upcoming": "Bevorstehend",
     "taken": "Genommen",
-    "daysAgoCount": "{count, plural, =1{gestern} other{vor {count} Tagen}}",
+    "daysAgoCount": "{count, plural, other{vor {count} Tagen}}",
     "@daysAgoCount": {
         "description": "=1 „gestern“; sonst „vor # Tagen“.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
-    "inDaysCount": "{count, plural, =1{morgen} other{in {count} Tagen}}",
+    "yesterday": "gestern",
+    "inDaysCount": "{count, plural, other{in {count} Tagen}}",
     "@inDaysCount": {
         "description": "=1 „morgen“; sonst „in # Tagen“.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
+    "tomorrow": "morgen",
     "lastTaken": "Zuletzt genommen",
     "neverTakenYet": "Noch nie genommen",
     "scheduleFrequencyDaily": "Täglich",

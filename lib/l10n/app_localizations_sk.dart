@@ -50,10 +50,12 @@ class AppLocalizationsSk extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Pred $count dňami',
-      one: 'včera',
     );
     return '$_temp0';
   }
+
+  @override
+  String get yesterday => 'včera';
 
   @override
   String inDaysCount(int count) {
@@ -62,10 +64,12 @@ class AppLocalizationsSk extends AppLocalizations {
       locale: localeName,
       few: 'o $count dni',
       other: 'o $count dní',
-      one: 'zajtra',
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'zajtra';
 
   @override
   String get lastTaken => 'Vzatá naposledy';

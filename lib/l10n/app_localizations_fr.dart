@@ -51,10 +51,12 @@ class AppLocalizationsFr extends AppLocalizations {
       count,
       locale: localeName,
       other: 'il y a $count jours',
-      one: 'hier',
     );
     return '$_temp0';
   }
+
+  @override
+  String get yesterday => 'hier';
 
   @override
   String inDaysCount(int count) {
@@ -62,10 +64,12 @@ class AppLocalizationsFr extends AppLocalizations {
       count,
       locale: localeName,
       other: 'dans $count jours',
-      one: 'demain',
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'demain';
 
   @override
   String get lastTaken => 'Dernière prise';

@@ -10,7 +10,7 @@
   "noIntakesDue": "ไม่มียาที่ต้องทานวันนี้",
   "upcoming": "เร็วๆนี้",
   "taken": "ทานแล้ว",
-  "daysAgoCount": "{count, plural, =1{เมื่อวาน} other{{count} วันที่แล้ว}}",
+  "daysAgoCount": "{count, plural, other{{count} วันที่แล้ว}}",
   "@daysAgoCount": {
     "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
@@ -19,7 +19,8 @@
       }
     }
   },
-  "inDaysCount": "{count, plural, =1{พรุ่งนี้} other{ใน {count} วัน}}",
+  "yesterday": "เมื่อวาน",
+  "inDaysCount": "{count, plural, other{ใน {count} วัน}}",
   "@inDaysCount": {
     "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
@@ -28,6 +29,7 @@
       }
     }
   },
+  "tomorrow": "พรุ่งนี้",
   "lastTaken": "ทานไป",
   "neverTakenYet": "ยังไม่เคยทาน",
   "scheduleFrequencyDaily": "ทุกวัน",

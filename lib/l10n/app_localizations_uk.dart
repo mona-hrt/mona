@@ -51,10 +51,12 @@ class AppLocalizationsUk extends AppLocalizations {
       locale: localeName,
       other: '$count днів тому',
       few: '$count дні тому',
-      one: 'вчора',
     );
     return '$_temp0';
   }
+
+  @override
+  String get yesterday => 'вчора';
 
   @override
   String inDaysCount(int count) {
@@ -64,10 +66,12 @@ class AppLocalizationsUk extends AppLocalizations {
       other: 'через $count днів',
       many: 'через $count днів',
       few: 'через $count дні',
-      one: 'завтра',
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'завтра';
 
   @override
   String get lastTaken => 'Востаннє прийнято';

@@ -57,6 +57,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get yesterday => 'вчера';
+
+  @override
   String inDaysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -67,6 +70,9 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'завтра';
 
   @override
   String get lastTaken => 'Последний приём';

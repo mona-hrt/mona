@@ -50,10 +50,12 @@ class AppLocalizationsPt extends AppLocalizations {
       count,
       locale: localeName,
       other: 'há $count dias',
-      one: 'ontem',
     );
     return '$_temp0';
   }
+
+  @override
+  String get yesterday => 'ontem';
 
   @override
   String inDaysCount(int count) {
@@ -61,10 +63,12 @@ class AppLocalizationsPt extends AppLocalizations {
       count,
       locale: localeName,
       other: 'em $count dias',
-      one: 'amanhã',
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'amanhã';
 
   @override
   String get lastTaken => 'Última dose';
@@ -891,10 +895,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       count,
       locale: localeName,
       other: 'há $count dias',
-      one: 'ontem',
     );
     return '$_temp0';
   }
+
+  @override
+  String get yesterday => 'ontem';
 
   @override
   String inDaysCount(int count) {
@@ -902,10 +908,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       count,
       locale: localeName,
       other: 'em $count dias',
-      one: 'amanhã',
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'amanhã';
 
   @override
   String get lastTaken => 'Última dose';

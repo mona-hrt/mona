@@ -185,17 +185,29 @@ abstract class AppLocalizations {
   /// **'Taken'**
   String get taken;
 
-  /// Past offset in days; =1 is the word “yesterday”, not a numeric phrase.
+  /// Past offset in days for count > 1. Use the 'yesterday' key for count == 1.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{yesterday} other{{count} days ago}}'**
+  /// **'{count, plural, other{{count} days ago}}'**
   String daysAgoCount(int count);
 
-  /// Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.
+  /// No description provided for @yesterday.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{tomorrow} other{in {count} days}}'**
+  /// **'yesterday'**
+  String get yesterday;
+
+  /// Future offset in days for count > 1. Use the 'tomorrow' key for count == 1.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{in {count} days}}'**
   String inDaysCount(int count);
+
+  /// No description provided for @tomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow'**
+  String get tomorrow;
 
   /// No description provided for @lastTaken.
   ///

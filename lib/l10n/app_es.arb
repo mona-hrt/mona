@@ -12,20 +12,22 @@
     "noIntakesDue": "No hay tomas pendientes hoy",
     "upcoming": "Próximamente",
     "taken": "Tomado",
-    "daysAgoCount": "{count, plural, =1{ayer} other{hace {count} días}}",
+    "daysAgoCount": "{count, plural, other{hace {count} días}}",
     "@daysAgoCount": {
         "description": "=1 ayer; resto hace # días.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
-    "inDaysCount": "{count, plural, =1{mañana} other{en {count} días}}",
+    "yesterday": "ayer",
+    "inDaysCount": "{count, plural, other{en {count} días}}",
     "@inDaysCount": {
         "description": "=1 mañana; resto en # días.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
+    "tomorrow": "mañana",
     "lastTaken": "Última toma",
     "neverTakenYet": "Aún no tomado",
     "scheduleFrequencyDaily": "Cada día",
