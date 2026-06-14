@@ -710,6 +710,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get unitMilligram => 'мг';
 
   @override
+  String get unitPgPerMl => 'пг/мл';
+
+  @override
+  String get unitPmolPerL => 'пмоль/л';
+
+  @override
+  String get unitNgPerDl => 'нг/дл';
+
+  @override
+  String get unitNmolPerL => 'нмоль/л';
+
+  @override
   String administrationRouteUnitMl(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

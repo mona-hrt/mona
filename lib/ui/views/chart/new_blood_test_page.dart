@@ -4,6 +4,7 @@ import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/units_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
@@ -106,7 +107,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: '[0-9.,]',
           errorText: _estradiolError,
-          suffixText: units.estradiol.name,
+          suffixText: units.estradiol.localizedName(l10n),
         ),
         FormTextField(
           controller: _testosteroneLevelsController,
@@ -115,7 +116,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: '[0-9.,]',
           errorText: _testosteroneError,
-          suffixText: units.testosterone.name,
+          suffixText: units.testosterone.localizedName(l10n),
         ),
         FormSpacer(),
         FormDateTimeField(

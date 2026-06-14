@@ -1277,6 +1277,30 @@ abstract class AppLocalizations {
   /// **'mg'**
   String get unitMilligram;
 
+  /// No description provided for @unitPgPerMl.
+  ///
+  /// In en, this message translates to:
+  /// **'pg/mL'**
+  String get unitPgPerMl;
+
+  /// No description provided for @unitPmolPerL.
+  ///
+  /// In en, this message translates to:
+  /// **'pmol/L'**
+  String get unitPmolPerL;
+
+  /// No description provided for @unitNgPerDl.
+  ///
+  /// In en, this message translates to:
+  /// **'ng/dL'**
+  String get unitNgPerDl;
+
+  /// No description provided for @unitNmolPerL.
+  ///
+  /// In en, this message translates to:
+  /// **'nmol/L'**
+  String get unitNmolPerL;
+
   /// No description provided for @administrationRouteUnitMl.
   ///
   /// In en, this message translates to:

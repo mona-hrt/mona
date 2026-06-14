@@ -667,6 +667,18 @@ class AppLocalizationsTh extends AppLocalizations {
   String get unitMilligram => 'TODO';
 
   @override
+  String get unitPgPerMl => 'TODO';
+
+  @override
+  String get unitPmolPerL => 'TODO';
+
+  @override
+  String get unitNgPerDl => 'TODO';
+
+  @override
+  String get unitNmolPerL => 'TODO';
+
+  @override
   String administrationRouteUnitMl(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

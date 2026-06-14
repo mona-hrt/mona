@@ -708,6 +708,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get unitMilligram => 'mg';
 
   @override
+  String get unitPgPerMl => 'pg/mL';
+
+  @override
+  String get unitPmolPerL => 'pmol/L';
+
+  @override
+  String get unitNgPerDl => 'ng/dL';
+
+  @override
+  String get unitNmolPerL => 'nmol/L';
+
+  @override
   String administrationRouteUnitMl(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1435,6 +1447,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get unitMilligram => 'mg';
+
+  @override
+  String get unitPgPerMl => 'pg/mL';
+
+  @override
+  String get unitPmolPerL => 'pmol/L';
+
+  @override
+  String get unitNgPerDl => 'ng/dL';
+
+  @override
+  String get unitNmolPerL => 'nmol/L';
 
   @override
   String administrationRouteUnitMl(num count) {

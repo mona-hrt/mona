@@ -209,6 +209,10 @@
   "transdermalDrops": "Трансдермальні краплі",
 
   "unitMilligram": "мг",
+  "unitPgPerMl": "пг/мл",
+  "unitPmolPerL": "пмоль/л",
+  "unitNgPerDl": "нг/дл",
+  "unitNmolPerL": "нмоль/л",
 
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{пігулка} other{пігулок} few{пігулки}}",

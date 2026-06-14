@@ -711,6 +711,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get unitMilligram => 'mg';
 
   @override
+  String get unitPgPerMl => 'pg/mL';
+
+  @override
+  String get unitPmolPerL => 'pmol/L';
+
+  @override
+  String get unitNgPerDl => 'ng/dL';
+
+  @override
+  String get unitNmolPerL => 'nmol/L';
+
+  @override
   String administrationRouteUnitMl(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

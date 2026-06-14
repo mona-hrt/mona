@@ -209,6 +209,10 @@
     "transdermalDrops": "Gotas transdérmicas",
 
     "unitMilligram": "mg",
+    "unitPgPerMl": "pg/mL",
+    "unitPmolPerL": "pmol/L",
+    "unitNgPerDl": "ng/dL",
+    "unitNmolPerL": "nmol/L",
 
     "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
     "administrationRouteUnitPill": "{count, plural, =1{comprimido} other{comprimidos}}",
