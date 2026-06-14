@@ -35,6 +35,7 @@ class EditSchedulePage extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
+            key: const ValueKey('editScheduleInfoTile'),
             title: Text(localizations.editScheduleInfo),
             subtitle: Text(currentSchedule.localizedSummary(localizations)),
             trailing: Icon(Icons.chevron_right),
