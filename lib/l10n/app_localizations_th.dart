@@ -88,7 +88,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get scheduleFrequencyInterval => 'ระยะห่าง';
 
   @override
-  String get scheduleFrequencyWeekly => 'Weekly';
+  String get scheduleFrequencyWeekly => 'ทุกสัปดาห์';
 
   @override
   String get newUpdateAvailable => 'มีอัพเดตใหม่!';
@@ -144,8 +144,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get exactRemindersDisabled => 'การแจ้งเตือนแบบตรงเวลาได้ปิดอยู่';
 
   @override
-  String get remindersDelayed =>
-      'การแจ้งเตือนอาจล่าช้าได้ แตะเพื่อเปิดการตั้งค่า';
+  String get remindersDelayed => 'การแจ้งเตือนอาจล่าช้าได้ แตะเพื่อเปิดการตั้งค่า';
 
   @override
   String get autoUpdate => 'อัพเดตอัตโนมัติ';
@@ -157,8 +156,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get checkForUpdates => 'ตรวจหาอัพเดตใหม่';
 
   @override
-  String get checkForUpdatesDescription =>
-      'ฉันจะตรวจหาอัพเดตใหม่ล่าสุดเอง\nจะทำให้เปิดเครือข่าย\n(จะไม่มีข้อมูลใดๆส่งออกนอกเครื่อง)';
+  String get checkForUpdatesDescription => 'ฉันจะตรวจหาอัพเดตใหม่ล่าสุดเอง\nจะทำให้เปิดเครือข่าย\n(จะไม่มีข้อมูลใดๆส่งออกนอกเครื่อง)';
 
   @override
   String appVersion(Object version) {
@@ -182,8 +180,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get importDataSubtitle => 'กู้คืนข้อมูลจากแบ็คอัพ JSON';
 
   @override
-  String get importDataOverwriteWarning =>
-      'จะแทนที่ข้อมูลทั้งหมดด้วยข้อมูลจากแบ็คอัพ โดยที่ย้อนกลับไม่ได้ ทำต่อ?';
+  String get importDataOverwriteWarning => 'จะแทนที่ข้อมูลทั้งหมดด้วยข้อมูลจากแบ็คอัพ โดยที่ย้อนกลับไม่ได้ ทำต่อ?';
 
   @override
   String get importConfirm => 'นำเข้า';
@@ -192,8 +189,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get importSuccessfulTitle => 'นำเข้าสำเร็จ';
 
   @override
-  String get importRestartRequired =>
-      'โปรดปิดแล้วเปิดแอพใหม่เพื่อให้ข้อมูลที่กู้คืนมาแสดงผล';
+  String get importRestartRequired => 'โปรดปิดแล้วเปิดแอพใหม่เพื่อให้ข้อมูลที่กู้คืนมาแสดงผล';
 
   @override
   String get closeApp => 'ปิดแอพ';
@@ -239,8 +235,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get updateDownloadAndInstall => 'ดาวน์โหลดและติดตั้ง';
 
   @override
-  String get updateInstallPermissionRequired =>
-      'ต้องอนุญาตการติดตั้งอัพเดตก่อน';
+  String get updateInstallPermissionRequired => 'ต้องอนุญาตการติดตั้งอัพเดตก่อน';
 
   @override
   String get updateDownloadingTitle => 'กำลังดาวน์โหลดอัพเดต…';
@@ -251,8 +246,7 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get updateDownloadFailed =>
-      'ดาวน์โหลดล้มเหลว โปรดตรวจสอบเครือข่ายของคุณ';
+  String get updateDownloadFailed => 'ดาวน์โหลดล้มเหลว โปรดตรวจสอบเครือข่ายของคุณ';
 
   @override
   String notificationMedicationReminderTitle(Object scheduleName) {
@@ -261,17 +255,17 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String notificationMedicationReminderBodyDate(Object date) {
-    return 'Scheduled for $date';
+    return 'กำหนดไว้วันที่ $date';
   }
 
   @override
   String notificationMedicationReminderBodyTime(Object time) {
-    return 'Scheduled for $time';
+    return 'กำหนดไว้เวลา $time';
   }
 
   @override
   String notificationMedicationReminderBodyWeekday(Object weekday) {
-    return 'Scheduled for $weekday';
+    return 'กำหนดไว้วัน$weekday';
   }
 
   @override
@@ -335,8 +329,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get notificationsUpdated => 'การแจ้งเตือนอัพเดตแล้ว';
 
   @override
-  String get notificationsUpdatedDescription =>
-      'ทุกตารางเวลามีการแจ้งเตือนของตนเองแล้ว\n\nโปรดตั้งการแจ้งเตือนของตารางเวลาของคุณเพื่อที่จะไม่ลืม';
+  String get notificationsUpdatedDescription => 'ทุกตารางเวลามีการแจ้งเตือนของตนเองแล้ว\n\nโปรดตั้งการแจ้งเตือนของตารางเวลาของคุณเพื่อที่จะไม่ลืม';
 
   @override
   String get dontShowAgain => 'อย่าแสตงอีก';
@@ -407,8 +400,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get bloodTestsTitle => 'การตรวจเลือด';
 
   @override
-  String get empty_blood_tests =>
-      'ผลตรวจเลือดจะมาขึ้นที่นี่ เรื่มด้วยการกดปุ่ม “เพื่ม”';
+  String get empty_blood_tests => 'ผลตรวจเลือดจะมาขึ้นที่นี่ เรื่มด้วยการกดปุ่ม “เพื่ม”';
 
   @override
   String get addBloodTest => 'เพิ่มผลตรวจเลือด';
@@ -642,8 +634,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get medicationEstradiolBenzoate => 'เอสตราไดออล เบนโซเอต';
 
   @override
-  String get medicationEstradiolCypionateSuspension =>
-      'สารแขวนลอยในเอสตราไดออล ไซพิโอเนต';
+  String get medicationEstradiolCypionateSuspension => 'สารแขวนลอยในเอสตราไดออล ไซพิโอเนต';
 
   @override
   String get medicationTestosteroneEnanthate => 'เทสโทสเตอโรน เอนันเทต';
@@ -661,8 +652,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get medicationTestosteroneBenzoate => 'เทสโทสเตอโรน เบนโซเอต';
 
   @override
-  String get medicationTestosteroneCypionateSuspension =>
-      'สารแขวนลอยในเทสโทสเตอโรน ไซพิโอเนต';
+  String get medicationTestosteroneCypionateSuspension => 'สารแขวนลอยในเทสโทสเตอโรน ไซพิโอเนต';
 
   @override
   String get injection => 'ยาฉีด';
