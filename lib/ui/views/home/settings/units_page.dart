@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/units_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class UnitsPage extends StatelessWidget {
           children: [
             for (final units in Units.values)
               RadioListTile<Units>(
-                title: Text(units.name),
+                title: Text(units.localizedName(context.l10n)),
                 value: units,
               ),
           ],

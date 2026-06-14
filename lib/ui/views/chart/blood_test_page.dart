@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/units_l10n.dart';
 import 'package:mona/ui/views/chart/edit_blood_test_page.dart';
 import 'package:mona/ui/views/chart/new_blood_test_page.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
@@ -55,10 +56,10 @@ class BloodTestPage extends StatelessWidget {
       title: Text(dateText),
       subtitle: Text(
         [
-          if (bloodtest.estradiolLevels != null)
-            '${l10n.estradiol} : ${bloodtest.estradiolLevels}',
-          if (bloodtest.testosteroneLevels != null)
-            '${l10n.testosterone} : ${bloodtest.testosteroneLevels}',
+          if (bloodtest.estradiolLevels case final e?)
+            '${l10n.estradiol} : ${e.value} ${e.unit.localizedName(l10n)}',
+          if (bloodtest.testosteroneLevels case final t?)
+            '${l10n.testosterone} : ${t.value} ${t.unit.localizedName(l10n)}',
         ].join('\n'),
       ),
       onTap: () {

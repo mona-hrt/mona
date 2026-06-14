@@ -12,25 +12,28 @@
     "noIntakesDue": "Nenhuma dose pendente hoje",
     "upcoming": "Próximos",
     "taken": "Tomado",
-    "daysAgoCount": "{count, plural, =1{ontem} other{há {count} dias}}",
+    "daysAgoCount": "{count, plural, other{há {count} dias}}",
     "@daysAgoCount": {
         "description": "=1 ontem; resto há # dias.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
-    "inDaysCount": "{count, plural, =1{amanhã} other{em {count} dias}}",
+    "yesterday": "ontem",
+    "inDaysCount": "{count, plural, other{em {count} dias}}",
     "@inDaysCount": {
         "description": "=1 amanhã; resto em # dias.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
+    "tomorrow": "amanhã",
     "lastTaken": "Última dose",
     "neverTakenYet": "Ainda não tomado",
     "scheduleFrequencyDaily": "Todos os dias",
     "scheduleFrequencyEveryNDays": "A cada {days} dias",
     "scheduleFrequencyInterval": "Intervalo",
+    "scheduleFrequencyWeekly": "Semanal",
     "newUpdateAvailable": "Uma nova atualização está disponível!",
     "goToSettings": "Ir para Configurações",
 
@@ -152,6 +155,19 @@
     "deleteItem": "Excluir {name}?",
     "remaining": "{amount} {unit} restantes",
 
+    "supplyType": "Tipo",
+    "syringe": "Seringas",
+    "wipe": "Lenços",
+    "needle": "Agulhas",
+    "gloves": "Luvas",
+    "bandage": "Curativos",
+
+    "syringeRemaining": "{count, plural, =1{1 seringa restante} other{{count} seringas restantes}}",
+    "wipeRemaining": "{count, plural, =1{1 lenço restante} other{{count} lenços restantes}}",
+    "needleRemaining": "{count, plural, =1{1 agulha restante} other{{count} agulhas restantes}}",
+    "glovesRemaining": "{count, plural, =1{1 luva restante} other{{count} luvas restantes}}",
+    "bandageRemaining": "{count, plural, =1{1 curativo restante} other{{count} curativos restantes}}",
+
     "add": "Adicionar",
     "save": "Salvar",
     "cancel": "Cancelar",
@@ -210,6 +226,12 @@
     "suppository": "Supositório",
     "transdermalSpray": "Spray transdérmico",
     "transdermalDrops": "Gotas transdérmicas",
+
+    "unitMilligram": "mg",
+    "unitPgPerMl": "pg/mL",
+    "unitPmolPerL": "pmol/L",
+    "unitNgPerDl": "ng/dL",
+    "unitNmolPerL": "nmol/L",
 
     "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
     "administrationRouteUnitPill": "{count, plural, =1{comprimido} other{comprimidos}}",

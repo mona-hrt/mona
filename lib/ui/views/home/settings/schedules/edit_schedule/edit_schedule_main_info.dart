@@ -5,6 +5,7 @@ import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -198,7 +199,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           label: localizations.amount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule.unit,
+          suffixText: _molecule.localizedUnit(context.l10n),
           errorText: _doseError,
           regexFormatter: RegexPatterns.floatNumber,
         ),

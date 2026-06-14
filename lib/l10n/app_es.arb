@@ -12,25 +12,28 @@
     "noIntakesDue": "No hay tomas pendientes hoy",
     "upcoming": "Próximamente",
     "taken": "Tomado",
-    "daysAgoCount": "{count, plural, =1{ayer} other{hace {count} días}}",
+    "daysAgoCount": "{count, plural, other{hace {count} días}}",
     "@daysAgoCount": {
         "description": "=1 ayer; resto hace # días.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
-    "inDaysCount": "{count, plural, =1{mañana} other{en {count} días}}",
+    "yesterday": "ayer",
+    "inDaysCount": "{count, plural, other{en {count} días}}",
     "@inDaysCount": {
         "description": "=1 mañana; resto en # días.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
+    "tomorrow": "mañana",
     "lastTaken": "Última toma",
     "neverTakenYet": "Aún no tomado",
     "scheduleFrequencyDaily": "Cada día",
     "scheduleFrequencyEveryNDays": "Cada {days} días",
     "scheduleFrequencyInterval": "Intervalo",
+    "scheduleFrequencyWeekly": "Semanal",
     "newUpdateAvailable": "¡Hay una nueva actualización disponible!",
     "goToSettings": "Ir a Configuración",
 
@@ -152,6 +155,19 @@
     "deleteItem": "¿Eliminar {name}?",
     "remaining": "{amount} {unit} restantes",
 
+    "supplyType": "Tipo",
+    "syringe": "Jeringas",
+    "wipe": "Toallitas",
+    "needle": "Agujas",
+    "gloves": "Guantes",
+    "bandage": "Tiritas",
+
+    "syringeRemaining": "{count, plural, =1{1 jeringa restante} other{{count} jeringas restantes}}",
+    "wipeRemaining": "{count, plural, =1{1 toallita restante} other{{count} toallitas restantes}}",
+    "needleRemaining": "{count, plural, =1{1 aguja restante} other{{count} agujas restantes}}",
+    "glovesRemaining": "{count, plural, =1{1 guante restante} other{{count} guantes restantes}}",
+    "bandageRemaining": "{count, plural, =1{1 tirita restante} other{{count} tiritas restantes}}",
+
     "add": "Añadir",
     "save": "Guardar",
     "cancel": "Cancelar",
@@ -210,6 +226,12 @@
     "suppository": "Supositorio",
     "transdermalSpray": "Spray transdérmico",
     "transdermalDrops": "Gotas transdérmicas",
+
+    "unitMilligram": "mg",
+    "unitPgPerMl": "pg/mL",
+    "unitPmolPerL": "pmol/L",
+    "unitNgPerDl": "ng/dL",
+    "unitNmolPerL": "nmol/L",
 
     "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
     "administrationRouteUnitPill": "{count, plural, =1{pastilla} other{pastillas}}",

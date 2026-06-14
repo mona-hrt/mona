@@ -12,6 +12,7 @@ import 'app_localizations_fr.dart';
 import 'app_localizations_pt.dart';
 import 'app_localizations_ru.dart';
 import 'app_localizations_sk.dart';
+import 'app_localizations_th.dart';
 import 'app_localizations_uk.dart';
 
 // ignore_for_file: type=lint
@@ -108,6 +109,7 @@ abstract class AppLocalizations {
     Locale('pt', 'BR'),
     Locale('ru'),
     Locale('sk'),
+    Locale('th'),
     Locale('uk')
   ];
 
@@ -183,17 +185,29 @@ abstract class AppLocalizations {
   /// **'Taken'**
   String get taken;
 
-  /// Past offset in days; =1 is the word “yesterday”, not a numeric phrase.
+  /// Past offset in days for count > 1. Use the 'yesterday' key for count == 1.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{yesterday} other{{count} days ago}}'**
+  /// **'{count, plural, other{{count} days ago}}'**
   String daysAgoCount(int count);
 
-  /// Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.
+  /// No description provided for @yesterday.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{tomorrow} other{in {count} days}}'**
+  /// **'yesterday'**
+  String get yesterday;
+
+  /// Future offset in days for count > 1. Use the 'tomorrow' key for count == 1.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{in {count} days}}'**
   String inDaysCount(int count);
+
+  /// No description provided for @tomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow'**
+  String get tomorrow;
 
   /// No description provided for @lastTaken.
   ///
@@ -942,32 +956,62 @@ abstract class AppLocalizations {
   /// No description provided for @syringe.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Syringe} other{Syringes}}'**
-  String syringe(num count);
+  /// **'Syringes'**
+  String get syringe;
 
   /// No description provided for @wipe.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Wipe} other{Wipes}}'**
-  String wipe(num count);
+  /// **'Wipes'**
+  String get wipe;
 
   /// No description provided for @needle.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Needle} other{Needles}}'**
-  String needle(num count);
+  /// **'Needles'**
+  String get needle;
 
   /// No description provided for @gloves.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Gloves} other{Gloves}}'**
-  String gloves(num count);
+  /// **'Gloves'**
+  String get gloves;
 
   /// No description provided for @bandage.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Bandage} other{Bandages}}'**
-  String bandage(num count);
+  /// **'Bandages'**
+  String get bandage;
+
+  /// No description provided for @syringeRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 syringe remaining} other{{count} syringes remaining}}'**
+  String syringeRemaining(num count);
+
+  /// No description provided for @wipeRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 wipe remaining} other{{count} wipes remaining}}'**
+  String wipeRemaining(num count);
+
+  /// No description provided for @needleRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 needle remaining} other{{count} needles remaining}}'**
+  String needleRemaining(num count);
+
+  /// No description provided for @glovesRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 glove remaining} other{{count} gloves remaining}}'**
+  String glovesRemaining(num count);
+
+  /// No description provided for @bandageRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 bandage remaining} other{{count} bandages remaining}}'**
+  String bandageRemaining(num count);
 
   /// No description provided for @add.
   ///
@@ -1287,6 +1331,36 @@ abstract class AppLocalizations {
   /// **'Transdermal drops'**
   String get transdermalDrops;
 
+  /// No description provided for @unitMilligram.
+  ///
+  /// In en, this message translates to:
+  /// **'mg'**
+  String get unitMilligram;
+
+  /// No description provided for @unitPgPerMl.
+  ///
+  /// In en, this message translates to:
+  /// **'pg/mL'**
+  String get unitPgPerMl;
+
+  /// No description provided for @unitPmolPerL.
+  ///
+  /// In en, this message translates to:
+  /// **'pmol/L'**
+  String get unitPmolPerL;
+
+  /// No description provided for @unitNgPerDl.
+  ///
+  /// In en, this message translates to:
+  /// **'ng/dL'**
+  String get unitNgPerDl;
+
+  /// No description provided for @unitNmolPerL.
+  ///
+  /// In en, this message translates to:
+  /// **'nmol/L'**
+  String get unitNmolPerL;
+
   /// No description provided for @administrationRouteUnitMl.
   ///
   /// In en, this message translates to:
@@ -1396,6 +1470,7 @@ class _AppLocalizationsDelegate
         'pt',
         'ru',
         'sk',
+        'th',
         'uk'
       ].contains(locale.languageCode);
 
@@ -1432,6 +1507,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsRu();
     case 'sk':
       return AppLocalizationsSk();
+    case 'th':
+      return AppLocalizationsTh();
     case 'uk':
       return AppLocalizationsUk();
   }

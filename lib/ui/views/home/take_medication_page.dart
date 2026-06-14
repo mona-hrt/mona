@@ -9,6 +9,7 @@ import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/l10n/helpers/supply_item_l10n.dart';
 import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
@@ -222,7 +223,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                 label: localizations.takenAmount,
                 onChanged: _onTakenDoseChanged,
                 inputType: TextInputType.numberWithOptions(decimal: true),
-                suffixText: widget.schedule.molecule.unit,
+                suffixText:
+                    widget.schedule.molecule.localizedUnit(localizations),
                 errorText: _takenDoseError,
                 regexFormatter: RegexPatterns.floatNumber),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
@@ -230,7 +232,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                 infoText: supplyItem.localizedSupplyAmount(
                   localizations,
                   _takenDose,
-                  widget.schedule.molecule.unit,
+                  widget.schedule.molecule,
                 ),
               ),
             FormSpacer(),

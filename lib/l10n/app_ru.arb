@@ -12,20 +12,22 @@
   "noIntakesDue": "На сегодня нет приёмов",
   "upcoming": "Ближайшие",
   "taken": "Принято",
-  "daysAgoCount": "{count, plural, =1{вчера} one{{count} день назад} few{{count} дня назад} other{{count} дней назад}}",
+  "daysAgoCount": "{count, plural, one{{count} день назад} few{{count} дня назад} other{{count} дней назад}}",
   "@daysAgoCount": {
     "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "inDaysCount": "{count, plural, =1{завтра} one{через {count} день} few{через {count} дня} other{через {count} дней}}",
+  "yesterday": "вчера",
+  "inDaysCount": "{count, plural, one{через {count} день} few{через {count} дня} other{через {count} дней}}",
   "@inDaysCount": {
     "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
+  "tomorrow": "завтра",
   "lastTaken": "Последний приём",
   "neverTakenYet": "Ещё не принято",
   "scheduleFrequencyDaily": "Ежедневно",
@@ -99,7 +101,7 @@
   "editScheduleInfo": "Изменить информацию расписания",
   "scheduling": "Расписание",
   "noNotifications": "Нет уведомлений",
-  "notificationsCount": "{count, plural, =1{одно уведомление} one{{count} уведомление} few{{count} уведомления} other{{count} уведомлений}}",
+  "notificationsCount": "{count, plural, one{{count} уведомление} few{{count} уведомления} other{{count} уведомлений}}",
   "editSchedule": "Изменение расписания",
   "deleteSchedule": "Удалить {name}?",
   "scheduleNotifications": "Уведомления расписания",
@@ -152,6 +154,19 @@
   "usedAmount": "Использовано",
   "deleteItem": "Удалить {name}?",
   "remaining": "{amount} {unit} осталось",
+
+  "supplyType": "Тип",
+  "syringe": "Шприцы",
+  "wipe": "Салфетки",
+  "needle": "Иглы",
+  "gloves": "Перчатки",
+  "bandage": "Пластыри",
+
+  "syringeRemaining": "{count, plural, one{1 шприц осталось} few{{count} шприца осталось} other{{count} шприцев осталось}}",
+  "wipeRemaining": "{count, plural, one{1 салфетка осталось} few{{count} салфетки осталось} other{{count} салфеток осталось}}",
+  "needleRemaining": "{count, plural, one{1 игла осталось} few{{count} иглы осталось} other{{count} игл осталось}}",
+  "glovesRemaining": "{count, plural, one{1 перчатка осталось} few{{count} перчатки осталось} other{{count} перчаток осталось}}",
+  "bandageRemaining": "{count, plural, one{1 пластырь осталось} few{{count} пластыря осталось} other{{count} пластырей осталось}}",
 
   "add": "Добавить",
   "save": "Сохранить",
@@ -211,6 +226,12 @@
   "suppository": "Суппозитория",
   "transdermalSpray": "Трансдермальный спрей",
   "transdermalDrops": "Трансдермальные капли",
+
+  "unitMilligram": "мг",
+  "unitPgPerMl": "пг/мл",
+  "unitPmolPerL": "пмоль/л",
+  "unitNgPerDl": "нг/дл",
+  "unitNmolPerL": "нмоль/л",
 
   "administrationRouteUnitMl": "{count, plural, other{мл}}",
   "administrationRouteUnitPill": "{count, plural, one{таблетка} few{таблетки} other{таблеток}}",

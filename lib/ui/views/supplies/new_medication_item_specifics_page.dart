@@ -7,6 +7,7 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/l10n/helpers/administration_route_l10n.dart';
+import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
@@ -189,7 +190,7 @@ class _NewMedicationItemSpecificsPageState
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _molecule != null && _administrationRoute != null
-              ? '${_molecule!.unit}/${_administrationRoute!.localizedUnit(localizations, 1)}'
+              ? '${_molecule!.localizedUnit(localizations)}/${_administrationRoute!.localizedUnit(localizations, 1)}'
               : null,
           regexFormatter: RegexPatterns.floatNumber,
         ),
