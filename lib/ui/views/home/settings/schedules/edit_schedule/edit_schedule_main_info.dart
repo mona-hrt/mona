@@ -156,6 +156,8 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     return ModelForm(
       title: localizations.editSchedule,
       submitButtonLabel: localizations.save,
+      submitButtonKey: const ValueKey('editScheduleSave'),
+      deleteButtonKey: const ValueKey('editScheduleDelete'),
       isFormValid: _isFormValid,
       saveChanges: _saveSchedule,
       onDelete: _confirmDelete,
@@ -163,6 +165,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
         FormTextField(
           controller: _nameController,
           label: localizations.name,
+          fieldKey: const ValueKey('editScheduleName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,

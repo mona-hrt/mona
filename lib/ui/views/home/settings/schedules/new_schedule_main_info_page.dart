@@ -136,6 +136,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
     return ModelForm(
       title: localizations.newSchedule,
       submitButtonLabel: localizations.next,
+      submitButtonKey: const ValueKey('newScheduleNext'),
       isFormValid: _isFormValid,
       saveChanges: _next,
       avatar: Symbols.prescriptions,
@@ -143,6 +144,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         FormTextField(
           controller: _nameController,
           label: localizations.name,
+          fieldKey: const ValueKey('newScheduleName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
         ),
@@ -173,6 +175,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         FormTextField(
           controller: _doseController,
           label: localizations.amount,
+          fieldKey: const ValueKey('newScheduleAmount'),
           suffixText: _molecule?.localizedUnit(context.l10n),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),

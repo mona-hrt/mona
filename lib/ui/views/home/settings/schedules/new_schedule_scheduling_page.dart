@@ -176,6 +176,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     return ModelForm(
       title: widget.name,
       submitButtonLabel: l10n.save,
+      submitButtonKey: const ValueKey('newScheduleSave'),
       isFormValid: _isFormValid,
       saveChanges: _save,
       closeAll: _closeAll,
@@ -214,7 +215,12 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       },
       actions: [
         M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyDaily)),
-        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyInterval)),
+        M3EToggleButtonGroupAction(
+          label: Text(
+            l10n.scheduleFrequencyInterval,
+            key: const ValueKey('scheduleTypeInterval'),
+          ),
+        ),
         M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyWeekly)),
       ],
     );
@@ -226,6 +232,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       FormTextField(
         controller: _intervalDaysController,
         label: l10n.every,
+        fieldKey: const ValueKey('newScheduleEvery'),
         suffixText: l10n.days,
         onChanged: _refresh,
         inputType: TextInputType.number,
@@ -250,6 +257,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         times: _intakeOrNotificationTimes,
         rowIcon: widget.administrationRoute.icon,
         addLabel: l10n.addIntakeTime,
+        addTileKey: const ValueKey('addNotificationTile'),
         onAdd: _addTime,
         onEdit: _editTime,
         onDelete: _deleteTime,
