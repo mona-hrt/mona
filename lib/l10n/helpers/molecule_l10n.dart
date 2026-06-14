@@ -21,8 +21,10 @@ extension MoleculeL10n on Molecule {
 
   String localizedUnit(AppLocalizations localizations) {
     switch (unit) {
-      case MoleculeUnit.mg:
+      case 'mg':
         return localizations.unitMilligram;
+      default:
+        return unit;
     }
   }
 }

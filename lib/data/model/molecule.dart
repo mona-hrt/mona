@@ -1,21 +1,6 @@
-enum MoleculeUnit {
-  mg;
-
-  factory MoleculeUnit.fromJson(Object? value) {
-    if (value is String) {
-      for (final unit in MoleculeUnit.values) {
-        if (unit.name == value) return unit;
-      }
-    }
-    return MoleculeUnit.mg;
-  }
-
-  String toJson() => name;
-}
-
 class Molecule {
   final String name;
-  final MoleculeUnit unit;
+  final String unit;
 
   const Molecule({
     required this.name,
@@ -25,7 +10,7 @@ class Molecule {
   factory Molecule.fromJson(Map<String, dynamic> json) {
     return Molecule(
       name: json['name'],
-      unit: MoleculeUnit.fromJson(json['unit']),
+      unit: json['unit'],
     );
   }
 
@@ -33,7 +18,7 @@ class Molecule {
 
   Map<String, dynamic> toJson() => {
         'name': name,
-        'unit': unit.toJson(),
+        'unit': unit,
       };
 
   @override
@@ -49,42 +34,35 @@ class Molecule {
 
 class KnownMolecules {
   // Estrogens
-  static const estradiol = Molecule(name: 'estradiol', unit: MoleculeUnit.mg);
+  static const estradiol = Molecule(name: 'estradiol', unit: 'mg');
 
   // Progestogens
-  static const progesterone =
-      Molecule(name: 'progesterone', unit: MoleculeUnit.mg);
+  static const progesterone = Molecule(name: 'progesterone', unit: 'mg');
 
   // Androgens
-  static const testosterone =
-      Molecule(name: 'testosterone', unit: MoleculeUnit.mg);
-  static const nandrolone = Molecule(name: 'nandrolone', unit: MoleculeUnit.mg);
+  static const testosterone = Molecule(name: 'testosterone', unit: 'mg');
+  static const nandrolone = Molecule(name: 'nandrolone', unit: 'mg');
   static const dihydrotestosterone =
-      Molecule(name: 'dihydrotestosterone', unit: MoleculeUnit.mg);
+      Molecule(name: 'dihydrotestosterone', unit: 'mg');
 
   // Anti-androgens
-  static const spironolactone =
-      Molecule(name: 'spironolactone', unit: MoleculeUnit.mg);
+  static const spironolactone = Molecule(name: 'spironolactone', unit: 'mg');
   static const cyproteroneAcetate =
-      Molecule(name: 'cyproterone acetate', unit: MoleculeUnit.mg);
+      Molecule(name: 'cyproterone acetate', unit: 'mg');
   static const leuprorelinAcetate =
-      Molecule(name: 'leuprorelin acetate', unit: MoleculeUnit.mg);
-  static const bicalutamide =
-      Molecule(name: 'bicalutamide', unit: MoleculeUnit.mg);
-  static const decapeptyl = Molecule(name: 'decapeptyl', unit: MoleculeUnit.mg);
+      Molecule(name: 'leuprorelin acetate', unit: 'mg');
+  static const bicalutamide = Molecule(name: 'bicalutamide', unit: 'mg');
+  static const decapeptyl = Molecule(name: 'decapeptyl', unit: 'mg');
 
   // SERMs
-  static const raloxifene = Molecule(name: 'Raloxifene', unit: MoleculeUnit.mg);
-  static const tamoxifen = Molecule(name: 'Tamoxifen', unit: MoleculeUnit.mg);
+  static const raloxifene = Molecule(name: 'Raloxifene', unit: 'mg');
+  static const tamoxifen = Molecule(name: 'Tamoxifen', unit: 'mg');
 
   // Other
-  static const finasteride =
-      Molecule(name: 'finasteride', unit: MoleculeUnit.mg);
-  static const dutasteride =
-      Molecule(name: 'dutasteride', unit: MoleculeUnit.mg);
-  static const minoxidil = Molecule(name: 'minoxidil', unit: MoleculeUnit.mg);
-  static const pioglitazone =
-      Molecule(name: 'pioglitazone', unit: MoleculeUnit.mg);
+  static const finasteride = Molecule(name: 'finasteride', unit: 'mg');
+  static const dutasteride = Molecule(name: 'dutasteride', unit: 'mg');
+  static const minoxidil = Molecule(name: 'minoxidil', unit: 'mg');
+  static const pioglitazone = Molecule(name: 'pioglitazone', unit: 'mg');
 
   static const all = [
     estradiol,
