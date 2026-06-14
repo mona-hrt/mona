@@ -159,7 +159,7 @@ class IntakeTileViewModel {
       return localizations.taken;
     }
 
-    return "${schedule.dose} ${schedule.molecule.unit} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)}";
+    return "${schedule.dose} ${schedule.molecule.localizedUnit(localizations)} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)}";
   }
 
   String? get scheduledText {

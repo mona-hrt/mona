@@ -209,6 +209,8 @@
   "transdermalSpray": "Трансдермальный спрей",
   "transdermalDrops": "Трансдермальные капли",
 
+  "unitMilligram": "мг",
+
   "administrationRouteUnitMl": "{count, plural, other{мл}}",
   "administrationRouteUnitPill": "{count, plural, one{таблетка} few{таблетки} other{таблеток}}",
   "administrationRouteUnitPatch": "{count, plural, one{пластырь} few{пластыря} other{пластырей}}",

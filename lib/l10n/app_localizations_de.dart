@@ -705,6 +705,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get transdermalDrops => 'Transdermale Tropfen';
 
   @override
+  String get unitMilligram => 'mg';
+
+  @override
   String administrationRouteUnitMl(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

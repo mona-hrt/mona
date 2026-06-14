@@ -205,6 +205,7 @@
   "suppository": "ยาเหน็บทวาร",
   "transdermalSpray": "สเปรย์ซึมผิวหนัง",
   "transdermalDrops": "ยาหยอดซึมผิวหนัง",
+  "unitMilligram": "TODO",
   "administrationRouteUnitMl": "{count, plural, =1{มิลลิลิตร} other{มิลลิลิตร}}",
   "administrationRouteUnitPill": "{count, plural, =1{เม็ด} other{เม็ด}}",
   "administrationRouteUnitPatch": "{count, plural, =1{แผ่น} other{แผ่น}}",

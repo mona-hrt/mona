@@ -1271,6 +1271,12 @@ abstract class AppLocalizations {
   /// **'Transdermal drops'**
   String get transdermalDrops;
 
+  /// No description provided for @unitMilligram.
+  ///
+  /// In en, this message translates to:
+  /// **'mg'**
+  String get unitMilligram;
+
   /// No description provided for @administrationRouteUnitMl.
   ///
   /// In en, this message translates to:

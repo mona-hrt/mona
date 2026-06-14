@@ -7,6 +7,7 @@ import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/l10n/helpers/administration_route_l10n.dart';
+import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -246,7 +247,7 @@ class _EditItemPageState extends State<EditItemPage> {
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText:
-              '${_molecule.unit}/${_administrationRoute.localizedUnit(localizations, 1)}',
+              '${_molecule.localizedUnit(localizations)}/${_administrationRoute.localizedUnit(localizations, 1)}',
           errorText: _concentrationError,
           regexFormatter: r'[0-9.,]',
         ),

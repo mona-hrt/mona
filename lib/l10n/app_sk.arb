@@ -207,6 +207,8 @@
   "transdermalSpray": "Transdermálny sprej",
   "transdermalDrops": "Transdermálne kvapky",
 
+  "unitMilligram": "mg",
+
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{pilulka} other{piluliek} few{pilulky}}",
   "administrationRouteUnitPatch": "{count, plural, =1{náplasť} other{náplastí} few{náplasti}}",

@@ -6,6 +6,7 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/settings/schedules/new_schedule_scheduling_page.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -171,7 +172,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         FormTextField(
           controller: _doseController,
           label: localizations.amount,
-          suffixText: _molecule?.unit,
+          suffixText: _molecule?.localizedUnit(context.l10n),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: '[0-9.,]',

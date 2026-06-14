@@ -220,6 +220,8 @@
   "transdermalSpray": "Spray transdermique",
   "transdermalDrops": "Gouttes transdermiques",
 
+  "unitMilligram": "mg",
+
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{comprimé} other{comprimés}}",
   "administrationRouteUnitPatch": "{count, plural, =1{patch} other{patchs}}",

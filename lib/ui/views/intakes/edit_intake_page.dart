@@ -10,6 +10,7 @@ import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/l10n/helpers/supply_item_l10n.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
@@ -226,7 +227,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
               label: localizations.amount,
               onChanged: _onTakenDoseChanged,
               inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.intake.molecule.unit,
+              suffixText: widget.intake.molecule.localizedUnit(localizations),
               errorText: _takenDoseError,
               regexFormatter: r'[0-9.,]',
             ),
@@ -235,7 +236,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
                 infoText: supplyItem.localizedSupplyAmount(
                   localizations,
                   _takenDose,
-                  widget.intake.molecule.unit,
+                  widget.intake.molecule,
                 ),
               ),
             FormSpacer(),
