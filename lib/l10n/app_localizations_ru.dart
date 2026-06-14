@@ -370,6 +370,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get amount => 'Количество';
 
   @override
+  String get takenAmount => 'Принятое количество';
+
+  @override
+  String get wastedAmount => 'Потерянное количество';
+
+  @override
   String get none => 'Не выбрано';
 
   @override
@@ -397,6 +403,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get microliters => 'мкл';
+
+  @override
+  String get milliliters => 'мл';
 
   @override
   String get empty_levels =>

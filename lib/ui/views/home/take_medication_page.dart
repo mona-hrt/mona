@@ -18,6 +18,7 @@ import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +37,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   late DateTime _takenDate;
   late TextEditingController _takenDoseController;
   late Decimal _takenDose;
+  late TextEditingController _wastedAmountController;
+  late Decimal _wastedAmount;
   InjectionSide? _selectedSide;
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
@@ -46,6 +49,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(context.l10n, _takenDoseController.text);
+
+  String? get _wastedAmountError => MedicationIntake.validateWastedAmount(
+      context.l10n, _wastedAmountController.text);
 
   String? get _deadSpaceError => MedicationIntake.validateDeadSpace(
       context.l10n, _deadSpaceController.text);
@@ -61,15 +67,15 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
     MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
         .takeMedication(
-      dose: _takenDose,
-      scheduledTime: widget.scheduledTime,
-      takenDateTime: _takenDate.toUtc(),
-      supplyItem: _selectedSupplyItem,
-      schedule: widget.schedule,
-      side: _selectedSide,
-      deadSpace: _deadSpace,
-      notes: notes,
-    );
+            takenDose: _takenDose,
+            scheduledTime: widget.scheduledTime,
+            takenDateTime: _takenDate.toUtc(),
+            supplyItem: _selectedSupplyItem,
+            schedule: widget.schedule,
+            side: _selectedSide,
+            deadSpace: _deadSpace,
+            notes: notes,
+            wastedAmount: _wastedAmount);
 
     Navigator.of(context).pop();
   }
@@ -89,11 +95,11 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   }
 
   void _onTakenDoseChanged() {
-    final dose = _takenDoseController.text.toDecimalOrNull;
+    final takenDose = _takenDoseController.text.toDecimalOrNull;
 
-    if (dose != null) {
+    if (takenDose != null) {
       setState(() {
-        _takenDose = dose;
+        _takenDose = takenDose;
       });
     }
   }
@@ -105,6 +111,18 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
       setState(() {
         _deadSpace = deadSpace;
       });
+    }
+  }
+
+  void _onWastedAmountChanged() {
+    final wasted = _wastedAmountController.text.toDecimalOrNull;
+
+    if (wasted != null) {
+      setState(() {
+        _wastedAmount = wasted;
+      });
+    } else {
+      setState(() {});
     }
   }
 
@@ -121,8 +139,10 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     super.initState();
     _takenDate = DateTime.now();
     _takenDose = widget.schedule.dose;
+    _wastedAmount = Decimal.zero;
     _takenDoseController =
         TextEditingController(text: widget.schedule.dose.toString());
+    _wastedAmountController = TextEditingController(text: '0');
     _deadSpaceController = TextEditingController(text: '0');
     _notesController = TextEditingController();
   }
@@ -130,6 +150,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   @override
   void dispose() {
     _takenDoseController.dispose();
+    _wastedAmountController.dispose();
     _deadSpaceController.dispose();
     _notesController.dispose();
     super.dispose();
@@ -198,14 +219,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             ),
             FormSpacer(),
             FormTextField(
-              controller: _takenDoseController,
-              label: localizations.amount,
-              onChanged: _onTakenDoseChanged,
-              inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.schedule.molecule.localizedUnit(localizations),
-              errorText: _takenDoseError,
-              regexFormatter: r'[0-9.,]',
-            ),
+                controller: _takenDoseController,
+                label: localizations.takenAmount,
+                onChanged: _onTakenDoseChanged,
+                inputType: TextInputType.numberWithOptions(decimal: true),
+                uffixText: widget.schedule.molecule.localizedUnit(localizations),
+                errorText: _takenDoseError,
+                regexFormatter: RegexPatterns.floatNumber),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
                 infoText: supplyItem.localizedSupplyAmount(
@@ -229,14 +249,21 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                 label: localizations.injectionSide,
               ),
               FormTextField(
-                controller: _deadSpaceController,
-                label: localizations.needleDeadSpace,
-                onChanged: _onDeadSpaceChanged,
-                inputType: TextInputType.numberWithOptions(decimal: true),
-                suffixText: localizations.microliters,
-                errorText: _deadSpaceError,
-                regexFormatter: r'[0-9.,]',
-              ),
+                  controller: _wastedAmountController,
+                  label: localizations.wastedAmount,
+                  onChanged: _onWastedAmountChanged,
+                  inputType: TextInputType.numberWithOptions(decimal: true),
+                  suffixText: localizations.milliliters,
+                  errorText: _wastedAmountError,
+                  regexFormatter: RegexPatterns.floatNumber),
+              FormTextField(
+                  controller: _deadSpaceController,
+                  label: localizations.needleDeadSpace,
+                  onChanged: _onDeadSpaceChanged,
+                  inputType: TextInputType.numberWithOptions(decimal: true),
+                  suffixText: localizations.microliters,
+                  errorText: _deadSpaceError,
+                  regexFormatter: RegexPatterns.floatNumber),
             ],
             FormSpacer(),
             FormTextField(

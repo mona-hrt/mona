@@ -16,6 +16,7 @@ import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -181,7 +182,7 @@ class _NewMedicationItemSpecificsPageState
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _administrationRoute?.localizedUnit(localizations, 1),
-          regexFormatter: r'[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
         ),
         FormTextField(
           controller: _concentrationController,
@@ -191,7 +192,7 @@ class _NewMedicationItemSpecificsPageState
           suffixText: _molecule != null && _administrationRoute != null
               ? '${_molecule!.localizedUnit(localizations)}/${_administrationRoute!.localizedUnit(localizations, 1)}'
               : null,
-          regexFormatter: r'[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
         ),
       ],
     );

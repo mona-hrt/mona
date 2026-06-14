@@ -116,6 +116,8 @@
     "editIntake": "Einnahme bearbeiten",
     "date": "Datum",
     "amount": "Menge",
+    "takenAmount": "Eingenommene Menge",
+    "wastedAmount": "Verworfene Menge",
     "none": "Keine",
     "supplyItem": "Vorratselement",
     "injectionSide": "Injektionsseite",
@@ -125,6 +127,7 @@
     "needleDeadSpace": "Totraum der Nadel",
     "notes": "Notizen",
     "microliters": "μL",
+    "milliliters": "mL",
 
     "empty_levels": "Estradiol-Injektionen werden in diesem Tab angezeigt",
     "bloodTestsTitle": "Bluttests",

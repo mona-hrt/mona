@@ -117,6 +117,8 @@
   "editIntake": "Modifier la prise",
   "date": "Date",
   "amount": "Quantité",
+  "takenAmount": "Quantité prise",
+  "wastedAmount": "Quantité perdue",
   "none": "Aucun",
   "supplyItem": "Consommable",
   "injectionSide": "Côté",
@@ -126,6 +128,7 @@
   "needleDeadSpace": "Espace mort de l'aiguille",
   "notes": "Notes",
   "microliters": "μL",
+  "milliliters": "mL",
 
   "empty_levels": "Les injections d’estradiol s’afficheront dans cet onglet",
   "bloodTestsTitle": "Prises de sang",

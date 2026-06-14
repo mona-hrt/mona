@@ -116,6 +116,8 @@
   "editIntake": "Uprav dávku",
   "date": "Dátum",
   "amount": "Množstvo",
+  "takenAmount": "Užité množstvo",
+  "wastedAmount": "Stratené množstvo",
   "none": "Žiadna",
   "supplyItem": "Zásoba",
   "injectionSide": "Strana injekcie",
@@ -125,6 +127,7 @@
   "needleDeadSpace": "Mŕtvy priestor ihly",
   "notes": "Poznámky",
   "microliters": "μL",
+  "milliliters": "mL",
 
   "empty_levels": "Estradiolové injekcie sa zobrazia na tejto karte",
   "bloodTestsTitle": "Krvné testy",

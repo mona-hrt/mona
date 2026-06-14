@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mona/services/db/db_tables.dart';
 import 'package:mona/services/db/upgrade/db_upgrade.dart';
 import 'package:mona/services/db/upgrade/v10.dart';
+import 'package:mona/services/db/upgrade/v11.dart';
 import 'package:mona/services/db/upgrade/v2.dart';
 import 'package:mona/services/db/upgrade/v3.dart';
 import 'package:mona/services/db/upgrade/v4.dart';
@@ -14,7 +15,7 @@ import 'package:mona/services/db/upgrade/v9.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-const int currentDatabaseVersion = 10;
+const int currentDatabaseVersion = 11;
 
 final Map<int, DbUpgrade> _upgrades = {
   2: DbUpgradeV2(),
@@ -26,6 +27,7 @@ final Map<int, DbUpgrade> _upgrades = {
   8: DbUpgradeV8(),
   9: DbUpgradeV9(),
   10: DbUpgradeV10(),
+  11: DbUpgradeV11(),
 };
 
 class AppDatabase {
@@ -46,6 +48,9 @@ class AppDatabase {
     WidgetsFlutterBinding.ensureInitialized();
 
     if (_database != null) return _database!;
+
+    assert(currentDatabaseVersion == _upgrades.entries.last.key,
+        "Current database version mismatches last upgrade version.");
 
     if (Platform.isLinux || Platform.isWindows) {
       sqfliteFfiInit();
