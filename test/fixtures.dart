@@ -4,11 +4,8 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
@@ -29,19 +26,16 @@ MedicationSchedule aMedicationSchedule({
   String? name,
   SchedulingStrategy? scheduling,
   Date? startDate,
-  Decimal? dose,
-  AdministrationRoute administrationRoute = AdministrationRoute.oral,
-  Ester? ester,
 }) {
+  final resolvedId = id ?? _generateId();
   return MedicationSchedule(
-    id: id ?? _generateId(),
-    name: name ?? 'nulcac2',
-    dose: dose ?? Decimal.one,
+    id: resolvedId,
+    name: name ?? 'Med-$resolvedId',
+    dose: Decimal.one,
     scheduling: scheduling ?? aSchedulingStrategy(),
     startDate: startDate ?? Date.today(),
     molecule: KnownMolecules.estradiol,
-    administrationRoute: administrationRoute,
-    ester: ester,
+    administrationRoute: AdministrationRoute.oral,
   );
 }
 
@@ -80,62 +74,19 @@ MedicationIntake aMedicationIntake({
   TimeOfDay? time,
   int? id,
   int? scheduleId,
-  Decimal? dose,
-  int? supplyItemId,
-  Decimal? wastedAmount,
-  AdministrationRoute administrationRoute = AdministrationRoute.oral,
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
-      takenDose: dose ?? Decimal.one,
+      dose: Decimal.one,
       takenDateTime: time != null
           ? DateTime.utc(2025, 1, 1, time.hour, time.minute)
           : DateTime.utc(2025, 1, 1),
       takenTimeZone: 'Etc/UTC',
       scheduleId: scheduleId ?? _generateId(),
       molecule: KnownMolecules.estradiol,
-      administrationRoute: administrationRoute,
+      administrationRoute: AdministrationRoute.oral,
       scheduledTime: time,
-      supplyItemId: supplyItemId,
-      wastedAmount: wastedAmount,
     );
-
-MedicationSupplyItem aMedicationSupplyItem({
-  int? id,
-  String? name,
-  Decimal? totalDose,
-  Decimal? usedDose,
-  Decimal? concentration,
-  AdministrationRoute administrationRoute = AdministrationRoute.oral,
-  Ester? ester,
-}) {
-  final resolvedId = id ?? _generateId();
-  return MedicationSupplyItem(
-    id: resolvedId,
-    name: name ?? 'MedSupply-$resolvedId',
-    totalDose: totalDose ?? Decimal.parse('10'),
-    usedDose: usedDose ?? Decimal.parse('1'),
-    concentration: concentration ?? Decimal.parse('1'),
-    molecule: KnownMolecules.estradiol,
-    administrationRoute: administrationRoute,
-    ester: ester,
-  );
-}
-
-GenericSupply aGenericSupply({
-  int? id,
-  String? name,
-  int amount = 5,
-  GenericSupplyType genericSupplyType = GenericSupplyType.syringe,
-}) {
-  final resolvedId = id ?? _generateId();
-  return GenericSupply(
-    id: resolvedId,
-    name: name ?? 'Generic-$resolvedId',
-    amount: amount,
-    genericSupplyType: genericSupplyType,
-  );
-}
 
 /// The day after [testNow] at 09:00 UTC.
 final _tomorrowMorning = DateTime.utc(2026, 6, 2, 9, 0);

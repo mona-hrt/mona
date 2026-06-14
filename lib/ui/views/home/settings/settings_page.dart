@@ -5,7 +5,6 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/distribution.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/units_l10n.dart';
 import 'package:mona/services/backup_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -197,7 +196,6 @@ class _SettingsPageState extends State<SettingsPage>
             ),
           ),
           ListTile(
-            key: const ValueKey('settingsSchedulesTile'),
             title: Text(localizations.schedules),
             subtitle: Text(medicationScheduleProvider.schedules.isEmpty
                 ? localizations.noSchedules
@@ -267,8 +265,7 @@ class _SettingsPageState extends State<SettingsPage>
           ),
           ListTile(
             title: Text(localizations.units),
-            subtitle:
-                Text(preferencesService.units.localizedName(localizations)),
+            subtitle: Text(preferencesService.units.name),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(

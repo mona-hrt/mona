@@ -12,22 +12,20 @@
   "noIntakesDue": "Aucune prise prévue aujourd'hui",
   "upcoming": "À venir",
   "taken": "Pris",
-  "daysAgoCount": "{count, plural, other{il y a {count} jours}}",
+  "daysAgoCount": "{count, plural, =1{hier} other{il y a {count} jours}}",
   "@daysAgoCount": {
     "description": "Décalage passé en jours ; =1 = hier (mot, pas « il y a 1 jour »).",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "yesterday": "hier",
-  "inDaysCount": "{count, plural, other{dans {count} jours}}",
+  "inDaysCount": "{count, plural, =1{demain} other{dans {count} jours}}",
   "@inDaysCount": {
     "description": "Décalage futur en jours ; =1 = demain (mot, pas « dans 1 jour »).",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "tomorrow": "demain",
   "lastTaken": "Dernière prise",
   "neverTakenYet": "Jamais pris auparavant",
   "scheduleFrequencyDaily": "Tous les jours",
@@ -119,8 +117,6 @@
   "editIntake": "Modifier la prise",
   "date": "Date",
   "amount": "Quantité",
-  "takenAmount": "Quantité prise",
-  "wastedAmount": "Quantité perdue",
   "none": "Aucun",
   "supplyItem": "Consommable",
   "injectionSide": "Côté",
@@ -130,7 +126,6 @@
   "needleDeadSpace": "Espace mort de l'aiguille",
   "notes": "Notes",
   "microliters": "μL",
-  "milliliters": "mL",
 
   "empty_levels": "Les injections d’estradiol s’afficheront dans cet onglet",
   "bloodTestsTitle": "Prises de sang",
@@ -160,17 +155,11 @@
   "medicationItemType": "Médicament",
   "genericItemType": "Matériel",
   "supplyType": "Type",
-  "syringe": "Seringues",
-  "wipe": "Lingettes",
-  "needle": "Aiguilles",
-  "gloves": "Gants",
-  "bandage": "Pansements",
-
-  "syringeRemaining": "{count, plural, =1{1 seringue restante} other{{count} seringues restantes}}",
-  "wipeRemaining": "{count, plural, =1{1 lingette restante} other{{count} lingettes restantes}}",
-  "needleRemaining": "{count, plural, =1{1 aiguille restante} other{{count} aiguilles restantes}}",
-  "glovesRemaining": "{count, plural, =1{1 gant restant} other{{count} gants restants}}",
-  "bandageRemaining": "{count, plural, =1{1 pansement restant} other{{count} pansements restants}}",
+  "syringe": "{count, plural, =1{Seringue} other{Seringues}}",
+  "wipe": "{count, plural, =1{Lingette} other{Lingettes}}",
+  "needle": "{count, plural, =1{Aiguille} other{Aiguilles}}",
+  "gloves": "{count, plural, =1{Gants} other{Gants}}",
+  "bandage": "{count, plural, =1{Pansement} other{Pansements}}",
 
   "add": "Ajouter",
   "save": "Enregistrer",
@@ -230,12 +219,6 @@
   "suppository": "Suppositoire",
   "transdermalSpray": "Spray transdermique",
   "transdermalDrops": "Gouttes transdermiques",
-
-  "unitMilligram": "mg",
-  "unitPgPerMl": "pg/mL",
-  "unitPmolPerL": "pmol/L",
-  "unitNgPerDl": "ng/dL",
-  "unitNmolPerL": "nmol/L",
 
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{comprimé} other{comprimés}}",

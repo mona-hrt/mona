@@ -48,7 +48,7 @@ class ChooseScheduleTile extends StatelessWidget {
 
     final localizations = context.l10n;
     String subtitle =
-        "${schedule.dose} ${schedule.molecule.localizedUnit(localizations)} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)} • "
+        "${schedule.dose} ${schedule.molecule.unit} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)} • "
         "${schedule.administrationRoute.localizedName(localizations)}";
 
     return Card.filled(

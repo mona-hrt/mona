@@ -92,7 +92,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
       graphIntakes.map(
         (intake) => MapEntry(
           intake.takenLocalDate!.differenceInDays(startDate),
-          GraphIntake(intake.takenDose.toDouble(), intake.ester!),
+          GraphIntake(intake.dose.toDouble(), intake.ester!),
         ),
       ),
     );

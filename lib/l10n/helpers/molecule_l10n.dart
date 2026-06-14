@@ -18,15 +18,6 @@ extension MoleculeL10n on Molecule {
     return compound ??
         '${localizedName(localizations)} ${ester.localizedName(localizations)}';
   }
-
-  String localizedUnit(AppLocalizations localizations) {
-    switch (unit) {
-      case 'mg':
-        return localizations.unitMilligram;
-      default:
-        return unit;
-    }
-  }
 }
 
 String? _compoundMedicationDisplayName(

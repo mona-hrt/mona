@@ -7,7 +7,7 @@ import 'package:mona/l10n/helpers/molecule_l10n.dart';
 
 extension MedicationScheduleL10n on MedicationSchedule {
   String localizedSummary(AppLocalizations localizations) =>
-      '$dose ${molecule.localizedUnit(localizations)} • ${molecule.localizedNameWithEster(ester, localizations)} • '
+      '$dose ${molecule.unit} • ${molecule.localizedNameWithEster(ester, localizations)} • '
       '${administrationRoute.localizedName(localizations)}';
 
   String localizedFrequency(AppLocalizations localizations) {

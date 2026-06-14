@@ -113,26 +113,6 @@ When adding keys, prefer threading an optional key param through the shared
 widgets (`ModelForm`, `FormTextField`, `Dialogs`, `MainTabConfig`) so other
 features can reuse them; the params are optional and backward-compatible.
 
-## CI (Android emulator)
-
-[`ci-e2e.yml`](../.github/workflows/ci-e2e.yml) runs the suite on a
-KVM-accelerated emulator. Patrol's emulator path is inherently the least stable
-of its CI options, so a few things mitigate that:
-
-- **AVD snapshot caching.** The emulator loads a cached warm boot snapshot
-  instead of cold-booting every run.
-- **Per-file matrix (auto-discovered).** A `discover` job globs
-  `integration_test/*_test.dart` and emits the matrix, so **new test files are
-  picked up automatically — no workflow edit needed.** Each file runs as its own
-  shard (`PATROL_TARGET`), so a flaky file only retries itself and shards run in
-  parallel (bounded by `max-parallel`).
-- **Retries with device reset.** [`run_patrol_e2e.sh`](../scripts/run_patrol_e2e.sh)
-  retries a wedged/crashed attempt after resetting adb + Gradle.
-- **Disk cleanup.** A `free-disk-space` step reclaims unused runner toolchains
-  (keeping the Android SDK + Flutter/Java) so the system-image install and AVD
-  snapshot don't hit "No space left on device".
-
-
 ## iOS (follow-up - not yet wired)
 
 The chosen target is Android-in-CI, and iOS requires Xcode project changes that

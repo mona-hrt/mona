@@ -12,22 +12,20 @@
   "noIntakesDue": "No intakes due today",
   "upcoming": "Upcoming",
   "taken": "Taken",
-  "daysAgoCount": "{count, plural, other{{count} days ago}}",
+  "daysAgoCount": "{count, plural, =1{yesterday} other{{count} days ago}}",
   "@daysAgoCount": {
-    "description": "Past offset in days for count > 1. Use the 'yesterday' key for count == 1.",
+    "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "yesterday": "yesterday",
-  "inDaysCount": "{count, plural, other{in {count} days}}",
+  "inDaysCount": "{count, plural, =1{tomorrow} other{in {count} days}}",
   "@inDaysCount": {
-    "description": "Future offset in days for count > 1. Use the 'tomorrow' key for count == 1.",
+    "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "tomorrow": "tomorrow",
   "lastTaken": "Last taken",
   "neverTakenYet": "Never taken yet",
   "scheduleFrequencyDaily": "Every day",
@@ -119,8 +117,6 @@
   "editIntake": "Edit intake",
   "date": "Date",
   "amount": "Amount",
-  "takenAmount": "Taken amount",
-  "wastedAmount": "Wasted amount",
   "none": "None",
   "supplyItem": "Supply item",
   "injectionSide": "Injection side",
@@ -130,7 +126,6 @@
   "needleDeadSpace": "Needle dead space",
   "notes": "Notes",
   "microliters": "μL",
-  "milliliters": "mL",
 
   "empty_levels": "Estradiol injections will display in this tab",
   "bloodTestsTitle": "Blood Tests",
@@ -160,17 +155,11 @@
   "medicationItemType": "Medication",
   "genericItemType": "Consumable",
   "supplyType": "Type",
-  "syringe": "Syringes",
-  "wipe": "Wipes",
-  "needle": "Needles",
-  "gloves": "Gloves",
-  "bandage": "Bandages",
-
-  "syringeRemaining": "{count, plural, =1{1 syringe remaining} other{{count} syringes remaining}}",
-  "wipeRemaining": "{count, plural, =1{1 wipe remaining} other{{count} wipes remaining}}",
-  "needleRemaining": "{count, plural, =1{1 needle remaining} other{{count} needles remaining}}",
-  "glovesRemaining": "{count, plural, =1{1 glove remaining} other{{count} gloves remaining}}",
-  "bandageRemaining": "{count, plural, =1{1 bandage remaining} other{{count} bandages remaining}}",
+  "syringe": "{count, plural, =1{Syringe} other{Syringes}}",
+  "wipe": "{count, plural, =1{Wipe} other{Wipes}}",
+  "needle": "{count, plural, =1{Needle} other{Needles}}",
+  "gloves": "{count, plural, =1{Gloves} other{Gloves}}",
+  "bandage": "{count, plural, =1{Bandage} other{Bandages}}",
 
   "add": "Add",
   "save": "Save",
@@ -230,12 +219,6 @@
   "suppository": "Suppository",
   "transdermalSpray": "Transdermal spray",
   "transdermalDrops": "Transdermal drops",
-
-  "unitMilligram": "mg",
-  "unitPgPerMl": "pg/mL",
-  "unitPmolPerL": "pmol/L",
-  "unitNgPerDl": "ng/dL",
-  "unitNmolPerL": "nmol/L",
 
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{pill} other{pills}}",

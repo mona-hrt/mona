@@ -88,18 +88,8 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$scheduledTime,
     opt: true,
   );
-  static Decimal _$takenDose(MedicationIntake v) => v.takenDose;
-  static const Field<MedicationIntake, Decimal> _f$takenDose = Field(
-    'takenDose',
-    _$takenDose,
-    key: r'dose',
-  );
-  static Decimal? _$wastedAmount(MedicationIntake v) => v.wastedAmount;
-  static const Field<MedicationIntake, Decimal> _f$wastedAmount = Field(
-    'wastedAmount',
-    _$wastedAmount,
-    opt: true,
-  );
+  static Decimal _$dose(MedicationIntake v) => v.dose;
+  static const Field<MedicationIntake, Decimal> _f$dose = Field('dose', _$dose);
   static DateTime? _$takenDateTime(MedicationIntake v) => v.takenDateTime;
   static const Field<MedicationIntake, DateTime> _f$takenDateTime = Field(
     'takenDateTime',
@@ -162,8 +152,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   final MappableFields<MedicationIntake> fields = const {
     #id: _f$id,
     #scheduledTime: _f$scheduledTime,
-    #takenDose: _f$takenDose,
-    #wastedAmount: _f$wastedAmount,
+    #dose: _f$dose,
     #takenDateTime: _f$takenDateTime,
     #takenTimeZone: _f$takenTimeZone,
     #scheduleId: _f$scheduleId,
@@ -179,8 +168,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     return MedicationIntake(
       id: data.dec(_f$id),
       scheduledTime: data.dec(_f$scheduledTime),
-      takenDose: data.dec(_f$takenDose),
-      wastedAmount: data.dec(_f$wastedAmount),
+      dose: data.dec(_f$dose),
       takenDateTime: data.dec(_f$takenDateTime),
       takenTimeZone: data.dec(_f$takenTimeZone),
       scheduleId: data.dec(_f$scheduleId),
@@ -258,8 +246,7 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
   $R call({
     int? id,
     TimeOfDay? scheduledTime,
-    Decimal? takenDose,
-    Decimal? wastedAmount,
+    Decimal? dose,
     DateTime? takenDateTime,
     String? takenTimeZone,
     int? scheduleId,
@@ -287,8 +274,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
   $R call({
     Object? id = $none,
     Object? scheduledTime = $none,
-    Decimal? takenDose,
-    Object? wastedAmount = $none,
+    Decimal? dose,
     Object? takenDateTime = $none,
     Object? takenTimeZone = $none,
     Object? scheduleId = $none,
@@ -303,8 +289,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         FieldCopyWithData({
           if (id != $none) #id: id,
           if (scheduledTime != $none) #scheduledTime: scheduledTime,
-          if (takenDose != null) #takenDose: takenDose,
-          if (wastedAmount != $none) #wastedAmount: wastedAmount,
+          if (dose != null) #dose: dose,
           if (takenDateTime != $none) #takenDateTime: takenDateTime,
           if (takenTimeZone != $none) #takenTimeZone: takenTimeZone,
           if (scheduleId != $none) #scheduleId: scheduleId,
@@ -321,8 +306,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
   MedicationIntake $make(CopyWithData data) => MedicationIntake(
         id: data.get(#id, or: $value.id),
         scheduledTime: data.get(#scheduledTime, or: $value.scheduledTime),
-        takenDose: data.get(#takenDose, or: $value.takenDose),
-        wastedAmount: data.get(#wastedAmount, or: $value.wastedAmount),
+        dose: data.get(#dose, or: $value.dose),
         takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),
         takenTimeZone: data.get(#takenTimeZone, or: $value.takenTimeZone),
         scheduleId: data.get(#scheduleId, or: $value.scheduleId),

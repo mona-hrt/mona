@@ -16,7 +16,7 @@ void main() {
     test('constructor should throw if takenDateTime is not UTC', () {
       expect(
         () => MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: DateTime(2025, 9, 14, 12, 0),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -31,7 +31,7 @@ void main() {
         () {
       expect(
         () => MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
@@ -45,8 +45,7 @@ void main() {
 
       final intake = MedicationIntake(
           id: 1,
-          takenDose: Decimal.parse('2.5'),
-          wastedAmount: Decimal.parse('0.1'),
+          dose: Decimal.parse('2.5'),
           takenDateTime: taken,
           takenTimeZone: 'Etc/UTC',
           scheduleId: 42,
@@ -68,8 +67,7 @@ void main() {
                 (i) => i.takenDateTime, 'takenDateTime', intake.takenDateTime)
             .having(
                 (i) => i.takenTimeZone, 'takenTimeZone', intake.takenTimeZone)
-            .having((i) => i.takenDose, 'dose', intake.takenDose)
-            .having((i) => i.wastedAmount, 'wastedAmount', intake.wastedAmount)
+            .having((i) => i.dose, 'dose', intake.dose)
             .having((i) => i.scheduleId, 'scheduleId', intake.scheduleId)
             .having((i) => i.side, 'side', intake.side)
             .having((i) => i.molecule, 'molecule', intake.molecule)
@@ -83,7 +81,7 @@ void main() {
 
     test('isTaken returns correct value', () {
       final intakeTaken = MedicationIntake(
-        takenDose: Decimal.one,
+        dose: Decimal.one,
         takenDateTime: DateTime.utc(2025, 9, 14, 11, 0),
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
@@ -91,7 +89,7 @@ void main() {
       );
 
       final intakeNotTaken = MedicationIntake(
-        takenDose: Decimal.one,
+        dose: Decimal.one,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       );
@@ -112,7 +110,7 @@ void main() {
       test('takenLocalDateTime returns null when takenDateTime is null', () {
         // Arrange
         final intake = MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: null,
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
@@ -131,7 +129,7 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 8, 0),
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
@@ -149,7 +147,7 @@ void main() {
           'takenLocalDateTime works with timezone names not in the reduced database',
           () {
         final intake = MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenTimeZone:
               'Europe/Amsterdam', // missing from package:timezone latest.dart
@@ -165,7 +163,7 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 1, 0),
           takenTimeZone: 'America/New_York',
           molecule: KnownMolecules.estradiol,
@@ -182,7 +180,7 @@ void main() {
       test('takenLocalDate returns null when takenDateTime is null', () {
         // Arrange
         final intake = MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: null,
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
@@ -199,7 +197,7 @@ void main() {
       test('takenLocalDate returns correct date in Europe/Paris timezone', () {
         // Arrange
         final intake = MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
@@ -218,7 +216,7 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 1, 0),
           takenTimeZone: 'America/New_York',
           molecule: KnownMolecules.estradiol,
@@ -237,7 +235,7 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          takenDose: Decimal.one,
+          dose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 2, 0),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,

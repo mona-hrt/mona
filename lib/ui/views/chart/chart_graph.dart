@@ -9,7 +9,6 @@ import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/units_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:provider/provider.dart';
 
@@ -85,8 +84,7 @@ class MainGraph extends StatelessWidget {
                   const EdgeInsets.only(right: _ChartConstants.axesPadding),
               child: RotatedBox(
                 quarterTurns: -1,
-                child: Text(
-                    '${l10n.concentration} (${unit.localizedName(l10n)})',
+                child: Text('${l10n.concentration} ($unit)',
                     style: const TextStyle(
                         fontSize: _ChartConstants.titleFontSize)),
               ),
@@ -123,7 +121,7 @@ class MainGraph extends StatelessWidget {
     if (todaySpot == null) return null;
 
     final nowLabel =
-        '${l10n.chartNowConcentration(todaySpot.y.toStringAsFixed(0))} ${unit.localizedName(l10n)}';
+        '${l10n.chartNowConcentration(todaySpot.y.toStringAsFixed(0))} $unit';
 
     return ExtraLinesData(
       verticalLines: [
@@ -184,7 +182,7 @@ class MainGraph extends StatelessWidget {
               text = t.y.toStringAsFixed(1);
             } else {
               text =
-                  '${l10n.chartBloodTestLevelTooltip(_getDateLabel(t.x, firstDay, context), t.y.toStringAsFixed(1))} ${unit.localizedName(l10n)}';
+                  '${l10n.chartBloodTestLevelTooltip(_getDateLabel(t.x, firstDay, context), t.y.toStringAsFixed(1))} $unit';
             }
             return LineTooltipItem(
                 text,

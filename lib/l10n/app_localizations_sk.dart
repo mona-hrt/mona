@@ -50,12 +50,10 @@ class AppLocalizationsSk extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Pred $count dňami',
+      one: 'včera',
     );
     return '$_temp0';
   }
-
-  @override
-  String get yesterday => 'včera';
 
   @override
   String inDaysCount(int count) {
@@ -64,12 +62,10 @@ class AppLocalizationsSk extends AppLocalizations {
       locale: localeName,
       few: 'o $count dni',
       other: 'o $count dní',
+      one: 'zajtra',
     );
     return '$_temp0';
   }
-
-  @override
-  String get tomorrow => 'zajtra';
 
   @override
   String get lastTaken => 'Vzatá naposledy';
@@ -95,7 +91,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Interval';
 
   @override
-  String get scheduleFrequencyWeekly => 'Týždenne';
+  String get scheduleFrequencyWeekly => 'Weekly';
 
   @override
   String get newUpdateAvailable => 'Je k dispozícii nová aktualizácia!';
@@ -387,12 +383,6 @@ class AppLocalizationsSk extends AppLocalizations {
   String get amount => 'Množstvo';
 
   @override
-  String get takenAmount => 'Užité množstvo';
-
-  @override
-  String get wastedAmount => 'Stratené množstvo';
-
-  @override
   String get none => 'Žiadna';
 
   @override
@@ -420,9 +410,6 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get microliters => 'μL';
-
-  @override
-  String get milliliters => 'mL';
 
   @override
   String get empty_levels => 'Estradiolové injekcie sa zobrazia na tejto karte';
@@ -518,79 +505,59 @@ class AppLocalizationsSk extends AppLocalizations {
   String get genericItemType => 'Consumable';
 
   @override
-  String get supplyType => 'Typ';
+  String get supplyType => 'Type';
 
   @override
-  String get syringe => 'Striekačky';
-
-  @override
-  String get wipe => 'Utierky';
-
-  @override
-  String get needle => 'Ihly';
-
-  @override
-  String get gloves => 'Rukavice';
-
-  @override
-  String get bandage => 'Náplasti';
-
-  @override
-  String syringeRemaining(num count) {
+  String syringe(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Zostáva $count striekačiek',
-      few: 'Zostávajú $count striekačky',
-      one: 'Zostáva 1 striekačka',
+      other: 'Syringes',
+      one: 'Syringe',
     );
     return '$_temp0';
   }
 
   @override
-  String wipeRemaining(num count) {
+  String wipe(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Zostáva $count utierok',
-      few: 'Zostávajú $count utierky',
-      one: 'Zostáva 1 utierka',
+      other: 'Wipes',
+      one: 'Wipe',
     );
     return '$_temp0';
   }
 
   @override
-  String needleRemaining(num count) {
+  String needle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Zostáva $count ihiel',
-      few: 'Zostávajú $count ihly',
-      one: 'Zostáva 1 ihla',
+      other: 'Needles',
+      one: 'Needle',
     );
     return '$_temp0';
   }
 
   @override
-  String glovesRemaining(num count) {
+  String gloves(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Zostáva $count rukavíc',
-      few: 'Zostávajú $count rukavice',
-      one: 'Zostáva 1 rukavica',
+      other: 'Gloves',
+      one: 'Gloves',
     );
     return '$_temp0';
   }
 
   @override
-  String bandageRemaining(num count) {
+  String bandage(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Zostáva $count náplastí',
-      few: 'Zostávajú $count náplaste',
-      one: 'Zostáva 1 náplasť',
+      other: 'Bandages',
+      one: 'Bandage',
     );
     return '$_temp0';
   }
@@ -755,21 +722,6 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get transdermalDrops => 'Transdermálne kvapky';
-
-  @override
-  String get unitMilligram => 'mg';
-
-  @override
-  String get unitPgPerMl => 'pg/mL';
-
-  @override
-  String get unitPmolPerL => 'pmol/L';
-
-  @override
-  String get unitNgPerDl => 'ng/dL';
-
-  @override
-  String get unitNmolPerL => 'nmol/L';
 
   @override
   String administrationRouteUnitMl(num count) {

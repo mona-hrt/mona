@@ -6,7 +6,6 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/settings/schedules/new_schedule_scheduling_page.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -16,7 +15,6 @@ import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
-import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -136,7 +134,6 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
     return ModelForm(
       title: localizations.newSchedule,
       submitButtonLabel: localizations.next,
-      submitButtonKey: const ValueKey('newScheduleNext'),
       isFormValid: _isFormValid,
       saveChanges: _next,
       avatar: Symbols.prescriptions,
@@ -144,7 +141,6 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         FormTextField(
           controller: _nameController,
           label: localizations.name,
-          fieldKey: const ValueKey('newScheduleName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
         ),
@@ -175,11 +171,10 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         FormTextField(
           controller: _doseController,
           label: localizations.amount,
-          fieldKey: const ValueKey('newScheduleAmount'),
-          suffixText: _molecule?.localizedUnit(context.l10n),
+          suffixText: _molecule?.unit,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: RegexPatterns.floatNumber,
+          regexFormatter: '[0-9.,]',
         ),
       ],
     );

@@ -271,13 +271,6 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Patch jni for reproducible builds
-        # Strip the non-deterministic linker build-id from libdartjni.so so
-        # reproducible-build diff matches.
-        run: |
-          : "${PUB_CACHE:=$HOME/.pub-cache}"
-          sed -i -e 's/-Wl,/-Wl,--build-id=none,/' "${PUB_CACHE}"/hosted/*/jni-*/src/CMakeLists.txt
-
       - name: Decode keystore
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode \
@@ -343,13 +336,6 @@ jobs:
 
       - name: Get dependencies
         run: flutter pub get
-
-      - name: Patch jni for reproducible builds
-        # Strip the non-deterministic linker build-id from libdartjni.so so
-        # reproducible-build diff matches.
-        run: |
-          : "${PUB_CACHE:=$HOME/.pub-cache}"
-          sed -i -e 's/-Wl,/-Wl,--build-id=none,/' "${PUB_CACHE}"/hosted/*/jni-*/src/CMakeLists.txt
 
       - name: Decode keystore
         run: |

@@ -7,7 +7,7 @@ import 'package:mona/l10n/helpers/molecule_l10n.dart';
 extension MedicationIntakeL10n on MedicationIntake {
   String localizedSummary(AppLocalizations localizations) {
     final firstLine =
-        '$takenDose ${molecule.localizedUnit(localizations)} • ${molecule.localizedNameWithEster(ester, localizations)} • '
+        '$dose ${molecule.unit} • ${molecule.localizedNameWithEster(ester, localizations)} • '
         '${administrationRoute.localizedName(localizations)}';
     if (side == null) return firstLine;
     return '$firstLine • ${side!.localizedSummary(localizations)}';

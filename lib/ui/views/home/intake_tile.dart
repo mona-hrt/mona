@@ -159,19 +159,13 @@ class IntakeTileViewModel {
       return localizations.taken;
     }
 
-    return "${schedule.dose} ${schedule.molecule.localizedUnit(localizations)} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)}";
+    return "${schedule.dose} ${schedule.molecule.unit} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)}";
   }
-
-  String _inDays(int count) =>
-      count == 1 ? localizations.tomorrow : localizations.inDaysCount(count);
-
-  String _daysAgo(int count) =>
-      count == 1 ? localizations.yesterday : localizations.daysAgoCount(count);
 
   String? get scheduledText {
     if (status == ScheduleStatus.upcoming) {
       final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
-      return "$formatted - ${_inDays(daysUntilIntake)}";
+      return "$formatted - ${localizations.inDaysCount(daysUntilIntake)}";
     }
 
     if (_isDailySlot) {
@@ -187,7 +181,7 @@ class IntakeTileViewModel {
 
       case ScheduleStatus.overdue:
         final formatted = lastScheduled!.format(DateFormat.MMMMd(languageTag));
-        return "$formatted - ${_daysAgo(daysSinceLastScheduled!)}";
+        return "$formatted - ${localizations.daysAgoCount(daysSinceLastScheduled!)}";
 
       case _:
         return null;
@@ -209,7 +203,7 @@ class IntakeTileViewModel {
         }
 
         final formatted = lastTaken!.format(DateFormat.MMMd(languageTag));
-        return "${localizations.lastTaken} ${_daysAgo(daysSinceLastTaken!)} ($formatted)";
+        return "${localizations.lastTaken} ${localizations.daysAgoCount(daysSinceLastTaken!)} ($formatted)";
     }
   }
 
