@@ -151,6 +151,12 @@
   "needle": "เข็มฉีดยา",
   "gloves": "ถุงมือ",
   "bandage": "พลาสเตอร์",
+
+  "syringeRemaining": "TODO {count}",
+  "wipeRemaining": "TODO {count}",
+  "needleRemaining": "TODO {count}",
+  "glovesRemaining": "TODO {count}",
+  "bandageRemaining": "TODO {count}",
   "add": "เพื่ม",
   "save": "บันทึก",
   "cancel": "ยกเลิก",

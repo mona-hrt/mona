@@ -148,6 +148,18 @@
   "usedAmount": "Použité množstvo",
   "deleteItem": "Vymazať {name}?",
   "remaining":   "{amount, plural, few{Zostávajú {amount} {unit}} other{Zostáva {amount} {unit}}}",
+
+  "syringe": "Striekačky",
+  "wipe": "Utierky",
+  "needle": "Ihly",
+  "gloves": "Rukavice",
+  "bandage": "Náplasti",
+
+  "syringeRemaining": "{count, plural, =1{Zostáva 1 striekačka} few{Zostávajú {count} striekačky} other{Zostáva {count} striekačiek}}",
+  "wipeRemaining": "{count, plural, =1{Zostáva 1 utierka} few{Zostávajú {count} utierky} other{Zostáva {count} utierok}}",
+  "needleRemaining": "{count, plural, =1{Zostáva 1 ihla} few{Zostávajú {count} ihly} other{Zostáva {count} ihiel}}",
+  "glovesRemaining": "{count, plural, =1{Zostáva 1 rukavica} few{Zostávajú {count} rukavice} other{Zostáva {count} rukavíc}}",
+  "bandageRemaining": "{count, plural, =1{Zostáva 1 náplasť} few{Zostávajú {count} náplaste} other{Zostáva {count} náplastí}}",
   "add": "Pridať",
   "save": "Uložiť",
   "cancel": "Zrušiť",

@@ -478,28 +478,43 @@ class AppLocalizationsTh extends AppLocalizations {
   String get supplyType => 'ชนิด';
 
   @override
-  String syringe(num count) {
-    return 'กระบอกฉีดยา';
+  String get syringe => 'กระบอกฉีดยา';
+
+  @override
+  String get wipe => 'ผ้าเช็ด';
+
+  @override
+  String get needle => 'เข็มฉีดยา';
+
+  @override
+  String get gloves => 'ถุงมือ';
+
+  @override
+  String get bandage => 'พลาสเตอร์';
+
+  @override
+  String syringeRemaining(num count) {
+    return 'TODO $count';
   }
 
   @override
-  String wipe(num count) {
-    return 'ผ้าเช็ด';
+  String wipeRemaining(num count) {
+    return 'TODO $count';
   }
 
   @override
-  String needle(num count) {
-    return 'เข็มฉีดยา';
+  String needleRemaining(num count) {
+    return 'TODO $count';
   }
 
   @override
-  String gloves(num count) {
-    return 'ถุงมือ';
+  String glovesRemaining(num count) {
+    return 'TODO $count';
   }
 
   @override
-  String bandage(num count) {
-    return 'พลาสเตอร์';
+  String bandageRemaining(num count) {
+    return 'TODO $count';
   }
 
   @override

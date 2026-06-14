@@ -493,56 +493,71 @@ class AppLocalizationsFr extends AppLocalizations {
   String get supplyType => 'Type';
 
   @override
-  String syringe(num count) {
+  String get syringe => 'Seringues';
+
+  @override
+  String get wipe => 'Lingettes';
+
+  @override
+  String get needle => 'Aiguilles';
+
+  @override
+  String get gloves => 'Gants';
+
+  @override
+  String get bandage => 'Pansements';
+
+  @override
+  String syringeRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Seringues',
-      one: 'Seringue',
+      other: '$count seringues restantes',
+      one: '1 seringue restante',
     );
     return '$_temp0';
   }
 
   @override
-  String wipe(num count) {
+  String wipeRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Lingettes',
-      one: 'Lingette',
+      other: '$count lingettes restantes',
+      one: '1 lingette restante',
     );
     return '$_temp0';
   }
 
   @override
-  String needle(num count) {
+  String needleRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Aiguilles',
-      one: 'Aiguille',
+      other: '$count aiguilles restantes',
+      one: '1 aiguille restante',
     );
     return '$_temp0';
   }
 
   @override
-  String gloves(num count) {
+  String glovesRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Gants',
-      one: 'Gants',
+      other: '$count gants restants',
+      one: '1 gant restant',
     );
     return '$_temp0';
   }
 
   @override
-  String bandage(num count) {
+  String bandageRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pansements',
-      one: 'Pansement',
+      other: '$count pansements restants',
+      one: '1 pansement restant',
     );
     return '$_temp0';
   }

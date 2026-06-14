@@ -490,56 +490,76 @@ class AppLocalizationsUk extends AppLocalizations {
   String get supplyType => 'Type';
 
   @override
-  String syringe(num count) {
+  String get syringe => 'Шприци';
+
+  @override
+  String get wipe => 'Серветки';
+
+  @override
+  String get needle => 'Голки';
+
+  @override
+  String get gloves => 'Рукавички';
+
+  @override
+  String get bandage => 'Пластирі';
+
+  @override
+  String syringeRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Syringes',
-      one: 'Syringe',
+      other: '$count шприців залишилось',
+      one: '1 шприц залишилось',
+      few: '$count шприца залишилось',
     );
     return '$_temp0';
   }
 
   @override
-  String wipe(num count) {
+  String wipeRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Wipes',
-      one: 'Wipe',
+      other: '$count серветок залишилось',
+      one: '1 серветка залишилось',
+      few: '$count серветки залишилось',
     );
     return '$_temp0';
   }
 
   @override
-  String needle(num count) {
+  String needleRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Needles',
-      one: 'Needle',
+      other: '$count голок залишилось',
+      one: '1 голка залишилось',
+      few: '$count голки залишилось',
     );
     return '$_temp0';
   }
 
   @override
-  String gloves(num count) {
+  String glovesRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Gloves',
-      one: 'Gloves',
+      other: '$count рукавичок залишилось',
+      one: '1 рукавичка залишилось',
+      few: '$count рукавички залишилось',
     );
     return '$_temp0';
   }
 
   @override
-  String bandage(num count) {
+  String bandageRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Bandages',
-      one: 'Bandage',
+      other: '$count пластирів залишилось',
+      one: '1 пластир залишилось',
+      few: '$count пластирі залишилось',
     );
     return '$_temp0';
   }

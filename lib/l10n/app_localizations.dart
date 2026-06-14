@@ -926,32 +926,62 @@ abstract class AppLocalizations {
   /// No description provided for @syringe.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Syringe} other{Syringes}}'**
-  String syringe(num count);
+  /// **'Syringe'**
+  String get syringe;
 
   /// No description provided for @wipe.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Wipe} other{Wipes}}'**
-  String wipe(num count);
+  /// **'Wipe'**
+  String get wipe;
 
   /// No description provided for @needle.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Needle} other{Needles}}'**
-  String needle(num count);
+  /// **'Needle'**
+  String get needle;
 
   /// No description provided for @gloves.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Gloves} other{Gloves}}'**
-  String gloves(num count);
+  /// **'Gloves'**
+  String get gloves;
 
   /// No description provided for @bandage.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Bandage} other{Bandages}}'**
-  String bandage(num count);
+  /// **'Bandage'**
+  String get bandage;
+
+  /// No description provided for @syringeRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 syringe remaining} other{{count} syringes remaining}}'**
+  String syringeRemaining(num count);
+
+  /// No description provided for @wipeRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 wipe remaining} other{{count} wipes remaining}}'**
+  String wipeRemaining(num count);
+
+  /// No description provided for @needleRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 needle remaining} other{{count} needles remaining}}'**
+  String needleRemaining(num count);
+
+  /// No description provided for @glovesRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 glove remaining} other{{count} gloves remaining}}'**
+  String glovesRemaining(num count);
+
+  /// No description provided for @bandageRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 bandage remaining} other{{count} bandages remaining}}'**
+  String bandageRemaining(num count);
 
   /// No description provided for @add.
   ///

@@ -149,6 +149,18 @@
     "deleteItem": "{name} löschen?",
     "remaining": "{amount} {unit} verbleibend",
 
+    "syringe": "Spritzen",
+    "wipe": "Tupfer",
+    "needle": "Nadeln",
+    "gloves": "Handschuhe",
+    "bandage": "Pflaster",
+
+    "syringeRemaining": "{count, plural, =1{1 Spritze verbleibend} other{{count} Spritzen verbleibend}}",
+    "wipeRemaining": "{count, plural, =1{1 Tupfer verbleibend} other{{count} Tupfer verbleibend}}",
+    "needleRemaining": "{count, plural, =1{1 Nadel verbleibend} other{{count} Nadeln verbleibend}}",
+    "glovesRemaining": "{count, plural, =1{1 Handschuh verbleibend} other{{count} Handschuhe verbleibend}}",
+    "bandageRemaining": "{count, plural, =1{1 Pflaster verbleibend} other{{count} Pflaster verbleibend}}",
+
     "add": "Hinzufügen",
     "save": "Speichern",
     "cancel": "Abbrechen",

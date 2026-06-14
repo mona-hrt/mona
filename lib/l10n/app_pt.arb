@@ -149,6 +149,18 @@
     "deleteItem": "Excluir {name}?",
     "remaining": "{amount} {unit} restantes",
 
+    "syringe": "Seringas",
+    "wipe": "Toalhitas",
+    "needle": "Agulhas",
+    "gloves": "Luvas",
+    "bandage": "Pensos",
+
+    "syringeRemaining": "{count, plural, =1{1 seringa restante} other{{count} seringas restantes}}",
+    "wipeRemaining": "{count, plural, =1{1 toalhita restante} other{{count} toalhitas restantes}}",
+    "needleRemaining": "{count, plural, =1{1 agulha restante} other{{count} agulhas restantes}}",
+    "glovesRemaining": "{count, plural, =1{1 luva restante} other{{count} luvas restantes}}",
+    "bandageRemaining": "{count, plural, =1{1 penso restante} other{{count} pensos restantes}}",
+
     "add": "Adicionar",
     "save": "Salvar",
     "cancel": "Cancelar",

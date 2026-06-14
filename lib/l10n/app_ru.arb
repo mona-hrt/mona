@@ -150,6 +150,18 @@
   "deleteItem": "Удалить {name}?",
   "remaining": "{amount} {unit} осталось",
 
+  "syringe": "Шприцы",
+  "wipe": "Салфетки",
+  "needle": "Иглы",
+  "gloves": "Перчатки",
+  "bandage": "Пластыри",
+
+  "syringeRemaining": "{count, plural, one{1 шприц осталось} few{{count} шприца осталось} other{{count} шприцев осталось}}",
+  "wipeRemaining": "{count, plural, one{1 салфетка осталось} few{{count} салфетки осталось} other{{count} салфеток осталось}}",
+  "needleRemaining": "{count, plural, one{1 игла осталось} few{{count} иглы осталось} other{{count} игл осталось}}",
+  "glovesRemaining": "{count, plural, one{1 перчатка осталось} few{{count} перчатки осталось} other{{count} перчаток осталось}}",
+  "bandageRemaining": "{count, plural, one{1 пластырь осталось} few{{count} пластыря осталось} other{{count} пластырей осталось}}",
+
   "add": "Добавить",
   "save": "Сохранить",
   "cancel": "Отменить",

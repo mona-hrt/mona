@@ -508,56 +508,76 @@ class AppLocalizationsSk extends AppLocalizations {
   String get supplyType => 'Type';
 
   @override
-  String syringe(num count) {
+  String get syringe => 'Striekačky';
+
+  @override
+  String get wipe => 'Utierky';
+
+  @override
+  String get needle => 'Ihly';
+
+  @override
+  String get gloves => 'Rukavice';
+
+  @override
+  String get bandage => 'Náplasti';
+
+  @override
+  String syringeRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Syringes',
-      one: 'Syringe',
+      other: 'Zostáva $count striekačiek',
+      one: 'Zostáva 1 striekačka',
+      few: 'Zostávajú $count striekačky',
     );
     return '$_temp0';
   }
 
   @override
-  String wipe(num count) {
+  String wipeRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Wipes',
-      one: 'Wipe',
+      other: 'Zostáva $count utierok',
+      one: 'Zostáva 1 utierka',
+      few: 'Zostávajú $count utierky',
     );
     return '$_temp0';
   }
 
   @override
-  String needle(num count) {
+  String needleRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Needles',
-      one: 'Needle',
+      other: 'Zostáva $count ihiel',
+      one: 'Zostáva 1 ihla',
+      few: 'Zostávajú $count ihly',
     );
     return '$_temp0';
   }
 
   @override
-  String gloves(num count) {
+  String glovesRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Gloves',
-      one: 'Gloves',
+      other: 'Zostáva $count rukavíc',
+      one: 'Zostáva 1 rukavica',
+      few: 'Zostávajú $count rukavice',
     );
     return '$_temp0';
   }
 
   @override
-  String bandage(num count) {
+  String bandageRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Bandages',
-      one: 'Bandage',
+      other: 'Zostáva $count náplastí',
+      one: 'Zostáva 1 náplasť',
+      few: 'Zostávajú $count náplaste',
     );
     return '$_temp0';
   }

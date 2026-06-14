@@ -149,6 +149,18 @@
   "deleteItem": "Видалити {name}?",
   "remaining": "{amount} {unit} залишилось",
 
+  "syringe": "Шприци",
+  "wipe": "Серветки",
+  "needle": "Голки",
+  "gloves": "Рукавички",
+  "bandage": "Пластирі",
+
+  "syringeRemaining": "{count, plural, one{1 шприц залишилось} few{{count} шприца залишилось} other{{count} шприців залишилось}}",
+  "wipeRemaining": "{count, plural, one{1 серветка залишилось} few{{count} серветки залишилось} other{{count} серветок залишилось}}",
+  "needleRemaining": "{count, plural, one{1 голка залишилось} few{{count} голки залишилось} other{{count} голок залишилось}}",
+  "glovesRemaining": "{count, plural, one{1 рукавичка залишилось} few{{count} рукавички залишилось} other{{count} рукавичок залишилось}}",
+  "bandageRemaining": "{count, plural, one{1 пластир залишилось} few{{count} пластирі залишилось} other{{count} пластирів залишилось}}",
+
   "add": "Додати",
   "save": "Зберегти",
   "cancel": "Скасувати",
