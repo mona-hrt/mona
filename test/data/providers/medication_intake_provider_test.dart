@@ -20,7 +20,7 @@ void main() {
     repo = GenericRepositoryMock<MedicationIntake>(
       withId: (i, id) => MedicationIntake(
           id: id,
-          dose: i.dose,
+          takenDose: i.takenDose,
           takenDateTime: i.takenDateTime,
           takenTimeZone: i.takenTimeZone,
           scheduleId: i.scheduleId,
@@ -31,7 +31,7 @@ void main() {
     provider = MedicationIntakeProvider(repository: repo);
     repo.insert(MedicationIntake(
       id: 1,
-      dose: Decimal.parse('10.5'),
+      takenDose: Decimal.parse('10.5'),
       takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
       takenTimeZone: 'Etc/UTC',
       molecule: KnownMolecules.estradiol,
@@ -39,7 +39,7 @@ void main() {
     ));
     repo.insert(MedicationIntake(
       id: 2,
-      dose: Decimal.parse('5.0'),
+      takenDose: Decimal.parse('5.0'),
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.gel,
     ));
@@ -57,7 +57,7 @@ void main() {
 
       // Act
       await provider.add(MedicationIntake(
-        dose: newDose,
+        takenDose: newDose,
         takenDateTime: DateTime.utc(2025, 9, 13, 8, 10),
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
@@ -66,7 +66,7 @@ void main() {
 
       // Assert
       expect(
-        provider.intakes.any((i) => i.dose == newDose),
+        provider.intakes.any((i) => i.takenDose == newDose),
         true,
       );
     });
@@ -76,7 +76,7 @@ void main() {
       final intakeToUpdate = repo.items.first;
       final updatedIntake = MedicationIntake(
         id: intakeToUpdate.id,
-        dose: Decimal.parse('99.9'),
+        takenDose: Decimal.parse('99.9'),
         takenDateTime: intakeToUpdate.takenDateTime,
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
@@ -89,7 +89,7 @@ void main() {
       // Assert
       final fetchedIntake =
           provider.intakes.firstWhere((i) => i.id == intakeToUpdate.id);
-      expect(fetchedIntake.dose, Decimal.parse('99.9'));
+      expect(fetchedIntake.takenDose, Decimal.parse('99.9'));
     });
 
     test('deleteIntakeFromId removes the item', () async {
@@ -133,7 +133,7 @@ void main() {
       await provider.fetchIntakes();
       provider.add(MedicationIntake(
         id: 100,
-        dose: Decimal.parse('1.0'),
+        takenDose: Decimal.parse('1.0'),
         takenDateTime: DateTime.utc(2025, 9, 14, 8, 10),
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
@@ -141,13 +141,13 @@ void main() {
       ));
       provider.add(MedicationIntake(
         id: 101,
-        dose: Decimal.parse('1.0'),
+        takenDose: Decimal.parse('1.0'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
       ));
       provider.add(MedicationIntake(
         id: 102,
-        dose: Decimal.parse('1.0'),
+        takenDose: Decimal.parse('1.0'),
         takenDateTime: DateTime.utc(2025, 9, 16, 8, 10),
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
@@ -182,7 +182,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 100,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -191,7 +191,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 200,
           scheduleId: 200,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -219,7 +219,7 @@ void main() {
         final intake = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          dose: Decimal.parse('10.5'),
+          takenDose: Decimal.parse('10.5'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -234,7 +234,7 @@ void main() {
         final intake1 = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          dose: Decimal.parse('10.5'),
+          takenDose: Decimal.parse('10.5'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -244,7 +244,7 @@ void main() {
         final intake2 = MedicationIntake(
           id: 2,
           scheduleId: 1,
-          dose: Decimal.parse('5.0'),
+          takenDose: Decimal.parse('5.0'),
           takenDateTime: DateTime.utc(2025, 9, 12, 20, 10),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -254,7 +254,7 @@ void main() {
         final intake3 = MedicationIntake(
           id: 3,
           scheduleId: 1,
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 5),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -271,7 +271,7 @@ void main() {
         final intake1 = MedicationIntake(
           id: 1,
           scheduleId: 1,
-          dose: Decimal.parse('10.5'),
+          takenDose: Decimal.parse('10.5'),
           takenDateTime: dt,
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -281,7 +281,7 @@ void main() {
         final intake2 = MedicationIntake(
           id: 2,
           scheduleId: 1,
-          dose: Decimal.parse('5.0'),
+          takenDose: Decimal.parse('5.0'),
           takenDateTime: dt,
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -301,7 +301,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 42,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -310,7 +310,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 101,
           scheduleId: 42,
-          dose: Decimal.parse('5.0'),
+          takenDose: Decimal.parse('5.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 20, 30),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -319,7 +319,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 102,
           scheduleId: 42,
-          dose: Decimal.parse('5.0'),
+          takenDose: Decimal.parse('5.0'),
           takenDateTime: DateTime.utc(2025, 9, 14, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -328,7 +328,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 103,
           scheduleId: 99,
-          dose: Decimal.parse('5.0'),
+          takenDose: Decimal.parse('5.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -349,7 +349,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 42,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -370,7 +370,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 42,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -405,7 +405,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 42,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -426,7 +426,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 42,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -435,7 +435,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 101,
           scheduleId: 42,
-          dose: Decimal.parse('5.0'),
+          takenDose: Decimal.parse('5.0'),
           takenDateTime: DateTime.utc(2025, 9, 14, 20, 30),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -444,7 +444,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 102,
           scheduleId: 42,
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 13, 9, 0),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -464,7 +464,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 100,
           scheduleId: 42,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -473,7 +473,7 @@ void main() {
         repo.insert(MedicationIntake(
           id: 200,
           scheduleId: 99,
-          dose: Decimal.parse('5.0'),
+          takenDose: Decimal.parse('5.0'),
           takenDateTime: DateTime.utc(2025, 9, 20, 20, 30),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -516,7 +516,7 @@ void main() {
         // Arrange
         repo.insert(MedicationIntake(
           id: 100,
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 13, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -536,7 +536,7 @@ void main() {
         // Arrange
         repo.insert(MedicationIntake(
           id: 100,
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -544,7 +544,7 @@ void main() {
         ));
         repo.insert(MedicationIntake(
           id: 101,
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 14, 20, 30),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -552,7 +552,7 @@ void main() {
         ));
         repo.insert(MedicationIntake(
           id: 102,
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 13, 9, 0),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -572,7 +572,7 @@ void main() {
         // Arrange
         repo.insert(MedicationIntake(
           id: 100,
-          dose: Decimal.parse('2.5'),
+          takenDose: Decimal.parse('2.5'),
           takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
@@ -580,7 +580,7 @@ void main() {
         ));
         repo.insert(MedicationIntake(
           id: 200,
-          dose: Decimal.parse('10.0'),
+          takenDose: Decimal.parse('10.0'),
           takenDateTime: DateTime.utc(2025, 9, 20, 8, 15),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,

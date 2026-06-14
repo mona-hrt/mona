@@ -5,6 +5,7 @@ import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -14,6 +15,7 @@ import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -154,6 +156,8 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     return ModelForm(
       title: localizations.editSchedule,
       submitButtonLabel: localizations.save,
+      submitButtonKey: const ValueKey('editScheduleSave'),
+      deleteButtonKey: const ValueKey('editScheduleDelete'),
       isFormValid: _isFormValid,
       saveChanges: _saveSchedule,
       onDelete: _confirmDelete,
@@ -161,6 +165,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
         FormTextField(
           controller: _nameController,
           label: localizations.name,
+          fieldKey: const ValueKey('editScheduleName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,
@@ -194,9 +199,9 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           label: localizations.amount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule.unit,
+          suffixText: _molecule.localizedUnit(context.l10n),
           errorText: _doseError,
-          regexFormatter: r'[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
         ),
       ],
     );
