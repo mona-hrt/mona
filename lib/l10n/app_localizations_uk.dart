@@ -91,7 +91,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Інтервал';
 
   @override
-  String get scheduleFrequencyWeekly => 'Weekly';
+  String get scheduleFrequencyWeekly => 'Щотижня';
 
   @override
   String get newUpdateAvailable => 'Нове оновлення!';
@@ -500,7 +500,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get genericItemType => 'Consumable';
 
   @override
-  String get supplyType => 'Type';
+  String get supplyType => 'Тип';
 
   @override
   String get syringe => 'Шприци';

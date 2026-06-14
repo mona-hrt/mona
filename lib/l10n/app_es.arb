@@ -33,6 +33,7 @@
     "scheduleFrequencyDaily": "Cada día",
     "scheduleFrequencyEveryNDays": "Cada {days} días",
     "scheduleFrequencyInterval": "Intervalo",
+    "scheduleFrequencyWeekly": "Semanal",
     "newUpdateAvailable": "¡Hay una nueva actualización disponible!",
     "goToSettings": "Ir a Configuración",
 
@@ -154,6 +155,7 @@
     "deleteItem": "¿Eliminar {name}?",
     "remaining": "{amount} {unit} restantes",
 
+    "supplyType": "Tipo",
     "syringe": "Jeringas",
     "wipe": "Toallitas",
     "needle": "Agujas",

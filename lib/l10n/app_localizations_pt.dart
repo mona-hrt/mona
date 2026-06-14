@@ -88,7 +88,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Intervalo';
 
   @override
-  String get scheduleFrequencyWeekly => 'Weekly';
+  String get scheduleFrequencyWeekly => 'Semanal';
 
   @override
   String get newUpdateAvailable => 'Uma nova atualização está disponível!';
@@ -499,7 +499,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get genericItemType => 'Consumable';
 
   @override
-  String get supplyType => 'Type';
+  String get supplyType => 'Tipo';
 
   @override
   String get syringe => 'Seringas';
@@ -933,6 +933,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get scheduleFrequencyInterval => 'Intervalo';
 
   @override
+  String get scheduleFrequencyWeekly => 'Semanal';
+
+  @override
   String get newUpdateAvailable => 'Uma nova atualização está disponível!';
 
   @override
@@ -1324,6 +1327,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String remaining(num amount, Object unit) {
     return '$amount $unit restantes';
   }
+
+  @override
+  String get supplyType => 'Tipo';
 
   @override
   String get syringe => 'Seringas';

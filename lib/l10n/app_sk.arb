@@ -33,6 +33,7 @@
   "scheduleFrequencyDaily": "Každý deň",
   "scheduleFrequencyEveryNDays": "{days, plural, other{Každých {days} dní} few{Každé {days} dni}}",
   "scheduleFrequencyInterval": "Interval",
+  "scheduleFrequencyWeekly": "Týždenne",
   "newUpdateAvailable": "Je k dispozícii nová aktualizácia!",
   "goToSettings": "Ísť do nastavení",
 
@@ -154,6 +155,7 @@
   "deleteItem": "Vymazať {name}?",
   "remaining":   "{amount, plural, few{Zostávajú {amount} {unit}} other{Zostáva {amount} {unit}}}",
 
+  "supplyType": "Typ",
   "syringe": "Striekačky",
   "wipe": "Utierky",
   "needle": "Ihly",

@@ -155,6 +155,7 @@
   "deleteItem": "Удалить {name}?",
   "remaining": "{amount} {unit} осталось",
 
+  "supplyType": "Тип",
   "syringe": "Шприцы",
   "wipe": "Салфетки",
   "needle": "Иглы",

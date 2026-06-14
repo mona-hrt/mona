@@ -88,7 +88,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get scheduleFrequencyInterval => 'Intervalo';
 
   @override
-  String get scheduleFrequencyWeekly => 'Weekly';
+  String get scheduleFrequencyWeekly => 'Semanal';
 
   @override
   String get newUpdateAvailable => '¡Hay una nueva actualización disponible!';
@@ -502,7 +502,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get genericItemType => 'Consumable';
 
   @override
-  String get supplyType => 'Type';
+  String get supplyType => 'Tipo';
 
   @override
   String get syringe => 'Jeringas';

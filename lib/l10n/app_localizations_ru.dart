@@ -503,7 +503,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get genericItemType => 'Consumable';
 
   @override
-  String get supplyType => 'Type';
+  String get supplyType => 'Тип';
 
   @override
   String get syringe => 'Шприцы';

@@ -33,6 +33,7 @@
   "scheduleFrequencyDaily": "Щодня",
   "scheduleFrequencyEveryNDays": "Кожні {days} днів",
   "scheduleFrequencyInterval": "Інтервал",
+  "scheduleFrequencyWeekly": "Щотижня",
   "newUpdateAvailable": "Нове оновлення!",
   "goToSettings": "Перейти в Налаштування",
 
@@ -154,6 +155,7 @@
   "deleteItem": "Видалити {name}?",
   "remaining": "{amount} {unit} залишилось",
 
+  "supplyType": "Тип",
   "syringe": "Шприци",
   "wipe": "Серветки",
   "needle": "Голки",
