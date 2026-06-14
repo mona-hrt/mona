@@ -9,6 +9,7 @@ class TimeListCard extends StatelessWidget {
   final ValueChanged<int> onEdit;
   final ValueChanged<int> onDelete;
   final List<Widget> trailingChildren;
+  final Key? addTileKey;
 
   const TimeListCard({
     super.key,
@@ -19,6 +20,7 @@ class TimeListCard extends StatelessWidget {
     required this.onEdit,
     required this.onDelete,
     this.trailingChildren = const [],
+    this.addTileKey,
   });
 
   @override
@@ -41,6 +43,7 @@ class TimeListCard extends StatelessWidget {
             ),
           ),
         ListTile(
+          key: addTileKey,
           leading: const Icon(Icons.add),
           title: Text(addLabel),
           onTap: onAdd,

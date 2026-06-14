@@ -4,9 +4,11 @@ import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/l10n/build_context_extensions.dart';
 import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
+import 'package:mona/ui/widgets/dropdowns/generic_type_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -80,14 +82,7 @@ class _NewGenericItemSpecificsPageState
       fields: [
         FormDropdownField<GenericSupplyType>(
           value: _genericSupplyType,
-          items: GenericSupplyType.values
-              .map(
-                (type) => DropdownMenuItem<GenericSupplyType>(
-                  value: type,
-                  child: Text(type.name),
-                ),
-              )
-              .toList(),
+          items: genericItemTypeDropdownMenuItems(localizations),
           onChanged: (value) => setState(() => _genericSupplyType = value),
           label: localizations.supplyType,
         ),
@@ -96,7 +91,7 @@ class _NewGenericItemSpecificsPageState
           label: localizations.amount,
           onChanged: _refresh,
           inputType: TextInputType.number,
-          regexFormatter: r'[0-9]',
+          regexFormatter: RegexPatterns.intNumber,
         ),
       ],
     );

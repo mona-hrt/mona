@@ -57,6 +57,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get yesterday => 'вчера';
+
+  @override
   String inDaysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -67,6 +70,9 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'завтра';
 
   @override
   String get lastTaken => 'Последний приём';
@@ -370,6 +376,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get amount => 'Количество';
 
   @override
+  String get takenAmount => 'Принятое количество';
+
+  @override
+  String get wastedAmount => 'Потерянное количество';
+
+  @override
   String get none => 'Не выбрано';
 
   @override
@@ -397,6 +409,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get microliters => 'мкл';
+
+  @override
+  String get milliliters => 'мл';
 
   @override
   String get empty_levels =>
@@ -488,59 +503,79 @@ class AppLocalizationsRu extends AppLocalizations {
   String get genericItemType => 'Consumable';
 
   @override
-  String get supplyType => 'Type';
+  String get supplyType => 'Тип';
 
   @override
-  String syringe(num count) {
+  String get syringe => 'Шприцы';
+
+  @override
+  String get wipe => 'Салфетки';
+
+  @override
+  String get needle => 'Иглы';
+
+  @override
+  String get gloves => 'Перчатки';
+
+  @override
+  String get bandage => 'Пластыри';
+
+  @override
+  String syringeRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Syringes',
-      one: 'Syringe',
+      other: '$count шприцев осталось',
+      few: '$count шприца осталось',
+      one: '1 шприц осталось',
     );
     return '$_temp0';
   }
 
   @override
-  String wipe(num count) {
+  String wipeRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Wipes',
-      one: 'Wipe',
+      other: '$count салфеток осталось',
+      few: '$count салфетки осталось',
+      one: '1 салфетка осталось',
     );
     return '$_temp0';
   }
 
   @override
-  String needle(num count) {
+  String needleRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Needles',
-      one: 'Needle',
+      other: '$count игл осталось',
+      few: '$count иглы осталось',
+      one: '1 игла осталось',
     );
     return '$_temp0';
   }
 
   @override
-  String gloves(num count) {
+  String glovesRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Gloves',
-      one: 'Gloves',
+      other: '$count перчаток осталось',
+      few: '$count перчатки осталось',
+      one: '1 перчатка осталось',
     );
     return '$_temp0';
   }
 
   @override
-  String bandage(num count) {
+  String bandageRemaining(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Bandages',
-      one: 'Bandage',
+      other: '$count пластырей осталось',
+      few: '$count пластыря осталось',
+      one: '1 пластырь осталось',
     );
     return '$_temp0';
   }
@@ -705,6 +740,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get transdermalDrops => 'Трансдермальные капли';
+
+  @override
+  String get unitMilligram => 'мг';
+
+  @override
+  String get unitPgPerMl => 'пг/мл';
+
+  @override
+  String get unitPmolPerL => 'пмоль/л';
+
+  @override
+  String get unitNgPerDl => 'нг/дл';
+
+  @override
+  String get unitNmolPerL => 'нмоль/л';
 
   @override
   String administrationRouteUnitMl(num count) {
