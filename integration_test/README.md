@@ -98,10 +98,11 @@ the production code, and keep **assertions** matching on user-visible text.
   can be ambiguous when a pushed route leaves the previous one mounted
   underneath. A `ValueKey` on the production widget avoids all three. Declare
   the keys as `const ValueKey(...)` at the top of the test file, matching the
-  ones set in `lib/ui/...`. For widgets reused across routes (e.g. a form's
-  submit button), pass a **page-specific** key rather than one shared key -
-  pushed routes stay mounted, so a single key would be ambiguous across the
-  navigation stack.
+  ones set in `lib/ui/...` - the production side of any key is a
+  `grep -r "'theKeyString'" lib` away, so the test files don't list them. For
+  widgets reused across routes (e.g. a form's submit button), pass a
+  **page-specific** key rather than one shared key - pushed routes stay mounted,
+  so a single key would be ambiguous across the navigation stack.
 - **Assertions : visible text.** When the displayed copy *is* the behaviour
   under test (empty states, dialog titles, persisted values), assert on the
   text directly (`$('Taken intakes will appear here')`). A key there would
