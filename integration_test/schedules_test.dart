@@ -7,10 +7,8 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/main.dart' as app;
 import 'package:patrol/patrol.dart';
 
-// Widget Keys on schedule interaction targets (must match the ValueKeys set in
-// the production widgets: settings_page.dart, new_schedule_*_page.dart,
-// edit_schedule/*.dart, and the shared model_form.dart / form_text_field.dart /
-// dialogs.dart).
+// Keys for interaction targets, mirroring the ValueKeys set on the production
+// widgets under lib/ui/.
 const _settingsSchedulesTile = ValueKey('settingsSchedulesTile');
 const _newScheduleName = ValueKey('newScheduleName');
 const _newScheduleAmount = ValueKey('newScheduleAmount');

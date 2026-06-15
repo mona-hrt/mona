@@ -7,9 +7,8 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/main.dart' as app;
 import 'package:patrol/patrol.dart';
 
-// Widget Keys on intake interaction targets (must match the ValueKeys set in
-// the production widgets: main_tabs.dart, model_form.dart, form_text_field.dart,
-// dialogs.dart).
+// Keys for interaction targets, mirroring the ValueKeys set on the production
+// widgets under lib/ui/.
 const _navTabIntakes = ValueKey('navTabIntakes');
 const _takeIntakeSubmit = ValueKey('takeIntakeSubmit');
 const _editIntakeSave = ValueKey('editIntakeSave');
