@@ -5,13 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/main.dart' as app;
 import 'package:mona/ui/views/supplies/supply_item_card.dart';
 import 'package:patrol/patrol.dart';
 
+import 'support/helpers.dart';
+
 // Keys for interaction targets, mirroring the ValueKeys set on the production
 // widgets under lib/ui/.
-const _navTabSupplies = ValueKey('navTabSupplies');
 
 // New item (shared first page): name, type toggle, "Next".
 const _newItemName = ValueKey('newItemName');
@@ -33,8 +33,6 @@ const _editItemName = ValueKey('editItemName');
 const _editItemSave = ValueKey('editItemSave');
 const _editItemDelete = ValueKey('editItemDelete');
 
-const _confirmDelete = ValueKey('confirmDeleteConfirmButton');
-
 // User-visible strings asserted by these tests (see lib/l10n/app_en.arb).
 const _emptyState = 'No supplies. Add an item to get started.';
 
@@ -48,16 +46,16 @@ const _genericTypeSyringe = 'Syringes';
 
 void main() {
   patrolTest('shows empty state when there are no supplies', ($) async {
-    await _launchApp($);
-    await _openSupplies($);
+    await $.launchApp();
+    await $.openSupplies();
 
     await $(_emptyState).waitUntilVisible();
     expect($(_emptyState), findsOneWidget);
   });
 
   patrolTest('creates a medication item', ($) async {
-    await _launchApp($);
-    await _openSupplies($);
+    await $.launchApp();
+    await $.openSupplies();
 
     await _createMedicationItem($, name: 'Estradiol Vial');
 
@@ -68,8 +66,8 @@ void main() {
   });
 
   patrolTest('creates a consumable item', ($) async {
-    await _launchApp($);
-    await _openSupplies($);
+    await $.launchApp();
+    await $.openSupplies();
 
     await _createGenericItem($, name: 'Spare Syringes');
 
@@ -79,8 +77,8 @@ void main() {
   });
 
   patrolTest('edits an item name', ($) async {
-    await _launchApp($);
-    await _openSupplies($);
+    await $.launchApp();
+    await $.openSupplies();
     await _createMedicationItem($, name: 'Old Name');
 
     await $(SupplyItemCard).containing('Old Name').tap(); // -> EditItemPage
@@ -93,32 +91,18 @@ void main() {
   });
 
   patrolTest('deletes an item with confirmation', ($) async {
-    await _launchApp($);
-    await _openSupplies($);
+    await $.launchApp();
+    await $.openSupplies();
     await _createMedicationItem($, name: 'To Delete');
 
     await $(SupplyItemCard).containing('To Delete').tap(); // -> EditItemPage
     await $(_editItemDelete).tap(); // form's Delete button -> confirm dialog
-    await $(_confirmDelete).tap(); // confirm in the dialog
+    await $(confirmDeleteButton).tap(); // confirm in the dialog
 
     await $(_emptyState).waitUntilVisible();
     expect($('To Delete'), findsNothing);
     expect($(_emptyState), findsOneWidget);
   });
-}
-
-/// Launches the real app and waits for the home screen to be interactive.
-Future<void> _launchApp(PatrolIntegrationTester $) async {
-  app.main();
-  await $.pumpAndSettle();
-  // main() initialises asynchronously (timezone data, preferences) before
-  // runApp; poll until the home AppBar's settings button is on screen.
-  await $(Icons.settings).waitUntilVisible();
-}
-
-/// Switches from the Home tab to the Supplies tab via the bottom navigation bar.
-Future<void> _openSupplies(PatrolIntegrationTester $) async {
-  await $(_navTabSupplies).tap(); // keyed NavigationDestination
 }
 
 /// From the Supplies tab: FAB -> first page (name, medication type is the

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/main.dart' as app;
 import 'package:patrol/patrol.dart';
+
+import 'support/helpers.dart';
 
 // Keys for interaction targets, mirroring the ValueKeys set on the production
 // widgets under lib/ui/.
-const _settingsSchedulesTile = ValueKey('settingsSchedulesTile');
 const _newScheduleName = ValueKey('newScheduleName');
 const _newScheduleAmount = ValueKey('newScheduleAmount');
 const _newScheduleNext = ValueKey('newScheduleNext');
@@ -21,7 +21,6 @@ const _editScheduleInfoTile = ValueKey('editScheduleInfoTile');
 const _editScheduleName = ValueKey('editScheduleName');
 const _editScheduleSave = ValueKey('editScheduleSave');
 const _editScheduleDelete = ValueKey('editScheduleDelete');
-const _confirmDelete = ValueKey('confirmDeleteConfirmButton');
 
 // User-visible strings asserted by these tests (see lib/l10n/app_en.arb).
 const _emptyState = 'Add a schedule to get started.';
@@ -35,8 +34,8 @@ const _routeOral = 'Oral';
 
 void main() {
   patrolTest('deletes a schedule with confirmation', ($) async {
-    await _launchApp($);
-    await _openSchedules($);
+    await $.launchApp();
+    await $.openSchedules();
     await _createIntervalSchedule($, name: 'To Delete');
 
     await $(ListTile).containing('To Delete').tap(); // data, not localized
@@ -44,7 +43,7 @@ void main() {
 
     await $(_editScheduleDelete)
         .tap(); // form's Delete button -> confirm dialog
-    await $(_confirmDelete).tap(); // confirm in the dialog
+    await $(confirmDeleteButton).tap(); // confirm in the dialog
 
     await $(_emptyState).waitUntilVisible();
     expect($('To Delete'), findsNothing);
@@ -52,16 +51,16 @@ void main() {
   });
 
   patrolTest('shows empty state when there are no schedules', ($) async {
-    await _launchApp($);
-    await _openSchedules($);
+    await $.launchApp();
+    await $.openSchedules();
 
     await $(_emptyState).waitUntilVisible();
     expect($(_emptyState), findsOneWidget);
   });
 
   patrolTest('creates an interval schedule', ($) async {
-    await _launchApp($);
-    await _openSchedules($);
+    await $.launchApp();
+    await $.openSchedules();
 
     await $(Icons.add).tap(); // FAB: "Add a schedule"
     await _fillMainInfoAndNext($, name: 'Interval Estradiol');
@@ -76,8 +75,8 @@ void main() {
   });
 
   patrolTest('creates a daily schedule', ($) async {
-    await _launchApp($);
-    await _openSchedules($);
+    await $.launchApp();
+    await $.openSchedules();
 
     await $(Icons.add).tap();
     await _fillMainInfoAndNext($, name: 'Daily Estradiol');
@@ -93,8 +92,8 @@ void main() {
   });
 
   patrolTest('edits a schedule name', ($) async {
-    await _launchApp($);
-    await _openSchedules($);
+    await $.launchApp();
+    await $.openSchedules();
     await _createIntervalSchedule($, name: 'Old Name');
 
     await $(ListTile).containing('Old Name').tap(); // -> EditSchedulePage
@@ -111,21 +110,6 @@ void main() {
     expect($('New Name'), findsOneWidget);
     expect($('Old Name'), findsNothing);
   });
-}
-
-/// Launches the real app and waits for the home screen to be interactive.
-Future<void> _launchApp(PatrolIntegrationTester $) async {
-  app.main();
-  await $.pumpAndSettle();
-  // main() initialises asynchronously (timezone data, preferences) before
-  // runApp; poll until the home AppBar's settings button is on screen.
-  await $(Icons.settings).waitUntilVisible();
-}
-
-/// Home -> Settings -> Schedules.
-Future<void> _openSchedules(PatrolIntegrationTester $) async {
-  await $(Icons.settings).tap();
-  await $(_settingsSchedulesTile).scrollTo().tap();
 }
 
 /// Fills the first create-schedule page (name, molecule, route, amount) with a

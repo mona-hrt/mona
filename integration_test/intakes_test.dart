@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/main.dart' as app;
 import 'package:patrol/patrol.dart';
+
+import 'support/helpers.dart';
 
 // Keys for interaction targets, mirroring the ValueKeys set on the production
 // widgets under lib/ui/.
-const _navTabIntakes = ValueKey('navTabIntakes');
 const _takeIntakeSubmit = ValueKey('takeIntakeSubmit');
 const _editIntakeSave = ValueKey('editIntakeSave');
 const _editIntakeDelete = ValueKey('editIntakeDelete');
 const _editIntakeNotes = ValueKey('editIntakeNotes');
-const _confirmDelete = ValueKey('confirmDeleteConfirmButton');
 
 const _emptyIntakes = 'Taken intakes will appear here';
 const _addSchedulesFirst = 'Add schedules first.';
@@ -32,8 +31,8 @@ const _everyLabel = 'Every';
 
 void main() {
   patrolTest('shows empty state when there are no intakes', ($) async {
-    await _launchApp($);
-    await _openIntakes($);
+    await $.launchApp();
+    await $.openIntakes();
 
     await $(_emptyIntakes).waitUntilVisible();
     expect($(_emptyIntakes), findsOneWidget);
@@ -42,8 +41,8 @@ void main() {
   patrolTest('prompts to add a schedule when none exist', ($) async {
     // With no schedules, the record-intake entry view (ChooseSchedulePage)
     // shows a prompt instead of a selectable schedule list.
-    await _launchApp($);
-    await _openIntakes($);
+    await $.launchApp();
+    await $.openIntakes();
 
     await $(Icons.add).tap(); // FAB: "Take an intake" -> ChooseSchedulePage
     await $(_addSchedulesFirst).waitUntilVisible();
@@ -51,9 +50,9 @@ void main() {
   });
 
   patrolTest('records an intake from the intakes tab', ($) async {
-    await _launchApp($);
+    await $.launchApp();
     await _seedSchedule($, name: 'Estradiol');
-    await _openIntakes($);
+    await $.openIntakes();
 
     await _recordIntake($, scheduleName: 'Estradiol');
 
@@ -65,9 +64,9 @@ void main() {
   });
 
   patrolTest('edits an intake and persists notes', ($) async {
-    await _launchApp($);
+    await $.launchApp();
     await _seedSchedule($, name: 'Estradiol');
-    await _openIntakes($);
+    await $.openIntakes();
     await _recordIntake($, scheduleName: 'Estradiol');
     await $(ListTile).waitUntilVisible();
 
@@ -83,9 +82,9 @@ void main() {
   });
 
   patrolTest('deletes an intake with confirmation', ($) async {
-    await _launchApp($);
+    await $.launchApp();
     await _seedSchedule($, name: 'Estradiol');
-    await _openIntakes($);
+    await $.openIntakes();
     await _recordIntake($, scheduleName: 'Estradiol');
     await $(ListTile).waitUntilVisible();
 
@@ -94,26 +93,12 @@ void main() {
 
     await $(_editIntakeDelete)
         .tap(); // form's Delete button -> confirmation dialog
-    await $(_confirmDelete).tap(); // confirm in the dialog
+    await $(confirmDeleteButton).tap(); // confirm in the dialog
 
     await $(_emptyIntakes).waitUntilVisible();
     expect($(_emptyIntakes), findsOneWidget);
     expect($(ListTile), findsNothing);
   });
-}
-
-/// Launches the real app and waits for the home screen to be interactive.
-Future<void> _launchApp(PatrolIntegrationTester $) async {
-  app.main();
-  await $.pumpAndSettle();
-  // main() initialises asynchronously (timezone data, preferences) before
-  // runApp; poll until the home AppBar's settings button is on screen.
-  await $(Icons.settings).waitUntilVisible();
-}
-
-/// Switches from the Home tab to the Intakes tab via the bottom navigation bar.
-Future<void> _openIntakes(PatrolIntegrationTester $) async {
-  await $(_navTabIntakes).tap(); // keyed NavigationDestination
 }
 
 /// Seeds a minimal interval schedule (Estradiol + Oral) so an intake can be
