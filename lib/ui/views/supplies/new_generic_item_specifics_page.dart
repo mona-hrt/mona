@@ -76,6 +76,7 @@ class _NewGenericItemSpecificsPageState
       title: widget.name,
       avatar: _genericSupplyType?.icon ?? Symbols.medication,
       submitButtonLabel: localizations.add,
+      submitButtonKey: const ValueKey('newGenericItemAdd'),
       isFormValid: _isFormValid,
       saveChanges: _addItem,
       closeAll: _closeAll,
@@ -89,6 +90,7 @@ class _NewGenericItemSpecificsPageState
         FormTextField(
           controller: _amountController,
           label: localizations.amount,
+          fieldKey: const ValueKey('newGenericItemAmount'),
           onChanged: _refresh,
           inputType: TextInputType.number,
           regexFormatter: RegexPatterns.intNumber,
