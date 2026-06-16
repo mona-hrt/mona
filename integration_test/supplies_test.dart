@@ -36,10 +36,7 @@ const _editItemDelete = ValueKey('editItemDelete');
 // User-visible strings asserted by these tests (see lib/l10n/app_en.arb).
 const _emptyState = 'No supplies. Add an item to get started.';
 
-// Dropdown option labels: selected by their visible (localized) text. The
-// option lists come from shared enum dropdown builders used app-wide, so they
-// are not individually keyed; the dropdowns themselves are opened with a stable
-// typed finder ($(DropdownButtonFormField<Molecule>)).
+// Dropdown options aren't keyed. They're selected by visible localized text.
 const _moleculeEstradiol = 'Estradiol';
 const _routeOral = 'Oral';
 const _genericTypeSyringe = 'Syringes';
