@@ -13,7 +13,7 @@ const _settingsSchedulesTile = ValueKey('settingsSchedulesTile');
 const _navTabIntakes = ValueKey('navTabIntakes');
 const _navTabSupplies = ValueKey('navTabSupplies');
 
-extension MonaHarness on PatrolIntegrationTester {
+extension MonaHelper on PatrolIntegrationTester {
   /// Launches the real app and waits for the home screen to be interactive.
   Future<void> launchApp() async {
     app.main();
