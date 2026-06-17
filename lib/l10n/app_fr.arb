@@ -127,6 +127,7 @@
   "deleteIntake": "Supprimer cette prise ?",
   "takeMedication": "Prendre {scheduleName}",
   "takeIntake": "Prendre",
+  "intakeRecorded": "Prise enregistrée",
   "needleDeadSpace": "Espace mort de l'aiguille",
   "notes": "Notes",
   "microliters": "μL",

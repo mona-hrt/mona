@@ -123,6 +123,7 @@
   "deleteIntake": "ลบโดสยานี้?",
   "takeMedication": "ทาน {scheduleName}",
   "takeIntake": "ทานโดสยา",
+  "intakeRecorded": "บันทึกการทานยาแล้ว",
   "needleDeadSpace": "ปริมาณเว้นเปล่าในเข็ม",
   "notes": "บันทึก",
   "microliters": "ไมโครลิตร",

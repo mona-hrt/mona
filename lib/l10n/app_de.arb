@@ -127,6 +127,7 @@
     "deleteIntake": "Diese Einnahme löschen?",
     "takeMedication": "{scheduleName} einnehmen",
     "takeIntake": "Einnahme erfassen",
+    "intakeRecorded": "Einnahme erfasst",
     "needleDeadSpace": "Totraum der Nadel",
     "notes": "Notizen",
     "microliters": "μL",

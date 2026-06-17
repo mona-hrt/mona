@@ -127,6 +127,7 @@
   "deleteIntake": "Удалить приём?",
   "takeMedication": "Принять {scheduleName}",
   "takeIntake": "Записать приём",
+  "intakeRecorded": "Приём записан",
   "needleDeadSpace": "Мёртвое (пустое) пространство иглы",
   "notes": "Заметки",
   "microliters": "мкл",

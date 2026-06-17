@@ -213,7 +213,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
         return ModelForm(
           title: localizations.takeMedication(widget.schedule.name),
           avatar: widget.schedule.administrationRoute.icon,
-          submitButtonLabel: _isTaken ? 'Taken' : localizations.takeIntake,
+          submitButtonLabel: _isTaken
+              ? localizations.intakeRecorded
+              : localizations.takeIntake,
           submitButtonIcon: _isTaken ? Icons.check_circle : null,
           submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
