@@ -1,1 +1,9 @@
-{}
+{
+  "appTitle": "Mona",
+  "nav_home": "Mona",
+  "addAnItem": "pana e ijo sin",
+  "empty_home": "o pana e nasin tenpo lon poki nasin",
+  "allDone": "ale li pini!",
+  "noIntakesDue": "tenpo ni la open li wile ala",
+  "upcoming": "kama"
+}
