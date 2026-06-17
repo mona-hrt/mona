@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -82,7 +83,11 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
       _isTaken = true;
     });
 
-    await Future.delayed(const Duration(seconds: 1));
+    HapticFeedback.lightImpact();
+    await Future.delayed(const Duration(milliseconds: 120));
+    HapticFeedback.lightImpact();
+
+    await Future.delayed(const Duration(milliseconds: 880));
 
     if (!mounted) return;
     Navigator.of(context).pop();
