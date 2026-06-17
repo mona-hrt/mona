@@ -149,6 +149,7 @@ class _NewMedicationItemSpecificsPageState
       title: widget.name,
       avatar: _administrationRoute?.icon ?? Symbols.medication,
       submitButtonLabel: localizations.add,
+      submitButtonKey: const ValueKey('newMedicationItemAdd'),
       isFormValid: _isFormValid,
       saveChanges: _addItem,
       closeAll: _closeAll,
@@ -179,6 +180,7 @@ class _NewMedicationItemSpecificsPageState
         FormTextField(
           controller: _totalAmountController,
           label: localizations.totalAmount,
+          fieldKey: const ValueKey('newMedicationItemTotalAmount'),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _administrationRoute?.localizedUnit(localizations, 1),
@@ -187,6 +189,7 @@ class _NewMedicationItemSpecificsPageState
         FormTextField(
           controller: _concentrationController,
           label: localizations.concentration,
+          fieldKey: const ValueKey('newMedicationItemConcentration'),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _molecule != null && _administrationRoute != null

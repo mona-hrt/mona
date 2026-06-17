@@ -189,6 +189,8 @@ class _EditItemPageState extends State<EditItemPage> {
       title: localizations.editItem,
       avatar: _administrationRoute.icon,
       submitButtonLabel: localizations.save,
+      submitButtonKey: const ValueKey('editItemSave'),
+      deleteButtonKey: const ValueKey('editItemDelete'),
       isFormValid: _isFormValid,
       saveChanges: _saveChanges,
       onDelete: _confirmDelete,
@@ -196,6 +198,7 @@ class _EditItemPageState extends State<EditItemPage> {
         FormTextField(
           controller: _nameController,
           label: localizations.name,
+          fieldKey: const ValueKey('editItemName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,

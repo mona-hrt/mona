@@ -61,12 +61,14 @@ class _NewItemPageState extends State<NewItemPage> {
       title: localizations.newItem,
       avatar: Symbols.medication,
       submitButtonLabel: localizations.next,
+      submitButtonKey: const ValueKey('newItemNext'),
       isFormValid: _isFormValid,
       saveChanges: _next,
       fields: [
         FormTextField(
           controller: _nameController,
           label: localizations.name,
+          fieldKey: const ValueKey('newItemName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
         ),
@@ -95,9 +97,11 @@ class _NewItemPageState extends State<NewItemPage> {
         },
         actions: [
           M3EToggleButtonGroupAction(
-              label: Text(localizations.medicationItemType)),
+              label: Text(localizations.medicationItemType,
+                  key: const ValueKey('newItemTypeMedication'))),
           M3EToggleButtonGroupAction(
-              label: Text(localizations.genericItemType)),
+              label: Text(localizations.genericItemType,
+                  key: const ValueKey('newItemTypeGeneric'))),
         ],
       ),
     );
