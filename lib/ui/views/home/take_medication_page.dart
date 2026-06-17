@@ -46,6 +46,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   late TextEditingController _deadSpaceController;
   Decimal? _deadSpace;
   late TextEditingController _notesController;
+  bool _isTaken = false;
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(context.l10n, _takenDoseController.text);
@@ -60,7 +61,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   void _takeIntake(MedicationIntakeProvider medicationIntakeProvider,
       SupplyItemProvider supplyItemProvider) async {
-    if (!_isFormValid || !mounted) return;
+    if (!_isFormValid || !mounted || _isTaken) return;
 
     final String? notes =
         _notesController.text.isEmpty ? null : _notesController.text;
@@ -77,6 +78,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             notes: notes,
             wastedAmount: _wastedAmount);
 
+    setState(() {
+      _isTaken = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (!mounted) return;
     Navigator.of(context).pop();
   }
 
@@ -205,10 +213,11 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
         return ModelForm(
           title: localizations.takeMedication(widget.schedule.name),
           avatar: widget.schedule.administrationRoute.icon,
-          submitButtonLabel: localizations.takeIntake,
+          submitButtonLabel: _isTaken ? 'Taken' : localizations.takeIntake,
+          submitButtonIcon: _isTaken ? Icons.check_circle : null,
           submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
-          saveChanges: (!isLoading && _isFormValid)
+          saveChanges: (!isLoading && _isFormValid && !_isTaken)
               ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider)
               : () {},
           fields: [
