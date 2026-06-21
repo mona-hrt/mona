@@ -202,6 +202,14 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           widget.schedule.administrationRoute,
           widget.schedule.ester,
         );
+
+        if (_selectedSupplyItem != null) {
+          final selectedId = _selectedSupplyItem!.id;
+          _selectedSupplyItem = supplyItemOptions
+              .cast<SupplyItem?>()
+              .firstWhere((item) => item?.id == selectedId, orElse: () => null);
+        }
+
         final supplyItemDropdownItems = [
           DropdownMenuItem<SupplyItem?>(
             value: null,
