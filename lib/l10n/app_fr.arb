@@ -89,7 +89,6 @@
   "notificationMedicationReminderBodyDate": "Prévu pour le {date}",
   "notificationMedicationReminderBodyTime": "Prévu pour {time}",
   "notificationMedicationReminderBodyWeekday": "Prévu pour {weekday}",
-
   "addSchedule": "Ajouter un planning",
   "addScheduleToGetStarted": "Ajoutez un planning pour commencer.",
   "newSchedule": "Nouveau planning",
@@ -129,7 +128,6 @@
   "notes": "Notes",
   "microliters": "μL",
   "milliliters": "mL",
-
   "empty_levels": "Les injections d’estradiol s’afficheront dans cet onglet",
   "bloodTestsTitle": "Prises de sang",
   "empty_blood_tests": "Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !",
@@ -162,13 +160,11 @@
   "needle": "Aiguilles",
   "gloves": "Gants",
   "bandage": "Pansements",
-
   "syringeRemaining": "{count, plural, =1{1 seringue restante} other{{count} seringues restantes}}",
   "wipeRemaining": "{count, plural, =1{1 lingette restante} other{{count} lingettes restantes}}",
   "needleRemaining": "{count, plural, =1{1 aiguille restante} other{{count} aiguilles restantes}}",
   "glovesRemaining": "{count, plural, =1{1 gant restant} other{{count} gants restants}}",
   "bandageRemaining": "{count, plural, =1{1 pansement restant} other{{count} pansements restants}}",
-
   "add": "Ajouter",
   "save": "Enregistrer",
   "cancel": "Annuler",
@@ -222,13 +218,11 @@
   "suppository": "Suppositoire",
   "transdermalSpray": "Spray transdermique",
   "transdermalDrops": "Gouttes transdermiques",
-
   "unitMilligram": "mg",
   "unitPgPerMl": "pg/mL",
   "unitPmolPerL": "pmol/L",
   "unitNgPerDl": "ng/dL",
   "unitNmolPerL": "nmol/L",
-
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{comprimé} other{comprimés}}",
   "administrationRouteUnitPatch": "{count, plural, =1{patch} other{patchs}}",
