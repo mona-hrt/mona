@@ -161,6 +161,41 @@ const String _medicationIntakesV8 = '''
     )
     ''';
 
+const String _supplyItemsV10 = '''
+    CREATE TABLE supply_items(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      type TEXT NOT NULL,
+      name TEXT NOT NULL,
+      totalDose TEXT,
+      usedDose TEXT,
+      concentration TEXT,
+      moleculeJson TEXT,
+      administrationRouteName TEXT,
+      esterName TEXT,
+      amount INTEGER,
+      genericSupplyType TEXT
+    )
+    ''';
+
+const String _medicationIntakesV11 = '''
+    CREATE TABLE medication_intakes(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      scheduledTime TEXT,
+      takenDateTime TEXT,
+      takenTimeZone TEXT,
+      dose TEXT NOT NULL,
+      wastedAmount TEXT,
+      scheduleId INTEGER,
+      side TEXT,
+      moleculeJson TEXT NOT NULL,
+      administrationRouteName TEXT NOT NULL,
+      esterName TEXT,
+      supplyItemId INTEGER,
+      notes TEXT,
+      FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
+    )
+    ''';
+
 const Map<int, List<String>> _historicalSchemas = {
   4: [
     _supplyItemsV4,
@@ -195,6 +230,18 @@ const Map<int, List<String>> _historicalSchemas = {
   9: [
     _supplyItemsV7,
     _medicationIntakesV8,
+    _medicationSchedulesV8,
+    _bloodTestsV7,
+  ],
+  10: [
+    _supplyItemsV10,
+    _medicationIntakesV8,
+    _medicationSchedulesV8,
+    _bloodTestsV7,
+  ],
+  11: [
+    _supplyItemsV10,
+    _medicationIntakesV11,
     _medicationSchedulesV8,
     _bloodTestsV7,
   ],

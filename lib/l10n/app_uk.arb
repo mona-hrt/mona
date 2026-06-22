@@ -11,7 +11,7 @@
   "noIntakesDue": "На сьогодні все прийнято",
   "upcoming": "Найближче",
   "taken": "Прийнято",
-  "daysAgoCount": "{count, plural, =1{вчора} few{{count} дні тому} other{{count} днів тому}}",
+  "daysAgoCount": "{count, plural, few{{count} дні тому} other{{count} днів тому}}",
   "@daysAgoCount": {
     "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
@@ -20,7 +20,8 @@
       }
     }
   },
-  "inDaysCount": "{count, plural, =1{завтра} few{через {count} дні} many{через {count} днів} other{через {count} днів}}",
+  "yesterday": "вчора",
+  "inDaysCount": "{count, plural, few{через {count} дні} many{через {count} днів} other{через {count} днів}}",
   "@inDaysCount": {
     "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
@@ -29,11 +30,13 @@
       }
     }
   },
+  "tomorrow": "завтра",
   "lastTaken": "Востаннє прийнято",
   "neverTakenYet": "Ще не приймалось",
   "scheduleFrequencyDaily": "Щодня",
   "scheduleFrequencyEveryNDays": "Кожні {days} днів",
   "scheduleFrequencyInterval": "Інтервал",
+  "scheduleFrequencyWeekly": "Щотижня",
   "newUpdateAvailable": "Нове оновлення!",
   "goToSettings": "Перейти в Налаштування",
   "settingsTitle": "Налаштування",
@@ -83,7 +86,10 @@
   "updateFailedOpenInstaller": "Невдалося відкрити встановлювач: {message}",
   "updateDownloadFailed": "Завантаження невдалося. Будь ласка, перевірте вашу мережу..",
   "notificationMedicationReminderTitle": "Час прийняти {scheduleName}",
-  "notificationMedicationReminderBody": "Заплановано на {dateTime}",
+  "notificationMedicationReminderBodyDate": "Заплановано на {date}",
+  "notificationMedicationReminderBodyTime": "Заплановано на {time}",
+  "notificationMedicationReminderBodyWeekday": "Заплановано на {weekday}",
+
   "addSchedule": "Додати розклад",
   "addScheduleToGetStarted": "Додайте розклад щоб почати.",
   "newSchedule": "Новий розклад",
@@ -111,6 +117,8 @@
   "editIntake": "Редагування прийому",
   "date": "Дата",
   "amount": "Кількість",
+  "takenAmount": "Прийнята кількість",
+  "wastedAmount": "Втрачена кількість",
   "none": "Відсутнє",
   "supplyItem": "Препарат",
   "injectionSide": "Сторона",
@@ -120,6 +128,8 @@
   "needleDeadSpace": "Мертва зона голки",
   "notes": "Примітки",
   "microliters": "μL",
+  "milliliters": "mL",
+
   "empty_levels": "Ін'єкції відображатимуться тут",
   "bloodTestsTitle": "Аналізи крові",
   "empty_blood_tests": "Висновки з аналізів крові з'являтимуться тут. Натисніть Додати!",
@@ -141,6 +151,20 @@
   "usedAmount": "Використано",
   "deleteItem": "Видалити {name}?",
   "remaining": "{amount} {unit} залишилось",
+
+  "supplyType": "Тип",
+  "syringe": "Шприци",
+  "wipe": "Серветки",
+  "needle": "Голки",
+  "gloves": "Рукавички",
+  "bandage": "Пластирі",
+
+  "syringeRemaining": "{count, plural, one{1 шприц залишилось} few{{count} шприца залишилось} other{{count} шприців залишилось}}",
+  "wipeRemaining": "{count, plural, one{1 серветка залишилось} few{{count} серветки залишилось} other{{count} серветок залишилось}}",
+  "needleRemaining": "{count, plural, one{1 голка залишилось} few{{count} голки залишилось} other{{count} голок залишилось}}",
+  "glovesRemaining": "{count, plural, one{1 рукавичка залишилось} few{{count} рукавички залишилось} other{{count} рукавичок залишилось}}",
+  "bandageRemaining": "{count, plural, one{1 пластир залишилось} few{{count} пластирі залишилось} other{{count} пластирів залишилось}}",
+
   "add": "Додати",
   "save": "Зберегти",
   "cancel": "Скасувати",
@@ -155,6 +179,7 @@
   "progesterone": "Прогестерон",
   "testosterone": "Тестостерон",
   "nandrolone": "Нандролон",
+  "dihydrotestosterone": "Дигідротестостерон",
   "spironolactone": "Спіронолактон",
   "cyproteroneAcetate": "Ципротерон ацетат",
   "leuprorelinAcetate": "Лейпрорелін ацетат",
@@ -193,6 +218,13 @@
   "suppository": "Супозиторій",
   "transdermalSpray": "Трансдермальний спрей",
   "transdermalDrops": "Трансдермальні краплі",
+
+  "unitMilligram": "мг",
+  "unitPgPerMl": "пг/мл",
+  "unitPmolPerL": "пмоль/л",
+  "unitNgPerDl": "нг/дл",
+  "unitNmolPerL": "нмоль/л",
+
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{пігулка} other{пігулок} few{пігулки}}",
   "administrationRouteUnitPatch": "{count, plural, =1{патч} other{патчів} few{патчі}}",

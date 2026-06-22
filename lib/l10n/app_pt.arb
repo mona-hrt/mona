@@ -12,25 +12,28 @@
     "noIntakesDue": "Nenhuma dose pendente hoje",
     "upcoming": "Próximos",
     "taken": "Tomado",
-    "daysAgoCount": "{count, plural, =1{ontem} other{há {count} dias}}",
+    "daysAgoCount": "{count, plural, other{há {count} dias}}",
     "@daysAgoCount": {
         "description": "=1 ontem; resto há # dias.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
-    "inDaysCount": "{count, plural, =1{amanhã} other{em {count} dias}}",
+    "yesterday": "ontem",
+    "inDaysCount": "{count, plural, other{em {count} dias}}",
     "@inDaysCount": {
         "description": "=1 amanhã; resto em # dias.",
         "placeholders": {
             "count": {"type": "int"}
         }
     },
+    "tomorrow": "amanhã",
     "lastTaken": "Última dose",
     "neverTakenYet": "Ainda não tomado",
     "scheduleFrequencyDaily": "Todos os dias",
     "scheduleFrequencyEveryNDays": "A cada {days} dias",
     "scheduleFrequencyInterval": "Intervalo",
+    "scheduleFrequencyWeekly": "Semanal",
     "newUpdateAvailable": "Uma nova atualização está disponível!",
     "goToSettings": "Ir para Configurações",
 
@@ -83,7 +86,9 @@
     "updateDownloadFailed": "Falha na transferência. Verifique a sua ligação.",
 
     "notificationMedicationReminderTitle": "Hora de tomar {scheduleName}",
-    "notificationMedicationReminderBody": "Agendado para {dateTime}",
+    "notificationMedicationReminderBodyDate": "Agendado para {date}",
+    "notificationMedicationReminderBodyTime": "Agendado para {time}",
+    "notificationMedicationReminderBodyWeekday": "Agendado para {weekday}",
 
     "addSchedule": "Adicionar cronograma",
     "addScheduleToGetStarted": "Adicione um cronograma para começar.",
@@ -114,6 +119,8 @@
     "editIntake": "Editar dose",
     "date": "Data",
     "amount": "Quantidade",
+    "takenAmount": "Quantidade tomada",
+    "wastedAmount": "Quantidade desperdiçada",
     "none": "Nenhum",
     "supplyItem": "Item de suprimento",
     "injectionSide": "Lado da injeção",
@@ -123,6 +130,7 @@
     "needleDeadSpace": "Espaço morto da agulha",
     "notes": "Notas",
     "microliters": "μL",
+    "milliliters": "mL",
 
     "empty_levels": "As injeções de estradiol aparecerão nesta aba",
     "bloodTestsTitle": "Exames de sangue",
@@ -147,6 +155,19 @@
     "deleteItem": "Excluir {name}?",
     "remaining": "{amount} {unit} restantes",
 
+    "supplyType": "Tipo",
+    "syringe": "Seringas",
+    "wipe": "Toalhitas",
+    "needle": "Agulhas",
+    "gloves": "Luvas",
+    "bandage": "Pensos",
+
+    "syringeRemaining": "{count, plural, =1{1 seringa restante} other{{count} seringas restantes}}",
+    "wipeRemaining": "{count, plural, =1{1 toalhita restante} other{{count} toalhitas restantes}}",
+    "needleRemaining": "{count, plural, =1{1 agulha restante} other{{count} agulhas restantes}}",
+    "glovesRemaining": "{count, plural, =1{1 luva restante} other{{count} luvas restantes}}",
+    "bandageRemaining": "{count, plural, =1{1 penso restante} other{{count} pensos restantes}}",
+
     "add": "Adicionar",
     "save": "Salvar",
     "cancel": "Cancelar",
@@ -163,6 +184,7 @@
     "progesterone": "Progesterona",
     "testosterone": "Testosterona",
     "nandrolone": "Nandrolona",
+    "dihydrotestosterone": "Di-hidrotestosterona",
     "spironolactone": "Espironolactona",
     "cyproteroneAcetate": "Acetato de ciproterona",
     "leuprorelinAcetate": "Acetato de leuprorelina",
@@ -204,6 +226,12 @@
     "suppository": "Supositório",
     "transdermalSpray": "Spray transdérmico",
     "transdermalDrops": "Gotas transdérmicas",
+
+    "unitMilligram": "mg",
+    "unitPgPerMl": "pg/mL",
+    "unitPmolPerL": "pmol/L",
+    "unitNgPerDl": "ng/dL",
+    "unitNmolPerL": "nmol/L",
 
     "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
     "administrationRouteUnitPill": "{count, plural, =1{comprimido} other{comprimidos}}",

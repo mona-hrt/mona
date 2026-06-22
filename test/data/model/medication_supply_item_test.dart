@@ -47,7 +47,7 @@ void main() {
         );
 
         // Act
-        final result = MedicationSupplyItem.fromMap(original.toMap());
+        final result = MedicationSupplyItemMapper.fromMap(original.toMap());
 
         // Assert
         expect(
@@ -71,7 +71,7 @@ void main() {
         final original = makeMed(ester: null);
 
         // Act
-        final result = MedicationSupplyItem.fromMap(original.toMap());
+        final result = MedicationSupplyItemMapper.fromMap(original.toMap());
 
         // Assert
         expect(result.ester, isNull);
@@ -360,12 +360,12 @@ void main() {
         expect(result.ester, Ester.enanthate);
       });
 
-      test('clears ester when clearEster is true', () {
+      test('clears ester when ester is null', () {
         // Arrange
         final original = makeMed(ester: Ester.valerate);
 
         // Act
-        final result = original.copyWith(clearEster: true);
+        final result = original.copyWith(ester: null);
 
         // Assert
         expect(result.ester, isNull);

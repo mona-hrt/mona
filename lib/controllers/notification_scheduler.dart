@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:mona/controllers/occurrences_manager.dart';
-import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/scheduling_strategy.dart';
+import 'package:mona/controllers/notification_planner.dart';
+import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -11,29 +10,12 @@ int _notificationIdFor(int scheduleId, DateTime dateTime) {
 }
 
 class NotificationScheduler {
-  static const int _numberOfDays = 5;
+  static const int _maxScheduled = 60; // below iOS limit
 
-  final OccurrencesManager occurencesManager;
+  final NotificationPlanner planner;
   final PreferencesService preferencesService;
 
-  NotificationScheduler(this.occurencesManager, this.preferencesService);
-
-  List<_ScheduledNotification> _getScheduledNotifications() {
-    final notifications = <_ScheduledNotification>[];
-    final now = DateTime.now();
-
-    for (final occ in occurencesManager.upcoming(days: _numberOfDays)) {
-      if (!occ.notifiable) continue;
-      if (occ.status == ScheduleStatus.taken) continue;
-      final dt = occ.notificationDateTime;
-      if (dt == null || now.isAfter(dt)) continue;
-      final includeTime = occ.time != null;
-      notifications.add(
-          (dateTime: dt, schedule: occ.schedule, includeTime: includeTime));
-    }
-
-    return notifications;
-  }
+  NotificationScheduler(this.planner, this.preferencesService);
 
   Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
     await NotificationService().triggerPastPendingNotifications();
@@ -43,39 +25,75 @@ class NotificationScheduler {
       return;
     }
 
-    final scheduledDateFormat = DateFormat.MMMMd(localeName);
-    final scheduledDateTimeFormat = DateFormat.MMMMd(localeName)
-        .addPattern(DateFormat.Hm(localeName).pattern);
+    final daysAhead = planner.daysAhead(maxScheduled: _maxScheduled);
+    final plans = [...planner.planNotifications(daysAhead: daysAhead)]
+      ..sort((a, b) => a.firstFire.compareTo(b.firstFire));
 
-    final scheduledNotifications = _getScheduledNotifications();
+    await Future.wait(plans
+        .take(_maxScheduled)
+        .map((plan) => _schedule(plan, l10n, localeName)));
+  }
 
-    await Future.wait(
-      scheduledNotifications.map((entry) {
-        final dateTime = entry.dateTime;
-        final schedule = entry.schedule;
-        final includeTime = entry.includeTime;
+  Future<void> _schedule(
+      PlannedNotification plan, AppLocalizations l10n, String localeName) {
+    switch (plan) {
+      case PlannedOccurrence():
+        return _scheduleOccurrence(plan, l10n, localeName);
+      case PlannedRepeating():
+        switch (plan.periodicity) {
+          case Periodicity.daily:
+            return _scheduleDaily(plan, l10n, localeName);
+          case Periodicity.weekly:
+            return _scheduleWeekly(plan, l10n, localeName);
+        }
+    }
+  }
 
-        return NotificationService().scheduleNotification(
-          id: _notificationIdFor(schedule.id, dateTime),
-          title: l10n.notificationMedicationReminderTitle(schedule.name),
-          body: l10n.notificationMedicationReminderBody(
-            includeTime
-                ? scheduledDateTimeFormat.format(dateTime)
-                : scheduledDateFormat.format(dateTime),
-          ),
-          year: dateTime.year,
-          month: dateTime.month,
-          day: dateTime.day,
-          hour: dateTime.hour,
-          minute: dateTime.minute,
-        );
-      }),
+  Future<void> _scheduleOccurrence(
+    PlannedOccurrence plan,
+    AppLocalizations l10n,
+    String localeName,
+  ) {
+    final dateFormat = DateFormat.MMMMd(localeName);
+    return NotificationService().scheduleNotification(
+      id: _notificationIdFor(plan.schedule.id, plan.dateTime),
+      title: l10n.notificationMedicationReminderTitle(plan.schedule.name),
+      body: l10n.notificationMedicationReminderBodyDate(
+        dateFormat.format(plan.dateTime),
+      ),
+      scheduledTime: plan.dateTime,
+    );
+  }
+
+  Future<void> _scheduleDaily(
+    PlannedRepeating plan,
+    AppLocalizations l10n,
+    String localeName,
+  ) {
+    final timeFormat = DateFormat.Hm(localeName);
+    return NotificationService().scheduleDailyNotification(
+      id: _notificationIdFor(plan.schedule.id, plan.firstFire),
+      title: l10n.notificationMedicationReminderTitle(plan.schedule.name),
+      body: l10n.notificationMedicationReminderBodyTime(
+        timeFormat.format(plan.firstFire),
+      ),
+      firstOccurrence: plan.firstFire,
+    );
+  }
+
+  Future<void> _scheduleWeekly(
+    PlannedRepeating plan,
+    AppLocalizations l10n,
+    String localeName,
+  ) {
+    final weekdayFormat = DateFormat.EEEE(localeName);
+    return NotificationService().scheduleWeeklyNotification(
+      id: _notificationIdFor(plan.schedule.id, plan.firstFire),
+      title: l10n.notificationMedicationReminderTitle(plan.schedule.name),
+      body: l10n.notificationMedicationReminderBodyWeekday(
+        weekdayFormat.format(plan.firstFire),
+      ),
+      firstOccurrence: plan.firstFire,
     );
   }
 }
-
-typedef _ScheduledNotification = ({
-  DateTime dateTime,
-  MedicationSchedule schedule,
-  bool includeTime,
-});

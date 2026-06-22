@@ -27,7 +27,7 @@ void main() {
         tableName: 'supply_items',
         toMap: (MedicationSupplyItem item) => item.toMap(),
         fromMap: (Map<String, Object?> map) =>
-            MedicationSupplyItem.fromMap(map),
+            MedicationSupplyItemMapper.fromMap(map),
       );
     });
 
@@ -133,7 +133,7 @@ void main() {
         tableName: 'bad_table',
         toMap: (MedicationSupplyItem item) => item.toMap(),
         fromMap: (Map<String, Object?> map) =>
-            MedicationSupplyItem.fromMap(map),
+            MedicationSupplyItemMapper.fromMap(Map<String, dynamic>.from(map)),
       );
 
       try {

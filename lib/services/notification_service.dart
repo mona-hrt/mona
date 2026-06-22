@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -110,6 +111,13 @@ class NotificationService {
     return canSchedule ?? false;
   }
 
+  Future<AndroidScheduleMode> scheduleMode() async {
+    final useExact = await canScheduleExactAlarms();
+    return useExact
+        ? AndroidScheduleMode.exactAllowWhileIdle
+        : AndroidScheduleMode.inexactAllowWhileIdle;
+  }
+
   Future<void> showNotification({
     int? id,
     String? title,
@@ -136,32 +144,70 @@ class NotificationService {
     required int id,
     required String title,
     required String body,
-    required int year,
-    required int month,
-    required int day,
-    required int hour,
-    required int minute,
+    required DateTime scheduledTime,
+  }) =>
+      _schedule(
+        id: id,
+        title: title,
+        body: body,
+        scheduledTime: scheduledTime,
+      );
+
+  Future<void> scheduleDailyNotification({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime firstOccurrence,
+  }) =>
+      _schedule(
+        id: id,
+        title: title,
+        body: body,
+        scheduledTime: firstOccurrence,
+        matchComponents: DateTimeComponents.time,
+      );
+
+  Future<void> scheduleWeeklyNotification({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime firstOccurrence,
+  }) =>
+      _schedule(
+        id: id,
+        title: title,
+        body: body,
+        scheduledTime: firstOccurrence,
+        matchComponents: DateTimeComponents.dayOfWeekAndTime,
+      );
+
+  Future<void> _schedule({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime scheduledTime,
+    DateTimeComponents? matchComponents,
   }) async {
-    final scheduledDate =
-        tz.TZDateTime(tz.local, year, month, day, hour, minute);
-
     final payload = jsonEncode({
-      'scheduledTime':
-          DateTime(year, month, day, hour, minute).toIso8601String(),
+      'scheduledTime': scheduledTime.toIso8601String(),
+      if (matchComponents != null) 'isRepeating': true,
     });
-
-    final useExact = await canScheduleExactAlarms();
-    final scheduleMode = useExact
-        ? AndroidScheduleMode.exactAllowWhileIdle
-        : AndroidScheduleMode.inexactAllowWhileIdle;
+    final dateTime = tz.TZDateTime(
+        tz.local,
+        scheduledTime.year,
+        scheduledTime.month,
+        scheduledTime.day,
+        scheduledTime.hour,
+        scheduledTime.minute);
 
     await _notificationsPlugin.zonedSchedule(
       id: id,
       title: title,
       body: body,
-      scheduledDate: scheduledDate,
+      scheduledDate: dateTime,
       notificationDetails: _notificationDetails(),
-      androidScheduleMode: scheduleMode,
+      androidScheduleMode: await scheduleMode(),
+      matchDateTimeComponents: matchComponents,
       payload: payload,
     );
   }
@@ -188,7 +234,7 @@ class NotificationService {
       final scheduledTime =
           (payload['scheduledTime'] as String).toDateTimeOrNull;
       if (scheduledTime == null) return false;
-      return scheduledTime.isBefore(DateTime.now());
+      return scheduledTime.isBefore(clock.now());
     }).toList();
   }
 

@@ -11,7 +11,7 @@
   "noIntakesDue": "Aucune prise prévue aujourd'hui",
   "upcoming": "À venir",
   "taken": "Pris",
-  "daysAgoCount": "{count, plural, =1{hier} other{il y a {count} jours}}",
+  "daysAgoCount": "{count, plural, other{il y a {count} jours}}",
   "@daysAgoCount": {
     "description": "Décalage passé en jours ; =1 = hier (mot, pas « il y a 1 jour »).",
     "placeholders": {
@@ -20,7 +20,8 @@
       }
     }
   },
-  "inDaysCount": "{count, plural, =1{demain} other{dans {count} jours}}",
+  "yesterday": "hier",
+  "inDaysCount": "{count, plural, other{dans {count} jours}}",
   "@inDaysCount": {
     "description": "Décalage futur en jours ; =1 = demain (mot, pas « dans 1 jour »).",
     "placeholders": {
@@ -29,11 +30,13 @@
       }
     }
   },
+  "tomorrow": "demain",
   "lastTaken": "Dernière prise",
   "neverTakenYet": "Jamais pris auparavant",
   "scheduleFrequencyDaily": "Tous les jours",
   "scheduleFrequencyEveryNDays": "Tous les {days} jours",
   "scheduleFrequencyInterval": "Intervalle",
+  "scheduleFrequencyWeekly": "Hebdomadaire",
   "newUpdateAvailable": "Une nouvelle mise à jour est disponible !",
   "goToSettings": "Aller aux paramètres",
   "settingsTitle": "Paramètres",
@@ -83,7 +86,10 @@
   "updateFailedOpenInstaller": "Échec de l'ouverture de l'installateur : {message}",
   "updateDownloadFailed": "Échec du téléchargement. Vérifiez votre connexion.",
   "notificationMedicationReminderTitle": "Il est temps de prendre {scheduleName}",
-  "notificationMedicationReminderBody": "Prévu pour {dateTime}",
+  "notificationMedicationReminderBodyDate": "Prévu pour le {date}",
+  "notificationMedicationReminderBodyTime": "Prévu pour {time}",
+  "notificationMedicationReminderBodyWeekday": "Prévu pour {weekday}",
+
   "addSchedule": "Ajouter un planning",
   "addScheduleToGetStarted": "Ajoutez un planning pour commencer.",
   "newSchedule": "Nouveau planning",
@@ -111,6 +117,8 @@
   "editIntake": "Modifier la prise",
   "date": "Date",
   "amount": "Quantité",
+  "takenAmount": "Quantité prise",
+  "wastedAmount": "Quantité perdue",
   "none": "Aucun",
   "supplyItem": "Consommable",
   "injectionSide": "Côté",
@@ -120,6 +128,8 @@
   "needleDeadSpace": "Espace mort de l'aiguille",
   "notes": "Notes",
   "microliters": "μL",
+  "milliliters": "mL",
+
   "empty_levels": "Les injections d’estradiol s’afficheront dans cet onglet",
   "bloodTestsTitle": "Prises de sang",
   "empty_blood_tests": "Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !",
@@ -141,6 +151,24 @@
   "usedAmount": "Quantité utilisée",
   "deleteItem": "Supprimer {name} ?",
   "remaining": "Reste {amount} {unit}",
+  "allItemsFilter": "Tout",
+  "medicationItemsFilter": "Médicaments",
+  "genericItemsFilter": "Matériel",
+  "medicationItemType": "Médicament",
+  "genericItemType": "Matériel",
+  "supplyType": "Type",
+  "syringe": "Seringues",
+  "wipe": "Lingettes",
+  "needle": "Aiguilles",
+  "gloves": "Gants",
+  "bandage": "Pansements",
+
+  "syringeRemaining": "{count, plural, =1{1 seringue restante} other{{count} seringues restantes}}",
+  "wipeRemaining": "{count, plural, =1{1 lingette restante} other{{count} lingettes restantes}}",
+  "needleRemaining": "{count, plural, =1{1 aiguille restante} other{{count} aiguilles restantes}}",
+  "glovesRemaining": "{count, plural, =1{1 gant restant} other{{count} gants restants}}",
+  "bandageRemaining": "{count, plural, =1{1 pansement restant} other{{count} pansements restants}}",
+
   "add": "Ajouter",
   "save": "Enregistrer",
   "cancel": "Annuler",
@@ -155,6 +183,7 @@
   "progesterone": "Progestérone",
   "testosterone": "Testostérone",
   "nandrolone": "Nandrolone",
+  "dihydrotestosterone": "Dihydrotestostérone",
   "spironolactone": "Spironolactone",
   "cyproteroneAcetate": "Acétate de cyprotérone",
   "leuprorelinAcetate": "Acétate de leuproréline",
@@ -193,6 +222,13 @@
   "suppository": "Suppositoire",
   "transdermalSpray": "Spray transdermique",
   "transdermalDrops": "Gouttes transdermiques",
+
+  "unitMilligram": "mg",
+  "unitPgPerMl": "pg/mL",
+  "unitPmolPerL": "pmol/L",
+  "unitNgPerDl": "ng/dL",
+  "unitNmolPerL": "nmol/L",
+
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{comprimé} other{comprimés}}",
   "administrationRouteUnitPatch": "{count, plural, =1{patch} other{patchs}}",

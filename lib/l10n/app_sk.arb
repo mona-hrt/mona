@@ -12,25 +12,28 @@
   "noIntakesDue": "Dnes nie sú naplánované žiadne dávky",
   "upcoming": "Nadchádzajúce",
   "taken": "Vzaté",
-  "daysAgoCount": "{count, plural, =1{včera} other{Pred {count} dňami}}",
+  "daysAgoCount": "{count, plural, other{Pred {count} dňami}}",
   "@daysAgoCount": {
     "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "inDaysCount": "{count, plural, =1{zajtra} other{o {count} dní} few{o {count} dni}}",
+  "yesterday": "včera",
+  "inDaysCount": "{count, plural, other{o {count} dní} few{o {count} dni}}",
   "@inDaysCount": {
     "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
+  "tomorrow": "zajtra",
   "lastTaken": "Vzatá naposledy",
   "neverTakenYet": "Nevzatá nikdy",
   "scheduleFrequencyDaily": "Každý deň",
   "scheduleFrequencyEveryNDays": "{days, plural, other{Každých {days} dní} few{Každé {days} dni}}",
   "scheduleFrequencyInterval": "Interval",
+  "scheduleFrequencyWeekly": "Týždenne",
   "newUpdateAvailable": "Je k dispozícii nová aktualizácia!",
   "goToSettings": "Ísť do nastavení",
 
@@ -83,7 +86,9 @@
   "updateDownloadFailed": "Sťahovanie sa nepodarilo. Prosím skontroluj svoje pripojenie.",
 
   "notificationMedicationReminderTitle": "Prišiel čas si vziať {scheduleName}",
-  "notificationMedicationReminderBody": "Naplánovaná na {dateTime}",
+  "notificationMedicationReminderBodyDate": "Naplánovaná na {date}",
+  "notificationMedicationReminderBodyTime": "Naplánovaná na {time}",
+  "notificationMedicationReminderBodyWeekday": "Naplánovaná na {weekday}",
 
   "addSchedule": "Pridaj plán",
   "addScheduleToGetStarted": "Pridaj plán pre začatie.",
@@ -96,7 +101,7 @@
   "editScheduleInfo": "Upraviť detaily plánu",
   "scheduling": "Plánovanie",
   "noNotifications": "Žiadne notifikácie",
-  "notificationsCount": "{count, plural, =1{{count} notifikácia} other{{count} notifikácií} few{{count} notifikácie}}",
+  "notificationsCount": "{count, plural, one{{count} notifikácia} other{{count} notifikácií} few{{count} notifikácie}}",
   "editSchedule": "Upraviť plán",
   "deleteSchedule": "Vymazať {name}?",
   "scheduleNotifications": "Notifikácie plánu",
@@ -114,6 +119,8 @@
   "editIntake": "Uprav dávku",
   "date": "Dátum",
   "amount": "Množstvo",
+  "takenAmount": "Užité množstvo",
+  "wastedAmount": "Stratené množstvo",
   "none": "Žiadna",
   "supplyItem": "Zásoba",
   "injectionSide": "Strana injekcie",
@@ -123,6 +130,7 @@
   "needleDeadSpace": "Mŕtvy priestor ihly",
   "notes": "Poznámky",
   "microliters": "μL",
+  "milliliters": "mL",
 
   "empty_levels": "Estradiolové injekcie sa zobrazia na tejto karte",
   "bloodTestsTitle": "Krvné testy",
@@ -146,6 +154,19 @@
   "usedAmount": "Použité množstvo",
   "deleteItem": "Vymazať {name}?",
   "remaining":   "{amount, plural, few{Zostávajú {amount} {unit}} other{Zostáva {amount} {unit}}}",
+
+  "supplyType": "Typ",
+  "syringe": "Striekačky",
+  "wipe": "Utierky",
+  "needle": "Ihly",
+  "gloves": "Rukavice",
+  "bandage": "Náplasti",
+
+  "syringeRemaining": "{count, plural, =1{Zostáva 1 striekačka} few{Zostávajú {count} striekačky} other{Zostáva {count} striekačiek}}",
+  "wipeRemaining": "{count, plural, =1{Zostáva 1 utierka} few{Zostávajú {count} utierky} other{Zostáva {count} utierok}}",
+  "needleRemaining": "{count, plural, =1{Zostáva 1 ihla} few{Zostávajú {count} ihly} other{Zostáva {count} ihiel}}",
+  "glovesRemaining": "{count, plural, =1{Zostáva 1 rukavica} few{Zostávajú {count} rukavice} other{Zostáva {count} rukavíc}}",
+  "bandageRemaining": "{count, plural, =1{Zostáva 1 náplasť} few{Zostávajú {count} náplaste} other{Zostáva {count} náplastí}}",
   "add": "Pridať",
   "save": "Uložiť",
   "cancel": "Zrušiť",
@@ -162,6 +183,7 @@
   "progesterone": "Progesterón",
   "testosterone": "Testosterón",
   "nandrolone": "Nandrolón",
+  "dihydrotestosterone": "Dihydrotestosterón",
   "spironolactone": "Spironolaktón",
   "cyproteroneAcetate": "Cyproterón acetát",
   "leuprorelinAcetate": "Leuprorelin acetát",
@@ -203,6 +225,12 @@
   "suppository": "Čapík",
   "transdermalSpray": "Transdermálny sprej",
   "transdermalDrops": "Transdermálne kvapky",
+
+  "unitMilligram": "mg",
+  "unitPgPerMl": "pg/mL",
+  "unitPmolPerL": "pmol/L",
+  "unitNgPerDl": "ng/dL",
+  "unitNmolPerL": "nmol/L",
 
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{pilulka} other{piluliek} few{pilulky}}",

@@ -11,7 +11,7 @@
   "noIntakesDue": "На сегодня нет приёмов",
   "upcoming": "Ближайшие",
   "taken": "Принято",
-  "daysAgoCount": "{count, plural, =1{вчера} one{{count} день назад} few{{count} дня назад} other{{count} дней назад}}",
+  "daysAgoCount": "{count, plural, one{{count} день назад} few{{count} дня назад} other{{count} дней назад}}",
   "@daysAgoCount": {
     "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
@@ -20,7 +20,8 @@
       }
     }
   },
-  "inDaysCount": "{count, plural, =1{завтра} one{через {count} день} few{через {count} дня} other{через {count} дней}}",
+  "yesterday": "вчера",
+  "inDaysCount": "{count, plural, one{через {count} день} few{через {count} дня} other{через {count} дней}}",
   "@inDaysCount": {
     "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
@@ -29,11 +30,13 @@
       }
     }
   },
+  "tomorrow": "завтра",
   "lastTaken": "Последний приём",
   "neverTakenYet": "Ещё не принято",
   "scheduleFrequencyDaily": "Ежедневно",
   "scheduleFrequencyEveryNDays": "Каждые {days} дней",
   "scheduleFrequencyInterval": "Интервально",
+  "scheduleFrequencyWeekly": "Еженедельно",
   "newUpdateAvailable": "Доступно новое обновление!",
   "goToSettings": "Перейти в настройки",
   "settingsTitle": "Настройки",
@@ -83,7 +86,10 @@
   "updateFailedOpenInstaller": "Ошибка при открытии установщика: {message}",
   "updateDownloadFailed": "Ошибка скачивания. Пожалуйста, проверьте своё интернет соединение.",
   "notificationMedicationReminderTitle": "Пора принять {scheduleName}",
-  "notificationMedicationReminderBody": "Запланировано на {dateTime}",
+  "notificationMedicationReminderBodyDate": "Запланировано на {date}",
+  "notificationMedicationReminderBodyTime": "Запланировано на {time}",
+  "notificationMedicationReminderBodyWeekday": "Запланировано на {weekday}",
+
   "addSchedule": "Добавить расписание",
   "addScheduleToGetStarted": "Добавьте расписание для начала.",
   "newSchedule": "Новое расписание",
@@ -95,7 +101,7 @@
   "editScheduleInfo": "Изменить информацию расписания",
   "scheduling": "Расписание",
   "noNotifications": "Нет уведомлений",
-  "notificationsCount": "{count, plural, =1{одно уведомление} one{{count} уведомление} few{{count} уведомления} other{{count} уведомлений}}",
+  "notificationsCount": "{count, plural, one{{count} уведомление} few{{count} уведомления} other{{count} уведомлений}}",
   "editSchedule": "Изменение расписания",
   "deleteSchedule": "Удалить {name}?",
   "scheduleNotifications": "Уведомления расписания",
@@ -111,6 +117,8 @@
   "editIntake": "Изменение приёма",
   "date": "Время",
   "amount": "Количество",
+  "takenAmount": "Принятое количество",
+  "wastedAmount": "Потерянное количество",
   "none": "Не выбрано",
   "supplyItem": "Препарат",
   "injectionSide": "Сторона",
@@ -120,6 +128,8 @@
   "needleDeadSpace": "Мёртвое (пустое) пространство иглы",
   "notes": "Заметки",
   "microliters": "мкл",
+  "milliliters": "мл",
+
   "empty_levels": "Приёмы эстрадиола будут отображаться в данной вкладке",
   "bloodTestsTitle": "Анализы крови",
   "empty_blood_tests": "Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу!",
@@ -141,6 +151,20 @@
   "usedAmount": "Использовано",
   "deleteItem": "Удалить {name}?",
   "remaining": "{amount} {unit} осталось",
+
+  "supplyType": "Тип",
+  "syringe": "Шприцы",
+  "wipe": "Салфетки",
+  "needle": "Иглы",
+  "gloves": "Перчатки",
+  "bandage": "Пластыри",
+
+  "syringeRemaining": "{count, plural, one{1 шприц осталось} few{{count} шприца осталось} other{{count} шприцев осталось}}",
+  "wipeRemaining": "{count, plural, one{1 салфетка осталось} few{{count} салфетки осталось} other{{count} салфеток осталось}}",
+  "needleRemaining": "{count, plural, one{1 игла осталось} few{{count} иглы осталось} other{{count} игл осталось}}",
+  "glovesRemaining": "{count, plural, one{1 перчатка осталось} few{{count} перчатки осталось} other{{count} перчаток осталось}}",
+  "bandageRemaining": "{count, plural, one{1 пластырь осталось} few{{count} пластыря осталось} other{{count} пластырей осталось}}",
+
   "add": "Добавить",
   "save": "Сохранить",
   "cancel": "Отменить",
@@ -155,6 +179,7 @@
   "progesterone": "Прогестерон",
   "testosterone": "Тестостерон",
   "nandrolone": "Нандролон",
+  "dihydrotestosterone": "Дигидротестостерон",
   "spironolactone": "Спиронолактон",
   "cyproteroneAcetate": "Ципротерона ацетат",
   "leuprorelinAcetate": "Леупрорелина ацетат",
@@ -193,6 +218,13 @@
   "suppository": "Суппозитория",
   "transdermalSpray": "Трансдермальный спрей",
   "transdermalDrops": "Трансдермальные капли",
+
+  "unitMilligram": "мг",
+  "unitPgPerMl": "пг/мл",
+  "unitPmolPerL": "пмоль/л",
+  "unitNgPerDl": "нг/дл",
+  "unitNmolPerL": "нмоль/л",
+
   "administrationRouteUnitMl": "{count, plural, other{мл}}",
   "administrationRouteUnitPill": "{count, plural, one{таблетка} few{таблетки} other{таблеток}}",
   "administrationRouteUnitPatch": "{count, plural, one{пластырь} few{пластыря} other{пластырей}}",

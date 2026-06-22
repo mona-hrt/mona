@@ -57,6 +57,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get yesterday => 'вчера';
+
+  @override
   String inDaysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -67,6 +70,9 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'завтра';
 
   @override
   String get lastTaken => 'Последний приём';
@@ -84,6 +90,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get scheduleFrequencyInterval => 'Интервально';
+
+  @override
+  String get scheduleFrequencyWeekly => 'Еженедельно';
 
   @override
   String get newUpdateAvailable => 'Доступно новое обновление!';
@@ -257,8 +266,18 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Запланировано на $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Запланировано на $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Запланировано на $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Запланировано на $weekday';
   }
 
   @override
@@ -357,6 +376,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get amount => 'Количество';
 
   @override
+  String get takenAmount => 'Принятое количество';
+
+  @override
+  String get wastedAmount => 'Потерянное количество';
+
+  @override
   String get none => 'Не выбрано';
 
   @override
@@ -384,6 +409,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get microliters => 'мкл';
+
+  @override
+  String get milliliters => 'мл';
 
   @override
   String get empty_levels =>
@@ -460,6 +488,99 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get allItemsFilter => 'All';
+
+  @override
+  String get medicationItemsFilter => 'Medication';
+
+  @override
+  String get genericItemsFilter => 'Consumables';
+
+  @override
+  String get medicationItemType => 'Medication';
+
+  @override
+  String get genericItemType => 'Consumable';
+
+  @override
+  String get supplyType => 'Тип';
+
+  @override
+  String get syringe => 'Шприцы';
+
+  @override
+  String get wipe => 'Салфетки';
+
+  @override
+  String get needle => 'Иглы';
+
+  @override
+  String get gloves => 'Перчатки';
+
+  @override
+  String get bandage => 'Пластыри';
+
+  @override
+  String syringeRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count шприцев осталось',
+      few: '$count шприца осталось',
+      one: '1 шприц осталось',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipeRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count салфеток осталось',
+      few: '$count салфетки осталось',
+      one: '1 салфетка осталось',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needleRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count игл осталось',
+      few: '$count иглы осталось',
+      one: '1 игла осталось',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String glovesRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count перчаток осталось',
+      few: '$count перчатки осталось',
+      one: '1 перчатка осталось',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandageRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count пластырей осталось',
+      few: '$count пластыря осталось',
+      one: '1 пластырь осталось',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get add => 'Добавить';
 
   @override
@@ -500,6 +621,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get nandrolone => 'Нандролон';
+
+  @override
+  String get dihydrotestosterone => 'Дигидротестостерон';
 
   @override
   String get spironolactone => 'Спиронолактон';
@@ -616,6 +740,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get transdermalDrops => 'Трансдермальные капли';
+
+  @override
+  String get unitMilligram => 'мг';
+
+  @override
+  String get unitPgPerMl => 'пг/мл';
+
+  @override
+  String get unitPmolPerL => 'пмоль/л';
+
+  @override
+  String get unitNgPerDl => 'нг/дл';
+
+  @override
+  String get unitNmolPerL => 'нмоль/л';
 
   @override
   String administrationRouteUnitMl(num count) {

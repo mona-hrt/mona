@@ -50,10 +50,12 @@ class AppLocalizationsSk extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Pred $count dňami',
-      one: 'včera',
     );
     return '$_temp0';
   }
+
+  @override
+  String get yesterday => 'včera';
 
   @override
   String inDaysCount(int count) {
@@ -62,10 +64,12 @@ class AppLocalizationsSk extends AppLocalizations {
       locale: localeName,
       few: 'o $count dni',
       other: 'o $count dní',
-      one: 'zajtra',
     );
     return '$_temp0';
   }
+
+  @override
+  String get tomorrow => 'zajtra';
 
   @override
   String get lastTaken => 'Vzatá naposledy';
@@ -89,6 +93,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get scheduleFrequencyInterval => 'Interval';
+
+  @override
+  String get scheduleFrequencyWeekly => 'Týždenne';
 
   @override
   String get newUpdateAvailable => 'Je k dispozícii nová aktualizácia!';
@@ -270,8 +277,18 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
-  String notificationMedicationReminderBody(Object dateTime) {
-    return 'Naplánovaná na $dateTime';
+  String notificationMedicationReminderBodyDate(Object date) {
+    return 'Naplánovaná na $date';
+  }
+
+  @override
+  String notificationMedicationReminderBodyTime(Object time) {
+    return 'Naplánovaná na $time';
+  }
+
+  @override
+  String notificationMedicationReminderBodyWeekday(Object weekday) {
+    return 'Naplánovaná na $weekday';
   }
 
   @override
@@ -370,6 +387,12 @@ class AppLocalizationsSk extends AppLocalizations {
   String get amount => 'Množstvo';
 
   @override
+  String get takenAmount => 'Užité množstvo';
+
+  @override
+  String get wastedAmount => 'Stratené množstvo';
+
+  @override
   String get none => 'Žiadna';
 
   @override
@@ -397,6 +420,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get microliters => 'μL';
+
+  @override
+  String get milliliters => 'mL';
 
   @override
   String get empty_levels => 'Estradiolové injekcie sa zobrazia na tejto karte';
@@ -477,6 +503,99 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
+  String get allItemsFilter => 'All';
+
+  @override
+  String get medicationItemsFilter => 'Medication';
+
+  @override
+  String get genericItemsFilter => 'Consumables';
+
+  @override
+  String get medicationItemType => 'Medication';
+
+  @override
+  String get genericItemType => 'Consumable';
+
+  @override
+  String get supplyType => 'Typ';
+
+  @override
+  String get syringe => 'Striekačky';
+
+  @override
+  String get wipe => 'Utierky';
+
+  @override
+  String get needle => 'Ihly';
+
+  @override
+  String get gloves => 'Rukavice';
+
+  @override
+  String get bandage => 'Náplasti';
+
+  @override
+  String syringeRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Zostáva $count striekačiek',
+      few: 'Zostávajú $count striekačky',
+      one: 'Zostáva 1 striekačka',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wipeRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Zostáva $count utierok',
+      few: 'Zostávajú $count utierky',
+      one: 'Zostáva 1 utierka',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String needleRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Zostáva $count ihiel',
+      few: 'Zostávajú $count ihly',
+      one: 'Zostáva 1 ihla',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String glovesRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Zostáva $count rukavíc',
+      few: 'Zostávajú $count rukavice',
+      one: 'Zostáva 1 rukavica',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bandageRemaining(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Zostáva $count náplastí',
+      few: 'Zostávajú $count náplaste',
+      one: 'Zostáva 1 náplasť',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get add => 'Pridať';
 
   @override
@@ -517,6 +636,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get nandrolone => 'Nandrolón';
+
+  @override
+  String get dihydrotestosterone => 'Dihydrotestosterón';
 
   @override
   String get spironolactone => 'Spironolaktón';
@@ -633,6 +755,21 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get transdermalDrops => 'Transdermálne kvapky';
+
+  @override
+  String get unitMilligram => 'mg';
+
+  @override
+  String get unitPgPerMl => 'pg/mL';
+
+  @override
+  String get unitPmolPerL => 'pmol/L';
+
+  @override
+  String get unitNgPerDl => 'ng/dL';
+
+  @override
+  String get unitNmolPerL => 'nmol/L';
 
   @override
   String administrationRouteUnitMl(num count) {

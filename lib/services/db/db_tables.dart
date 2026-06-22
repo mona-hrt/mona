@@ -9,7 +9,8 @@ const String createSupplyItemsTable = '''
       moleculeJson TEXT,
       administrationRouteName TEXT,
       esterName TEXT,
-      amount INTEGER
+      amount INTEGER,
+      genericSupplyType TEXT
     )
     ''';
 
@@ -20,6 +21,7 @@ const String createMedicationIntakesTable = '''
       takenDateTime TEXT,
       takenTimeZone TEXT,
       dose TEXT NOT NULL,
+      wastedAmount TEXT,
       scheduleId INTEGER,
       side TEXT,
       moleculeJson TEXT NOT NULL,
