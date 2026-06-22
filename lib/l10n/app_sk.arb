@@ -6,7 +6,6 @@
   "nav_supplies": "Zásoby",
   "takeAnIntake": "Vziať dávku",
   "addAnItem": "Pridaj vybavenie",
-
   "empty_home": "Začni pridaním plánu v nastaveniach",
   "allDone": "Hotovo!",
   "noIntakesDue": "Dnes nie sú naplánované žiadne dávky",
@@ -16,7 +15,9 @@
   "@daysAgoCount": {
     "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "yesterday": "včera",
@@ -24,7 +25,9 @@
   "@inDaysCount": {
     "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "tomorrow": "zajtra",
@@ -36,7 +39,6 @@
   "scheduleFrequencyWeekly": "Týždenne",
   "newUpdateAvailable": "Je k dispozícii nová aktualizácia!",
   "goToSettings": "Ísť do nastavení",
-
   "settingsTitle": "Nastavenia",
   "notifications": "Notifikácie",
   "schedulesAndNotifications": "Plány & notifikácie",
@@ -73,7 +75,6 @@
   "exportDataTitle": "Export dát",
   "exportDataSubtitle": "Ulož svoje dáta do JSON súboru",
   "units": "Jednotky",
-
   "updateNoCompatibleApk": "Pre tvoje zariadenie nebola nájdená kompatibilná aktualizácia.",
   "updateAppUpToDate": "Tvoja apka má najnovšiu aktualizáciu!",
   "updateCheckNetworkError": "Nebolo možné skontrolovať aktualizácie.",
@@ -84,12 +85,10 @@
   "updateDownloadingTitle": "Sťahovanie aktualizácie...",
   "updateFailedOpenInstaller": "Nepodarilo sa otvoriť inštalátor: {message}",
   "updateDownloadFailed": "Sťahovanie sa nepodarilo. Prosím skontroluj svoje pripojenie.",
-
   "notificationMedicationReminderTitle": "Prišiel čas si vziať {scheduleName}",
   "notificationMedicationReminderBodyDate": "Naplánovaná na {date}",
   "notificationMedicationReminderBodyTime": "Naplánovaná na {time}",
   "notificationMedicationReminderBodyWeekday": "Naplánovaná na {weekday}",
-
   "addSchedule": "Pridaj plán",
   "addScheduleToGetStarted": "Pridaj plán pre začatie.",
   "newSchedule": "Nový plán",
@@ -107,12 +106,10 @@
   "scheduleNotifications": "Notifikácie plánu",
   "addNotification": "Pridaj notifikáciu",
   "noNotificationsForSchedule": "Žiadne notifikácie pre {scheduleName}. Stlač tlačidlo Pridaj.",
-
   "notificationsUpdated": "Notifikácie boli aktualizované!",
   "notificationsUpdatedDescription": "Každý plán má teraz vlastné notifikácie.\n\nZapni si notifikácie pre svoje plány, aby ti nič neušlo.",
   "dontShowAgain": "Nezobrazovať znovu",
   "scheduleSettings": "Nastavenia plánu",
-
   "empty_intakes": "Vzaté dávky sa zobrazia tu",
   "chooseSchedule": "Vyber plán",
   "addSchedulesFirst": "Najprv pridaj plány.",
@@ -131,7 +128,6 @@
   "notes": "Poznámky",
   "microliters": "μL",
   "milliliters": "mL",
-
   "empty_levels": "Estradiolové injekcie sa zobrazia na tejto karte",
   "bloodTestsTitle": "Krvné testy",
   "empty_blood_tests": "Krvné testy sa zobrazia tu. Začni tlačidlom Pridať!",
@@ -144,7 +140,6 @@
   "bloodTestDateLabel": "Dátum krvného testu",
   "chartNowConcentration": "Teraz {value}",
   "chartBloodTestLevelTooltip": "{date}: {level}",
-
   "empty_supplies": "Žiadne zásoby. Pridaj vybavenie pre začatie.",
   "newItem": "Nové vybavenie",
   "adminRoute": "Spôsob podávania",
@@ -153,15 +148,13 @@
   "editItem": "Uprav vybavenie",
   "usedAmount": "Použité množstvo",
   "deleteItem": "Vymazať {name}?",
-  "remaining":   "{amount, plural, few{Zostávajú {amount} {unit}} other{Zostáva {amount} {unit}}}",
-
+  "remaining": "{amount, plural, few{Zostávajú {amount} {unit}} other{Zostáva {amount} {unit}}}",
   "supplyType": "Typ",
   "syringe": "Striekačky",
   "wipe": "Utierky",
   "needle": "Ihly",
   "gloves": "Rukavice",
   "bandage": "Náplasti",
-
   "syringeRemaining": "{count, plural, =1{Zostáva 1 striekačka} few{Zostávajú {count} striekačky} other{Zostáva {count} striekačiek}}",
   "wipeRemaining": "{count, plural, =1{Zostáva 1 utierka} few{Zostávajú {count} utierky} other{Zostáva {count} utierok}}",
   "needleRemaining": "{count, plural, =1{Zostáva 1 ihla} few{Zostávajú {count} ihly} other{Zostáva {count} ihiel}}",
@@ -174,11 +167,9 @@
   "delete": "Vymazať",
   "deleteElement": "Vymazať toto vybavenie?",
   "irreversibleAction": "Tento úkon je nezvratný.",
-
   "name": "Meno",
   "molecule": "Molekula",
   "ester": "Ester",
-
   "estradiol": "Estradiol",
   "progesterone": "Progesterón",
   "testosterone": "Testosterón",
@@ -195,14 +186,12 @@
   "dutasteride": "Dutasterid",
   "minoxidil": "Minoxidil",
   "pioglitazone": "Pioglitazón",
-
   "enanthate": "Enantát",
   "valerate": "Valerát",
   "cypionate": "Cypionát",
   "undecylate": "Undecylát",
   "benzoate": "Benzoát",
   "cypionateSuspension": "suspenzia cypionátu",
-
   "medicationEstradiolEnanthate": "Estradiol enantát",
   "medicationEstradiolValerate": "Estradiol valerát",
   "medicationEstradiolCypionate": "Estradiol cypionát",
@@ -215,7 +204,6 @@
   "medicationTestosteroneUndecylate": "Testosterón undecylát",
   "medicationTestosteroneBenzoate": "Testosterón benzoát",
   "medicationTestosteroneCypionateSuspension": "Testosterónová suspenzia cypionátu",
-
   "injection": "Injekcia",
   "oral": "Orálne podanie",
   "sublingual": "Sublinguálne podanie",
@@ -225,13 +213,11 @@
   "suppository": "Čapík",
   "transdermalSpray": "Transdermálny sprej",
   "transdermalDrops": "Transdermálne kvapky",
-
   "unitMilligram": "mg",
   "unitPgPerMl": "pg/mL",
   "unitPmolPerL": "pmol/L",
   "unitNgPerDl": "ng/dL",
   "unitNmolPerL": "nmol/L",
-
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{pilulka} other{piluliek} few{pilulky}}",
   "administrationRouteUnitPatch": "{count, plural, =1{náplasť} other{náplastí} few{náplasti}}",
@@ -239,12 +225,10 @@
   "administrationRouteUnitImplant": "{count, plural, =1{implantát} other{implantátov} few{implantáty}}",
   "administrationRouteUnitSuppository": "{count, plural, =1{čapík} other{čapíkov} few{čapíky}}",
   "administrationRouteUnitSpray": "{count, plural, =1{sprej} other{sprejov} few{spreje}}",
-
   "injectionSideLeft": "Vľavo",
   "injectionSideRight": "Vpravo",
   "intakeSummaryInjectionSideLeft": "Ľavá strana",
   "intakeSummaryInjectionSideRight": "Pravá strana",
-
   "requiredField": "Požadované políčko",
   "mustBePositiveNumber": "Musí byť kladné číslo",
   "invalidTotalAmount": "Nesprávne celkové množstvo",
