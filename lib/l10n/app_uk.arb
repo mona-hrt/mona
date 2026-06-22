@@ -89,7 +89,6 @@
   "notificationMedicationReminderBodyDate": "Заплановано на {date}",
   "notificationMedicationReminderBodyTime": "Заплановано на {time}",
   "notificationMedicationReminderBodyWeekday": "Заплановано на {weekday}",
-
   "addSchedule": "Додати розклад",
   "addScheduleToGetStarted": "Додайте розклад щоб почати.",
   "newSchedule": "Новий розклад",
@@ -129,7 +128,6 @@
   "notes": "Примітки",
   "microliters": "μL",
   "milliliters": "mL",
-
   "empty_levels": "Ін'єкції відображатимуться тут",
   "bloodTestsTitle": "Аналізи крові",
   "empty_blood_tests": "Висновки з аналізів крові з'являтимуться тут. Натисніть Додати!",
@@ -151,20 +149,17 @@
   "usedAmount": "Використано",
   "deleteItem": "Видалити {name}?",
   "remaining": "{amount} {unit} залишилось",
-
   "supplyType": "Тип",
   "syringe": "Шприци",
   "wipe": "Серветки",
   "needle": "Голки",
   "gloves": "Рукавички",
   "bandage": "Пластирі",
-
   "syringeRemaining": "{count, plural, one{1 шприц залишилось} few{{count} шприца залишилось} other{{count} шприців залишилось}}",
   "wipeRemaining": "{count, plural, one{1 серветка залишилось} few{{count} серветки залишилось} other{{count} серветок залишилось}}",
   "needleRemaining": "{count, plural, one{1 голка залишилось} few{{count} голки залишилось} other{{count} голок залишилось}}",
   "glovesRemaining": "{count, plural, one{1 рукавичка залишилось} few{{count} рукавички залишилось} other{{count} рукавичок залишилось}}",
   "bandageRemaining": "{count, plural, one{1 пластир залишилось} few{{count} пластирі залишилось} other{{count} пластирів залишилось}}",
-
   "add": "Додати",
   "save": "Зберегти",
   "cancel": "Скасувати",
@@ -218,13 +213,11 @@
   "suppository": "Супозиторій",
   "transdermalSpray": "Трансдермальний спрей",
   "transdermalDrops": "Трансдермальні краплі",
-
   "unitMilligram": "мг",
   "unitPgPerMl": "пг/мл",
   "unitPmolPerL": "пмоль/л",
   "unitNgPerDl": "нг/дл",
   "unitNmolPerL": "нмоль/л",
-
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{пігулка} other{пігулок} few{пігулки}}",
   "administrationRouteUnitPatch": "{count, plural, =1{патч} other{патчів} few{патчі}}",
