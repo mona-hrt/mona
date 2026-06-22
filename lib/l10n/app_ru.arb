@@ -89,7 +89,6 @@
   "notificationMedicationReminderBodyDate": "Запланировано на {date}",
   "notificationMedicationReminderBodyTime": "Запланировано на {time}",
   "notificationMedicationReminderBodyWeekday": "Запланировано на {weekday}",
-
   "addSchedule": "Добавить расписание",
   "addScheduleToGetStarted": "Добавьте расписание для начала.",
   "newSchedule": "Новое расписание",
@@ -129,7 +128,6 @@
   "notes": "Заметки",
   "microliters": "мкл",
   "milliliters": "мл",
-
   "empty_levels": "Приёмы эстрадиола будут отображаться в данной вкладке",
   "bloodTestsTitle": "Анализы крови",
   "empty_blood_tests": "Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу!",
@@ -151,20 +149,17 @@
   "usedAmount": "Использовано",
   "deleteItem": "Удалить {name}?",
   "remaining": "{amount} {unit} осталось",
-
   "supplyType": "Тип",
   "syringe": "Шприцы",
   "wipe": "Салфетки",
   "needle": "Иглы",
   "gloves": "Перчатки",
   "bandage": "Пластыри",
-
   "syringeRemaining": "{count, plural, one{1 шприц осталось} few{{count} шприца осталось} other{{count} шприцев осталось}}",
   "wipeRemaining": "{count, plural, one{1 салфетка осталось} few{{count} салфетки осталось} other{{count} салфеток осталось}}",
   "needleRemaining": "{count, plural, one{1 игла осталось} few{{count} иглы осталось} other{{count} игл осталось}}",
   "glovesRemaining": "{count, plural, one{1 перчатка осталось} few{{count} перчатки осталось} other{{count} перчаток осталось}}",
   "bandageRemaining": "{count, plural, one{1 пластырь осталось} few{{count} пластыря осталось} other{{count} пластырей осталось}}",
-
   "add": "Добавить",
   "save": "Сохранить",
   "cancel": "Отменить",
@@ -218,13 +213,11 @@
   "suppository": "Суппозитория",
   "transdermalSpray": "Трансдермальный спрей",
   "transdermalDrops": "Трансдермальные капли",
-
   "unitMilligram": "мг",
   "unitPgPerMl": "пг/мл",
   "unitPmolPerL": "пмоль/л",
   "unitNgPerDl": "нг/дл",
   "unitNmolPerL": "нмоль/л",
-
   "administrationRouteUnitMl": "{count, plural, other{мл}}",
   "administrationRouteUnitPill": "{count, plural, one{таблетка} few{таблетки} other{таблеток}}",
   "administrationRouteUnitPatch": "{count, plural, one{пластырь} few{пластыря} other{пластырей}}",
