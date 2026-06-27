@@ -6,7 +6,6 @@
   "nav_supplies": "Препарати",
   "takeAnIntake": "Прийняти препарат",
   "addAnItem": "Додати елемент",
-
   "empty_home": "Почніть з додавання розкладу в Налаштуваннях",
   "allDone": "Все прийнято!",
   "noIntakesDue": "На сьогодні все прийнято",
@@ -16,7 +15,9 @@
   "@daysAgoCount": {
     "description": "Past offset in days; =1 is the word “yesterday”, not a numeric phrase.",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "yesterday": "вчора",
@@ -24,7 +25,9 @@
   "@inDaysCount": {
     "description": "Future offset in days; =1 is the word “tomorrow”, not a numeric phrase.",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "tomorrow": "завтра",
@@ -36,7 +39,6 @@
   "scheduleFrequencyWeekly": "Щотижня",
   "newUpdateAvailable": "Нове оновлення!",
   "goToSettings": "Перейти в Налаштування",
-
   "settingsTitle": "Налаштування",
   "notifications": "Сповіщення",
   "schedulesAndNotifications": "Розклади та Сповіщення",
@@ -73,23 +75,20 @@
   "exportDataTitle": "Експортувати дані",
   "exportDataSubtitle": "Зберегти дані в JSON файл",
   "units": "Одиниці виміру",
-
   "updateNoCompatibleApk": "Сумісних оновлень для вашого пристрою не знайдено.",
   "updateAppUpToDate": "Ваш застосунок останньої версії!",
   "updateCheckNetworkError": "Невдалося перевірити на оновлення.",
-  "updateDialogTitle": "Доступне оновлення!",
+  "updateDialogTitle": "Доступне оновлення",
   "updateDialogBody": "Версія {latest} доступна! (Поточна: {current})\n\nОновлення, сумісне з вашим пристроєм, готове до завантаження!.",
   "updateDownloadAndInstall": "Завантажити та встановити",
   "updateInstallPermissionRequired": "Надайте дозвіл для встановлення оновлення.",
   "updateDownloadingTitle": "Встановлюємо оновлення...",
   "updateFailedOpenInstaller": "Невдалося відкрити встановлювач: {message}",
   "updateDownloadFailed": "Завантаження невдалося. Будь ласка, перевірте вашу мережу..",
-
   "notificationMedicationReminderTitle": "Час прийняти {scheduleName}",
   "notificationMedicationReminderBodyDate": "Заплановано на {date}",
   "notificationMedicationReminderBodyTime": "Заплановано на {time}",
   "notificationMedicationReminderBodyWeekday": "Заплановано на {weekday}",
-
   "addSchedule": "Додати розклад",
   "addScheduleToGetStarted": "Додайте розклад щоб почати.",
   "newSchedule": "Новий розклад",
@@ -107,12 +106,10 @@
   "scheduleNotifications": "Сповіщення розкладу",
   "addNotification": "Додати сповіщення",
   "noNotificationsForSchedule": "Сповіщення для {scheduleName} відсутні. Натисніть Додати.",
-
   "notificationsUpdated": "Оновлено сповіщення!",
   "notificationsUpdatedDescription": "Кожний розклад тепер має свої сповіщення.\n\nБажано увімкнути сповіщення для ваших розкладів щоб нічого не пропустити.",
   "dontShowAgain": "Більше не показувати",
   "scheduleSettings": "Налаштування розкладу",
-
   "empty_intakes": "Прийняті дози відображатимуться тут",
   "chooseSchedule": "Вибрати розклад",
   "addSchedulesFirst": "Спочатку додайте розклади.",
@@ -132,7 +129,6 @@
   "notes": "Примітки",
   "microliters": "μL",
   "milliliters": "mL",
-
   "empty_levels": "Ін'єкції відображатимуться тут",
   "bloodTestsTitle": "Аналізи крові",
   "empty_blood_tests": "Висновки з аналізів крові з'являтимуться тут. Натисніть Додати!",
@@ -145,7 +141,6 @@
   "bloodTestDateLabel": "Дата аналізу",
   "chartNowConcentration": "Поточна {value}",
   "chartBloodTestLevelTooltip": "{date}: {level}",
-
   "empty_supplies": "Додайте препарат, щоб почати.",
   "newItem": "Новий препарат",
   "adminRoute": "Шлях введення",
@@ -155,20 +150,17 @@
   "usedAmount": "Використано",
   "deleteItem": "Видалити {name}?",
   "remaining": "{amount} {unit} залишилось",
-
   "supplyType": "Тип",
   "syringe": "Шприци",
   "wipe": "Серветки",
   "needle": "Голки",
   "gloves": "Рукавички",
   "bandage": "Пластирі",
-
   "syringeRemaining": "{count, plural, one{1 шприц залишилось} few{{count} шприца залишилось} other{{count} шприців залишилось}}",
   "wipeRemaining": "{count, plural, one{1 серветка залишилось} few{{count} серветки залишилось} other{{count} серветок залишилось}}",
   "needleRemaining": "{count, plural, one{1 голка залишилось} few{{count} голки залишилось} other{{count} голок залишилось}}",
   "glovesRemaining": "{count, plural, one{1 рукавичка залишилось} few{{count} рукавички залишилось} other{{count} рукавичок залишилось}}",
   "bandageRemaining": "{count, plural, one{1 пластир залишилось} few{{count} пластирі залишилось} other{{count} пластирів залишилось}}",
-
   "add": "Додати",
   "save": "Зберегти",
   "cancel": "Скасувати",
@@ -176,11 +168,9 @@
   "delete": "Видалити",
   "deleteElement": "Видалити цей елемент?",
   "irreversibleAction": "Цю дію неможливо скасувати.",
-
   "name": "Назва",
   "molecule": "Молекула",
   "ester": "Естер",
-
   "estradiol": "Естрадіол",
   "progesterone": "Прогестерон",
   "testosterone": "Тестостерон",
@@ -197,14 +187,12 @@
   "dutasteride": "Дутастерид",
   "minoxidil": "Міноксидил",
   "pioglitazone": "Піоґлітазон",
-
   "enanthate": "Енантат",
   "valerate": "Валерат",
   "cypionate": "Ципіонат",
   "undecylate": "Ундецилат",
   "benzoate": "Бензоат",
   "cypionateSuspension": "Суспенція Ципіонату",
-
   "medicationEstradiolEnanthate": "Естрадіол енантат",
   "medicationEstradiolValerate": "Естрадіол валерат",
   "medicationEstradiolCypionate": "Естрадіол ципіонат",
@@ -217,7 +205,6 @@
   "medicationTestosteroneUndecylate": "Тестостерон ундецилат",
   "medicationTestosteroneBenzoate": "Тестостерон бензоат",
   "medicationTestosteroneCypionateSuspension": "Тестостерон суспенція ципіонату",
-
   "injection": "Ін'єкції",
   "oral": "Орально",
   "sublingual": "Під'язиково",
@@ -227,13 +214,11 @@
   "suppository": "Супозиторій",
   "transdermalSpray": "Трансдермальний спрей",
   "transdermalDrops": "Трансдермальні краплі",
-
   "unitMilligram": "мг",
   "unitPgPerMl": "пг/мл",
   "unitPmolPerL": "пмоль/л",
   "unitNgPerDl": "нг/дл",
   "unitNmolPerL": "нмоль/л",
-
   "administrationRouteUnitMl": "{count, plural, =1{ml} other{ml}}",
   "administrationRouteUnitPill": "{count, plural, =1{пігулка} other{пігулок} few{пігулки}}",
   "administrationRouteUnitPatch": "{count, plural, =1{патч} other{патчів} few{патчі}}",
@@ -241,12 +226,10 @@
   "administrationRouteUnitImplant": "{count, plural, =1{імплант} other{імплантів} few{імпланти}}",
   "administrationRouteUnitSuppository": "{count, plural, =1{супозиторій} other{супозиторіїв} few{супозиторії}}",
   "administrationRouteUnitSpray": "{count, plural, =1{спрей} other{спреїв} few{спреї}}",
-
   "injectionSideLeft": "Ліва",
   "injectionSideRight": "Права",
   "intakeSummaryInjectionSideLeft": "Ліва сторона",
   "intakeSummaryInjectionSideRight": "Права сторона",
-
   "requiredField": "Обов'язкове поле",
   "mustBePositiveNumber": "Має бути додатнім числом",
   "invalidTotalAmount": "Невірна сумарна кількість",

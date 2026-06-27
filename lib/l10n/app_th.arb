@@ -35,7 +35,7 @@
   "scheduleFrequencyDaily": "ทุกวัน",
   "scheduleFrequencyWeekly": "ทุกสัปดาห์",
   "scheduleFrequencyEveryNDays": "{days} วันครั้ง",
-  "scheduleFrequencyInterval": "ระยะห่าง",
+  "scheduleFrequencyInterval": "เป็นระยะ",
   "newUpdateAvailable": "มีอัพเดตใหม่!",
   "goToSettings": "ไปที่การตั้งค่า",
   "settingsTitle": "การตั้งค่า",
