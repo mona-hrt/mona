@@ -127,6 +127,7 @@
   "deleteIntake": "Видалити прийом?",
   "takeMedication": "Прийняти {scheduleName}",
   "takeIntake": "Прийняти препарат",
+  "intakeRecorded": "Прийом записано",
   "needleDeadSpace": "Мертва зона голки",
   "notes": "Примітки",
   "microliters": "μL",

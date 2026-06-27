@@ -399,6 +399,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get takeIntake => 'Registrar dose';
 
   @override
+  String get intakeRecorded => 'Dose registrada';
+
+  @override
   String get needleDeadSpace => 'Espaço morto da agulha';
 
   @override
@@ -1242,6 +1245,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get takeIntake => 'Registrar dose';
+
+  @override
+  String get intakeRecorded => 'Dose registrada';
 
   @override
   String get needleDeadSpace => 'Espaço morto da agulha';

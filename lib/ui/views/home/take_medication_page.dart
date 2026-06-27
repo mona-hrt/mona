@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -46,6 +47,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   late TextEditingController _deadSpaceController;
   Decimal? _deadSpace;
   late TextEditingController _notesController;
+  bool _isTaken = false;
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(context.l10n, _takenDoseController.text);
@@ -60,7 +62,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   void _takeIntake(MedicationIntakeProvider medicationIntakeProvider,
       SupplyItemProvider supplyItemProvider) async {
-    if (!_isFormValid || !mounted) return;
+    if (!_isFormValid || !mounted || _isTaken) return;
 
     final String? notes =
         _notesController.text.isEmpty ? null : _notesController.text;
@@ -77,6 +79,17 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             notes: notes,
             wastedAmount: _wastedAmount);
 
+    setState(() {
+      _isTaken = true;
+    });
+
+    HapticFeedback.lightImpact();
+    await Future.delayed(const Duration(milliseconds: 120));
+    HapticFeedback.lightImpact();
+
+    await Future.delayed(const Duration(milliseconds: 880));
+
+    if (!mounted) return;
     Navigator.of(context).pop();
   }
 
@@ -189,6 +202,14 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           widget.schedule.administrationRoute,
           widget.schedule.ester,
         );
+
+        if (_selectedSupplyItem != null) {
+          final selectedId = _selectedSupplyItem!.id;
+          _selectedSupplyItem = supplyItemOptions
+              .cast<SupplyItem?>()
+              .firstWhere((item) => item?.id == selectedId, orElse: () => null);
+        }
+
         final supplyItemDropdownItems = [
           DropdownMenuItem<SupplyItem?>(
             value: null,
@@ -205,10 +226,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
         return ModelForm(
           title: localizations.takeMedication(widget.schedule.name),
           avatar: widget.schedule.administrationRoute.icon,
-          submitButtonLabel: localizations.takeIntake,
+          submitButtonLabel: _isTaken
+              ? localizations.intakeRecorded
+              : localizations.takeIntake,
+          submitButtonIcon: _isTaken ? Icons.check_circle : null,
           submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
-          saveChanges: (!isLoading && _isFormValid)
+          saveChanges: (!isLoading && _isFormValid && !_isTaken)
               ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider)
               : () {},
           fields: [

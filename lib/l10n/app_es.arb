@@ -127,6 +127,7 @@
     "deleteIntake": "¿Eliminar esta toma?",
     "takeMedication": "Tomar {scheduleName}",
     "takeIntake": "Registrar toma",
+    "intakeRecorded": "Toma registrada",
     "needleDeadSpace": "Espacio muerto de la aguja",
     "notes": "Notas",
     "microliters": "μL",

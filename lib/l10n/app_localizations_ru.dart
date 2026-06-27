@@ -402,6 +402,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get takeIntake => 'Записать приём';
 
   @override
+  String get intakeRecorded => 'Приём записан';
+
+  @override
   String get needleDeadSpace => 'Мёртвое (пустое) пространство иглы';
 
   @override
