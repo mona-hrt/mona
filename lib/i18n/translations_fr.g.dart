@@ -40,13 +40,13 @@ class TranslationsFr extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'Prises';
-	@override String get navLevels => 'Niveaux';
-	@override String get navSupplies => 'Pharmacie';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'Prises';
+	@override String get nav_levels => 'Niveaux';
+	@override String get nav_supplies => 'Pharmacie';
 	@override String get takeAnIntake => 'Prendre une prise';
 	@override String get addAnItem => 'Ajouter un élément';
-	@override String get emptyHome => 'Commencez par ajouter un planning dans les paramètres';
+	@override String get empty_home => 'Commencez par ajouter un planning dans les paramètres';
 	@override String get allDone => 'Terminé !';
 	@override String get noIntakesDue => 'Aucune prise prévue aujourd\'hui';
 	@override String get upcoming => 'À venir';
@@ -145,7 +145,7 @@ class TranslationsFr extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notificationsUpdatedDescription => 'Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.';
 	@override String get dontShowAgain => 'Ne plus afficher';
 	@override String get scheduleSettings => 'Paramètres des plannings';
-	@override String get emptyIntakes => 'Les prises enregistrées apparaîtront ici';
+	@override String get empty_intakes => 'Les prises enregistrées apparaîtront ici';
 	@override String get chooseSchedule => 'Choisir un planning';
 	@override String get addSchedulesFirst => 'Ajoutez d\'abord des plannings.';
 	@override String get editIntake => 'Modifier la prise';
@@ -164,9 +164,9 @@ class TranslationsFr extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notes => 'Notes';
 	@override String get microliters => 'μL';
 	@override String get milliliters => 'mL';
-	@override String get emptyLevels => 'Les injections d’estradiol s’afficheront dans cet onglet';
+	@override String get empty_levels => 'Les injections d’estradiol s’afficheront dans cet onglet';
 	@override String get bloodTestsTitle => 'Prises de sang';
-	@override String get emptyBloodTests => 'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !';
+	@override String get empty_blood_tests => 'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !';
 	@override String get addBloodTest => 'Ajouter une analyse de sang';
 	@override String get editBloodTest => 'Modifier la prise de sang';
 	@override String get newBloodTest => 'Nouvelle prise de sang';
@@ -176,7 +176,7 @@ class TranslationsFr extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get bloodTestDateLabel => 'Date de la prise';
 	@override String chartNowConcentration({required Object value}) => 'Maintenant ${value}';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date} : ${level}';
-	@override String get emptySupplies => 'Aucun consommable. Ajoutez un élément pour commencer.';
+	@override String get empty_supplies => 'Aucun consommable. Ajoutez un élément pour commencer.';
 	@override String get newItem => 'Nouvel élément';
 	@override String get adminRoute => 'Voie d\'administration';
 	@override String get totalAmount => 'Quantité totale';
@@ -323,13 +323,13 @@ extension on TranslationsFr {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'Prises',
-			'navLevels' => 'Niveaux',
-			'navSupplies' => 'Pharmacie',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Prises',
+			'nav_levels' => 'Niveaux',
+			'nav_supplies' => 'Pharmacie',
 			'takeAnIntake' => 'Prendre une prise',
 			'addAnItem' => 'Ajouter un élément',
-			'emptyHome' => 'Commencez par ajouter un planning dans les paramètres',
+			'empty_home' => 'Commencez par ajouter un planning dans les paramètres',
 			'allDone' => 'Terminé !',
 			'noIntakesDue' => 'Aucune prise prévue aujourd\'hui',
 			'upcoming' => 'À venir',
@@ -417,7 +417,7 @@ extension on TranslationsFr {
 			'notificationsUpdatedDescription' => 'Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.',
 			'dontShowAgain' => 'Ne plus afficher',
 			'scheduleSettings' => 'Paramètres des plannings',
-			'emptyIntakes' => 'Les prises enregistrées apparaîtront ici',
+			'empty_intakes' => 'Les prises enregistrées apparaîtront ici',
 			'chooseSchedule' => 'Choisir un planning',
 			'addSchedulesFirst' => 'Ajoutez d\'abord des plannings.',
 			'editIntake' => 'Modifier la prise',
@@ -436,9 +436,9 @@ extension on TranslationsFr {
 			'notes' => 'Notes',
 			'microliters' => 'μL',
 			'milliliters' => 'mL',
-			'emptyLevels' => 'Les injections d’estradiol s’afficheront dans cet onglet',
+			'empty_levels' => 'Les injections d’estradiol s’afficheront dans cet onglet',
 			'bloodTestsTitle' => 'Prises de sang',
-			'emptyBloodTests' => 'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !',
+			'empty_blood_tests' => 'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !',
 			'addBloodTest' => 'Ajouter une analyse de sang',
 			'editBloodTest' => 'Modifier la prise de sang',
 			'newBloodTest' => 'Nouvelle prise de sang',
@@ -448,7 +448,7 @@ extension on TranslationsFr {
 			'bloodTestDateLabel' => 'Date de la prise',
 			'chartNowConcentration' => ({required Object value}) => 'Maintenant ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date} : ${level}',
-			'emptySupplies' => 'Aucun consommable. Ajoutez un élément pour commencer.',
+			'empty_supplies' => 'Aucun consommable. Ajoutez un élément pour commencer.',
 			'newItem' => 'Nouvel élément',
 			'adminRoute' => 'Voie d\'administration',
 			'totalAmount' => 'Quantité totale',

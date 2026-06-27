@@ -40,13 +40,13 @@ class TranslationsUk extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'Прийоми';
-	@override String get navLevels => 'Рівні';
-	@override String get navSupplies => 'Препарати';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'Прийоми';
+	@override String get nav_levels => 'Рівні';
+	@override String get nav_supplies => 'Препарати';
 	@override String get takeAnIntake => 'Прийняти препарат';
 	@override String get addAnItem => 'Додати елемент';
-	@override String get emptyHome => 'Почніть з додавання розкладу в Налаштуваннях';
+	@override String get empty_home => 'Почніть з додавання розкладу в Налаштуваннях';
 	@override String get allDone => 'Все прийнято!';
 	@override String get noIntakesDue => 'На сьогодні все прийнято';
 	@override String get upcoming => 'Найближче';
@@ -149,7 +149,7 @@ class TranslationsUk extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notificationsUpdatedDescription => 'Кожний розклад тепер має свої сповіщення.\n\nБажано увімкнути сповіщення для ваших розкладів щоб нічого не пропустити.';
 	@override String get dontShowAgain => 'Більше не показувати';
 	@override String get scheduleSettings => 'Налаштування розкладу';
-	@override String get emptyIntakes => 'Прийняті дози відображатимуться тут';
+	@override String get empty_intakes => 'Прийняті дози відображатимуться тут';
 	@override String get chooseSchedule => 'Вибрати розклад';
 	@override String get addSchedulesFirst => 'Спочатку додайте розклади.';
 	@override String get editIntake => 'Редагування прийому';
@@ -168,9 +168,9 @@ class TranslationsUk extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notes => 'Примітки';
 	@override String get microliters => 'μL';
 	@override String get milliliters => 'mL';
-	@override String get emptyLevels => 'Ін\'єкції відображатимуться тут';
+	@override String get empty_levels => 'Ін\'єкції відображатимуться тут';
 	@override String get bloodTestsTitle => 'Аналізи крові';
-	@override String get emptyBloodTests => 'Висновки з аналізів крові з\'являтимуться тут. Натисніть Додати!';
+	@override String get empty_blood_tests => 'Висновки з аналізів крові з\'являтимуться тут. Натисніть Додати!';
 	@override String get addBloodTest => 'Додати аналіз крові';
 	@override String get editBloodTest => 'Редагувати аналіз крові';
 	@override String get newBloodTest => 'Новий аналіз крові';
@@ -180,7 +180,7 @@ class TranslationsUk extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get bloodTestDateLabel => 'Дата аналізу';
 	@override String chartNowConcentration({required Object value}) => 'Поточна ${value}';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
-	@override String get emptySupplies => 'Додайте препарат, щоб почати.';
+	@override String get empty_supplies => 'Додайте препарат, щоб почати.';
 	@override String get newItem => 'Новий препарат';
 	@override String get adminRoute => 'Шлях введення';
 	@override String get totalAmount => 'Загальна кількість';
@@ -333,13 +333,13 @@ extension on TranslationsUk {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'Прийоми',
-			'navLevels' => 'Рівні',
-			'navSupplies' => 'Препарати',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Прийоми',
+			'nav_levels' => 'Рівні',
+			'nav_supplies' => 'Препарати',
 			'takeAnIntake' => 'Прийняти препарат',
 			'addAnItem' => 'Додати елемент',
-			'emptyHome' => 'Почніть з додавання розкладу в Налаштуваннях',
+			'empty_home' => 'Почніть з додавання розкладу в Налаштуваннях',
 			'allDone' => 'Все прийнято!',
 			'noIntakesDue' => 'На сьогодні все прийнято',
 			'upcoming' => 'Найближче',
@@ -427,7 +427,7 @@ extension on TranslationsUk {
 			'notificationsUpdatedDescription' => 'Кожний розклад тепер має свої сповіщення.\n\nБажано увімкнути сповіщення для ваших розкладів щоб нічого не пропустити.',
 			'dontShowAgain' => 'Більше не показувати',
 			'scheduleSettings' => 'Налаштування розкладу',
-			'emptyIntakes' => 'Прийняті дози відображатимуться тут',
+			'empty_intakes' => 'Прийняті дози відображатимуться тут',
 			'chooseSchedule' => 'Вибрати розклад',
 			'addSchedulesFirst' => 'Спочатку додайте розклади.',
 			'editIntake' => 'Редагування прийому',
@@ -446,9 +446,9 @@ extension on TranslationsUk {
 			'notes' => 'Примітки',
 			'microliters' => 'μL',
 			'milliliters' => 'mL',
-			'emptyLevels' => 'Ін\'єкції відображатимуться тут',
+			'empty_levels' => 'Ін\'єкції відображатимуться тут',
 			'bloodTestsTitle' => 'Аналізи крові',
-			'emptyBloodTests' => 'Висновки з аналізів крові з\'являтимуться тут. Натисніть Додати!',
+			'empty_blood_tests' => 'Висновки з аналізів крові з\'являтимуться тут. Натисніть Додати!',
 			'addBloodTest' => 'Додати аналіз крові',
 			'editBloodTest' => 'Редагувати аналіз крові',
 			'newBloodTest' => 'Новий аналіз крові',
@@ -458,7 +458,7 @@ extension on TranslationsUk {
 			'bloodTestDateLabel' => 'Дата аналізу',
 			'chartNowConcentration' => ({required Object value}) => 'Поточна ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'emptySupplies' => 'Додайте препарат, щоб почати.',
+			'empty_supplies' => 'Додайте препарат, щоб почати.',
 			'newItem' => 'Новий препарат',
 			'adminRoute' => 'Шлях введення',
 			'totalAmount' => 'Загальна кількість',

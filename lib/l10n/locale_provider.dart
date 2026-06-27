@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/locale.dart' as intl;
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/services/preferences_service.dart';
 
 class LocaleProvider extends ChangeNotifier {
@@ -14,7 +13,7 @@ class LocaleProvider extends ChangeNotifier {
 
   Locale get locale => _locale;
 
-  List<Locale> get supportedLocales => AppLocalizations.supportedLocales;
+  List<Locale> get supportedLocales => AppLocaleUtils.supportedLocales;
 
   void setLocale(Locale newLocale) {
     final tag = newLocale.toLanguageTag();

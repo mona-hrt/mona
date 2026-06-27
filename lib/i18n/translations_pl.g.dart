@@ -39,13 +39,13 @@ class TranslationsPl extends Translations with BaseTranslations<AppLocale, Trans
 	TranslationsPl $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsPl(meta: meta ?? this.$meta);
 
 	// Translations
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'Przyjęcia';
-	@override String get navLevels => 'Poziomy';
-	@override String get navSupplies => 'Zapasy';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'Przyjęcia';
+	@override String get nav_levels => 'Poziomy';
+	@override String get nav_supplies => 'Zapasy';
 	@override String get takeAnIntake => 'Odnotuj przyjęcie';
 	@override String get addAnItem => 'Dodaj przedmiot';
-	@override String get emptyHome => 'Rozpocznij od dodania harmonogramu w Ustawieniach';
+	@override String get empty_home => 'Rozpocznij od dodania harmonogramu w Ustawieniach';
 	@override String get allDone => 'Wszystko gotowe!';
 	@override String get noIntakesDue => 'Nie ma dziś żadnych przyjęć';
 	@override String get upcoming => 'Nadchodzące';
@@ -60,13 +60,13 @@ class TranslationsPl extends Translations with BaseTranslations<AppLocale, Trans
 extension on TranslationsPl {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
-			'navHome' => 'Mona',
-			'navIntakes' => 'Przyjęcia',
-			'navLevels' => 'Poziomy',
-			'navSupplies' => 'Zapasy',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Przyjęcia',
+			'nav_levels' => 'Poziomy',
+			'nav_supplies' => 'Zapasy',
 			'takeAnIntake' => 'Odnotuj przyjęcie',
 			'addAnItem' => 'Dodaj przedmiot',
-			'emptyHome' => 'Rozpocznij od dodania harmonogramu w Ustawieniach',
+			'empty_home' => 'Rozpocznij od dodania harmonogramu w Ustawieniach',
 			'allDone' => 'Wszystko gotowe!',
 			'noIntakesDue' => 'Nie ma dziś żadnych przyjęć',
 			'upcoming' => 'Nadchodzące',

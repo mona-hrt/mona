@@ -40,13 +40,13 @@ class TranslationsRu extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'Приёмы';
-	@override String get navLevels => 'Уровни';
-	@override String get navSupplies => 'Препараты';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'Приёмы';
+	@override String get nav_levels => 'Уровни';
+	@override String get nav_supplies => 'Препараты';
 	@override String get takeAnIntake => 'Добавить приём';
 	@override String get addAnItem => 'Добавить препарат';
-	@override String get emptyHome => 'Начните с добавления расписания в настройках';
+	@override String get empty_home => 'Начните с добавления расписания в настройках';
 	@override String get allDone => 'Всё принято!';
 	@override String get noIntakesDue => 'На сегодня нет приёмов';
 	@override String get upcoming => 'Ближайшие';
@@ -150,7 +150,7 @@ class TranslationsRu extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notificationsUpdatedDescription => 'Каждое расписание теперь имеет свои уведомления.\n\nПожалуйста, (пере)настройте уведомления для своих расписаний.';
 	@override String get dontShowAgain => 'Больше не показывать';
 	@override String get scheduleSettings => 'Настройки расписания';
-	@override String get emptyIntakes => 'Добавленные приёмы будут отображаться тут';
+	@override String get empty_intakes => 'Добавленные приёмы будут отображаться тут';
 	@override String get chooseSchedule => 'Выберите расписание';
 	@override String get addSchedulesFirst => 'Сначала добавьте расписание.';
 	@override String get editIntake => 'Изменение приёма';
@@ -169,9 +169,9 @@ class TranslationsRu extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notes => 'Заметки';
 	@override String get microliters => 'мкл';
 	@override String get milliliters => 'мл';
-	@override String get emptyLevels => 'Приёмы эстрадиола будут отображаться в данной вкладке';
+	@override String get empty_levels => 'Приёмы эстрадиола будут отображаться в данной вкладке';
 	@override String get bloodTestsTitle => 'Анализы крови';
-	@override String get emptyBloodTests => 'Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу!';
+	@override String get empty_blood_tests => 'Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу!';
 	@override String get addBloodTest => 'Добавить анализ';
 	@override String get editBloodTest => 'Изменение результатов анализа';
 	@override String get newBloodTest => 'Запись результатов анализа';
@@ -181,7 +181,7 @@ class TranslationsRu extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get bloodTestDateLabel => 'Дата анализа';
 	@override String chartNowConcentration({required Object value}) => 'Сейчас ${value}';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
-	@override String get emptySupplies => 'Нет препаратов. Для начала работы добавьте препарат.';
+	@override String get empty_supplies => 'Нет препаратов. Для начала работы добавьте препарат.';
 	@override String get newItem => 'Новый препарат';
 	@override String get adminRoute => 'Способ приёма';
 	@override String get totalAmount => 'Общее количество';
@@ -333,13 +333,13 @@ extension on TranslationsRu {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'Приёмы',
-			'navLevels' => 'Уровни',
-			'navSupplies' => 'Препараты',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Приёмы',
+			'nav_levels' => 'Уровни',
+			'nav_supplies' => 'Препараты',
 			'takeAnIntake' => 'Добавить приём',
 			'addAnItem' => 'Добавить препарат',
-			'emptyHome' => 'Начните с добавления расписания в настройках',
+			'empty_home' => 'Начните с добавления расписания в настройках',
 			'allDone' => 'Всё принято!',
 			'noIntakesDue' => 'На сегодня нет приёмов',
 			'upcoming' => 'Ближайшие',
@@ -427,7 +427,7 @@ extension on TranslationsRu {
 			'notificationsUpdatedDescription' => 'Каждое расписание теперь имеет свои уведомления.\n\nПожалуйста, (пере)настройте уведомления для своих расписаний.',
 			'dontShowAgain' => 'Больше не показывать',
 			'scheduleSettings' => 'Настройки расписания',
-			'emptyIntakes' => 'Добавленные приёмы будут отображаться тут',
+			'empty_intakes' => 'Добавленные приёмы будут отображаться тут',
 			'chooseSchedule' => 'Выберите расписание',
 			'addSchedulesFirst' => 'Сначала добавьте расписание.',
 			'editIntake' => 'Изменение приёма',
@@ -446,9 +446,9 @@ extension on TranslationsRu {
 			'notes' => 'Заметки',
 			'microliters' => 'мкл',
 			'milliliters' => 'мл',
-			'emptyLevels' => 'Приёмы эстрадиола будут отображаться в данной вкладке',
+			'empty_levels' => 'Приёмы эстрадиола будут отображаться в данной вкладке',
 			'bloodTestsTitle' => 'Анализы крови',
-			'emptyBloodTests' => 'Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу!',
+			'empty_blood_tests' => 'Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу!',
 			'addBloodTest' => 'Добавить анализ',
 			'editBloodTest' => 'Изменение результатов анализа',
 			'newBloodTest' => 'Запись результатов анализа',
@@ -458,7 +458,7 @@ extension on TranslationsRu {
 			'bloodTestDateLabel' => 'Дата анализа',
 			'chartNowConcentration' => ({required Object value}) => 'Сейчас ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'emptySupplies' => 'Нет препаратов. Для начала работы добавьте препарат.',
+			'empty_supplies' => 'Нет препаратов. Для начала работы добавьте препарат.',
 			'newItem' => 'Новый препарат',
 			'adminRoute' => 'Способ приёма',
 			'totalAmount' => 'Общее количество',

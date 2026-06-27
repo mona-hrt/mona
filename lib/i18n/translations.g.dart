@@ -6,7 +6,7 @@
 /// Locales: 13
 /// Strings: 2447 (188 per locale)
 ///
-/// Built on 2026-06-27 at 17:15 UTC
+/// Built on 2026-06-27 at 17:56 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -18,18 +18,18 @@ import 'package:slang/generated.dart';
 import 'package:slang_flutter/slang_flutter.dart';
 export 'package:slang_flutter/slang_flutter.dart';
 
-import 'translations_de.g.dart' deferred as l_de;
-import 'translations_es.g.dart' deferred as l_es;
-import 'translations_et.g.dart' deferred as l_et;
-import 'translations_fr.g.dart' deferred as l_fr;
-import 'translations_pl.g.dart' deferred as l_pl;
-import 'translations_pt.g.dart' deferred as l_pt;
-import 'translations_ru.g.dart' deferred as l_ru;
-import 'translations_sk.g.dart' deferred as l_sk;
-import 'translations_th.g.dart' deferred as l_th;
-import 'translations_tok.g.dart' deferred as l_tok;
-import 'translations_uk.g.dart' deferred as l_uk;
-import 'translations_pt_BR.g.dart' deferred as l_pt_BR;
+import 'translations_de.g.dart' as l_de;
+import 'translations_es.g.dart' as l_es;
+import 'translations_et.g.dart' as l_et;
+import 'translations_fr.g.dart' as l_fr;
+import 'translations_pl.g.dart' as l_pl;
+import 'translations_pt.g.dart' as l_pt;
+import 'translations_ru.g.dart' as l_ru;
+import 'translations_sk.g.dart' as l_sk;
+import 'translations_th.g.dart' as l_th;
+import 'translations_tok.g.dart' as l_tok;
+import 'translations_uk.g.dart' as l_uk;
+import 'translations_pt_BR.g.dart' as l_pt_BR;
 part 'translations_en.g.dart';
 
 /// Supported locales.
@@ -69,98 +69,11 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
 		PluralResolver? cardinalResolver,
 		PluralResolver? ordinalResolver,
 	}) async {
-		switch (this) {
-			case AppLocale.en:
-				return TranslationsEn(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.de:
-				await l_de.loadLibrary();
-				return l_de.TranslationsDe(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.es:
-				await l_es.loadLibrary();
-				return l_es.TranslationsEs(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.et:
-				await l_et.loadLibrary();
-				return l_et.TranslationsEt(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.fr:
-				await l_fr.loadLibrary();
-				return l_fr.TranslationsFr(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.pl:
-				await l_pl.loadLibrary();
-				return l_pl.TranslationsPl(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.pt:
-				await l_pt.loadLibrary();
-				return l_pt.TranslationsPt(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.ru:
-				await l_ru.loadLibrary();
-				return l_ru.TranslationsRu(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.sk:
-				await l_sk.loadLibrary();
-				return l_sk.TranslationsSk(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.th:
-				await l_th.loadLibrary();
-				return l_th.TranslationsTh(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.tok:
-				await l_tok.loadLibrary();
-				return l_tok.TranslationsTok(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.uk:
-				await l_uk.loadLibrary();
-				return l_uk.TranslationsUk(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-			case AppLocale.ptBr:
-				await l_pt_BR.loadLibrary();
-				return l_pt_BR.TranslationsPtBr(
-					overrides: overrides,
-					cardinalResolver: cardinalResolver,
-					ordinalResolver: ordinalResolver,
-				);
-		}
+		return buildSync(
+			overrides: overrides,
+			cardinalResolver: cardinalResolver,
+			ordinalResolver: ordinalResolver,
+		);
 	}
 
 	@override
@@ -300,7 +213,7 @@ extension BuildContextTranslationsExtension on BuildContext {
 class LocaleSettings extends BaseFlutterLocaleSettings<AppLocale, Translations> {
 	LocaleSettings._() : super(
 		utils: AppLocaleUtils.instance,
-		lazy: true,
+		lazy: false,
 	);
 
 	static final instance = LocaleSettings._();

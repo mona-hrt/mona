@@ -1,15 +1,14 @@
 import 'package:mona/data/model/medication_intake.dart';
-import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/l10n/helpers/administration_route_l10n.dart';
 import 'package:mona/l10n/helpers/injection_side_l10n.dart';
 import 'package:mona/l10n/helpers/molecule_l10n.dart';
 
 extension MedicationIntakeL10n on MedicationIntake {
-  String localizedSummary(AppLocalizations localizations) {
-    final firstLine =
-        '$takenDose ${molecule.localizedUnit(localizations)} • ${molecule.localizedNameWithEster(ester, localizations)} • '
-        '${administrationRoute.localizedName(localizations)}';
+  String get localizedSummary {
+    final firstLine = '$takenDose ${molecule.localizedUnit} • '
+        '${molecule.localizedNameWithEster(ester)} • '
+        '${administrationRoute.localizedName}';
     if (side == null) return firstLine;
-    return '$firstLine • ${side!.localizedSummary(localizations)}';
+    return '$firstLine • ${side!.localizedSummary}';
   }
 }

@@ -8,13 +8,13 @@ output_file_name: translations.g.dart
 
 flutter_integration: true
 locale_handling: true
+lazy: false
 
 translate_var: t
 enum_name: AppLocale
 class_name: Translations
 translation_class_visibility: private
 
-key_case: camel
 string_interpolation: braces
 
 pluralization:

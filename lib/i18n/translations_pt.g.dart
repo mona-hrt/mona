@@ -40,13 +40,13 @@ class TranslationsPt extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'Doses';
-	@override String get navLevels => 'Níveis';
-	@override String get navSupplies => 'Suprimentos';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'Doses';
+	@override String get nav_levels => 'Níveis';
+	@override String get nav_supplies => 'Suprimentos';
 	@override String get takeAnIntake => 'Registrar uma dose';
 	@override String get addAnItem => 'Adicionar um item';
-	@override String get emptyHome => 'Comece adicionando um cronograma em Configurações';
+	@override String get empty_home => 'Comece adicionando um cronograma em Configurações';
 	@override String get allDone => 'Tudo pronto!';
 	@override String get noIntakesDue => 'Nenhuma dose pendente hoje';
 	@override String get upcoming => 'Próximos';
@@ -145,7 +145,7 @@ class TranslationsPt extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notificationsUpdatedDescription => 'Cada cronograma agora tem suas próprias notificações.\n\nConfigure as notificações para seus cronogramas para garantir que você não perca nada.';
 	@override String get dontShowAgain => 'Não mostrar novamente';
 	@override String get scheduleSettings => 'Configurações do cronograma';
-	@override String get emptyIntakes => 'As doses registradas aparecerão aqui';
+	@override String get empty_intakes => 'As doses registradas aparecerão aqui';
 	@override String get chooseSchedule => 'Escolher um cronograma';
 	@override String get addSchedulesFirst => 'Adicione cronogramas primeiro.';
 	@override String get editIntake => 'Editar dose';
@@ -164,9 +164,9 @@ class TranslationsPt extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notes => 'Notas';
 	@override String get microliters => 'μL';
 	@override String get milliliters => 'mL';
-	@override String get emptyLevels => 'As injeções de estradiol aparecerão nesta aba';
+	@override String get empty_levels => 'As injeções de estradiol aparecerão nesta aba';
 	@override String get bloodTestsTitle => 'Exames de sangue';
-	@override String get emptyBloodTests => 'Os exames de sangue registados aparecem aqui. Comece pelo botão Adicionar!';
+	@override String get empty_blood_tests => 'Os exames de sangue registados aparecem aqui. Comece pelo botão Adicionar!';
 	@override String get addBloodTest => 'Adicionar exame de sangue';
 	@override String get editBloodTest => 'Editar exame de sangue';
 	@override String get newBloodTest => 'Novo exame de sangue';
@@ -176,7 +176,7 @@ class TranslationsPt extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get bloodTestDateLabel => 'Data do exame';
 	@override String chartNowConcentration({required Object value}) => 'Agora ${value}';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
-	@override String get emptySupplies => 'Sem suprimentos. Adicione um item para começar.';
+	@override String get empty_supplies => 'Sem suprimentos. Adicione um item para começar.';
 	@override String get newItem => 'Novo item';
 	@override String get adminRoute => 'Via de administração';
 	@override String get totalAmount => 'Quantidade total';
@@ -318,13 +318,13 @@ extension on TranslationsPt {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'Doses',
-			'navLevels' => 'Níveis',
-			'navSupplies' => 'Suprimentos',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Doses',
+			'nav_levels' => 'Níveis',
+			'nav_supplies' => 'Suprimentos',
 			'takeAnIntake' => 'Registrar uma dose',
 			'addAnItem' => 'Adicionar um item',
-			'emptyHome' => 'Comece adicionando um cronograma em Configurações',
+			'empty_home' => 'Comece adicionando um cronograma em Configurações',
 			'allDone' => 'Tudo pronto!',
 			'noIntakesDue' => 'Nenhuma dose pendente hoje',
 			'upcoming' => 'Próximos',
@@ -412,7 +412,7 @@ extension on TranslationsPt {
 			'notificationsUpdatedDescription' => 'Cada cronograma agora tem suas próprias notificações.\n\nConfigure as notificações para seus cronogramas para garantir que você não perca nada.',
 			'dontShowAgain' => 'Não mostrar novamente',
 			'scheduleSettings' => 'Configurações do cronograma',
-			'emptyIntakes' => 'As doses registradas aparecerão aqui',
+			'empty_intakes' => 'As doses registradas aparecerão aqui',
 			'chooseSchedule' => 'Escolher um cronograma',
 			'addSchedulesFirst' => 'Adicione cronogramas primeiro.',
 			'editIntake' => 'Editar dose',
@@ -431,9 +431,9 @@ extension on TranslationsPt {
 			'notes' => 'Notas',
 			'microliters' => 'μL',
 			'milliliters' => 'mL',
-			'emptyLevels' => 'As injeções de estradiol aparecerão nesta aba',
+			'empty_levels' => 'As injeções de estradiol aparecerão nesta aba',
 			'bloodTestsTitle' => 'Exames de sangue',
-			'emptyBloodTests' => 'Os exames de sangue registados aparecem aqui. Comece pelo botão Adicionar!',
+			'empty_blood_tests' => 'Os exames de sangue registados aparecem aqui. Comece pelo botão Adicionar!',
 			'addBloodTest' => 'Adicionar exame de sangue',
 			'editBloodTest' => 'Editar exame de sangue',
 			'newBloodTest' => 'Novo exame de sangue',
@@ -443,7 +443,7 @@ extension on TranslationsPt {
 			'bloodTestDateLabel' => 'Data do exame',
 			'chartNowConcentration' => ({required Object value}) => 'Agora ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'emptySupplies' => 'Sem suprimentos. Adicione um item para começar.',
+			'empty_supplies' => 'Sem suprimentos. Adicione um item para começar.',
 			'newItem' => 'Novo item',
 			'adminRoute' => 'Via de administração',
 			'totalAmount' => 'Quantidade total',

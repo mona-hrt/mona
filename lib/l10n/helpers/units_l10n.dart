@@ -1,29 +1,29 @@
 import 'package:mona/data/model/units.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 
 extension EstradiolUnitL10n on EstradiolUnit {
-  String localizedName(AppLocalizations l10n) {
+  String get localizedName {
     switch (this) {
       case EstradiolUnit.pg_mL:
-        return l10n.unitPgPerMl;
+        return t.unitPgPerMl;
       case EstradiolUnit.pmol_L:
-        return l10n.unitPmolPerL;
+        return t.unitPmolPerL;
     }
   }
 }
 
 extension TestosteroneUnitL10n on TestosteroneUnit {
-  String localizedName(AppLocalizations l10n) {
+  String get localizedName {
     switch (this) {
       case TestosteroneUnit.ng_dL:
-        return l10n.unitNgPerDl;
+        return t.unitNgPerDl;
       case TestosteroneUnit.nmol_L:
-        return l10n.unitNmolPerL;
+        return t.unitNmolPerL;
     }
   }
 }
 
 extension UnitsL10n on Units {
-  String localizedName(AppLocalizations l10n) =>
-      '${estradiol.localizedName(l10n)} & ${testosterone.localizedName(l10n)}';
+  String get localizedName =>
+      '${estradiol.localizedName} & ${testosterone.localizedName}';
 }

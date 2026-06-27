@@ -40,13 +40,13 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'Einnahmen';
-	@override String get navLevels => 'Werte';
-	@override String get navSupplies => 'Vorräte';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'Einnahmen';
+	@override String get nav_levels => 'Werte';
+	@override String get nav_supplies => 'Vorräte';
 	@override String get takeAnIntake => 'Eine Einnahme erfassen';
 	@override String get addAnItem => 'Eintrag hinzufügen';
-	@override String get emptyHome => 'Beginne, indem du einen Zeitplan in den Einstellungen erstellst';
+	@override String get empty_home => 'Beginne, indem du einen Zeitplan in den Einstellungen erstellst';
 	@override String get allDone => 'Alles erledigt!';
 	@override String get noIntakesDue => 'Heute sind keine Einnahmen fällig';
 	@override String get upcoming => 'Bevorstehend';
@@ -144,7 +144,7 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notificationsUpdatedDescription => 'Jeder Zeitplan hat jetzt eigene Benachrichtigungen.\n\nBitte richte Benachrichtigungen für deine Zeitpläne ein, damit du nichts verpasst.';
 	@override String get dontShowAgain => 'Nicht mehr anzeigen';
 	@override String get scheduleSettings => 'Zeitplan-Einstellungen';
-	@override String get emptyIntakes => 'Erfasste Einnahmen werden hier angezeigt';
+	@override String get empty_intakes => 'Erfasste Einnahmen werden hier angezeigt';
 	@override String get chooseSchedule => 'Zeitplan auswählen';
 	@override String get addSchedulesFirst => 'Erstelle zuerst Zeitpläne.';
 	@override String get editIntake => 'Einnahme bearbeiten';
@@ -163,9 +163,9 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notes => 'Notizen';
 	@override String get microliters => 'μL';
 	@override String get milliliters => 'mL';
-	@override String get emptyLevels => 'Estradiol-Injektionen werden in diesem Tab angezeigt';
+	@override String get empty_levels => 'Estradiol-Injektionen werden in diesem Tab angezeigt';
 	@override String get bloodTestsTitle => 'Bluttests';
-	@override String get emptyBloodTests => 'Erfasste Bluttests werden hier angezeigt. Starte mit der Schaltfläche „Hinzufügen“!';
+	@override String get empty_blood_tests => 'Erfasste Bluttests werden hier angezeigt. Starte mit der Schaltfläche „Hinzufügen“!';
 	@override String get addBloodTest => 'Bluttest hinzufügen';
 	@override String get editBloodTest => 'Bluttest bearbeiten';
 	@override String get newBloodTest => 'Neuer Bluttest';
@@ -175,7 +175,7 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get bloodTestDateLabel => 'Testdatum';
 	@override String chartNowConcentration({required Object value}) => 'Jetzt ${value}';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
-	@override String get emptySupplies => 'Keine Vorräte. Füge einen Eintrag hinzu, um zu beginnen.';
+	@override String get empty_supplies => 'Keine Vorräte. Füge einen Eintrag hinzu, um zu beginnen.';
 	@override String get newItem => 'Neuer Eintrag';
 	@override String get adminRoute => 'Anwendungsart';
 	@override String get totalAmount => 'Gesamtmenge';
@@ -317,13 +317,13 @@ extension on TranslationsDe {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'Einnahmen',
-			'navLevels' => 'Werte',
-			'navSupplies' => 'Vorräte',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Einnahmen',
+			'nav_levels' => 'Werte',
+			'nav_supplies' => 'Vorräte',
 			'takeAnIntake' => 'Eine Einnahme erfassen',
 			'addAnItem' => 'Eintrag hinzufügen',
-			'emptyHome' => 'Beginne, indem du einen Zeitplan in den Einstellungen erstellst',
+			'empty_home' => 'Beginne, indem du einen Zeitplan in den Einstellungen erstellst',
 			'allDone' => 'Alles erledigt!',
 			'noIntakesDue' => 'Heute sind keine Einnahmen fällig',
 			'upcoming' => 'Bevorstehend',
@@ -411,7 +411,7 @@ extension on TranslationsDe {
 			'notificationsUpdatedDescription' => 'Jeder Zeitplan hat jetzt eigene Benachrichtigungen.\n\nBitte richte Benachrichtigungen für deine Zeitpläne ein, damit du nichts verpasst.',
 			'dontShowAgain' => 'Nicht mehr anzeigen',
 			'scheduleSettings' => 'Zeitplan-Einstellungen',
-			'emptyIntakes' => 'Erfasste Einnahmen werden hier angezeigt',
+			'empty_intakes' => 'Erfasste Einnahmen werden hier angezeigt',
 			'chooseSchedule' => 'Zeitplan auswählen',
 			'addSchedulesFirst' => 'Erstelle zuerst Zeitpläne.',
 			'editIntake' => 'Einnahme bearbeiten',
@@ -430,9 +430,9 @@ extension on TranslationsDe {
 			'notes' => 'Notizen',
 			'microliters' => 'μL',
 			'milliliters' => 'mL',
-			'emptyLevels' => 'Estradiol-Injektionen werden in diesem Tab angezeigt',
+			'empty_levels' => 'Estradiol-Injektionen werden in diesem Tab angezeigt',
 			'bloodTestsTitle' => 'Bluttests',
-			'emptyBloodTests' => 'Erfasste Bluttests werden hier angezeigt. Starte mit der Schaltfläche „Hinzufügen“!',
+			'empty_blood_tests' => 'Erfasste Bluttests werden hier angezeigt. Starte mit der Schaltfläche „Hinzufügen“!',
 			'addBloodTest' => 'Bluttest hinzufügen',
 			'editBloodTest' => 'Bluttest bearbeiten',
 			'newBloodTest' => 'Neuer Bluttest',
@@ -442,7 +442,7 @@ extension on TranslationsDe {
 			'bloodTestDateLabel' => 'Testdatum',
 			'chartNowConcentration' => ({required Object value}) => 'Jetzt ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'emptySupplies' => 'Keine Vorräte. Füge einen Eintrag hinzu, um zu beginnen.',
+			'empty_supplies' => 'Keine Vorräte. Füge einen Eintrag hinzu, um zu beginnen.',
 			'newItem' => 'Neuer Eintrag',
 			'adminRoute' => 'Anwendungsart',
 			'totalAmount' => 'Gesamtmenge',

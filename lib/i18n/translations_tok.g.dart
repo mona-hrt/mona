@@ -40,12 +40,12 @@ class TranslationsTok extends Translations with BaseTranslations<AppLocale, Tran
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'open';
-	@override String get navLevels => 'nanpa insa';
-	@override String get navSupplies => 'jo';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'open';
+	@override String get nav_levels => 'nanpa insa';
+	@override String get nav_supplies => 'jo';
 	@override String get addAnItem => 'pana e ijo sin';
-	@override String get emptyHome => 'o pana e nasin tenpo lon poki nasin';
+	@override String get empty_home => 'o pana e nasin tenpo lon poki nasin';
 	@override String get allDone => 'ale li pini!';
 	@override String get noIntakesDue => 'tenpo ni la open li wile ala';
 	@override String get upcoming => 'kama';
@@ -85,7 +85,7 @@ class TranslationsTok extends Translations with BaseTranslations<AppLocale, Tran
 	@override String get notes => 'lipu';
 	@override String get microliters => 'μL';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
-	@override String get emptySupplies => 'jo li lon ala. o pana e ijo sin la o open.';
+	@override String get empty_supplies => 'jo li lon ala. o pana e ijo sin la o open.';
 	@override String get newItem => 'ijo sin';
 	@override String get adminRoute => 'pana nasin';
 	@override String get concentration => 'wawa';
@@ -109,12 +109,12 @@ extension on TranslationsTok {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'open',
-			'navLevels' => 'nanpa insa',
-			'navSupplies' => 'jo',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'open',
+			'nav_levels' => 'nanpa insa',
+			'nav_supplies' => 'jo',
 			'addAnItem' => 'pana e ijo sin',
-			'emptyHome' => 'o pana e nasin tenpo lon poki nasin',
+			'empty_home' => 'o pana e nasin tenpo lon poki nasin',
 			'allDone' => 'ale li pini!',
 			'noIntakesDue' => 'tenpo ni la open li wile ala',
 			'upcoming' => 'kama',
@@ -154,7 +154,7 @@ extension on TranslationsTok {
 			'notes' => 'lipu',
 			'microliters' => 'μL',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'emptySupplies' => 'jo li lon ala. o pana e ijo sin la o open.',
+			'empty_supplies' => 'jo li lon ala. o pana e ijo sin la o open.',
 			'newItem' => 'ijo sin',
 			'adminRoute' => 'pana nasin',
 			'concentration' => 'wawa',

@@ -1,25 +1,24 @@
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 
 extension EsterL10n on Ester {
-  String localizedName(AppLocalizations localizations) =>
-      _EsterDisplayNames.resolve(this, localizations);
+  String get localizedName => _EsterDisplayNames.resolve(this);
 }
 
 abstract final class _EsterDisplayNames {
-  static final Map<String, String Function(AppLocalizations)> _labelsByName = {
-    Ester.enanthate.name: (l) => l.enanthate,
-    Ester.valerate.name: (l) => l.valerate,
-    Ester.cypionate.name: (l) => l.cypionate,
-    Ester.undecylate.name: (l) => l.undecylate,
-    Ester.benzoate.name: (l) => l.benzoate,
-    Ester.cypionateSuspension.name: (l) => l.cypionateSuspension,
+  static final Map<String, String Function()> _labelsByName = {
+    Ester.enanthate.name: () => t.enanthate,
+    Ester.valerate.name: () => t.valerate,
+    Ester.cypionate.name: () => t.cypionate,
+    Ester.undecylate.name: () => t.undecylate,
+    Ester.benzoate.name: () => t.benzoate,
+    Ester.cypionateSuspension.name: () => t.cypionateSuspension,
   };
 
-  static String resolve(Ester ester, AppLocalizations localizations) {
+  static String resolve(Ester ester) {
     final labelBuilder = _labelsByName[ester.name];
     if (labelBuilder != null) {
-      return labelBuilder(localizations);
+      return labelBuilder();
     }
     final n = ester.name;
     return n[0].toUpperCase() + n.substring(1);

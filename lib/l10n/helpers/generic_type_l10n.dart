@@ -1,34 +1,34 @@
 import 'package:mona/data/model/generic_supply_item.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 
 extension GenericItemTypeL10n on GenericSupplyType {
-  String localizedName(AppLocalizations l10n) {
+  String get localizedName {
     switch (this) {
       case GenericSupplyType.syringe:
-        return l10n.syringe;
+        return t.syringe;
       case GenericSupplyType.wipe:
-        return l10n.wipe;
+        return t.wipe;
       case GenericSupplyType.needle:
-        return l10n.needle;
+        return t.needle;
       case GenericSupplyType.gloves:
-        return l10n.gloves;
+        return t.gloves;
       case GenericSupplyType.bandage:
-        return l10n.bandage;
+        return t.bandage;
     }
   }
 
-  String localizedRemaining(AppLocalizations l10n, num count) {
+  String localizedRemaining(num count) {
     switch (this) {
       case GenericSupplyType.syringe:
-        return l10n.syringeRemaining(count);
+        return t.syringeRemaining(count: count);
       case GenericSupplyType.wipe:
-        return l10n.wipeRemaining(count);
+        return t.wipeRemaining(count: count);
       case GenericSupplyType.needle:
-        return l10n.needleRemaining(count);
+        return t.needleRemaining(count: count);
       case GenericSupplyType.gloves:
-        return l10n.glovesRemaining(count);
+        return t.glovesRemaining(count: count);
       case GenericSupplyType.bandage:
-        return l10n.bandageRemaining(count);
+        return t.bandageRemaining(count: count);
     }
   }
 

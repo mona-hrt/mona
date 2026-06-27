@@ -45,16 +45,16 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	String get appTitle => 'Mona';
 
 	/// en: 'Mona'
-	String get navHome => 'Mona';
+	String get nav_home => 'Mona';
 
 	/// en: 'Intakes'
-	String get navIntakes => 'Intakes';
+	String get nav_intakes => 'Intakes';
 
 	/// en: 'Levels'
-	String get navLevels => 'Levels';
+	String get nav_levels => 'Levels';
 
 	/// en: 'Supplies'
-	String get navSupplies => 'Supplies';
+	String get nav_supplies => 'Supplies';
 
 	/// en: 'Take an intake'
 	String get takeAnIntake => 'Take an intake';
@@ -63,7 +63,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	String get addAnItem => 'Add an item';
 
 	/// en: 'Start by adding a schedule in Settings'
-	String get emptyHome => 'Start by adding a schedule in Settings';
+	String get empty_home => 'Start by adding a schedule in Settings';
 
 	/// en: 'All done!'
 	String get allDone => 'All done!';
@@ -337,7 +337,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	String get scheduleSettings => 'Schedule settings';
 
 	/// en: 'Taken intakes will appear here'
-	String get emptyIntakes => 'Taken intakes will appear here';
+	String get empty_intakes => 'Taken intakes will appear here';
 
 	/// en: 'Choose a schedule'
 	String get chooseSchedule => 'Choose a schedule';
@@ -394,13 +394,13 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	String get milliliters => 'mL';
 
 	/// en: 'Estradiol injections will display in this tab'
-	String get emptyLevels => 'Estradiol injections will display in this tab';
+	String get empty_levels => 'Estradiol injections will display in this tab';
 
 	/// en: 'Blood Tests'
 	String get bloodTestsTitle => 'Blood Tests';
 
 	/// en: 'Taken blood tests will appear here. Start by using the Add button!'
-	String get emptyBloodTests => 'Taken blood tests will appear here. Start by using the Add button!';
+	String get empty_blood_tests => 'Taken blood tests will appear here. Start by using the Add button!';
 
 	/// en: 'Add a blood test'
 	String get addBloodTest => 'Add a blood test';
@@ -430,7 +430,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
 
 	/// en: 'No supplies. Add an item to get started.'
-	String get emptySupplies => 'No supplies. Add an item to get started.';
+	String get empty_supplies => 'No supplies. Add an item to get started.';
 
 	/// en: 'New item'
 	String get newItem => 'New item';
@@ -771,13 +771,13 @@ extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'Intakes',
-			'navLevels' => 'Levels',
-			'navSupplies' => 'Supplies',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Intakes',
+			'nav_levels' => 'Levels',
+			'nav_supplies' => 'Supplies',
 			'takeAnIntake' => 'Take an intake',
 			'addAnItem' => 'Add an item',
-			'emptyHome' => 'Start by adding a schedule in Settings',
+			'empty_home' => 'Start by adding a schedule in Settings',
 			'allDone' => 'All done!',
 			'noIntakesDue' => 'No intakes due today',
 			'upcoming' => 'Upcoming',
@@ -865,7 +865,7 @@ extension on Translations {
 			'notificationsUpdatedDescription' => 'Each schedule now has its own notifications.\n\nPlease set up notifications for your schedules to make sure you don\'t miss anything.',
 			'dontShowAgain' => 'Don\'t show again',
 			'scheduleSettings' => 'Schedule settings',
-			'emptyIntakes' => 'Taken intakes will appear here',
+			'empty_intakes' => 'Taken intakes will appear here',
 			'chooseSchedule' => 'Choose a schedule',
 			'addSchedulesFirst' => 'Add schedules first.',
 			'editIntake' => 'Edit intake',
@@ -884,9 +884,9 @@ extension on Translations {
 			'notes' => 'Notes',
 			'microliters' => 'μL',
 			'milliliters' => 'mL',
-			'emptyLevels' => 'Estradiol injections will display in this tab',
+			'empty_levels' => 'Estradiol injections will display in this tab',
 			'bloodTestsTitle' => 'Blood Tests',
-			'emptyBloodTests' => 'Taken blood tests will appear here. Start by using the Add button!',
+			'empty_blood_tests' => 'Taken blood tests will appear here. Start by using the Add button!',
 			'addBloodTest' => 'Add a blood test',
 			'editBloodTest' => 'Edit blood test',
 			'newBloodTest' => 'New blood test',
@@ -896,7 +896,7 @@ extension on Translations {
 			'bloodTestDateLabel' => 'Test date',
 			'chartNowConcentration' => ({required Object value}) => 'Now ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'emptySupplies' => 'No supplies. Add an item to get started.',
+			'empty_supplies' => 'No supplies. Add an item to get started.',
 			'newItem' => 'New item',
 			'adminRoute' => 'Administration route',
 			'totalAmount' => 'Total amount',

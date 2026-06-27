@@ -40,13 +40,13 @@ class TranslationsTh extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'การทาน';
-	@override String get navLevels => 'ระดับ';
-	@override String get navSupplies => 'สต็อก';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'การทาน';
+	@override String get nav_levels => 'ระดับ';
+	@override String get nav_supplies => 'สต็อก';
 	@override String get takeAnIntake => 'ทานยา';
 	@override String get addAnItem => 'เพื่มสต็อก';
-	@override String get emptyHome => 'เริ่มด้วยการเพื่มตารางเวลาในการตั้งค่า';
+	@override String get empty_home => 'เริ่มด้วยการเพื่มตารางเวลาในการตั้งค่า';
 	@override String get allDone => 'ครบหมดแล้ว!';
 	@override String get noIntakesDue => 'ไม่มียาที่ต้องทานวันนี้';
 	@override String get upcoming => 'เร็วๆนี้';
@@ -144,7 +144,7 @@ class TranslationsTh extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notificationsUpdatedDescription => 'ทุกตารางเวลามีการแจ้งเตือนของตนเองแล้ว\n\nโปรดตั้งการแจ้งเตือนของตารางเวลาของคุณเพื่อที่จะไม่ลืม';
 	@override String get dontShowAgain => 'อย่าแสตงอีก';
 	@override String get scheduleSettings => 'ตั้งค่าตารางเวลา';
-	@override String get emptyIntakes => 'ยาที่ทานแล้วจะมาอยู่ที่นี่';
+	@override String get empty_intakes => 'ยาที่ทานแล้วจะมาอยู่ที่นี่';
 	@override String get chooseSchedule => 'เลือกตารางเวลา';
 	@override String get addSchedulesFirst => 'เพื่มตารางเวลาก่อน';
 	@override String get editIntake => 'แก้ไขการทาน';
@@ -163,9 +163,9 @@ class TranslationsTh extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notes => 'บันทึก';
 	@override String get microliters => 'ไมโครลิตร';
 	@override String get milliliters => 'มิลลิลิตร';
-	@override String get emptyLevels => 'การฉีดเอสตราไดออลจะขึ้นในแท็บนี้';
+	@override String get empty_levels => 'การฉีดเอสตราไดออลจะขึ้นในแท็บนี้';
 	@override String get bloodTestsTitle => 'การตรวจเลือด';
-	@override String get emptyBloodTests => 'ผลตรวจเลือดจะมาขึ้นที่นี่ เรื่มด้วยการกดปุ่ม “เพื่ม”';
+	@override String get empty_blood_tests => 'ผลตรวจเลือดจะมาขึ้นที่นี่ เรื่มด้วยการกดปุ่ม “เพื่ม”';
 	@override String get addBloodTest => 'เพิ่มผลตรวจเลือด';
 	@override String get editBloodTest => 'แก้ไขผลตรวจเลือด';
 	@override String get newBloodTest => 'ผลตรวจเลือดใหม่';
@@ -175,7 +175,7 @@ class TranslationsTh extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get bloodTestDateLabel => 'วันที่ตรวจ';
 	@override String chartNowConcentration({required Object value}) => 'ตอนนี้ ${value}';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => 'ณ ${date}: ${level}';
-	@override String get emptySupplies => 'ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก';
+	@override String get empty_supplies => 'ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก';
 	@override String get newItem => 'สต็อกใหม่';
 	@override String get adminRoute => 'วิธีนำเข้าร่างกาย';
 	@override String get totalAmount => 'ปริมาณทั้งหมด';
@@ -317,13 +317,13 @@ extension on TranslationsTh {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'การทาน',
-			'navLevels' => 'ระดับ',
-			'navSupplies' => 'สต็อก',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'การทาน',
+			'nav_levels' => 'ระดับ',
+			'nav_supplies' => 'สต็อก',
 			'takeAnIntake' => 'ทานยา',
 			'addAnItem' => 'เพื่มสต็อก',
-			'emptyHome' => 'เริ่มด้วยการเพื่มตารางเวลาในการตั้งค่า',
+			'empty_home' => 'เริ่มด้วยการเพื่มตารางเวลาในการตั้งค่า',
 			'allDone' => 'ครบหมดแล้ว!',
 			'noIntakesDue' => 'ไม่มียาที่ต้องทานวันนี้',
 			'upcoming' => 'เร็วๆนี้',
@@ -411,7 +411,7 @@ extension on TranslationsTh {
 			'notificationsUpdatedDescription' => 'ทุกตารางเวลามีการแจ้งเตือนของตนเองแล้ว\n\nโปรดตั้งการแจ้งเตือนของตารางเวลาของคุณเพื่อที่จะไม่ลืม',
 			'dontShowAgain' => 'อย่าแสตงอีก',
 			'scheduleSettings' => 'ตั้งค่าตารางเวลา',
-			'emptyIntakes' => 'ยาที่ทานแล้วจะมาอยู่ที่นี่',
+			'empty_intakes' => 'ยาที่ทานแล้วจะมาอยู่ที่นี่',
 			'chooseSchedule' => 'เลือกตารางเวลา',
 			'addSchedulesFirst' => 'เพื่มตารางเวลาก่อน',
 			'editIntake' => 'แก้ไขการทาน',
@@ -430,9 +430,9 @@ extension on TranslationsTh {
 			'notes' => 'บันทึก',
 			'microliters' => 'ไมโครลิตร',
 			'milliliters' => 'มิลลิลิตร',
-			'emptyLevels' => 'การฉีดเอสตราไดออลจะขึ้นในแท็บนี้',
+			'empty_levels' => 'การฉีดเอสตราไดออลจะขึ้นในแท็บนี้',
 			'bloodTestsTitle' => 'การตรวจเลือด',
-			'emptyBloodTests' => 'ผลตรวจเลือดจะมาขึ้นที่นี่ เรื่มด้วยการกดปุ่ม “เพื่ม”',
+			'empty_blood_tests' => 'ผลตรวจเลือดจะมาขึ้นที่นี่ เรื่มด้วยการกดปุ่ม “เพื่ม”',
 			'addBloodTest' => 'เพิ่มผลตรวจเลือด',
 			'editBloodTest' => 'แก้ไขผลตรวจเลือด',
 			'newBloodTest' => 'ผลตรวจเลือดใหม่',
@@ -442,7 +442,7 @@ extension on TranslationsTh {
 			'bloodTestDateLabel' => 'วันที่ตรวจ',
 			'chartNowConcentration' => ({required Object value}) => 'ตอนนี้ ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => 'ณ ${date}: ${level}',
-			'emptySupplies' => 'ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก',
+			'empty_supplies' => 'ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก',
 			'newItem' => 'สต็อกใหม่',
 			'adminRoute' => 'วิธีนำเข้าร่างกาย',
 			'totalAmount' => 'ปริมาณทั้งหมด',

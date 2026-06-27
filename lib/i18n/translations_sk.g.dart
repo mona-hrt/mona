@@ -40,13 +40,13 @@ class TranslationsSk extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'Dávky';
-	@override String get navLevels => 'Hodnoty';
-	@override String get navSupplies => 'Zásoby';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'Dávky';
+	@override String get nav_levels => 'Hodnoty';
+	@override String get nav_supplies => 'Zásoby';
 	@override String get takeAnIntake => 'Vziať dávku';
 	@override String get addAnItem => 'Pridaj vybavenie';
-	@override String get emptyHome => 'Začni pridaním plánu v nastaveniach';
+	@override String get empty_home => 'Začni pridaním plánu v nastaveniach';
 	@override String get allDone => 'Hotovo!';
 	@override String get noIntakesDue => 'Dnes nie sú naplánované žiadne dávky';
 	@override String get upcoming => 'Nadchádzajúce';
@@ -150,7 +150,7 @@ class TranslationsSk extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notificationsUpdatedDescription => 'Každý plán má teraz vlastné notifikácie.\n\nZapni si notifikácie pre svoje plány, aby ti nič neušlo.';
 	@override String get dontShowAgain => 'Nezobrazovať znovu';
 	@override String get scheduleSettings => 'Nastavenia plánu';
-	@override String get emptyIntakes => 'Vzaté dávky sa zobrazia tu';
+	@override String get empty_intakes => 'Vzaté dávky sa zobrazia tu';
 	@override String get chooseSchedule => 'Vyber plán';
 	@override String get addSchedulesFirst => 'Najprv pridaj plány.';
 	@override String get editIntake => 'Uprav dávku';
@@ -169,9 +169,9 @@ class TranslationsSk extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notes => 'Poznámky';
 	@override String get microliters => 'μL';
 	@override String get milliliters => 'mL';
-	@override String get emptyLevels => 'Estradiolové injekcie sa zobrazia na tejto karte';
+	@override String get empty_levels => 'Estradiolové injekcie sa zobrazia na tejto karte';
 	@override String get bloodTestsTitle => 'Krvné testy';
-	@override String get emptyBloodTests => 'Krvné testy sa zobrazia tu. Začni tlačidlom Pridať!';
+	@override String get empty_blood_tests => 'Krvné testy sa zobrazia tu. Začni tlačidlom Pridať!';
 	@override String get addBloodTest => 'Pridaj krvný test';
 	@override String get editBloodTest => 'Upraviť krvný test';
 	@override String get newBloodTest => 'Nový krvný test';
@@ -181,7 +181,7 @@ class TranslationsSk extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get bloodTestDateLabel => 'Dátum krvného testu';
 	@override String chartNowConcentration({required Object value}) => 'Teraz ${value}';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
-	@override String get emptySupplies => 'Žiadne zásoby. Pridaj vybavenie pre začatie.';
+	@override String get empty_supplies => 'Žiadne zásoby. Pridaj vybavenie pre začatie.';
 	@override String get newItem => 'Nové vybavenie';
 	@override String get adminRoute => 'Spôsob podávania';
 	@override String get totalAmount => 'Celkové množstvo';
@@ -335,13 +335,13 @@ extension on TranslationsSk {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'Dávky',
-			'navLevels' => 'Hodnoty',
-			'navSupplies' => 'Zásoby',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Dávky',
+			'nav_levels' => 'Hodnoty',
+			'nav_supplies' => 'Zásoby',
 			'takeAnIntake' => 'Vziať dávku',
 			'addAnItem' => 'Pridaj vybavenie',
-			'emptyHome' => 'Začni pridaním plánu v nastaveniach',
+			'empty_home' => 'Začni pridaním plánu v nastaveniach',
 			'allDone' => 'Hotovo!',
 			'noIntakesDue' => 'Dnes nie sú naplánované žiadne dávky',
 			'upcoming' => 'Nadchádzajúce',
@@ -429,7 +429,7 @@ extension on TranslationsSk {
 			'notificationsUpdatedDescription' => 'Každý plán má teraz vlastné notifikácie.\n\nZapni si notifikácie pre svoje plány, aby ti nič neušlo.',
 			'dontShowAgain' => 'Nezobrazovať znovu',
 			'scheduleSettings' => 'Nastavenia plánu',
-			'emptyIntakes' => 'Vzaté dávky sa zobrazia tu',
+			'empty_intakes' => 'Vzaté dávky sa zobrazia tu',
 			'chooseSchedule' => 'Vyber plán',
 			'addSchedulesFirst' => 'Najprv pridaj plány.',
 			'editIntake' => 'Uprav dávku',
@@ -448,9 +448,9 @@ extension on TranslationsSk {
 			'notes' => 'Poznámky',
 			'microliters' => 'μL',
 			'milliliters' => 'mL',
-			'emptyLevels' => 'Estradiolové injekcie sa zobrazia na tejto karte',
+			'empty_levels' => 'Estradiolové injekcie sa zobrazia na tejto karte',
 			'bloodTestsTitle' => 'Krvné testy',
-			'emptyBloodTests' => 'Krvné testy sa zobrazia tu. Začni tlačidlom Pridať!',
+			'empty_blood_tests' => 'Krvné testy sa zobrazia tu. Začni tlačidlom Pridať!',
 			'addBloodTest' => 'Pridaj krvný test',
 			'editBloodTest' => 'Upraviť krvný test',
 			'newBloodTest' => 'Nový krvný test',
@@ -460,7 +460,7 @@ extension on TranslationsSk {
 			'bloodTestDateLabel' => 'Dátum krvného testu',
 			'chartNowConcentration' => ({required Object value}) => 'Teraz ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'emptySupplies' => 'Žiadne zásoby. Pridaj vybavenie pre začatie.',
+			'empty_supplies' => 'Žiadne zásoby. Pridaj vybavenie pre začatie.',
 			'newItem' => 'Nové vybavenie',
 			'adminRoute' => 'Spôsob podávania',
 			'totalAmount' => 'Celkové množstvo',

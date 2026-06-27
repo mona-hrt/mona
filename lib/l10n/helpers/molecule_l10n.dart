@@ -1,53 +1,44 @@
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/l10n/helpers/ester_l10n.dart';
 
 extension MoleculeL10n on Molecule {
-  String localizedName(AppLocalizations localizations) =>
-      _KnownMoleculeDisplayNames.resolve(this, localizations);
+  String get localizedName => _KnownMoleculeDisplayNames.resolve(this);
 
-  String localizedNameWithEster(
-    Ester? ester,
-    AppLocalizations localizations,
-  ) {
+  String localizedNameWithEster(Ester? ester) {
     if (ester == null) {
-      return localizedName(localizations);
+      return localizedName;
     }
-    final compound = _compoundMedicationDisplayName(this, ester, localizations);
-    return compound ??
-        '${localizedName(localizations)} ${ester.localizedName(localizations)}';
+    final compound = _compoundMedicationDisplayName(this, ester);
+    return compound ?? '$localizedName ${ester.localizedName}';
   }
 
-  String localizedUnit(AppLocalizations localizations) {
+  String get localizedUnit {
     switch (unit) {
       case 'mg':
-        return localizations.unitMilligram;
+        return t.unitMilligram;
       default:
         return unit;
     }
   }
 }
 
-String? _compoundMedicationDisplayName(
-  Molecule molecule,
-  Ester ester,
-  AppLocalizations localizations,
-) {
+String? _compoundMedicationDisplayName(Molecule molecule, Ester ester) {
   if (molecule == KnownMolecules.estradiol) {
     switch (ester.name) {
       case 'enanthate':
-        return localizations.medicationEstradiolEnanthate;
+        return t.medicationEstradiolEnanthate;
       case 'valerate':
-        return localizations.medicationEstradiolValerate;
+        return t.medicationEstradiolValerate;
       case 'cypionate':
-        return localizations.medicationEstradiolCypionate;
+        return t.medicationEstradiolCypionate;
       case 'undecylate':
-        return localizations.medicationEstradiolUndecylate;
+        return t.medicationEstradiolUndecylate;
       case 'benzoate':
-        return localizations.medicationEstradiolBenzoate;
+        return t.medicationEstradiolBenzoate;
       case 'cypionate suspension':
-        return localizations.medicationEstradiolCypionateSuspension;
+        return t.medicationEstradiolCypionateSuspension;
       default:
         return null;
     }
@@ -56,17 +47,17 @@ String? _compoundMedicationDisplayName(
   if (molecule == KnownMolecules.testosterone) {
     switch (ester.name) {
       case 'enanthate':
-        return localizations.medicationTestosteroneEnanthate;
+        return t.medicationTestosteroneEnanthate;
       case 'valerate':
-        return localizations.medicationTestosteroneValerate;
+        return t.medicationTestosteroneValerate;
       case 'cypionate':
-        return localizations.medicationTestosteroneCypionate;
+        return t.medicationTestosteroneCypionate;
       case 'undecylate':
-        return localizations.medicationTestosteroneUndecylate;
+        return t.medicationTestosteroneUndecylate;
       case 'benzoate':
-        return localizations.medicationTestosteroneBenzoate;
+        return t.medicationTestosteroneBenzoate;
       case 'cypionate suspension':
-        return localizations.medicationTestosteroneCypionateSuspension;
+        return t.medicationTestosteroneCypionateSuspension;
       default:
         return null;
     }
@@ -76,33 +67,30 @@ String? _compoundMedicationDisplayName(
 }
 
 abstract final class _KnownMoleculeDisplayNames {
-  static final Map<String, String Function(AppLocalizations)>
-      _labelsByNormalizedName = {
-    KnownMolecules.estradiol.normalizedName: (l) => l.estradiol,
-    KnownMolecules.progesterone.normalizedName: (l) => l.progesterone,
-    KnownMolecules.testosterone.normalizedName: (l) => l.testosterone,
-    KnownMolecules.nandrolone.normalizedName: (l) => l.nandrolone,
-    KnownMolecules.dihydrotestosterone.normalizedName: (l) =>
-        l.dihydrotestosterone,
-    KnownMolecules.spironolactone.normalizedName: (l) => l.spironolactone,
-    KnownMolecules.cyproteroneAcetate.normalizedName: (l) =>
-        l.cyproteroneAcetate,
-    KnownMolecules.leuprorelinAcetate.normalizedName: (l) =>
-        l.leuprorelinAcetate,
-    KnownMolecules.bicalutamide.normalizedName: (l) => l.bicalutamide,
-    KnownMolecules.decapeptyl.normalizedName: (l) => l.decapeptyl,
-    KnownMolecules.raloxifene.normalizedName: (l) => l.raloxifene,
-    KnownMolecules.tamoxifen.normalizedName: (l) => l.tamoxifen,
-    KnownMolecules.finasteride.normalizedName: (l) => l.finasteride,
-    KnownMolecules.dutasteride.normalizedName: (l) => l.dutasteride,
-    KnownMolecules.minoxidil.normalizedName: (l) => l.minoxidil,
-    KnownMolecules.pioglitazone.normalizedName: (l) => l.pioglitazone,
+  static final Map<String, String Function()> _labelsByNormalizedName = {
+    KnownMolecules.estradiol.normalizedName: () => t.estradiol,
+    KnownMolecules.progesterone.normalizedName: () => t.progesterone,
+    KnownMolecules.testosterone.normalizedName: () => t.testosterone,
+    KnownMolecules.nandrolone.normalizedName: () => t.nandrolone,
+    KnownMolecules.dihydrotestosterone.normalizedName: () =>
+        t.dihydrotestosterone,
+    KnownMolecules.spironolactone.normalizedName: () => t.spironolactone,
+    KnownMolecules.cyproteroneAcetate.normalizedName: () => t.cyproteroneAcetate,
+    KnownMolecules.leuprorelinAcetate.normalizedName: () => t.leuprorelinAcetate,
+    KnownMolecules.bicalutamide.normalizedName: () => t.bicalutamide,
+    KnownMolecules.decapeptyl.normalizedName: () => t.decapeptyl,
+    KnownMolecules.raloxifene.normalizedName: () => t.raloxifene,
+    KnownMolecules.tamoxifen.normalizedName: () => t.tamoxifen,
+    KnownMolecules.finasteride.normalizedName: () => t.finasteride,
+    KnownMolecules.dutasteride.normalizedName: () => t.dutasteride,
+    KnownMolecules.minoxidil.normalizedName: () => t.minoxidil,
+    KnownMolecules.pioglitazone.normalizedName: () => t.pioglitazone,
   };
 
-  static String resolve(Molecule molecule, AppLocalizations localizations) {
+  static String resolve(Molecule molecule) {
     final labelBuilder = _labelsByNormalizedName[molecule.normalizedName];
     if (labelBuilder != null) {
-      return labelBuilder(localizations);
+      return labelBuilder();
     }
     final n = molecule.name;
     return n[0].toUpperCase() + n.substring(1);

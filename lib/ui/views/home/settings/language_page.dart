@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/locale.dart' as intl;
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/l10n/locale_provider.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:provider/provider.dart';
@@ -44,14 +44,14 @@ class LanguagePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.language)),
+      appBar: AppBar(title: Text(t.language)),
       body: RadioGroup<String?>(
         groupValue: savedTag,
         onChanged: onLanguageChanged,
         child: ListView(
           children: [
             RadioListTile<String?>(
-              title: Text(context.l10n.languageFollowDevice),
+              title: Text(t.languageFollowDevice),
               value: null,
             ),
             for (final (code, englishName, nativeName) in languages)

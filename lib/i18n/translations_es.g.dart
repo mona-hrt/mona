@@ -40,13 +40,13 @@ class TranslationsEs extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appTitle => 'Mona';
-	@override String get navHome => 'Mona';
-	@override String get navIntakes => 'Tomas';
-	@override String get navLevels => 'Niveles';
-	@override String get navSupplies => 'Suministros';
+	@override String get nav_home => 'Mona';
+	@override String get nav_intakes => 'Tomas';
+	@override String get nav_levels => 'Niveles';
+	@override String get nav_supplies => 'Suministros';
 	@override String get takeAnIntake => 'Registrar una toma';
 	@override String get addAnItem => 'Añadir un elemento';
-	@override String get emptyHome => 'Comienza añadiendo un horario en Configuración';
+	@override String get empty_home => 'Comienza añadiendo un horario en Configuración';
 	@override String get allDone => '¡Todo listo!';
 	@override String get noIntakesDue => 'No hay tomas pendientes hoy';
 	@override String get upcoming => 'Próximamente';
@@ -145,7 +145,7 @@ class TranslationsEs extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notificationsUpdatedDescription => 'Cada horario ahora tiene sus propias notificaciones.\n\nConfigura las notificaciones de tus horarios para no perderte nada.';
 	@override String get dontShowAgain => 'No mostrar de nuevo';
 	@override String get scheduleSettings => 'Configuración del horario';
-	@override String get emptyIntakes => 'Las dosis tomadas aparecerán aquí';
+	@override String get empty_intakes => 'Las dosis tomadas aparecerán aquí';
 	@override String get chooseSchedule => 'Elegir un horario';
 	@override String get addSchedulesFirst => 'Añade algún horario primero.';
 	@override String get editIntake => 'Editar toma';
@@ -164,9 +164,9 @@ class TranslationsEs extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get notes => 'Notas';
 	@override String get microliters => 'μL';
 	@override String get milliliters => 'mL';
-	@override String get emptyLevels => 'Las inyecciones de estradiol se mostrarán en esta pestaña';
+	@override String get empty_levels => 'Las inyecciones de estradiol se mostrarán en esta pestaña';
 	@override String get bloodTestsTitle => 'Análisis de sangre';
-	@override String get emptyBloodTests => 'Los análisis de sangre registrados aparecerán aquí. ¡Empieza con el botón Añadir!';
+	@override String get empty_blood_tests => 'Los análisis de sangre registrados aparecerán aquí. ¡Empieza con el botón Añadir!';
 	@override String get addBloodTest => 'Añadir un análisis de sangre';
 	@override String get editBloodTest => 'Editar análisis de sangre';
 	@override String get newBloodTest => 'Nuevo análisis de sangre';
@@ -176,7 +176,7 @@ class TranslationsEs extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get bloodTestDateLabel => 'Fecha del análisis';
 	@override String chartNowConcentration({required Object value}) => 'Ahora ${value}';
 	@override String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
-	@override String get emptySupplies => 'Sin suministros. Añade un elemento para comenzar.';
+	@override String get empty_supplies => 'Sin suministros. Añade un elemento para comenzar.';
 	@override String get newItem => 'Nuevo elemento';
 	@override String get adminRoute => 'Vía de administración';
 	@override String get totalAmount => 'Cantidad total';
@@ -318,13 +318,13 @@ extension on TranslationsEs {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'appTitle' => 'Mona',
-			'navHome' => 'Mona',
-			'navIntakes' => 'Tomas',
-			'navLevels' => 'Niveles',
-			'navSupplies' => 'Suministros',
+			'nav_home' => 'Mona',
+			'nav_intakes' => 'Tomas',
+			'nav_levels' => 'Niveles',
+			'nav_supplies' => 'Suministros',
 			'takeAnIntake' => 'Registrar una toma',
 			'addAnItem' => 'Añadir un elemento',
-			'emptyHome' => 'Comienza añadiendo un horario en Configuración',
+			'empty_home' => 'Comienza añadiendo un horario en Configuración',
 			'allDone' => '¡Todo listo!',
 			'noIntakesDue' => 'No hay tomas pendientes hoy',
 			'upcoming' => 'Próximamente',
@@ -412,7 +412,7 @@ extension on TranslationsEs {
 			'notificationsUpdatedDescription' => 'Cada horario ahora tiene sus propias notificaciones.\n\nConfigura las notificaciones de tus horarios para no perderte nada.',
 			'dontShowAgain' => 'No mostrar de nuevo',
 			'scheduleSettings' => 'Configuración del horario',
-			'emptyIntakes' => 'Las dosis tomadas aparecerán aquí',
+			'empty_intakes' => 'Las dosis tomadas aparecerán aquí',
 			'chooseSchedule' => 'Elegir un horario',
 			'addSchedulesFirst' => 'Añade algún horario primero.',
 			'editIntake' => 'Editar toma',
@@ -431,9 +431,9 @@ extension on TranslationsEs {
 			'notes' => 'Notas',
 			'microliters' => 'μL',
 			'milliliters' => 'mL',
-			'emptyLevels' => 'Las inyecciones de estradiol se mostrarán en esta pestaña',
+			'empty_levels' => 'Las inyecciones de estradiol se mostrarán en esta pestaña',
 			'bloodTestsTitle' => 'Análisis de sangre',
-			'emptyBloodTests' => 'Los análisis de sangre registrados aparecerán aquí. ¡Empieza con el botón Añadir!',
+			'empty_blood_tests' => 'Los análisis de sangre registrados aparecerán aquí. ¡Empieza con el botón Añadir!',
 			'addBloodTest' => 'Añadir un análisis de sangre',
 			'editBloodTest' => 'Editar análisis de sangre',
 			'newBloodTest' => 'Nuevo análisis de sangre',
@@ -443,7 +443,7 @@ extension on TranslationsEs {
 			'bloodTestDateLabel' => 'Fecha del análisis',
 			'chartNowConcentration' => ({required Object value}) => 'Ahora ${value}',
 			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'emptySupplies' => 'Sin suministros. Añade un elemento para comenzar.',
+			'empty_supplies' => 'Sin suministros. Añade un elemento para comenzar.',
 			'newItem' => 'Nuevo elemento',
 			'adminRoute' => 'Vía de administración',
 			'totalAmount' => 'Cantidad total',

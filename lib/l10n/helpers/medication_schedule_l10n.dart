@@ -1,27 +1,28 @@
 import 'package:intl/intl.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/l10n/helpers/administration_route_l10n.dart';
 import 'package:mona/l10n/helpers/molecule_l10n.dart';
 
 extension MedicationScheduleL10n on MedicationSchedule {
-  String localizedSummary(AppLocalizations localizations) =>
-      '$dose ${molecule.localizedUnit(localizations)} • ${molecule.localizedNameWithEster(ester, localizations)} • '
-      '${administrationRoute.localizedName(localizations)}';
+  String get localizedSummary =>
+      '$dose ${molecule.localizedUnit} • '
+      '${molecule.localizedNameWithEster(ester)} • '
+      '${administrationRoute.localizedName}';
 
-  String localizedFrequency(AppLocalizations localizations) {
+  String get localizedFrequency {
     return switch (scheduling) {
-      IntervalDaysSchedule(intervalDays: 1) =>
-        localizations.scheduleFrequencyDaily,
+      IntervalDaysSchedule(intervalDays: 1) => t.scheduleFrequencyDaily,
       IntervalDaysSchedule(intervalDays: final n) =>
-        localizations.scheduleFrequencyEveryNDays(n), // TODO use one, many ?
-      DailySchedule _ => localizations.scheduleFrequencyDaily,
+        t.scheduleFrequencyEveryNDays(days: n),
+      DailySchedule _ => t.scheduleFrequencyDaily,
       WeeklySchedule s => () {
           if (s.daysOfWeek.length == 7) {
-            return localizations.scheduleFrequencyDaily;
+            return t.scheduleFrequencyDaily;
           }
-          final formatter = DateFormat.E(localizations.localeName);
+          final formatter =
+              DateFormat.E(LocaleSettings.currentLocale.languageTag);
           final days = s.daysOfWeek
               .map((d) => formatter.format(DateTime(2024, 1, d)))
               .join(', ');
@@ -30,7 +31,6 @@ extension MedicationScheduleL10n on MedicationSchedule {
     };
   }
 
-  String localizedSummaryWithFrequency(AppLocalizations localizations) {
-    return '${localizedSummary(localizations)}\n${localizedFrequency(localizations)}';
-  }
+  String get localizedSummaryWithFrequency =>
+      '$localizedSummary\n$localizedFrequency';
 }
