@@ -210,6 +210,29 @@ void main() {
     });
   });
 
+  test(
+      'triggerPastPendingNotifications does not re-show recurring notifications',
+      () async {
+    await withFixedClockAsync(() async {
+      final payload = jsonEncode({
+        'scheduledTime':
+            clock.now().subtract(Duration(days: 1)).toIso8601String(),
+        'isRepeating': true,
+      });
+      fakePlugin.scheduled.add({
+        'id': 1,
+        'title': 'Recurring',
+        'body': 'B',
+        'date': clock.now(),
+        'payload': payload,
+      });
+
+      await service.triggerPastPendingNotifications();
+
+      expect(fakePlugin.shown, isEmpty);
+    });
+  });
+
   test('scheduleDailyNotification matches on time only and marks repeating',
       () async {
     // Arrange
