@@ -10,11 +10,11 @@ allDone: "Все прийнято!"
 noIntakesDue: "На сьогодні все прийнято"
 upcoming: "Найближче"
 taken: "Прийнято"
-daysAgoCount(count):
+daysAgoCount(param=count):
   few: "{count} дні тому"
   other: "{count} днів тому"
 yesterday: "вчора"
-inDaysCount(count):
+inDaysCount(param=count):
   few: "через {count} дні"
   many: "через {count} днів"
   other: "через {count} днів"
@@ -22,7 +22,7 @@ tomorrow: "завтра"
 lastTaken: "Востаннє прийнято"
 neverTakenYet: "Ще не приймалось"
 scheduleFrequencyDaily: "Щодня"
-scheduleFrequencyEveryNDays(days):
+scheduleFrequencyEveryNDays(param=days):
   other: "Кожні {days} днів"
 scheduleFrequencyInterval: "Інтервал"
 scheduleFrequencyWeekly: "Щотижня"
@@ -34,7 +34,7 @@ schedulesAndNotifications: "Розклади та Сповіщення"
 general: "Загальне"
 schedules: "Розклад"
 noSchedules: "Розкладів немає"
-schedulesCreated(count):
+schedulesCreated(param=count):
   one: "Створено {count} розклад"
   few: "Створено {count} розклади"
   other: "Створено {count} розкладів"
@@ -92,7 +92,7 @@ addIntakeTime: "Додати час"
 editScheduleInfo: "Виправити інформацію"
 scheduling: "Планування"
 noNotifications: "Сповіщення відсутні"
-notificationsCount(count):
+notificationsCount(param=count):
   other: "{count} сповіщень"
 editSchedule: "Змінити розклад"
 deleteSchedule: "Видалити {name}?"
@@ -142,7 +142,7 @@ concentration: "Насиченість"
 editItem: "Змінити"
 usedAmount: "Використано"
 deleteItem: "Видалити {name}?"
-remaining(amount):
+remaining(param=amount):
   other: "{amount} {unit} залишилось"
 supplyType: "Тип"
 syringe: "Шприци"
@@ -150,23 +150,23 @@ wipe: "Серветки"
 needle: "Голки"
 gloves: "Рукавички"
 bandage: "Пластирі"
-syringeRemaining(count):
+syringeRemaining(param=count):
   one: "1 шприц залишилось"
   few: "{count} шприца залишилось"
   other: "{count} шприців залишилось"
-wipeRemaining(count):
+wipeRemaining(param=count):
   one: "1 серветка залишилось"
   few: "{count} серветки залишилось"
   other: "{count} серветок залишилось"
-needleRemaining(count):
+needleRemaining(param=count):
   one: "1 голка залишилось"
   few: "{count} голки залишилось"
   other: "{count} голок залишилось"
-glovesRemaining(count):
+glovesRemaining(param=count):
   one: "1 рукавичка залишилось"
   few: "{count} рукавички залишилось"
   other: "{count} рукавичок залишилось"
-bandageRemaining(count):
+bandageRemaining(param=count):
   one: "1 пластир залишилось"
   few: "{count} пластирі залишилось"
   other: "{count} пластирів залишилось"
@@ -228,30 +228,30 @@ unitPgPerMl: "пг/мл"
 unitPmolPerL: "пмоль/л"
 unitNgPerDl: "нг/дл"
 unitNmolPerL: "нмоль/л"
-administrationRouteUnitMl(count):
+administrationRouteUnitMl(param=count):
   one: "ml"
   other: "ml"
-administrationRouteUnitPill(count):
+administrationRouteUnitPill(param=count):
   one: "пігулка"
   few: "пігулки"
   other: "пігулок"
-administrationRouteUnitPatch(count):
+administrationRouteUnitPatch(param=count):
   one: "патч"
   few: "патчі"
   other: "патчів"
-administrationRouteUnitPump(count):
+administrationRouteUnitPump(param=count):
   one: "натискання"
   few: "натискання"
   other: "натискань"
-administrationRouteUnitImplant(count):
+administrationRouteUnitImplant(param=count):
   one: "імплант"
   few: "імпланти"
   other: "імплантів"
-administrationRouteUnitSuppository(count):
+administrationRouteUnitSuppository(param=count):
   one: "супозиторій"
   few: "супозиторії"
   other: "супозиторіїв"
-administrationRouteUnitSpray(count):
+administrationRouteUnitSpray(param=count):
   one: "спрей"
   few: "спреї"
   other: "спреїв"

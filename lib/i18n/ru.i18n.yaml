@@ -10,12 +10,12 @@ allDone: "Всё принято!"
 noIntakesDue: "На сегодня нет приёмов"
 upcoming: "Ближайшие"
 taken: "Принято"
-daysAgoCount(count):
+daysAgoCount(param=count):
   one: "{count} день назад"
   few: "{count} дня назад"
   other: "{count} дней назад"
 yesterday: "вчера"
-inDaysCount(count):
+inDaysCount(param=count):
   one: "через {count} день"
   few: "через {count} дня"
   other: "через {count} дней"
@@ -23,7 +23,7 @@ tomorrow: "завтра"
 lastTaken: "Последний приём"
 neverTakenYet: "Ещё не принято"
 scheduleFrequencyDaily: "Ежедневно"
-scheduleFrequencyEveryNDays(days):
+scheduleFrequencyEveryNDays(param=days):
   other: "Каждые {days} дней"
 scheduleFrequencyInterval: "Интервально"
 scheduleFrequencyWeekly: "Еженедельно"
@@ -35,7 +35,7 @@ schedulesAndNotifications: "Расписания и уведомления"
 general: "Общее"
 schedules: "Расписания"
 noSchedules: "Нет расписаний"
-schedulesCreated(count):
+schedulesCreated(param=count):
   other: "{count} создано"
 language: "Язык"
 languageFollowDevice: "Язык устройства"
@@ -91,7 +91,7 @@ addIntakeTime: "Добавить время"
 editScheduleInfo: "Изменить информацию расписания"
 scheduling: "Расписание"
 noNotifications: "Нет уведомлений"
-notificationsCount(count):
+notificationsCount(param=count):
   one: "{count} уведомление"
   few: "{count} уведомления"
   other: "{count} уведомлений"
@@ -143,7 +143,7 @@ concentration: "Концентрация"
 editItem: "Изменение препарата"
 usedAmount: "Использовано"
 deleteItem: "Удалить {name}?"
-remaining(amount):
+remaining(param=amount):
   other: "{amount} {unit} осталось"
 supplyType: "Тип"
 syringe: "Шприцы"
@@ -151,23 +151,23 @@ wipe: "Салфетки"
 needle: "Иглы"
 gloves: "Перчатки"
 bandage: "Пластыри"
-syringeRemaining(count):
+syringeRemaining(param=count):
   one: "1 шприц осталось"
   few: "{count} шприца осталось"
   other: "{count} шприцев осталось"
-wipeRemaining(count):
+wipeRemaining(param=count):
   one: "1 салфетка осталось"
   few: "{count} салфетки осталось"
   other: "{count} салфеток осталось"
-needleRemaining(count):
+needleRemaining(param=count):
   one: "1 игла осталось"
   few: "{count} иглы осталось"
   other: "{count} игл осталось"
-glovesRemaining(count):
+glovesRemaining(param=count):
   one: "1 перчатка осталось"
   few: "{count} перчатки осталось"
   other: "{count} перчаток осталось"
-bandageRemaining(count):
+bandageRemaining(param=count):
   one: "1 пластырь осталось"
   few: "{count} пластыря осталось"
   other: "{count} пластырей осталось"
@@ -229,29 +229,29 @@ unitPgPerMl: "пг/мл"
 unitPmolPerL: "пмоль/л"
 unitNgPerDl: "нг/дл"
 unitNmolPerL: "нмоль/л"
-administrationRouteUnitMl(count):
+administrationRouteUnitMl(param=count):
   other: "мл"
-administrationRouteUnitPill(count):
+administrationRouteUnitPill(param=count):
   one: "таблетка"
   few: "таблетки"
   other: "таблеток"
-administrationRouteUnitPatch(count):
+administrationRouteUnitPatch(param=count):
   one: "пластырь"
   few: "пластыря"
   other: "пластырей"
-administrationRouteUnitPump(count):
+administrationRouteUnitPump(param=count):
   one: "помпа"
   few: "помпы"
   other: "помп"
-administrationRouteUnitImplant(count):
+administrationRouteUnitImplant(param=count):
   one: "имплант"
   few: "импланта"
   other: "имплантов"
-administrationRouteUnitSuppository(count):
+administrationRouteUnitSuppository(param=count):
   one: "суппозитория"
   few: "суппозитории"
   other: "суппозиторий"
-administrationRouteUnitSpray(count):
+administrationRouteUnitSpray(param=count):
   one: "брызг"
   few: "брызг"
   other: "брызгов"

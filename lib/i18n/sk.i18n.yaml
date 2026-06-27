@@ -10,17 +10,17 @@ allDone: "Hotovo!"
 noIntakesDue: "Dnes nie sú naplánované žiadne dávky"
 upcoming: "Nadchádzajúce"
 taken: "Vzaté"
-daysAgoCount(count):
+daysAgoCount(param=count):
   other: "Pred {count} dňami"
 yesterday: "včera"
-inDaysCount(count):
+inDaysCount(param=count):
   few: "o {count} dni"
   other: "o {count} dní"
 tomorrow: "zajtra"
 lastTaken: "Vzatá naposledy"
 neverTakenYet: "Nevzatá nikdy"
 scheduleFrequencyDaily: "Každý deň"
-scheduleFrequencyEveryNDays(days):
+scheduleFrequencyEveryNDays(param=days):
   few: "Každé {days} dni"
   other: "Každých {days} dní"
 scheduleFrequencyInterval: "Interval"
@@ -33,7 +33,7 @@ schedulesAndNotifications: "Plány & notifikácie"
 general: "Všeobecné"
 schedules: "Plány"
 noSchedules: "Žiadne plány"
-schedulesCreated(count):
+schedulesCreated(param=count):
   one: "Vytvorený {count} plán"
   few: "Vytvorené {count} plány"
   other: "Vytvorených {count} plánov"
@@ -91,7 +91,7 @@ addIntakeTime: "Pridaj čas"
 editScheduleInfo: "Upraviť detaily plánu"
 scheduling: "Plánovanie"
 noNotifications: "Žiadne notifikácie"
-notificationsCount(count):
+notificationsCount(param=count):
   one: "{count} notifikácia"
   few: "{count} notifikácie"
   other: "{count} notifikácií"
@@ -143,7 +143,7 @@ concentration: "Koncentrácia"
 editItem: "Uprav vybavenie"
 usedAmount: "Použité množstvo"
 deleteItem: "Vymazať {name}?"
-remaining(amount):
+remaining(param=amount):
   few: "Zostávajú {amount} {unit}"
   other: "Zostáva {amount} {unit}"
 supplyType: "Typ"
@@ -152,23 +152,23 @@ wipe: "Utierky"
 needle: "Ihly"
 gloves: "Rukavice"
 bandage: "Náplasti"
-syringeRemaining(count):
+syringeRemaining(param=count):
   one: "Zostáva 1 striekačka"
   few: "Zostávajú {count} striekačky"
   other: "Zostáva {count} striekačiek"
-wipeRemaining(count):
+wipeRemaining(param=count):
   one: "Zostáva 1 utierka"
   few: "Zostávajú {count} utierky"
   other: "Zostáva {count} utierok"
-needleRemaining(count):
+needleRemaining(param=count):
   one: "Zostáva 1 ihla"
   few: "Zostávajú {count} ihly"
   other: "Zostáva {count} ihiel"
-glovesRemaining(count):
+glovesRemaining(param=count):
   one: "Zostáva 1 rukavica"
   few: "Zostávajú {count} rukavice"
   other: "Zostáva {count} rukavíc"
-bandageRemaining(count):
+bandageRemaining(param=count):
   one: "Zostáva 1 náplasť"
   few: "Zostávajú {count} náplaste"
   other: "Zostáva {count} náplastí"
@@ -230,30 +230,30 @@ unitPgPerMl: "pg/mL"
 unitPmolPerL: "pmol/L"
 unitNgPerDl: "ng/dL"
 unitNmolPerL: "nmol/L"
-administrationRouteUnitMl(count):
+administrationRouteUnitMl(param=count):
   one: "ml"
   other: "ml"
-administrationRouteUnitPill(count):
+administrationRouteUnitPill(param=count):
   one: "pilulka"
   few: "pilulky"
   other: "piluliek"
-administrationRouteUnitPatch(count):
+administrationRouteUnitPatch(param=count):
   one: "náplasť"
   few: "náplasti"
   other: "náplastí"
-administrationRouteUnitPump(count):
+administrationRouteUnitPump(param=count):
   one: "stlačenie"
   few: "stlačenia"
   other: "stlačení"
-administrationRouteUnitImplant(count):
+administrationRouteUnitImplant(param=count):
   one: "implantát"
   few: "implantáty"
   other: "implantátov"
-administrationRouteUnitSuppository(count):
+administrationRouteUnitSuppository(param=count):
   one: "čapík"
   few: "čapíky"
   other: "čapíkov"
-administrationRouteUnitSpray(count):
+administrationRouteUnitSpray(param=count):
   one: "sprej"
   few: "spreje"
   other: "sprejov"

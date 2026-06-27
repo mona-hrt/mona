@@ -10,16 +10,16 @@ allDone: "¡Todo listo!"
 noIntakesDue: "No hay tomas pendientes hoy"
 upcoming: "Próximamente"
 taken: "Tomado"
-daysAgoCount(count):
+daysAgoCount(param=count):
   other: "hace {count} días"
 yesterday: "ayer"
-inDaysCount(count):
+inDaysCount(param=count):
   other: "en {count} días"
 tomorrow: "mañana"
 lastTaken: "Última toma"
 neverTakenYet: "Aún no tomado"
 scheduleFrequencyDaily: "Cada día"
-scheduleFrequencyEveryNDays(days):
+scheduleFrequencyEveryNDays(param=days):
   other: "Cada {days} días"
 scheduleFrequencyInterval: "Intervalo"
 scheduleFrequencyWeekly: "Semanal"
@@ -31,7 +31,7 @@ schedulesAndNotifications: "Horarios y notificaciones"
 general: "General"
 schedules: "Horarios"
 noSchedules: "Sin horarios"
-schedulesCreated(count):
+schedulesCreated(param=count):
   one: "{count} creado"
   other: "{count} creados"
 language: "Idioma"
@@ -88,7 +88,7 @@ addIntakeTime: "Agregar una hora"
 editScheduleInfo: "Editar información del horario"
 scheduling: "Programación"
 noNotifications: "Sin notificaciones"
-notificationsCount(count):
+notificationsCount(param=count):
   other: "{count} notificaciones"
 editSchedule: "Editar horario"
 deleteSchedule: "¿Eliminar {name}?"
@@ -138,7 +138,7 @@ concentration: "Concentración"
 editItem: "Editar elemento"
 usedAmount: "Cantidad usada"
 deleteItem: "¿Eliminar {name}?"
-remaining(amount):
+remaining(param=amount):
   other: "{amount} {unit} restantes"
 supplyType: "Tipo"
 syringe: "Jeringas"
@@ -146,19 +146,19 @@ wipe: "Toallitas"
 needle: "Agujas"
 gloves: "Guantes"
 bandage: "Tiritas"
-syringeRemaining(count):
+syringeRemaining(param=count):
   one: "1 jeringa restante"
   other: "{count} jeringas restantes"
-wipeRemaining(count):
+wipeRemaining(param=count):
   one: "1 toallita restante"
   other: "{count} toallitas restantes"
-needleRemaining(count):
+needleRemaining(param=count):
   one: "1 aguja restante"
   other: "{count} agujas restantes"
-glovesRemaining(count):
+glovesRemaining(param=count):
   one: "1 guante restante"
   other: "{count} guantes restantes"
-bandageRemaining(count):
+bandageRemaining(param=count):
   one: "1 tirita restante"
   other: "{count} tiritas restantes"
 add: "Añadir"
@@ -219,25 +219,25 @@ unitPgPerMl: "pg/mL"
 unitPmolPerL: "pmol/L"
 unitNgPerDl: "ng/dL"
 unitNmolPerL: "nmol/L"
-administrationRouteUnitMl(count):
+administrationRouteUnitMl(param=count):
   one: "ml"
   other: "ml"
-administrationRouteUnitPill(count):
+administrationRouteUnitPill(param=count):
   one: "pastilla"
   other: "pastillas"
-administrationRouteUnitPatch(count):
+administrationRouteUnitPatch(param=count):
   one: "parche"
   other: "parches"
-administrationRouteUnitPump(count):
+administrationRouteUnitPump(param=count):
   one: "pulsación"
   other: "pulsaciones"
-administrationRouteUnitImplant(count):
+administrationRouteUnitImplant(param=count):
   one: "implante"
   other: "implantes"
-administrationRouteUnitSuppository(count):
+administrationRouteUnitSuppository(param=count):
   one: "supositorio"
   other: "supositorios"
-administrationRouteUnitSpray(count):
+administrationRouteUnitSpray(param=count):
   one: "pulverización"
   other: "pulverizaciones"
 injectionSideLeft: "Izquierda"

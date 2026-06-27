@@ -10,16 +10,16 @@ allDone: "Alles erledigt!"
 noIntakesDue: "Heute sind keine Einnahmen fällig"
 upcoming: "Bevorstehend"
 taken: "Genommen"
-daysAgoCount(count):
+daysAgoCount(param=count):
   other: "vor {count} Tagen"
 yesterday: "gestern"
-inDaysCount(count):
+inDaysCount(param=count):
   other: "in {count} Tagen"
 tomorrow: "morgen"
 lastTaken: "Zuletzt genommen"
 neverTakenYet: "Noch nie genommen"
 scheduleFrequencyDaily: "Täglich"
-scheduleFrequencyEveryNDays(days):
+scheduleFrequencyEveryNDays(param=days):
   other: "Alle {days} Tage"
 scheduleFrequencyInterval: "Intervall"
 scheduleFrequencyWeekly: "Wöchentlich"
@@ -31,7 +31,7 @@ schedulesAndNotifications: "Zeitpläne und Benachrichtigungen"
 general: "Allgemein"
 schedules: "Zeitpläne"
 noSchedules: "Keine Zeitpläne"
-schedulesCreated(count):
+schedulesCreated(param=count):
   other: "{count} erstellt"
 language: "Sprache"
 languageFollowDevice: "Gerätesprache verwenden"
@@ -87,7 +87,7 @@ addIntakeTime: "Uhrzeit hinzufügen"
 editScheduleInfo: "Zeitplan bearbeiten"
 scheduling: "Zeitplanung"
 noNotifications: "Keine Benachrichtigungen"
-notificationsCount(count):
+notificationsCount(param=count):
   other: "{count} Benachrichtigungen"
 editSchedule: "Zeitplan bearbeiten"
 deleteSchedule: "{name} löschen?"
@@ -137,7 +137,7 @@ concentration: "Konzentration"
 editItem: "Eintrag bearbeiten"
 usedAmount: "Verwendete Menge"
 deleteItem: "{name} löschen?"
-remaining(amount):
+remaining(param=amount):
   other: "{amount} {unit} verbleibend"
 supplyType: "Typ"
 syringe: "Spritzen"
@@ -145,19 +145,19 @@ wipe: "Tupfer"
 needle: "Nadeln"
 gloves: "Handschuhe"
 bandage: "Pflaster"
-syringeRemaining(count):
+syringeRemaining(param=count):
   one: "1 Spritze verbleibend"
   other: "{count} Spritzen verbleibend"
-wipeRemaining(count):
+wipeRemaining(param=count):
   one: "1 Tupfer verbleibend"
   other: "{count} Tupfer verbleibend"
-needleRemaining(count):
+needleRemaining(param=count):
   one: "1 Nadel verbleibend"
   other: "{count} Nadeln verbleibend"
-glovesRemaining(count):
+glovesRemaining(param=count):
   one: "1 Handschuh verbleibend"
   other: "{count} Handschuhe verbleibend"
-bandageRemaining(count):
+bandageRemaining(param=count):
   one: "1 Pflaster verbleibend"
   other: "{count} Pflaster verbleibend"
 add: "Hinzufügen"
@@ -218,25 +218,25 @@ unitPgPerMl: "pg/mL"
 unitPmolPerL: "pmol/L"
 unitNgPerDl: "ng/dL"
 unitNmolPerL: "nmol/L"
-administrationRouteUnitMl(count):
+administrationRouteUnitMl(param=count):
   one: "ml"
   other: "ml"
-administrationRouteUnitPill(count):
+administrationRouteUnitPill(param=count):
   one: "Tablette"
   other: "Tabletten"
-administrationRouteUnitPatch(count):
+administrationRouteUnitPatch(param=count):
   one: "Pflaster"
   other: "Pflaster"
-administrationRouteUnitPump(count):
+administrationRouteUnitPump(param=count):
   one: "Hub"
   other: "Hübe"
-administrationRouteUnitImplant(count):
+administrationRouteUnitImplant(param=count):
   one: "Implantat"
   other: "Implantate"
-administrationRouteUnitSuppository(count):
+administrationRouteUnitSuppository(param=count):
   one: "Zäpfchen"
   other: "Zäpfchen"
-administrationRouteUnitSpray(count):
+administrationRouteUnitSpray(param=count):
   one: "Spray"
   other: "Sprays"
 injectionSideLeft: "Links"

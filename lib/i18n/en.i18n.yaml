@@ -11,16 +11,16 @@ allDone: "All done!"
 noIntakesDue: "No intakes due today"
 upcoming: "Upcoming"
 taken: "Taken"
-daysAgoCount(count):
+daysAgoCount(param=count):
   other: "{count} days ago"
 yesterday: "yesterday"
-inDaysCount(count):
+inDaysCount(param=count):
   other: "in {count} days"
 tomorrow: "tomorrow"
 lastTaken: "Last taken"
 neverTakenYet: "Never taken yet"
 scheduleFrequencyDaily: "Every day"
-scheduleFrequencyEveryNDays(days):
+scheduleFrequencyEveryNDays(param=days):
   other: "Every {days} days"
 scheduleFrequencyInterval: "Interval"
 scheduleFrequencyWeekly: "Weekly"
@@ -33,7 +33,7 @@ schedulesAndNotifications: "Schedules & notifications"
 general: "General"
 schedules: "Schedules"
 noSchedules: "No schedules"
-schedulesCreated(count):
+schedulesCreated(param=count):
   other: "{count} created"
 language: "Language"
 languageFollowDevice: "Follow device language"
@@ -92,7 +92,7 @@ addIntakeTime: "Add a time"
 editScheduleInfo: "Edit schedule info"
 scheduling: "Scheduling"
 noNotifications: "No notifications"
-notificationsCount(count):
+notificationsCount(param=count):
   other: "{count} notifications"
 editSchedule: "Edit schedule"
 deleteSchedule: "Delete {name}?"
@@ -146,7 +146,7 @@ concentration: "Concentration"
 editItem: "Edit item"
 usedAmount: "Used amount"
 deleteItem: "Delete {name}?"
-remaining(amount):
+remaining(param=amount):
   other: "{amount} {unit} remaining"
 allItemsFilter: "All"
 medicationItemsFilter: "Medication"
@@ -160,19 +160,19 @@ needle: "Needles"
 gloves: "Gloves"
 bandage: "Bandages"
 
-syringeRemaining(count):
+syringeRemaining(param=count):
   one: "1 syringe remaining"
   other: "{count} syringes remaining"
-wipeRemaining(count):
+wipeRemaining(param=count):
   one: "1 wipe remaining"
   other: "{count} wipes remaining"
-needleRemaining(count):
+needleRemaining(param=count):
   one: "1 needle remaining"
   other: "{count} needles remaining"
-glovesRemaining(count):
+glovesRemaining(param=count):
   one: "1 glove remaining"
   other: "{count} gloves remaining"
-bandageRemaining(count):
+bandageRemaining(param=count):
   one: "1 bandage remaining"
   other: "{count} bandages remaining"
 
@@ -241,25 +241,25 @@ unitPmolPerL: "pmol/L"
 unitNgPerDl: "ng/dL"
 unitNmolPerL: "nmol/L"
 
-administrationRouteUnitMl(count):
+administrationRouteUnitMl(param=count):
   one: "ml"
   other: "ml"
-administrationRouteUnitPill(count):
+administrationRouteUnitPill(param=count):
   one: "pill"
   other: "pills"
-administrationRouteUnitPatch(count):
+administrationRouteUnitPatch(param=count):
   one: "patch"
   other: "patches"
-administrationRouteUnitPump(count):
+administrationRouteUnitPump(param=count):
   one: "pump"
   other: "pumps"
-administrationRouteUnitImplant(count):
+administrationRouteUnitImplant(param=count):
   one: "implant"
   other: "implants"
-administrationRouteUnitSuppository(count):
+administrationRouteUnitSuppository(param=count):
   one: "suppository"
   other: "suppositories"
-administrationRouteUnitSpray(count):
+administrationRouteUnitSpray(param=count):
   one: "spray"
   other: "sprays"
 
