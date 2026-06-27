@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/locale.dart' as intl;
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/services/preferences_service.dart';
 
@@ -23,6 +24,7 @@ class LocaleProvider extends ChangeNotifier {
 
     _locale = matched;
     _prefs.setSavedLanguageTag(tag);
+    _syncSlang();
     notifyListeners();
   }
 
@@ -33,6 +35,12 @@ class LocaleProvider extends ChangeNotifier {
     if (_locale != before) {
       notifyListeners();
     }
+  }
+
+  void _syncSlang() {
+    LocaleSettings.setLocaleSync(
+      AppLocaleUtils.parse(_locale.toLanguageTag()),
+    );
   }
 
   Locale _matchToSupported(Locale source) {
@@ -64,5 +72,6 @@ class LocaleProvider extends ChangeNotifier {
     result ??= WidgetsBinding.instance.platformDispatcher.locale;
 
     _locale = _matchToSupported(result);
+    _syncSlang();
   }
 }
