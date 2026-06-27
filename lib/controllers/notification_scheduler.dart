@@ -29,9 +29,8 @@ class NotificationScheduler {
     final plans = [...planner.planNotifications(daysAhead: daysAhead)]
       ..sort((a, b) => a.firstFire.compareTo(b.firstFire));
 
-    await Future.wait(plans
-        .take(_maxScheduled)
-        .map((plan) => _schedule(plan, localeName)));
+    await Future.wait(
+        plans.take(_maxScheduled).map((plan) => _schedule(plan, localeName)));
   }
 
   Future<void> _schedule(PlannedNotification plan, String localeName) {

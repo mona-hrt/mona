@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,9 +8,9 @@ import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/units_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:provider/provider.dart';
 
@@ -84,8 +85,7 @@ class MainGraph extends StatelessWidget {
                   const EdgeInsets.only(right: _ChartConstants.axesPadding),
               child: RotatedBox(
                 quarterTurns: -1,
-                child: Text(
-                    '${t.concentration} (${unit.localizedName})',
+                child: Text('${t.concentration} (${unit.localizedName})',
                     style: const TextStyle(
                         fontSize: _ChartConstants.titleFontSize)),
               ),
@@ -167,8 +167,8 @@ class MainGraph extends StatelessWidget {
     );
   }
 
-  LineTouchData _buildLineTouchData(
-      BuildContext context, ThemeData theme, Date firstDay, EstradiolUnit unit) {
+  LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
+      Date firstDay, EstradiolUnit unit) {
     return LineTouchData(
       touchTooltipData: LineTouchTooltipData(
         getTooltipColor: (touchedSpots) => theme.colorScheme.tertiaryContainer,

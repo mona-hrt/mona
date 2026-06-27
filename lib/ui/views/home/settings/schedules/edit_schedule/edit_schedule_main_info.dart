@@ -4,8 +4,8 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -42,8 +42,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       MedicationSchedule.validateName(_nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(_doseController.text);
-  String? get _moleculeError =>
-      MedicationSchedule.validateMolecule(_molecule);
+  String? get _moleculeError => MedicationSchedule.validateMolecule(_molecule);
   String? get _administrationRouteError =>
       MedicationSchedule.validateAdministrationRoute(_administrationRoute);
   String? get _esterError {

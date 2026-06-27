@@ -5,9 +5,9 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/i18n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/l10n/helpers/administration_route_l10n.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
@@ -42,8 +42,7 @@ class _NewMedicationItemSpecificsPageState
   String? get _totalAmountError =>
       MedicationSupplyItem.validateTotalAmount(_totalAmountController.text);
   String? get _concentrationError =>
-      MedicationSupplyItem.validateConcentration(
-          _concentrationController.text);
+      MedicationSupplyItem.validateConcentration(_concentrationController.text);
   String? get _moleculeError =>
       MedicationSupplyItem.validateMolecule(_molecule);
   String? get _administrationRouteError =>

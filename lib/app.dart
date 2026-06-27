@@ -5,7 +5,7 @@ import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/locale_provider.dart';
+import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:provider/provider.dart';

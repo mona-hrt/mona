@@ -9,757 +9,827 @@ part of 'translations.g.dart';
 
 // Path: <root>
 typedef TranslationsEn = Translations; // ignore: unused_element
+
 class Translations with BaseTranslations<AppLocale, Translations> {
-	/// Returns the current translations of the given [context].
-	///
-	/// Usage:
-	/// final t = Translations.of(context);
-	static Translations of(BuildContext context) => InheritedLocaleData.of<AppLocale, Translations>(context).translations;
+  /// Returns the current translations of the given [context].
+  ///
+  /// Usage:
+  /// final t = Translations.of(context);
+  static Translations of(BuildContext context) =>
+      InheritedLocaleData.of<AppLocale, Translations>(context).translations;
+
+  /// You can call this constructor and build your own translation instance of this locale.
+  /// Constructing via the enum [AppLocale.build] is preferred.
+  Translations(
+      {Map<String, Node>? overrides,
+      PluralResolver? cardinalResolver,
+      PluralResolver? ordinalResolver,
+      TranslationMetadata<AppLocale, Translations>? meta})
+      : assert(overrides == null,
+            'Set "translation_overrides: true" in order to enable this feature.'),
+        $meta = meta ??
+            TranslationMetadata(
+              locale: AppLocale.en,
+              overrides: overrides ?? {},
+              cardinalResolver: cardinalResolver,
+              ordinalResolver: ordinalResolver,
+            ) {
+    $meta.setFlatMapFunction(_flatMapFunction);
+  }
+
+  /// Metadata for the translations of <en>.
+  @override
+  final TranslationMetadata<AppLocale, Translations> $meta;
+
+  /// Access flat map
+  dynamic operator [](String key) => $meta.getTranslation(key);
 
-	/// You can call this constructor and build your own translation instance of this locale.
-	/// Constructing via the enum [AppLocale.build] is preferred.
-	Translations({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
-		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
-		    locale: AppLocale.en,
-		    overrides: overrides ?? {},
-		    cardinalResolver: cardinalResolver,
-		    ordinalResolver: ordinalResolver,
-		  ) {
-		$meta.setFlatMapFunction(_flatMapFunction);
-	}
+  late final Translations _root = this; // ignore: unused_field
 
-	/// Metadata for the translations of <en>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+  Translations $copyWith(
+          {TranslationMetadata<AppLocale, Translations>? meta}) =>
+      Translations(meta: meta ?? this.$meta);
 
-	/// Access flat map
-	dynamic operator[](String key) => $meta.getTranslation(key);
+  // Translations
 
-	late final Translations _root = this; // ignore: unused_field
+  /// en: 'Mona'
+  String get appTitle => 'Mona';
 
-	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
+  /// en: 'Mona'
+  String get nav_home => 'Mona';
 
-	// Translations
+  /// en: 'Intakes'
+  String get nav_intakes => 'Intakes';
+
+  /// en: 'Levels'
+  String get nav_levels => 'Levels';
 
-	/// en: 'Mona'
-	String get appTitle => 'Mona';
+  /// en: 'Supplies'
+  String get nav_supplies => 'Supplies';
 
-	/// en: 'Mona'
-	String get nav_home => 'Mona';
+  /// en: 'Take an intake'
+  String get takeAnIntake => 'Take an intake';
 
-	/// en: 'Intakes'
-	String get nav_intakes => 'Intakes';
+  /// en: 'Add an item'
+  String get addAnItem => 'Add an item';
 
-	/// en: 'Levels'
-	String get nav_levels => 'Levels';
+  /// en: 'Start by adding a schedule in Settings'
+  String get empty_home => 'Start by adding a schedule in Settings';
 
-	/// en: 'Supplies'
-	String get nav_supplies => 'Supplies';
+  /// en: 'All done!'
+  String get allDone => 'All done!';
 
-	/// en: 'Take an intake'
-	String get takeAnIntake => 'Take an intake';
+  /// en: 'No intakes due today'
+  String get noIntakesDue => 'No intakes due today';
 
-	/// en: 'Add an item'
-	String get addAnItem => 'Add an item';
+  /// en: 'Upcoming'
+  String get upcoming => 'Upcoming';
 
-	/// en: 'Start by adding a schedule in Settings'
-	String get empty_home => 'Start by adding a schedule in Settings';
+  /// en: 'Taken'
+  String get taken => 'Taken';
 
-	/// en: 'All done!'
-	String get allDone => 'All done!';
+  /// en: '(other) {{count} days ago}'
+  String daysAgoCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        other: '${count} days ago',
+      );
 
-	/// en: 'No intakes due today'
-	String get noIntakesDue => 'No intakes due today';
+  /// en: 'yesterday'
+  String get yesterday => 'yesterday';
 
-	/// en: 'Upcoming'
-	String get upcoming => 'Upcoming';
+  /// en: '(other) {in {count} days}'
+  String inDaysCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        other: 'in ${count} days',
+      );
 
-	/// en: 'Taken'
-	String get taken => 'Taken';
+  /// en: 'tomorrow'
+  String get tomorrow => 'tomorrow';
 
-	/// en: '(other) {{count} days ago}'
-	String daysAgoCount({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		other: '${count} days ago',
-	);
+  /// en: 'Last taken'
+  String get lastTaken => 'Last taken';
 
-	/// en: 'yesterday'
-	String get yesterday => 'yesterday';
+  /// en: 'Never taken yet'
+  String get neverTakenYet => 'Never taken yet';
 
-	/// en: '(other) {in {count} days}'
-	String inDaysCount({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		other: 'in ${count} days',
-	);
+  /// en: 'Every day'
+  String get scheduleFrequencyDaily => 'Every day';
 
-	/// en: 'tomorrow'
-	String get tomorrow => 'tomorrow';
+  /// en: '(other) {Every {days} days}'
+  String scheduleFrequencyEveryNDays({required num days}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        days,
+        other: 'Every ${days} days',
+      );
 
-	/// en: 'Last taken'
-	String get lastTaken => 'Last taken';
+  /// en: 'Interval'
+  String get scheduleFrequencyInterval => 'Interval';
 
-	/// en: 'Never taken yet'
-	String get neverTakenYet => 'Never taken yet';
+  /// en: 'Weekly'
+  String get scheduleFrequencyWeekly => 'Weekly';
 
-	/// en: 'Every day'
-	String get scheduleFrequencyDaily => 'Every day';
+  /// en: 'A new update is available!'
+  String get newUpdateAvailable => 'A new update is available!';
 
-	/// en: '(other) {Every {days} days}'
-	String scheduleFrequencyEveryNDays({required num days}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(days,
-		other: 'Every ${days} days',
-	);
+  /// en: 'Go to Settings'
+  String get goToSettings => 'Go to Settings';
 
-	/// en: 'Interval'
-	String get scheduleFrequencyInterval => 'Interval';
+  /// en: 'Settings'
+  String get settingsTitle => 'Settings';
 
-	/// en: 'Weekly'
-	String get scheduleFrequencyWeekly => 'Weekly';
+  /// en: 'Notifications'
+  String get notifications => 'Notifications';
 
-	/// en: 'A new update is available!'
-	String get newUpdateAvailable => 'A new update is available!';
+  /// en: 'Schedules & notifications'
+  String get schedulesAndNotifications => 'Schedules & notifications';
 
-	/// en: 'Go to Settings'
-	String get goToSettings => 'Go to Settings';
+  /// en: 'General'
+  String get general => 'General';
 
-	/// en: 'Settings'
-	String get settingsTitle => 'Settings';
+  /// en: 'Schedules'
+  String get schedules => 'Schedules';
 
-	/// en: 'Notifications'
-	String get notifications => 'Notifications';
+  /// en: 'No schedules'
+  String get noSchedules => 'No schedules';
 
-	/// en: 'Schedules & notifications'
-	String get schedulesAndNotifications => 'Schedules & notifications';
+  /// en: '(other) {{count} created}'
+  String schedulesCreated({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        other: '${count} created',
+      );
 
-	/// en: 'General'
-	String get general => 'General';
+  /// en: 'Language'
+  String get language => 'Language';
 
-	/// en: 'Schedules'
-	String get schedules => 'Schedules';
+  /// en: 'Follow device language'
+  String get languageFollowDevice => 'Follow device language';
 
-	/// en: 'No schedules'
-	String get noSchedules => 'No schedules';
+  /// en: 'Select Language'
+  String get selectLanguage => 'Select Language';
 
-	/// en: '(other) {{count} created}'
-	String schedulesCreated({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		other: '${count} created',
-	);
+  /// en: 'Enable notifications'
+  String get enableNotifications => 'Enable notifications';
 
-	/// en: 'Language'
-	String get language => 'Language';
+  /// en: 'Send reminders'
+  String get enableNotificationsDescription => 'Send reminders';
 
-	/// en: 'Follow device language'
-	String get languageFollowDevice => 'Follow device language';
+  /// en: 'Notifications are disabled'
+  String get notificationsDisabledTitle => 'Notifications are disabled';
 
-	/// en: 'Select Language'
-	String get selectLanguage => 'Select Language';
+  /// en: 'Click to open settings'
+  String get clickToOpenSettings => 'Click to open settings';
 
-	/// en: 'Enable notifications'
-	String get enableNotifications => 'Enable notifications';
+  /// en: 'Exact reminder times are disabled'
+  String get exactRemindersDisabled => 'Exact reminder times are disabled';
 
-	/// en: 'Send reminders'
-	String get enableNotificationsDescription => 'Send reminders';
+  /// en: 'Reminders may be slightly delayed. Tap to open settings.'
+  String get remindersDelayed =>
+      'Reminders may be slightly delayed. Tap to open settings.';
 
-	/// en: 'Notifications are disabled'
-	String get notificationsDisabledTitle => 'Notifications are disabled';
+  /// en: 'Auto-Update'
+  String get autoUpdate => 'Auto-Update';
 
-	/// en: 'Click to open settings'
-	String get clickToOpenSettings => 'Click to open settings';
+  /// en: 'Automatically check new updates when app is launched'
+  String get autoUpdateDescription =>
+      'Automatically check new updates when app is launched';
 
-	/// en: 'Exact reminder times are disabled'
-	String get exactRemindersDisabled => 'Exact reminder times are disabled';
+  /// en: 'Check for Updates'
+  String get checkForUpdates => 'Check for Updates';
 
-	/// en: 'Reminders may be slightly delayed. Tap to open settings.'
-	String get remindersDelayed => 'Reminders may be slightly delayed. Tap to open settings.';
+  /// en: 'Check for the latest version manually This will connect you to Internet (No data will be sent)'
+  String get checkForUpdatesDescription =>
+      'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)';
 
-	/// en: 'Auto-Update'
-	String get autoUpdate => 'Auto-Update';
+  /// en: 'Mona version {version}'
+  String appVersion({required Object version}) => 'Mona version ${version}';
 
-	/// en: 'Automatically check new updates when app is launched'
-	String get autoUpdateDescription => 'Automatically check new updates when app is launched';
+  /// en: 'Backup saved to: {path}'
+  String backupSavedTo({required Object path}) => 'Backup saved to: ${path}';
 
-	/// en: 'Check for Updates'
-	String get checkForUpdates => 'Check for Updates';
+  /// en: 'Failed to export: {error}'
+  String exportFailed({required Object error}) => 'Failed to export: ${error}';
 
-	/// en: 'Check for the latest version manually This will connect you to Internet (No data will be sent)'
-	String get checkForUpdatesDescription => 'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)';
+  /// en: 'Import Data'
+  String get importDataTitle => 'Import Data';
 
-	/// en: 'Mona version {version}'
-	String appVersion({required Object version}) => 'Mona version ${version}';
+  /// en: 'Restore data from a JSON backup'
+  String get importDataSubtitle => 'Restore data from a JSON backup';
 
-	/// en: 'Backup saved to: {path}'
-	String backupSavedTo({required Object path}) => 'Backup saved to: ${path}';
+  /// en: 'This will overwrite all your current data with the backup. This action cannot be undone. Do you want to continue?'
+  String get importDataOverwriteWarning =>
+      'This will overwrite all your current data with the backup. This action cannot be undone. Do you want to continue?';
 
-	/// en: 'Failed to export: {error}'
-	String exportFailed({required Object error}) => 'Failed to export: ${error}';
+  /// en: 'Import'
+  String get importConfirm => 'Import';
 
-	/// en: 'Import Data'
-	String get importDataTitle => 'Import Data';
+  /// en: 'Import Successful'
+  String get importSuccessfulTitle => 'Import Successful';
 
-	/// en: 'Restore data from a JSON backup'
-	String get importDataSubtitle => 'Restore data from a JSON backup';
+  /// en: 'Please restart the app to apply the restored data.'
+  String get importRestartRequired =>
+      'Please restart the app to apply the restored data.';
 
-	/// en: 'This will overwrite all your current data with the backup. This action cannot be undone. Do you want to continue?'
-	String get importDataOverwriteWarning => 'This will overwrite all your current data with the backup. This action cannot be undone. Do you want to continue?';
+  /// en: 'Close App'
+  String get closeApp => 'Close App';
 
-	/// en: 'Import'
-	String get importConfirm => 'Import';
+  /// en: 'Failed to import: {error}'
+  String importFailed({required Object error}) => 'Failed to import: ${error}';
 
-	/// en: 'Import Successful'
-	String get importSuccessfulTitle => 'Import Successful';
+  /// en: 'Updates'
+  String get updates => 'Updates';
 
-	/// en: 'Please restart the app to apply the restored data.'
-	String get importRestartRequired => 'Please restart the app to apply the restored data.';
+  /// en: 'Data Management'
+  String get dataManagement => 'Data Management';
 
-	/// en: 'Close App'
-	String get closeApp => 'Close App';
+  /// en: 'Export Data'
+  String get exportDataTitle => 'Export Data';
 
-	/// en: 'Failed to import: {error}'
-	String importFailed({required Object error}) => 'Failed to import: ${error}';
+  /// en: 'Save your data to a JSON file'
+  String get exportDataSubtitle => 'Save your data to a JSON file';
 
-	/// en: 'Updates'
-	String get updates => 'Updates';
+  /// en: 'Units'
+  String get units => 'Units';
 
-	/// en: 'Data Management'
-	String get dataManagement => 'Data Management';
+  /// en: 'No compatible update found for your device.'
+  String get updateNoCompatibleApk =>
+      'No compatible update found for your device.';
 
-	/// en: 'Export Data'
-	String get exportDataTitle => 'Export Data';
+  /// en: 'Your app is up to date!'
+  String get updateAppUpToDate => 'Your app is up to date!';
 
-	/// en: 'Save your data to a JSON file'
-	String get exportDataSubtitle => 'Save your data to a JSON file';
+  /// en: 'Could not check for updates right now.'
+  String get updateCheckNetworkError =>
+      'Could not check for updates right now.';
 
-	/// en: 'Units'
-	String get units => 'Units';
+  /// en: 'Update Available'
+  String get updateDialogTitle => 'Update Available';
 
-	/// en: 'No compatible update found for your device.'
-	String get updateNoCompatibleApk => 'No compatible update found for your device.';
+  /// en: 'Version {latest} is available! (Current: {current}) An update compatible with your device is ready to be installed.'
+  String updateDialogBody({required Object latest, required Object current}) =>
+      'Version ${latest} is available! (Current: ${current})\n\nAn update compatible with your device is ready to be installed.';
 
-	/// en: 'Your app is up to date!'
-	String get updateAppUpToDate => 'Your app is up to date!';
+  /// en: 'Download & Install'
+  String get updateDownloadAndInstall => 'Download & Install';
 
-	/// en: 'Could not check for updates right now.'
-	String get updateCheckNetworkError => 'Could not check for updates right now.';
+  /// en: 'Permission is required to install updates.'
+  String get updateInstallPermissionRequired =>
+      'Permission is required to install updates.';
 
-	/// en: 'Update Available'
-	String get updateDialogTitle => 'Update Available';
+  /// en: 'Downloading Update...'
+  String get updateDownloadingTitle => 'Downloading Update...';
 
-	/// en: 'Version {latest} is available! (Current: {current}) An update compatible with your device is ready to be installed.'
-	String updateDialogBody({required Object latest, required Object current}) => 'Version ${latest} is available! (Current: ${current})\n\nAn update compatible with your device is ready to be installed.';
+  /// en: 'Failed to open installer: {message}'
+  String updateFailedOpenInstaller({required Object message}) =>
+      'Failed to open installer: ${message}';
 
-	/// en: 'Download & Install'
-	String get updateDownloadAndInstall => 'Download & Install';
+  /// en: 'Download failed. Please check your connection.'
+  String get updateDownloadFailed =>
+      'Download failed. Please check your connection.';
 
-	/// en: 'Permission is required to install updates.'
-	String get updateInstallPermissionRequired => 'Permission is required to install updates.';
+  /// en: 'Time to take {scheduleName}'
+  String notificationMedicationReminderTitle({required Object scheduleName}) =>
+      'Time to take ${scheduleName}';
 
-	/// en: 'Downloading Update...'
-	String get updateDownloadingTitle => 'Downloading Update...';
+  /// en: 'Scheduled for {date}'
+  String notificationMedicationReminderBodyDate({required Object date}) =>
+      'Scheduled for ${date}';
 
-	/// en: 'Failed to open installer: {message}'
-	String updateFailedOpenInstaller({required Object message}) => 'Failed to open installer: ${message}';
+  /// en: 'Scheduled for {time}'
+  String notificationMedicationReminderBodyTime({required Object time}) =>
+      'Scheduled for ${time}';
 
-	/// en: 'Download failed. Please check your connection.'
-	String get updateDownloadFailed => 'Download failed. Please check your connection.';
+  /// en: 'Scheduled for {weekday}'
+  String notificationMedicationReminderBodyWeekday({required Object weekday}) =>
+      'Scheduled for ${weekday}';
 
-	/// en: 'Time to take {scheduleName}'
-	String notificationMedicationReminderTitle({required Object scheduleName}) => 'Time to take ${scheduleName}';
+  /// en: 'Add a schedule'
+  String get addSchedule => 'Add a schedule';
 
-	/// en: 'Scheduled for {date}'
-	String notificationMedicationReminderBodyDate({required Object date}) => 'Scheduled for ${date}';
+  /// en: 'Add a schedule to get started.'
+  String get addScheduleToGetStarted => 'Add a schedule to get started.';
 
-	/// en: 'Scheduled for {time}'
-	String notificationMedicationReminderBodyTime({required Object time}) => 'Scheduled for ${time}';
+  /// en: 'New schedule'
+  String get newSchedule => 'New schedule';
 
-	/// en: 'Scheduled for {weekday}'
-	String notificationMedicationReminderBodyWeekday({required Object weekday}) => 'Scheduled for ${weekday}';
+  /// en: 'Every'
+  String get every => 'Every';
 
-	/// en: 'Add a schedule'
-	String get addSchedule => 'Add a schedule';
+  /// en: 'days'
+  String get days => 'days';
 
-	/// en: 'Add a schedule to get started.'
-	String get addScheduleToGetStarted => 'Add a schedule to get started.';
+  /// en: 'Start date'
+  String get startDate => 'Start date';
 
-	/// en: 'New schedule'
-	String get newSchedule => 'New schedule';
+  /// en: 'Pick a time'
+  String get pickATime => 'Pick a time';
 
-	/// en: 'Every'
-	String get every => 'Every';
+  /// en: 'Add a time'
+  String get addIntakeTime => 'Add a time';
 
-	/// en: 'days'
-	String get days => 'days';
+  /// en: 'Edit schedule info'
+  String get editScheduleInfo => 'Edit schedule info';
 
-	/// en: 'Start date'
-	String get startDate => 'Start date';
+  /// en: 'Scheduling'
+  String get scheduling => 'Scheduling';
 
-	/// en: 'Pick a time'
-	String get pickATime => 'Pick a time';
+  /// en: 'No notifications'
+  String get noNotifications => 'No notifications';
 
-	/// en: 'Add a time'
-	String get addIntakeTime => 'Add a time';
+  /// en: '(other) {{count} notifications}'
+  String notificationsCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        other: '${count} notifications',
+      );
 
-	/// en: 'Edit schedule info'
-	String get editScheduleInfo => 'Edit schedule info';
+  /// en: 'Edit schedule'
+  String get editSchedule => 'Edit schedule';
 
-	/// en: 'Scheduling'
-	String get scheduling => 'Scheduling';
+  /// en: 'Delete {name}?'
+  String deleteSchedule({required Object name}) => 'Delete ${name}?';
 
-	/// en: 'No notifications'
-	String get noNotifications => 'No notifications';
+  /// en: 'Schedule notifications'
+  String get scheduleNotifications => 'Schedule notifications';
 
-	/// en: '(other) {{count} notifications}'
-	String notificationsCount({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		other: '${count} notifications',
-	);
+  /// en: 'Add a notification'
+  String get addNotification => 'Add a notification';
 
-	/// en: 'Edit schedule'
-	String get editSchedule => 'Edit schedule';
+  /// en: 'No notifications for {scheduleName}. You can add one using the Add button.'
+  String noNotificationsForSchedule({required Object scheduleName}) =>
+      'No notifications for ${scheduleName}. You can add one using the Add button.';
 
-	/// en: 'Delete {name}?'
-	String deleteSchedule({required Object name}) => 'Delete ${name}?';
+  /// en: 'Notifications have been updated!'
+  String get notificationsUpdated => 'Notifications have been updated!';
 
-	/// en: 'Schedule notifications'
-	String get scheduleNotifications => 'Schedule notifications';
+  /// en: 'Each schedule now has its own notifications. Please set up notifications for your schedules to make sure you don't miss anything.'
+  String get notificationsUpdatedDescription =>
+      'Each schedule now has its own notifications.\n\nPlease set up notifications for your schedules to make sure you don\'t miss anything.';
 
-	/// en: 'Add a notification'
-	String get addNotification => 'Add a notification';
+  /// en: 'Don't show again'
+  String get dontShowAgain => 'Don\'t show again';
 
-	/// en: 'No notifications for {scheduleName}. You can add one using the Add button.'
-	String noNotificationsForSchedule({required Object scheduleName}) => 'No notifications for ${scheduleName}. You can add one using the Add button.';
+  /// en: 'Schedule settings'
+  String get scheduleSettings => 'Schedule settings';
 
-	/// en: 'Notifications have been updated!'
-	String get notificationsUpdated => 'Notifications have been updated!';
+  /// en: 'Taken intakes will appear here'
+  String get empty_intakes => 'Taken intakes will appear here';
 
-	/// en: 'Each schedule now has its own notifications. Please set up notifications for your schedules to make sure you don't miss anything.'
-	String get notificationsUpdatedDescription => 'Each schedule now has its own notifications.\n\nPlease set up notifications for your schedules to make sure you don\'t miss anything.';
+  /// en: 'Choose a schedule'
+  String get chooseSchedule => 'Choose a schedule';
 
-	/// en: 'Don't show again'
-	String get dontShowAgain => 'Don\'t show again';
+  /// en: 'Add schedules first.'
+  String get addSchedulesFirst => 'Add schedules first.';
 
-	/// en: 'Schedule settings'
-	String get scheduleSettings => 'Schedule settings';
+  /// en: 'Edit intake'
+  String get editIntake => 'Edit intake';
 
-	/// en: 'Taken intakes will appear here'
-	String get empty_intakes => 'Taken intakes will appear here';
+  /// en: 'Date'
+  String get date => 'Date';
 
-	/// en: 'Choose a schedule'
-	String get chooseSchedule => 'Choose a schedule';
+  /// en: 'Amount'
+  String get amount => 'Amount';
 
-	/// en: 'Add schedules first.'
-	String get addSchedulesFirst => 'Add schedules first.';
+  /// en: 'Taken amount'
+  String get takenAmount => 'Taken amount';
 
-	/// en: 'Edit intake'
-	String get editIntake => 'Edit intake';
+  /// en: 'Wasted amount'
+  String get wastedAmount => 'Wasted amount';
 
-	/// en: 'Date'
-	String get date => 'Date';
+  /// en: 'None'
+  String get none => 'None';
 
-	/// en: 'Amount'
-	String get amount => 'Amount';
+  /// en: 'Supply item'
+  String get supplyItem => 'Supply item';
 
-	/// en: 'Taken amount'
-	String get takenAmount => 'Taken amount';
+  /// en: 'Injection side'
+  String get injectionSide => 'Injection side';
 
-	/// en: 'Wasted amount'
-	String get wastedAmount => 'Wasted amount';
+  /// en: 'Delete this intake?'
+  String get deleteIntake => 'Delete this intake?';
 
-	/// en: 'None'
-	String get none => 'None';
+  /// en: 'Take {scheduleName}'
+  String takeMedication({required Object scheduleName}) =>
+      'Take ${scheduleName}';
 
-	/// en: 'Supply item'
-	String get supplyItem => 'Supply item';
+  /// en: 'Take intake'
+  String get takeIntake => 'Take intake';
 
-	/// en: 'Injection side'
-	String get injectionSide => 'Injection side';
+  /// en: 'Intake recorded'
+  String get intakeRecorded => 'Intake recorded';
 
-	/// en: 'Delete this intake?'
-	String get deleteIntake => 'Delete this intake?';
+  /// en: 'Needle dead space'
+  String get needleDeadSpace => 'Needle dead space';
 
-	/// en: 'Take {scheduleName}'
-	String takeMedication({required Object scheduleName}) => 'Take ${scheduleName}';
+  /// en: 'Notes'
+  String get notes => 'Notes';
 
-	/// en: 'Take intake'
-	String get takeIntake => 'Take intake';
+  /// en: 'μL'
+  String get microliters => 'μL';
 
-	/// en: 'Intake recorded'
-	String get intakeRecorded => 'Intake recorded';
+  /// en: 'mL'
+  String get milliliters => 'mL';
 
-	/// en: 'Needle dead space'
-	String get needleDeadSpace => 'Needle dead space';
+  /// en: 'Estradiol injections will display in this tab'
+  String get empty_levels => 'Estradiol injections will display in this tab';
 
-	/// en: 'Notes'
-	String get notes => 'Notes';
+  /// en: 'Blood Tests'
+  String get bloodTestsTitle => 'Blood Tests';
 
-	/// en: 'μL'
-	String get microliters => 'μL';
+  /// en: 'Taken blood tests will appear here. Start by using the Add button!'
+  String get empty_blood_tests =>
+      'Taken blood tests will appear here. Start by using the Add button!';
 
-	/// en: 'mL'
-	String get milliliters => 'mL';
+  /// en: 'Add a blood test'
+  String get addBloodTest => 'Add a blood test';
 
-	/// en: 'Estradiol injections will display in this tab'
-	String get empty_levels => 'Estradiol injections will display in this tab';
+  /// en: 'Edit blood test'
+  String get editBloodTest => 'Edit blood test';
 
-	/// en: 'Blood Tests'
-	String get bloodTestsTitle => 'Blood Tests';
+  /// en: 'New blood test'
+  String get newBloodTest => 'New blood test';
 
-	/// en: 'Taken blood tests will appear here. Start by using the Add button!'
-	String get empty_blood_tests => 'Taken blood tests will appear here. Start by using the Add button!';
+  /// en: 'Delete this blood test?'
+  String get deleteBloodTest => 'Delete this blood test?';
 
-	/// en: 'Add a blood test'
-	String get addBloodTest => 'Add a blood test';
+  /// en: 'Estradiol level'
+  String get estradiolLevelLabel => 'Estradiol level';
 
-	/// en: 'Edit blood test'
-	String get editBloodTest => 'Edit blood test';
+  /// en: 'Testosterone level'
+  String get testosteroneLevelLabel => 'Testosterone level';
 
-	/// en: 'New blood test'
-	String get newBloodTest => 'New blood test';
+  /// en: 'Test date'
+  String get bloodTestDateLabel => 'Test date';
 
-	/// en: 'Delete this blood test?'
-	String get deleteBloodTest => 'Delete this blood test?';
+  /// en: 'Now {value}'
+  String chartNowConcentration({required Object value}) => 'Now ${value}';
 
-	/// en: 'Estradiol level'
-	String get estradiolLevelLabel => 'Estradiol level';
+  /// en: '{date}: {level}'
+  String chartBloodTestLevelTooltip(
+          {required Object date, required Object level}) =>
+      '${date}: ${level}';
 
-	/// en: 'Testosterone level'
-	String get testosteroneLevelLabel => 'Testosterone level';
+  /// en: 'No supplies. Add an item to get started.'
+  String get empty_supplies => 'No supplies. Add an item to get started.';
 
-	/// en: 'Test date'
-	String get bloodTestDateLabel => 'Test date';
+  /// en: 'New item'
+  String get newItem => 'New item';
 
-	/// en: 'Now {value}'
-	String chartNowConcentration({required Object value}) => 'Now ${value}';
+  /// en: 'Administration route'
+  String get adminRoute => 'Administration route';
 
-	/// en: '{date}: {level}'
-	String chartBloodTestLevelTooltip({required Object date, required Object level}) => '${date}: ${level}';
+  /// en: 'Total amount'
+  String get totalAmount => 'Total amount';
 
-	/// en: 'No supplies. Add an item to get started.'
-	String get empty_supplies => 'No supplies. Add an item to get started.';
+  /// en: 'Concentration'
+  String get concentration => 'Concentration';
 
-	/// en: 'New item'
-	String get newItem => 'New item';
+  /// en: 'Edit item'
+  String get editItem => 'Edit item';
 
-	/// en: 'Administration route'
-	String get adminRoute => 'Administration route';
+  /// en: 'Used amount'
+  String get usedAmount => 'Used amount';
 
-	/// en: 'Total amount'
-	String get totalAmount => 'Total amount';
+  /// en: 'Delete {name}?'
+  String deleteItem({required Object name}) => 'Delete ${name}?';
 
-	/// en: 'Concentration'
-	String get concentration => 'Concentration';
+  /// en: '(other) {{amount} {unit} remaining}'
+  String remaining({required num amount, required Object unit}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        amount,
+        other: '${amount} ${unit} remaining',
+      );
 
-	/// en: 'Edit item'
-	String get editItem => 'Edit item';
+  /// en: 'All'
+  String get allItemsFilter => 'All';
 
-	/// en: 'Used amount'
-	String get usedAmount => 'Used amount';
+  /// en: 'Medication'
+  String get medicationItemsFilter => 'Medication';
 
-	/// en: 'Delete {name}?'
-	String deleteItem({required Object name}) => 'Delete ${name}?';
+  /// en: 'Consumables'
+  String get genericItemsFilter => 'Consumables';
 
-	/// en: '(other) {{amount} {unit} remaining}'
-	String remaining({required num amount, required Object unit}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(amount,
-		other: '${amount} ${unit} remaining',
-	);
+  /// en: 'Medication'
+  String get medicationItemType => 'Medication';
 
-	/// en: 'All'
-	String get allItemsFilter => 'All';
+  /// en: 'Consumable'
+  String get genericItemType => 'Consumable';
 
-	/// en: 'Medication'
-	String get medicationItemsFilter => 'Medication';
+  /// en: 'Type'
+  String get supplyType => 'Type';
 
-	/// en: 'Consumables'
-	String get genericItemsFilter => 'Consumables';
+  /// en: 'Syringes'
+  String get syringe => 'Syringes';
 
-	/// en: 'Medication'
-	String get medicationItemType => 'Medication';
+  /// en: 'Wipes'
+  String get wipe => 'Wipes';
 
-	/// en: 'Consumable'
-	String get genericItemType => 'Consumable';
+  /// en: 'Needles'
+  String get needle => 'Needles';
 
-	/// en: 'Type'
-	String get supplyType => 'Type';
+  /// en: 'Gloves'
+  String get gloves => 'Gloves';
 
-	/// en: 'Syringes'
-	String get syringe => 'Syringes';
+  /// en: 'Bandages'
+  String get bandage => 'Bandages';
 
-	/// en: 'Wipes'
-	String get wipe => 'Wipes';
+  /// en: '(one) {1 syringe remaining} (other) {{count} syringes remaining}'
+  String syringeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: '1 syringe remaining',
+        other: '${count} syringes remaining',
+      );
 
-	/// en: 'Needles'
-	String get needle => 'Needles';
+  /// en: '(one) {1 wipe remaining} (other) {{count} wipes remaining}'
+  String wipeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: '1 wipe remaining',
+        other: '${count} wipes remaining',
+      );
 
-	/// en: 'Gloves'
-	String get gloves => 'Gloves';
+  /// en: '(one) {1 needle remaining} (other) {{count} needles remaining}'
+  String needleRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: '1 needle remaining',
+        other: '${count} needles remaining',
+      );
 
-	/// en: 'Bandages'
-	String get bandage => 'Bandages';
+  /// en: '(one) {1 glove remaining} (other) {{count} gloves remaining}'
+  String glovesRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: '1 glove remaining',
+        other: '${count} gloves remaining',
+      );
 
-	/// en: '(one) {1 syringe remaining} (other) {{count} syringes remaining}'
-	String syringeRemaining({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: '1 syringe remaining',
-		other: '${count} syringes remaining',
-	);
+  /// en: '(one) {1 bandage remaining} (other) {{count} bandages remaining}'
+  String bandageRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: '1 bandage remaining',
+        other: '${count} bandages remaining',
+      );
 
-	/// en: '(one) {1 wipe remaining} (other) {{count} wipes remaining}'
-	String wipeRemaining({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: '1 wipe remaining',
-		other: '${count} wipes remaining',
-	);
+  /// en: 'Add'
+  String get add => 'Add';
 
-	/// en: '(one) {1 needle remaining} (other) {{count} needles remaining}'
-	String needleRemaining({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: '1 needle remaining',
-		other: '${count} needles remaining',
-	);
+  /// en: 'Save'
+  String get save => 'Save';
 
-	/// en: '(one) {1 glove remaining} (other) {{count} gloves remaining}'
-	String glovesRemaining({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: '1 glove remaining',
-		other: '${count} gloves remaining',
-	);
+  /// en: 'Cancel'
+  String get cancel => 'Cancel';
 
-	/// en: '(one) {1 bandage remaining} (other) {{count} bandages remaining}'
-	String bandageRemaining({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: '1 bandage remaining',
-		other: '${count} bandages remaining',
-	);
+  /// en: 'Next'
+  String get next => 'Next';
 
-	/// en: 'Add'
-	String get add => 'Add';
+  /// en: 'Delete'
+  String get delete => 'Delete';
 
-	/// en: 'Save'
-	String get save => 'Save';
+  /// en: 'Delete this item?'
+  String get deleteElement => 'Delete this item?';
 
-	/// en: 'Cancel'
-	String get cancel => 'Cancel';
+  /// en: 'This action can't be undone.'
+  String get irreversibleAction => 'This action can\'t be undone.';
 
-	/// en: 'Next'
-	String get next => 'Next';
+  /// en: 'Name'
+  String get name => 'Name';
 
-	/// en: 'Delete'
-	String get delete => 'Delete';
+  /// en: 'Molecule'
+  String get molecule => 'Molecule';
 
-	/// en: 'Delete this item?'
-	String get deleteElement => 'Delete this item?';
+  /// en: 'Ester'
+  String get ester => 'Ester';
 
-	/// en: 'This action can't be undone.'
-	String get irreversibleAction => 'This action can\'t be undone.';
+  /// en: 'Estradiol'
+  String get estradiol => 'Estradiol';
 
-	/// en: 'Name'
-	String get name => 'Name';
+  /// en: 'Progesterone'
+  String get progesterone => 'Progesterone';
 
-	/// en: 'Molecule'
-	String get molecule => 'Molecule';
+  /// en: 'Testosterone'
+  String get testosterone => 'Testosterone';
 
-	/// en: 'Ester'
-	String get ester => 'Ester';
+  /// en: 'Nandrolone'
+  String get nandrolone => 'Nandrolone';
 
-	/// en: 'Estradiol'
-	String get estradiol => 'Estradiol';
+  /// en: 'Dihydrotestosterone'
+  String get dihydrotestosterone => 'Dihydrotestosterone';
 
-	/// en: 'Progesterone'
-	String get progesterone => 'Progesterone';
+  /// en: 'Spironolactone'
+  String get spironolactone => 'Spironolactone';
 
-	/// en: 'Testosterone'
-	String get testosterone => 'Testosterone';
+  /// en: 'Cyproterone acetate'
+  String get cyproteroneAcetate => 'Cyproterone acetate';
 
-	/// en: 'Nandrolone'
-	String get nandrolone => 'Nandrolone';
+  /// en: 'Leuprorelin acetate'
+  String get leuprorelinAcetate => 'Leuprorelin acetate';
 
-	/// en: 'Dihydrotestosterone'
-	String get dihydrotestosterone => 'Dihydrotestosterone';
+  /// en: 'Bicalutamide'
+  String get bicalutamide => 'Bicalutamide';
 
-	/// en: 'Spironolactone'
-	String get spironolactone => 'Spironolactone';
+  /// en: 'Decapeptyl'
+  String get decapeptyl => 'Decapeptyl';
 
-	/// en: 'Cyproterone acetate'
-	String get cyproteroneAcetate => 'Cyproterone acetate';
+  /// en: 'Raloxifene'
+  String get raloxifene => 'Raloxifene';
 
-	/// en: 'Leuprorelin acetate'
-	String get leuprorelinAcetate => 'Leuprorelin acetate';
+  /// en: 'Tamoxifen'
+  String get tamoxifen => 'Tamoxifen';
 
-	/// en: 'Bicalutamide'
-	String get bicalutamide => 'Bicalutamide';
+  /// en: 'Finasteride'
+  String get finasteride => 'Finasteride';
 
-	/// en: 'Decapeptyl'
-	String get decapeptyl => 'Decapeptyl';
+  /// en: 'Dutasteride'
+  String get dutasteride => 'Dutasteride';
 
-	/// en: 'Raloxifene'
-	String get raloxifene => 'Raloxifene';
+  /// en: 'Minoxidil'
+  String get minoxidil => 'Minoxidil';
 
-	/// en: 'Tamoxifen'
-	String get tamoxifen => 'Tamoxifen';
+  /// en: 'Pioglitazone'
+  String get pioglitazone => 'Pioglitazone';
 
-	/// en: 'Finasteride'
-	String get finasteride => 'Finasteride';
+  /// en: 'Enanthate'
+  String get enanthate => 'Enanthate';
 
-	/// en: 'Dutasteride'
-	String get dutasteride => 'Dutasteride';
+  /// en: 'Valerate'
+  String get valerate => 'Valerate';
 
-	/// en: 'Minoxidil'
-	String get minoxidil => 'Minoxidil';
+  /// en: 'Cypionate'
+  String get cypionate => 'Cypionate';
 
-	/// en: 'Pioglitazone'
-	String get pioglitazone => 'Pioglitazone';
+  /// en: 'Undecylate'
+  String get undecylate => 'Undecylate';
 
-	/// en: 'Enanthate'
-	String get enanthate => 'Enanthate';
+  /// en: 'Benzoate'
+  String get benzoate => 'Benzoate';
 
-	/// en: 'Valerate'
-	String get valerate => 'Valerate';
+  /// en: 'Cypionate suspension'
+  String get cypionateSuspension => 'Cypionate suspension';
 
-	/// en: 'Cypionate'
-	String get cypionate => 'Cypionate';
+  /// en: 'Estradiol enanthate'
+  String get medicationEstradiolEnanthate => 'Estradiol enanthate';
 
-	/// en: 'Undecylate'
-	String get undecylate => 'Undecylate';
+  /// en: 'Estradiol valerate'
+  String get medicationEstradiolValerate => 'Estradiol valerate';
 
-	/// en: 'Benzoate'
-	String get benzoate => 'Benzoate';
+  /// en: 'Estradiol cypionate'
+  String get medicationEstradiolCypionate => 'Estradiol cypionate';
 
-	/// en: 'Cypionate suspension'
-	String get cypionateSuspension => 'Cypionate suspension';
+  /// en: 'Estradiol undecylate'
+  String get medicationEstradiolUndecylate => 'Estradiol undecylate';
 
-	/// en: 'Estradiol enanthate'
-	String get medicationEstradiolEnanthate => 'Estradiol enanthate';
+  /// en: 'Estradiol benzoate'
+  String get medicationEstradiolBenzoate => 'Estradiol benzoate';
 
-	/// en: 'Estradiol valerate'
-	String get medicationEstradiolValerate => 'Estradiol valerate';
+  /// en: 'Estradiol cypionate suspension'
+  String get medicationEstradiolCypionateSuspension =>
+      'Estradiol cypionate suspension';
 
-	/// en: 'Estradiol cypionate'
-	String get medicationEstradiolCypionate => 'Estradiol cypionate';
+  /// en: 'Testosterone enanthate'
+  String get medicationTestosteroneEnanthate => 'Testosterone enanthate';
 
-	/// en: 'Estradiol undecylate'
-	String get medicationEstradiolUndecylate => 'Estradiol undecylate';
+  /// en: 'Testosterone valerate'
+  String get medicationTestosteroneValerate => 'Testosterone valerate';
 
-	/// en: 'Estradiol benzoate'
-	String get medicationEstradiolBenzoate => 'Estradiol benzoate';
+  /// en: 'Testosterone cypionate'
+  String get medicationTestosteroneCypionate => 'Testosterone cypionate';
 
-	/// en: 'Estradiol cypionate suspension'
-	String get medicationEstradiolCypionateSuspension => 'Estradiol cypionate suspension';
+  /// en: 'Testosterone undecylate'
+  String get medicationTestosteroneUndecylate => 'Testosterone undecylate';
 
-	/// en: 'Testosterone enanthate'
-	String get medicationTestosteroneEnanthate => 'Testosterone enanthate';
+  /// en: 'Testosterone benzoate'
+  String get medicationTestosteroneBenzoate => 'Testosterone benzoate';
 
-	/// en: 'Testosterone valerate'
-	String get medicationTestosteroneValerate => 'Testosterone valerate';
+  /// en: 'Testosterone cypionate suspension'
+  String get medicationTestosteroneCypionateSuspension =>
+      'Testosterone cypionate suspension';
 
-	/// en: 'Testosterone cypionate'
-	String get medicationTestosteroneCypionate => 'Testosterone cypionate';
+  /// en: 'Injection'
+  String get injection => 'Injection';
 
-	/// en: 'Testosterone undecylate'
-	String get medicationTestosteroneUndecylate => 'Testosterone undecylate';
+  /// en: 'Oral'
+  String get oral => 'Oral';
 
-	/// en: 'Testosterone benzoate'
-	String get medicationTestosteroneBenzoate => 'Testosterone benzoate';
+  /// en: 'Sublingual'
+  String get sublingual => 'Sublingual';
 
-	/// en: 'Testosterone cypionate suspension'
-	String get medicationTestosteroneCypionateSuspension => 'Testosterone cypionate suspension';
+  /// en: 'Patch'
+  String get patch => 'Patch';
 
-	/// en: 'Injection'
-	String get injection => 'Injection';
+  /// en: 'Gel'
+  String get gel => 'Gel';
 
-	/// en: 'Oral'
-	String get oral => 'Oral';
+  /// en: 'Implant'
+  String get implant => 'Implant';
 
-	/// en: 'Sublingual'
-	String get sublingual => 'Sublingual';
+  /// en: 'Suppository'
+  String get suppository => 'Suppository';
 
-	/// en: 'Patch'
-	String get patch => 'Patch';
+  /// en: 'Transdermal spray'
+  String get transdermalSpray => 'Transdermal spray';
 
-	/// en: 'Gel'
-	String get gel => 'Gel';
+  /// en: 'Transdermal drops'
+  String get transdermalDrops => 'Transdermal drops';
 
-	/// en: 'Implant'
-	String get implant => 'Implant';
+  /// en: 'mg'
+  String get unitMilligram => 'mg';
 
-	/// en: 'Suppository'
-	String get suppository => 'Suppository';
+  /// en: 'pg/mL'
+  String get unitPgPerMl => 'pg/mL';
 
-	/// en: 'Transdermal spray'
-	String get transdermalSpray => 'Transdermal spray';
+  /// en: 'pmol/L'
+  String get unitPmolPerL => 'pmol/L';
 
-	/// en: 'Transdermal drops'
-	String get transdermalDrops => 'Transdermal drops';
+  /// en: 'ng/dL'
+  String get unitNgPerDl => 'ng/dL';
 
-	/// en: 'mg'
-	String get unitMilligram => 'mg';
+  /// en: 'nmol/L'
+  String get unitNmolPerL => 'nmol/L';
 
-	/// en: 'pg/mL'
-	String get unitPgPerMl => 'pg/mL';
+  /// en: '(one) {ml} (other) {ml}'
+  String administrationRouteUnitMl({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'ml',
+        other: 'ml',
+      );
 
-	/// en: 'pmol/L'
-	String get unitPmolPerL => 'pmol/L';
+  /// en: '(one) {pill} (other) {pills}'
+  String administrationRouteUnitPill({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'pill',
+        other: 'pills',
+      );
 
-	/// en: 'ng/dL'
-	String get unitNgPerDl => 'ng/dL';
+  /// en: '(one) {patch} (other) {patches}'
+  String administrationRouteUnitPatch({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'patch',
+        other: 'patches',
+      );
 
-	/// en: 'nmol/L'
-	String get unitNmolPerL => 'nmol/L';
+  /// en: '(one) {pump} (other) {pumps}'
+  String administrationRouteUnitPump({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'pump',
+        other: 'pumps',
+      );
 
-	/// en: '(one) {ml} (other) {ml}'
-	String administrationRouteUnitMl({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: 'ml',
-		other: 'ml',
-	);
+  /// en: '(one) {implant} (other) {implants}'
+  String administrationRouteUnitImplant({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'implant',
+        other: 'implants',
+      );
 
-	/// en: '(one) {pill} (other) {pills}'
-	String administrationRouteUnitPill({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: 'pill',
-		other: 'pills',
-	);
+  /// en: '(one) {suppository} (other) {suppositories}'
+  String administrationRouteUnitSuppository({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'suppository',
+        other: 'suppositories',
+      );
 
-	/// en: '(one) {patch} (other) {patches}'
-	String administrationRouteUnitPatch({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: 'patch',
-		other: 'patches',
-	);
+  /// en: '(one) {spray} (other) {sprays}'
+  String administrationRouteUnitSpray({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'spray',
+        other: 'sprays',
+      );
 
-	/// en: '(one) {pump} (other) {pumps}'
-	String administrationRouteUnitPump({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: 'pump',
-		other: 'pumps',
-	);
+  /// en: 'Left'
+  String get injectionSideLeft => 'Left';
 
-	/// en: '(one) {implant} (other) {implants}'
-	String administrationRouteUnitImplant({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: 'implant',
-		other: 'implants',
-	);
+  /// en: 'Right'
+  String get injectionSideRight => 'Right';
 
-	/// en: '(one) {suppository} (other) {suppositories}'
-	String administrationRouteUnitSuppository({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: 'suppository',
-		other: 'suppositories',
-	);
+  /// en: 'Left side'
+  String get intakeSummaryInjectionSideLeft => 'Left side';
 
-	/// en: '(one) {spray} (other) {sprays}'
-	String administrationRouteUnitSpray({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count,
-		one: 'spray',
-		other: 'sprays',
-	);
+  /// en: 'Right side'
+  String get intakeSummaryInjectionSideRight => 'Right side';
 
-	/// en: 'Left'
-	String get injectionSideLeft => 'Left';
+  /// en: 'Required field'
+  String get requiredField => 'Required field';
 
-	/// en: 'Right'
-	String get injectionSideRight => 'Right';
+  /// en: 'Must be a positive number'
+  String get mustBePositiveNumber => 'Must be a positive number';
 
-	/// en: 'Left side'
-	String get intakeSummaryInjectionSideLeft => 'Left side';
+  /// en: 'Invalid total amount'
+  String get invalidTotalAmount => 'Invalid total amount';
 
-	/// en: 'Right side'
-	String get intakeSummaryInjectionSideRight => 'Right side';
-
-	/// en: 'Required field'
-	String get requiredField => 'Required field';
-
-	/// en: 'Must be a positive number'
-	String get mustBePositiveNumber => 'Must be a positive number';
-
-	/// en: 'Invalid total amount'
-	String get invalidTotalAmount => 'Invalid total amount';
-
-	/// en: 'Cannot exceed total capacity'
-	String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
+  /// en: 'Cannot exceed total capacity'
+  String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -768,233 +838,340 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 /// The Dart AOT compiler has issues with very large switch statements,
 /// so the map is split into smaller functions (512 entries each).
 extension on Translations {
-	dynamic _flatMapFunction(String path) {
-		return switch (path) {
-			'appTitle' => 'Mona',
-			'nav_home' => 'Mona',
-			'nav_intakes' => 'Intakes',
-			'nav_levels' => 'Levels',
-			'nav_supplies' => 'Supplies',
-			'takeAnIntake' => 'Take an intake',
-			'addAnItem' => 'Add an item',
-			'empty_home' => 'Start by adding a schedule in Settings',
-			'allDone' => 'All done!',
-			'noIntakesDue' => 'No intakes due today',
-			'upcoming' => 'Upcoming',
-			'taken' => 'Taken',
-			'daysAgoCount' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, other: '${count} days ago', ), 
-			'yesterday' => 'yesterday',
-			'inDaysCount' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, other: 'in ${count} days', ), 
-			'tomorrow' => 'tomorrow',
-			'lastTaken' => 'Last taken',
-			'neverTakenYet' => 'Never taken yet',
-			'scheduleFrequencyDaily' => 'Every day',
-			'scheduleFrequencyEveryNDays' => ({required num days}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(days, other: 'Every ${days} days', ), 
-			'scheduleFrequencyInterval' => 'Interval',
-			'scheduleFrequencyWeekly' => 'Weekly',
-			'newUpdateAvailable' => 'A new update is available!',
-			'goToSettings' => 'Go to Settings',
-			'settingsTitle' => 'Settings',
-			'notifications' => 'Notifications',
-			'schedulesAndNotifications' => 'Schedules & notifications',
-			'general' => 'General',
-			'schedules' => 'Schedules',
-			'noSchedules' => 'No schedules',
-			'schedulesCreated' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, other: '${count} created', ), 
-			'language' => 'Language',
-			'languageFollowDevice' => 'Follow device language',
-			'selectLanguage' => 'Select Language',
-			'enableNotifications' => 'Enable notifications',
-			'enableNotificationsDescription' => 'Send reminders',
-			'notificationsDisabledTitle' => 'Notifications are disabled',
-			'clickToOpenSettings' => 'Click to open settings',
-			'exactRemindersDisabled' => 'Exact reminder times are disabled',
-			'remindersDelayed' => 'Reminders may be slightly delayed. Tap to open settings.',
-			'autoUpdate' => 'Auto-Update',
-			'autoUpdateDescription' => 'Automatically check new updates when app is launched',
-			'checkForUpdates' => 'Check for Updates',
-			'checkForUpdatesDescription' => 'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)',
-			'appVersion' => ({required Object version}) => 'Mona version ${version}',
-			'backupSavedTo' => ({required Object path}) => 'Backup saved to: ${path}',
-			'exportFailed' => ({required Object error}) => 'Failed to export: ${error}',
-			'importDataTitle' => 'Import Data',
-			'importDataSubtitle' => 'Restore data from a JSON backup',
-			'importDataOverwriteWarning' => 'This will overwrite all your current data with the backup. This action cannot be undone. Do you want to continue?',
-			'importConfirm' => 'Import',
-			'importSuccessfulTitle' => 'Import Successful',
-			'importRestartRequired' => 'Please restart the app to apply the restored data.',
-			'closeApp' => 'Close App',
-			'importFailed' => ({required Object error}) => 'Failed to import: ${error}',
-			'updates' => 'Updates',
-			'dataManagement' => 'Data Management',
-			'exportDataTitle' => 'Export Data',
-			'exportDataSubtitle' => 'Save your data to a JSON file',
-			'units' => 'Units',
-			'updateNoCompatibleApk' => 'No compatible update found for your device.',
-			'updateAppUpToDate' => 'Your app is up to date!',
-			'updateCheckNetworkError' => 'Could not check for updates right now.',
-			'updateDialogTitle' => 'Update Available',
-			'updateDialogBody' => ({required Object latest, required Object current}) => 'Version ${latest} is available! (Current: ${current})\n\nAn update compatible with your device is ready to be installed.',
-			'updateDownloadAndInstall' => 'Download & Install',
-			'updateInstallPermissionRequired' => 'Permission is required to install updates.',
-			'updateDownloadingTitle' => 'Downloading Update...',
-			'updateFailedOpenInstaller' => ({required Object message}) => 'Failed to open installer: ${message}',
-			'updateDownloadFailed' => 'Download failed. Please check your connection.',
-			'notificationMedicationReminderTitle' => ({required Object scheduleName}) => 'Time to take ${scheduleName}',
-			'notificationMedicationReminderBodyDate' => ({required Object date}) => 'Scheduled for ${date}',
-			'notificationMedicationReminderBodyTime' => ({required Object time}) => 'Scheduled for ${time}',
-			'notificationMedicationReminderBodyWeekday' => ({required Object weekday}) => 'Scheduled for ${weekday}',
-			'addSchedule' => 'Add a schedule',
-			'addScheduleToGetStarted' => 'Add a schedule to get started.',
-			'newSchedule' => 'New schedule',
-			'every' => 'Every',
-			'days' => 'days',
-			'startDate' => 'Start date',
-			'pickATime' => 'Pick a time',
-			'addIntakeTime' => 'Add a time',
-			'editScheduleInfo' => 'Edit schedule info',
-			'scheduling' => 'Scheduling',
-			'noNotifications' => 'No notifications',
-			'notificationsCount' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, other: '${count} notifications', ), 
-			'editSchedule' => 'Edit schedule',
-			'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
-			'scheduleNotifications' => 'Schedule notifications',
-			'addNotification' => 'Add a notification',
-			'noNotificationsForSchedule' => ({required Object scheduleName}) => 'No notifications for ${scheduleName}. You can add one using the Add button.',
-			'notificationsUpdated' => 'Notifications have been updated!',
-			'notificationsUpdatedDescription' => 'Each schedule now has its own notifications.\n\nPlease set up notifications for your schedules to make sure you don\'t miss anything.',
-			'dontShowAgain' => 'Don\'t show again',
-			'scheduleSettings' => 'Schedule settings',
-			'empty_intakes' => 'Taken intakes will appear here',
-			'chooseSchedule' => 'Choose a schedule',
-			'addSchedulesFirst' => 'Add schedules first.',
-			'editIntake' => 'Edit intake',
-			'date' => 'Date',
-			'amount' => 'Amount',
-			'takenAmount' => 'Taken amount',
-			'wastedAmount' => 'Wasted amount',
-			'none' => 'None',
-			'supplyItem' => 'Supply item',
-			'injectionSide' => 'Injection side',
-			'deleteIntake' => 'Delete this intake?',
-			'takeMedication' => ({required Object scheduleName}) => 'Take ${scheduleName}',
-			'takeIntake' => 'Take intake',
-			'intakeRecorded' => 'Intake recorded',
-			'needleDeadSpace' => 'Needle dead space',
-			'notes' => 'Notes',
-			'microliters' => 'μL',
-			'milliliters' => 'mL',
-			'empty_levels' => 'Estradiol injections will display in this tab',
-			'bloodTestsTitle' => 'Blood Tests',
-			'empty_blood_tests' => 'Taken blood tests will appear here. Start by using the Add button!',
-			'addBloodTest' => 'Add a blood test',
-			'editBloodTest' => 'Edit blood test',
-			'newBloodTest' => 'New blood test',
-			'deleteBloodTest' => 'Delete this blood test?',
-			'estradiolLevelLabel' => 'Estradiol level',
-			'testosteroneLevelLabel' => 'Testosterone level',
-			'bloodTestDateLabel' => 'Test date',
-			'chartNowConcentration' => ({required Object value}) => 'Now ${value}',
-			'chartBloodTestLevelTooltip' => ({required Object date, required Object level}) => '${date}: ${level}',
-			'empty_supplies' => 'No supplies. Add an item to get started.',
-			'newItem' => 'New item',
-			'adminRoute' => 'Administration route',
-			'totalAmount' => 'Total amount',
-			'concentration' => 'Concentration',
-			'editItem' => 'Edit item',
-			'usedAmount' => 'Used amount',
-			'deleteItem' => ({required Object name}) => 'Delete ${name}?',
-			'remaining' => ({required num amount, required Object unit}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(amount, other: '${amount} ${unit} remaining', ), 
-			'allItemsFilter' => 'All',
-			'medicationItemsFilter' => 'Medication',
-			'genericItemsFilter' => 'Consumables',
-			'medicationItemType' => 'Medication',
-			'genericItemType' => 'Consumable',
-			'supplyType' => 'Type',
-			'syringe' => 'Syringes',
-			'wipe' => 'Wipes',
-			'needle' => 'Needles',
-			'gloves' => 'Gloves',
-			'bandage' => 'Bandages',
-			'syringeRemaining' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: '1 syringe remaining', other: '${count} syringes remaining', ), 
-			'wipeRemaining' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: '1 wipe remaining', other: '${count} wipes remaining', ), 
-			'needleRemaining' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: '1 needle remaining', other: '${count} needles remaining', ), 
-			'glovesRemaining' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: '1 glove remaining', other: '${count} gloves remaining', ), 
-			'bandageRemaining' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: '1 bandage remaining', other: '${count} bandages remaining', ), 
-			'add' => 'Add',
-			'save' => 'Save',
-			'cancel' => 'Cancel',
-			'next' => 'Next',
-			'delete' => 'Delete',
-			'deleteElement' => 'Delete this item?',
-			'irreversibleAction' => 'This action can\'t be undone.',
-			'name' => 'Name',
-			'molecule' => 'Molecule',
-			'ester' => 'Ester',
-			'estradiol' => 'Estradiol',
-			'progesterone' => 'Progesterone',
-			'testosterone' => 'Testosterone',
-			'nandrolone' => 'Nandrolone',
-			'dihydrotestosterone' => 'Dihydrotestosterone',
-			'spironolactone' => 'Spironolactone',
-			'cyproteroneAcetate' => 'Cyproterone acetate',
-			'leuprorelinAcetate' => 'Leuprorelin acetate',
-			'bicalutamide' => 'Bicalutamide',
-			'decapeptyl' => 'Decapeptyl',
-			'raloxifene' => 'Raloxifene',
-			'tamoxifen' => 'Tamoxifen',
-			'finasteride' => 'Finasteride',
-			'dutasteride' => 'Dutasteride',
-			'minoxidil' => 'Minoxidil',
-			'pioglitazone' => 'Pioglitazone',
-			'enanthate' => 'Enanthate',
-			'valerate' => 'Valerate',
-			'cypionate' => 'Cypionate',
-			'undecylate' => 'Undecylate',
-			'benzoate' => 'Benzoate',
-			'cypionateSuspension' => 'Cypionate suspension',
-			'medicationEstradiolEnanthate' => 'Estradiol enanthate',
-			'medicationEstradiolValerate' => 'Estradiol valerate',
-			'medicationEstradiolCypionate' => 'Estradiol cypionate',
-			'medicationEstradiolUndecylate' => 'Estradiol undecylate',
-			'medicationEstradiolBenzoate' => 'Estradiol benzoate',
-			'medicationEstradiolCypionateSuspension' => 'Estradiol cypionate suspension',
-			'medicationTestosteroneEnanthate' => 'Testosterone enanthate',
-			'medicationTestosteroneValerate' => 'Testosterone valerate',
-			'medicationTestosteroneCypionate' => 'Testosterone cypionate',
-			'medicationTestosteroneUndecylate' => 'Testosterone undecylate',
-			'medicationTestosteroneBenzoate' => 'Testosterone benzoate',
-			'medicationTestosteroneCypionateSuspension' => 'Testosterone cypionate suspension',
-			'injection' => 'Injection',
-			'oral' => 'Oral',
-			'sublingual' => 'Sublingual',
-			'patch' => 'Patch',
-			'gel' => 'Gel',
-			'implant' => 'Implant',
-			'suppository' => 'Suppository',
-			'transdermalSpray' => 'Transdermal spray',
-			'transdermalDrops' => 'Transdermal drops',
-			'unitMilligram' => 'mg',
-			'unitPgPerMl' => 'pg/mL',
-			'unitPmolPerL' => 'pmol/L',
-			'unitNgPerDl' => 'ng/dL',
-			'unitNmolPerL' => 'nmol/L',
-			'administrationRouteUnitMl' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: 'ml', other: 'ml', ), 
-			'administrationRouteUnitPill' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: 'pill', other: 'pills', ), 
-			'administrationRouteUnitPatch' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: 'patch', other: 'patches', ), 
-			'administrationRouteUnitPump' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: 'pump', other: 'pumps', ), 
-			'administrationRouteUnitImplant' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: 'implant', other: 'implants', ), 
-			'administrationRouteUnitSuppository' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: 'suppository', other: 'suppositories', ), 
-			'administrationRouteUnitSpray' => ({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(count, one: 'spray', other: 'sprays', ), 
-			'injectionSideLeft' => 'Left',
-			'injectionSideRight' => 'Right',
-			'intakeSummaryInjectionSideLeft' => 'Left side',
-			'intakeSummaryInjectionSideRight' => 'Right side',
-			'requiredField' => 'Required field',
-			'mustBePositiveNumber' => 'Must be a positive number',
-			'invalidTotalAmount' => 'Invalid total amount',
-			'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
-			_ => null,
-		};
-	}
+  dynamic _flatMapFunction(String path) {
+    return switch (path) {
+      'appTitle' => 'Mona',
+      'nav_home' => 'Mona',
+      'nav_intakes' => 'Intakes',
+      'nav_levels' => 'Levels',
+      'nav_supplies' => 'Supplies',
+      'takeAnIntake' => 'Take an intake',
+      'addAnItem' => 'Add an item',
+      'empty_home' => 'Start by adding a schedule in Settings',
+      'allDone' => 'All done!',
+      'noIntakesDue' => 'No intakes due today',
+      'upcoming' => 'Upcoming',
+      'taken' => 'Taken',
+      'daysAgoCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            other: '${count} days ago',
+          ),
+      'yesterday' => 'yesterday',
+      'inDaysCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            other: 'in ${count} days',
+          ),
+      'tomorrow' => 'tomorrow',
+      'lastTaken' => 'Last taken',
+      'neverTakenYet' => 'Never taken yet',
+      'scheduleFrequencyDaily' => 'Every day',
+      'scheduleFrequencyEveryNDays' => ({required num days}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            days,
+            other: 'Every ${days} days',
+          ),
+      'scheduleFrequencyInterval' => 'Interval',
+      'scheduleFrequencyWeekly' => 'Weekly',
+      'newUpdateAvailable' => 'A new update is available!',
+      'goToSettings' => 'Go to Settings',
+      'settingsTitle' => 'Settings',
+      'notifications' => 'Notifications',
+      'schedulesAndNotifications' => 'Schedules & notifications',
+      'general' => 'General',
+      'schedules' => 'Schedules',
+      'noSchedules' => 'No schedules',
+      'schedulesCreated' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            other: '${count} created',
+          ),
+      'language' => 'Language',
+      'languageFollowDevice' => 'Follow device language',
+      'selectLanguage' => 'Select Language',
+      'enableNotifications' => 'Enable notifications',
+      'enableNotificationsDescription' => 'Send reminders',
+      'notificationsDisabledTitle' => 'Notifications are disabled',
+      'clickToOpenSettings' => 'Click to open settings',
+      'exactRemindersDisabled' => 'Exact reminder times are disabled',
+      'remindersDelayed' =>
+        'Reminders may be slightly delayed. Tap to open settings.',
+      'autoUpdate' => 'Auto-Update',
+      'autoUpdateDescription' =>
+        'Automatically check new updates when app is launched',
+      'checkForUpdates' => 'Check for Updates',
+      'checkForUpdatesDescription' =>
+        'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)',
+      'appVersion' => ({required Object version}) => 'Mona version ${version}',
+      'backupSavedTo' => ({required Object path}) => 'Backup saved to: ${path}',
+      'exportFailed' => ({required Object error}) =>
+          'Failed to export: ${error}',
+      'importDataTitle' => 'Import Data',
+      'importDataSubtitle' => 'Restore data from a JSON backup',
+      'importDataOverwriteWarning' =>
+        'This will overwrite all your current data with the backup. This action cannot be undone. Do you want to continue?',
+      'importConfirm' => 'Import',
+      'importSuccessfulTitle' => 'Import Successful',
+      'importRestartRequired' =>
+        'Please restart the app to apply the restored data.',
+      'closeApp' => 'Close App',
+      'importFailed' => ({required Object error}) =>
+          'Failed to import: ${error}',
+      'updates' => 'Updates',
+      'dataManagement' => 'Data Management',
+      'exportDataTitle' => 'Export Data',
+      'exportDataSubtitle' => 'Save your data to a JSON file',
+      'units' => 'Units',
+      'updateNoCompatibleApk' => 'No compatible update found for your device.',
+      'updateAppUpToDate' => 'Your app is up to date!',
+      'updateCheckNetworkError' => 'Could not check for updates right now.',
+      'updateDialogTitle' => 'Update Available',
+      'updateDialogBody' => (
+              {required Object latest, required Object current}) =>
+          'Version ${latest} is available! (Current: ${current})\n\nAn update compatible with your device is ready to be installed.',
+      'updateDownloadAndInstall' => 'Download & Install',
+      'updateInstallPermissionRequired' =>
+        'Permission is required to install updates.',
+      'updateDownloadingTitle' => 'Downloading Update...',
+      'updateFailedOpenInstaller' => ({required Object message}) =>
+          'Failed to open installer: ${message}',
+      'updateDownloadFailed' =>
+        'Download failed. Please check your connection.',
+      'notificationMedicationReminderTitle' =>
+        ({required Object scheduleName}) => 'Time to take ${scheduleName}',
+      'notificationMedicationReminderBodyDate' => ({required Object date}) =>
+          'Scheduled for ${date}',
+      'notificationMedicationReminderBodyTime' => ({required Object time}) =>
+          'Scheduled for ${time}',
+      'notificationMedicationReminderBodyWeekday' =>
+        ({required Object weekday}) => 'Scheduled for ${weekday}',
+      'addSchedule' => 'Add a schedule',
+      'addScheduleToGetStarted' => 'Add a schedule to get started.',
+      'newSchedule' => 'New schedule',
+      'every' => 'Every',
+      'days' => 'days',
+      'startDate' => 'Start date',
+      'pickATime' => 'Pick a time',
+      'addIntakeTime' => 'Add a time',
+      'editScheduleInfo' => 'Edit schedule info',
+      'scheduling' => 'Scheduling',
+      'noNotifications' => 'No notifications',
+      'notificationsCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            other: '${count} notifications',
+          ),
+      'editSchedule' => 'Edit schedule',
+      'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
+      'scheduleNotifications' => 'Schedule notifications',
+      'addNotification' => 'Add a notification',
+      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
+          'No notifications for ${scheduleName}. You can add one using the Add button.',
+      'notificationsUpdated' => 'Notifications have been updated!',
+      'notificationsUpdatedDescription' =>
+        'Each schedule now has its own notifications.\n\nPlease set up notifications for your schedules to make sure you don\'t miss anything.',
+      'dontShowAgain' => 'Don\'t show again',
+      'scheduleSettings' => 'Schedule settings',
+      'empty_intakes' => 'Taken intakes will appear here',
+      'chooseSchedule' => 'Choose a schedule',
+      'addSchedulesFirst' => 'Add schedules first.',
+      'editIntake' => 'Edit intake',
+      'date' => 'Date',
+      'amount' => 'Amount',
+      'takenAmount' => 'Taken amount',
+      'wastedAmount' => 'Wasted amount',
+      'none' => 'None',
+      'supplyItem' => 'Supply item',
+      'injectionSide' => 'Injection side',
+      'deleteIntake' => 'Delete this intake?',
+      'takeMedication' => ({required Object scheduleName}) =>
+          'Take ${scheduleName}',
+      'takeIntake' => 'Take intake',
+      'intakeRecorded' => 'Intake recorded',
+      'needleDeadSpace' => 'Needle dead space',
+      'notes' => 'Notes',
+      'microliters' => 'μL',
+      'milliliters' => 'mL',
+      'empty_levels' => 'Estradiol injections will display in this tab',
+      'bloodTestsTitle' => 'Blood Tests',
+      'empty_blood_tests' =>
+        'Taken blood tests will appear here. Start by using the Add button!',
+      'addBloodTest' => 'Add a blood test',
+      'editBloodTest' => 'Edit blood test',
+      'newBloodTest' => 'New blood test',
+      'deleteBloodTest' => 'Delete this blood test?',
+      'estradiolLevelLabel' => 'Estradiol level',
+      'testosteroneLevelLabel' => 'Testosterone level',
+      'bloodTestDateLabel' => 'Test date',
+      'chartNowConcentration' => ({required Object value}) => 'Now ${value}',
+      'chartBloodTestLevelTooltip' =>
+        ({required Object date, required Object level}) => '${date}: ${level}',
+      'empty_supplies' => 'No supplies. Add an item to get started.',
+      'newItem' => 'New item',
+      'adminRoute' => 'Administration route',
+      'totalAmount' => 'Total amount',
+      'concentration' => 'Concentration',
+      'editItem' => 'Edit item',
+      'usedAmount' => 'Used amount',
+      'deleteItem' => ({required Object name}) => 'Delete ${name}?',
+      'remaining' => ({required num amount, required Object unit}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            amount,
+            other: '${amount} ${unit} remaining',
+          ),
+      'allItemsFilter' => 'All',
+      'medicationItemsFilter' => 'Medication',
+      'genericItemsFilter' => 'Consumables',
+      'medicationItemType' => 'Medication',
+      'genericItemType' => 'Consumable',
+      'supplyType' => 'Type',
+      'syringe' => 'Syringes',
+      'wipe' => 'Wipes',
+      'needle' => 'Needles',
+      'gloves' => 'Gloves',
+      'bandage' => 'Bandages',
+      'syringeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: '1 syringe remaining',
+            other: '${count} syringes remaining',
+          ),
+      'wipeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: '1 wipe remaining',
+            other: '${count} wipes remaining',
+          ),
+      'needleRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: '1 needle remaining',
+            other: '${count} needles remaining',
+          ),
+      'glovesRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: '1 glove remaining',
+            other: '${count} gloves remaining',
+          ),
+      'bandageRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: '1 bandage remaining',
+            other: '${count} bandages remaining',
+          ),
+      'add' => 'Add',
+      'save' => 'Save',
+      'cancel' => 'Cancel',
+      'next' => 'Next',
+      'delete' => 'Delete',
+      'deleteElement' => 'Delete this item?',
+      'irreversibleAction' => 'This action can\'t be undone.',
+      'name' => 'Name',
+      'molecule' => 'Molecule',
+      'ester' => 'Ester',
+      'estradiol' => 'Estradiol',
+      'progesterone' => 'Progesterone',
+      'testosterone' => 'Testosterone',
+      'nandrolone' => 'Nandrolone',
+      'dihydrotestosterone' => 'Dihydrotestosterone',
+      'spironolactone' => 'Spironolactone',
+      'cyproteroneAcetate' => 'Cyproterone acetate',
+      'leuprorelinAcetate' => 'Leuprorelin acetate',
+      'bicalutamide' => 'Bicalutamide',
+      'decapeptyl' => 'Decapeptyl',
+      'raloxifene' => 'Raloxifene',
+      'tamoxifen' => 'Tamoxifen',
+      'finasteride' => 'Finasteride',
+      'dutasteride' => 'Dutasteride',
+      'minoxidil' => 'Minoxidil',
+      'pioglitazone' => 'Pioglitazone',
+      'enanthate' => 'Enanthate',
+      'valerate' => 'Valerate',
+      'cypionate' => 'Cypionate',
+      'undecylate' => 'Undecylate',
+      'benzoate' => 'Benzoate',
+      'cypionateSuspension' => 'Cypionate suspension',
+      'medicationEstradiolEnanthate' => 'Estradiol enanthate',
+      'medicationEstradiolValerate' => 'Estradiol valerate',
+      'medicationEstradiolCypionate' => 'Estradiol cypionate',
+      'medicationEstradiolUndecylate' => 'Estradiol undecylate',
+      'medicationEstradiolBenzoate' => 'Estradiol benzoate',
+      'medicationEstradiolCypionateSuspension' =>
+        'Estradiol cypionate suspension',
+      'medicationTestosteroneEnanthate' => 'Testosterone enanthate',
+      'medicationTestosteroneValerate' => 'Testosterone valerate',
+      'medicationTestosteroneCypionate' => 'Testosterone cypionate',
+      'medicationTestosteroneUndecylate' => 'Testosterone undecylate',
+      'medicationTestosteroneBenzoate' => 'Testosterone benzoate',
+      'medicationTestosteroneCypionateSuspension' =>
+        'Testosterone cypionate suspension',
+      'injection' => 'Injection',
+      'oral' => 'Oral',
+      'sublingual' => 'Sublingual',
+      'patch' => 'Patch',
+      'gel' => 'Gel',
+      'implant' => 'Implant',
+      'suppository' => 'Suppository',
+      'transdermalSpray' => 'Transdermal spray',
+      'transdermalDrops' => 'Transdermal drops',
+      'unitMilligram' => 'mg',
+      'unitPgPerMl' => 'pg/mL',
+      'unitPmolPerL' => 'pmol/L',
+      'unitNgPerDl' => 'ng/dL',
+      'unitNmolPerL' => 'nmol/L',
+      'administrationRouteUnitMl' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'ml',
+            other: 'ml',
+          ),
+      'administrationRouteUnitPill' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'pill',
+            other: 'pills',
+          ),
+      'administrationRouteUnitPatch' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'patch',
+            other: 'patches',
+          ),
+      'administrationRouteUnitPump' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'pump',
+            other: 'pumps',
+          ),
+      'administrationRouteUnitImplant' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'implant',
+            other: 'implants',
+          ),
+      'administrationRouteUnitSuppository' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'suppository',
+            other: 'suppositories',
+          ),
+      'administrationRouteUnitSpray' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'spray',
+            other: 'sprays',
+          ),
+      'injectionSideLeft' => 'Left',
+      'injectionSideRight' => 'Right',
+      'intakeSummaryInjectionSideLeft' => 'Left side',
+      'intakeSummaryInjectionSideRight' => 'Right side',
+      'requiredField' => 'Required field',
+      'mustBePositiveNumber' => 'Must be a positive number',
+      'invalidTotalAmount' => 'Invalid total amount',
+      'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
+      _ => null,
+    };
+  }
 }

@@ -17,7 +17,7 @@ import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/locale_provider.dart';
+import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;

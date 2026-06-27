@@ -25,8 +25,7 @@ String? positiveInt(String? value) {
   return value.toIntOrZero <= 0 ? t.mustBePositiveNumber : null;
 }
 
-String? requiredString(String? value) =>
-    value.isEmpty ? t.requiredField : null;
+String? requiredString(String? value) => value.isEmpty ? t.requiredField : null;
 
 String? requiredDateTime(DateTime? value) =>
     value == null ? t.requiredField : null;

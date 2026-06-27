@@ -8,9 +8,9 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
-import 'package:mona/l10n/helpers/supply_item_l10n.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
@@ -148,8 +148,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   void _refresh() => setState(() {});
 
   Future<bool?> confirmDeleteIntake(BuildContext context) {
-    return Dialogs.confirmDeleteDialog(
-        context: context, title: t.deleteIntake);
+    return Dialogs.confirmDeleteDialog(context: context, title: t.deleteIntake);
   }
 
   @override

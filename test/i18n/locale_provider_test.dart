@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/l10n/locale_provider.dart';
+import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

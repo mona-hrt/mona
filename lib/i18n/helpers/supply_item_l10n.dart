@@ -3,10 +3,10 @@ import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
+import 'package:mona/i18n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/generic_type_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/l10n/helpers/administration_route_l10n.dart';
-import 'package:mona/l10n/helpers/generic_type_l10n.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
 
 extension SupplyItemL10n on SupplyItem {
   String get localizedSummary {

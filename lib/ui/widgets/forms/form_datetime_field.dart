@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 
 class FormDateTimeField extends StatelessWidget {

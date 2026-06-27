@@ -1,7 +1,7 @@
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/i18n/helpers/ester_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/l10n/helpers/ester_l10n.dart';
 
 extension MoleculeL10n on Molecule {
   String get localizedName => _KnownMoleculeDisplayNames.resolve(this);
@@ -75,8 +75,10 @@ abstract final class _KnownMoleculeDisplayNames {
     KnownMolecules.dihydrotestosterone.normalizedName: () =>
         t.dihydrotestosterone,
     KnownMolecules.spironolactone.normalizedName: () => t.spironolactone,
-    KnownMolecules.cyproteroneAcetate.normalizedName: () => t.cyproteroneAcetate,
-    KnownMolecules.leuprorelinAcetate.normalizedName: () => t.leuprorelinAcetate,
+    KnownMolecules.cyproteroneAcetate.normalizedName: () =>
+        t.cyproteroneAcetate,
+    KnownMolecules.leuprorelinAcetate.normalizedName: () =>
+        t.leuprorelinAcetate,
     KnownMolecules.bicalutamide.normalizedName: () => t.bicalutamide,
     KnownMolecules.decapeptyl.normalizedName: () => t.decapeptyl,
     KnownMolecules.raloxifene.normalizedName: () => t.raloxifene,

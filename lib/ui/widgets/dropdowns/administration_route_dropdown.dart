@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/l10n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/administration_route_l10n.dart';
 
 List<DropdownMenuItem<AdministrationRoute>>
     administrationRouteDropdownMenuItems() => AdministrationRoute.all
