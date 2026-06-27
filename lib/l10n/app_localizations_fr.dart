@@ -402,6 +402,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get takeIntake => 'Prendre';
 
   @override
+  String get intakeRecorded => 'Prise enregistrée';
+
+  @override
   String get needleDeadSpace => 'Espace mort de l\'aiguille';
 
   @override

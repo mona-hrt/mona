@@ -397,6 +397,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get takeIntake => 'Einnahme erfassen';
 
   @override
+  String get intakeRecorded => 'Einnahme erfasst';
+
+  @override
   String get needleDeadSpace => 'Totraum der Nadel';
 
   @override

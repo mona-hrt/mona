@@ -127,6 +127,7 @@
   "deleteIntake": "Vymazať túto dávku?",
   "takeMedication": "Vezmi {scheduleName}",
   "takeIntake": "Vezmi dávku",
+  "intakeRecorded": "Dávka zaznamenaná",
   "needleDeadSpace": "Mŕtvy priestor ihly",
   "notes": "Poznámky",
   "microliters": "μL",

@@ -413,6 +413,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get takeIntake => 'Vezmi dávku';
 
   @override
+  String get intakeRecorded => 'Dávka zaznamenaná';
+
+  @override
   String get needleDeadSpace => 'Mŕtvy priestor ihly';
 
   @override

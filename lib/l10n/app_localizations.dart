@@ -767,6 +767,12 @@ abstract class AppLocalizations {
   /// **'Take intake'**
   String get takeIntake;
 
+  /// No description provided for @intakeRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'Intake recorded'**
+  String get intakeRecorded;
+
   /// No description provided for @needleDeadSpace.
   ///
   /// In en, this message translates to:

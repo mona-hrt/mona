@@ -401,6 +401,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get takeIntake => 'Registrar toma';
 
   @override
+  String get intakeRecorded => 'Toma registrada';
+
+  @override
   String get needleDeadSpace => 'Espacio muerto de la aguja';
 
   @override

@@ -70,6 +70,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       page: const PharmacyPage(),
       icon: Icons.medication_outlined,
       selectedIcon: Icons.medication,
+      navKey: const ValueKey('navTabSupplies'),
       buildFab: (context) => FloatingActionButton(
         tooltip: context.l10n.addAnItem,
         onPressed: () {

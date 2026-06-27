@@ -127,6 +127,7 @@
   "deleteIntake": "Delete this intake?",
   "takeMedication": "Take {scheduleName}",
   "takeIntake": "Take intake",
+  "intakeRecorded": "Intake recorded",
   "needleDeadSpace": "Needle dead space",
   "notes": "Notes",
   "microliters": "μL",
