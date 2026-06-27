@@ -13,6 +13,7 @@ class ModelForm extends StatelessWidget {
   final bool isFormValid;
   final VoidCallback saveChanges;
   final String submitButtonLabel;
+  final IconData? submitButtonIcon;
 
   /// Keys for the submit/delete buttons, so e2e tests can target them without
   /// depending on the (localized) button labels.
@@ -28,6 +29,7 @@ class ModelForm extends StatelessWidget {
     required this.isFormValid,
     required this.saveChanges,
     required this.submitButtonLabel,
+    this.submitButtonIcon,
     this.submitButtonKey,
     this.deleteButtonKey,
   });
@@ -99,11 +101,11 @@ class ModelForm extends StatelessWidget {
                 const SizedBox(width: borderPadding),
               ],
               Expanded(
-                child: onDelete != null
+                child: (onDelete != null || submitButtonIcon != null)
                     ? M3EButton.icon(
                         key: submitButtonKey,
                         onPressed: isFormValid ? saveChanges : null,
-                        icon: const Icon(Icons.save),
+                        icon: Icon(submitButtonIcon ?? Icons.save),
                         label: Text(submitButtonLabel),
                         style: M3EButtonStyle.filled,
                         size: M3EButtonSize.md,

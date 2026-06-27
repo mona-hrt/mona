@@ -392,6 +392,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get takeIntake => 'Take intake';
 
   @override
+  String get intakeRecorded => 'Intake recorded';
+
+  @override
   String get needleDeadSpace => 'Needle dead space';
 
   @override

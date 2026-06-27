@@ -124,6 +124,7 @@
   "deleteIntake": "Excluir esta dose?",
   "takeMedication": "Tomar {scheduleName}",
   "takeIntake": "Registrar dose",
+  "intakeRecorded": "Dose registrada",
   "needleDeadSpace": "Espaço morto da agulha",
   "notes": "Notas",
   "microliters": "μL",

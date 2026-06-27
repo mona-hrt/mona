@@ -389,6 +389,9 @@ class AppLocalizationsTh extends AppLocalizations {
   String get takeIntake => 'ทานโดสยา';
 
   @override
+  String get intakeRecorded => 'บันทึกการทานยาแล้ว';
+
+  @override
   String get needleDeadSpace => 'ปริมาณเว้นเปล่าในเข็ม';
 
   @override

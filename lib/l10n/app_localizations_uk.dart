@@ -401,6 +401,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get takeIntake => 'Прийняти препарат';
 
   @override
+  String get intakeRecorded => 'Прийом записано';
+
+  @override
   String get needleDeadSpace => 'Мертва зона голки';
 
   @override
