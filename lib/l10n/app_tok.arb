@@ -57,5 +57,13 @@
   "scheduling": "nasin tenpo",
   "startDate": "tenpo open",
   "supplyItem": "ijo jo",
-  "date": "tenpo"
+  "date": "tenpo",
+  "unitNmolPerL": "nmol/L",
+  "unitNgPerDl": "ng/dL",
+  "unitPmolPerL": "pmol/L",
+  "unitPgPerMl": "pg/mL",
+  "unitMilligram": "mg",
+  "allItemsFilter": "ale",
+  "tomorrow": "tenpo suno kama",
+  "yesterday": "tenpo suno pini"
 }
