@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.0/mona-1.12.0.ipa",
-      "size": 12095702,
-      "version": "1.12.0",
-      "versionDate": "2026-06-15T00:00:00Z",
-      "versionDescription": "New:\n\n- Add wasted amount with an intake\n- New language: Thai\n\nFixes:\n\n- Version numbers display in the correct order in the update dialog\n- Some icons were missing, they're back now",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.1/mona-1.12.1.ipa",
+      "size": 12095714,
+      "version": "1.12.1",
+      "versionDate": "2026-06-28T00:00:00Z",
+      "versionDescription": "New:\n\n- Display a message when an intake is recorded\n\nFix:\n\n- Fixes a bug causing notifications to duplicate",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.1/mona-1.12.1.ipa",
+          "size": 12095714,
+          "version": "1.12.1",
+          "buildVersion": "12",
+          "date": "2026-06-28T00:00:00Z",
+          "localizedDescription": "New:\n\n- Display a message when an intake is recorded\n\nFix:\n\n- Fixes a bug causing notifications to duplicate",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.0/mona-1.12.0.ipa",
           "size": 12095702,
