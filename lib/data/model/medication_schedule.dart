@@ -13,9 +13,6 @@ import 'package:mona/util/validators.dart';
 part 'medication_schedule.mapper.dart';
 
 @MappableClass(
-  // TODO: migrate Molecule (and the daily notification list) to use
-  // JsonStringHook (see mapping_hooks.dart) and delete MoleculeJsonMapper /
-  // NotificationTimesMapper.
   includeCustomMappers: [
     MoleculeJsonMapper(),
     AdministrationRouteNameMapper(),

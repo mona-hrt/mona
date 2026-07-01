@@ -30,17 +30,16 @@ enum InjectionSide {
 )
 class MedicationIntake with MedicationIntakeMappable {
   final int id;
-  final TimeOfDay? scheduledTime; // TODO use custom Time ?
+  final TimeOfDay? scheduledTime;
   final DateTime? takenDateTime;
   final String? takenTimeZone;
-  @MappableField(key: 'dose') // TODO rename fields in db to match mapper
+  @MappableField(key: 'dose')
   final Decimal takenDose;
   final Decimal? wastedAmount; // mL
   final int? scheduleId;
   final InjectionSide? side;
   bool get isTaken => takenDateTime != null;
-  @MappableField(
-      key: 'moleculeJson') // TODO rename fields in db to match mapper
+  @MappableField(key: 'moleculeJson')
   final Molecule molecule;
   @MappableField(key: 'administrationRouteName')
   final AdministrationRoute administrationRoute;
