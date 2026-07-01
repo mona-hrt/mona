@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
 
   String _todayTitle(BuildContext context) {
     final formatted =
-        Date.today().format(DateFormat.MMMMEEEEd(context.languageTag));
+        Date.today().format(DateFormat.MMMMEEEEd(context.intlLanguageTag));
     return formatted.replaceRange(
         0, 1, formatted.substring(0, 1).toUpperCase());
   }

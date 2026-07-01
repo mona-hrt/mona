@@ -35,7 +35,7 @@ class IntakesPage extends StatelessWidget {
 
   Widget _buildIntakeTile(BuildContext context, MedicationIntake intake,
       MedicationIntakeProvider medicationIntakeProvider) {
-    final locale = context.languageTag;
+    final locale = context.intlLanguageTag;
     final dateText =
         DateFormat.yMMMd(locale).format(intake.takenLocalDateTime!);
 

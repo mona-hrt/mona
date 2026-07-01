@@ -25,7 +25,7 @@ class FormDateField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         controller: TextEditingController(
-            text: date.format(DateFormat.yMMMd(context.languageTag))),
+            text: date.format(DateFormat.yMMMd(context.intlLanguageTag))),
         keyboardType: TextInputType.datetime,
         decoration: InputDecoration(
           border: OutlineInputBorder(),

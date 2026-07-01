@@ -20,7 +20,7 @@ class FormDateTimeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String locale = context.languageTag;
+    final String locale = context.intlLanguageTag;
     final DateFormat timeFormat = MediaQuery.of(context).alwaysUse24HourFormat
         ? DateFormat.Hm(locale)
         : DateFormat.jm(locale);

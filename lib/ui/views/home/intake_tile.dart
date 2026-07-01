@@ -36,7 +36,7 @@ class IntakeTile extends StatelessWidget {
       intakeProvider: medicationIntakeProvider,
       supplyProvider: supplyItemProvider,
       now: now,
-      languageTag: context.languageTag,
+      languageTag: context.intlLanguageTag,
       context: context,
     );
 

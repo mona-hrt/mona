@@ -5,7 +5,9 @@ import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/locale_provider.dart';
+import 'package:mona/i18n/tok_localizations.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:provider/provider.dart';
@@ -74,7 +76,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     if (!mounted) return;
 
     final locale = context.read<LocaleProvider>().locale;
-    _notificationScheduler.regenerateAll(locale.toLanguageTag());
+    _notificationScheduler.regenerateAll(locale.intlLanguageTag);
   }
 
   void _checkTimezoneChange() {
@@ -104,6 +106,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
           locale: context.watch<LocaleProvider>().locale,
           supportedLocales: context.watch<LocaleProvider>().supportedLocales,
           localizationsDelegates: const [
+            TokMaterialLocalizationsDelegate(),
+            TokCupertinoLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
