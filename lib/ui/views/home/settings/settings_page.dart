@@ -18,13 +18,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-String? _nativeLanguageNameForStoredTag(String tag) {
-  for (final (code, _, nativeName) in LanguagePage.languages) {
-    if (code == tag) return nativeName;
-  }
-  return null;
-}
-
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -251,7 +244,7 @@ class _SettingsPageState extends State<SettingsPage>
             subtitle: Text(
               preferencesService.savedLanguageTag == null
                   ? t.languageFollowDevice
-                  : (_nativeLanguageNameForStoredTag(
+                  : (LanguagePage.nativeNameOf(
                           preferencesService.savedLanguageTag!) ??
                       preferencesService.savedLanguageTag!),
             ),
