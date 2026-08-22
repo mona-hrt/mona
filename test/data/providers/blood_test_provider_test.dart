@@ -194,6 +194,94 @@ void main() {
       );
     });
 
+    group('estradiolTestsSortedDesc', () {
+      test('excludes tests without estradiol levels', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            id: 1,
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0')));
+        await provider.add(aBloodTest(
+            id: 2,
+            dateTime: DateTime.utc(2025, 5, 5),
+            testosteroneLevel: Decimal.parse('1.0')));
+
+        // Act
+        final result = provider.estradiolTestsSortedDesc;
+
+        // Assert
+        expect(result.map((t) => t.id), [1]);
+      });
+
+      test('returns tests sorted descending by date', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            id: 1,
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0')));
+        await provider.add(aBloodTest(
+            id: 2,
+            dateTime: DateTime.utc(2025, 6, 7),
+            estradiolLevel: Decimal.parse('200.0')));
+        await provider.add(aBloodTest(
+            id: 3,
+            dateTime: DateTime.utc(2025, 3, 2),
+            estradiolLevel: Decimal.parse('150.0')));
+
+        // Act
+        final result = provider.estradiolTestsSortedDesc;
+
+        // Assert
+        expect(result.map((t) => t.id), [2, 1, 3]);
+      });
+    });
+
+    group('testosteroneTestsSortedDesc', () {
+      test('excludes tests without testosterone levels', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            id: 1,
+            dateTime: DateTime.utc(2025, 5, 4),
+            testosteroneLevel: Decimal.parse('1.0')));
+        await provider.add(aBloodTest(
+            id: 2,
+            dateTime: DateTime.utc(2025, 5, 5),
+            estradiolLevel: Decimal.parse('100.0')));
+
+        // Act
+        final result = provider.testosteroneTestsSortedDesc;
+
+        // Assert
+        expect(result.map((t) => t.id), [1]);
+      });
+
+      test('returns tests sorted descending by date', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            id: 1,
+            dateTime: DateTime.utc(2025, 5, 4),
+            testosteroneLevel: Decimal.parse('1.0')));
+        await provider.add(aBloodTest(
+            id: 2,
+            dateTime: DateTime.utc(2025, 6, 7),
+            testosteroneLevel: Decimal.parse('2.0')));
+        await provider.add(aBloodTest(
+            id: 3,
+            dateTime: DateTime.utc(2025, 3, 2),
+            testosteroneLevel: Decimal.parse('1.5')));
+
+        // Act
+        final result = provider.testosteroneTestsSortedDesc;
+
+        // Assert
+        expect(result.map((t) => t.id), [2, 1, 3]);
+      });
+    });
+
     group('getBloodTestsForGraph', () {
       test('returns empty list when no bloodtests', () {
         // Arrange
@@ -258,6 +346,75 @@ void main() {
 
         // Assert
         expect(result.single.offset, closeTo(2.1243, 1e-4));
+      });
+    });
+
+    group('latestEstradiolLevel', () {
+      test('returns null when no estradiol tests', () {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+
+        // Act
+        final result = provider.latestEstradiolLevel(EstradiolUnit.pg_mL);
+
+        // Assert
+        expect(result, isNull);
+      });
+
+      test('returns most recent level converted to the requested unit',
+          () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100')));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 6, 7),
+            estradiolLevel: Decimal.parse('200')));
+
+        // Act
+        final result = provider.latestEstradiolLevel(EstradiolUnit.pmol_L);
+
+        // Assert
+        expect(
+          result,
+          UnitValue(Decimal.parse('734.20'), EstradiolUnit.pmol_L),
+        );
+      });
+    });
+
+    group('latestTestosteroneLevel', () {
+      test('returns null when no testosterone tests', () {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+
+        // Act
+        final result = provider.latestTestosteroneLevel(TestosteroneUnit.ng_dL);
+
+        // Assert
+        expect(result, isNull);
+      });
+
+      test('returns most recent level converted to the requested unit',
+          () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            testosteroneLevel: Decimal.parse('100')));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 6, 7),
+            testosteroneLevel: Decimal.parse('250')));
+
+        // Act
+        final result =
+            provider.latestTestosteroneLevel(TestosteroneUnit.nmol_L);
+
+        // Assert
+        expect(
+          result,
+          UnitValue(Decimal.parse('8.66'), TestosteroneUnit.nmol_L),
+        );
       });
     });
   });
