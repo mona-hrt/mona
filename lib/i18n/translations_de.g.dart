@@ -577,6 +577,26 @@ class TranslationsDe extends Translations
   @override
   String get mustBeBetween1And28 => 'Muss zwischen 1 und 28 liegen';
   @override
+  String get asNeeded => 'Nach Bedarf';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Täglich, zu bestimmten Zeiten';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Alle paar Tage';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Bestimmte Tage der Woche';
+  @override
+  String get scheduleFrequencyMonthlyDescription => 'Jeden Monat am selben Tag';
+  @override
+  String get scheduleFrequencyAsNeeded => 'Nach Bedarf';
+  @override
+  String get empty_levels =>
+      'Trage eine Blutuntersuchung oder Estradiol-Injektion ein, um loszulegen';
+  @override
+  String get estradiolLevelsTitle => 'Estradiol-Werte';
+  @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
@@ -1026,6 +1046,16 @@ extension on TranslationsDe {
       'placementSuggestionPerScheduleDescription' =>
         'Nächste Stelle nur anhand der Historie dieses Zeitplans vorschlagen.',
       'mustBeBetween1And28' => 'Muss zwischen 1 und 28 liegen',
+      'asNeeded' => 'Nach Bedarf',
+      'scheduleFrequencyDailyDescription' => 'Täglich, zu bestimmten Zeiten',
+      'scheduleFrequencyIntervalDescription' => 'Alle paar Tage',
+      'scheduleFrequencyWeeklyDescription' => 'Bestimmte Tage der Woche',
+      'scheduleFrequencyMonthlyDescription' => 'Jeden Monat am selben Tag',
+      'scheduleFrequencyAsNeeded' => 'Nach Bedarf',
+      'empty_levels' =>
+        'Trage eine Blutuntersuchung oder Estradiol-Injektion ein, um loszulegen',
+      'estradiolLevelsTitle' => 'Estradiol-Werte',
+      'unitNgPerMl' => 'ng/mL',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,

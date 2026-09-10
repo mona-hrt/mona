@@ -589,6 +589,11 @@ class TranslationsSq extends Translations
   String get cannotExceedTotalCapacity =>
       'Nuk mund të tejkalojë kapacitetin total';
   @override
+  String get empty_levels =>
+      'Shto një analizë gjaku ose regjistro një injeksion estradioli për të fillua';
+  @override
+  String get estradiolLevelsTitle => 'Nivelet e estradiolit';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sq'))(
         count,
@@ -1043,6 +1048,9 @@ extension on TranslationsSq {
       'mustBeBetween1And28' => 'Duhet të jetë midis 1 dhe 28',
       'invalidTotalAmount' => 'Sasi totale e pavlefshme',
       'cannotExceedTotalCapacity' => 'Nuk mund të tejkalojë kapacitetin total',
+      'empty_levels' =>
+        'Shto një analizë gjaku ose regjistro një injeksion estradioli për të fillua',
+      'estradiolLevelsTitle' => 'Nivelet e estradiolit',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sq'))(
             count,
