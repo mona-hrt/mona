@@ -1,0 +1,10 @@
+New:
+
+- New languages: Italian, Urdu
+
+Fix:
+
+- The UI now refreshes on a day change
+- Allowed dates before 2000 to be selected
+- Removed graph preview when no injections are active
+- Rounded remaining supply amount to one decimal
