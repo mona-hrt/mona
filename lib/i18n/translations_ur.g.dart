@@ -108,7 +108,7 @@ class TranslationsUr extends Translations
   @override
   String get scheduleFrequencyAsNeededDescription => 'کوئی مقرر شیڈیول نہیں';
   @override
-  String get newUpdateAvailable => 'نئی پیش رفت دستیاب ہے‫!';
+  String get newUpdateAvailable => 'نئی پیش رفت دستیاب ہے\u202B!';
   @override
   String get goToSettings => 'ترتیبات میں جائیے';
   @override
@@ -176,19 +176,19 @@ class TranslationsUr extends Translations
   String get checkForUpdates => 'پیش رفت کے لئے جانچ';
   @override
   String get checkForUpdatesDescription =>
-      'تازہ ورژن کے لئے دستی دیکھیے\n‫یہ آپ کو انٹرنیٹ سے جوڑ دے گا\n(کوئی کوائف نہیں بھیجا جائے گا)';
+      'تازہ ورژن کے لئے دستی دیکھیے\n\u202Bیہ آپ کو انٹرنیٹ سے جوڑ دے گا\n(کوئی کوائف نہیں بھیجا جائے گا)';
   @override
-  String appVersion({required Object version}) => '‫‫‫Mona ورژن ${version}';
+  String appVersion({required Object version}) => '\u202B\u202B\u202BMona ورژن ${version}';
   @override
   String backupSavedTo({required Object path}) =>
-      'پر آمد ‫${path} میں محفوظ ہوا';
+      'پر آمد \u202B${path} میں محفوظ ہوا';
   @override
   String exportFailed({required Object error}) =>
-      'پر آمد کرنا ناکام: ‫${error}';
+      'پر آمد کرنا ناکام: \u202B${error}';
   @override
   String get importDataTitle => 'کوائف بر آمد';
   @override
-  String get importDataSubtitle => '‫JSON ذخیرہ سے کوائف بحال کیجیے';
+  String get importDataSubtitle => '\u202BJSON ذخیرہ سے کوائف بحال کیجیے';
   @override
   String get importDataOverwriteWarning =>
       'یہ آپکے موجودہ کوائف کو ذخیرہ سے تبدیل کر دے گا۔ اس کاروائی کو سلجھایا نہیں جا سکتا۔ جاری رکھا جائے؟';
@@ -203,7 +203,7 @@ class TranslationsUr extends Translations
   String get closeApp => 'ایپ بند';
   @override
   String importFailed({required Object error}) =>
-      'بر آمد کرنا ناکام: ‫${error}';
+      'بر آمد کرنا ناکام: \u202B${error}';
   @override
   String get updates => 'پیش رافت';
   @override
@@ -211,21 +211,21 @@ class TranslationsUr extends Translations
   @override
   String get exportDataTitle => 'کوائف پر آمد';
   @override
-  String get exportDataSubtitle => 'اپنے کوائف کو ‫JSON مسل میں محفوظ کیجیے';
+  String get exportDataSubtitle => 'اپنے کوائف کو \u202BJSON مسل میں محفوظ کیجیے';
   @override
   String get units => 'اکائی';
   @override
   String get updateNoCompatibleApk =>
       'آپ کے آلہ کے لئے کوئی مطابق پذیر پیش رفت نہیں ملی۔';
   @override
-  String get updateAppUpToDate => '‫‫آپ کا ایپ جدید ہے!';
+  String get updateAppUpToDate => '\u202B\u202Bآپ کا ایپ جدید ہے!';
   @override
   String get updateCheckNetworkError => 'پیش رفت کے لئے ابھی دیکھا نہ جا سکا۔';
   @override
   String get updateDialogTitle => 'پیش رفت دستیاب';
   @override
   String updateDialogBody({required Object latest, required Object current}) =>
-      '‫${latest} ورژن دستیاب ہے! (موجودہ: ${current})\n\nآپ کے آلہ کے لئے مطابق پذیر پیش رفت تنصیب کے لئے تیار ہے۔';
+      '\u202B${latest} ورژن دستیاب ہے! (موجودہ: ${current})\n\nآپ کے آلہ کے لئے مطابق پذیر پیش رفت تنصیب کے لئے تیار ہے۔';
   @override
   String get updateDownloadAndInstall => 'ڈاؤنلوڈ اور نصب';
   @override
@@ -235,22 +235,22 @@ class TranslationsUr extends Translations
   String get updateDownloadingTitle => 'پیش رفت ڈاؤنلوڈ ہو رہی ہے...';
   @override
   String updateFailedOpenInstaller({required Object message}) =>
-      'تنصیب کار کھولنا ناکام: ‫${message}';
+      'تنصیب کار کھولنا ناکام: \u202B${message}';
   @override
   String get updateDownloadFailed =>
       'ڈاؤنلوڈ ناکام۔ براہ کرم اپنا رابطہ دیکھیے۔';
   @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
-      '‫${scheduleName} لینے کا وقت';
+      '\u202B${scheduleName} لینے کا وقت';
   @override
   String notificationMedicationReminderBodyDate({required Object date}) =>
-      '‫${date} کے لئے شیڈیول';
+      '\u202B${date} کے لئے شیڈیول';
   @override
   String notificationMedicationReminderBodyTime({required Object time}) =>
-      '‫${time} کے لئے شیڈیول';
+      '\u202B${time} کے لئے شیڈیول';
   @override
   String notificationMedicationReminderBodyWeekday({required Object weekday}) =>
-      '‫${weekday} کے لئے شیڈیول';
+      '\u202B${weekday} کے لئے شیڈیول';
   @override
   String get addSchedule => 'شیڈیول شمول';
   @override
@@ -278,28 +278,28 @@ class TranslationsUr extends Translations
   @override
   String get editSchedule => 'شیڈیول ترمیم';
   @override
-  String deleteSchedule({required Object name}) => '‫${name} کو حذف؟';
+  String deleteSchedule({required Object name}) => '\u202B${name} کو حذف؟';
   @override
   String get addNotification => 'اطلاع شامل';
   @override
   String get empty_intakes => 'نوش شدہ مدخل ادھر نمودار ہوں گی';
   @override
-  String get HrtCounter => '‫HRT پر وقت';
+  String get HrtCounter => '\u202BHRT پر وقت';
   @override
   String get HrtCounterDescription =>
-      '‫آپ کتنے وقت سے HRT پر ہیں اور اپنی مکمل مدخل دکھائیے‫';
+      '\u202Bآپ کتنے وقت سے HRT پر ہیں اور اپنی مکمل مدخل دکھائیے\u202B';
   @override
   String get hrtWidgetPlaceholder =>
-      '‫اپنی پہلی مدخل لاگ کرنے کے لئے Mona کھولیے';
+      '\u202Bاپنی پہلی مدخل لاگ کرنے کے لئے Mona کھولیے';
   @override
-  String get hrtWidgetPreviewSample => '‫8 مہینوں سے HRT پر';
+  String get hrtWidgetPreviewSample => '\u202B8 مہینوں سے HRT پر';
   @override
   String get hrtWidgetPreviewIntakeSample => '16 مدخل لاگ شدہ';
   @override
   String get startOfDay => 'دن کا شروع';
   @override
   String startOfDayDescription({required Object time}) =>
-      '‫${time} سے پہلے کا وقت پچھلے دن کی جانب گنا جاتا ہے';
+      '\u202B${time} سے پہلے کا وقت پچھلے دن کی جانب گنا جاتا ہے';
   @override
   String get chooseSchedule => 'شیڈیول منتخب کیجیے';
   @override
@@ -328,7 +328,7 @@ class TranslationsUr extends Translations
   String get deleteIntake => 'اس مدخل کو حذف کیا جائے؟';
   @override
   String takeMedication({required Object scheduleName}) =>
-      '‫${scheduleName} لیجیے';
+      '\u202B${scheduleName} لیجیے';
   @override
   String get takeIntake => 'مدخل لیجیے';
   @override
@@ -337,72 +337,72 @@ class TranslationsUr extends Translations
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
-        one: '‫‫‫${count} دن قبل',
-        other: '‫${count} دن قبل',
+        one: '\u202B\u202B\u202B${count} دن قبل',
+        other: '\u202B${count} دن قبل',
       );
   @override
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
-        one: '‫${count} دن میں‫',
-        other: '‫${count} دنوں میں',
+        one: '\u202B${count} دن میں\u202B',
+        other: '\u202B${count} دنوں میں',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
         one: 'ہر دن',
-        other: 'ہر ‫${count} دن بعد',
+        other: 'ہر \u202B${count} دن بعد',
       );
   @override
   String scheduleFrequencyOnDayEveryNMonths(
           {required num count, required Object day}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
-        one: '‫${day} دن، ہر مہینے',
-        other: '‫${day} دن، ہر ${count} مہینے',
+        one: '\u202B${day} دن، ہر مہینے',
+        other: '\u202B${day} دن، ہر ${count} مہینے',
       );
   @override
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
-        one: '‫${count} بنایا',
-        other: '‫${count} بنائے',
+        one: '\u202B${count} بنایا',
+        other: '\u202B${count} بنائے',
       );
   @override
   String onHrtForDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
-        one: 'اک دن سے ‫HRT پر',
-        other: '‫${count} دنوں سے HRT پر',
+        one: 'اک دن سے \u202BHRT پر',
+        other: '\u202B${count} دنوں سے HRT پر',
       );
   @override
   String onHrtForWeeks({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
-        one: 'اک ہفتے سے ‫HRT پر',
-        other: '‫${count} ہفتوں سے HRT پر',
+        one: 'اک ہفتے سے \u202BHRT پر',
+        other: '\u202B${count} ہفتوں سے HRT پر',
       );
   @override
   String onHrtForMonths({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
-        one: '‪اک مہینے سے ‫‫‫‫HRT پر',
-        other: '‫${count} مہینوں سے ‫HRT پر',
+        one: '\u202Aاک مہینے سے \u202B\u202B\u202B\u202BHRT پر',
+        other: '\u202B${count} مہینوں سے \u202BHRT پر',
       );
   @override
   String onHrtForYears({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
-        one: 'اک سال سے ‫HRT پر',
-        other: '‫${count} سال سے HRT پر',
+        one: 'اک سال سے \u202BHRT پر',
+        other: '\u202B${count} سال سے HRT پر',
       );
   @override
   String intakesLoggedCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
         count,
         one: 'اک مدخل لاگ شدہ',
-        other: '‫${count} مدخل لاگ شدہ',
+        other: '\u202B${count} مدخل لاگ شدہ',
       );
 }
 
@@ -441,7 +441,7 @@ extension on TranslationsUr {
       'scheduleFrequencyMonthlyDescription' => 'ہر مہینے ایک ہی دن',
       'scheduleFrequencyAsNeeded' => 'ضرورت کے تحت',
       'scheduleFrequencyAsNeededDescription' => 'کوئی مقرر شیڈیول نہیں',
-      'newUpdateAvailable' => 'نئی پیش رفت دستیاب ہے‫!',
+      'newUpdateAvailable' => 'نئی پیش رفت دستیاب ہے\u202B!',
       'goToSettings' => 'ترتیبات میں جائیے',
       'settingsTitle' => 'ترتیبات',
       'notifications' => 'اطلاعات',
@@ -477,14 +477,14 @@ extension on TranslationsUr {
         'ایپ کھلنے کے بعد خودکاری سے نئی پیش رفت دیکھتا ہے',
       'checkForUpdates' => 'پیش رفت کے لئے جانچ',
       'checkForUpdatesDescription' =>
-        'تازہ ورژن کے لئے دستی دیکھیے\n‫یہ آپ کو انٹرنیٹ سے جوڑ دے گا\n(کوئی کوائف نہیں بھیجا جائے گا)',
-      'appVersion' => ({required Object version}) => '‫‫‫Mona ورژن ${version}',
+        'تازہ ورژن کے لئے دستی دیکھیے\n\u202Bیہ آپ کو انٹرنیٹ سے جوڑ دے گا\n(کوئی کوائف نہیں بھیجا جائے گا)',
+      'appVersion' => ({required Object version}) => '\u202B\u202B\u202BMona ورژن ${version}',
       'backupSavedTo' => ({required Object path}) =>
-          'پر آمد ‫${path} میں محفوظ ہوا',
+          'پر آمد \u202B${path} میں محفوظ ہوا',
       'exportFailed' => ({required Object error}) =>
-          'پر آمد کرنا ناکام: ‫${error}',
+          'پر آمد کرنا ناکام: \u202B${error}',
       'importDataTitle' => 'کوائف بر آمد',
-      'importDataSubtitle' => '‫JSON ذخیرہ سے کوائف بحال کیجیے',
+      'importDataSubtitle' => '\u202BJSON ذخیرہ سے کوائف بحال کیجیے',
       'importDataOverwriteWarning' =>
         'یہ آپکے موجودہ کوائف کو ذخیرہ سے تبدیل کر دے گا۔ اس کاروائی کو سلجھایا نہیں جا سکتا۔ جاری رکھا جائے؟',
       'importConfirm' => 'بر آمد',
@@ -493,35 +493,35 @@ extension on TranslationsUr {
         'بحال شدہ کوائف کی اطلاق کے لئے ایپ کی تجدید کیجیے۔',
       'closeApp' => 'ایپ بند',
       'importFailed' => ({required Object error}) =>
-          'بر آمد کرنا ناکام: ‫${error}',
+          'بر آمد کرنا ناکام: \u202B${error}',
       'updates' => 'پیش رافت',
       'dataManagement' => 'کوائف تنظیمات',
       'exportDataTitle' => 'کوائف پر آمد',
-      'exportDataSubtitle' => 'اپنے کوائف کو ‫JSON مسل میں محفوظ کیجیے',
+      'exportDataSubtitle' => 'اپنے کوائف کو \u202BJSON مسل میں محفوظ کیجیے',
       'units' => 'اکائی',
       'updateNoCompatibleApk' =>
         'آپ کے آلہ کے لئے کوئی مطابق پذیر پیش رفت نہیں ملی۔',
-      'updateAppUpToDate' => '‫‫آپ کا ایپ جدید ہے!',
+      'updateAppUpToDate' => '\u202B\u202Bآپ کا ایپ جدید ہے!',
       'updateCheckNetworkError' => 'پیش رفت کے لئے ابھی دیکھا نہ جا سکا۔',
       'updateDialogTitle' => 'پیش رفت دستیاب',
       'updateDialogBody' => (
               {required Object latest, required Object current}) =>
-          '‫${latest} ورژن دستیاب ہے! (موجودہ: ${current})\n\nآپ کے آلہ کے لئے مطابق پذیر پیش رفت تنصیب کے لئے تیار ہے۔',
+          '\u202B${latest} ورژن دستیاب ہے! (موجودہ: ${current})\n\nآپ کے آلہ کے لئے مطابق پذیر پیش رفت تنصیب کے لئے تیار ہے۔',
       'updateDownloadAndInstall' => 'ڈاؤنلوڈ اور نصب',
       'updateInstallPermissionRequired' =>
         'پیش رفت نصب کرنے کے لئے اجازت درکار ہے۔',
       'updateDownloadingTitle' => 'پیش رفت ڈاؤنلوڈ ہو رہی ہے...',
       'updateFailedOpenInstaller' => ({required Object message}) =>
-          'تنصیب کار کھولنا ناکام: ‫${message}',
+          'تنصیب کار کھولنا ناکام: \u202B${message}',
       'updateDownloadFailed' => 'ڈاؤنلوڈ ناکام۔ براہ کرم اپنا رابطہ دیکھیے۔',
       'notificationMedicationReminderTitle' =>
-        ({required Object scheduleName}) => '‫${scheduleName} لینے کا وقت',
+        ({required Object scheduleName}) => '\u202B${scheduleName} لینے کا وقت',
       'notificationMedicationReminderBodyDate' => ({required Object date}) =>
-          '‫${date} کے لئے شیڈیول',
+          '\u202B${date} کے لئے شیڈیول',
       'notificationMedicationReminderBodyTime' => ({required Object time}) =>
-          '‫${time} کے لئے شیڈیول',
+          '\u202B${time} کے لئے شیڈیول',
       'notificationMedicationReminderBodyWeekday' =>
-        ({required Object weekday}) => '‫${weekday} کے لئے شیڈیول',
+        ({required Object weekday}) => '\u202B${weekday} کے لئے شیڈیول',
       'addSchedule' => 'شیڈیول شمول',
       'addScheduleToGetStarted' => 'شروع ہونے کے لئے شیڈیول شامل کیجیے۔',
       'newSchedule' => 'نیا شیڈیول',
@@ -535,18 +535,18 @@ extension on TranslationsUr {
       'editScheduleInfo' => 'شیڈیول معلومات کی ترمیم',
       'scheduling' => 'شیڈیول ہورہا ہے',
       'editSchedule' => 'شیڈیول ترمیم',
-      'deleteSchedule' => ({required Object name}) => '‫${name} کو حذف؟',
+      'deleteSchedule' => ({required Object name}) => '\u202B${name} کو حذف؟',
       'addNotification' => 'اطلاع شامل',
       'empty_intakes' => 'نوش شدہ مدخل ادھر نمودار ہوں گی',
-      'HrtCounter' => '‫HRT پر وقت',
+      'HrtCounter' => '\u202BHRT پر وقت',
       'HrtCounterDescription' =>
-        '‫آپ کتنے وقت سے HRT پر ہیں اور اپنی مکمل مدخل دکھائیے‫',
-      'hrtWidgetPlaceholder' => '‫اپنی پہلی مدخل لاگ کرنے کے لئے Mona کھولیے',
-      'hrtWidgetPreviewSample' => '‫8 مہینوں سے HRT پر',
+        '\u202Bآپ کتنے وقت سے HRT پر ہیں اور اپنی مکمل مدخل دکھائیے\u202B',
+      'hrtWidgetPlaceholder' => '\u202Bاپنی پہلی مدخل لاگ کرنے کے لئے Mona کھولیے',
+      'hrtWidgetPreviewSample' => '\u202B8 مہینوں سے HRT پر',
       'hrtWidgetPreviewIntakeSample' => '16 مدخل لاگ شدہ',
       'startOfDay' => 'دن کا شروع',
       'startOfDayDescription' => ({required Object time}) =>
-          '‫${time} سے پہلے کا وقت پچھلے دن کی جانب گنا جاتا ہے',
+          '\u202B${time} سے پہلے کا وقت پچھلے دن کی جانب گنا جاتا ہے',
       'chooseSchedule' => 'شیڈیول منتخب کیجیے',
       'addSchedulesFirst' => 'پہلے شیڈیولات شامل کیجیے۔',
       'editIntake' => 'مدخل ترمیم',
@@ -561,69 +561,69 @@ extension on TranslationsUr {
       'injectionSide' => 'ٹیکا',
       'deleteIntake' => 'اس مدخل کو حذف کیا جائے؟',
       'takeMedication' => ({required Object scheduleName}) =>
-          '‫${scheduleName} لیجیے',
+          '\u202B${scheduleName} لیجیے',
       'takeIntake' => 'مدخل لیجیے',
       'intakeRecorded' => 'مدخل ریکارڈ ہوا',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
-            one: '‫‫‫${count} دن قبل',
-            other: '‫${count} دن قبل',
+            one: '\u202B\u202B\u202B${count} دن قبل',
+            other: '\u202B${count} دن قبل',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
-            one: '‫${count} دن میں‫',
-            other: '‫${count} دنوں میں',
+            one: '\u202B${count} دن میں\u202B',
+            other: '\u202B${count} دنوں میں',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
             one: 'ہر دن',
-            other: 'ہر ‫${count} دن بعد',
+            other: 'ہر \u202B${count} دن بعد',
           ),
       'scheduleFrequencyOnDayEveryNMonths' => (
               {required num count, required Object day}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
-            one: '‫${day} دن، ہر مہینے',
-            other: '‫${day} دن، ہر ${count} مہینے',
+            one: '\u202B${day} دن، ہر مہینے',
+            other: '\u202B${day} دن، ہر ${count} مہینے',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
-            one: '‫${count} بنایا',
-            other: '‫${count} بنائے',
+            one: '\u202B${count} بنایا',
+            other: '\u202B${count} بنائے',
           ),
       'onHrtForDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
-            one: 'اک دن سے ‫HRT پر',
-            other: '‫${count} دنوں سے HRT پر',
+            one: 'اک دن سے \u202BHRT پر',
+            other: '\u202B${count} دنوں سے HRT پر',
           ),
       'onHrtForWeeks' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
-            one: 'اک ہفتے سے ‫HRT پر',
-            other: '‫${count} ہفتوں سے HRT پر',
+            one: 'اک ہفتے سے \u202BHRT پر',
+            other: '\u202B${count} ہفتوں سے HRT پر',
           ),
       'onHrtForMonths' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
-            one: '‪اک مہینے سے ‫‫‫‫HRT پر',
-            other: '‫${count} مہینوں سے ‫HRT پر',
+            one: '\u202Aاک مہینے سے \u202B\u202B\u202B\u202BHRT پر',
+            other: '\u202B${count} مہینوں سے \u202BHRT پر',
           ),
       'onHrtForYears' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
-            one: 'اک سال سے ‫HRT پر',
-            other: '‫${count} سال سے HRT پر',
+            one: 'اک سال سے \u202BHRT پر',
+            other: '\u202B${count} سال سے HRT پر',
           ),
       'intakesLoggedCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ur'))(
             count,
             one: 'اک مدخل لاگ شدہ',
-            other: '‫${count} مدخل لاگ شدہ',
+            other: '\u202B${count} مدخل لاگ شدہ',
           ),
       _ => null,
     };
