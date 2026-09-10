@@ -59,6 +59,75 @@ class TranslationsEt extends Translations
   String get settingsTitle => 'Seadistused';
   @override
   String get notifications => 'Teavitused';
+  @override
+  String get appTitle => 'Mona';
+  @override
+  String get nav_home => 'Mona';
+  @override
+  String get nav_supplies => 'Varud';
+  @override
+  String get yesterday => 'eile';
+  @override
+  String get tomorrow => 'homme';
+  @override
+  String get lastTaken => 'Viimati võetud';
+  @override
+  String get neverTakenYet => 'Pole kunagi võetud';
+  @override
+  String get scheduleFrequencyDaily => 'Iga päev';
+  @override
+  String get scheduleFrequencyDailyDescription => 'Iga päev kindlal ajal';
+  @override
+  String get scheduleFrequencyInterval => 'Välp';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Iga paari päeva järel';
+  @override
+  String get language => 'Keel';
+  @override
+  String get languageFollowDevice => 'Järgi seadme keelt';
+  @override
+  String get selectLanguage => 'Vali keel';
+  @override
+  String get enableNotifications => 'Võta teavitused kasutusele';
+  @override
+  String get enableNotificationsDescription => 'Saada meeldetuletusi';
+  @override
+  String get asNeeded => 'Vastavalt vajadusele';
+  @override
+  String get taken => 'Võetud';
+  @override
+  String appVersion({required Object version}) => 'Mona versioon ${version}';
+  @override
+  String backupSavedTo({required Object path}) =>
+      'Varukoopia on salvestatud asukohta: ${path}';
+  @override
+  String exportFailed({required Object error}) =>
+      'Eksportimine ei õnnestunud: ${error}';
+  @override
+  String get importDataTitle => 'Impordi andmed';
+  @override
+  String get importDataSubtitle => 'Taasta andmed JSON-vormingus varukoopiast';
+  @override
+  String daysAgoCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
+        count,
+        one: '${count} päev tagasi',
+        other: '${count} päeva tagasi',
+      );
+  @override
+  String inDaysCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
+        count,
+        one: '${count} päeva pärast',
+        other: '${count} päeva pärast',
+      );
+  @override
+  String scheduleFrequencyEveryNDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
+        count,
+        one: 'Iga päev',
+        other: 'Iga ${count} päeva järel',
+      );
 }
 
 /// The flat map containing all translations for locale <et>.
@@ -72,6 +141,49 @@ extension on TranslationsEt {
       'goToSettings' => 'Ava seadistused',
       'settingsTitle' => 'Seadistused',
       'notifications' => 'Teavitused',
+      'appTitle' => 'Mona',
+      'nav_home' => 'Mona',
+      'nav_supplies' => 'Varud',
+      'yesterday' => 'eile',
+      'tomorrow' => 'homme',
+      'lastTaken' => 'Viimati võetud',
+      'neverTakenYet' => 'Pole kunagi võetud',
+      'scheduleFrequencyDaily' => 'Iga päev',
+      'scheduleFrequencyDailyDescription' => 'Iga päev kindlal ajal',
+      'scheduleFrequencyInterval' => 'Välp',
+      'scheduleFrequencyIntervalDescription' => 'Iga paari päeva järel',
+      'language' => 'Keel',
+      'languageFollowDevice' => 'Järgi seadme keelt',
+      'selectLanguage' => 'Vali keel',
+      'enableNotifications' => 'Võta teavitused kasutusele',
+      'enableNotificationsDescription' => 'Saada meeldetuletusi',
+      'asNeeded' => 'Vastavalt vajadusele',
+      'taken' => 'Võetud',
+      'appVersion' => ({required Object version}) => 'Mona versioon ${version}',
+      'backupSavedTo' => ({required Object path}) =>
+          'Varukoopia on salvestatud asukohta: ${path}',
+      'exportFailed' => ({required Object error}) =>
+          'Eksportimine ei õnnestunud: ${error}',
+      'importDataTitle' => 'Impordi andmed',
+      'importDataSubtitle' => 'Taasta andmed JSON-vormingus varukoopiast',
+      'daysAgoCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
+            count,
+            one: '${count} päev tagasi',
+            other: '${count} päeva tagasi',
+          ),
+      'inDaysCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
+            count,
+            one: '${count} päeva pärast',
+            other: '${count} päeva pärast',
+          ),
+      'scheduleFrequencyEveryNDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
+            count,
+            one: 'Iga päev',
+            other: 'Iga ${count} päeva järel',
+          ),
       _ => null,
     };
   }

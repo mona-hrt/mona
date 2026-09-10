@@ -19,6 +19,7 @@ import 'package:mona/ui/views/levels/levels_page/baby_bar_chart_graph.dart';
 import 'package:mona/ui/views/levels/levels_page/baby_main_chart_graph.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
+import 'package:mona/ui/widgets/minute_ticker.dart';
 import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
@@ -113,9 +114,14 @@ class LevelsPage extends StatelessWidget {
   }
 }
 
-class _GraphTile extends StatelessWidget {
+class _GraphTile extends StatefulWidget {
   const _GraphTile();
 
+  @override
+  State<_GraphTile> createState() => _GraphTileState();
+}
+
+class _GraphTileState extends State<_GraphTile> with MinuteTicker {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -129,6 +135,8 @@ class _GraphTile extends StatelessWidget {
         .generateLevelsSpots(intakes, unit, tMin: tNow - 9, tMax: tNow + 5);
     final nowLevel =
         GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
+    final showPreview =
+        lastWeekSpots.peakY >= 10; // value meaningless under 10 whatever unit
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -149,31 +157,34 @@ class _GraphTile extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.only(right: 70),
-          child: Text.rich(
-            textAlign: TextAlign.right,
-            TextSpan(
-              text: nowLevel.toStringAsFixed(0),
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(color: colorScheme.tertiary),
-              children: [
-                TextSpan(
-                  text: ' ${unit.localizedName}',
-                  style: theme.textTheme.bodyMedium
-                      ?.copyWith(color: colorScheme.tertiary),
-                ),
-              ],
+        if (showPreview) ...[
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.only(right: 78),
+            child: Text.rich(
+              textAlign: TextAlign.right,
+              TextSpan(
+                text: nowLevel.toStringAsFixed(0),
+                style: theme.textTheme.headlineSmall
+                    ?.copyWith(color: colorScheme.tertiary),
+                children: [
+                  TextSpan(
+                    text: ' ${unit.localizedName}',
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(color: colorScheme.tertiary),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 160,
-          child: BabyMainChartGraph(
-              spots: lastWeekSpots, nowX: tNow, nowY: nowLevel),
-        ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 160,
+            child: BabyMainChartGraph(
+                spots: lastWeekSpots, nowX: tNow, nowY: nowLevel),
+          ),
+        ] else
+          const SizedBox(height: 16),
       ],
     );
   }
