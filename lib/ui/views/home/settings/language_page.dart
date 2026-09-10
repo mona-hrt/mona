@@ -19,6 +19,7 @@ class LanguagePage extends StatelessWidget {
     'fr': (english: 'French', native: 'Français'),
     'gl': (english: 'Galician', native: 'Galego'),
     'is': (english: 'Icelandic', native: 'Íslenska'),
+    'it': (english: 'Italian', native: 'Italiano'),
     'ko': (english: 'Korean', native: '한국어'),
     'nl': (english: 'Dutch', native: 'Nederlands'),
     'pl': (english: 'Polish', native: 'Polski'),
@@ -31,6 +32,7 @@ class LanguagePage extends StatelessWidget {
     'th': (english: 'Thai', native: 'ภาษาไทย'),
     'tok': (english: 'Toki Pona', native: 'toki pona'),
     'uk': (english: 'Ukrainian', native: 'Українська'),
+    'ur': (english: 'Urdu', native: 'اردو'),
   };
 
   static String? nativeNameOf(String tag) => languageNames[tag]?.native;
