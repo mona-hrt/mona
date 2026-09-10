@@ -357,6 +357,12 @@ class TranslationsFr extends Translations
   @override
   String get estradiolLevelsTitle => 'Taux d\'estradiol';
   @override
+  String get week => 'semaine';
+  @override
+  String get month => 'mois';
+  @override
+  String get year => 'année';
+  @override
   String get empty_blood_tests =>
       'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !';
   @override
@@ -958,6 +964,9 @@ extension on TranslationsFr {
         'Ajoutez une prise de sang ou enregistrez une injection d\'estradiol pour commencer',
       'bloodTestsTitle' => 'Prises de sang',
       'estradiolLevelsTitle' => 'Taux d\'estradiol',
+      'week' => 'semaine',
+      'month' => 'mois',
+      'year' => 'année',
       'empty_blood_tests' =>
         'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !',
       'addBloodTest' => 'Ajouter une analyse de sang',
