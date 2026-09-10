@@ -178,7 +178,8 @@ class TranslationsUr extends Translations
   String get checkForUpdatesDescription =>
       'تازہ ورژن کے لئے دستی دیکھیے\n\u202Bیہ آپ کو انٹرنیٹ سے جوڑ دے گا\n(کوئی کوائف نہیں بھیجا جائے گا)';
   @override
-  String appVersion({required Object version}) => '\u202B\u202B\u202BMona ورژن ${version}';
+  String appVersion({required Object version}) =>
+      '\u202B\u202B\u202BMona ورژن ${version}';
   @override
   String backupSavedTo({required Object path}) =>
       'پر آمد \u202B${path} میں محفوظ ہوا';
@@ -211,7 +212,8 @@ class TranslationsUr extends Translations
   @override
   String get exportDataTitle => 'کوائف پر آمد';
   @override
-  String get exportDataSubtitle => 'اپنے کوائف کو \u202BJSON مسل میں محفوظ کیجیے';
+  String get exportDataSubtitle =>
+      'اپنے کوائف کو \u202BJSON مسل میں محفوظ کیجیے';
   @override
   String get units => 'اکائی';
   @override
@@ -478,7 +480,8 @@ extension on TranslationsUr {
       'checkForUpdates' => 'پیش رفت کے لئے جانچ',
       'checkForUpdatesDescription' =>
         'تازہ ورژن کے لئے دستی دیکھیے\n\u202Bیہ آپ کو انٹرنیٹ سے جوڑ دے گا\n(کوئی کوائف نہیں بھیجا جائے گا)',
-      'appVersion' => ({required Object version}) => '\u202B\u202B\u202BMona ورژن ${version}',
+      'appVersion' => ({required Object version}) =>
+          '\u202B\u202B\u202BMona ورژن ${version}',
       'backupSavedTo' => ({required Object path}) =>
           'پر آمد \u202B${path} میں محفوظ ہوا',
       'exportFailed' => ({required Object error}) =>
@@ -541,7 +544,8 @@ extension on TranslationsUr {
       'HrtCounter' => '\u202BHRT پر وقت',
       'HrtCounterDescription' =>
         '\u202Bآپ کتنے وقت سے HRT پر ہیں اور اپنی مکمل مدخل دکھائیے\u202B',
-      'hrtWidgetPlaceholder' => '\u202Bاپنی پہلی مدخل لاگ کرنے کے لئے Mona کھولیے',
+      'hrtWidgetPlaceholder' =>
+        '\u202Bاپنی پہلی مدخل لاگ کرنے کے لئے Mona کھولیے',
       'hrtWidgetPreviewSample' => '\u202B8 مہینوں سے HRT پر',
       'hrtWidgetPreviewIntakeSample' => '16 مدخل لاگ شدہ',
       'startOfDay' => 'دن کا شروع',
