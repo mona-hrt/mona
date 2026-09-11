@@ -58,19 +58,19 @@ class TranslationsTok extends Translations
   @override
   String get nav_home => 'Mona';
   @override
-  String get nav_intakes => 'open';
+  String get nav_intakes => 'moku';
   @override
-  String get nav_levels => 'nanpa insa';
+  String get nav_levels => 'nanpa sijelo';
   @override
   String get nav_supplies => 'jo';
   @override
-  String get addAnItem => 'pana e ijo sin';
+  String get addAnItem => 'misikeke sin';
   @override
   String get empty_home => 'o pana e nasin tenpo lon poki nasin';
   @override
   String get allDone => 'ale li pini!';
   @override
-  String get noIntakesDue => 'tenpo ni la open li wile ala';
+  String get noIntakesDue => 'o moku ala e misikeke lon suno ni';
   @override
   String get upcoming => 'kama';
   @override
@@ -154,7 +154,7 @@ class TranslationsTok extends Translations
   @override
   String get newItem => 'ijo sin';
   @override
-  String get adminRoute => 'pana nasin';
+  String get adminRoute => 'nasin pana';
   @override
   String get concentration => 'wawa';
   @override
@@ -162,15 +162,15 @@ class TranslationsTok extends Translations
   @override
   String deleteItem({required Object name}) => 'o weka ala weka e ${name}?';
   @override
-  String get add => 'pana';
+  String get add => 'o pana e ijo';
   @override
   String get cancel => 'o weka';
   @override
-  String get next => 'kama';
+  String get next => 'o tawa lipu kama';
   @override
-  String get deleteElement => 'o weka ala weka e ijo ni?';
+  String get deleteElement => 'mi o weka ala weka e ijo ni?';
   @override
-  String get irreversibleAction => 'sina ken ala ante e ni.';
+  String get irreversibleAction => 'mi ken ala weka e wile sina ni.';
   @override
   String get name => 'nimi';
   @override
@@ -185,6 +185,107 @@ class TranslationsTok extends Translations
   String get unitNmolPerL => 'nmol/L';
   @override
   String get requiredField => 'poki ni li wile e nimi';
+  @override
+  String get takeAnIntake => 'moku sin';
+  @override
+  String get taken => 'pini';
+  @override
+  String get scheduleFrequencyDaily => 'suno ale';
+  @override
+  String get scheduleFrequencyInterval => 'sike pi tenpo suno';
+  @override
+  String get scheduleFrequencyWeekly => 'sike pi tenpo esun';
+  @override
+  String get scheduleFrequencyMonthly => 'sike pi tenpo mun';
+  @override
+  String get theme => 'nasin kule';
+  @override
+  String get themeGenerate => 'o kama e kule sin';
+  @override
+  String get themeVariant => 'o wile e kule nasin ni wan';
+  @override
+  String get themeContrastStandard => 'ante lili';
+  @override
+  String get themeContrastMedium => 'ante mute';
+  @override
+  String get themeContrastHigh => 'ante mute a';
+  @override
+  String notificationMedicationReminderTitle({required Object scheduleName}) =>
+      'o moku e ${scheduleName}';
+  @override
+  String notificationMedicationReminderBodyDate({required Object date}) =>
+      'sina o ni lon ${date}';
+  @override
+  String notificationMedicationReminderBodyTime({required Object time}) =>
+      'sina o ni lon tenpo ${time}';
+  @override
+  String notificationMedicationReminderBodyWeekday({required Object weekday}) =>
+      'sina o ni lon ${weekday}';
+  @override
+  String get totalAmount => 'ale poki la';
+  @override
+  String get save => 'o awen e ni';
+  @override
+  String get delete => 'o weka e ona';
+  @override
+  String get injection => 'palisa li insa e ona lon selo sijelo';
+  @override
+  String get oral => 'uta la mi moku e ona';
+  @override
+  String get sublingual => 'ona li awen lon uta li kama telo';
+  @override
+  String get patch => 'lipu li lon selo sijelo li awen pana e ona';
+  @override
+  String get gel => 'mi pana e ko tawa selo. ona li kama lon insa';
+  @override
+  String get transdermalSpray =>
+      'mi pana e telo kon tawa selo. ona li kama lon insa';
+  @override
+  String get transdermalDrops =>
+      'mi pana e telo tawa selo. ona li kama lon insa';
+  @override
+  String get placementLeft => 'poka sijelo nanpa wan';
+  @override
+  String get placementRight => 'poka sijelo nanpa tu';
+  @override
+  String get placementLeftThigh => 'poka noka nanpa wan';
+  @override
+  String get placementRightThigh => 'poka noka nanpa tu';
+  @override
+  String get placementRightArm => 'poka luka nanpa tu';
+  @override
+  String get placementLeftArm => 'poka luka nanpa wan';
+  @override
+  String get placementRightButtock => 'monsi la poka nanpa tu';
+  @override
+  String get placementLeftAbdomen => 'sinpin la poka nanpa wan';
+  @override
+  String get placementRightAbdomen => 'sinpin la poka nanpa tu';
+  @override
+  String get injectionSites => 'ma sijelo pi pana palisa';
+  @override
+  String get injectionSitesDescription =>
+      'ma seme pi sijelo sina la palisa li ken insa e telo';
+  @override
+  String get addInjectionSite => 'ma sijelo sin';
+  @override
+  String get noInjectionSitesYet => 'ma sijelo ala li lon';
+  @override
+  String get noInjectionAddOneToGetStarted => 'open la o pana e ma sijelo sin.';
+  @override
+  String get mustBePositiveNumber => 'nanpa o lon o suli tawa 0';
+  @override
+  String get mustBeBetween1And28 => '1 en 28 la nanpa o lon insa';
+  @override
+  String get placementLeftButtock => 'monsi la poka nanpa wan';
+  @override
+  String get customSiteLabel => 'ma sijelo nimi';
+  @override
+  String scheduleFrequencyEveryNDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('tok'))(
+        count,
+        other: 'suno ${count} la ona wan',
+      );
 }
 
 /// The flat map containing all translations for locale <tok>.
@@ -197,13 +298,13 @@ extension on TranslationsTok {
     return switch (path) {
       'appTitle' => 'Mona',
       'nav_home' => 'Mona',
-      'nav_intakes' => 'open',
-      'nav_levels' => 'nanpa insa',
+      'nav_intakes' => 'moku',
+      'nav_levels' => 'nanpa sijelo',
       'nav_supplies' => 'jo',
-      'addAnItem' => 'pana e ijo sin',
+      'addAnItem' => 'misikeke sin',
       'empty_home' => 'o pana e nasin tenpo lon poki nasin',
       'allDone' => 'ale li pini!',
-      'noIntakesDue' => 'tenpo ni la open li wile ala',
+      'noIntakesDue' => 'o moku ala e misikeke lon suno ni',
       'upcoming' => 'kama',
       'yesterday' => 'tenpo suno pini',
       'tomorrow' => 'tenpo suno kama',
@@ -246,15 +347,15 @@ extension on TranslationsTok {
       'empty_supplies' => 'jo li lon ala. o pana e ijo sin la o open.',
       'allItemsFilter' => 'ale',
       'newItem' => 'ijo sin',
-      'adminRoute' => 'pana nasin',
+      'adminRoute' => 'nasin pana',
       'concentration' => 'wawa',
       'editItem' => 'o ante e ijo',
       'deleteItem' => ({required Object name}) => 'o weka ala weka e ${name}?',
-      'add' => 'pana',
+      'add' => 'o pana e ijo',
       'cancel' => 'o weka',
-      'next' => 'kama',
-      'deleteElement' => 'o weka ala weka e ijo ni?',
-      'irreversibleAction' => 'sina ken ala ante e ni.',
+      'next' => 'o tawa lipu kama',
+      'deleteElement' => 'mi o weka ala weka e ijo ni?',
+      'irreversibleAction' => 'mi ken ala weka e wile sina ni.',
       'name' => 'nimi',
       'unitMilligram' => 'mg',
       'unitPgPerMl' => 'pg/mL',
@@ -262,6 +363,61 @@ extension on TranslationsTok {
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
       'requiredField' => 'poki ni li wile e nimi',
+      'takeAnIntake' => 'moku sin',
+      'taken' => 'pini',
+      'scheduleFrequencyDaily' => 'suno ale',
+      'scheduleFrequencyInterval' => 'sike pi tenpo suno',
+      'scheduleFrequencyWeekly' => 'sike pi tenpo esun',
+      'scheduleFrequencyMonthly' => 'sike pi tenpo mun',
+      'theme' => 'nasin kule',
+      'themeGenerate' => 'o kama e kule sin',
+      'themeVariant' => 'o wile e kule nasin ni wan',
+      'themeContrastStandard' => 'ante lili',
+      'themeContrastMedium' => 'ante mute',
+      'themeContrastHigh' => 'ante mute a',
+      'notificationMedicationReminderTitle' =>
+        ({required Object scheduleName}) => 'o moku e ${scheduleName}',
+      'notificationMedicationReminderBodyDate' => ({required Object date}) =>
+          'sina o ni lon ${date}',
+      'notificationMedicationReminderBodyTime' => ({required Object time}) =>
+          'sina o ni lon tenpo ${time}',
+      'notificationMedicationReminderBodyWeekday' =>
+        ({required Object weekday}) => 'sina o ni lon ${weekday}',
+      'totalAmount' => 'ale poki la',
+      'save' => 'o awen e ni',
+      'delete' => 'o weka e ona',
+      'injection' => 'palisa li insa e ona lon selo sijelo',
+      'oral' => 'uta la mi moku e ona',
+      'sublingual' => 'ona li awen lon uta li kama telo',
+      'patch' => 'lipu li lon selo sijelo li awen pana e ona',
+      'gel' => 'mi pana e ko tawa selo. ona li kama lon insa',
+      'transdermalSpray' =>
+        'mi pana e telo kon tawa selo. ona li kama lon insa',
+      'transdermalDrops' => 'mi pana e telo tawa selo. ona li kama lon insa',
+      'placementLeft' => 'poka sijelo nanpa wan',
+      'placementRight' => 'poka sijelo nanpa tu',
+      'placementLeftThigh' => 'poka noka nanpa wan',
+      'placementRightThigh' => 'poka noka nanpa tu',
+      'placementRightArm' => 'poka luka nanpa tu',
+      'placementLeftArm' => 'poka luka nanpa wan',
+      'placementRightButtock' => 'monsi la poka nanpa tu',
+      'placementLeftAbdomen' => 'sinpin la poka nanpa wan',
+      'placementRightAbdomen' => 'sinpin la poka nanpa tu',
+      'injectionSites' => 'ma sijelo pi pana palisa',
+      'injectionSitesDescription' =>
+        'ma seme pi sijelo sina la palisa li ken insa e telo',
+      'addInjectionSite' => 'ma sijelo sin',
+      'noInjectionSitesYet' => 'ma sijelo ala li lon',
+      'noInjectionAddOneToGetStarted' => 'open la o pana e ma sijelo sin.',
+      'mustBePositiveNumber' => 'nanpa o lon o suli tawa 0',
+      'mustBeBetween1And28' => '1 en 28 la nanpa o lon insa',
+      'placementLeftButtock' => 'monsi la poka nanpa wan',
+      'customSiteLabel' => 'ma sijelo nimi',
+      'scheduleFrequencyEveryNDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('tok'))(
+            count,
+            other: 'suno ${count} la ona wan',
+          ),
       _ => null,
     };
   }

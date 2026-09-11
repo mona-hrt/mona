@@ -83,7 +83,7 @@ class TranslationsNl extends Translations
   @override
   String get tomorrow => 'morgen';
   @override
-  String get scheduleFrequencyDaily => 'Elke dag';
+  String get scheduleFrequencyDaily => 'Dagelijks';
   @override
   String get scheduleFrequencyWeekly => 'Wekelijks';
   @override
@@ -183,7 +183,7 @@ class TranslationsNl extends Translations
   @override
   String get updates => 'Updates';
   @override
-  String get dataManagement => 'Data Management';
+  String get dataManagement => 'Gegevensbeheer';
   @override
   String get exportDataTitle => 'Data Exporteren';
   @override
@@ -349,7 +349,7 @@ class TranslationsNl extends Translations
   @override
   String get medicationItemType => 'Medicatie';
   @override
-  String get genericItemType => 'Verbruiksmaterialen';
+  String get genericItemType => 'Verbruiksmateriaal';
   @override
   String get supplyType => 'Type';
   @override
@@ -380,13 +380,13 @@ class TranslationsNl extends Translations
   @override
   String get name => 'Naam';
   @override
-  String get molecule => 'Molecule';
+  String get molecule => 'Molecuul';
   @override
   String get ester => 'Ester';
   @override
   String get estradiol => 'Oestradiol';
   @override
-  String get progesterone => 'Progesterone';
+  String get progesterone => 'Progesteron';
   @override
   String get testosterone => 'Testosteron';
   @override
@@ -572,6 +572,29 @@ class TranslationsNl extends Translations
   @override
   String get customSiteLabel => 'Aangepaste pleknaam';
   @override
+  String get asNeeded => 'Wanneer nodig';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Om de paar dagen';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Bepaalde dagen van de week';
+  @override
+  String get scheduleFrequencyMonthlyDescription =>
+      'Elke maand op dezelfde dag';
+  @override
+  String get scheduleFrequencyAsNeeded => 'Wanneer nodig';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'Geen vast schema';
+  @override
+  String get empty_levels =>
+      'Voeg een bloedtest toe of log een estradiol injectie om te beginnen';
+  @override
+  String get estradiolLevelsTitle => 'Oestradiolspiegels';
+  @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Elke dag, op specifieke tijden';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
         count,
@@ -639,8 +662,8 @@ class TranslationsNl extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
         count,
-        one: '${count} ${unit} over',
-        other: '${count} ${unit} over',
+        one: 'Nog ${count} ${unit} over',
+        other: 'Nog ${count} ${unit} over',
       );
   @override
   String syringeRemaining({required num count}) =>
@@ -758,7 +781,7 @@ extension on TranslationsNl {
       'taken' => 'Genomen',
       'yesterday' => 'gisteren',
       'tomorrow' => 'morgen',
-      'scheduleFrequencyDaily' => 'Elke dag',
+      'scheduleFrequencyDaily' => 'Dagelijks',
       'scheduleFrequencyWeekly' => 'Wekelijks',
       'scheduleFrequencyMonthly' => 'Maandelijks',
       'newUpdateAvailable' => 'Een nieuwe update is beschikbaar!',
@@ -812,7 +835,7 @@ extension on TranslationsNl {
       'importFailed' => ({required Object error}) =>
           'Importeren mislukt: ${error}',
       'updates' => 'Updates',
-      'dataManagement' => 'Data Management',
+      'dataManagement' => 'Gegevensbeheer',
       'exportDataTitle' => 'Data Exporteren',
       'exportDataSubtitle' => 'Sla je data op in een JSON bestand',
       'units' => 'Eenheden',
@@ -902,7 +925,7 @@ extension on TranslationsNl {
       'medicationItemsFilter' => 'Medicatie',
       'genericItems' => 'Verbruiksmaterialen',
       'medicationItemType' => 'Medicatie',
-      'genericItemType' => 'Verbruiksmaterialen',
+      'genericItemType' => 'Verbruiksmateriaal',
       'supplyType' => 'Type',
       'syringe' => 'Injectiespuiten',
       'wipe' => 'Doekjes',
@@ -917,10 +940,10 @@ extension on TranslationsNl {
       'deleteElement' => 'Dit item verwijderen?',
       'irreversibleAction' => 'Deze actie kan niet ongedaan worden gemaakt.',
       'name' => 'Naam',
-      'molecule' => 'Molecule',
+      'molecule' => 'Molecuul',
       'ester' => 'Ester',
       'estradiol' => 'Oestradiol',
-      'progesterone' => 'Progesterone',
+      'progesterone' => 'Progesteron',
       'testosterone' => 'Testosteron',
       'nandrolone' => 'Nandrolon',
       'dihydrotestosterone' => 'Dihydrotestosteron',
@@ -1018,6 +1041,17 @@ extension on TranslationsNl {
       'medicationTestosteroneCypionateSuspension' =>
         'Testosteroncypionaat-suspensie',
       'customSiteLabel' => 'Aangepaste pleknaam',
+      'asNeeded' => 'Wanneer nodig',
+      'scheduleFrequencyIntervalDescription' => 'Om de paar dagen',
+      'scheduleFrequencyWeeklyDescription' => 'Bepaalde dagen van de week',
+      'scheduleFrequencyMonthlyDescription' => 'Elke maand op dezelfde dag',
+      'scheduleFrequencyAsNeeded' => 'Wanneer nodig',
+      'scheduleFrequencyAsNeededDescription' => 'Geen vast schema',
+      'empty_levels' =>
+        'Voeg een bloedtest toe of log een estradiol injectie om te beginnen',
+      'estradiolLevelsTitle' => 'Oestradiolspiegels',
+      'unitNgPerMl' => 'ng/mL',
+      'scheduleFrequencyDailyDescription' => 'Elke dag, op specifieke tijden',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
             count,
@@ -1076,8 +1110,8 @@ extension on TranslationsNl {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
             count,
-            one: '${count} ${unit} over',
-            other: '${count} ${unit} over',
+            one: 'Nog ${count} ${unit} over',
+            other: 'Nog ${count} ${unit} over',
           ),
       'syringeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(

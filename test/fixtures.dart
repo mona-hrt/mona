@@ -168,6 +168,7 @@ BloodTest aBloodTest({
   required DateTime dateTime,
   Decimal? estradiolLevel,
   Decimal? testosteroneLevel,
+  String? notes,
 }) =>
     BloodTest(
       id: id ?? _generateId(),
@@ -179,6 +180,7 @@ BloodTest aBloodTest({
       testosteroneLevels: testosteroneLevel != null
           ? UnitValue(testosteroneLevel, TestosteroneUnit.ng_dL)
           : null,
+      notes: notes,
     );
 
 MedicationSupplyItem aMedicationSupplyItem({

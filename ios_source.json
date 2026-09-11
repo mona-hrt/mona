@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.0/mona-1.20.0.ipa",
-      "size": 12343046,
-      "version": "1.20.0",
-      "versionDate": "2026-08-26T22:06:30Z",
-      "versionDescription": "New:\r\n\r\n- Preview your levels in the new levels tab\r\n- You can now see your blood test levels as charts\r\n- New language: Albanian\r\n\r\nFix:\r\n\r\n- Used consistent icons\r\n- Corrected colors used in the item picker\r\n- Added all supported languages to the widget",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.1/mona-1.20.1.ipa",
+      "size": 12354764,
+      "version": "1.20.1",
+      "versionDate": "2026-09-11T09:38:59Z",
+      "versionDescription": "New:\n\n- New languages: Italian, Urdu\n\nFix:\n\n- The UI now refreshes on a day change\n- Allowed dates before 2000 to be selected\n- Removed graph preview when no injections are active\n- Rounded remaining supply amount to one decimal",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.1/mona-1.20.1.ipa",
+          "size": 12354764,
+          "version": "1.20.1",
+          "buildVersion": "25",
+          "date": "2026-09-11T09:38:59Z",
+          "localizedDescription": "New:\n\n- New languages: Italian, Urdu\n\nFix:\n\n- The UI now refreshes on a day change\n- Allowed dates before 2000 to be selected\n- Removed graph preview when no injections are active\n- Rounded remaining supply amount to one decimal",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.0/mona-1.20.0.ipa",
           "size": 12343046,

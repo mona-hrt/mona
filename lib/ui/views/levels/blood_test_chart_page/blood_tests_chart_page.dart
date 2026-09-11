@@ -93,23 +93,38 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
     final theme = Theme.of(context);
     final dateText =
         entry.localDate.format(DateFormat.yMMMd(context.intlLanguageTag));
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Text(dateText, style: theme.textTheme.bodyLarge),
-        ),
-        Text.rich(
-          TextSpan(
-            text: entry.value.value.toString(),
-            style: theme.textTheme.titleMedium,
-            children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(dateText, style: theme.textTheme.bodyLarge),
+            ),
+            Text.rich(
               TextSpan(
-                text: ' ${entry.value.unit.localizedName}',
-                style: theme.textTheme.bodyMedium,
+                text: entry.value.value.toString(),
+                style: theme.textTheme.titleMedium,
+                children: [
+                  TextSpan(
+                    text: ' ${entry.value.unit.localizedName}',
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+        if (entry.notes case final notes?)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              notes,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
       ],
     );
   }

@@ -540,6 +540,14 @@ class TranslationsFr extends Translations
   @override
   String get transdermalDrops => 'Gouttes transdermiques';
   @override
+  String get deliveryForm => 'Forme';
+  @override
+  String get deliveryFormPump => 'Pompe';
+  @override
+  String get deliveryFormSachet => 'Sachet';
+  @override
+  String get deliveryFormGram => 'Tube';
+  @override
   String get unitMilligram => 'mg';
   @override
   String get unitPgPerMl => 'pg/mL';
@@ -764,6 +772,22 @@ class TranslationsFr extends Translations
         one: 'pression',
         many: 'de pressions',
         other: 'pressions',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: 'sachet',
+        many: 'de sachets',
+        other: 'sachets',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: 'gramme',
+        many: 'de grammes',
+        other: 'grammes',
       );
   @override
   String administrationRouteUnitImplant({required num count}) =>
@@ -1059,6 +1083,10 @@ extension on TranslationsFr {
       'suppository' => 'Suppositoire',
       'transdermalSpray' => 'Spray transdermique',
       'transdermalDrops' => 'Gouttes transdermiques',
+      'deliveryForm' => 'Forme',
+      'deliveryFormPump' => 'Pompe',
+      'deliveryFormSachet' => 'Sachet',
+      'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
@@ -1232,6 +1260,20 @@ extension on TranslationsFr {
             one: 'pression',
             many: 'de pressions',
             other: 'pressions',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: 'sachet',
+            many: 'de sachets',
+            other: 'sachets',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: 'gramme',
+            many: 'de grammes',
+            other: 'grammes',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
