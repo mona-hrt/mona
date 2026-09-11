@@ -546,8 +546,6 @@ class TranslationsRu extends Translations
   @override
   String get placementRightAbdomen => 'Правая часть живота';
   @override
-  String get injectionSites => 'Места инъекций';
-  @override
   String get injectionSitesDescription =>
       'Управляйте местами, между которыми вы чередуете';
   @override
@@ -1021,7 +1019,6 @@ extension on TranslationsRu {
       'placementRightButtock' => 'Правая ягодица',
       'placementLeftAbdomen' => 'Левая часть живота',
       'placementRightAbdomen' => 'Правая часть живота',
-      'injectionSites' => 'Места инъекций',
       'injectionSitesDescription' =>
         'Управляйте местами, между которыми вы чередуете',
       'addInjectionSite' => 'Добавить место',

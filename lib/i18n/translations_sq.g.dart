@@ -559,8 +559,6 @@ class TranslationsSq extends Translations
   @override
   String get placementRightAbdomen => 'Barku i djathtë';
   @override
-  String get injectionSites => 'Vendet e injektimit';
-  @override
   String get injectionSitesDescription =>
       'Menaxho vendet ndërmjet të cilave alternon';
   @override
@@ -1032,7 +1030,6 @@ extension on TranslationsSq {
       'placementRightButtock' => 'Vithja e djathtë',
       'placementLeftAbdomen' => 'Barku i majtë',
       'placementRightAbdomen' => 'Barku i djathtë',
-      'injectionSites' => 'Vendet e injektimit',
       'injectionSitesDescription' =>
         'Menaxho vendet ndërmjet të cilave alternon',
       'addInjectionSite' => 'Shto vend',

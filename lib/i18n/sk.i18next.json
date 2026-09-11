@@ -292,7 +292,6 @@
   "scheduleFrequencyOnDayEveryNMonths_one": "Deň {{day}}, každý mesiac",
   "scheduleFrequencyOnDayEveryNMonths_few": "Deň {{day}}, každé {{count}} mesiace",
   "scheduleFrequencyOnDayEveryNMonths_other": "Deň {{day}}, každých {{count}} mesiacov",
-  "injectionSites": "Miesta vpichu",
   "injectionSitesDescription": "Spravujte miesta vpichu, ktoré striedate",
   "addInjectionSite": "Pridať miesto vpichu",
   "customSiteLabel": "Vlastný názov miesta vpichu",

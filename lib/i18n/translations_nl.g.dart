@@ -493,8 +493,6 @@ class TranslationsNl extends Translations
   @override
   String get placementRightAbdomen => 'Rechterzijde van de buik';
   @override
-  String get injectionSites => 'Injectieplekken';
-  @override
   String get injectionSitesDescription => 'Beheer de plekken waar je wisselt';
   @override
   String get addInjectionSite => 'Plek toevoegen';
@@ -997,7 +995,6 @@ extension on TranslationsNl {
       'placementRightButtock' => 'Rechterbil',
       'placementLeftAbdomen' => 'Linkerzijde van de buik',
       'placementRightAbdomen' => 'Rechterzijde van de buik',
-      'injectionSites' => 'Injectieplekken',
       'injectionSitesDescription' => 'Beheer de plekken waar je wisselt',
       'addInjectionSite' => 'Plek toevoegen',
       'noInjectionSitesYet' => 'Nog geen plekken',

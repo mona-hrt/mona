@@ -548,8 +548,6 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get placementRightAbdomen => 'Abdômen direito';
   @override
-  String get injectionSites => 'Locais de injeção';
-  @override
   String get injectionSitesDescription =>
       'Gerencie os locais entre os quais você alterna';
   @override
@@ -1024,7 +1022,6 @@ extension on TranslationsPtBr {
       'placementRightButtock' => 'Nádega direita',
       'placementLeftAbdomen' => 'Abdômen esquerdo',
       'placementRightAbdomen' => 'Abdômen direito',
-      'injectionSites' => 'Locais de injeção',
       'injectionSitesDescription' =>
         'Gerencie os locais entre os quais você alterna',
       'addInjectionSite' => 'Adicionar local',

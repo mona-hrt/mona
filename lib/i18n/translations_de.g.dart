@@ -517,8 +517,6 @@ class TranslationsDe extends Translations
   @override
   String get placementRightAbdomen => 'Rechter Bauch';
   @override
-  String get injectionSites => 'Injektionsstellen';
-  @override
   String get addInjectionSite => 'Stelle hinzufügen';
   @override
   String get customSiteLabel => 'Eigener Stellenname';
@@ -1012,7 +1010,6 @@ extension on TranslationsDe {
       'placementRightArm' => 'Rechter Arm',
       'placementLeftAbdomen' => 'Linker Bauch',
       'placementRightAbdomen' => 'Rechter Bauch',
-      'injectionSites' => 'Injektionsstellen',
       'addInjectionSite' => 'Stelle hinzufügen',
       'customSiteLabel' => 'Eigener Stellenname',
       'noInjectionSitesYet' => 'Noch keine Stellen',

@@ -548,8 +548,6 @@ class TranslationsEs extends Translations
   @override
   String get placementRightAbdomen => 'Abdomen derecho';
   @override
-  String get injectionSites => 'Zonas de inyección';
-  @override
   String get injectionSitesDescription =>
       'Gestiona las zonas entre las que rotas';
   @override
@@ -1025,7 +1023,6 @@ extension on TranslationsEs {
       'placementRightButtock' => 'Glúteo derecho',
       'placementLeftAbdomen' => 'Abdomen izquierdo',
       'placementRightAbdomen' => 'Abdomen derecho',
-      'injectionSites' => 'Zonas de inyección',
       'injectionSitesDescription' => 'Gestiona las zonas entre las que rotas',
       'addInjectionSite' => 'Añadir zona',
       'customSiteLabel' => 'Nombre de zona personalizado',

@@ -546,8 +546,6 @@ class TranslationsUk extends Translations
   @override
   String get placementRightAbdomen => 'Права частина живота';
   @override
-  String get injectionSites => 'Місця ін\'єкцій';
-  @override
   String get injectionSitesDescription =>
       'Керуйте місцями, між якими ви чергуєте';
   @override
@@ -1021,7 +1019,6 @@ extension on TranslationsUk {
       'placementRightButtock' => 'Права сідниця',
       'placementLeftAbdomen' => 'Ліва частина живота',
       'placementRightAbdomen' => 'Права частина живота',
-      'injectionSites' => 'Місця ін\'єкцій',
       'injectionSitesDescription' => 'Керуйте місцями, між якими ви чергуєте',
       'addInjectionSite' => 'Додати місце',
       'customSiteLabel' => 'Власна назва місця',

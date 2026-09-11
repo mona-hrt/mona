@@ -541,8 +541,6 @@ class TranslationsPl extends Translations
   @override
   String get placementRightAbdomen => 'Prawa część brzucha';
   @override
-  String get injectionSites => 'Miejsca iniekcji';
-  @override
   String get injectionSitesDescription =>
       'Zarządzaj miejscami, między którymi rotujesz';
   @override
@@ -1023,7 +1021,6 @@ extension on TranslationsPl {
       'placementRightButtock' => 'Prawy pośladek',
       'placementLeftAbdomen' => 'Lewa część brzucha',
       'placementRightAbdomen' => 'Prawa część brzucha',
-      'injectionSites' => 'Miejsca iniekcji',
       'injectionSitesDescription' =>
         'Zarządzaj miejscami, między którymi rotujesz',
       'addInjectionSite' => 'Dodaj miejsce',

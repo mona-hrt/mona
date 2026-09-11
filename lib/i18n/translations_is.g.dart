@@ -504,8 +504,6 @@ class TranslationsIs extends Translations
   @override
   String get placementRightAbdomen => 'Right kvið';
   @override
-  String get injectionSites => 'Innspýtingarstaðir';
-  @override
   String get injectionSitesDescription =>
       'Stjórnaðu síðunum sem þú skiptir á milli';
   @override
@@ -965,7 +963,6 @@ extension on TranslationsIs {
       'placementRightButtock' => 'Right rass',
       'placementLeftAbdomen' => 'Vinstri kvið',
       'placementRightAbdomen' => 'Right kvið',
-      'injectionSites' => 'Innspýtingarstaðir',
       'injectionSitesDescription' => 'Stjórnaðu síðunum sem þú skiptir á milli',
       'addInjectionSite' => 'Bættu við staðir',
       'customSiteLabel' => 'Sérsniðið staðarnafn',

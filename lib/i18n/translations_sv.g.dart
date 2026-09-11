@@ -540,8 +540,6 @@ class TranslationsSv extends Translations
   @override
   String get placementRightAbdomen => 'Höger buk';
   @override
-  String get injectionSites => 'Injektionsställen';
-  @override
   String get injectionSitesDescription => 'Hantera ställena du roterar mellan';
   @override
   String get addInjectionSite => 'Lägg till ställe';
@@ -997,7 +995,6 @@ extension on TranslationsSv {
       'placementRightButtock' => 'Höger skinka',
       'placementLeftAbdomen' => 'Vänster buk',
       'placementRightAbdomen' => 'Höger buk',
-      'injectionSites' => 'Injektionsställen',
       'injectionSitesDescription' => 'Hantera ställena du roterar mellan',
       'addInjectionSite' => 'Lägg till ställe',
       'customSiteLabel' => 'Anpassat ställenamn',

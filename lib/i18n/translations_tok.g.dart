@@ -262,8 +262,6 @@ class TranslationsTok extends Translations
   @override
   String get placementRightAbdomen => 'sinpin la poka nanpa tu';
   @override
-  String get injectionSites => 'ma sijelo pi pana palisa';
-  @override
   String get injectionSitesDescription =>
       'ma seme pi sijelo sina la palisa li ken insa e telo';
   @override
@@ -403,7 +401,6 @@ extension on TranslationsTok {
       'placementRightButtock' => 'monsi la poka nanpa tu',
       'placementLeftAbdomen' => 'sinpin la poka nanpa wan',
       'placementRightAbdomen' => 'sinpin la poka nanpa tu',
-      'injectionSites' => 'ma sijelo pi pana palisa',
       'injectionSitesDescription' =>
         'ma seme pi sijelo sina la palisa li ken insa e telo',
       'addInjectionSite' => 'ma sijelo sin',

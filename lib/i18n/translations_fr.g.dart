@@ -578,7 +578,7 @@ class TranslationsFr extends Translations
   @override
   String get placementRightAbdomen => 'Abdomen (droite)';
   @override
-  String get injectionSites => 'Sites d\'injection';
+  String get applicationSites => 'Sites d\'application';
   @override
   String get injectionSitesDescription => 'Gérez votre rotation de sites';
   @override
@@ -1096,7 +1096,7 @@ extension on TranslationsFr {
       'placementRightButtock' => 'Fesse droite',
       'placementLeftAbdomen' => 'Abdomen (gauche)',
       'placementRightAbdomen' => 'Abdomen (droite)',
-      'injectionSites' => 'Sites d\'injection',
+      'applicationSites' => 'Sites d\'application',
       'injectionSitesDescription' => 'Gérez votre rotation de sites',
       'addInjectionSite' => 'Ajouter un site',
       'customSiteLabel' => 'Nom de site personnalisé',

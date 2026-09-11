@@ -563,7 +563,7 @@ class TranslationsEnGb extends Translations
   @override
   String get placementRightAbdomen => 'Right abdomen';
   @override
-  String get injectionSites => 'Injection sites';
+  String get applicationSites => 'Application sites';
   @override
   String get injectionSitesDescription => 'Manage the sites you rotate between';
   @override
@@ -1046,7 +1046,7 @@ extension on TranslationsEnGb {
       'placementRightButtock' => 'Right buttock',
       'placementLeftAbdomen' => 'Left abdomen',
       'placementRightAbdomen' => 'Right abdomen',
-      'injectionSites' => 'Injection sites',
+      'applicationSites' => 'Application sites',
       'injectionSitesDescription' => 'Manage the sites you rotate between',
       'addInjectionSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',

@@ -507,8 +507,6 @@ class TranslationsTh extends Translations
   @override
   String get placementRightAbdomen => 'ช่องท้องด้านขวา';
   @override
-  String get injectionSites => 'ตำแหน่งฉีดยา';
-  @override
   String get injectionSitesDescription => 'จัดการตำแหน่งฉีดยาต่างๆ';
   @override
   String get addInjectionSite => 'เพื่มตำแหน่ง';
@@ -920,7 +918,6 @@ extension on TranslationsTh {
       'placementRightButtock' => 'แก้มก้นฝั่งขวา',
       'placementLeftAbdomen' => 'ช่องท้องด้านซ้าย',
       'placementRightAbdomen' => 'ช่องท้องด้านขวา',
-      'injectionSites' => 'ตำแหน่งฉีดยา',
       'injectionSitesDescription' => 'จัดการตำแหน่งฉีดยาต่างๆ',
       'addInjectionSite' => 'เพื่มตำแหน่ง',
       'customSiteLabel' => 'กำหนดตำแหน่งเอง',

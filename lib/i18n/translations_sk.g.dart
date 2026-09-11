@@ -529,8 +529,6 @@ class TranslationsSk extends Translations
   @override
   String get genericItems => 'Spotrebný materiál';
   @override
-  String get injectionSites => 'Miesta vpichu';
-  @override
   String get injectionSitesDescription =>
       'Spravujte miesta vpichu, ktoré striedate';
   @override
@@ -1013,7 +1011,6 @@ extension on TranslationsSk {
       'mustBeBetween1And28' => 'Musí byť medzi 1 a 28',
       'chooseItem' => 'Zvoľte položku',
       'genericItems' => 'Spotrebný materiál',
-      'injectionSites' => 'Miesta vpichu',
       'injectionSitesDescription' => 'Spravujte miesta vpichu, ktoré striedate',
       'addInjectionSite' => 'Pridať miesto vpichu',
       'customSiteLabel' => 'Vlastný názov miesta vpichu',

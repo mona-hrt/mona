@@ -805,8 +805,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Right abdomen'
   String get placementRightAbdomen => 'Right abdomen';
 
-  /// en: 'Injection sites'
-  String get injectionSites => 'Injection sites';
+  /// en: 'application sites'
+  String get applicationSites => 'application sites';
 
   /// en: 'Manage the sites you rotate between'
   String get injectionSitesDescription => 'Manage the sites you rotate between';
@@ -1325,7 +1325,7 @@ extension on Translations {
       'placementRightButtock' => 'Right buttock',
       'placementLeftAbdomen' => 'Left abdomen',
       'placementRightAbdomen' => 'Right abdomen',
-      'injectionSites' => 'Injection sites',
+      'applicationSites' => 'application sites',
       'injectionSitesDescription' => 'Manage the sites you rotate between',
       'addInjectionSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
