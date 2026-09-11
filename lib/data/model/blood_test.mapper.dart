@@ -55,6 +55,12 @@ class BloodTestMapper extends ClassMapperBase<BloodTest> {
     opt: true,
     hook: JsonStringHook(),
   );
+  static String? _$notes(BloodTest v) => v.notes;
+  static const Field<BloodTest, String> _f$notes = Field(
+    'notes',
+    _$notes,
+    opt: true,
+  );
 
   @override
   final MappableFields<BloodTest> fields = const {
@@ -63,6 +69,7 @@ class BloodTestMapper extends ClassMapperBase<BloodTest> {
     #timeZone: _f$timeZone,
     #estradiolLevels: _f$estradiolLevels,
     #testosteroneLevels: _f$testosteroneLevels,
+    #notes: _f$notes,
   };
 
   static BloodTest _instantiate(DecodingData data) {
@@ -72,6 +79,7 @@ class BloodTestMapper extends ClassMapperBase<BloodTest> {
       timeZone: data.dec(_f$timeZone),
       estradiolLevels: data.dec(_f$estradiolLevels),
       testosteroneLevels: data.dec(_f$testosteroneLevels),
+      notes: data.dec(_f$notes),
     );
   }
 
@@ -144,6 +152,7 @@ abstract class BloodTestCopyWith<$R, $In extends BloodTest, $Out>
     String? timeZone,
     UnitValue<EstradiolUnit>? estradiolLevels,
     UnitValue<TestosteroneUnit>? testosteroneLevels,
+    String? notes,
   });
   BloodTestCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -174,6 +183,7 @@ class _BloodTestCopyWithImpl<$R, $Out>
     String? timeZone,
     Object? estradiolLevels = $none,
     Object? testosteroneLevels = $none,
+    Object? notes = $none,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -183,6 +193,7 @@ class _BloodTestCopyWithImpl<$R, $Out>
           if (estradiolLevels != $none) #estradiolLevels: estradiolLevels,
           if (testosteroneLevels != $none)
             #testosteroneLevels: testosteroneLevels,
+          if (notes != $none) #notes: notes,
         }),
       );
   @override
@@ -195,6 +206,7 @@ class _BloodTestCopyWithImpl<$R, $Out>
           #testosteroneLevels,
           or: $value.testosteroneLevels,
         ),
+        notes: data.get(#notes, or: $value.notes),
       );
 
   @override
