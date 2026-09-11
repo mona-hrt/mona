@@ -578,17 +578,17 @@ class TranslationsFr extends Translations
   @override
   String get placementRightAbdomen => 'Abdomen (droite)';
   @override
-  String get injectionSites => 'Sites d\'injection';
+  String get applicationSites => 'Sites d\'application';
   @override
-  String get injectionSitesDescription => 'Gérez votre rotation de sites';
+  String get applicationSitesDescription => 'Gérez votre rotation de sites';
   @override
-  String get addInjectionSite => 'Ajouter un site';
+  String get addApplicationSite => 'Ajouter un site';
   @override
   String get customSiteLabel => 'Nom de site personnalisé';
   @override
-  String get noInjectionSitesYet => 'Aucun site';
+  String get noApplicationSitesYet => 'Aucun site';
   @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Ajoutez un site ci-dessous pour commencer.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggérer par planning';
@@ -1096,13 +1096,12 @@ extension on TranslationsFr {
       'placementRightButtock' => 'Fesse droite',
       'placementLeftAbdomen' => 'Abdomen (gauche)',
       'placementRightAbdomen' => 'Abdomen (droite)',
-      'injectionSites' => 'Sites d\'injection',
-      'injectionSitesDescription' => 'Gérez votre rotation de sites',
-      'addInjectionSite' => 'Ajouter un site',
+      'applicationSites' => 'Sites d\'application',
+      'applicationSitesDescription' => 'Gérez votre rotation de sites',
+      'addApplicationSite' => 'Ajouter un site',
       'customSiteLabel' => 'Nom de site personnalisé',
-      'noInjectionSitesYet' => 'Aucun site',
-      'noInjectionAddOneToGetStarted' =>
-        'Ajoutez un site ci-dessous pour commencer.',
+      'noApplicationSitesYet' => 'Aucun site',
+      'addSiteToGetStarted' => 'Ajoutez un site ci-dessous pour commencer.',
       'placementSuggestionPerScheduleTitle' => 'Suggérer par planning',
       'placementSuggestionPerScheduleDescription' =>
         'Base la suggestion du site suivant sur ce planning uniquement.',

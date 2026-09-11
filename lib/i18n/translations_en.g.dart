@@ -805,24 +805,24 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Right abdomen'
   String get placementRightAbdomen => 'Right abdomen';
 
-  /// en: 'Injection sites'
-  String get injectionSites => 'Injection sites';
+  /// en: 'Application sites'
+  String get applicationSites => 'Application sites';
 
   /// en: 'Manage the sites you rotate between'
-  String get injectionSitesDescription => 'Manage the sites you rotate between';
+  String get applicationSitesDescription =>
+      'Manage the sites you rotate between';
 
   /// en: 'Add site'
-  String get addInjectionSite => 'Add site';
+  String get addApplicationSite => 'Add site';
 
   /// en: 'Custom site name'
   String get customSiteLabel => 'Custom site name';
 
   /// en: 'No sites yet'
-  String get noInjectionSitesYet => 'No sites yet';
+  String get noApplicationSitesYet => 'No sites yet';
 
   /// en: 'Add a site below to get started.'
-  String get noInjectionAddOneToGetStarted =>
-      'Add a site below to get started.';
+  String get addSiteToGetStarted => 'Add a site below to get started.';
 
   /// en: 'Suggest per schedule'
   String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
@@ -1325,12 +1325,12 @@ extension on Translations {
       'placementRightButtock' => 'Right buttock',
       'placementLeftAbdomen' => 'Left abdomen',
       'placementRightAbdomen' => 'Right abdomen',
-      'injectionSites' => 'Injection sites',
-      'injectionSitesDescription' => 'Manage the sites you rotate between',
-      'addInjectionSite' => 'Add site',
+      'applicationSites' => 'Application sites',
+      'applicationSitesDescription' => 'Manage the sites you rotate between',
+      'addApplicationSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
-      'noInjectionSitesYet' => 'No sites yet',
-      'noInjectionAddOneToGetStarted' => 'Add a site below to get started.',
+      'noApplicationSitesYet' => 'No sites yet',
+      'addSiteToGetStarted' => 'Add a site below to get started.',
       'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
       'placementSuggestionPerScheduleDescription' =>
         'Base the next-site suggestion on this schedule\'s history only.',
