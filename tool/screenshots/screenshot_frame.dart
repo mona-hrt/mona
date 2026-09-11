@@ -41,8 +41,9 @@ class ScreenshotFrame extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'ScreenshotCaption',
                       fontWeight: FontWeight.w600,
-                      fontSize: size.width * 0.05,
+                      fontSize: size.width * 0.06,
                       height: 1.2,
+                      leadingDistribution: TextLeadingDistribution.even,
                       color: colors.onSurface,
                     ),
                   ),
