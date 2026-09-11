@@ -3,6 +3,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
+import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -33,6 +34,7 @@ class MedicationSupplyItem extends SupplyItem
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
+  final DeliveryForm? deliveryForm;
 
   MedicationSupplyItem({
     int? id,
@@ -43,6 +45,7 @@ class MedicationSupplyItem extends SupplyItem
     required this.molecule,
     required this.administrationRoute,
     this.ester,
+    this.deliveryForm,
   })  : usedDose = usedDose ?? Decimal.zero,
         id = id ?? clock.now().millisecondsSinceEpoch;
 

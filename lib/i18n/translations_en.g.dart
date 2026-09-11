@@ -739,6 +739,18 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Transdermal drops'
   String get transdermalDrops => 'Transdermal drops';
 
+  /// en: 'Form'
+  String get deliveryForm => 'Form';
+
+  /// en: 'Pump'
+  String get deliveryFormPump => 'Pump';
+
+  /// en: 'Sachet'
+  String get deliveryFormSachet => 'Sachet';
+
+  /// en: 'Tube'
+  String get deliveryFormGram => 'Tube';
+
   /// en: 'mg'
   String get unitMilligram => 'mg';
 
@@ -993,6 +1005,22 @@ class Translations with BaseTranslations<AppLocale, Translations> {
         count,
         one: 'pump',
         other: 'pumps',
+      );
+
+  /// en: '(one) {sachet} (other) {sachets}'
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'sachet',
+        other: 'sachets',
+      );
+
+  /// en: '(one) {gram} (other) {grams}'
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'gram',
+        other: 'grams',
       );
 
   /// en: '(one) {implant} (other) {implants}'
@@ -1275,6 +1303,10 @@ extension on Translations {
       'suppository' => 'Suppository',
       'transdermalSpray' => 'Transdermal spray',
       'transdermalDrops' => 'Transdermal drops',
+      'deliveryForm' => 'Form',
+      'deliveryFormPump' => 'Pump',
+      'deliveryFormSachet' => 'Sachet',
+      'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
@@ -1427,6 +1459,18 @@ extension on Translations {
             count,
             one: 'pump',
             other: 'pumps',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'sachet',
+            other: 'sachets',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'gram',
+            other: 'grams',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(

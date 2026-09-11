@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -14,6 +15,7 @@ MedicationSupplyItem makeMed({
   Molecule? molecule,
   AdministrationRoute route = AdministrationRoute.oral,
   Ester? ester,
+  DeliveryForm? deliveryForm,
 }) {
   return MedicationSupplyItem(
     id: id,
@@ -24,6 +26,7 @@ MedicationSupplyItem makeMed({
     molecule: molecule ?? KnownMolecules.estradiol,
     administrationRoute: route,
     ester: ester,
+    deliveryForm: deliveryForm,
   );
 }
 
@@ -72,6 +75,29 @@ void main() {
 
         // Assert
         expect(result.ester, isNull);
+      });
+
+      test('round-trips the delivery form', () {
+        // Arrange
+        final original = makeMed(
+            route: AdministrationRoute.gel, deliveryForm: DeliveryForm.sachet);
+
+        // Act
+        final result = MedicationSupplyItemMapper.fromMap(original.toMap());
+
+        // Assert
+        expect(result.deliveryForm, DeliveryForm.sachet);
+      });
+
+      test('round-trips a null delivery form', () {
+        // Arrange
+        final original = makeMed(deliveryForm: null);
+
+        // Act
+        final result = MedicationSupplyItemMapper.fromMap(original.toMap());
+
+        // Assert
+        expect(result.deliveryForm, isNull);
       });
     });
 
@@ -366,6 +392,28 @@ void main() {
 
         // Assert
         expect(result.ester, isNull);
+      });
+
+      test('overrides deliveryForm when a new value is provided', () {
+        // Arrange
+        final original = makeMed(deliveryForm: DeliveryForm.pump);
+
+        // Act
+        final result = original.copyWith(deliveryForm: DeliveryForm.sachet);
+
+        // Assert
+        expect(result.deliveryForm, DeliveryForm.sachet);
+      });
+
+      test('clears deliveryForm when deliveryForm is null', () {
+        // Arrange
+        final original = makeMed(deliveryForm: DeliveryForm.pump);
+
+        // Act
+        final result = original.copyWith(deliveryForm: null);
+
+        // Assert
+        expect(result.deliveryForm, isNull);
       });
     });
 

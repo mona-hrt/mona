@@ -4,6 +4,7 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
 import 'package:mona/i18n/helpers/generic_type_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
@@ -19,10 +20,14 @@ extension SupplyItemL10n on SupplyItem {
 }
 
 extension MedicationSupplyItemL10n on MedicationSupplyItem {
+  String localizedUnit(num count) =>
+      deliveryForm?.localizedUnit(count) ??
+      administrationRoute.localizedUnit(count);
+
   String localizedSupplyAmount(Decimal dose, Molecule molecule) {
     final amount = getAmount(dose);
     return ' $dose ${molecule.localizedUnit} = $amount '
-        '${administrationRoute.localizedUnit(amount.toDouble())}';
+        '${localizedUnit(amount.toDouble())}';
   }
 
   String get localizedSummary {
@@ -36,7 +41,7 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
   }
 
   String _localizedConcentration() {
-    final routeConcentrationUnit = administrationRoute.localizedUnit(1);
+    final routeConcentrationUnit = localizedUnit(1);
     return '$concentration ${molecule.localizedUnit}/$routeConcentrationUnit';
   }
 
@@ -46,8 +51,7 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
         amountRemaining % Decimal.one == Decimal.zero
             ? amountRemaining.toDouble().toInt()
             : amountRemaining.round(scale: 1).toDouble();
-    final routeUnitRemaining =
-        administrationRoute.localizedUnit(amountRemaining.toDouble());
+    final routeUnitRemaining = localizedUnit(amountRemaining.toDouble());
     return t.remaining(
         count: amountRemainingFormatted, unit: routeUnitRemaining);
   }
