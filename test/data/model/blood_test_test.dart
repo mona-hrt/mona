@@ -33,6 +33,23 @@ void main() {
       );
     });
 
+    test('toMap and fromMap should preserve notes', () {
+      // Arrange
+      final bloodtest = BloodTest(
+        id: 1,
+        dateTime: DateTime.utc(2025, 3, 14, 6, 7),
+        timeZone: 'Etc/UTC',
+        notes: 'Did not test before my last injection',
+      );
+
+      // Act
+      final fromMap =
+          BloodTestMapper.fromMap(Map<String, dynamic>.from(bloodtest.toMap()));
+
+      // Assert
+      expect(fromMap.notes, bloodtest.notes);
+    });
+
     test('copyWith overrides only provided fields', () {
       // Arrange
       final original = BloodTest(
