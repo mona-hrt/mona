@@ -66,6 +66,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
   bool get _isInjection =>
       widget.intake.administrationRoute == AdministrationRoute.injection;
 
+  bool get _usesPlacements => widget.intake.administrationRoute.usesPlacements;
+
   void _editIntake(
     MedicationIntakeProvider medicationIntakeProvider,
     SupplyItemProvider supplyItemProvider,
@@ -205,7 +207,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
-        if (!isLoading && !_hasInitializedSide && _isInjection) {
+        if (!isLoading && !_hasInitializedSide && _usesPlacements) {
           _selectedPlacements = widget.intake.placements;
           _hasInitializedSide = true;
         }
@@ -294,15 +296,16 @@ class _EditIntakePageState extends State<EditIntakePage> {
                   () => _selectedGenerics = [..._selectedGenerics, generic]),
             ),
             FormSpacer(),
+            if (_usesPlacements &&
+                preferencesService.placementsList.isNotEmpty) ...[
+              PlacementPicker(
+                options: preferencesService.placementsList,
+                selected: _selectedPlacements,
+                onChanged: _onPlacementChanged,
+              ),
+              FormSpacer(),
+            ],
             if (_isInjection) ...[
-              if (preferencesService.placementsList.isNotEmpty) ...[
-                PlacementPicker(
-                  options: preferencesService.placementsList,
-                  selected: _selectedPlacements,
-                  onChanged: _onPlacementChanged,
-                ),
-                FormSpacer(),
-              ],
               FormTextField(
                 controller: _wastedAmountController,
                 label: t.wastedAmount,

@@ -546,19 +546,16 @@ class TranslationsRu extends Translations
   @override
   String get placementRightAbdomen => 'Правая часть живота';
   @override
-  String get injectionSites => 'Места инъекций';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Управляйте местами, между которыми вы чередуете';
   @override
-  String get addInjectionSite => 'Добавить место';
+  String get addApplicationSite => 'Добавить место';
   @override
   String get customSiteLabel => 'Название места';
   @override
-  String get noInjectionSitesYet => 'Пока нет мест';
+  String get noApplicationSitesYet => 'Пока нет мест';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Добавьте место ниже, чтобы начать.';
+  String get addSiteToGetStarted => 'Добавьте место ниже, чтобы начать.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Предлагать по расписанию';
   @override
@@ -1021,13 +1018,12 @@ extension on TranslationsRu {
       'placementRightButtock' => 'Правая ягодица',
       'placementLeftAbdomen' => 'Левая часть живота',
       'placementRightAbdomen' => 'Правая часть живота',
-      'injectionSites' => 'Места инъекций',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'Управляйте местами, между которыми вы чередуете',
-      'addInjectionSite' => 'Добавить место',
+      'addApplicationSite' => 'Добавить место',
       'customSiteLabel' => 'Название места',
-      'noInjectionSitesYet' => 'Пока нет мест',
-      'noInjectionAddOneToGetStarted' => 'Добавьте место ниже, чтобы начать.',
+      'noApplicationSitesYet' => 'Пока нет мест',
+      'addSiteToGetStarted' => 'Добавьте место ниже, чтобы начать.',
       'placementSuggestionPerScheduleTitle' => 'Предлагать по расписанию',
       'placementSuggestionPerScheduleDescription' =>
         'Основывать предложение следующего места только на истории этого расписания.',

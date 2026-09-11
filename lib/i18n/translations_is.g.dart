@@ -504,19 +504,16 @@ class TranslationsIs extends Translations
   @override
   String get placementRightAbdomen => 'Right kvið';
   @override
-  String get injectionSites => 'Innspýtingarstaðir';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Stjórnaðu síðunum sem þú skiptir á milli';
   @override
-  String get addInjectionSite => 'Bættu við staðir';
+  String get addApplicationSite => 'Bættu við staðir';
   @override
   String get customSiteLabel => 'Sérsniðið staðarnafn';
   @override
-  String get noInjectionSitesYet => 'Engar staðir ennþá';
+  String get noApplicationSitesYet => 'Engar staðir ennþá';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Bættu við stað hér að neðan til að byrja.';
+  String get addSiteToGetStarted => 'Bættu við stað hér að neðan til að byrja.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Tillögur samkvæmt áætlun';
   @override
@@ -965,13 +962,12 @@ extension on TranslationsIs {
       'placementRightButtock' => 'Right rass',
       'placementLeftAbdomen' => 'Vinstri kvið',
       'placementRightAbdomen' => 'Right kvið',
-      'injectionSites' => 'Innspýtingarstaðir',
-      'injectionSitesDescription' => 'Stjórnaðu síðunum sem þú skiptir á milli',
-      'addInjectionSite' => 'Bættu við staðir',
+      'applicationSitesDescription' =>
+        'Stjórnaðu síðunum sem þú skiptir á milli',
+      'addApplicationSite' => 'Bættu við staðir',
       'customSiteLabel' => 'Sérsniðið staðarnafn',
-      'noInjectionSitesYet' => 'Engar staðir ennþá',
-      'noInjectionAddOneToGetStarted' =>
-        'Bættu við stað hér að neðan til að byrja.',
+      'noApplicationSitesYet' => 'Engar staðir ennþá',
+      'addSiteToGetStarted' => 'Bættu við stað hér að neðan til að byrja.',
       'placementSuggestionPerScheduleTitle' => 'Tillögur samkvæmt áætlun',
       'placementSuggestionPerScheduleDescription' =>
         'Byggðu tillöguna að næsta stað eingöngu á sögu þessarar áætlunar.',

@@ -559,19 +559,16 @@ class TranslationsSq extends Translations
   @override
   String get placementRightAbdomen => 'Barku i djathtë';
   @override
-  String get injectionSites => 'Vendet e injektimit';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Menaxho vendet ndërmjet të cilave alternon';
   @override
-  String get addInjectionSite => 'Shto vend';
+  String get addApplicationSite => 'Shto vend';
   @override
   String get customSiteLabel => 'Emër i personalizuar vendi';
   @override
-  String get noInjectionSitesYet => 'Ende asnjë vend';
+  String get noApplicationSitesYet => 'Ende asnjë vend';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Shto një vend më poshtë për të filluar.';
+  String get addSiteToGetStarted => 'Shto një vend më poshtë për të filluar.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Sugjero sipas orarit';
   @override
@@ -1032,14 +1029,12 @@ extension on TranslationsSq {
       'placementRightButtock' => 'Vithja e djathtë',
       'placementLeftAbdomen' => 'Barku i majtë',
       'placementRightAbdomen' => 'Barku i djathtë',
-      'injectionSites' => 'Vendet e injektimit',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'Menaxho vendet ndërmjet të cilave alternon',
-      'addInjectionSite' => 'Shto vend',
+      'addApplicationSite' => 'Shto vend',
       'customSiteLabel' => 'Emër i personalizuar vendi',
-      'noInjectionSitesYet' => 'Ende asnjë vend',
-      'noInjectionAddOneToGetStarted' =>
-        'Shto një vend më poshtë për të filluar.',
+      'noApplicationSitesYet' => 'Ende asnjë vend',
+      'addSiteToGetStarted' => 'Shto një vend më poshtë për të filluar.',
       'placementSuggestionPerScheduleTitle' => 'Sugjero sipas orarit',
       'placementSuggestionPerScheduleDescription' =>
         'Baza sugjerimin e vendit të radhës vetëm te historiku i këtij orari.',
