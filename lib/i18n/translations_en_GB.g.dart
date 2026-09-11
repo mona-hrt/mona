@@ -574,8 +574,7 @@ class TranslationsEnGb extends Translations
   @override
   String get noApplicationSitesYet => 'No sites yet';
   @override
-  String get addSiteToGetStarted =>
-      'Add a site below to get started.';
+  String get addSiteToGetStarted => 'Add a site below to get started.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
   @override

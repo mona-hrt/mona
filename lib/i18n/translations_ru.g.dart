@@ -555,8 +555,7 @@ class TranslationsRu extends Translations
   @override
   String get noApplicationSitesYet => 'Пока нет мест';
   @override
-  String get addSiteToGetStarted =>
-      'Добавьте место ниже, чтобы начать.';
+  String get addSiteToGetStarted => 'Добавьте место ниже, чтобы начать.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Предлагать по расписанию';
   @override
