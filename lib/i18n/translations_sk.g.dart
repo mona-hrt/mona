@@ -529,22 +529,21 @@ class TranslationsSk extends Translations
   @override
   String get genericItems => 'Spotrebný materiál';
   @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Spravujte miesta vpichu, ktoré striedate';
   @override
-  String get addInjectionSite => 'Pridať miesto vpichu';
+  String get addApplicationSite => 'Pridať miesto vpichu';
   @override
   String get customSiteLabel => 'Vlastný názov miesta vpichu';
   @override
-  String get noInjectionSitesYet => 'Zatiaľ žiadne miesta vpichu';
+  String get noApplicationSitesYet => 'Zatiaľ žiadne miesta vpichu';
   @override
   String get placementSuggestionPerScheduleTitle => 'Navrhnúť podľa plánu';
   @override
   String get placementSuggestionPerScheduleDescription =>
       'Odporúčanie ďalšieho miesta vpichu odvodzujte len z histórie tohto plánu.';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Ak chcete začať, pridajte miesto vpichu.';
+  String get addSiteToGetStarted => 'Ak chcete začať, pridajte miesto vpichu.';
   @override
   String get placementLeftButtock => 'Ľavý sedací sval';
   @override
@@ -1011,15 +1010,15 @@ extension on TranslationsSk {
       'mustBeBetween1And28' => 'Musí byť medzi 1 a 28',
       'chooseItem' => 'Zvoľte položku',
       'genericItems' => 'Spotrebný materiál',
-      'injectionSitesDescription' => 'Spravujte miesta vpichu, ktoré striedate',
-      'addInjectionSite' => 'Pridať miesto vpichu',
+      'applicationSitesDescription' =>
+        'Spravujte miesta vpichu, ktoré striedate',
+      'addApplicationSite' => 'Pridať miesto vpichu',
       'customSiteLabel' => 'Vlastný názov miesta vpichu',
-      'noInjectionSitesYet' => 'Zatiaľ žiadne miesta vpichu',
+      'noApplicationSitesYet' => 'Zatiaľ žiadne miesta vpichu',
       'placementSuggestionPerScheduleTitle' => 'Navrhnúť podľa plánu',
       'placementSuggestionPerScheduleDescription' =>
         'Odporúčanie ďalšieho miesta vpichu odvodzujte len z histórie tohto plánu.',
-      'noInjectionAddOneToGetStarted' =>
-        'Ak chcete začať, pridajte miesto vpichu.',
+      'addSiteToGetStarted' => 'Ak chcete začať, pridajte miesto vpichu.',
       'placementLeftButtock' => 'Ľavý sedací sval',
       'placementRightButtock' => 'Pravý sedací sval',
       'placementLeftAbdomen' => 'Ľavá abdominálna oblasť',

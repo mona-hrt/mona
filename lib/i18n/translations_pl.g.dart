@@ -541,17 +541,16 @@ class TranslationsPl extends Translations
   @override
   String get placementRightAbdomen => 'Prawa część brzucha';
   @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Zarządzaj miejscami, między którymi rotujesz';
   @override
-  String get addInjectionSite => 'Dodaj miejsce';
+  String get addApplicationSite => 'Dodaj miejsce';
   @override
   String get customSiteLabel => 'Własna nazwa miejsca';
   @override
-  String get noInjectionSitesYet => 'Brak miejsc';
+  String get noApplicationSitesYet => 'Brak miejsc';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Dodaj miejsce poniżej, aby zacząć.';
+  String get addSiteToGetStarted => 'Dodaj miejsce poniżej, aby zacząć.';
   @override
   String get placementSuggestionPerScheduleTitle =>
       'Sugeruj według harmonogramu';
@@ -1021,12 +1020,12 @@ extension on TranslationsPl {
       'placementRightButtock' => 'Prawy pośladek',
       'placementLeftAbdomen' => 'Lewa część brzucha',
       'placementRightAbdomen' => 'Prawa część brzucha',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'Zarządzaj miejscami, między którymi rotujesz',
-      'addInjectionSite' => 'Dodaj miejsce',
+      'addApplicationSite' => 'Dodaj miejsce',
       'customSiteLabel' => 'Własna nazwa miejsca',
-      'noInjectionSitesYet' => 'Brak miejsc',
-      'noInjectionAddOneToGetStarted' => 'Dodaj miejsce poniżej, aby zacząć.',
+      'noApplicationSitesYet' => 'Brak miejsc',
+      'addSiteToGetStarted' => 'Dodaj miejsce poniżej, aby zacząć.',
       'placementSuggestionPerScheduleTitle' => 'Sugeruj według harmonogramu',
       'placementSuggestionPerScheduleDescription' =>
         'Opieraj sugestię kolejnego miejsca wyłącznie na historii tego harmonogramu.',

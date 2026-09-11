@@ -47,7 +47,7 @@ class ApplicationSitesPage extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                t.injectionSitesDescription,
+                t.applicationSitesDescription,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -58,8 +58,8 @@ class ApplicationSitesPage extends StatelessWidget {
               children: [
                 if (sites.isEmpty)
                   ListTile(
-                    title: Text(t.noInjectionSitesYet),
-                    subtitle: Text(t.noInjectionAddOneToGetStarted),
+                    title: Text(t.noApplicationSitesYet),
+                    subtitle: Text(t.addSiteToGetStarted),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   ),
@@ -75,9 +75,9 @@ class ApplicationSitesPage extends StatelessWidget {
                     ),
                   ),
                 ListTile(
-                  key: const ValueKey('addInjectionSiteTile'),
+                  key: const ValueKey('addApplicationSiteTile'),
                   leading: const Icon(Symbols.add_rounded),
-                  title: Text(t.addInjectionSite),
+                  title: Text(t.addApplicationSite),
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   onTap: () => _addSite(context, preferencesService),
@@ -132,7 +132,7 @@ class _AddSiteDialogState extends State<_AddSiteDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(t.addInjectionSite),
+      title: Text(t.addApplicationSite),
       content: SizedBox(
         width: double.maxFinite,
         child: Column(

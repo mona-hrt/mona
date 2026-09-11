@@ -548,16 +548,16 @@ class TranslationsEs extends Translations
   @override
   String get placementRightAbdomen => 'Abdomen derecho';
   @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Gestiona las zonas entre las que rotas';
   @override
-  String get addInjectionSite => 'Añadir zona';
+  String get addApplicationSite => 'Añadir zona';
   @override
   String get customSiteLabel => 'Nombre de zona personalizado';
   @override
-  String get noInjectionSitesYet => 'Aún no hay zonas';
+  String get noApplicationSitesYet => 'Aún no hay zonas';
   @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Añade una zona a continuación para empezar.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Sugerir por horario';
@@ -1023,12 +1023,11 @@ extension on TranslationsEs {
       'placementRightButtock' => 'Glúteo derecho',
       'placementLeftAbdomen' => 'Abdomen izquierdo',
       'placementRightAbdomen' => 'Abdomen derecho',
-      'injectionSitesDescription' => 'Gestiona las zonas entre las que rotas',
-      'addInjectionSite' => 'Añadir zona',
+      'applicationSitesDescription' => 'Gestiona las zonas entre las que rotas',
+      'addApplicationSite' => 'Añadir zona',
       'customSiteLabel' => 'Nombre de zona personalizado',
-      'noInjectionSitesYet' => 'Aún no hay zonas',
-      'noInjectionAddOneToGetStarted' =>
-        'Añade una zona a continuación para empezar.',
+      'noApplicationSitesYet' => 'Aún no hay zonas',
+      'addSiteToGetStarted' => 'Añade una zona a continuación para empezar.',
       'placementSuggestionPerScheduleTitle' => 'Sugerir por horario',
       'placementSuggestionPerScheduleDescription' =>
         'Basa la sugerencia de la siguiente zona únicamente en el historial de este horario.',

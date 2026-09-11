@@ -517,14 +517,13 @@ class TranslationsDe extends Translations
   @override
   String get placementRightAbdomen => 'Rechter Bauch';
   @override
-  String get addInjectionSite => 'Stelle hinzufügen';
+  String get addApplicationSite => 'Stelle hinzufügen';
   @override
   String get customSiteLabel => 'Eigener Stellenname';
   @override
-  String get noInjectionSitesYet => 'Noch keine Stellen';
+  String get noApplicationSitesYet => 'Noch keine Stellen';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Füge eine Stelle hinzu, um zu beginnen.';
+  String get addSiteToGetStarted => 'Füge eine Stelle hinzu, um zu beginnen.';
   @override
   String get placementLeftButtock => 'Linkes Gesäß';
   @override
@@ -565,7 +564,7 @@ class TranslationsDe extends Translations
   String concentrationLabelPerUnit({required Object unit}) =>
       'Dosis pro ${unit}';
   @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Verwalte die Stellen, zwischen denen du wechselst';
   @override
   String get placementSuggestionPerScheduleTitle => 'Pro Zeitplan vorschlagen';
@@ -1010,11 +1009,10 @@ extension on TranslationsDe {
       'placementRightArm' => 'Rechter Arm',
       'placementLeftAbdomen' => 'Linker Bauch',
       'placementRightAbdomen' => 'Rechter Bauch',
-      'addInjectionSite' => 'Stelle hinzufügen',
+      'addApplicationSite' => 'Stelle hinzufügen',
       'customSiteLabel' => 'Eigener Stellenname',
-      'noInjectionSitesYet' => 'Noch keine Stellen',
-      'noInjectionAddOneToGetStarted' =>
-        'Füge eine Stelle hinzu, um zu beginnen.',
+      'noApplicationSitesYet' => 'Noch keine Stellen',
+      'addSiteToGetStarted' => 'Füge eine Stelle hinzu, um zu beginnen.',
       'placementLeftButtock' => 'Linkes Gesäß',
       'placementRightButtock' => 'Rechtes Gesäß',
       'scheduleFrequencyMonthly' => 'Monatlich',
@@ -1037,7 +1035,7 @@ extension on TranslationsDe {
       'noItemsToAdd' => 'Keine Einträge verfügbar',
       'concentrationLabelPerUnit' => ({required Object unit}) =>
           'Dosis pro ${unit}',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'Verwalte die Stellen, zwischen denen du wechselst',
       'placementSuggestionPerScheduleTitle' => 'Pro Zeitplan vorschlagen',
       'placementSuggestionPerScheduleDescription' =>

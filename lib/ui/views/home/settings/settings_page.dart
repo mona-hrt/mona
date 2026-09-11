@@ -242,7 +242,7 @@ class _SettingsPageState extends State<SettingsPage>
           ListTile(
             key: const ValueKey('settingsInjectionSitesTile'),
             title: Text(t.applicationSites),
-            subtitle: Text(t.injectionSitesDescription),
+            subtitle: Text(t.applicationSitesDescription),
             trailing: Icon(Symbols.chevron_right_rounded),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute<void>(

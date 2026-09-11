@@ -546,17 +546,16 @@ class TranslationsUk extends Translations
   @override
   String get placementRightAbdomen => 'Права частина живота';
   @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Керуйте місцями, між якими ви чергуєте';
   @override
-  String get addInjectionSite => 'Додати місце';
+  String get addApplicationSite => 'Додати місце';
   @override
   String get customSiteLabel => 'Власна назва місця';
   @override
-  String get noInjectionSitesYet => 'Поки немає місць';
+  String get noApplicationSitesYet => 'Поки немає місць';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Додайте місце нижче, щоб почати.';
+  String get addSiteToGetStarted => 'Додайте місце нижче, щоб почати.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Пропонувати за розкладом';
   @override
@@ -1019,11 +1018,11 @@ extension on TranslationsUk {
       'placementRightButtock' => 'Права сідниця',
       'placementLeftAbdomen' => 'Ліва частина живота',
       'placementRightAbdomen' => 'Права частина живота',
-      'injectionSitesDescription' => 'Керуйте місцями, між якими ви чергуєте',
-      'addInjectionSite' => 'Додати місце',
+      'applicationSitesDescription' => 'Керуйте місцями, між якими ви чергуєте',
+      'addApplicationSite' => 'Додати місце',
       'customSiteLabel' => 'Власна назва місця',
-      'noInjectionSitesYet' => 'Поки немає місць',
-      'noInjectionAddOneToGetStarted' => 'Додайте місце нижче, щоб почати.',
+      'noApplicationSitesYet' => 'Поки немає місць',
+      'addSiteToGetStarted' => 'Додайте місце нижче, щоб почати.',
       'placementSuggestionPerScheduleTitle' => 'Пропонувати за розкладом',
       'placementSuggestionPerScheduleDescription' =>
         'Базувати пропозицію наступного місця лише на історії цього розкладу.',

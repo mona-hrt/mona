@@ -262,14 +262,14 @@ class TranslationsTok extends Translations
   @override
   String get placementRightAbdomen => 'sinpin la poka nanpa tu';
   @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'ma seme pi sijelo sina la palisa li ken insa e telo';
   @override
-  String get addInjectionSite => 'ma sijelo sin';
+  String get addApplicationSite => 'ma sijelo sin';
   @override
-  String get noInjectionSitesYet => 'ma sijelo ala li lon';
+  String get noApplicationSitesYet => 'ma sijelo ala li lon';
   @override
-  String get noInjectionAddOneToGetStarted => 'open la o pana e ma sijelo sin.';
+  String get addSiteToGetStarted => 'open la o pana e ma sijelo sin.';
   @override
   String get mustBePositiveNumber => 'nanpa o lon o suli tawa 0';
   @override
@@ -401,11 +401,11 @@ extension on TranslationsTok {
       'placementRightButtock' => 'monsi la poka nanpa tu',
       'placementLeftAbdomen' => 'sinpin la poka nanpa wan',
       'placementRightAbdomen' => 'sinpin la poka nanpa tu',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'ma seme pi sijelo sina la palisa li ken insa e telo',
-      'addInjectionSite' => 'ma sijelo sin',
-      'noInjectionSitesYet' => 'ma sijelo ala li lon',
-      'noInjectionAddOneToGetStarted' => 'open la o pana e ma sijelo sin.',
+      'addApplicationSite' => 'ma sijelo sin',
+      'noApplicationSitesYet' => 'ma sijelo ala li lon',
+      'addSiteToGetStarted' => 'open la o pana e ma sijelo sin.',
       'mustBePositiveNumber' => 'nanpa o lon o suli tawa 0',
       'mustBeBetween1And28' => '1 en 28 la nanpa o lon insa',
       'placementLeftButtock' => 'monsi la poka nanpa wan',
