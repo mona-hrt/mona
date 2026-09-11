@@ -11,7 +11,7 @@ import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/update_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
-import 'package:mona/ui/views/home/settings/injection_sites_page.dart';
+import 'package:mona/ui/views/home/settings/application_sites_page.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
 import 'package:mona/ui/views/home/settings/theme_page.dart';
@@ -241,12 +241,12 @@ class _SettingsPageState extends State<SettingsPage>
           ),
           ListTile(
             key: const ValueKey('settingsInjectionSitesTile'),
-            title: Text(t.injectionSites),
+            title: Text(t.applicationSites),
             subtitle: Text(t.injectionSitesDescription),
             trailing: Icon(Symbols.chevron_right_rounded),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) => const InjectionSitesPage()));
+                  builder: (context) => const ApplicationSitesPage()));
             },
           ),
           ListTile(

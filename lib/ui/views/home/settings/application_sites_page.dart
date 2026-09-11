@@ -9,8 +9,8 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:provider/provider.dart';
 
-class InjectionSitesPage extends StatelessWidget {
-  const InjectionSitesPage({super.key});
+class ApplicationSitesPage extends StatelessWidget {
+  const ApplicationSitesPage({super.key});
 
   Future<void> _addSite(
       BuildContext context, PreferencesService preferencesService) async {
@@ -39,7 +39,7 @@ class InjectionSitesPage extends StatelessWidget {
     final sites = preferencesService.placementsList;
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.injectionSites)),
+      appBar: AppBar(title: Text(t.applicationSites)),
       body: SingleChildScrollView(
         padding: pagePadding,
         child: Column(
