@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
+import 'package:mona/ui/widgets/dropdowns/delivery_form_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
@@ -37,6 +40,7 @@ class _NewMedicationItemSpecificsPageState
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
+  DeliveryForm? _deliveryForm;
   late PreferencesService _preferencesService;
 
   String? get _totalAmountError =>
@@ -52,6 +56,15 @@ class _NewMedicationItemSpecificsPageState
         MedicationSupplyItem.esterValidator(_molecule, _administrationRoute);
     return validator(_ester);
   }
+
+  String? get _unitLabel =>
+      _deliveryForm?.localizedUnit(1) ?? _administrationRoute?.localizedUnit(1);
+
+  String get _concentrationLabel =>
+      _administrationRoute == AdministrationRoute.injection ||
+              _unitLabel == null
+          ? t.concentration
+          : t.concentrationLabelPerUnit(unit: _unitLabel!);
 
   bool get _isFormValid =>
       _totalAmountError == null &&
@@ -79,6 +92,11 @@ class _NewMedicationItemSpecificsPageState
     if (administrationRoute != null) {
       setState(() {
         _administrationRoute = administrationRoute;
+        if (administrationRoute == AdministrationRoute.gel) {
+          _deliveryForm ??= DeliveryForm.pump;
+        } else {
+          _deliveryForm = null;
+        }
         if (!_useEsterField) {
           _ester = null;
         }
@@ -90,6 +108,14 @@ class _NewMedicationItemSpecificsPageState
     if (ester != null) {
       setState(() {
         _ester = ester;
+      });
+    }
+  }
+
+  void _onDeliveryFormChanged(DeliveryForm? deliveryForm) {
+    if (deliveryForm != null) {
+      setState(() {
+        _deliveryForm = deliveryForm;
       });
     }
   }
@@ -116,6 +142,7 @@ class _NewMedicationItemSpecificsPageState
       molecule: _molecule!,
       administrationRoute: _administrationRoute!,
       ester: _ester,
+      deliveryForm: _deliveryForm,
     );
     final created =
         await Provider.of<SupplyItemProvider>(context, listen: false).add(item);
@@ -165,6 +192,13 @@ class _NewMedicationItemSpecificsPageState
           onChanged: _onAdministrationRouteChanged,
           label: t.adminRoute,
         ),
+        if (_administrationRoute == AdministrationRoute.gel)
+          FormDropdownField<DeliveryForm>(
+            value: _deliveryForm,
+            items: deliveryFormDropdownMenuItems(),
+            onChanged: _onDeliveryFormChanged,
+            label: t.deliveryForm,
+          ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
@@ -179,18 +213,17 @@ class _NewMedicationItemSpecificsPageState
           fieldKey: const ValueKey('newMedicationItemTotalAmount'),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _administrationRoute?.localizedUnit(1),
+          suffixText: _unitLabel,
           regexFormatter: RegexPatterns.floatNumber,
         ),
         FormTextField(
           controller: _concentrationController,
-          label: _administrationRoute?.localizedConcentrationLabel ??
-              t.concentration,
+          label: _concentrationLabel,
           fieldKey: const ValueKey('newMedicationItemConcentration'),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule != null && _administrationRoute != null
-              ? '${_molecule!.localizedUnit}/${_administrationRoute!.localizedUnit(1)}'
+          suffixText: _molecule != null && _unitLabel != null
+              ? '${_molecule!.localizedUnit}/$_unitLabel'
               : null,
           regexFormatter: RegexPatterns.floatNumber,
         ),
