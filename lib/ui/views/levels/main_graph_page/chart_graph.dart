@@ -47,12 +47,8 @@ class MainGraph extends StatelessWidget {
 
     final DateTime baseline = medicationIntakeProvider.getGraphLocalStart()!;
     final double tNow = timeDifferenceInDays(clock.now(), baseline);
-    final double graphSpan = medicationIntakeProvider.getGraphSpan(baseline)!;
-    final double tMin =
-        startDate != null ? timeDifferenceInDays(startDate!, baseline) : 0;
-    final double tMax = endDate != null
-        ? timeDifferenceInDays(endDate!, baseline)
-        : graphSpan + GraphCalculator.tMaxOffset;
+    final double tMin = timeDifferenceInDays(startDate, baseline);
+    final double tMax = timeDifferenceInDays(endDate, baseline);
 
     List<GraphIntake> intakes =
         medicationIntakeProvider.getIntakesForGraph(baseline);

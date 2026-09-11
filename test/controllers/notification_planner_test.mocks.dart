@@ -182,15 +182,6 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as List<_i6.GraphIntake>);
 
   @override
-  double? getGraphSpan(DateTime? tMin) => (super.noSuchMethod(
-        Invocation.method(
-          #getGraphSpan,
-          [tMin],
-        ),
-        returnValueForMissingStub: null,
-      ) as double?);
-
-  @override
   _i7.Date? getLastIntakeLocalDateFromList(
           List<_i4.MedicationIntake>? intakes) =>
       (super.noSuchMethod(
