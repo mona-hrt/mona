@@ -10,7 +10,8 @@ const String createSupplyItemsTable = '''
       administrationRoute TEXT,
       ester TEXT,
       amount INTEGER,
-      genericSupplyType TEXT
+      genericSupplyType TEXT,
+      deliveryForm TEXT
     )
     ''';
 
