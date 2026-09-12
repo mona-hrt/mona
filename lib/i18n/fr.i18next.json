@@ -327,6 +327,7 @@
   "requiredField": "Champ obligatoire",
   "mustBePositiveNumber": "Doit être un nombre positif",
   "mustBeBetween1And28": "Doit être entre 1 et 28",
+  "mustBeAtMost": "Doit être moins de {{max}}",
   "invalidTotalAmount": "Montant total invalide",
   "cannotExceedTotalCapacity": "Ne peut pas dépasser la capacité totale"
 }
