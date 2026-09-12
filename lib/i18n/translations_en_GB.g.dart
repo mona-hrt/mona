@@ -587,6 +587,8 @@ class TranslationsEnGb extends Translations
   @override
   String get mustBeBetween1And28 => 'Must be between 1 and 28';
   @override
+  String mustBeAtMost({required Object max}) => 'Must be at most ${max}';
+  @override
   String get invalidTotalAmount => 'Invalid total amount';
   @override
   String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
@@ -1058,6 +1060,7 @@ extension on TranslationsEnGb {
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'mustBeBetween1And28' => 'Must be between 1 and 28',
+      'mustBeAtMost' => ({required Object max}) => 'Must be at most ${max}',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
       'concentrationLabelPerUnit' => ({required Object unit}) =>

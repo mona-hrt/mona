@@ -840,6 +840,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Must be between 1 and 28'
   String get mustBeBetween1And28 => 'Must be between 1 and 28';
 
+  /// en: 'Must be at most {max}'
+  String mustBeAtMost({required Object max}) => 'Must be at most ${max}';
+
   /// en: 'Invalid total amount'
   String get invalidTotalAmount => 'Invalid total amount';
 
@@ -1337,6 +1340,7 @@ extension on Translations {
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'mustBeBetween1And28' => 'Must be between 1 and 28',
+      'mustBeAtMost' => ({required Object max}) => 'Must be at most ${max}',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
       'daysAgoCount' => ({required num count}) =>
