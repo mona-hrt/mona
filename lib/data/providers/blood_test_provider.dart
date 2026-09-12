@@ -52,6 +52,7 @@ class BloodTestProvider extends ChangeNotifier {
             .map((test) => (
                   localDate: test.localDate,
                   value: UnitValue(test.estradiolLevels!.inUnit(unit), unit),
+                  notes: test.notes,
                 ))
             .toList();
       case Hormone.testosterone:
@@ -60,6 +61,7 @@ class BloodTestProvider extends ChangeNotifier {
             .map((test) => (
                   localDate: test.localDate,
                   value: UnitValue(test.testosteroneLevels!.inUnit(unit), unit),
+                  notes: test.notes,
                 ))
             .toList();
     }

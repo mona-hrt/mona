@@ -24,6 +24,7 @@ class MedicationSupplyItemMapper
       MoleculeMapper.ensureInitialized();
       AdministrationRouteMapper.ensureInitialized();
       EsterMapper.ensureInitialized();
+      DeliveryFormMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -75,6 +76,9 @@ class MedicationSupplyItemMapper
     _$ester,
     opt: true,
   );
+  static DeliveryForm? _$deliveryForm(MedicationSupplyItem v) => v.deliveryForm;
+  static const Field<MedicationSupplyItem, DeliveryForm> _f$deliveryForm =
+      Field('deliveryForm', _$deliveryForm, opt: true);
 
   @override
   final MappableFields<MedicationSupplyItem> fields = const {
@@ -86,6 +90,7 @@ class MedicationSupplyItemMapper
     #molecule: _f$molecule,
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
+    #deliveryForm: _f$deliveryForm,
   };
 
   @override
@@ -105,6 +110,7 @@ class MedicationSupplyItemMapper
       molecule: data.dec(_f$molecule),
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
+      deliveryForm: data.dec(_f$deliveryForm),
     );
   }
 
@@ -181,6 +187,7 @@ abstract class MedicationSupplyItemCopyWith<
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Ester? ester,
+    DeliveryForm? deliveryForm,
   });
   MedicationSupplyItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -208,6 +215,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
+    Object? deliveryForm = $none,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -220,6 +228,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
           if (administrationRoute != null)
             #administrationRoute: administrationRoute,
           if (ester != $none) #ester: ester,
+          if (deliveryForm != $none) #deliveryForm: deliveryForm,
         }),
       );
   @override
@@ -235,6 +244,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
           or: $value.administrationRoute,
         ),
         ester: data.get(#ester, or: $value.ester),
+        deliveryForm: data.get(#deliveryForm, or: $value.deliveryForm),
       );
 
   @override

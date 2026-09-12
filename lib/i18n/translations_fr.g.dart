@@ -534,6 +534,14 @@ class TranslationsFr extends Translations
   @override
   String get transdermalDrops => 'Gouttes transdermiques';
   @override
+  String get deliveryForm => 'Forme';
+  @override
+  String get deliveryFormPump => 'Pompe';
+  @override
+  String get deliveryFormSachet => 'Sachet';
+  @override
+  String get deliveryFormGram => 'Tube';
+  @override
   String get unitMilligram => 'mg';
   @override
   String get unitPgPerMl => 'pg/mL';
@@ -570,17 +578,17 @@ class TranslationsFr extends Translations
   @override
   String get placementRightAbdomen => 'Abdomen (droite)';
   @override
-  String get injectionSites => 'Sites d\'injection';
+  String get applicationSites => 'Sites d\'application';
   @override
-  String get injectionSitesDescription => 'Gérez votre rotation de sites';
+  String get applicationSitesDescription => 'Gérez votre rotation de sites';
   @override
-  String get addInjectionSite => 'Ajouter un site';
+  String get addApplicationSite => 'Ajouter un site';
   @override
   String get customSiteLabel => 'Nom de site personnalisé';
   @override
-  String get noInjectionSitesYet => 'Aucun site';
+  String get noApplicationSitesYet => 'Aucun site';
   @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Ajoutez un site ci-dessous pour commencer.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggérer par planning';
@@ -593,6 +601,8 @@ class TranslationsFr extends Translations
   String get mustBePositiveNumber => 'Doit être un nombre positif';
   @override
   String get mustBeBetween1And28 => 'Doit être entre 1 et 28';
+  @override
+  String mustBeAtMost({required Object max}) => 'Doit être moind de ${max}';
   @override
   String get invalidTotalAmount => 'Montant total invalide';
   @override
@@ -758,6 +768,22 @@ class TranslationsFr extends Translations
         one: 'pression',
         many: 'de pressions',
         other: 'pressions',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: 'sachet',
+        many: 'de sachets',
+        other: 'sachets',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: 'gramme',
+        many: 'de grammes',
+        other: 'grammes',
       );
   @override
   String administrationRouteUnitImplant({required num count}) =>
@@ -1050,6 +1076,10 @@ extension on TranslationsFr {
       'suppository' => 'Suppositoire',
       'transdermalSpray' => 'Spray transdermique',
       'transdermalDrops' => 'Gouttes transdermiques',
+      'deliveryForm' => 'Forme',
+      'deliveryFormPump' => 'Pompe',
+      'deliveryFormSachet' => 'Sachet',
+      'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
@@ -1068,19 +1098,19 @@ extension on TranslationsFr {
       'placementRightButtock' => 'Fesse droite',
       'placementLeftAbdomen' => 'Abdomen (gauche)',
       'placementRightAbdomen' => 'Abdomen (droite)',
-      'injectionSites' => 'Sites d\'injection',
-      'injectionSitesDescription' => 'Gérez votre rotation de sites',
-      'addInjectionSite' => 'Ajouter un site',
+      'applicationSites' => 'Sites d\'application',
+      'applicationSitesDescription' => 'Gérez votre rotation de sites',
+      'addApplicationSite' => 'Ajouter un site',
       'customSiteLabel' => 'Nom de site personnalisé',
-      'noInjectionSitesYet' => 'Aucun site',
-      'noInjectionAddOneToGetStarted' =>
-        'Ajoutez un site ci-dessous pour commencer.',
+      'noApplicationSitesYet' => 'Aucun site',
+      'addSiteToGetStarted' => 'Ajoutez un site ci-dessous pour commencer.',
       'placementSuggestionPerScheduleTitle' => 'Suggérer par planning',
       'placementSuggestionPerScheduleDescription' =>
         'Base la suggestion du site suivant sur ce planning uniquement.',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'mustBeBetween1And28' => 'Doit être entre 1 et 28',
+      'mustBeAtMost' => ({required Object max}) => 'Doit être moind de ${max}',
       'invalidTotalAmount' => 'Montant total invalide',
       'cannotExceedTotalCapacity' => 'Ne peut pas dépasser la capacité totale',
       'daysAgoCount' => ({required num count}) =>
@@ -1223,6 +1253,20 @@ extension on TranslationsFr {
             one: 'pression',
             many: 'de pressions',
             other: 'pressions',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: 'sachet',
+            many: 'de sachets',
+            other: 'sachets',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: 'gramme',
+            many: 'de grammes',
+            other: 'grammes',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(

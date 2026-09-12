@@ -519,6 +519,14 @@ class TranslationsEnGb extends Translations
   @override
   String get transdermalDrops => 'Transdermal drops';
   @override
+  String get deliveryForm => 'Form';
+  @override
+  String get deliveryFormPump => 'Pump';
+  @override
+  String get deliveryFormSachet => 'Sachet';
+  @override
+  String get deliveryFormGram => 'Tube';
+  @override
   String get unitMilligram => 'mg';
   @override
   String get unitPgPerMl => 'pg/mL';
@@ -555,18 +563,18 @@ class TranslationsEnGb extends Translations
   @override
   String get placementRightAbdomen => 'Right abdomen';
   @override
-  String get injectionSites => 'Injection sites';
+  String get applicationSites => 'Application sites';
   @override
-  String get injectionSitesDescription => 'Manage the sites you rotate between';
+  String get applicationSitesDescription =>
+      'Manage the sites you rotate between';
   @override
-  String get addInjectionSite => 'Add site';
+  String get addApplicationSite => 'Add site';
   @override
   String get customSiteLabel => 'Custom site name';
   @override
-  String get noInjectionSitesYet => 'No sites yet';
+  String get noApplicationSitesYet => 'No sites yet';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Add a site below to get started.';
+  String get addSiteToGetStarted => 'Add a site below to get started.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
   @override
@@ -578,6 +586,8 @@ class TranslationsEnGb extends Translations
   String get mustBePositiveNumber => 'Must be a positive number';
   @override
   String get mustBeBetween1And28 => 'Must be between 1 and 28';
+  @override
+  String mustBeAtMost({required Object max}) => 'Must be at most ${max}';
   @override
   String get invalidTotalAmount => 'Invalid total amount';
   @override
@@ -725,6 +735,20 @@ class TranslationsEnGb extends Translations
         count,
         one: 'pump',
         other: 'pumps',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'sachet',
+        other: 'sachets',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'gram',
+        other: 'grams',
       );
   @override
   String administrationRouteUnitImplant({required num count}) =>
@@ -1002,6 +1026,10 @@ extension on TranslationsEnGb {
       'suppository' => 'Suppository',
       'transdermalSpray' => 'Transdermal spray',
       'transdermalDrops' => 'Transdermal drops',
+      'deliveryForm' => 'Form',
+      'deliveryFormPump' => 'Pump',
+      'deliveryFormSachet' => 'Sachet',
+      'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
@@ -1020,18 +1048,19 @@ extension on TranslationsEnGb {
       'placementRightButtock' => 'Right buttock',
       'placementLeftAbdomen' => 'Left abdomen',
       'placementRightAbdomen' => 'Right abdomen',
-      'injectionSites' => 'Injection sites',
-      'injectionSitesDescription' => 'Manage the sites you rotate between',
-      'addInjectionSite' => 'Add site',
+      'applicationSites' => 'Application sites',
+      'applicationSitesDescription' => 'Manage the sites you rotate between',
+      'addApplicationSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
-      'noInjectionSitesYet' => 'No sites yet',
-      'noInjectionAddOneToGetStarted' => 'Add a site below to get started.',
+      'noApplicationSitesYet' => 'No sites yet',
+      'addSiteToGetStarted' => 'Add a site below to get started.',
       'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
       'placementSuggestionPerScheduleDescription' =>
         'Base the next-site suggestion on this schedule\'s history only.',
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'mustBeBetween1And28' => 'Must be between 1 and 28',
+      'mustBeAtMost' => ({required Object max}) => 'Must be at most ${max}',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
       'concentrationLabelPerUnit' => ({required Object unit}) =>
@@ -1156,6 +1185,18 @@ extension on TranslationsEnGb {
             count,
             one: 'pump',
             other: 'pumps',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'sachet',
+            other: 'sachets',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'gram',
+            other: 'grams',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(

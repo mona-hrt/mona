@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
+import 'package:mona/ui/widgets/dropdowns/delivery_form_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
@@ -38,6 +41,7 @@ class _EditItemPageState extends State<EditItemPage> {
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
   late Ester? _ester;
+  late DeliveryForm? _deliveryForm;
   late PreferencesService _preferencesService;
   late SupplyItemProvider _supplyItemProvider;
 
@@ -64,6 +68,14 @@ class _EditItemPageState extends State<EditItemPage> {
         MedicationSupplyItem.esterValidator(_molecule, _administrationRoute);
     return validator(_ester);
   }
+
+  String get _unitLabel =>
+      _deliveryForm?.localizedUnit(1) ?? _administrationRoute.localizedUnit(1);
+
+  String get _concentrationLabel =>
+      _administrationRoute == AdministrationRoute.injection
+          ? t.concentration
+          : t.concentrationLabelPerUnit(unit: _unitLabel);
 
   bool get _isFormValid =>
       _nameError == null &&
@@ -95,6 +107,12 @@ class _EditItemPageState extends State<EditItemPage> {
       setState(() {
         _administrationRoute = administrationRoute;
 
+        if (administrationRoute == AdministrationRoute.gel) {
+          _deliveryForm ??= DeliveryForm.pump;
+        } else {
+          _deliveryForm = null;
+        }
+
         if (!_useEsterField) {
           _ester = null;
         }
@@ -106,6 +124,14 @@ class _EditItemPageState extends State<EditItemPage> {
     if (ester != null) {
       setState(() {
         _ester = ester;
+      });
+    }
+  }
+
+  void _onDeliveryFormChanged(DeliveryForm? deliveryForm) {
+    if (deliveryForm != null) {
+      setState(() {
+        _deliveryForm = deliveryForm;
       });
     }
   }
@@ -129,6 +155,7 @@ class _EditItemPageState extends State<EditItemPage> {
       molecule: _molecule,
       administrationRoute: _administrationRoute,
       ester: ester,
+      deliveryForm: _deliveryForm,
     );
     _supplyItemProvider.updateItem(updatedItem);
 
@@ -163,6 +190,7 @@ class _EditItemPageState extends State<EditItemPage> {
     _molecule = widget.item.molecule;
     _administrationRoute = widget.item.administrationRoute;
     _ester = widget.item.ester;
+    _deliveryForm = widget.item.deliveryForm;
     _supplyItemProvider =
         Provider.of<SupplyItemProvider>(context, listen: false);
     _preferencesService =
@@ -211,6 +239,13 @@ class _EditItemPageState extends State<EditItemPage> {
           onChanged: _onAdministrationRouteChanged,
           label: t.adminRoute,
         ),
+        if (_administrationRoute == AdministrationRoute.gel)
+          FormDropdownField<DeliveryForm>(
+            value: _deliveryForm,
+            items: deliveryFormDropdownMenuItems(),
+            onChanged: _onDeliveryFormChanged,
+            label: t.deliveryForm,
+          ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
@@ -224,7 +259,7 @@ class _EditItemPageState extends State<EditItemPage> {
             label: t.totalAmount,
             onChanged: _refresh,
             inputType: TextInputType.numberWithOptions(decimal: true),
-            suffixText: _administrationRoute.localizedUnit(1),
+            suffixText: _unitLabel,
             errorText: _totalAmountError,
             regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
@@ -232,16 +267,15 @@ class _EditItemPageState extends State<EditItemPage> {
             label: t.usedAmount,
             onChanged: _refresh,
             inputType: TextInputType.numberWithOptions(decimal: true),
-            suffixText: _administrationRoute.localizedUnit(1),
+            suffixText: _unitLabel,
             errorText: _usedAmountError,
             regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
           controller: _concentrationController,
-          label: _administrationRoute.localizedConcentrationLabel,
+          label: _concentrationLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText:
-              '${_molecule.localizedUnit}/${_administrationRoute.localizedUnit(1)}',
+          suffixText: '${_molecule.localizedUnit}/$_unitLabel',
           errorText: _concentrationError,
           regexFormatter: RegexPatterns.floatNumber,
         ),

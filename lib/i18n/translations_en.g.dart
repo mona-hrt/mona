@@ -739,6 +739,18 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Transdermal drops'
   String get transdermalDrops => 'Transdermal drops';
 
+  /// en: 'Form'
+  String get deliveryForm => 'Form';
+
+  /// en: 'Pump'
+  String get deliveryFormPump => 'Pump';
+
+  /// en: 'Sachet'
+  String get deliveryFormSachet => 'Sachet';
+
+  /// en: 'Tube'
+  String get deliveryFormGram => 'Tube';
+
   /// en: 'mg'
   String get unitMilligram => 'mg';
 
@@ -793,24 +805,24 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Right abdomen'
   String get placementRightAbdomen => 'Right abdomen';
 
-  /// en: 'Injection sites'
-  String get injectionSites => 'Injection sites';
+  /// en: 'Application sites'
+  String get applicationSites => 'Application sites';
 
   /// en: 'Manage the sites you rotate between'
-  String get injectionSitesDescription => 'Manage the sites you rotate between';
+  String get applicationSitesDescription =>
+      'Manage the sites you rotate between';
 
   /// en: 'Add site'
-  String get addInjectionSite => 'Add site';
+  String get addApplicationSite => 'Add site';
 
   /// en: 'Custom site name'
   String get customSiteLabel => 'Custom site name';
 
   /// en: 'No sites yet'
-  String get noInjectionSitesYet => 'No sites yet';
+  String get noApplicationSitesYet => 'No sites yet';
 
   /// en: 'Add a site below to get started.'
-  String get noInjectionAddOneToGetStarted =>
-      'Add a site below to get started.';
+  String get addSiteToGetStarted => 'Add a site below to get started.';
 
   /// en: 'Suggest per schedule'
   String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
@@ -827,6 +839,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   /// en: 'Must be between 1 and 28'
   String get mustBeBetween1And28 => 'Must be between 1 and 28';
+
+  /// en: 'Must be at most {max}'
+  String mustBeAtMost({required Object max}) => 'Must be at most ${max}';
 
   /// en: 'Invalid total amount'
   String get invalidTotalAmount => 'Invalid total amount';
@@ -993,6 +1008,22 @@ class Translations with BaseTranslations<AppLocale, Translations> {
         count,
         one: 'pump',
         other: 'pumps',
+      );
+
+  /// en: '(one) {sachet} (other) {sachets}'
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'sachet',
+        other: 'sachets',
+      );
+
+  /// en: '(one) {gram} (other) {grams}'
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'gram',
+        other: 'grams',
       );
 
   /// en: '(one) {implant} (other) {implants}'
@@ -1275,6 +1306,10 @@ extension on Translations {
       'suppository' => 'Suppository',
       'transdermalSpray' => 'Transdermal spray',
       'transdermalDrops' => 'Transdermal drops',
+      'deliveryForm' => 'Form',
+      'deliveryFormPump' => 'Pump',
+      'deliveryFormSachet' => 'Sachet',
+      'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
@@ -1293,18 +1328,19 @@ extension on Translations {
       'placementRightButtock' => 'Right buttock',
       'placementLeftAbdomen' => 'Left abdomen',
       'placementRightAbdomen' => 'Right abdomen',
-      'injectionSites' => 'Injection sites',
-      'injectionSitesDescription' => 'Manage the sites you rotate between',
-      'addInjectionSite' => 'Add site',
+      'applicationSites' => 'Application sites',
+      'applicationSitesDescription' => 'Manage the sites you rotate between',
+      'addApplicationSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
-      'noInjectionSitesYet' => 'No sites yet',
-      'noInjectionAddOneToGetStarted' => 'Add a site below to get started.',
+      'noApplicationSitesYet' => 'No sites yet',
+      'addSiteToGetStarted' => 'Add a site below to get started.',
       'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
       'placementSuggestionPerScheduleDescription' =>
         'Base the next-site suggestion on this schedule\'s history only.',
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'mustBeBetween1And28' => 'Must be between 1 and 28',
+      'mustBeAtMost' => ({required Object max}) => 'Must be at most ${max}',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
       'daysAgoCount' => ({required num count}) =>
@@ -1427,6 +1463,18 @@ extension on Translations {
             count,
             one: 'pump',
             other: 'pumps',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'sachet',
+            other: 'sachets',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'gram',
+            other: 'grams',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
