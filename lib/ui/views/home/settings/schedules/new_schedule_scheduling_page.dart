@@ -223,6 +223,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         label: t.every,
         fieldKey: const ValueKey('newScheduleEvery'),
         suffixText: t.days,
+        errorText: _intervalDaysError,
         onChanged: _refresh,
         inputType: TextInputType.number,
         regexFormatter: RegexPatterns.intNumber,

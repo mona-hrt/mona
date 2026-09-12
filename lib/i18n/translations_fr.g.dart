@@ -608,6 +608,8 @@ class TranslationsFr extends Translations
   @override
   String get mustBeBetween1And28 => 'Doit être entre 1 et 28';
   @override
+  String mustBeAtMost({required Object max}) => 'Doit être moins de ${max}';
+  @override
   String get invalidTotalAmount => 'Montant total invalide';
   @override
   String get cannotExceedTotalCapacity =>
@@ -1117,6 +1119,7 @@ extension on TranslationsFr {
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'mustBeBetween1And28' => 'Doit être entre 1 et 28',
+      'mustBeAtMost' => ({required Object max}) => 'Doit être moins de ${max}',
       'invalidTotalAmount' => 'Montant total invalide',
       'cannotExceedTotalCapacity' => 'Ne peut pas dépasser la capacité totale',
       'daysAgoCount' => ({required num count}) =>

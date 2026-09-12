@@ -1663,5 +1663,48 @@ void main() {
         expect(s.isNotifiable, isFalse);
       });
     });
+
+    group('IntervalDaysSchedule.validateIntervalDays', () {
+      test('rejects an interval above the maximum', () {
+        // Arrange
+        final cases = [
+          {'value': '1', 'expected': isNull},
+          {'value': '$maxIntervalDays', 'expected': isNull},
+          {'value': '${maxIntervalDays + 1}', 'expected': isNotNull},
+          {'value': '999999999', 'expected': isNotNull},
+        ];
+
+        // Act
+        final results = cases
+            .map((c) => IntervalDaysSchedule.validateIntervalDays(
+                c['value'] as String?))
+            .toList();
+        final expected = cases.map((c) => c['expected'] as Matcher).toList();
+
+        // Assert
+        expect(results, expected);
+      });
+    });
+
+    group('MonthlySchedule.validateIntervalMonths', () {
+      test('rejects a month gap above the maximum', () {
+        // Arrange
+        final cases = [
+          {'value': '1', 'expected': isNull},
+          {'value': '$maxIntervalMonths', 'expected': isNull},
+          {'value': '${maxIntervalMonths + 1}', 'expected': isNotNull},
+        ];
+
+        // Act
+        final results = cases
+            .map((c) =>
+                MonthlySchedule.validateIntervalMonths(c['value'] as String?))
+            .toList();
+        final expected = cases.map((c) => c['expected'] as Matcher).toList();
+
+        // Assert
+        expect(results, expected);
+      });
+    });
   });
 }

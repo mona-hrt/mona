@@ -304,6 +304,7 @@
   "requiredField": "Required field",
   "mustBePositiveNumber": "Must be a positive number",
   "mustBeBetween1And28": "Must be between 1 and 28",
+  "mustBeAtMost": "Must be at most {{max}}",
   "invalidTotalAmount": "Invalid total amount",
   "cannotExceedTotalCapacity": "Cannot exceed total capacity",
   "concentrationLabelPerUnit": "Dose per {{unit}}"

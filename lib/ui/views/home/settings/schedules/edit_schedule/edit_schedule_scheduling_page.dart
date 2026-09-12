@@ -224,6 +224,7 @@ class _EditScheduleSchedulingPageState
         controller: _intervalDaysController,
         label: t.every,
         suffixText: t.days,
+        errorText: _intervalDaysError,
         onChanged: _refresh,
         inputType: TextInputType.number,
         regexFormatter: RegexPatterns.intNumber,
