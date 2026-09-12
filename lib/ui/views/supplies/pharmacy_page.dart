@@ -79,7 +79,7 @@ class _PharmacyPageState extends State<PharmacyPage> {
     final theme = Theme.of(context);
 
     return M3EToggleButtonGroup(
-      type: M3EButtonGroupType.standard,
+      type: M3EButtonGroupType.connected,
       size: M3EButtonSize.md,
       decoration: M3EToggleButtonDecoration.styleFrom(
         haptic: M3EHapticFeedback.light,

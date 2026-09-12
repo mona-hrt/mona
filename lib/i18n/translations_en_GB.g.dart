@@ -347,6 +347,12 @@ class TranslationsEnGb extends Translations
   @override
   String get estradiolLevelsTitle => 'Estradiol levels';
   @override
+  String get week => 'week';
+  @override
+  String get month => 'month';
+  @override
+  String get year => 'year';
+  @override
   String get empty_blood_tests =>
       'Taken blood tests will appear here. Start by using the Add button!';
   @override
@@ -938,6 +944,9 @@ extension on TranslationsEnGb {
         'Add a blood test or log an estradiol injection to get started',
       'bloodTestsTitle' => 'Blood Tests',
       'estradiolLevelsTitle' => 'Estradiol levels',
+      'week' => 'week',
+      'month' => 'month',
+      'year' => 'year',
       'empty_blood_tests' =>
         'Taken blood tests will appear here. Start by using the Add button!',
       'addBloodTest' => 'Add a blood test',

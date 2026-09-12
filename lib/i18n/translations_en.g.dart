@@ -480,6 +480,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Estradiol levels'
   String get estradiolLevelsTitle => 'Estradiol levels';
 
+  /// en: 'week'
+  String get week => 'week';
+
+  /// en: 'month'
+  String get month => 'month';
+
+  /// en: 'year'
+  String get year => 'year';
+
   /// en: 'Taken blood tests will appear here. Start by using the Add button!'
   String get empty_blood_tests =>
       'Taken blood tests will appear here. Start by using the Add button!';
@@ -1216,6 +1225,9 @@ extension on Translations {
         'Add a blood test or log an estradiol injection to get started',
       'bloodTestsTitle' => 'Blood Tests',
       'estradiolLevelsTitle' => 'Estradiol levels',
+      'week' => 'week',
+      'month' => 'month',
+      'year' => 'year',
       'empty_blood_tests' =>
         'Taken blood tests will appear here. Start by using the Add button!',
       'addBloodTest' => 'Add a blood test',
