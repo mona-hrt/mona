@@ -63,21 +63,25 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
                     ),
                   ),
                 ),
-                M3ECardList(
+                M3ESegmentedList(
                   margin: pagePadding.add(EdgeInsets.only(
                       top: 8,
                       bottom: MediaQuery.viewPaddingOf(context).bottom)),
                   padding: EdgeInsets.zero,
                   itemCount: entries.length,
-                  itemBuilder: (context, index) => InkWell(
-                    onTapDown: (_) => setState(() =>
-                        _highlightedBarIndex = entries.length - 1 - index),
-                    onTapUp: (_) => setState(() => _highlightedBarIndex = null),
-                    onTapCancel: () =>
-                        setState(() => _highlightedBarIndex = null),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: _testTile(context, entries[index]),
+                  itemBuilder: (context, index) => Material(
+                    type: MaterialType.transparency,
+                    child: InkWell(
+                      onTapDown: (_) => setState(() =>
+                          _highlightedBarIndex = entries.length - 1 - index),
+                      onTapUp: (_) =>
+                          setState(() => _highlightedBarIndex = null),
+                      onTapCancel: () =>
+                          setState(() => _highlightedBarIndex = null),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: _testTile(context, entries[index]),
+                      ),
                     ),
                   ),
                 ),
@@ -93,23 +97,38 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
     final theme = Theme.of(context);
     final dateText =
         entry.localDate.format(DateFormat.yMMMd(context.intlLanguageTag));
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Text(dateText, style: theme.textTheme.bodyLarge),
-        ),
-        Text.rich(
-          TextSpan(
-            text: entry.value.value.toString(),
-            style: theme.textTheme.titleMedium,
-            children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(dateText, style: theme.textTheme.bodyLarge),
+            ),
+            Text.rich(
               TextSpan(
-                text: ' ${entry.value.unit.localizedName}',
-                style: theme.textTheme.bodyMedium,
+                text: entry.value.value.toString(),
+                style: theme.textTheme.titleMedium,
+                children: [
+                  TextSpan(
+                    text: ' ${entry.value.unit.localizedName}',
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+        if (entry.notes case final notes?)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              notes,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
       ],
     );
   }

@@ -9,6 +9,9 @@ import 'package:mona/util/validators.dart';
 
 part 'scheduling_strategy.mapper.dart';
 
+const int maxIntervalDays = 3650;
+const int maxIntervalMonths = 120;
+
 enum ScheduleStatus {
   overdue,
   todayOverdue,
@@ -155,7 +158,10 @@ class IntervalDaysSchedule extends SchedulingStrategy
   }
 
   static String? validateIntervalDays(String? value) =>
-      requiredPositiveInt(value);
+      requiredPositiveInt(value) ??
+      (value!.toInt > maxIntervalDays
+          ? t.mustBeAtMost(max: maxIntervalDays)
+          : null);
 }
 
 @MappableClass(
@@ -199,7 +205,10 @@ class DynamicIntervalSchedule extends SchedulingStrategy
   }
 
   static String? validateIntervalDays(String? value) =>
-      requiredPositiveInt(value);
+      requiredPositiveInt(value) ??
+      (value!.toInt > maxIntervalDays
+          ? t.mustBeAtMost(max: maxIntervalDays)
+          : null);
 }
 
 @MappableClass(
@@ -457,7 +466,10 @@ class MonthlySchedule extends SchedulingStrategy with MonthlyScheduleMappable {
       (value!.toInt > 28 ? t.mustBeBetween1And28 : null);
 
   static String? validateIntervalMonths(String? value) =>
-      requiredPositiveInt(value);
+      requiredPositiveInt(value) ??
+      (value!.toInt > maxIntervalMonths
+          ? t.mustBeAtMost(max: maxIntervalMonths)
+          : null);
 }
 
 @MappableClass(

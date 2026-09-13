@@ -89,7 +89,7 @@ class _IntakeCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return M3ECardColumn(
+    return M3ESegmentedColumn(
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.symmetric(vertical: 4),
       color: Theme.of(context).colorScheme.surface,
@@ -103,7 +103,7 @@ class _NoIntakesDueCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return M3ECardColumn(
+    return M3ESegmentedColumn(
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.symmetric(vertical: 4),
       color: theme.colorScheme.surface,

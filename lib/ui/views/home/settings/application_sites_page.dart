@@ -6,11 +6,11 @@ import 'package:mona/i18n/helpers/placement_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
-import 'package:mona/ui/widgets/forms/form_spacer.dart';
+import 'package:mona/ui/widgets/tinted_switch_tile.dart';
 import 'package:provider/provider.dart';
 
-class InjectionSitesPage extends StatelessWidget {
-  const InjectionSitesPage({super.key});
+class ApplicationSitesPage extends StatelessWidget {
+  const ApplicationSitesPage({super.key});
 
   Future<void> _addSite(
       BuildContext context, PreferencesService preferencesService) async {
@@ -33,73 +33,109 @@ class InjectionSitesPage extends StatelessWidget {
     await preferencesService.setPlacementsList(sites);
   }
 
+  Future<void> _reorderSites(
+      PreferencesService preferencesService, int oldIndex, int newIndex) async {
+    final sites = List<Placement>.from(preferencesService.placementsList);
+    if (newIndex > oldIndex) newIndex -= 1;
+    final moved = sites.removeAt(oldIndex);
+    sites.insert(newIndex, moved);
+    await preferencesService.setPlacementsList(sites);
+  }
+
+  Widget _addSiteButton(
+      BuildContext context, PreferencesService preferencesService) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton.icon(
+        key: const ValueKey('addApplicationSiteTile'),
+        onPressed: () => _addSite(context, preferencesService),
+        icon: const Icon(Symbols.add_rounded),
+        label: Text(t.addApplicationSite),
+      ),
+    );
+  }
+
+  Widget _scopeToggleCard(
+      BuildContext context, PreferencesService preferencesService) {
+    return M3ESegmentedColumn(
+      padding: EdgeInsets.zero,
+      children: [
+        TintedSwitchTile(
+          key: const ValueKey('placementScopeToggle'),
+          title: t.placementSuggestionPerScheduleTitle,
+          subtitle: t.placementSuggestionPerScheduleDescription,
+          value: preferencesService.placementSuggestionPerSchedule,
+          onChanged: (value) =>
+              preferencesService.setPlacementSuggestionPerSchedule(value),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final preferencesService = context.watch<PreferencesService>();
     final sites = preferencesService.placementsList;
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.injectionSites)),
+      appBar: AppBar(title: Text(t.applicationSites)),
       body: SingleChildScrollView(
         padding: pagePadding,
         child: Column(
           children: [
+            SizedBox(height: borderPadding),
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                t.injectionSitesDescription,
+                t.applicationSitesInstructions,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-            FormSpacer(),
-            M3ECardColumn(
-              padding: EdgeInsets.zero,
-              onTap: (index) => _removeSiteAt(preferencesService, index),
-              children: [
-                if (sites.isEmpty)
+            SizedBox(height: borderPadding),
+            if (sites.isEmpty) ...[
+              M3ESegmentedColumn(
+                padding: EdgeInsets.zero,
+                children: [
                   ListTile(
-                    title: Text(t.noInjectionSitesYet),
-                    subtitle: Text(t.noInjectionAddOneToGetStarted),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    title: Text(t.noApplicationSitesYet),
+                    subtitle: Text(t.addSiteToGetStarted),
                   ),
-                for (int i = 0; i < sites.length; i++)
-                  ListTile(
-                    title: Text(sites[i].localizedName),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                    trailing: IconButton(
-                      key: ValueKey('deleteSite_$i'),
-                      icon: const Icon(Symbols.delete_outline_rounded),
-                      onPressed: () => _removeSiteAt(preferencesService, i),
-                    ),
+                ],
+              ),
+              _addSiteButton(context, preferencesService),
+              SizedBox(height: borderPadding),
+              _scopeToggleCard(context, preferencesService),
+            ] else
+              Column(
+                verticalDirection: VerticalDirection.up,
+                children: [
+                  _scopeToggleCard(context, preferencesService),
+                  SizedBox(height: borderPadding),
+                  M3EReorderableSegmentedList(
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    listPadding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    keyBuilder: (index) => ValueKey(sites[index]),
+                    onReorder: (oldIndex, newIndex) =>
+                        _reorderSites(preferencesService, oldIndex, newIndex),
+                    footer: _addSiteButton(context, preferencesService),
+                    children: [
+                      for (int i = 0; i < sites.length; i++)
+                        ListTile(
+                          title: Text(sites[i].localizedName),
+                          trailing: IconButton(
+                            key: ValueKey('deleteSite_$i'),
+                            icon: const Icon(Symbols.delete_outline_rounded),
+                            onPressed: () =>
+                                _removeSiteAt(preferencesService, i),
+                          ),
+                        ),
+                    ],
                   ),
-                ListTile(
-                  key: const ValueKey('addInjectionSiteTile'),
-                  leading: const Icon(Symbols.add_rounded),
-                  title: Text(t.addInjectionSite),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  onTap: () => _addSite(context, preferencesService),
-                ),
-              ],
-            ),
-            FormSpacer(),
-            M3ECardColumn(
-              padding: EdgeInsets.zero,
-              children: [
-                SwitchListTile(
-                  key: const ValueKey('placementScopeToggle'),
-                  title: Text(t.placementSuggestionPerScheduleTitle),
-                  subtitle: Text(t.placementSuggestionPerScheduleDescription),
-                  value: preferencesService.placementSuggestionPerSchedule,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  onChanged: (value) => preferencesService
-                      .setPlacementSuggestionPerSchedule(value),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ),
       ),
@@ -132,7 +168,7 @@ class _AddSiteDialogState extends State<_AddSiteDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(t.addInjectionSite),
+      title: Text(t.addApplicationSite),
       content: SizedBox(
         width: double.maxFinite,
         child: Column(

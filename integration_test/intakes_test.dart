@@ -17,7 +17,7 @@ const _editIntakeSave = ValueKey('editIntakeSave');
 const _editIntakeDelete = ValueKey('editIntakeDelete');
 const _editIntakeNotes = ValueKey('editIntakeNotes');
 const _settingsInjectionSitesTile = ValueKey('settingsInjectionSitesTile');
-const _addInjectionSiteTile = ValueKey('addInjectionSiteTile');
+const _addApplicationSiteTile = ValueKey('addApplicationSiteTile');
 const _customSiteField = ValueKey('customSiteField');
 const _confirmAddSite = ValueKey('confirmAddSite');
 const _intakesList = ValueKey('intakesList');
@@ -97,7 +97,7 @@ void main() {
     await $.launchApp();
     await $(Symbols.settings_rounded).tap();
     await $(_settingsInjectionSitesTile).scrollTo().tap();
-    await $(_addInjectionSiteTile).tap();
+    await $(_addApplicationSiteTile).tap();
     await $(_customSiteField).enterText(site);
     await $(_confirmAddSite).tap();
     await $(site).waitUntilVisible();

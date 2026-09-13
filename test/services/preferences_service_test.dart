@@ -226,6 +226,22 @@ void main() {
         // Assert
         expect(reloaded, placements);
       });
+
+      test('notifies listeners synchronously, before the write completes',
+          () async {
+        // Arrange
+        final service = await PreferencesService.init();
+        var notified = false;
+        service.addListener(() => notified = true);
+
+        // Act
+        final write =
+            service.setPlacementsList(const [CustomPlacement('belly')]);
+
+        // Assert
+        expect(notified, isTrue);
+        await write;
+      });
     });
 
     group('placementSuggestionPerSchedule', () {

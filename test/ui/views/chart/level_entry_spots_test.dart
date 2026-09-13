@@ -9,6 +9,7 @@ import 'package:mona/ui/views/levels/level_entry_spots.dart';
 LevelEntry _entry(int day, String value) => (
       localDate: Date(year: 2025, month: 1, day: day),
       value: UnitValue(Decimal.parse(value), EstradiolUnit.pg_mL),
+      notes: null,
     );
 
 void main() {

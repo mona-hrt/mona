@@ -167,8 +167,9 @@ class PreferencesService extends ChangeNotifier {
 
   Future<void> setPlacementsList(List<Placement> placements) async {
     final jsonString = jsonEncode(placements.map((p) => p.toMap()).toList());
-    await _prefs.setString(_placementsListKey, jsonString);
+    final write = _prefs.setString(_placementsListKey, jsonString);
     notifyListeners();
+    await write;
   }
 
   bool get placementSuggestionPerSchedule =>

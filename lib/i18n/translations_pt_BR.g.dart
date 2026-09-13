@@ -548,19 +548,16 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get placementRightAbdomen => 'Abdômen direito';
   @override
-  String get injectionSites => 'Locais de injeção';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Gerencie os locais entre os quais você alterna';
   @override
-  String get addInjectionSite => 'Adicionar local';
+  String get addApplicationSite => 'Adicionar local';
   @override
   String get customSiteLabel => 'Nome de local personalizado';
   @override
-  String get noInjectionSitesYet => 'Ainda não há locais';
+  String get noApplicationSitesYet => 'Ainda não há locais';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Adicione um local abaixo para começar.';
+  String get addSiteToGetStarted => 'Adicione um local abaixo para começar.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Sugerir por agendamento';
   @override
@@ -1024,14 +1021,12 @@ extension on TranslationsPtBr {
       'placementRightButtock' => 'Nádega direita',
       'placementLeftAbdomen' => 'Abdômen esquerdo',
       'placementRightAbdomen' => 'Abdômen direito',
-      'injectionSites' => 'Locais de injeção',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'Gerencie os locais entre os quais você alterna',
-      'addInjectionSite' => 'Adicionar local',
+      'addApplicationSite' => 'Adicionar local',
       'customSiteLabel' => 'Nome de local personalizado',
-      'noInjectionSitesYet' => 'Ainda não há locais',
-      'noInjectionAddOneToGetStarted' =>
-        'Adicione um local abaixo para começar.',
+      'noApplicationSitesYet' => 'Ainda não há locais',
+      'addSiteToGetStarted' => 'Adicione um local abaixo para começar.',
       'placementSuggestionPerScheduleTitle' => 'Sugerir por agendamento',
       'placementSuggestionPerScheduleDescription' =>
         'Baseie a sugestão do próximo local apenas no histórico deste agendamento.',

@@ -24,6 +24,7 @@ void main() {
         timeZone: i.timeZone,
         estradiolLevels: i.estradiolLevels,
         testosteroneLevels: i.testosteroneLevels,
+        notes: i.notes,
       ),
     );
   });
@@ -470,6 +471,22 @@ void main() {
 
         // Assert
         expect(result.map((e) => e.value.value), [Decimal.parse('1.0')]);
+      });
+
+      test('carries the note of each test', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0'),
+            notes: 'did not test before my last injection'));
+
+        // Act
+        final result =
+            provider.levelEntries(Hormone.estradiol, Units.pg_mL_ng_dL);
+
+        // Assert
+        expect(result.single.notes, 'did not test before my last injection');
       });
 
       test('preserves the newest-first order of the tests', () async {

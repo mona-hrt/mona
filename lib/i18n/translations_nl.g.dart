@@ -493,15 +493,13 @@ class TranslationsNl extends Translations
   @override
   String get placementRightAbdomen => 'Rechterzijde van de buik';
   @override
-  String get injectionSites => 'Injectieplekken';
+  String get applicationSitesDescription => 'Beheer de plekken waar je wisselt';
   @override
-  String get injectionSitesDescription => 'Beheer de plekken waar je wisselt';
+  String get addApplicationSite => 'Plek toevoegen';
   @override
-  String get addInjectionSite => 'Plek toevoegen';
+  String get noApplicationSitesYet => 'Nog geen plekken';
   @override
-  String get noInjectionSitesYet => 'Nog geen plekken';
-  @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Voeg hieronder plekken toe om te beginnen.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggesteer per schema';
@@ -997,12 +995,10 @@ extension on TranslationsNl {
       'placementRightButtock' => 'Rechterbil',
       'placementLeftAbdomen' => 'Linkerzijde van de buik',
       'placementRightAbdomen' => 'Rechterzijde van de buik',
-      'injectionSites' => 'Injectieplekken',
-      'injectionSitesDescription' => 'Beheer de plekken waar je wisselt',
-      'addInjectionSite' => 'Plek toevoegen',
-      'noInjectionSitesYet' => 'Nog geen plekken',
-      'noInjectionAddOneToGetStarted' =>
-        'Voeg hieronder plekken toe om te beginnen.',
+      'applicationSitesDescription' => 'Beheer de plekken waar je wisselt',
+      'addApplicationSite' => 'Plek toevoegen',
+      'noApplicationSitesYet' => 'Nog geen plekken',
+      'addSiteToGetStarted' => 'Voeg hieronder plekken toe om te beginnen.',
       'placementSuggestionPerScheduleTitle' => 'Suggesteer per schema',
       'placementSuggestionPerScheduleDescription' =>
         'Baseer de suggestie voor de volgende plek alleen op de geschiedenis van dit schema.',

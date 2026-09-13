@@ -177,8 +177,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isInjection =
-        widget.schedule.administrationRoute == AdministrationRoute.injection;
+    final AdministrationRoute route = widget.schedule.administrationRoute;
+    final bool isInjection = route == AdministrationRoute.injection;
+    final bool usesPlacements = route.usesPlacements;
 
     return Consumer3<MedicationIntakeProvider, SupplyItemProvider,
         PreferencesService>(
@@ -187,7 +188,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
-        if (!isLoading && !_hasInitializedSide && isInjection) {
+        if (!isLoading && !_hasInitializedSide && usesPlacements) {
           _orderedPlacements = MedicationIntakeManager(
             medicationIntakeProvider,
             supplyItemProvider,
@@ -274,15 +275,15 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   () => _selectedGenerics = [..._selectedGenerics, generic]),
             ),
             FormSpacer(),
+            if (usesPlacements && _orderedPlacements.isNotEmpty) ...[
+              PlacementPicker(
+                options: _orderedPlacements,
+                selected: _selectedPlacements,
+                onChanged: _onPlacementChanged,
+              ),
+              FormSpacer(),
+            ],
             if (isInjection) ...[
-              if (_orderedPlacements.isNotEmpty) ...[
-                PlacementPicker(
-                  options: _orderedPlacements,
-                  selected: _selectedPlacements,
-                  onChanged: _onPlacementChanged,
-                ),
-                FormSpacer(),
-              ],
               FormTextField(
                   controller: _wastedAmountController,
                   label: t.wastedAmount,

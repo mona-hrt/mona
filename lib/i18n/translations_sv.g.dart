@@ -540,17 +540,16 @@ class TranslationsSv extends Translations
   @override
   String get placementRightAbdomen => 'Höger buk';
   @override
-  String get injectionSites => 'Injektionsställen';
+  String get applicationSitesDescription =>
+      'Hantera ställena du roterar mellan';
   @override
-  String get injectionSitesDescription => 'Hantera ställena du roterar mellan';
-  @override
-  String get addInjectionSite => 'Lägg till ställe';
+  String get addApplicationSite => 'Lägg till ställe';
   @override
   String get customSiteLabel => 'Anpassat ställenamn';
   @override
-  String get noInjectionSitesYet => 'Inga ställen än';
+  String get noApplicationSitesYet => 'Inga ställen än';
   @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Lägg till ett ställe nedan för att komma igång.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Föreslå per schema';
@@ -997,12 +996,11 @@ extension on TranslationsSv {
       'placementRightButtock' => 'Höger skinka',
       'placementLeftAbdomen' => 'Vänster buk',
       'placementRightAbdomen' => 'Höger buk',
-      'injectionSites' => 'Injektionsställen',
-      'injectionSitesDescription' => 'Hantera ställena du roterar mellan',
-      'addInjectionSite' => 'Lägg till ställe',
+      'applicationSitesDescription' => 'Hantera ställena du roterar mellan',
+      'addApplicationSite' => 'Lägg till ställe',
       'customSiteLabel' => 'Anpassat ställenamn',
-      'noInjectionSitesYet' => 'Inga ställen än',
-      'noInjectionAddOneToGetStarted' =>
+      'noApplicationSitesYet' => 'Inga ställen än',
+      'addSiteToGetStarted' =>
         'Lägg till ett ställe nedan för att komma igång.',
       'placementSuggestionPerScheduleTitle' => 'Föreslå per schema',
       'placementSuggestionPerScheduleDescription' =>

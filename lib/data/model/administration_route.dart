@@ -23,4 +23,8 @@ enum AdministrationRoute {
 
   final String unit;
   final IconData icon;
+
+  bool get usesPlacements =>
+      this == AdministrationRoute.injection ||
+      this == AdministrationRoute.patch;
 }

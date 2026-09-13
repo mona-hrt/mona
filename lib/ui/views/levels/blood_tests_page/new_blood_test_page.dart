@@ -24,6 +24,7 @@ class NewBloodTestPage extends StatefulWidget {
 class _NewBloodTestPageState extends State<NewBloodTestPage> {
   late TextEditingController _estradiolLevelsController;
   late TextEditingController _testosteroneLevelsController;
+  late TextEditingController _notesController;
   late DateTime _testDateTime;
   late PreferencesService _preferencesService;
 
@@ -59,6 +60,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
     final timezone = await FlutterTimezone.getLocalTimezone();
     final tzName = timezone.identifier;
     final units = _preferencesService.units;
+    final notes = _notesController.text.isEmpty ? null : _notesController.text;
 
     final bloodtest = BloodTest(
       dateTime: _testDateTime.toUtc(),
@@ -69,6 +71,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
       testosteroneLevels: testosteroneLevels != null
           ? UnitValue(testosteroneLevels, units.testosterone)
           : null,
+      notes: notes,
     );
     await bloodTestProvider.add(bloodtest);
 
@@ -81,6 +84,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
     super.initState();
     _estradiolLevelsController = TextEditingController();
     _testosteroneLevelsController = TextEditingController();
+    _notesController = TextEditingController();
     _testDateTime = clock.now();
     _preferencesService = Provider.of(context, listen: false);
   }
@@ -89,6 +93,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
   void dispose() {
     _estradiolLevelsController.dispose();
     _testosteroneLevelsController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
@@ -126,6 +131,14 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
           label: t.bloodTestDateLabel,
           errorText: _testDateError,
           onChanged: _onDateTimeChanged,
+        ),
+        FormTextField(
+          controller: _notesController,
+          label: t.notes,
+          fieldKey: const ValueKey('newBloodTestNotes'),
+          onChanged: _refresh,
+          inputType: TextInputType.multiline,
+          multiline: true,
         ),
       ],
     );

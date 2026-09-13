@@ -70,7 +70,7 @@ class LevelsPage extends StatelessWidget {
             child: Column(
               children: [
                 if (medicationIntakeProvider.plottableIntakes.isNotEmpty)
-                  M3ECardColumn(
+                  M3ESegmentedColumn(
                     padding: const EdgeInsets.only(top: 16),
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     color: colorScheme.surface,
@@ -84,7 +84,7 @@ class LevelsPage extends StatelessWidget {
                     ],
                   ),
                 if (levelRows.isNotEmpty)
-                  M3ECardColumn(
+                  M3ESegmentedColumn(
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     color: colorScheme.surface,

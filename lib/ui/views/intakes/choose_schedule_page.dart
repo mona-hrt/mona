@@ -25,7 +25,7 @@ class ChooseSchedulePage extends StatelessWidget {
             ? Center(
                 child: Text(t.addSchedulesFirst),
               )
-            : M3ECardList.builder(
+            : M3ESegmentedList.builder(
                 listPadding: pagePadding,
                 padding: EdgeInsets.zero,
                 itemCount: schedules.length,
