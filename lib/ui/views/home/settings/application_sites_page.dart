@@ -99,8 +99,6 @@ class ApplicationSitesPage extends StatelessWidget {
                   ListTile(
                     title: Text(t.noApplicationSitesYet),
                     subtitle: Text(t.addSiteToGetStarted),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   ),
                 ],
               ),
@@ -127,8 +125,6 @@ class ApplicationSitesPage extends StatelessWidget {
                       for (int i = 0; i < sites.length; i++)
                         ListTile(
                           title: Text(sites[i].localizedName),
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                           trailing: IconButton(
                             key: ValueKey('deleteSite_$i'),
                             icon: const Icon(Symbols.delete_outline_rounded),

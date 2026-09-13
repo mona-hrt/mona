@@ -27,7 +27,6 @@ class TintedSwitchTile extends StatelessWidget {
                   alpha: 0.4,
                 )
             : null,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         onChanged: onChanged,
       ),
     );
