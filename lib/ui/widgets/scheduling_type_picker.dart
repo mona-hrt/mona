@@ -53,12 +53,15 @@ class SchedulingTypePicker extends StatelessWidget {
       padding: EdgeInsets.zero,
       margin: EdgeInsets.symmetric(vertical: 8),
       children: [
-        ListTile(
-          key: const ValueKey('schedulingTypePicker'),
-          title: Text(value.localizedName),
-          subtitle: Text(value.localizedDescription),
-          trailing: const Icon(Symbols.edit_rounded),
-          onTap: () => _openTypeSheet(context),
+        Material(
+          type: MaterialType.transparency,
+          child: ListTile(
+            key: const ValueKey('schedulingTypePicker'),
+            title: Text(value.localizedName),
+            subtitle: Text(value.localizedDescription),
+            trailing: const Icon(Symbols.edit_rounded),
+            onTap: () => _openTypeSheet(context),
+          ),
         ),
       ],
     );

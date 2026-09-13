@@ -74,21 +74,24 @@ class IntakesPage extends StatelessWidget {
     final dateText =
         DateFormat.yMMMd(locale).format(intake.takenLocalDateTime!);
 
-    return ListTile(
-      title: Text(dateText),
-      subtitle: Text(intake.localizedSummary),
-      leading: Icon(
-        intake.administrationRoute.icon,
+    return Material(
+      type: MaterialType.transparency,
+      child: ListTile(
+        title: Text(dateText),
+        subtitle: Text(intake.localizedSummary),
+        leading: Icon(
+          intake.administrationRoute.icon,
+        ),
+        trailing: intake.notes != null ? Icon(Symbols.notes_rounded) : null,
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (context) => EditIntakePage(intake),
+              fullscreenDialog: true,
+            ),
+          );
+        },
       ),
-      trailing: intake.notes != null ? Icon(Symbols.notes_rounded) : null,
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (context) => EditIntakePage(intake),
-            fullscreenDialog: true,
-          ),
-        );
-      },
     );
   }
 }

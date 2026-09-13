@@ -233,13 +233,16 @@ class _EditScheduleSchedulingPageState
         padding: EdgeInsets.zero,
         margin: EdgeInsets.symmetric(vertical: 8),
         children: [
-          SwitchListTile(
-            title: Text(t.anchorToLastIntake),
-            subtitle: Text(t.anchorToLastIntakeDescription),
-            value: _anchorToLastIntake,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            onChanged: (value) => setState(() => _anchorToLastIntake = value),
+          Material(
+            type: MaterialType.transparency,
+            child: SwitchListTile(
+              title: Text(t.anchorToLastIntake),
+              subtitle: Text(t.anchorToLastIntakeDescription),
+              value: _anchorToLastIntake,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              onChanged: (value) => setState(() => _anchorToLastIntake = value),
+            ),
           ),
         ],
       ),
@@ -265,11 +268,14 @@ class _EditScheduleSchedulingPageState
         onEdit: _editTime,
         onDelete: _deleteTime,
         trailingChildren: [
-          SwitchListTile(
-            title: Text(t.enableNotifications),
-            subtitle: Text(t.enableNotificationsDescription),
-            value: _dailyNotify,
-            onChanged: (value) => setState(() => _dailyNotify = value),
+          Material(
+            type: MaterialType.transparency,
+            child: SwitchListTile(
+              title: Text(t.enableNotifications),
+              subtitle: Text(t.enableNotificationsDescription),
+              value: _dailyNotify,
+              onChanged: (value) => setState(() => _dailyNotify = value),
+            ),
           ),
         ],
       ),

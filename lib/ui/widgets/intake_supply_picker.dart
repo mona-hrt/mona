@@ -143,10 +143,13 @@ class IntakeSupplyPicker extends StatelessWidget {
             onPressed: () => onRemoveGenericAt(index),
           ),
         ),
-      ListTile(
-        leading: const Icon(Symbols.add_rounded),
-        title: Text(t.chooseItem),
-        onTap: () => _openAddSheet(context),
+      Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          leading: const Icon(Symbols.add_rounded),
+          title: Text(t.chooseItem),
+          onTap: () => _openAddSheet(context),
+        ),
       ),
     ];
 

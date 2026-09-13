@@ -226,19 +226,22 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           padding: EdgeInsets.zero,
           margin: EdgeInsets.symmetric(vertical: 8),
           children: [
-            ListTile(
-              key: const ValueKey('editScheduleSchedulingTile'),
-              title: Text(t.scheduling),
-              subtitle: Text(currentSchedule.localizedFrequency),
-              leading: Icon(Symbols.event_repeat_rounded),
-              trailing: Icon(Symbols.chevron_right_rounded),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) => EditScheduleSchedulingPage(
-                    schedule: currentSchedule,
-                  ),
-                ));
-              },
+            Material(
+              type: MaterialType.transparency,
+              child: ListTile(
+                key: const ValueKey('editScheduleSchedulingTile'),
+                title: Text(t.scheduling),
+                subtitle: Text(currentSchedule.localizedFrequency),
+                leading: Icon(Symbols.event_repeat_rounded),
+                trailing: Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                    builder: (context) => EditScheduleSchedulingPage(
+                      schedule: currentSchedule,
+                    ),
+                  ));
+                },
+              ),
             ),
           ],
         ),

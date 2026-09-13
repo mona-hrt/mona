@@ -63,23 +63,26 @@ class BloodTestPage extends StatelessWidget {
       BloodTestProvider bloodTestProvider) {
     final dateText = DateFormat.yMMMd(context.intlLanguageTag)
         .format(bloodtest.localDateTime);
-    return ListTile(
-      title: Text(dateText),
-      trailing: Icon(Symbols.chevron_right_rounded),
-      subtitle: Text(
-        [
-          if (bloodtest.estradiolLevels case final e?)
-            '${t.estradiol} : ${e.value} ${e.unit.localizedName}',
-          if (bloodtest.testosteroneLevels case final l?)
-            '${t.testosterone} : ${l.value} ${l.unit.localizedName}',
-        ].join('\n'),
+    return Material(
+      type: MaterialType.transparency,
+      child: ListTile(
+        title: Text(dateText),
+        trailing: Icon(Symbols.chevron_right_rounded),
+        subtitle: Text(
+          [
+            if (bloodtest.estradiolLevels case final e?)
+              '${t.estradiol} : ${e.value} ${e.unit.localizedName}',
+            if (bloodtest.testosteroneLevels case final l?)
+              '${t.testosterone} : ${l.value} ${l.unit.localizedName}',
+          ].join('\n'),
+        ),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (context) => EditBloodTestPage(bloodtest: bloodtest),
+          ));
+        },
       ),
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute<void>(
-          fullscreenDialog: true,
-          builder: (context) => EditBloodTestPage(bloodtest: bloodtest),
-        ));
-      },
     );
   }
 }
