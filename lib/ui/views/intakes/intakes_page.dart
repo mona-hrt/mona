@@ -13,6 +13,7 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/intakes/edit_intake_page.dart';
 import 'package:mona/ui/views/intakes/hrt_counter_card.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 import 'package:mona/util/hrt_duration.dart';
 import 'package:provider/provider.dart';
 
@@ -74,24 +75,21 @@ class IntakesPage extends StatelessWidget {
     final dateText =
         DateFormat.yMMMd(locale).format(intake.takenLocalDateTime!);
 
-    return Material(
-      type: MaterialType.transparency,
-      child: ListTile(
-        title: Text(dateText),
-        subtitle: Text(intake.localizedSummary),
-        leading: Icon(
-          intake.administrationRoute.icon,
-        ),
-        trailing: intake.notes != null ? Icon(Symbols.notes_rounded) : null,
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (context) => EditIntakePage(intake),
-              fullscreenDialog: true,
-            ),
-          );
-        },
+    return TappableListTile(
+      title: dateText,
+      subtitle: intake.localizedSummary,
+      leading: Icon(
+        intake.administrationRoute.icon,
       ),
+      trailing: intake.notes != null ? Icon(Symbols.notes_rounded) : null,
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (context) => EditIntakePage(intake),
+            fullscreenDialog: true,
+          ),
+        );
+      },
     );
   }
 }

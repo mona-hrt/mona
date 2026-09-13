@@ -21,6 +21,7 @@ import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
@@ -226,22 +227,19 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           padding: EdgeInsets.zero,
           margin: EdgeInsets.symmetric(vertical: 8),
           children: [
-            Material(
-              type: MaterialType.transparency,
-              child: ListTile(
-                key: const ValueKey('editScheduleSchedulingTile'),
-                title: Text(t.scheduling),
-                subtitle: Text(currentSchedule.localizedFrequency),
-                leading: Icon(Symbols.event_repeat_rounded),
-                trailing: Icon(Symbols.chevron_right_rounded),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute<void>(
-                    builder: (context) => EditScheduleSchedulingPage(
-                      schedule: currentSchedule,
-                    ),
-                  ));
-                },
-              ),
+            TappableListTile(
+              key: const ValueKey('editScheduleSchedulingTile'),
+              title: t.scheduling,
+              subtitle: currentSchedule.localizedFrequency,
+              leading: Icon(Symbols.event_repeat_rounded),
+              trailing: Icon(Symbols.chevron_right_rounded),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) => EditScheduleSchedulingPage(
+                    schedule: currentSchedule,
+                  ),
+                ));
+              },
             ),
           ],
         ),

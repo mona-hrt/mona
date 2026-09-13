@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 
 class TimeListCard extends StatelessWidget {
   final List<TimeOfDay> times;
@@ -35,26 +36,20 @@ class TimeListCard extends StatelessWidget {
       },
       children: [
         for (int i = 0; i < times.length; i++)
-          Material(
-            type: MaterialType.transparency,
-            child: ListTile(
-              leading: Icon(rowIcon),
-              title: Text(times[i].format(context)),
-              onTap: () => onEdit(i),
-              trailing: IconButton(
-                icon: const Icon(Symbols.delete_outline_rounded),
-                onPressed: () => onDelete(i),
-              ),
+          TappableListTile(
+            leading: Icon(rowIcon),
+            title: times[i].format(context),
+            onTap: () => onEdit(i),
+            trailing: IconButton(
+              icon: const Icon(Symbols.delete_outline_rounded),
+              onPressed: () => onDelete(i),
             ),
           ),
-        Material(
-          type: MaterialType.transparency,
-          child: ListTile(
-            key: addTileKey,
-            leading: const Icon(Symbols.add_rounded),
-            title: Text(addLabel),
-            onTap: onAdd,
-          ),
+        TappableListTile(
+          key: addTileKey,
+          leading: const Icon(Symbols.add_rounded),
+          title: addLabel,
+          onTap: onAdd,
         ),
         ...trailingChildren,
       ],
