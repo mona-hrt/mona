@@ -2,10 +2,10 @@ import 'package:flutter/material.dart' as f;
 import 'package:material_ui/material_ui.dart' as mui;
 
 /// Wraps [child] in a material_ui [mui.Theme] that mirrors the app's Flutter
-/// [scheme].
-///
-/// TEMPORARY: remove this whole file, its use in app.dart, and the material_ui
-/// dependency once `package:flutter/material.dart` re-exports material_ui.
+/// [scheme]. TEMPORARY: `package:flutter/material.dart` and `package:material_ui`
+/// are still separate copies with separate types. Remove this file, its use in
+/// app.dart, and the material_ui dependency once the app and m3e share one
+/// Material type system.
 f.Widget withMaterialUiTheme({
   required f.ColorScheme scheme,
   required f.Widget child,
