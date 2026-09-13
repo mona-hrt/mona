@@ -39,6 +39,9 @@ class ModelForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final hasTwoButtons = onDelete != null;
+    final smallLabelStyle = theme.textTheme.titleMedium?.copyWith(fontSize: 14);
+    final submitLabelStyle = hasTwoButtons ? smallLabelStyle : null;
 
     return LiquidGlassBottomClamp(
       child: Scaffold(
@@ -98,6 +101,7 @@ class ModelForm extends StatelessWidget {
                       style: M3EButtonStyle.outlined,
                       size: M3EButtonSize.md,
                       decoration: M3EButtonDecoration(
+                        textStyle: smallLabelStyle,
                         foregroundColor:
                             WidgetStatePropertyAll(theme.colorScheme.error),
                         side: WidgetStatePropertyAll(
@@ -116,6 +120,9 @@ class ModelForm extends StatelessWidget {
                           label: Text(submitButtonLabel),
                           style: M3EButtonStyle.filled,
                           size: M3EButtonSize.md,
+                          decoration: M3EButtonDecoration(
+                            textStyle: submitLabelStyle,
+                          ),
                         )
                       : M3EButton(
                           key: submitButtonKey,
