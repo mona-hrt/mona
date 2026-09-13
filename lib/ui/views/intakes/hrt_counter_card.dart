@@ -22,6 +22,7 @@ class HrtCounterCard extends StatelessWidget {
 
     final theme = Theme.of(context);
     return M3ESegmentedColumn(
+      color: theme.colorScheme.surfaceContainerHighest,
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.symmetric(vertical: 8),
       children: [
