@@ -17,7 +17,7 @@ mui.ThemeData _mirror(f.ColorScheme scheme) {
   final base = scheme.brightness == f.Brightness.dark
       ? const mui.ColorScheme.dark()
       : const mui.ColorScheme.light();
-  return mui.ThemeData(
+  final data = mui.ThemeData(
     useMaterial3: true,
     colorScheme: base.copyWith(
       brightness: scheme.brightness,
@@ -69,4 +69,5 @@ mui.ThemeData _mirror(f.ColorScheme scheme) {
       surfaceTint: scheme.surfaceTint,
     ),
   );
+  return data.copyWith(iconTheme: data.iconTheme.copyWith(weight: 600));
 }
