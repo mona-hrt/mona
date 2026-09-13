@@ -6,7 +6,6 @@ import 'package:mona/i18n/helpers/placement_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
-import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:provider/provider.dart';
 
 class ApplicationSitesPage extends StatelessWidget {
@@ -42,16 +41,15 @@ class ApplicationSitesPage extends StatelessWidget {
     await preferencesService.setPlacementsList(sites);
   }
 
-  Widget _addSiteTile(
+  Widget _addSiteButton(
       BuildContext context, PreferencesService preferencesService) {
-    return Material(
-      type: MaterialType.transparency,
-      child: ListTile(
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton.icon(
         key: const ValueKey('addApplicationSiteTile'),
-        leading: const Icon(Symbols.add_rounded),
-        title: Text(t.addApplicationSite),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        onTap: () => _addSite(context, preferencesService),
+        onPressed: () => _addSite(context, preferencesService),
+        icon: const Icon(Symbols.add_rounded),
+        label: Text(t.addApplicationSite),
       ),
     );
   }
@@ -67,15 +65,16 @@ class ApplicationSitesPage extends StatelessWidget {
         padding: pagePadding,
         child: Column(
           children: [
+            SizedBox(height: borderPadding),
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                t.applicationSitesDescription,
+                t.applicationSitesInstructions,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-            FormSpacer(),
-            if (sites.isEmpty)
+            SizedBox(height: borderPadding),
+            if (sites.isEmpty) ...[
               M3ESegmentedColumn(
                 padding: EdgeInsets.zero,
                 children: [
@@ -85,18 +84,20 @@ class ApplicationSitesPage extends StatelessWidget {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   ),
-                  _addSiteTile(context, preferencesService),
                 ],
-              )
-            else
+              ),
+              _addSiteButton(context, preferencesService),
+            ] else
               M3EReorderableSegmentedList(
+                margin: EdgeInsets.zero,
                 padding: EdgeInsets.zero,
+                listPadding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 keyBuilder: (index) => ValueKey(sites[index]),
                 onReorder: (oldIndex, newIndex) =>
                     _reorderSites(preferencesService, oldIndex, newIndex),
-                footer: _addSiteTile(context, preferencesService),
+                footer: _addSiteButton(context, preferencesService),
                 children: [
                   for (int i = 0; i < sites.length; i++)
                     ListTile(
@@ -111,7 +112,7 @@ class ApplicationSitesPage extends StatelessWidget {
                     ),
                 ],
               ),
-            FormSpacer(),
+            SizedBox(height: borderPadding),
             M3ESegmentedColumn(
               padding: EdgeInsets.zero,
               children: [
