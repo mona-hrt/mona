@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.0/mona-1.21.0.ipa",
-      "size": 12420991,
-      "version": "1.21.0",
-      "versionDate": "2026-09-13T17:54:41Z",
-      "versionDescription": "New:\r\n- You can now create items for gel tubes and sachets.\r\n- Application sites can now be used with patches.\r\n- Add notes to your blood tests.\r\n\r\nFix:\r\n- Added a guard against huge intervals in schedules that would cause a crash.",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.1/mona-1.21.1.ipa",
+      "size": 12420263,
+      "version": "1.21.1",
+      "versionDate": "2026-09-13T20:20:42Z",
+      "versionDescription": "Fix:\r\n- Used correct icon weight and text size in buttons",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.1/mona-1.21.1.ipa",
+          "size": 12420263,
+          "version": "1.21.1",
+          "buildVersion": "27",
+          "date": "2026-09-13T20:20:42Z",
+          "localizedDescription": "Fix:\r\n- Used correct icon weight and text size in buttons",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.0/mona-1.21.0.ipa",
           "size": 12420991,
