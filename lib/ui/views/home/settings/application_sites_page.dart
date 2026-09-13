@@ -33,6 +33,29 @@ class ApplicationSitesPage extends StatelessWidget {
     await preferencesService.setPlacementsList(sites);
   }
 
+  Future<void> _reorderSites(
+      PreferencesService preferencesService, int oldIndex, int newIndex) async {
+    final sites = List<Placement>.from(preferencesService.placementsList);
+    if (newIndex > oldIndex) newIndex -= 1;
+    final moved = sites.removeAt(oldIndex);
+    sites.insert(newIndex, moved);
+    await preferencesService.setPlacementsList(sites);
+  }
+
+  Widget _addSiteTile(
+      BuildContext context, PreferencesService preferencesService) {
+    return Material(
+      type: MaterialType.transparency,
+      child: ListTile(
+        key: const ValueKey('addApplicationSiteTile'),
+        leading: const Icon(Symbols.add_rounded),
+        title: Text(t.addApplicationSite),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        onTap: () => _addSite(context, preferencesService),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final preferencesService = context.watch<PreferencesService>();
@@ -52,51 +75,58 @@ class ApplicationSitesPage extends StatelessWidget {
               ),
             ),
             FormSpacer(),
-            M3ESegmentedColumn(
-              padding: EdgeInsets.zero,
-              onTap: (index) => _removeSiteAt(preferencesService, index),
-              children: [
-                if (sites.isEmpty)
+            if (sites.isEmpty)
+              M3ESegmentedColumn(
+                padding: EdgeInsets.zero,
+                children: [
                   ListTile(
                     title: Text(t.noApplicationSitesYet),
                     subtitle: Text(t.addSiteToGetStarted),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   ),
-                for (int i = 0; i < sites.length; i++)
-                  ListTile(
-                    title: Text(sites[i].localizedName),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                    trailing: IconButton(
-                      key: ValueKey('deleteSite_$i'),
-                      icon: const Icon(Symbols.delete_outline_rounded),
-                      onPressed: () => _removeSiteAt(preferencesService, i),
+                  _addSiteTile(context, preferencesService),
+                ],
+              )
+            else
+              M3EReorderableSegmentedList(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                keyBuilder: (index) => ValueKey(sites[index]),
+                onReorder: (oldIndex, newIndex) =>
+                    _reorderSites(preferencesService, oldIndex, newIndex),
+                footer: _addSiteTile(context, preferencesService),
+                children: [
+                  for (int i = 0; i < sites.length; i++)
+                    ListTile(
+                      title: Text(sites[i].localizedName),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      trailing: IconButton(
+                        key: ValueKey('deleteSite_$i'),
+                        icon: const Icon(Symbols.delete_outline_rounded),
+                        onPressed: () => _removeSiteAt(preferencesService, i),
+                      ),
                     ),
-                  ),
-                ListTile(
-                  key: const ValueKey('addApplicationSiteTile'),
-                  leading: const Icon(Symbols.add_rounded),
-                  title: Text(t.addApplicationSite),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  onTap: () => _addSite(context, preferencesService),
-                ),
-              ],
-            ),
+                ],
+              ),
             FormSpacer(),
             M3ESegmentedColumn(
               padding: EdgeInsets.zero,
               children: [
-                SwitchListTile(
-                  key: const ValueKey('placementScopeToggle'),
-                  title: Text(t.placementSuggestionPerScheduleTitle),
-                  subtitle: Text(t.placementSuggestionPerScheduleDescription),
-                  value: preferencesService.placementSuggestionPerSchedule,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  onChanged: (value) => preferencesService
-                      .setPlacementSuggestionPerSchedule(value),
+                Material(
+                  type: MaterialType.transparency,
+                  child: SwitchListTile(
+                    key: const ValueKey('placementScopeToggle'),
+                    title: Text(t.placementSuggestionPerScheduleTitle),
+                    subtitle: Text(t.placementSuggestionPerScheduleDescription),
+                    value: preferencesService.placementSuggestionPerSchedule,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    onChanged: (value) => preferencesService
+                        .setPlacementSuggestionPerSchedule(value),
+                  ),
                 ),
               ],
             ),
