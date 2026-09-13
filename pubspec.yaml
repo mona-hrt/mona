@@ -71,8 +71,6 @@ dependencies:
   libmonet: ^1.1.2
   dart_mappable: ^4.8.0
   m3e_core: ^1.1.3
-  # m3e_core resolves its theme from material_ui, not Flutter. We mirror the
-  # app scheme into a material_ui Theme so m3e defaults follow dark/light mode.
   material_ui: ^1.2.0
   slang: ^4.16.0
   slang_flutter: ^4.16.0
