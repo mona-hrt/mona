@@ -15,6 +15,7 @@ import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
 import 'package:mona/ui/widgets/scheduling_type_picker.dart';
 import 'package:mona/ui/widgets/time_list_card.dart';
+import 'package:mona/ui/widgets/tinted_switch_tile.dart';
 import 'package:mona/ui/widgets/weekday_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
@@ -232,16 +233,11 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         padding: EdgeInsets.zero,
         margin: EdgeInsets.symmetric(vertical: 8),
         children: [
-          Material(
-            type: MaterialType.transparency,
-            child: SwitchListTile(
-              title: Text(t.anchorToLastIntake),
-              subtitle: Text(t.anchorToLastIntakeDescription),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              value: _anchorToLastIntake,
-              onChanged: (value) => setState(() => _anchorToLastIntake = value),
-            ),
+          TintedSwitchTile(
+            title: t.anchorToLastIntake,
+            subtitle: t.anchorToLastIntakeDescription,
+            value: _anchorToLastIntake,
+            onChanged: (value) => setState(() => _anchorToLastIntake = value),
           ),
         ],
       ),
@@ -267,14 +263,11 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         onEdit: _editTime,
         onDelete: _deleteTime,
         trailingChildren: [
-          Material(
-            type: MaterialType.transparency,
-            child: SwitchListTile(
-              title: Text(t.enableNotifications),
-              subtitle: Text(t.enableNotificationsDescription),
-              value: _dailyNotify,
-              onChanged: (value) => setState(() => _dailyNotify = value),
-            ),
+          TintedSwitchTile(
+            title: t.enableNotifications,
+            subtitle: t.enableNotificationsDescription,
+            value: _dailyNotify,
+            onChanged: (value) => setState(() => _dailyNotify = value),
           ),
         ],
       ),
