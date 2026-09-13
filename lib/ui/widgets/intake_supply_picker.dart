@@ -150,9 +150,10 @@ class IntakeSupplyPicker extends StatelessWidget {
       ),
     ];
 
-    return M3ECardList.of(
+    return M3ESegmentedList(
       padding: EdgeInsets.zero,
-      children: items,
+      itemCount: items.length,
+      itemBuilder: (context, index) => items[index],
     );
   }
 }
