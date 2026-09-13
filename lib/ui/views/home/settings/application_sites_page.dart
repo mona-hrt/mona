@@ -52,7 +52,7 @@ class ApplicationSitesPage extends StatelessWidget {
               ),
             ),
             FormSpacer(),
-            M3ECardColumn(
+            M3ESegmentedColumn(
               padding: EdgeInsets.zero,
               onTap: (index) => _removeSiteAt(preferencesService, index),
               children: [
@@ -85,7 +85,7 @@ class ApplicationSitesPage extends StatelessWidget {
               ],
             ),
             FormSpacer(),
-            M3ECardColumn(
+            M3ESegmentedColumn(
               padding: EdgeInsets.zero,
               children: [
                 SwitchListTile(

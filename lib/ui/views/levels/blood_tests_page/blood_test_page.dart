@@ -28,7 +28,7 @@ class BloodTestPage extends StatelessWidget {
           isLoading: bloodTestProvider.isLoading,
           isEmpty: bloodtests.isEmpty,
           emptyMessage: t.empty_blood_tests,
-          child: M3ECardList.builder(
+          child: M3ESegmentedList.builder(
             key: const ValueKey('bloodTestsList'),
             listPadding: EdgeInsets.only(
               left: borderPadding,

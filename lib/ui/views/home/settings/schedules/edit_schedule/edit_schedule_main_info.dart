@@ -222,7 +222,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           onChanged: (date) => setState(() => _startDate = date),
         ),
         FormSpacer(),
-        M3ECardColumn(
+        M3ESegmentedColumn(
           padding: EdgeInsets.zero,
           margin: EdgeInsets.symmetric(vertical: 8),
           children: [

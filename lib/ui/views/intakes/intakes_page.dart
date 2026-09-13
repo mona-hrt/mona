@@ -47,7 +47,7 @@ class IntakesPage extends StatelessWidget {
               SliverToBoxAdapter(
                 child: SizedBox(height: 8),
               ),
-              SliverM3ECardList(
+              SliverM3ESegmentedList(
                 key: const ValueKey('intakesList'),
                 margin: pagePadding,
                 padding: EdgeInsets.zero,

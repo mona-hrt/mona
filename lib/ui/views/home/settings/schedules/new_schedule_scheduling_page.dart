@@ -228,7 +228,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         inputType: TextInputType.number,
         regexFormatter: RegexPatterns.intNumber,
       ),
-      M3ECardColumn(
+      M3ESegmentedColumn(
         padding: EdgeInsets.zero,
         margin: EdgeInsets.symmetric(vertical: 8),
         children: [

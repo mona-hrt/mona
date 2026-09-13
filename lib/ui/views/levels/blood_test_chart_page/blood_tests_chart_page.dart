@@ -63,7 +63,7 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
                     ),
                   ),
                 ),
-                M3ECardList(
+                M3ESegmentedList(
                   margin: pagePadding.add(EdgeInsets.only(
                       top: 8,
                       bottom: MediaQuery.viewPaddingOf(context).bottom)),

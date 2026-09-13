@@ -49,7 +49,7 @@ class SchedulingTypePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return M3ECardColumn(
+    return M3ESegmentedColumn(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.symmetric(vertical: 8),
       children: [

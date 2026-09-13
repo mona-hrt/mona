@@ -27,7 +27,7 @@ class TimeListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final addCardIndex = times.length;
-    return M3ECardColumn(
+    return M3ESegmentedColumn(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.symmetric(vertical: 8),
       onTap: (index) {
