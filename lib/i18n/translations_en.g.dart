@@ -812,6 +812,10 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get applicationSitesDescription =>
       'Manage the sites you rotate between';
 
+  /// en: 'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.'
+  String get applicationSitesInstructions =>
+      'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.';
+
   /// en: 'Add site'
   String get addApplicationSite => 'Add site';
 
@@ -1330,6 +1334,8 @@ extension on Translations {
       'placementRightAbdomen' => 'Right abdomen',
       'applicationSites' => 'Application sites',
       'applicationSitesDescription' => 'Manage the sites you rotate between',
+      'applicationSitesInstructions' =>
+        'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.',
       'addApplicationSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
       'noApplicationSitesYet' => 'No sites yet',
