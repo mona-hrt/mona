@@ -13,6 +13,7 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/intakes/edit_intake_page.dart';
 import 'package:mona/ui/views/intakes/hrt_counter_card.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 import 'package:mona/util/hrt_duration.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +48,7 @@ class IntakesPage extends StatelessWidget {
               SliverToBoxAdapter(
                 child: SizedBox(height: 8),
               ),
-              SliverM3ECardList(
+              SliverM3ESegmentedList(
                 key: const ValueKey('intakesList'),
                 margin: pagePadding,
                 padding: EdgeInsets.zero,
@@ -74,9 +75,9 @@ class IntakesPage extends StatelessWidget {
     final dateText =
         DateFormat.yMMMd(locale).format(intake.takenLocalDateTime!);
 
-    return ListTile(
-      title: Text(dateText),
-      subtitle: Text(intake.localizedSummary),
+    return TappableListTile(
+      title: dateText,
+      subtitle: intake.localizedSummary,
       leading: Icon(
         intake.administrationRoute.icon,
       ),

@@ -63,21 +63,25 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
                     ),
                   ),
                 ),
-                M3ECardList(
+                M3ESegmentedList(
                   margin: pagePadding.add(EdgeInsets.only(
                       top: 8,
                       bottom: MediaQuery.viewPaddingOf(context).bottom)),
                   padding: EdgeInsets.zero,
                   itemCount: entries.length,
-                  itemBuilder: (context, index) => InkWell(
-                    onTapDown: (_) => setState(() =>
-                        _highlightedBarIndex = entries.length - 1 - index),
-                    onTapUp: (_) => setState(() => _highlightedBarIndex = null),
-                    onTapCancel: () =>
-                        setState(() => _highlightedBarIndex = null),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: _testTile(context, entries[index]),
+                  itemBuilder: (context, index) => Material(
+                    type: MaterialType.transparency,
+                    child: InkWell(
+                      onTapDown: (_) => setState(() =>
+                          _highlightedBarIndex = entries.length - 1 - index),
+                      onTapUp: (_) =>
+                          setState(() => _highlightedBarIndex = null),
+                      onTapCancel: () =>
+                          setState(() => _highlightedBarIndex = null),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: _testTile(context, entries[index]),
+                      ),
                     ),
                   ),
                 ),

@@ -568,6 +568,9 @@ class TranslationsEnGb extends Translations
   String get applicationSitesDescription =>
       'Manage the sites you rotate between';
   @override
+  String get applicationSitesInstructions =>
+      'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.';
+  @override
   String get addApplicationSite => 'Add site';
   @override
   String get customSiteLabel => 'Custom site name';
@@ -1050,6 +1053,8 @@ extension on TranslationsEnGb {
       'placementRightAbdomen' => 'Right abdomen',
       'applicationSites' => 'Application sites',
       'applicationSitesDescription' => 'Manage the sites you rotate between',
+      'applicationSitesInstructions' =>
+        'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.',
       'addApplicationSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
       'noApplicationSitesYet' => 'No sites yet',

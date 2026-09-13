@@ -318,6 +318,7 @@
   "placementRightAbdomen": "Abdomen (droite)",
   "applicationSites": "Sites d'application",
   "applicationSitesDescription": "Gérez votre rotation de sites",
+  "applicationSitesInstructions": "Gérez votre rotation de sites. Les sites sont suggérés en fonction de votre historique de prises. Appuyez longuement pour réorganiser.",
   "addApplicationSite": "Ajouter un site",
   "customSiteLabel": "Nom de site personnalisé",
   "noApplicationSitesYet": "Aucun site",

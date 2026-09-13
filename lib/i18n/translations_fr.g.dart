@@ -582,6 +582,9 @@ class TranslationsFr extends Translations
   @override
   String get applicationSitesDescription => 'Gérez votre rotation de sites';
   @override
+  String get applicationSitesInstructions =>
+      'Gérez votre rotation de sites. Les sites sont suggérés en fonction de votre historique de prises. Appuyez longuement pour réorganiser.';
+  @override
   String get addApplicationSite => 'Ajouter un site';
   @override
   String get customSiteLabel => 'Nom de site personnalisé';
@@ -602,7 +605,7 @@ class TranslationsFr extends Translations
   @override
   String get mustBeBetween1And28 => 'Doit être entre 1 et 28';
   @override
-  String mustBeAtMost({required Object max}) => 'Doit être moind de ${max}';
+  String mustBeAtMost({required Object max}) => 'Doit être moins de ${max}';
   @override
   String get invalidTotalAmount => 'Montant total invalide';
   @override
@@ -1100,6 +1103,8 @@ extension on TranslationsFr {
       'placementRightAbdomen' => 'Abdomen (droite)',
       'applicationSites' => 'Sites d\'application',
       'applicationSitesDescription' => 'Gérez votre rotation de sites',
+      'applicationSitesInstructions' =>
+        'Gérez votre rotation de sites. Les sites sont suggérés en fonction de votre historique de prises. Appuyez longuement pour réorganiser.',
       'addApplicationSite' => 'Ajouter un site',
       'customSiteLabel' => 'Nom de site personnalisé',
       'noApplicationSitesYet' => 'Aucun site',
@@ -1110,7 +1115,7 @@ extension on TranslationsFr {
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'mustBeBetween1And28' => 'Doit être entre 1 et 28',
-      'mustBeAtMost' => ({required Object max}) => 'Doit être moind de ${max}',
+      'mustBeAtMost' => ({required Object max}) => 'Doit être moins de ${max}',
       'invalidTotalAmount' => 'Montant total invalide',
       'cannotExceedTotalCapacity' => 'Ne peut pas dépasser la capacité totale',
       'daysAgoCount' => ({required num count}) =>

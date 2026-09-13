@@ -9,6 +9,7 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
 import 'package:mona/ui/views/supplies/new_item_page.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 
 class IntakeSupplyPicker extends StatelessWidget {
   final MedicationSupplyItem? medicationItem;
@@ -143,16 +144,17 @@ class IntakeSupplyPicker extends StatelessWidget {
             onPressed: () => onRemoveGenericAt(index),
           ),
         ),
-      ListTile(
+      TappableListTile(
         leading: const Icon(Symbols.add_rounded),
-        title: Text(t.chooseItem),
+        title: t.chooseItem,
         onTap: () => _openAddSheet(context),
       ),
     ];
 
-    return M3ECardList.of(
+    return M3ESegmentedList(
       padding: EdgeInsets.zero,
-      children: items,
+      itemCount: items.length,
+      itemBuilder: (context, index) => items[index],
     );
   }
 }
