@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:clock/clock.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/db/historical_schemas.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -13,6 +14,7 @@ class BackupService {
       Platform.isLinux || Platform.isWindows || Platform.isMacOS;
 
   bool get isAndroid => !isDesktop && Platform.isAndroid;
+  // TODO move these to distribution
 
   static const _tables = [
     'medication_intakes',
@@ -174,16 +176,19 @@ class BackupService {
   }
 
   Future<bool> importData() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: isAndroid ? FileType.any : FileType.custom,
-      allowedExtensions: isAndroid ? null : ['json'],
+    const jsonGroup = XTypeGroup(
+      label: 'JSON',
+      extensions: ['json'],
+      uniformTypeIdentifiers: ['public.json'],
+    );
+    final file = await openFile(
+      acceptedTypeGroups: isAndroid ? const [] : const [jsonGroup],
     );
 
-    if (result == null || result.files.single.path == null) {
+    if (file == null) {
       return false;
     }
 
-    final file = File(result.files.single.path!);
     final jsonString = await file.readAsString();
     final Map<String, dynamic> backupData = jsonDecode(jsonString);
 
