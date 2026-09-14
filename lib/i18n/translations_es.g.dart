@@ -141,9 +141,6 @@ class TranslationsEs extends Translations
   @override
   String appVersion({required Object version}) => 'Versión de Mona ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Copia de seguridad guardada en: ${path}';
-  @override
   String exportFailed({required Object error}) => 'Error al exportar: ${error}';
   @override
   String get importDataTitle => 'Importar datos';
@@ -807,8 +804,6 @@ extension on TranslationsEs {
         'Buscar manualmente la última versión\nEsto se conectará a Internet\n(No se enviarán datos)',
       'appVersion' => ({required Object version}) =>
           'Versión de Mona ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Copia de seguridad guardada en: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Error al exportar: ${error}',
       'importDataTitle' => 'Importar datos',

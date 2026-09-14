@@ -185,8 +185,7 @@ class TranslationsFr extends Translations
   @override
   String appVersion({required Object version}) => 'Mona version ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Sauvegarde enregistrée dans : ${path}';
+  String get backupSaved => 'Sauvegarde enregistrée';
   @override
   String exportFailed({required Object error}) =>
       'Échec de l\'exportation : ${error}';
@@ -889,8 +888,7 @@ extension on TranslationsFr {
       'checkForUpdatesDescription' =>
         'Vérifier manuellement la dernière version\nCela vous connectera à Internet\n(Aucune donnée ne sera envoyée)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Sauvegarde enregistrée dans : ${path}',
+      'backupSaved' => 'Sauvegarde enregistrée',
       'exportFailed' => ({required Object error}) =>
           'Échec de l\'exportation : ${error}',
       'importDataTitle' => 'Importer des données',

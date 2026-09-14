@@ -58,7 +58,6 @@
   "checkForUpdates": "Check voor Updates",
   "checkForUpdatesDescription": "Handmatig controleren op de nieuwste versie\\nEr wordt verbinding gemaakt met het internet\\n(Er worden geen gegevens verzonden)",
   "appVersion": "Mona versie {{version}}",
-  "backupSavedTo": "Backup opgeslagen in: {{path}}",
   "exportFailed": "Exporteren mislukt: {{error}}",
   "importDataTitle": "Data importeren",
   "importDataSubtitle": "Data herstellen van een JSON backup",

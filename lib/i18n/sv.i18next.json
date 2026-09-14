@@ -90,7 +90,6 @@
   "autoUpdateDescription": "Sök automatiskt efter nya uppdateringar när appen startas",
   "checkForUpdates": "Sök efter uppdateringar",
   "checkForUpdatesDescription": "Sök manuellt efter senaste versionen\\nDetta kommer att ansluta dig till internet\\n(Ingen data skickas)",
-  "backupSavedTo": "Säkerhetskopia sparad i: {{path}}",
   "exportFailed": "Export misslyckades: {{error}}",
   "importDataSubtitle": "Återställ data från en JSON-säkerhetskopia",
   "importDataOverwriteWarning": "Detta kommer att skriva över all din nuvarande data med säkerhetskopian. Denna åtgärd kan inte ångras. Vill du fortsätta?",

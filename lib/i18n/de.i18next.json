@@ -48,7 +48,6 @@
   "checkForUpdates": "Nach Updates suchen",
   "checkForUpdatesDescription": "Manuell nach der neuesten Version suchen\\nDies stellt eine Internetverbindung her\\n(Es werden keine Daten gesendet)",
   "appVersion": "Mona Version {{version}}",
-  "backupSavedTo": "Backup gespeichert unter: {{path}}",
   "exportFailed": "Export fehlgeschlagen: {{error}}",
   "importDataTitle": "Daten importieren",
   "importDataSubtitle": "Daten aus einer JSON-Sicherung wiederherstellen",
