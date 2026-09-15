@@ -265,6 +265,20 @@ const String _medicationSchedulesV13 = '''
     )
     ''';
 
+const String _medicationSchedulesV21 = '''
+    CREATE TABLE medication_schedules(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      dose TEXT NOT NULL,
+      startDate TEXT NOT NULL,
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      scheduling TEXT NOT NULL,
+      position INTEGER NOT NULL
+    )
+    ''';
+
 const String _medicationIntakesV14 = '''
     CREATE TABLE medication_intakes(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -467,6 +481,12 @@ const Map<int, List<String>> _historicalSchemas = {
     _supplyItemsV19,
     _medicationIntakesV16,
     _medicationSchedulesV13,
+    _bloodTestsV20,
+  ],
+  21: [
+    _supplyItemsV19,
+    _medicationIntakesV16,
+    _medicationSchedulesV21,
     _bloodTestsV20,
   ],
 };

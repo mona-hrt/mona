@@ -1,10 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import '../../fixtures.dart';
 import 'generic_repository_mock.dart';
 
 void main() {
@@ -13,34 +11,12 @@ void main() {
 
   setUp(() {
     repo = GenericRepositoryMock<MedicationSchedule>(
-      withId: (i, id) => MedicationSchedule(
-        id: id,
-        name: i.name,
-        dose: i.dose,
-        scheduling: i.scheduling,
-        molecule: i.molecule,
-        administrationRoute: i.administrationRoute,
-        ester: i.ester,
-      ),
+      withId: (i, id) => i.copyWith(id: id),
     );
     provider = MedicationScheduleProvider(repository: repo);
 
-    repo.insert(MedicationSchedule(
-      id: 1,
-      name: 'Estradiol',
-      dose: Decimal.parse('2.0'),
-      scheduling: IntervalDaysSchedule(intervalDays: 1),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.oral,
-    ));
-    repo.insert(MedicationSchedule(
-      id: 2,
-      name: 'Spironolactone',
-      dose: Decimal.parse('100.0'),
-      scheduling: IntervalDaysSchedule(intervalDays: 1),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.oral,
-    ));
+    repo.insert(aMedicationSchedule(id: 1));
+    repo.insert(aMedicationSchedule(id: 2));
   });
 
   group('MedicationScheduleProvider Tests', () {
@@ -51,13 +27,7 @@ void main() {
 
     test('add inserts a new schedule', () async {
       // Arrange
-      final schedule = MedicationSchedule(
-        name: 'Progesterone',
-        dose: Decimal.parse('200.0'),
-        scheduling: IntervalDaysSchedule(intervalDays: 1),
-        molecule: KnownMolecules.progesterone,
-        administrationRoute: AdministrationRoute.suppository,
-      );
+      final schedule = aMedicationSchedule(id: 3);
 
       // Act
       await provider.add(schedule);
@@ -69,14 +39,8 @@ void main() {
     test('updateSchedule updates an existing item', () async {
       // Arrange
       final scheduleToUpdate = repo.items.first;
-      final updatedSchedule = MedicationSchedule(
-        id: scheduleToUpdate.id,
-        name: scheduleToUpdate.name,
-        dose: Decimal.parse('5.0'),
-        scheduling: scheduleToUpdate.scheduling,
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
+      final updatedSchedule =
+          scheduleToUpdate.copyWith(dose: Decimal.parse('5.0'));
 
       // Act
       await provider.updateSchedule(updatedSchedule);

@@ -46,7 +46,8 @@ const String createMedicationSchedulesTable = '''
       molecule TEXT NOT NULL,
       administrationRoute TEXT NOT NULL,
       ester TEXT,
-      scheduling TEXT NOT NULL
+      scheduling TEXT NOT NULL,
+      position INTEGER NOT NULL
     )
     ''';
 
