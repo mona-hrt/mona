@@ -1,23 +1,12 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/ui/views/home/split_by_day.dart';
 
-MedicationSchedule schedule({int id = 1, String name = 'Med'}) =>
-    MedicationSchedule(
-      id: id,
-      name: name,
-      dose: Decimal.one,
-      scheduling: IntervalDaysSchedule(intervalDays: 1),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.oral,
-    );
+import '../../../fixtures.dart';
 
 IntakeSlot occurrence({
   MedicationSchedule? schedule,
@@ -26,15 +15,7 @@ IntakeSlot occurrence({
   Date? date,
 }) =>
     IntakeSlot(
-      schedule: schedule ??
-          MedicationSchedule(
-            id: 0,
-            name: 'Med',
-            dose: Decimal.one,
-            scheduling: IntervalDaysSchedule(intervalDays: 1),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.oral,
-          ),
+      schedule: schedule ?? aMedicationSchedule(),
       status: status,
       date: date ?? Date.today(),
       time: time,
@@ -53,11 +34,11 @@ void main() {
     test(
         'routes upcoming to `upcoming`, asNeeded to `asNeeded`, rest to `today`',
         () {
-      final a = schedule(id: 1);
-      final b = schedule(id: 2);
-      final c = schedule(id: 3);
-      final d = schedule(id: 4);
-      final e = schedule(id: 5);
+      final a = aMedicationSchedule(id: 1);
+      final b = aMedicationSchedule(id: 2);
+      final c = aMedicationSchedule(id: 3);
+      final d = aMedicationSchedule(id: 4);
+      final e = aMedicationSchedule(id: 5);
 
       final split = splitByDay([
         occurrence(schedule: a, status: ScheduleStatus.today),
@@ -74,9 +55,9 @@ void main() {
 
     test('places overdue and todayOverdue first within today, preserving order',
         () {
-      final a = schedule(id: 1);
-      final b = schedule(id: 2);
-      final c = schedule(id: 3);
+      final a = aMedicationSchedule(id: 1);
+      final b = aMedicationSchedule(id: 2);
+      final c = aMedicationSchedule(id: 3);
 
       final split = splitByDay([
         occurrence(schedule: a, status: ScheduleStatus.today),
@@ -89,7 +70,7 @@ void main() {
 
     test('sorts non-overdue today occurrences by time, with null times first',
         () {
-      final s = schedule(id: 1);
+      final s = aMedicationSchedule(id: 1);
 
       final times = splitByDay([
         occurrence(schedule: s, time: const TimeOfDay(hour: 20, minute: 30)),
@@ -154,12 +135,12 @@ void main() {
       // Arrange
       final date = Date.today().add(const Duration(days: 2));
       final nulcac2 = occurrence(
-        schedule: schedule(id: 1, name: 'Nulcac2'),
+        schedule: aMedicationSchedule(id: 1, name: 'Nulcac2'),
         status: ScheduleStatus.upcoming,
         date: date,
       );
       final bicancul = occurrence(
-        schedule: schedule(id: 2, name: 'Bicanul'),
+        schedule: aMedicationSchedule(id: 2, name: 'Bicanul'),
         status: ScheduleStatus.upcoming,
         date: date,
       );
@@ -196,15 +177,15 @@ void main() {
     test('sorts asNeeded occurrences by name', () {
       // Arrange
       final banana = occurrence(
-        schedule: schedule(id: 1, name: 'banana'),
+        schedule: aMedicationSchedule(id: 1, name: 'banana'),
         status: ScheduleStatus.asNeeded,
       );
       final apple = occurrence(
-        schedule: schedule(id: 2, name: 'Apple'),
+        schedule: aMedicationSchedule(id: 2, name: 'Apple'),
         status: ScheduleStatus.asNeeded,
       );
       final cherry = occurrence(
-        schedule: schedule(id: 3, name: 'Cherry'),
+        schedule: aMedicationSchedule(id: 3, name: 'Cherry'),
         status: ScheduleStatus.asNeeded,
       );
 
