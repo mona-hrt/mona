@@ -224,7 +224,6 @@ void main() {
         'administrationRoute': 'oral',
         'scheduling':
             '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
-        'position': 0,
       });
 
       final intakeId = await db.insert('medication_intakes', {
@@ -261,7 +260,6 @@ void main() {
         'administrationRoute': 'oral',
         'scheduling':
             '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
-        'position': 0,
       });
 
       final schedule = await db.query(

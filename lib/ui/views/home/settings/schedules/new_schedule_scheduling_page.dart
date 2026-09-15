@@ -165,7 +165,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       molecule: widget.molecule,
       administrationRoute: widget.administrationRoute,
       ester: widget.ester,
-      position: 0,
     );
 
     Provider.of<MedicationScheduleProvider>(context, listen: false)

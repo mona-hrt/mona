@@ -72,11 +72,6 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     _$ester,
     opt: true,
   );
-  static int _$position(MedicationSchedule v) => v.position;
-  static const Field<MedicationSchedule, int> _f$position = Field(
-    'position',
-    _$position,
-  );
 
   @override
   final MappableFields<MedicationSchedule> fields = const {
@@ -88,7 +83,6 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     #molecule: _f$molecule,
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
-    #position: _f$position,
   };
 
   static MedicationSchedule _instantiate(DecodingData data) {
@@ -101,7 +95,6 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
       molecule: data.dec(_f$molecule),
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
-      position: data.dec(_f$position),
     );
   }
 
@@ -180,7 +173,6 @@ abstract class MedicationScheduleCopyWith<$R, $In extends MedicationSchedule,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Ester? ester,
-    int? position,
   });
   MedicationScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -212,7 +204,6 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
-    int? position,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -225,7 +216,6 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
           if (administrationRoute != null)
             #administrationRoute: administrationRoute,
           if (ester != $none) #ester: ester,
-          if (position != null) #position: position,
         }),
       );
   @override
@@ -241,7 +231,6 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
           or: $value.administrationRoute,
         ),
         ester: data.get(#ester, or: $value.ester),
-        position: data.get(#position, or: $value.position),
       );
 
   @override

@@ -35,7 +35,6 @@ MedicationSchedule aMedicationSchedule({
   Decimal? dose,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
-  int position = 0,
 }) {
   return MedicationSchedule(
     id: id ?? _generateId(),
@@ -46,7 +45,6 @@ MedicationSchedule aMedicationSchedule({
     molecule: KnownMolecules.estradiol,
     administrationRoute: administrationRoute,
     ester: ester,
-    position: position,
   );
 }
 

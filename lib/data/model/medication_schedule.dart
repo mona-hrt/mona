@@ -31,7 +31,6 @@ class MedicationSchedule with MedicationScheduleMappable {
   final Ester? ester;
   @MappableField(hook: JsonStringHook())
   final SchedulingStrategy scheduling;
-  final int position;
 
   MedicationSchedule({
     int? id,
@@ -42,7 +41,6 @@ class MedicationSchedule with MedicationScheduleMappable {
     required this.molecule,
     required this.administrationRoute,
     this.ester,
-    required this.position,
   })  : id = id ?? clock.now().millisecondsSinceEpoch,
         startDate = startDate ?? Date.today();
 
