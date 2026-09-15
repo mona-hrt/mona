@@ -325,7 +325,7 @@ class _SettingsPageState extends State<SettingsPage>
               ),
             ],
           ),
-          if (Platform.isAndroid && !isStoreDistribution) ...[
+          if (isSelfUpdating) ...[
             SizedBox(height: borderPadding),
             _sectionHeader(t.updates),
             M3ESegmentedColumn(

@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:mona/distribution.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
@@ -13,8 +13,7 @@ class NotificationService {
   static FlutterLocalNotificationsPlugin Function()? createPlugin =
       () => FlutterLocalNotificationsPlugin();
 
-  static bool Function()? isPlatformSupported =
-      () => Platform.isAndroid || Platform.isIOS;
+  static bool Function()? isPlatformSupported = () => isMobile;
 
   late final FlutterLocalNotificationsPlugin _notificationsPlugin;
 
@@ -78,10 +77,10 @@ class NotificationService {
   }
 
   Future<void> requestNotificationPermission() async {
-    if (Platform.isAndroid) {
+    if (isAndroid) {
       await _androidImplementation?.requestNotificationsPermission();
       await _androidImplementation?.requestExactAlarmsPermission();
-    } else if (Platform.isIOS) {
+    } else if (isIOS) {
       await _iosImplementation?.requestPermissions(
         alert: true,
         badge: true,
@@ -91,12 +90,12 @@ class NotificationService {
   }
 
   Future<bool> hasPermission() async {
-    if (Platform.isAndroid) {
+    if (isAndroid) {
       final granted = await _androidImplementation?.areNotificationsEnabled();
       return granted ?? false;
     }
 
-    if (Platform.isIOS) {
+    if (isIOS) {
       final granted = await _iosImplementation?.checkPermissions();
       return granted?.isEnabled ?? false;
     }
@@ -105,7 +104,7 @@ class NotificationService {
   }
 
   Future<bool> canScheduleExactAlarms() async {
-    if (!Platform.isAndroid) return true;
+    if (!isAndroid) return true;
     final canSchedule =
         await _androidImplementation?.canScheduleExactNotifications();
     return canSchedule ?? false;
@@ -125,8 +124,7 @@ class NotificationService {
   }) async {
     id ??= Random().nextInt(1 << 31);
 
-    final supported =
-        isPlatformSupported?.call() ?? (Platform.isAndroid || Platform.isIOS);
+    final supported = isPlatformSupported?.call() ?? isMobile;
     if (!supported) {
       debugPrint('Notification id $id: $title - $body');
       return;

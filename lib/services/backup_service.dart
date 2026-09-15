@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui' show Rect;
 import 'package:clock/clock.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:mona/distribution.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/db/historical_schemas.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -11,12 +12,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:sqflite/sqflite.dart';
 
 class BackupService {
-  bool get isDesktop =>
-      Platform.isLinux || Platform.isWindows || Platform.isMacOS;
-
-  bool get isAndroid => !isDesktop && Platform.isAndroid;
-  // TODO move these to distribution
-
   static const _tables = [
     'medication_intakes',
     'medication_schedules',
