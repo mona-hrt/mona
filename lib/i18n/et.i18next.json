@@ -27,7 +27,6 @@
   "asNeeded": "Vastavalt vajadusele",
   "taken": "Võetud",
   "appVersion": "Mona versioon {{version}}",
-  "backupSavedTo": "Varukoopia on salvestatud asukohta: {{path}}",
   "exportFailed": "Eksportimine ei õnnestunud: {{error}}",
   "importDataTitle": "Impordi andmed",
   "importDataSubtitle": "Taasta andmed JSON-vormingus varukoopiast"

@@ -68,7 +68,6 @@
   "checkForUpdates": "Sprawdź aktualizacje",
   "checkForUpdatesDescription": "Sprawdź ręcznie najnowszą wersję\\nSpowoduje to połączenie z Internetem\\n(Żadne dane nie zostaną wysłane)",
   "appVersion": "Mona wersja {{version}}",
-  "backupSavedTo": "Kopia zapasowa zapisana w: {{path}}",
   "exportFailed": "Eksport nie powiódł się: {{error}}",
   "importDataTitle": "Importuj dane",
   "importDataSubtitle": "Przywróć dane z kopii zapasowej JSON",

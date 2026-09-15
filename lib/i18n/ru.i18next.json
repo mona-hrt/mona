@@ -52,7 +52,6 @@
   "checkForUpdates": "Проверить наличие обновлений",
   "checkForUpdatesDescription": "Вручную проверить наличие обновлений\\nДанное действие подключит вас к интернету\\n(Данные переданы не будут)",
   "appVersion": "Mona, версия {{version}}",
-  "backupSavedTo": "Копия данных сохранена в {{path}}",
   "exportFailed": "Ошибка экспорта: {{error}}",
   "importDataTitle": "Импорт данных",
   "importDataSubtitle": "Восстановить копию данных из JSON-файла",

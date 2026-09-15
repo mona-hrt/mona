@@ -75,7 +75,7 @@
   "checkForUpdates": "Vérifier les mises à jour",
   "checkForUpdatesDescription": "Vérifier manuellement la dernière version\\nCela vous connectera à Internet\\n(Aucune donnée ne sera envoyée)",
   "appVersion": "Mona version {{version}}",
-  "backupSavedTo": "Sauvegarde enregistrée dans : {{path}}",
+  "backupSaved": "Sauvegarde enregistrée",
   "exportFailed": "Échec de l'exportation : {{error}}",
   "importDataTitle": "Importer des données",
   "importDataSubtitle": "Restaurer les données depuis une sauvegarde JSON",

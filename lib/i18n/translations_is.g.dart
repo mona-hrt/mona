@@ -159,8 +159,6 @@ class TranslationsIs extends Translations
   @override
   String appVersion({required Object version}) => 'Mona útgáfa ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'Afrit vistað í: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Mistókst að flytja út: ${error}';
   @override
@@ -779,7 +777,6 @@ extension on TranslationsIs {
       'checkForUpdatesDescription' =>
         'Athugaðu handvirkt hvort nýjustu útgáfan sé til staðar\nÞetta mun tengja þig við internetið\n(Engin gögn verða send)',
       'appVersion' => ({required Object version}) => 'Mona útgáfa ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Afrit vistað í: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Mistókst að flytja út: ${error}',
       'importDataTitle' => 'Flytja inn gögn',

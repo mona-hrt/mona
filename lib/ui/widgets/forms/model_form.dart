@@ -85,7 +85,7 @@ class ModelForm extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.only(
               top: 24,
-              left: 23,
+              left: 24,
               right: 24,
               bottom: 24 + MediaQuery.of(context).viewInsets.bottom,
             ),

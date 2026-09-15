@@ -44,7 +44,6 @@
   "checkForUpdates": "ตรวจหาอัพเดตใหม่",
   "checkForUpdatesDescription": "ตรวจหาอัพเดตใหม่\\nต้องมีการเชื่อมต่ออินเทอร์เน็ต\\n(ไม่มีข้อมูลใดๆออกนอกเครื่อง)",
   "appVersion": "Mona เวอร์ชั่น {{version}}",
-  "backupSavedTo": "แบ็คอัพบันทึกไปที่ {{path}}",
   "exportFailed": "นำออกล้มเหลว: {{error}}",
   "importDataTitle": "นำเข้าข้อมูล",
   "importDataSubtitle": "กู้คืนข้อมูลจากแบ็คอัพ JSON",

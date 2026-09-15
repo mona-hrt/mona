@@ -181,7 +181,7 @@ class TranslationsEnGb extends Translations
   @override
   String appVersion({required Object version}) => 'Mona version ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'Backup saved to: ${path}';
+  String get backupSaved => 'Backup saved';
   @override
   String exportFailed({required Object error}) => 'Failed to export: ${error}';
   @override
@@ -849,7 +849,7 @@ extension on TranslationsEnGb {
       'checkForUpdatesDescription' =>
         'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Backup saved to: ${path}',
+      'backupSaved' => 'Backup saved',
       'exportFailed' => ({required Object error}) =>
           'Failed to export: ${error}',
       'importDataTitle' => 'Import Data',
