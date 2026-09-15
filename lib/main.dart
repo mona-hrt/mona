@@ -51,7 +51,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => SupplyItemProvider()),
         ChangeNotifierProvider(create: (_) => MedicationIntakeProvider()),
-        ChangeNotifierProvider(create: (_) => MedicationScheduleProvider()),
+        ChangeNotifierProvider(
+            create: (_) =>
+                MedicationScheduleProvider(preferences: preferencesService)),
         ChangeNotifierProvider(create: (_) => BloodTestProvider()),
         ChangeNotifierProvider(create: (_) => TodayProvider(), lazy: false),
         ChangeNotifierProvider.value(value: preferencesService),
