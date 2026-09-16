@@ -27,6 +27,7 @@ class HomePage extends StatelessWidget {
 
     final occurrences = splitByDay(
       SlotsBuilder(intakeProvider, scheduleProvider).intakeSlots(),
+      scheduleOrder: scheduleProvider.schedules.map((s) => s.id).toList(),
     );
 
     return MainPageWrapper(

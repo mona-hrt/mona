@@ -15,6 +15,7 @@ class PreferencesService extends ChangeNotifier {
   static const _unitsTagKey = "units";
   static const _autoCheckUpdatesKey = 'auto_check_updates';
   static const _placementsListKey = 'placements_list';
+  static const _scheduleOrderKey = 'schedule_order';
   static const _placementSuggestionPerScheduleKey =
       'placement_suggestion_per_schedule';
   static const _hrtCounterEnabledKey = 'intake_counter_enabled';
@@ -168,7 +169,22 @@ class PreferencesService extends ChangeNotifier {
   Future<void> setPlacementsList(List<Placement> placements) async {
     final jsonString = jsonEncode(placements.map((p) => p.toMap()).toList());
     final write = _prefs.setString(_placementsListKey, jsonString);
-    notifyListeners();
+    notifyListeners(); // before await to avoid ui showing old state
+    await write;
+  }
+
+  List<int> get scheduleOrder {
+    final jsonString = _prefs.getString(_scheduleOrderKey);
+    if (jsonString == null) return [];
+
+    final List<dynamic> decoded = jsonDecode(jsonString);
+    return decoded.cast<int>();
+  }
+
+  Future<void> setScheduleOrder(List<int> order) async {
+    final jsonString = jsonEncode(order);
+    final write = _prefs.setString(_scheduleOrderKey, jsonString);
+    notifyListeners(); // before await to avoid ui showing old state
     await write;
   }
 
