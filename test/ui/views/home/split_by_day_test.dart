@@ -131,25 +131,25 @@ void main() {
       expect(upcoming, [noTime, morning, evening]);
     });
 
-    test('breaks upcoming ties on the same date by schedule name', () {
+    test('breaks upcoming ties on the same date by the saved order', () {
       // Arrange
       final date = Date.today().add(const Duration(days: 2));
-      final nulcac2 = occurrence(
-        schedule: aMedicationSchedule(id: 1, name: 'Nulcac2'),
+      final one = occurrence(
+        schedule: aMedicationSchedule(id: 1),
         status: ScheduleStatus.upcoming,
         date: date,
       );
-      final bicancul = occurrence(
-        schedule: aMedicationSchedule(id: 2, name: 'Bicanul'),
+      final two = occurrence(
+        schedule: aMedicationSchedule(id: 2),
         status: ScheduleStatus.upcoming,
         date: date,
       );
 
       // Act
-      final upcoming = splitByDay([nulcac2, bicancul]).upcoming;
+      final upcoming = splitByDay([one, two], scheduleOrder: [2, 1]).upcoming;
 
       // Assert
-      expect(upcoming, [bicancul, nulcac2]);
+      expect(upcoming.map((o) => o.schedule.id), [2, 1]);
     });
 
     test('sorts overdue occurrences by date, most overdue first', () {
@@ -174,26 +174,46 @@ void main() {
       expect(today, [lastWeek, threeDaysAgo, yesterday]);
     });
 
-    test('sorts asNeeded occurrences by name', () {
+    test('sorts asNeeded occurrences by the saved order', () {
       // Arrange
-      final banana = occurrence(
-        schedule: aMedicationSchedule(id: 1, name: 'banana'),
+      final first = occurrence(
+        schedule: aMedicationSchedule(id: 1),
         status: ScheduleStatus.asNeeded,
       );
-      final apple = occurrence(
-        schedule: aMedicationSchedule(id: 2, name: 'Apple'),
+      final second = occurrence(
+        schedule: aMedicationSchedule(id: 2),
         status: ScheduleStatus.asNeeded,
       );
-      final cherry = occurrence(
-        schedule: aMedicationSchedule(id: 3, name: 'Cherry'),
+      final third = occurrence(
+        schedule: aMedicationSchedule(id: 3),
         status: ScheduleStatus.asNeeded,
       );
 
       // Act
-      final asNeeded = splitByDay([banana, cherry, apple]).asNeeded;
+      final asNeeded =
+          splitByDay([first, second, third], scheduleOrder: [3, 1, 2]).asNeeded;
 
       // Assert
-      expect(asNeeded, [apple, banana, cherry]);
+      expect(asNeeded.map((o) => o.schedule.id), [3, 1, 2]);
+    });
+
+    test('falls back to id order for schedules missing from the saved order',
+        () {
+      // Arrange
+      final one = occurrence(
+        schedule: aMedicationSchedule(id: 1),
+        status: ScheduleStatus.asNeeded,
+      );
+      final two = occurrence(
+        schedule: aMedicationSchedule(id: 2),
+        status: ScheduleStatus.asNeeded,
+      );
+
+      // Act
+      final asNeeded = splitByDay([two, one], scheduleOrder: const []).asNeeded;
+
+      // Assert
+      expect(asNeeded.map((o) => o.schedule.id), [1, 2]);
     });
   });
 }
