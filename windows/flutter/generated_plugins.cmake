@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   dynamic_system_colors
+  file_selector_windows
   flutter_timezone
   permission_handler_windows
   share_plus

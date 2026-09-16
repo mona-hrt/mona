@@ -138,8 +138,6 @@ class TranslationsTh extends Translations
   @override
   String appVersion({required Object version}) => 'Mona เวอร์ชั่น ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'แบ็คอัพบันทึกไปที่ ${path}';
-  @override
   String exportFailed({required Object error}) => 'นำออกล้มเหลว: ${error}';
   @override
   String get importDataTitle => 'นำเข้าข้อมูล';
@@ -725,8 +723,6 @@ extension on TranslationsTh {
         'ตรวจหาอัพเดตใหม่\nต้องมีการเชื่อมต่ออินเทอร์เน็ต\n(ไม่มีข้อมูลใดๆออกนอกเครื่อง)',
       'appVersion' => ({required Object version}) =>
           'Mona เวอร์ชั่น ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'แบ็คอัพบันทึกไปที่ ${path}',
       'exportFailed' => ({required Object error}) => 'นำออกล้มเหลว: ${error}',
       'importDataTitle' => 'นำเข้าข้อมูล',
       'importDataSubtitle' => 'กู้คืนข้อมูลจากแบ็คอัพ JSON',

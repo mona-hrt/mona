@@ -139,8 +139,6 @@ class TranslationsSk extends Translations
   @override
   String appVersion({required Object version}) => 'Mona verzia ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'Záloha uložená: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Export dát sa nepodaril: ${error}';
   @override
@@ -803,7 +801,6 @@ extension on TranslationsSk {
       'checkForUpdatesDescription' =>
         'Skontrolovať najnovšiu verziu manuálne\nTáto akcia ťa pripojí na internet.\n(Žiadne dáta nebudú odoslané)',
       'appVersion' => ({required Object version}) => 'Mona verzia ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Záloha uložená: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Export dát sa nepodaril: ${error}',
       'importDataTitle' => 'Import dát',
