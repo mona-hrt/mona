@@ -167,9 +167,6 @@ class TranslationsPl extends Translations
   @override
   String appVersion({required Object version}) => 'Mona wersja ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Kopia zapasowa zapisana w: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Eksport nie powiódł się: ${error}';
   @override
@@ -821,8 +818,6 @@ extension on TranslationsPl {
       'checkForUpdatesDescription' =>
         'Sprawdź ręcznie najnowszą wersję\nSpowoduje to połączenie z Internetem\n(Żadne dane nie zostaną wysłane)',
       'appVersion' => ({required Object version}) => 'Mona wersja ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Kopia zapasowa zapisana w: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Eksport nie powiódł się: ${error}',
       'importDataTitle' => 'Importuj dane',

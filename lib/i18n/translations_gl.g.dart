@@ -161,9 +161,6 @@ class TranslationsGl extends Translations
   @override
   String appVersion({required Object version}) => 'Versión ${version} de Mona';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Copia de seguridade gardada en: ${path}';
-  @override
   String exportFailed({required Object error}) => 'Error ao exportar: ${error}';
   @override
   String get importDataTitle => 'Importar Datos';
@@ -532,8 +529,6 @@ extension on TranslationsGl {
         'Busca a última versión manualmente\nIsto conectarache ao Internet\n(Non se enviarán datos)',
       'appVersion' => ({required Object version}) =>
           'Versión ${version} de Mona',
-      'backupSavedTo' => ({required Object path}) =>
-          'Copia de seguridade gardada en: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Error ao exportar: ${error}',
       'importDataTitle' => 'Importar Datos',

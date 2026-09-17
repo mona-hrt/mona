@@ -1,19 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+import 'dart:ui' show Rect;
 import 'package:clock/clock.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
+import 'package:mona/distribution.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/db/historical_schemas.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sqflite/sqflite.dart';
 
 class BackupService {
-  bool get isDesktop =>
-      Platform.isLinux || Platform.isWindows || Platform.isMacOS;
-
-  bool get isAndroid => !isDesktop && Platform.isAndroid;
-
   static const _tables = [
     'medication_intakes',
     'medication_schedules',
@@ -149,41 +147,36 @@ class BackupService {
     return 'mona_backup_$ts.json';
   }
 
-  Future<String?> exportData() async {
+  Future<bool> exportData({Rect? sharePositionOrigin}) async {
     final jsonString = await _generateBackupJson();
-    final bytes = Uint8List.fromList(utf8.encode(jsonString));
 
-    String? outputFile = await FilePicker.platform.saveFile(
-      dialogTitle: 'Save Mona Backup',
-      fileName: _timestampedFileName(),
-      type: isAndroid ? FileType.any : FileType.custom,
-      allowedExtensions: isAndroid ? null : ['json'],
-      bytes: bytes,
+    final dir = await getTemporaryDirectory();
+    final file = File('${dir.path}/${_timestampedFileName()}');
+    await file.writeAsString(jsonString);
+
+    final result = await Share.shareXFiles(
+      [XFile(file.path, mimeType: 'application/json')],
+      subject: _timestampedFileName(),
+      sharePositionOrigin: sharePositionOrigin,
     );
 
-    if (outputFile != null) {
-      if (isDesktop && !outputFile.endsWith('.json')) {
-        outputFile += '.json';
-      }
-      if (isDesktop) {
-        await File(outputFile).writeAsString(jsonString);
-      }
-      return outputFile;
-    }
-    return null;
+    return result.status == ShareResultStatus.success;
   }
 
   Future<bool> importData() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: isAndroid ? FileType.any : FileType.custom,
-      allowedExtensions: isAndroid ? null : ['json'],
+    const jsonGroup = XTypeGroup(
+      label: 'JSON',
+      extensions: ['json'],
+      uniformTypeIdentifiers: ['public.json'],
+    );
+    final file = await openFile(
+      acceptedTypeGroups: isAndroid ? const [] : const [jsonGroup],
     );
 
-    if (result == null || result.files.single.path == null) {
+    if (file == null) {
       return false;
     }
 
-    final file = File(result.files.single.path!);
     final jsonString = await file.readAsString();
     final Map<String, dynamic> backupData = jsonDecode(jsonString);
 

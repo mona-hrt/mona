@@ -52,7 +52,6 @@
   "checkForUpdates": "Skontrolovať aktualizácie",
   "checkForUpdatesDescription": "Skontrolovať najnovšiu verziu manuálne\\nTáto akcia ťa pripojí na internet.\\n(Žiadne dáta nebudú odoslané)",
   "appVersion": "Mona verzia {{version}}",
-  "backupSavedTo": "Záloha uložená: {{path}}",
   "exportFailed": "Export dát sa nepodaril: {{error}}",
   "importDataTitle": "Import dát",
   "importDataSubtitle": "Obnoviť dáta pomocou JSON zálohy",

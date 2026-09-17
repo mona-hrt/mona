@@ -156,9 +156,6 @@ class TranslationsNl extends Translations
   @override
   String appVersion({required Object version}) => 'Mona versie ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Backup opgeslagen in: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Exporteren mislukt: ${error}';
   @override
@@ -817,8 +814,6 @@ extension on TranslationsNl {
       'checkForUpdatesDescription' =>
         'Handmatig controleren op de nieuwste versie\nEr wordt verbinding gemaakt met het internet\n(Er worden geen gegevens verzonden)',
       'appVersion' => ({required Object version}) => 'Mona versie ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Backup opgeslagen in: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Exporteren mislukt: ${error}',
       'importDataTitle' => 'Data importeren',

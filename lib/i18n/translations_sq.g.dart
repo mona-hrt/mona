@@ -182,9 +182,6 @@ class TranslationsSq extends Translations
   @override
   String appVersion({required Object version}) => 'Mona versioni ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Kopja rezervë u ruajt te: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Eksportimi dështoi: ${error}';
   @override
@@ -828,8 +825,6 @@ extension on TranslationsSq {
       'checkForUpdatesDescription' =>
         'Kontrollo manualisht për versionin më të fundit\nKjo do të të lidhë me internetin\n(Nuk do të dërgohen të dhëna)',
       'appVersion' => ({required Object version}) => 'Mona versioni ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Kopja rezervë u ruajt te: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Eksportimi dështoi: ${error}',
       'importDataTitle' => 'Importo të dhënat',
