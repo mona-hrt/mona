@@ -57,10 +57,10 @@ Take control of your hormonal health with Mona, the fully local, open-source app
 **Available for both iOS and Android.**
 
 <p align="center">
-    <img alt="Never miss a dose" title="Never miss a dose" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/01_home.png" width="200">
-    <img alt="See your history at a glance" title="See your history at a glance" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/02_intakes.png" width="200">
-    <img alt="Monitor your levels and blood tests" title="Monitor your levels and blood tests" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/03_levels.png" width="200">
-    <img alt="Never run out" title="Never run out" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/04_supplies.png" width="200">
+    <img alt="Never miss a dose" title="Never miss a dose" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/01_home.png" width="48%">
+    <img alt="See your history at a glance" title="See your history at a glance" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/02_intakes.png" width="48%">
+    <img alt="Monitor your levels and blood tests" title="Monitor your levels and blood tests" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/03_levels.png" width="48%">
+    <img alt="Never run out" title="Never run out" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/04_supplies.png" width="48%">
 </p>
 
 # Features
