@@ -42,7 +42,8 @@ class _PharmacyPageState extends State<PharmacyPage> {
               children: [
                 if (shouldDisplayFilter)
                   Padding(
-                    padding: pagePadding + const EdgeInsets.only(bottom: 16),
+                    padding:
+                        pagePadding + const EdgeInsets.symmetric(vertical: 16),
                     child: Align(
                       alignment: Alignment.center,
                       child: _filterToggle(effectiveFilter, context),
