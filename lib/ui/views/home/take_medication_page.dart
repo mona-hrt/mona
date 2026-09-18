@@ -103,7 +103,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
     await Future.delayed(const Duration(milliseconds: 880));
 
-    if (!mounted) return;
+    if (!mounted || ModalRoute.of(context)?.isCurrent != true) return;
     Navigator.of(context).pop();
   }
 
