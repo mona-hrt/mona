@@ -44,10 +44,11 @@ class BloodTestProvider extends ChangeNotifier {
     return UnitValue(latest.inUnit(unit), unit);
   }
 
-  List<LevelEntry> levelEntries(Hormone hormone, Units units) {
+  List<LevelEntry> levelEntries(Hormone hormone, EstradiolUnit estradiolUnit,
+      TestosteroneUnit testosteroneUnit) {
     switch (hormone) {
       case Hormone.estradiol:
-        final unit = units.estradiol;
+        final unit = estradiolUnit;
         return estradiolTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
@@ -56,7 +57,7 @@ class BloodTestProvider extends ChangeNotifier {
                 ))
             .toList();
       case Hormone.testosterone:
-        final unit = units.testosterone;
+        final unit = testosteroneUnit;
         return testosteroneTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,

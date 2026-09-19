@@ -259,7 +259,8 @@ class _SettingsPageState extends State<SettingsPage>
               ),
               TappableListTile(
                 title: t.units,
-                subtitle: preferencesService.units.localizedName,
+                subtitle:
+                    '${preferencesService.estradiolUnit.localizedName} & ${preferencesService.testosteroneUnit.localizedName}',
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute<void>(
