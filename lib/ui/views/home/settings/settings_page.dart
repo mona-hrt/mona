@@ -95,12 +95,16 @@ class _SettingsPageState extends State<SettingsPage>
 
   Future<void> _exportData() async {
     try {
-      final savedPath = await BackupService().exportData();
+      final box = context.findRenderObject() as RenderBox?;
+      final origin =
+          box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+      final success =
+          await BackupService().exportData(sharePositionOrigin: origin);
 
-      if (savedPath != null && mounted) {
+      if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(t.backupSavedTo(path: savedPath)),
+            content: Text(t.backupSaved),
             duration: const Duration(seconds: 4),
           ),
         );
@@ -187,7 +191,8 @@ class _SettingsPageState extends State<SettingsPage>
     return Scaffold(
       appBar: AppBar(title: Text(t.settingsTitle)),
       body: ListView(
-        padding: pagePadding,
+        padding: pagePadding +
+            EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
         children: [
           _sectionHeader(t.schedulesAndNotifications),
           M3ESegmentedColumn(
@@ -254,7 +259,8 @@ class _SettingsPageState extends State<SettingsPage>
               ),
               TappableListTile(
                 title: t.units,
-                subtitle: preferencesService.units.localizedName,
+                subtitle:
+                    '${preferencesService.estradiolUnit.localizedName} & ${preferencesService.testosteroneUnit.localizedName}',
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute<void>(
@@ -320,7 +326,7 @@ class _SettingsPageState extends State<SettingsPage>
               ),
             ],
           ),
-          if (Platform.isAndroid && !isStoreDistribution) ...[
+          if (isSelfUpdating) ...[
             SizedBox(height: borderPadding),
             _sectionHeader(t.updates),
             M3ESegmentedColumn(
@@ -374,7 +380,6 @@ class _SettingsPageState extends State<SettingsPage>
               );
             },
           ),
-          const SizedBox(height: 32),
         ],
       ),
     );

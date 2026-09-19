@@ -1,46 +1,30 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/services/preferences_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../fixtures.dart';
 import 'generic_repository_mock.dart';
 
 void main() {
   late MedicationScheduleProvider provider;
   late GenericRepositoryMock<MedicationSchedule> repo;
+  late PreferencesService preferences;
 
-  setUp(() {
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    preferences = await PreferencesService.init();
     repo = GenericRepositoryMock<MedicationSchedule>(
-      withId: (i, id) => MedicationSchedule(
-        id: id,
-        name: i.name,
-        dose: i.dose,
-        scheduling: i.scheduling,
-        molecule: i.molecule,
-        administrationRoute: i.administrationRoute,
-        ester: i.ester,
-      ),
+      withId: (i, id) => i.copyWith(id: id),
     );
-    provider = MedicationScheduleProvider(repository: repo);
+    provider = MedicationScheduleProvider(
+      repository: repo,
+      preferences: preferences,
+    );
 
-    repo.insert(MedicationSchedule(
-      id: 1,
-      name: 'Estradiol',
-      dose: Decimal.parse('2.0'),
-      scheduling: IntervalDaysSchedule(intervalDays: 1),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.oral,
-    ));
-    repo.insert(MedicationSchedule(
-      id: 2,
-      name: 'Spironolactone',
-      dose: Decimal.parse('100.0'),
-      scheduling: IntervalDaysSchedule(intervalDays: 1),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.oral,
-    ));
+    repo.insert(aMedicationSchedule(id: 1));
+    repo.insert(aMedicationSchedule(id: 2));
   });
 
   group('MedicationScheduleProvider Tests', () {
@@ -51,13 +35,7 @@ void main() {
 
     test('add inserts a new schedule', () async {
       // Arrange
-      final schedule = MedicationSchedule(
-        name: 'Progesterone',
-        dose: Decimal.parse('200.0'),
-        scheduling: IntervalDaysSchedule(intervalDays: 1),
-        molecule: KnownMolecules.progesterone,
-        administrationRoute: AdministrationRoute.suppository,
-      );
+      final schedule = aMedicationSchedule(id: 3);
 
       // Act
       await provider.add(schedule);
@@ -69,14 +47,8 @@ void main() {
     test('updateSchedule updates an existing item', () async {
       // Arrange
       final scheduleToUpdate = repo.items.first;
-      final updatedSchedule = MedicationSchedule(
-        id: scheduleToUpdate.id,
-        name: scheduleToUpdate.name,
-        dose: Decimal.parse('5.0'),
-        scheduling: scheduleToUpdate.scheduling,
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
+      final updatedSchedule =
+          scheduleToUpdate.copyWith(dose: Decimal.parse('5.0'));
 
       // Act
       await provider.updateSchedule(updatedSchedule);
@@ -107,6 +79,50 @@ void main() {
       expect(
         [provider.schedules.length, provider.schedules.first.id],
         [1, 2],
+      );
+    });
+  });
+
+  group('ordering', () {
+    test('schedules follow the saved order', () async {
+      // Arrange
+      await preferences.setScheduleOrder([2, 1]);
+
+      // Act
+      await provider.fetchSchedules();
+
+      // Assert
+      expect(provider.schedules.map((s) => s.id), [2, 1]);
+    });
+
+    test('a schedule missing from the saved order sorts last', () async {
+      // Arrange
+      await preferences.setScheduleOrder([2]);
+
+      // Act
+      await provider.fetchSchedules();
+
+      // Assert
+      expect(provider.schedules.map((s) => s.id), [2, 1]);
+    });
+
+    test('reorder persists the new order and applies it', () async {
+      // Arrange
+      await provider.fetchSchedules();
+
+      // Act
+      await provider.reorder(0, 2);
+
+      // Assert
+      expect(
+        [
+          provider.schedules.map((s) => s.id).toList(),
+          preferences.scheduleOrder
+        ],
+        [
+          [2, 1],
+          [2, 1]
+        ],
       );
     });
   });

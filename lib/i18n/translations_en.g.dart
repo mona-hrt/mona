@@ -239,8 +239,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Mona version {version}'
   String appVersion({required Object version}) => 'Mona version ${version}';
 
-  /// en: 'Backup saved to: {path}'
-  String backupSavedTo({required Object path}) => 'Backup saved to: ${path}';
+  /// en: 'Backup saved'
+  String get backupSaved => 'Backup saved';
 
   /// en: 'Failed to export: {error}'
   String exportFailed({required Object error}) => 'Failed to export: ${error}';
@@ -1128,7 +1128,7 @@ extension on Translations {
       'checkForUpdatesDescription' =>
         'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Backup saved to: ${path}',
+      'backupSaved' => 'Backup saved',
       'exportFailed' => ({required Object error}) =>
           'Failed to export: ${error}',
       'importDataTitle' => 'Import Data',

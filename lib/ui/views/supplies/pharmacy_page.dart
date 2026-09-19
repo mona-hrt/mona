@@ -42,15 +42,17 @@ class _PharmacyPageState extends State<PharmacyPage> {
               children: [
                 if (shouldDisplayFilter)
                   Padding(
-                    padding: pagePadding + const EdgeInsets.only(bottom: 16),
+                    padding:
+                        pagePadding + const EdgeInsets.symmetric(vertical: 8),
                     child: Align(
                       alignment: Alignment.center,
                       child: _filterToggle(effectiveFilter, context),
                     ),
                   ),
                 MasonryGridView.builder(
-                  padding:
-                      pagePadding - const EdgeInsets.symmetric(horizontal: 4),
+                  padding: pagePadding -
+                      const EdgeInsets.symmetric(horizontal: 4) +
+                      const EdgeInsets.symmetric(vertical: 8),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate:

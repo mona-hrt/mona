@@ -35,9 +35,9 @@ class LevelsPage extends StatelessWidget {
       builder: (context, medicationIntakeProvider, bloodTestProvider,
           preferences, child) {
         final estradiolLevel =
-            bloodTestProvider.latestEstradiolLevel(preferences.units.estradiol);
+            bloodTestProvider.latestEstradiolLevel(preferences.estradiolUnit);
         final testosteroneLevel = bloodTestProvider
-            .latestTestosteroneLevel(preferences.units.testosterone);
+            .latestTestosteroneLevel(preferences.testosteroneUnit);
         final levelRows = [
           if (estradiolLevel != null)
             (
@@ -45,8 +45,8 @@ class LevelsPage extends StatelessWidget {
               label: t.estradiol,
               value: estradiolLevel.value.toString(),
               unit: estradiolLevel.unit.localizedName,
-              entries: bloodTestProvider.levelEntries(
-                  Hormone.estradiol, preferences.units),
+              entries: bloodTestProvider.levelEntries(Hormone.estradiol,
+                  preferences.estradiolUnit, preferences.testosteroneUnit),
             ),
           if (testosteroneLevel != null)
             (
@@ -54,8 +54,8 @@ class LevelsPage extends StatelessWidget {
               label: t.testosterone,
               value: testosteroneLevel.value.toString(),
               unit: testosteroneLevel.unit.localizedName,
-              entries: bloodTestProvider.levelEntries(
-                  Hormone.testosterone, preferences.units),
+              entries: bloodTestProvider.levelEntries(Hormone.testosterone,
+                  preferences.estradiolUnit, preferences.testosteroneUnit),
             ),
         ];
 
@@ -127,7 +127,7 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final intakeProvider = context.watch<MedicationIntakeProvider>();
-    final unit = context.watch<PreferencesService>().units.estradiol;
+    final unit = context.watch<PreferencesService>().estradiolUnit;
     final baseline = intakeProvider.getGraphLocalStart()!;
     final intakes = intakeProvider.getIntakesForGraph(baseline);
     final tNow = timeDifferenceInDays(clock.now(), baseline);

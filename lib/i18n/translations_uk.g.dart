@@ -139,8 +139,6 @@ class TranslationsUk extends Translations
   @override
   String appVersion({required Object version}) => 'Версія Mona - ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'Бекап збережено до: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Не вдалося експортувати: ${error}';
   @override
@@ -802,8 +800,6 @@ extension on TranslationsUk {
       'checkForUpdatesDescription' =>
         'Перевірити на наявність крайньої версії вручну\nЦе підключить вас до мережі\n(Жодних даних не буде надіслано)',
       'appVersion' => ({required Object version}) => 'Версія Mona - ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Бекап збережено до: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Не вдалося експортувати: ${error}',
       'importDataTitle' => 'Імпортувати дані',

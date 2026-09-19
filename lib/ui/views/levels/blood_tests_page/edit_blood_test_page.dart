@@ -62,15 +62,13 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
     final timezone =
         _dateTimeChanged ? await FlutterTimezone.getLocalTimezone() : null;
 
-    final defaultUnits = _preferencesService.units;
-
     final estradiolLevels = _estradiolLevelsController.text.toDecimalOrNull;
-    final estradiolUnit =
-        widget.bloodtest.estradiolLevels?.unit ?? defaultUnits.estradiol;
+    final estradiolUnit = widget.bloodtest.estradiolLevels?.unit ??
+        _preferencesService.estradiolUnit;
     final testosteroneLevels =
         _testosteroneLevelsController.text.toDecimalOrNull;
-    final testosteroneUnit =
-        widget.bloodtest.testosteroneLevels?.unit ?? defaultUnits.testosterone;
+    final testosteroneUnit = widget.bloodtest.testosteroneLevels?.unit ??
+        _preferencesService.testosteroneUnit;
     final notes = _notesController.text.isEmpty ? null : _notesController.text;
 
     final updatedBloodTest = widget.bloodtest.copyWith(
@@ -113,7 +111,6 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    final defaultUnits = _preferencesService.units;
     return ModelForm(
       title: t.editBloodTest,
       avatar: Symbols.lab_panel_rounded,
@@ -129,9 +126,9 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
-          suffixText:
-              (widget.bloodtest.estradiolLevels?.unit ?? defaultUnits.estradiol)
-                  .localizedName,
+          suffixText: (widget.bloodtest.estradiolLevels?.unit ??
+                  _preferencesService.estradiolUnit)
+              .localizedName,
         ),
         FormTextField(
           controller: _testosteroneLevelsController,
@@ -141,7 +138,7 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
           suffixText: (widget.bloodtest.testosteroneLevels?.unit ??
-                  defaultUnits.testosterone)
+                  _preferencesService.testosteroneUnit)
               .localizedName,
         ),
         FormSpacer(),

@@ -41,7 +41,7 @@ class MainGraph extends StatelessWidget {
     final preferencesProvider = context.watch<PreferencesService>();
     final bloodTestProvider = context.watch<BloodTestProvider>();
     final theme = Theme.of(context);
-    final unit = preferencesProvider.units.estradiol;
+    final unit = preferencesProvider.estradiolUnit;
 
     if (medicationIntakeProvider.plottableIntakes.isEmpty) {
       return SizedBox.shrink();

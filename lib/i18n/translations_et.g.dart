@@ -98,9 +98,6 @@ class TranslationsEt extends Translations
   @override
   String appVersion({required Object version}) => 'Mona versioon ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Varukoopia on salvestatud asukohta: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Eksportimine ei õnnestunud: ${error}';
   @override
@@ -160,8 +157,6 @@ extension on TranslationsEt {
       'asNeeded' => 'Vastavalt vajadusele',
       'taken' => 'Võetud',
       'appVersion' => ({required Object version}) => 'Mona versioon ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Varukoopia on salvestatud asukohta: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Eksportimine ei õnnestunud: ${error}',
       'importDataTitle' => 'Impordi andmed',

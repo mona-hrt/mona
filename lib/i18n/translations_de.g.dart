@@ -142,9 +142,6 @@ class TranslationsDe extends Translations
   @override
   String appVersion({required Object version}) => 'Mona Version ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Backup gespeichert unter: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Export fehlgeschlagen: ${error}';
   @override
@@ -810,8 +807,6 @@ extension on TranslationsDe {
       'checkForUpdatesDescription' =>
         'Manuell nach der neuesten Version suchen\nDies stellt eine Internetverbindung her\n(Es werden keine Daten gesendet)',
       'appVersion' => ({required Object version}) => 'Mona Version ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Backup gespeichert unter: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Export fehlgeschlagen: ${error}',
       'importDataTitle' => 'Daten importieren',

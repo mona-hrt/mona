@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/widgets.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
+import 'package:mona/distribution.dart';
 import 'package:mona/i18n/locale_provider.dart';
 
 typedef SaveWidgetData = Future<void> Function(String id, String? data);
@@ -13,7 +12,7 @@ class HomeWidgetService {
   static const String _qualifiedAndroidName =
       'com.deliacheminot.mona.HrtGlanceReceiver';
 
-  static bool Function()? isPlatformSupported = () => Platform.isAndroid;
+  static bool Function()? isPlatformSupported = () => isAndroid;
 
   final SaveWidgetData _saveWidgetData;
   final UpdateWidget _updateWidget;
@@ -44,7 +43,7 @@ class HomeWidgetService {
     required Locale locale,
     required int intakeCount,
   }) async {
-    final supported = isPlatformSupported?.call() ?? Platform.isAndroid;
+    final supported = isPlatformSupported?.call() ?? isAndroid;
     if (!supported) return;
 
     final firstDateIso = firstDate == null

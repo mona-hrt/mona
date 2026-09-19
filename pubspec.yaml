@@ -64,7 +64,7 @@ dependencies:
   pub_semver: ^2.2.0
   flutter_localizations:
     sdk: flutter
-  file_picker: ^8.0.0
+  file_selector: ^1.0.0
   share_plus: ^10.0.0
   material_color_utilities: ^0.13.0
   # Drop when Flutter ships spec 2025 natively with material_color_utilities.

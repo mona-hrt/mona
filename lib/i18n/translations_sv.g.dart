@@ -216,9 +216,6 @@ class TranslationsSv extends Translations
   String get checkForUpdatesDescription =>
       'Sök manuellt efter senaste versionen\nDetta kommer att ansluta dig till internet\n(Ingen data skickas)';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Säkerhetskopia sparad i: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Export misslyckades: ${error}';
   @override
@@ -821,8 +818,6 @@ extension on TranslationsSv {
       'checkForUpdates' => 'Sök efter uppdateringar',
       'checkForUpdatesDescription' =>
         'Sök manuellt efter senaste versionen\nDetta kommer att ansluta dig till internet\n(Ingen data skickas)',
-      'backupSavedTo' => ({required Object path}) =>
-          'Säkerhetskopia sparad i: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Export misslyckades: ${error}',
       'importDataSubtitle' => 'Återställ data från en JSON-säkerhetskopia',
