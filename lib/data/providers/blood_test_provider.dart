@@ -51,7 +51,8 @@ class BloodTestProvider extends ChangeNotifier {
         return estradiolTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
-                  value: UnitValue(test.estradiolLevels!.inUnit(estradiolUnit), estradiolUnit),
+                  value: UnitValue(test.estradiolLevels!.inUnit(estradiolUnit),
+                      estradiolUnit),
                   notes: test.notes,
                 ))
             .toList();
@@ -59,7 +60,9 @@ class BloodTestProvider extends ChangeNotifier {
         return testosteroneTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
-                  value: UnitValue(test.testosteroneLevels!.inUnit(testosteroneUnit), testosteroneUnit),
+                  value: UnitValue(
+                      test.testosteroneLevels!.inUnit(testosteroneUnit),
+                      testosteroneUnit),
                   notes: test.notes,
                 ))
             .toList();

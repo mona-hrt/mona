@@ -63,12 +63,12 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
         _dateTimeChanged ? await FlutterTimezone.getLocalTimezone() : null;
 
     final estradiolLevels = _estradiolLevelsController.text.toDecimalOrNull;
-    final estradiolUnit =
-        widget.bloodtest.estradiolLevels?.unit ?? _preferencesService.estradiolUnit;
+    final estradiolUnit = widget.bloodtest.estradiolLevels?.unit ??
+        _preferencesService.estradiolUnit;
     final testosteroneLevels =
         _testosteroneLevelsController.text.toDecimalOrNull;
-    final testosteroneUnit =
-        widget.bloodtest.testosteroneLevels?.unit ?? _preferencesService.testosteroneUnit;
+    final testosteroneUnit = widget.bloodtest.testosteroneLevels?.unit ??
+        _preferencesService.testosteroneUnit;
     final notes = _notesController.text.isEmpty ? null : _notesController.text;
 
     final updatedBloodTest = widget.bloodtest.copyWith(
@@ -126,9 +126,9 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
-          suffixText:
-              (widget.bloodtest.estradiolLevels?.unit ?? _preferencesService.estradiolUnit)
-                  .localizedName,
+          suffixText: (widget.bloodtest.estradiolLevels?.unit ??
+                  _preferencesService.estradiolUnit)
+              .localizedName,
         ),
         FormTextField(
           controller: _testosteroneLevelsController,
