@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/ui/constants/dimensions.dart';
 
 import 'package:mona/ui/views/levels/main_graph_page/chart_buttons.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_graph.dart';
@@ -35,7 +36,8 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: borderPadding),
                   child: ChartButtons(
                     index: _duration.index,
                     onChanged: (index) => setState(
@@ -46,14 +48,18 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ButtonDatePicker(
-                      datetime: startDate,
-                      onChanged: (newDate) {
-                        setState(() {
-                          startDate = newDate;
-                        });
-                      },
-                      label: t.startDate,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8.0),
+                      child: ButtonDatePicker(
+                        datetime: startDate,
+                        onChanged: (newDate) {
+                          setState(() {
+                            startDate = newDate;
+                          });
+                        },
+                        label: t.startDate,
+                      ),
                     ),
                   ],
                 ),

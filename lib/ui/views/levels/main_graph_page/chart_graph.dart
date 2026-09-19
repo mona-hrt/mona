@@ -110,7 +110,7 @@ class _MainGraphState extends State<MainGraph> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(right: borderPadding),
+            padding: const EdgeInsets.only(right: borderPadding, top: 8.0),
             child: LineChart(
               LineChartData(
                 minX: tMin,
