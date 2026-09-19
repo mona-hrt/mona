@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:m3e_core/m3e_core.dart';
 
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
 
@@ -21,12 +19,7 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
   double sliderValue = 0;
   LevelDuration _duration = LevelDuration.twoWeeks;
   DateTime startDate = DateTime.now().subtract(const Duration(days: 9));
-
-  void _shiftWindow(int direction) {
-    setState(() {
-      startDate = startDate.add(_offset * direction);
-    });
-  }
+  bool _isPanning = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +46,6 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    M3EButton(
-                      style: M3EButtonStyle.filled,
-                      size: M3EButtonSize.md,
-                      shape: M3EButtonShape.round,
-                      onPressed: () {
-                        _shiftWindow(-1);
-                      },
-                      decoration: M3EButtonDecoration.styleFrom(),
-                      child: const Icon(Symbols.chevron_left_rounded),
-                    ),
                     ButtonDatePicker(
                       datetime: startDate,
                       onChanged: (newDate) {
@@ -72,22 +55,34 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                       },
                       label: t.startDate,
                     ),
-                    M3EButton(
-                      style: M3EButtonStyle.filled,
-                      size: M3EButtonSize.md,
-                      shape: M3EButtonShape.round,
-                      onPressed: () {
-                        _shiftWindow(1);
-                      },
-                      decoration: M3EButtonDecoration.styleFrom(),
-                      child: const Icon(Symbols.chevron_right_rounded),
-                    ),
                   ],
                 ),
                 Expanded(
-                  child: MainGraph(
-                    startDate: startDate,
-                    endDate: startDate.add(_offset),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return GestureDetector(
+                        onHorizontalDragStart: (_) =>
+                            setState(() => _isPanning = true),
+                        onHorizontalDragUpdate: (details) {
+                          final width = constraints.maxWidth;
+                          if (width <= 0) return;
+                          final shift = _offset.inMicroseconds *
+                              ((details.primaryDelta ?? 0) / width);
+                          setState(() {
+                            startDate = startDate.subtract(
+                              Duration(microseconds: shift.round()),
+                            );
+                          });
+                        },
+                        onHorizontalDragEnd: (_) =>
+                            setState(() => _isPanning = false),
+                        child: MainGraph(
+                          startDate: startDate,
+                          endDate: startDate.add(_offset),
+                          isPanning: _isPanning,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
