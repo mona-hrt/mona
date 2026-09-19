@@ -11,26 +11,51 @@ class UnitsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final preferencesService = context.watch<PreferencesService>();
-    final savedUnits = preferencesService.units;
+    void onEstradiolUnitChanged(EstradiolUnit? value) {
+      if (value != null) preferencesService.setEstradiolUnit(value);
+    }
 
-    void onUnitsChanged(Units? value) {
-      preferencesService.setUnits(value ?? Units.pg_mL_ng_dL);
+    void onTestosteroneUnitChanged(TestosteroneUnit? value) {
+      if (value != null) preferencesService.setTestosteroneUnit(value);
     }
 
     return Scaffold(
       appBar: AppBar(title: Text(t.units)),
-      body: RadioGroup<Units>(
-        groupValue: savedUnits,
-        onChanged: onUnitsChanged,
-        child: ListView(
-          children: [
-            for (final units in Units.values)
-              RadioListTile<Units>(
-                title: Text(units.localizedName),
-                value: units,
-              ),
-          ],
-        ),
+      body: ListView(
+        children: [
+          ListTile(
+            title: Text(t.estradiol),
+          ),
+          RadioGroup<EstradiolUnit>(
+            groupValue: preferencesService.estradiolUnit,
+            onChanged: onEstradiolUnitChanged,
+            child: Column(
+              children: [
+                for (final unit in EstradiolUnit.values)
+                  RadioListTile<EstradiolUnit>(
+                    title: Text(unit.localizedName),
+                    value: unit,
+                  ),
+              ],
+            ),
+          ),
+          ListTile(
+            title: Text(t.testosterone),
+          ),
+          RadioGroup<TestosteroneUnit>(
+            groupValue: preferencesService.testosteroneUnit,
+            onChanged: onTestosteroneUnitChanged,
+            child: Column(
+              children: [
+                for (final unit in TestosteroneUnit.values)
+                  RadioListTile<TestosteroneUnit>(
+                    title: Text(unit.localizedName),
+                    value: unit,
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
