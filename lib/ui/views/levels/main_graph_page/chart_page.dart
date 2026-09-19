@@ -40,6 +40,14 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
             emptyMessage: "",
             child: Column(
               children: [
+                Expanded(
+                  child: ChartButtons(
+                    index: _duration.index,
+                    onChanged: (index) => setState(
+                      () => _duration = LevelDuration.values[index],
+                    ),
+                  ),
+                ),
                 Row(
                   children: [
                     M3EButton(
@@ -51,14 +59,6 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                       },
                       decoration: M3EButtonDecoration.styleFrom(),
                       child: const Icon(Symbols.chevron_left_rounded),
-                    ),
-                    Expanded(
-                      child: ChartButtons(
-                        index: _duration.index,
-                        onChanged: (index) => setState(
-                          () => _duration = LevelDuration.values[index],
-                        ),
-                      ),
                     ),
                     M3EButton(
                       style: M3EButtonStyle.filled,
