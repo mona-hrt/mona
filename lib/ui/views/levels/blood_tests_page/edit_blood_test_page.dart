@@ -113,7 +113,6 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    final defaultUnits = _preferencesService.units;
     return ModelForm(
       title: t.editBloodTest,
       avatar: Symbols.lab_panel_rounded,
@@ -130,7 +129,7 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
           suffixText:
-              (widget.bloodtest.estradiolLevels?.unit ?? defaultUnits.estradiol)
+              (widget.bloodtest.estradiolLevels?.unit ?? _preferencesService.estradiolUnit)
                   .localizedName,
         ),
         FormTextField(
@@ -141,7 +140,7 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
           suffixText: (widget.bloodtest.testosteroneLevels?.unit ??
-                  defaultUnits.testosterone)
+                  _preferencesService.testosteroneUnit)
               .localizedName,
         ),
         FormSpacer(),
