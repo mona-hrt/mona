@@ -7,6 +7,7 @@ import 'package:mona/i18n/translations.g.dart';
 
 import 'package:mona/ui/views/levels/main_graph_page/chart_buttons.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_graph.dart';
+import 'package:mona/ui/widgets/button_date_picker.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:mona/ui/widgets/minute_ticker.dart';
 import 'package:provider/provider.dart';
@@ -59,6 +60,15 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                       },
                       decoration: M3EButtonDecoration.styleFrom(),
                       child: const Icon(Symbols.chevron_left_rounded),
+                    ),
+                    ButtonDatePicker(
+                      datetime: startDate,
+                      onChanged: (newDate) {
+                        setState(() {
+                          startDate = newDate;
+                        });
+                      },
+                      label: t.startDate,
                     ),
                     M3EButton(
                       style: M3EButtonStyle.filled,
