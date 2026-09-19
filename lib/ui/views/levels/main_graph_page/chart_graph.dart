@@ -120,7 +120,10 @@ class _MainGraphState extends State<MainGraph> {
                 clipData: const FlClipData.all(),
                 gridData: FlGridData(show: true),
                 titlesData: _buildTitlesData(context, baseline),
-                borderData: FlBorderData(show: true),
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border.all(color: theme.colorScheme.outline),
+                ),
                 lineBarsData: [
                   _buildLineBarData(spots, theme),
                   _buildBloodTestData(bloodSpots, theme),
@@ -193,6 +196,19 @@ class _MainGraphState extends State<MainGraph> {
   LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
       DateTime tMin, EstradiolUnit unit) {
     return LineTouchData(
+      getTouchedSpotIndicator: (barData, spotIndexes) {
+        return spotIndexes.map((index) {
+          return TouchedSpotIndicatorData(
+            FlLine(color: theme.colorScheme.tertiary, strokeWidth: 4),
+            FlDotData(
+              getDotPainter: (spot, percent, bar, i) => FlDotCirclePainter(
+                radius: 10,
+                color: theme.colorScheme.tertiary,
+              ),
+            ),
+          );
+        }).toList();
+      },
       touchTooltipData: LineTouchTooltipData(
         getTooltipColor: (touchedSpots) => theme.colorScheme.tertiaryContainer,
         tooltipBorderRadius:

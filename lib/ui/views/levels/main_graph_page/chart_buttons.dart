@@ -29,6 +29,7 @@ class _ChartButtonsState extends State<ChartButtons> {
     return Column(
       children: [
         M3EToggleButtonGroup(
+          style: M3EButtonStyle.tonal,
           type: M3EButtonGroupType.connected,
           size: M3EButtonSize.xs,
           decoration: M3EToggleButtonDecoration.styleFrom(
@@ -51,7 +52,6 @@ class _ChartButtonsState extends State<ChartButtons> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             M3EButton(
-              style: M3EButtonStyle.tonal,
               size: M3EButtonSize.md,
               decoration: M3EButtonDecoration.styleFrom(
                 backgroundColor: theme.colorScheme.secondary,
