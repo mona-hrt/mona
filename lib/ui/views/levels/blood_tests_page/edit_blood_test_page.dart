@@ -62,15 +62,13 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
     final timezone =
         _dateTimeChanged ? await FlutterTimezone.getLocalTimezone() : null;
 
-    final defaultUnits = _preferencesService.units;
-
     final estradiolLevels = _estradiolLevelsController.text.toDecimalOrNull;
     final estradiolUnit =
-        widget.bloodtest.estradiolLevels?.unit ?? defaultUnits.estradiol;
+        widget.bloodtest.estradiolLevels?.unit ?? _preferencesService.estradiolUnit;
     final testosteroneLevels =
         _testosteroneLevelsController.text.toDecimalOrNull;
     final testosteroneUnit =
-        widget.bloodtest.testosteroneLevels?.unit ?? defaultUnits.testosterone;
+        widget.bloodtest.testosteroneLevels?.unit ?? _preferencesService.testosteroneUnit;
     final notes = _notesController.text.isEmpty ? null : _notesController.text;
 
     final updatedBloodTest = widget.bloodtest.copyWith(

@@ -59,17 +59,16 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
         _testosteroneLevelsController.text.toDecimalOrNull;
     final timezone = await FlutterTimezone.getLocalTimezone();
     final tzName = timezone.identifier;
-    final units = _preferencesService.units;
     final notes = _notesController.text.isEmpty ? null : _notesController.text;
 
     final bloodtest = BloodTest(
       dateTime: _testDateTime.toUtc(),
       timeZone: tzName,
       estradiolLevels: estradiolLevels != null
-          ? UnitValue(estradiolLevels, units.estradiol)
+          ? UnitValue(estradiolLevels, _preferencesService.estradiolUnit)
           : null,
       testosteroneLevels: testosteroneLevels != null
-          ? UnitValue(testosteroneLevels, units.testosterone)
+          ? UnitValue(testosteroneLevels, _preferencesService.testosteroneUnit)
           : null,
       notes: notes,
     );
