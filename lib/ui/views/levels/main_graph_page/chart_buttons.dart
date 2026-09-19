@@ -17,7 +17,7 @@ class _ChartButtonsState extends State<ChartButtons> {
   Widget build(BuildContext context) {
     return M3EToggleButtonGroup(
       type: M3EButtonGroupType.connected,
-      size: M3EButtonSize.md,
+      size: M3EButtonSize.xs,
       decoration: M3EToggleButtonDecoration.styleFrom(
         haptic: M3EHapticFeedback.light,
       ),
@@ -36,12 +36,15 @@ class _ChartButtonsState extends State<ChartButtons> {
   }
 }
 
-enum LevelDuration { week, month, year }
+enum LevelDuration { week, twoWeeks, month, threeMonths, sixMonths, year }
 
 extension _DurationLabel on LevelDuration {
   String get label => switch (this) {
         LevelDuration.week => t.week,
+        LevelDuration.twoWeeks => t.twoWeeks,
         LevelDuration.month => t.month,
+        LevelDuration.threeMonths => t.threeMonths,
+        LevelDuration.sixMonths => t.sixMonths,
         LevelDuration.year => t.year,
       };
 }

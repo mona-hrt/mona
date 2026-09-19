@@ -19,8 +19,8 @@ class ChartPage extends StatefulWidget {
 
 class _ChartPageState extends State<ChartPage> with MinuteTicker {
   double sliderValue = 0;
-  LevelDuration _duration = LevelDuration.week;
-  DateTime startDate = DateTime.now().subtract(const Duration(days: 30));
+  LevelDuration _duration = LevelDuration.twoWeeks;
+  DateTime startDate = DateTime.now().subtract(const Duration(days: 9));
 
   void _shiftWindow(int direction) {
     setState(() {
@@ -102,8 +102,14 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
     switch (_duration) {
       case LevelDuration.week:
         return const Duration(days: 7);
+      case LevelDuration.twoWeeks:
+        return const Duration(days: 14);
       case LevelDuration.month:
         return const Duration(days: 30);
+      case LevelDuration.threeMonths:
+        return const Duration(days: 90);
+      case LevelDuration.sixMonths:
+        return const Duration(days: 180);
       case LevelDuration.year:
         return const Duration(days: 365);
     }
