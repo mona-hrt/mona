@@ -6,7 +6,6 @@ import 'package:mona/ui/constants/dimensions.dart';
 
 import 'package:mona/ui/views/levels/main_graph_page/chart_buttons.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_graph.dart';
-import 'package:mona/ui/widgets/button_date_picker.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:mona/ui/widgets/minute_ticker.dart';
 import 'package:provider/provider.dart';
@@ -40,28 +39,12 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                       vertical: 8.0, horizontal: borderPadding),
                   child: ChartButtons(
                     index: _duration.index,
-                    onChanged: (index) => setState(
-                      () => _duration = LevelDuration.values[index],
-                    ),
+                    startDate: startDate,
+                    onChanged: (index, newStartDate) => setState(() {
+                      _duration = LevelDuration.values[index];
+                      startDate = newStartDate;
+                    }),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8.0),
-                      child: ButtonDatePicker(
-                        datetime: startDate,
-                        onChanged: (newDate) {
-                          setState(() {
-                            startDate = newDate;
-                          });
-                        },
-                        label: t.startDate,
-                      ),
-                    ),
-                  ],
                 ),
                 Expanded(
                   child: LayoutBuilder(
