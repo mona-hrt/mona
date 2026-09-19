@@ -17,7 +17,7 @@ import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
 class _ChartConstants {
-  static const double maxYPadding = 1.15;
+  static const double maxYPadding = 1.1;
   static const double maxYClamp = 50;
   static const double labelFontSize = 12;
   static const double titleFontSize = 14;
@@ -110,8 +110,8 @@ class _MainGraphState extends State<MainGraph> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: borderPadding, vertical: 8.0),
+            padding: const EdgeInsets.only(
+                right: borderPadding, top: 8.0, bottom: 8.0),
             child: LineChart(
               LineChartData(
                 minX: tMin,
