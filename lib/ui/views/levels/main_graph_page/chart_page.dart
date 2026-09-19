@@ -4,8 +4,9 @@ import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 
-import 'package:mona/ui/views/levels/main_graph_page/chart_buttons.dart';
+import 'package:mona/ui/views/levels/main_graph_page/chart_date_buttons.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_graph.dart';
+import 'package:mona/ui/views/levels/main_graph_page/chart_range_selector.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:mona/ui/widgets/minute_ticker.dart';
 import 'package:provider/provider.dart';
@@ -37,11 +38,10 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                 Padding(
                   padding: EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: borderPadding),
-                  child: ChartButtons(
+                  child: ChartDateButtons(
                     index: _duration.index,
                     startDate: startDate,
-                    onChanged: (index, newStartDate) => setState(() {
-                      _duration = LevelDuration.values[index];
+                    onStartDateChanged: (newStartDate) => setState(() {
                       startDate = newStartDate;
                     }),
                   ),
@@ -72,6 +72,16 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                         ),
                       );
                     },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 8.0, left: borderPadding, right: borderPadding),
+                  child: ChartRangeSelector(
+                    index: _duration.index,
+                    onIndexChanged: (index) => setState(() {
+                      _duration = LevelDuration.values[index];
+                    }),
                   ),
                 ),
               ],

@@ -22,7 +22,7 @@ class _ChartConstants {
   static const double labelFontSize = 12;
   static const double titleFontSize = 14;
   static const double axesPadding = 8.0;
-  static const double bottomReservedSize = 40;
+  static const double bottomReservedSize = 30;
   static const double leftReservedSize = 40;
   static const double lineBarWidth = 3;
   static const double tooltipPadding = 6;
@@ -110,7 +110,8 @@ class _MainGraphState extends State<MainGraph> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(right: borderPadding, top: 8.0),
+            padding: const EdgeInsets.symmetric(
+                horizontal: borderPadding, vertical: 8.0),
             child: LineChart(
               LineChartData(
                 minX: tMin,
@@ -118,7 +119,19 @@ class _MainGraphState extends State<MainGraph> {
                 minY: 0,
                 maxY: maxY,
                 clipData: const FlClipData.all(),
-                gridData: FlGridData(show: true),
+                gridData: FlGridData(
+                  show: true,
+                  getDrawingHorizontalLine: (value) => FlLine(
+                    color: theme.colorScheme.outlineVariant,
+                    strokeWidth: 0.4,
+                    dashArray: const [8, 4],
+                  ),
+                  getDrawingVerticalLine: (value) => FlLine(
+                    color: theme.colorScheme.outlineVariant,
+                    strokeWidth: 0.4,
+                    dashArray: const [8, 4],
+                  ),
+                ),
                 titlesData: _buildTitlesData(context, baseline),
                 borderData: FlBorderData(
                   show: true,
