@@ -50,8 +50,9 @@ class _PharmacyPageState extends State<PharmacyPage> {
                     ),
                   ),
                 MasonryGridView.builder(
-                  padding:
-                      pagePadding - const EdgeInsets.symmetric(horizontal: 4),
+                  padding: pagePadding -
+                      const EdgeInsets.symmetric(horizontal: 4) +
+                      const EdgeInsets.symmetric(vertical: 8),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate:
