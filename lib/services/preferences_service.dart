@@ -12,7 +12,7 @@ class PreferencesService extends ChangeNotifier {
   static const _notificationsEnabledKey = 'notifications_enabled';
   static const _customMoleculesKey = 'custom_molecules';
   static const _languageTagKey = 'language_tag';
-  static const _unitsTagKey = "units"; // legacy fallback
+  static const _unitsTagKey = "units"; // TODO: deprecated, remove in future
   static const _estradiolUnitKey = "estradiol_unit";
   static const _testosteroneUnitKey = "testosterone_unit";
   static const _autoCheckUpdatesKey = 'auto_check_updates';
