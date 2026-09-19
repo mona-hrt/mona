@@ -181,9 +181,6 @@ class TranslationsUr extends Translations
   String appVersion({required Object version}) =>
       '\u202B\u202B\u202BMona ورژن ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'پر آمد \u202B${path} میں محفوظ ہوا';
-  @override
   String exportFailed({required Object error}) =>
       'پر آمد کرنا ناکام: \u202B${error}';
   @override
@@ -482,8 +479,6 @@ extension on TranslationsUr {
         'تازہ ورژن کے لئے دستی دیکھیے\n\u202Bیہ آپ کو انٹرنیٹ سے جوڑ دے گا\n(کوئی کوائف نہیں بھیجا جائے گا)',
       'appVersion' => ({required Object version}) =>
           '\u202B\u202B\u202BMona ورژن ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'پر آمد \u202B${path} میں محفوظ ہوا',
       'exportFailed' => ({required Object error}) =>
           'پر آمد کرنا ناکام: \u202B${error}',
       'importDataTitle' => 'کوائف بر آمد',

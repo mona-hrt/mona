@@ -58,7 +58,6 @@
   "checkForUpdates": "Athugaðu hvort uppfærslur séu til staðar",
   "checkForUpdatesDescription": "Athugaðu handvirkt hvort nýjustu útgáfan sé til staðar\\nÞetta mun tengja þig við internetið\\n(Engin gögn verða send)",
   "appVersion": "Mona útgáfa {{version}}",
-  "backupSavedTo": "Afrit vistað í: {{path}}",
   "exportFailed": "Mistókst að flytja út: {{error}}",
   "importDataTitle": "Flytja inn gögn",
   "importDataSubtitle": "Endurheimta gögn úr JSON afriti",

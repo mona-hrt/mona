@@ -140,8 +140,6 @@ class TranslationsPt extends Translations
   @override
   String appVersion({required Object version}) => 'Versão do Mona ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'Backup salvo em: ${path}';
-  @override
   String exportFailed({required Object error}) => 'Falha ao exportar: ${error}';
   @override
   String get importDataTitle => 'Importar dados';
@@ -805,7 +803,6 @@ extension on TranslationsPt {
         'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)',
       'appVersion' => ({required Object version}) =>
           'Versão do Mona ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Backup salvo em: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Falha ao exportar: ${error}',
       'importDataTitle' => 'Importar dados',

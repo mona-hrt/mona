@@ -42,8 +42,8 @@ class _PharmacyPageState extends State<PharmacyPage> {
               children: [
                 if (shouldDisplayFilter)
                   Padding(
-                    padding: pagePadding +
-                        const EdgeInsets.only(top: 16, bottom: 16),
+                    padding:
+                        pagePadding + const EdgeInsets.symmetric(vertical: 16),
                     child: Align(
                       alignment: Alignment.center,
                       child: _filterToggle(effectiveFilter, context),
@@ -79,8 +79,8 @@ class _PharmacyPageState extends State<PharmacyPage> {
     final theme = Theme.of(context);
 
     return M3EToggleButtonGroup(
+      size: M3EButtonSize.sm,
       type: M3EButtonGroupType.connected,
-      size: M3EButtonSize.md,
       decoration: M3EToggleButtonDecoration.styleFrom(
         haptic: M3EHapticFeedback.light,
       ),

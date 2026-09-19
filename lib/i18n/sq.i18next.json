@@ -70,7 +70,6 @@
   "checkForUpdates": "Kontrollo për përditësime",
   "checkForUpdatesDescription": "Kontrollo manualisht për versionin më të fundit\\nKjo do të të lidhë me internetin\\n(Nuk do të dërgohen të dhëna)",
   "appVersion": "Mona versioni {{version}}",
-  "backupSavedTo": "Kopja rezervë u ruajt te: {{path}}",
   "exportFailed": "Eksportimi dështoi: {{error}}",
   "importDataTitle": "Importo të dhënat",
   "importDataSubtitle": "Rikthe të dhënat nga një kopje rezervë JSON",

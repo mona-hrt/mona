@@ -181,7 +181,7 @@ class TranslationsEnGb extends Translations
   @override
   String appVersion({required Object version}) => 'Mona version ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'Backup saved to: ${path}';
+  String get backupSaved => 'Backup saved';
   @override
   String exportFailed({required Object error}) => 'Failed to export: ${error}';
   @override
@@ -574,6 +574,9 @@ class TranslationsEnGb extends Translations
   String get applicationSitesDescription =>
       'Manage the sites you rotate between';
   @override
+  String get applicationSitesInstructions =>
+      'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.';
+  @override
   String get addApplicationSite => 'Add site';
   @override
   String get customSiteLabel => 'Custom site name';
@@ -852,7 +855,7 @@ extension on TranslationsEnGb {
       'checkForUpdatesDescription' =>
         'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Backup saved to: ${path}',
+      'backupSaved' => 'Backup saved',
       'exportFailed' => ({required Object error}) =>
           'Failed to export: ${error}',
       'importDataTitle' => 'Import Data',
@@ -1059,6 +1062,8 @@ extension on TranslationsEnGb {
       'placementRightAbdomen' => 'Right abdomen',
       'applicationSites' => 'Application sites',
       'applicationSitesDescription' => 'Manage the sites you rotate between',
+      'applicationSitesInstructions' =>
+        'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.',
       'addApplicationSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
       'noApplicationSitesYet' => 'No sites yet',

@@ -226,6 +226,62 @@ void main() {
         // Assert
         expect(reloaded, placements);
       });
+
+      test('notifies listeners synchronously, before the write completes',
+          () async {
+        // Arrange
+        final service = await PreferencesService.init();
+        var notified = false;
+        service.addListener(() => notified = true);
+
+        // Act
+        final write =
+            service.setPlacementsList(const [CustomPlacement('belly')]);
+
+        // Assert
+        expect(notified, isTrue);
+        await write;
+      });
+    });
+
+    group('scheduleOrder', () {
+      test('defaults to empty when nothing saved', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+
+        // Act
+        final order = service.scheduleOrder;
+
+        // Assert
+        expect(order, isEmpty);
+      });
+
+      test('round-trips the saved order', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+        await service.setScheduleOrder([3, 1, 2]);
+
+        // Act
+        final reloaded = (await PreferencesService.init()).scheduleOrder;
+
+        // Assert
+        expect(reloaded, [3, 1, 2]);
+      });
+
+      test('notifies listeners synchronously, before the write completes',
+          () async {
+        // Arrange
+        final service = await PreferencesService.init();
+        var notified = false;
+        service.addListener(() => notified = true);
+
+        // Act
+        final write = service.setScheduleOrder([2, 1]);
+
+        // Assert
+        expect(notified, isTrue);
+        await write;
+      });
     });
 
     group('placementSuggestionPerSchedule', () {

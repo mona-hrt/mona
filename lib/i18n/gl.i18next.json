@@ -58,7 +58,6 @@
   "checkForUpdates": "Buscar actualizacións",
   "checkForUpdatesDescription": "Busca a última versión manualmente\\nIsto conectarache ao Internet\\n(Non se enviarán datos)",
   "appVersion": "Versión {{version}} de Mona",
-  "backupSavedTo": "Copia de seguridade gardada en: {{path}}",
   "exportFailed": "Error ao exportar: {{error}}",
   "importDataTitle": "Importar Datos",
   "importDataSubtitle": "Restaurar datos dende unha copia JSON",

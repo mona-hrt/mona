@@ -185,8 +185,7 @@ class TranslationsFr extends Translations
   @override
   String appVersion({required Object version}) => 'Mona version ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Sauvegarde enregistrée dans : ${path}';
+  String get backupSaved => 'Sauvegarde enregistrée';
   @override
   String exportFailed({required Object error}) =>
       'Échec de l\'exportation : ${error}';
@@ -588,6 +587,9 @@ class TranslationsFr extends Translations
   @override
   String get applicationSitesDescription => 'Gérez votre rotation de sites';
   @override
+  String get applicationSitesInstructions =>
+      'Gérez votre rotation de sites. Les sites sont suggérés en fonction de votre historique de prises. Appuyez longuement pour réorganiser.';
+  @override
   String get addApplicationSite => 'Ajouter un site';
   @override
   String get customSiteLabel => 'Nom de site personnalisé';
@@ -892,8 +894,7 @@ extension on TranslationsFr {
       'checkForUpdatesDescription' =>
         'Vérifier manuellement la dernière version\nCela vous connectera à Internet\n(Aucune donnée ne sera envoyée)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Sauvegarde enregistrée dans : ${path}',
+      'backupSaved' => 'Sauvegarde enregistrée',
       'exportFailed' => ({required Object error}) =>
           'Échec de l\'exportation : ${error}',
       'importDataTitle' => 'Importer des données',
@@ -1109,6 +1110,8 @@ extension on TranslationsFr {
       'placementRightAbdomen' => 'Abdomen (droite)',
       'applicationSites' => 'Sites d\'application',
       'applicationSitesDescription' => 'Gérez votre rotation de sites',
+      'applicationSitesInstructions' =>
+        'Gérez votre rotation de sites. Les sites sont suggérés en fonction de votre historique de prises. Appuyez longuement pour réorganiser.',
       'addApplicationSite' => 'Ajouter un site',
       'customSiteLabel' => 'Nom de site personnalisé',
       'noApplicationSitesYet' => 'Aucun site',

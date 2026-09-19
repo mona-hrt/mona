@@ -2,10 +2,6 @@
 
 This document is intended for maintainers and explains how to push a new version of Mona.
 
-## Prerequisites
-
-
-
 ## Versioning
 
 Mona follows [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`), combined with a Flutter build number (`+N`) used by the stores as `versionCode` (Android) / `CFBundleVersion` (iOS):

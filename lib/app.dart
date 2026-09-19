@@ -13,8 +13,7 @@ import 'package:mona/services/home_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
-import 'package:mona/ui/constants/dimensions.dart';
-import 'package:mona/ui/widgets/liquid_glass_bottom_clamp.dart';
+import 'package:mona/theme/material_ui_theme.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
 
@@ -135,8 +134,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
           theme: themes.theme,
           darkTheme: themes.darkTheme,
           themeMode: ThemeMode.system,
-          builder: (context, child) => LiquidGlassBottomClamp(
-            bottom: borderPadding,
+          builder: (context, child) => withMaterialUiTheme(
+            scheme: Theme.of(context).colorScheme,
             child: child ?? const SizedBox.shrink(),
           ),
           home: const MainPage(),

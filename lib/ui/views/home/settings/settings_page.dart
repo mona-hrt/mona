@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/distribution.dart';
@@ -16,6 +17,8 @@ import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
 import 'package:mona/ui/views/home/settings/theme_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
+import 'package:mona/ui/widgets/tinted_switch_tile.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -92,12 +95,16 @@ class _SettingsPageState extends State<SettingsPage>
 
   Future<void> _exportData() async {
     try {
-      final savedPath = await BackupService().exportData();
+      final box = context.findRenderObject() as RenderBox?;
+      final origin =
+          box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+      final success =
+          await BackupService().exportData(sharePositionOrigin: origin);
 
-      if (savedPath != null && mounted) {
+      if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(t.backupSavedTo(path: savedPath)),
+            content: Text(t.backupSaved),
             duration: const Duration(seconds: 4),
           ),
         );
@@ -161,6 +168,13 @@ class _SettingsPageState extends State<SettingsPage>
     }
   }
 
+  Widget _sectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(title),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final medicationScheduleProvider =
@@ -177,195 +191,179 @@ class _SettingsPageState extends State<SettingsPage>
     return Scaffold(
       appBar: AppBar(title: Text(t.settingsTitle)),
       body: ListView(
+        padding: pagePadding +
+            EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
         children: [
-          //
-          // ==== Schedules and notifications ====
-          //
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: borderPadding, vertical: 8.0),
-            child: Text(
-              t.schedulesAndNotifications,
-            ),
-          ),
-          ListTile(
-            key: const ValueKey('settingsSchedulesTile'),
-            title: Text(t.schedules),
-            subtitle: Text(medicationScheduleProvider.schedules.isEmpty
-                ? t.noSchedules
-                : t.schedulesCreated(
-                    count: medicationScheduleProvider.schedules.length)),
-            trailing: Icon(Symbols.chevron_right_rounded),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute<void>(
-                builder: (context) => SchedulesPage(),
-              ));
-            },
-          ),
-          SwitchListTile(
-            title: Text(t.enableNotifications),
-            subtitle: Text(t.enableNotificationsDescription),
-            value: _notificationsEnabled,
-            onChanged: _toggleNotifications,
-          ),
-          if (_notificationsEnabled && !_permissionGranted)
-            ListTile(
-              leading: const Icon(Symbols.info_rounded),
-              title: Text(t.notificationsDisabledTitle),
-              subtitle: Text(t.clickToOpenSettings),
-              trailing: const Icon(Symbols.chevron_right_rounded),
-              onTap: () async {
-                await openAppSettings();
-              },
-            ),
-          if (_notificationsEnabled &&
-              _permissionGranted &&
-              !_exactAlarmsGranted)
-            ListTile(
-              leading: const Icon(Symbols.info_rounded),
-              title: Text(t.exactRemindersDisabled),
-              subtitle: Text(t.remindersDelayed),
-              trailing: const Icon(Symbols.chevron_right_rounded),
-              onTap: () async {
-                await openAppSettings();
-              },
-            ),
-          const Divider(),
-          //
-          // ==== Medical settings ====
-          //
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: borderPadding, vertical: 8.0),
-            child: Text(t.medicalSettings),
-          ),
-          ListTile(
-            key: const ValueKey('settingsInjectionSitesTile'),
-            title: Text(t.applicationSites),
-            subtitle: Text(t.applicationSitesDescription),
-            trailing: Icon(Symbols.chevron_right_rounded),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) => const ApplicationSitesPage()));
-            },
-          ),
-          ListTile(
-            title: Text(t.units),
-            subtitle: Text(preferencesService.units.localizedName),
-            trailing: Icon(Symbols.chevron_right_rounded),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute<void>(builder: (context) => UnitsPage()));
-            },
-          ),
-          ListTile(
-            key: const ValueKey('settingsStartOfDayTile'),
-            title: Text(t.startOfDay),
-            subtitle: Text(
-              t.startOfDayDescription(
-                time: preferencesService.logicalDayStart.format(context),
+          _sectionHeader(t.schedulesAndNotifications),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                key: const ValueKey('settingsSchedulesTile'),
+                title: t.schedules,
+                subtitle: medicationScheduleProvider.schedules.isEmpty
+                    ? t.noSchedules
+                    : t.schedulesCreated(
+                        count: medicationScheduleProvider.schedules.length),
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                    builder: (context) => SchedulesPage(),
+                  ));
+                },
               ),
-            ),
-            trailing: const Icon(Symbols.access_time_rounded),
-            onTap: () async {
-              final picked = await showTimePicker(
-                context: context,
-                initialTime: preferencesService.logicalDayStart,
-              );
-              if (picked != null) {
-                await preferencesService.setLogicalDayStart(picked);
-              }
-            },
-          ),
-          const Divider(),
-          //
-          // ==== General ====
-          //
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: borderPadding, vertical: 8.0),
-            child: Text(
-              t.general,
-            ),
-          ),
-          ListTile(
-            title: Text(t.language),
-            subtitle: Text(
-              preferencesService.savedLanguageTag == null
-                  ? t.languageFollowDevice
-                  : (LanguagePage.nativeNameOf(
-                          preferencesService.savedLanguageTag!) ??
-                      preferencesService.savedLanguageTag!),
-            ),
-            trailing: Icon(Symbols.chevron_right_rounded),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (context) => LanguagePage()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(t.theme),
-            subtitle: Text(t.themeCustomizeColors),
-            trailing: const Icon(Symbols.chevron_right_rounded),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                    builder: (context) => const ThemePage()),
-              );
-            },
-          ),
-          SwitchListTile(
-            title: Text(t.HrtCounter),
-            subtitle: Text(t.HrtCounterDescription),
-            value: preferencesService.hrtCounterEnabled,
-            onChanged: (value) =>
-                preferencesService.setHrtCounterEnabled(value),
-          ),
-          if (Platform.isAndroid && !isStoreDistribution) ...[
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: borderPadding, vertical: 8.0),
-              child: Text(
-                t.updates,
+              TintedSwitchTile(
+                title: t.enableNotifications,
+                subtitle: t.enableNotificationsDescription,
+                value: _notificationsEnabled,
+                onChanged: _toggleNotifications,
               ),
-            ),
-            SwitchListTile(
-              title: Text(t.autoUpdate),
-              subtitle: Text(t.autoUpdateDescription),
-              value: _autoCheckUpdatesEnabled,
-              onChanged: _toggleAutoCheckUpdates,
-            ),
-            ListTile(
-              title: Text(t.checkForUpdates),
-              subtitle: Text(t.checkForUpdatesDescription),
-              trailing: const Icon(Symbols.update_rounded),
-              onTap: () => UpdateService().checkForUpdates(context),
+              if (_notificationsEnabled && !_permissionGranted)
+                TappableListTile(
+                  leading: const Icon(Symbols.info_rounded),
+                  title: t.notificationsDisabledTitle,
+                  subtitle: t.clickToOpenSettings,
+                  trailing: const Icon(Symbols.chevron_right_rounded),
+                  onTap: () async {
+                    await openAppSettings();
+                  },
+                ),
+              if (_notificationsEnabled &&
+                  _permissionGranted &&
+                  !_exactAlarmsGranted)
+                TappableListTile(
+                  leading: const Icon(Symbols.info_rounded),
+                  title: t.exactRemindersDisabled,
+                  subtitle: t.remindersDelayed,
+                  trailing: const Icon(Symbols.chevron_right_rounded),
+                  onTap: () async {
+                    await openAppSettings();
+                  },
+                ),
+            ],
+          ),
+          SizedBox(height: borderPadding),
+          _sectionHeader(t.medicalSettings),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                key: const ValueKey('settingsInjectionSitesTile'),
+                title: t.applicationSites,
+                subtitle: t.applicationSitesDescription,
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (context) => const ApplicationSitesPage()));
+                },
+              ),
+              TappableListTile(
+                title: t.units,
+                subtitle: preferencesService.units.localizedName,
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (context) => UnitsPage()));
+                },
+              ),
+              TappableListTile(
+                key: const ValueKey('settingsStartOfDayTile'),
+                title: t.startOfDay,
+                subtitle: t.startOfDayDescription(
+                  time: preferencesService.logicalDayStart.format(context),
+                ),
+                trailing: const Icon(Symbols.access_time_rounded),
+                onTap: () async {
+                  final picked = await showTimePicker(
+                    context: context,
+                    initialTime: preferencesService.logicalDayStart,
+                  );
+                  if (picked != null) {
+                    await preferencesService.setLogicalDayStart(picked);
+                  }
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: borderPadding),
+          _sectionHeader(t.general),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                title: t.language,
+                subtitle: preferencesService.savedLanguageTag == null
+                    ? t.languageFollowDevice
+                    : (LanguagePage.nativeNameOf(
+                            preferencesService.savedLanguageTag!) ??
+                        preferencesService.savedLanguageTag!),
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                        builder: (context) => LanguagePage()),
+                  );
+                },
+              ),
+              TappableListTile(
+                title: t.theme,
+                subtitle: t.themeCustomizeColors,
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                        builder: (context) => const ThemePage()),
+                  );
+                },
+              ),
+              TintedSwitchTile(
+                title: t.HrtCounter,
+                subtitle: t.HrtCounterDescription,
+                value: preferencesService.hrtCounterEnabled,
+                onChanged: (value) =>
+                    preferencesService.setHrtCounterEnabled(value),
+              ),
+            ],
+          ),
+          if (isSelfUpdating) ...[
+            SizedBox(height: borderPadding),
+            _sectionHeader(t.updates),
+            M3ESegmentedColumn(
+              padding: EdgeInsets.zero,
+              children: [
+                TintedSwitchTile(
+                  title: t.autoUpdate,
+                  subtitle: t.autoUpdateDescription,
+                  value: _autoCheckUpdatesEnabled,
+                  onChanged: _toggleAutoCheckUpdates,
+                ),
+                TappableListTile(
+                  title: t.checkForUpdates,
+                  subtitle: t.checkForUpdatesDescription,
+                  trailing: const Icon(Symbols.update_rounded),
+                  onTap: () => UpdateService().checkForUpdates(context),
+                ),
+              ],
             ),
           ],
-          const Divider(),
-          //
-          // ==== Data management ====
-          //
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: borderPadding, vertical: 8.0),
-            child: Text(
-              t.dataManagement,
-            ),
-          ),
-          ListTile(
-            title: Text(t.exportDataTitle),
-            subtitle: Text(t.exportDataSubtitle),
-            trailing: const Icon(Symbols.upload_rounded),
-            onTap: _exportData,
-          ),
-          ListTile(
-            title: Text(t.importDataTitle),
-            subtitle: Text(t.importDataSubtitle),
-            trailing: const Icon(Symbols.download_rounded),
-            onTap: _importData,
+          SizedBox(height: borderPadding),
+          _sectionHeader(t.dataManagement),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                title: t.exportDataTitle,
+                subtitle: t.exportDataSubtitle,
+                trailing: const Icon(Symbols.upload_rounded),
+                onTap: _exportData,
+              ),
+              TappableListTile(
+                title: t.importDataTitle,
+                subtitle: t.importDataSubtitle,
+                trailing: const Icon(Symbols.download_rounded),
+                onTap: _importData,
+              ),
+            ],
           ),
           const SizedBox(height: 32),
           FutureBuilder<PackageInfo>(
