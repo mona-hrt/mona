@@ -48,20 +48,18 @@ class BloodTestProvider extends ChangeNotifier {
       TestosteroneUnit testosteroneUnit) {
     switch (hormone) {
       case Hormone.estradiol:
-        final unit = estradiolUnit;
         return estradiolTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
-                  value: UnitValue(test.estradiolLevels!.inUnit(unit), unit),
+                  value: UnitValue(test.estradiolLevels!.inUnit(estradiolUnit), estradiolUnit),
                   notes: test.notes,
                 ))
             .toList();
       case Hormone.testosterone:
-        final unit = testosteroneUnit;
         return testosteroneTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
-                  value: UnitValue(test.testosteroneLevels!.inUnit(unit), unit),
+                  value: UnitValue(test.testosteroneLevels!.inUnit(testosteroneUnit), testosteroneUnit),
                   notes: test.notes,
                 ))
             .toList();
