@@ -41,7 +41,8 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
             emptyMessage: "",
             child: Column(
               children: [
-                Expanded(
+                Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: ChartButtons(
                     index: _duration.index,
                     onChanged: (index) => setState(
@@ -50,6 +51,7 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     M3EButton(
                       style: M3EButtonStyle.filled,
