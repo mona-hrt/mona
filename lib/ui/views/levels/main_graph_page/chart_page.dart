@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
+
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
+
 import 'package:mona/ui/views/levels/main_graph_page/chart_buttons.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_graph.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -16,6 +20,13 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
   double sliderValue = 0;
   LevelDuration _duration = LevelDuration.week;
   DateTime startDate = DateTime.now().subtract(const Duration(days: 30));
+
+  void _shiftWindow(int direction) {
+    setState(() {
+      startDate = startDate.add(_offset * direction);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +40,44 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
             emptyMessage: "",
             child: Column(
               children: [
-                ChartButtons(
-                  index: _duration.index,
-                  onChanged: (index) =>
-                      setState(() => _duration = LevelDuration.values[index]),
+                Row(
+                  children: [
+                    M3EButton(
+                      style: M3EButtonStyle.filled,
+                      size: M3EButtonSize.md,
+                      shape: M3EButtonShape.round,
+                      onPressed: () {
+                        _shiftWindow(-1);
+                      },
+                      decoration: M3EButtonDecoration.styleFrom(),
+                      child: const Icon(Symbols.chevron_left_rounded),
+                    ),
+                    Expanded(
+                      child: ChartButtons(
+                        index: _duration.index,
+                        onChanged: (index) => setState(
+                          () => _duration = LevelDuration.values[index],
+                        ),
+                      ),
+                    ),
+                    M3EButton(
+                      style: M3EButtonStyle.filled,
+                      size: M3EButtonSize.md,
+                      shape: M3EButtonShape.round,
+                      onPressed: () {
+                        _shiftWindow(1);
+                      },
+                      decoration: M3EButtonDecoration.styleFrom(),
+                      child: const Icon(Symbols.chevron_right_rounded),
+                    ),
+                  ],
                 ),
                 Expanded(
-                    child: MainGraph(
-                        startDate: startDate, endDate: startDate.add(_offset))),
+                  child: MainGraph(
+                    startDate: startDate,
+                    endDate: startDate.add(_offset),
+                  ),
+                ),
               ],
             ),
           ),
