@@ -43,7 +43,7 @@ class _PharmacyPageState extends State<PharmacyPage> {
                 if (shouldDisplayFilter)
                   Padding(
                     padding:
-                        pagePadding + const EdgeInsets.symmetric(vertical: 16),
+                        pagePadding + const EdgeInsets.symmetric(vertical: 8),
                     child: Align(
                       alignment: Alignment.center,
                       child: _filterToggle(effectiveFilter, context),
