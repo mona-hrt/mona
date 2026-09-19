@@ -135,7 +135,7 @@ class _MainGraphState extends State<MainGraph> {
                 titlesData: _buildTitlesData(context, baseline),
                 borderData: FlBorderData(
                   show: true,
-                  border: Border.all(color: theme.colorScheme.outline),
+                  border: Border.all(color: theme.colorScheme.outlineVariant),
                 ),
                 lineBarsData: [
                   _buildLineBarData(spots, theme),
