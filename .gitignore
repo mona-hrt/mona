@@ -56,3 +56,6 @@ integration_test/test_bundle.dart
 
 # Intermediate slang input
 lib/i18n/generated/
+
+# VS Code related
+.vscode/
