@@ -1,1 +1,9 @@
-{}
+{
+  "appTitle": "Mona",
+  "nav_home": "Mona",
+  "nav_intakes": "服用",
+  "nav_levels": "数值",
+  "nav_supplies": "用品",
+  "takeAnIntake": "记录服用",
+  "addAnItem": "添加物品"
+}
