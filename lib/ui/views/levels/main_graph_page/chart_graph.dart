@@ -23,7 +23,7 @@ class _ChartConstants {
   static const double titleFontSize = 14;
   static const double axesPadding = 8.0;
   static const double bottomReservedSize = 30;
-  static const double leftReservedSize = 40;
+  static const double leftReservedSize = 30;
   static const double lineBarWidth = 3;
   static const double tooltipPadding = 6;
   static const double tooltipRadius = 8;
