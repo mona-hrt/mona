@@ -322,6 +322,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get updateDownloadFailed =>
       'Download failed. Please check your connection.';
 
+  /// en: 'Secret settings'
+  String get secretSettings => 'Secret settings';
+
+  /// en: 'Slime mode'
+  String get slimeMode => 'Slime mode';
+
   /// en: 'Time to take {scheduleName}'
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Time to take ${scheduleName}';
@@ -1180,6 +1186,8 @@ extension on Translations {
           'Failed to open installer: ${message}',
       'updateDownloadFailed' =>
         'Download failed. Please check your connection.',
+      'secretSettings' => 'Secret settings',
+      'slimeMode' => 'Slime mode',
       'notificationMedicationReminderTitle' =>
         ({required Object scheduleName}) => 'Time to take ${scheduleName}',
       'notificationMedicationReminderBodyDate' => ({required Object date}) =>

@@ -247,6 +247,10 @@ class TranslationsFr extends Translations
   String get updateDownloadFailed =>
       'Échec du téléchargement. Vérifiez votre connexion.';
   @override
+  String get secretSettings => 'Paramètres secrets';
+  @override
+  String get slimeMode => 'Mode slime';
+  @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Il est temps de prendre ${scheduleName}';
   @override
@@ -937,6 +941,8 @@ extension on TranslationsFr {
           'Échec de l\'ouverture de l\'installateur : ${message}',
       'updateDownloadFailed' =>
         'Échec du téléchargement. Vérifiez votre connexion.',
+      'secretSettings' => 'Paramètres secrets',
+      'slimeMode' => 'Mode slime',
       'notificationMedicationReminderTitle' => (
               {required Object scheduleName}) =>
           'Il est temps de prendre ${scheduleName}',

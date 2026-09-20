@@ -239,6 +239,10 @@ class TranslationsEnGb extends Translations
   String get updateDownloadFailed =>
       'Download failed. Please check your connection.';
   @override
+  String get secretSettings => 'Secret settings';
+  @override
+  String get slimeMode => 'Slime mode';
+  @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Time to take ${scheduleName}';
   @override
@@ -895,6 +899,8 @@ extension on TranslationsEnGb {
           'Failed to open installer: ${message}',
       'updateDownloadFailed' =>
         'Download failed. Please check your connection.',
+      'secretSettings' => 'Secret settings',
+      'slimeMode' => 'Slime mode',
       'notificationMedicationReminderTitle' =>
         ({required Object scheduleName}) => 'Time to take ${scheduleName}',
       'notificationMedicationReminderBodyDate' => ({required Object date}) =>

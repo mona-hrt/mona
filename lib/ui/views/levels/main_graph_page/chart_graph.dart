@@ -146,7 +146,7 @@ class _MainGraphState extends State<MainGraph> {
                 extraLinesData:
                     _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
               ),
-              duration: widget.isPanning
+              duration: widget.isPanning && !preferencesProvider.slimeModeEnabled
                   ? Duration.zero
                   : const Duration(milliseconds: 150),
             ),

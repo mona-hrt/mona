@@ -95,6 +95,8 @@
   "updateDownloadingTitle": "Downloading Update...",
   "updateFailedOpenInstaller": "Failed to open installer: {{message}}",
   "updateDownloadFailed": "Download failed. Please check your connection.",
+  "secretSettings": "Secret settings",
+  "slimeMode": "Slime mode",
   "notificationMedicationReminderTitle": "Time to take {{scheduleName}}",
   "notificationMedicationReminderBodyDate": "Scheduled for {{date}}",
   "notificationMedicationReminderBodyTime": "Scheduled for {{time}}",

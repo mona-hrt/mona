@@ -100,6 +100,8 @@
   "updateDownloadingTitle": "Téléchargement de la mise à jour...",
   "updateFailedOpenInstaller": "Échec de l'ouverture de l'installateur : {{message}}",
   "updateDownloadFailed": "Échec du téléchargement. Vérifiez votre connexion.",
+  "secretSettings": "Paramètres secrets",
+  "slimeMode": "Mode slime",
   "notificationMedicationReminderTitle": "Il est temps de prendre {{scheduleName}}",
   "notificationMedicationReminderBodyDate": "Prévu pour le {{date}}",
   "notificationMedicationReminderBodyTime": "Prévu pour {{time}}",
