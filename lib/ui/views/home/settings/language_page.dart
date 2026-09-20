@@ -33,6 +33,7 @@ class LanguagePage extends StatelessWidget {
     'tok': (english: 'Toki Pona', native: 'toki pona'),
     'uk': (english: 'Ukrainian', native: 'Українська'),
     'ur': (english: 'Urdu', native: 'اردو'),
+    'zh-Hans': (english: 'Simplified Chinese', native: '简体中文'),
   };
 
   static String? nativeNameOf(String tag) => languageNames[tag]?.native;

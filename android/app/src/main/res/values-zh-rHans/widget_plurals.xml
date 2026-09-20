@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="other">HRT 第 %d 天</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="other">HRT 第 %d 周</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="other">HRT 第 %d 个月</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="other">HRT 第 %d 年</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="other">已记录 %d 次服用</item>
+    </plurals>
+</resources>
