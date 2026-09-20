@@ -38,13 +38,12 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
       appBar: AppBar(title: Text(_title)),
       body: Consumer2<BloodTestProvider, PreferencesService>(
         builder: (context, bloodTestProvider, preferences, child) {
-          final entries =
-              bloodTestProvider.levelEntries(hormone, preferences.units);
+          final entries = bloodTestProvider.levelEntries(
+              hormone, preferences.estradiolUnit, preferences.testosteroneUnit);
           final chronologicalEntries = entries.reversed.toList();
           final unitLabel = switch (hormone) {
-            Hormone.estradiol => preferences.units.estradiol.localizedName,
-            Hormone.testosterone =>
-              preferences.units.testosterone.localizedName,
+            Hormone.estradiol => preferences.estradiolUnit.localizedName,
+            Hormone.testosterone => preferences.testosteroneUnit.localizedName,
           };
 
           return SingleChildScrollView(

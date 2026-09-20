@@ -25,11 +25,6 @@ extension TestosteroneUnitL10n on TestosteroneUnit {
   }
 }
 
-extension UnitsL10n on Units {
-  String get localizedName =>
-      '${estradiol.localizedName} & ${testosterone.localizedName}';
-}
-
 extension UnitL10n on Unit {
   String get localizedName {
     final unit = this;

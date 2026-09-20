@@ -103,7 +103,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
       notes: notes,
     );
 
-    if (!mounted) return;
+    if (!mounted || ModalRoute.of(context)?.isCurrent != true) return;
     Navigator.of(context).pop();
   }
 
@@ -117,6 +117,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
     MedicationIntakeManager(
             medicationIntakeProvider, supplyItemProvider, preferencesService)
         .deleteIntake(intake);
+    if (ModalRoute.of(context)?.isCurrent != true) return;
     Navigator.of(context).pop();
   }
 

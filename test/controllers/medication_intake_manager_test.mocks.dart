@@ -223,15 +223,6 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as List<_i9.GraphIntake>);
 
   @override
-  double? getGraphSpan(DateTime? tMin) => (super.noSuchMethod(
-        Invocation.method(
-          #getGraphSpan,
-          [tMin],
-        ),
-        returnValueForMissingStub: null,
-      ) as double?);
-
-  @override
   _i10.Date? getLastIntakeLocalDateFromList(
           List<_i7.MedicationIntake>? intakes) =>
       (super.noSuchMethod(
@@ -583,6 +574,20 @@ class MockPreferencesService extends _i1.Mock
       ) as _i19.Units);
 
   @override
+  _i19.EstradiolUnit get estradiolUnit => (super.noSuchMethod(
+        Invocation.getter(#estradiolUnit),
+        returnValue: _i19.EstradiolUnit.pg_mL,
+        returnValueForMissingStub: _i19.EstradiolUnit.pg_mL,
+      ) as _i19.EstradiolUnit);
+
+  @override
+  _i19.TestosteroneUnit get testosteroneUnit => (super.noSuchMethod(
+        Invocation.getter(#testosteroneUnit),
+        returnValue: _i19.TestosteroneUnit.ng_dL,
+        returnValueForMissingStub: _i19.TestosteroneUnit.ng_dL,
+      ) as _i19.TestosteroneUnit);
+
+  @override
   List<_i15.Molecule> get customMolecules => (super.noSuchMethod(
         Invocation.getter(#customMolecules),
         returnValue: <_i15.Molecule>[],
@@ -699,10 +704,22 @@ class MockPreferencesService extends _i1.Mock
       ) as _i8.Future<void>);
 
   @override
-  _i8.Future<void> setUnits(_i19.Units? units) => (super.noSuchMethod(
+  _i8.Future<void> setEstradiolUnit(_i19.EstradiolUnit? unit) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #setUnits,
-          [units],
+          #setEstradiolUnit,
+          [unit],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setTestosteroneUnit(_i19.TestosteroneUnit? unit) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setTestosteroneUnit,
+          [unit],
         ),
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),

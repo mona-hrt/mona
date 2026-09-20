@@ -44,23 +44,25 @@ class BloodTestProvider extends ChangeNotifier {
     return UnitValue(latest.inUnit(unit), unit);
   }
 
-  List<LevelEntry> levelEntries(Hormone hormone, Units units) {
+  List<LevelEntry> levelEntries(Hormone hormone, EstradiolUnit estradiolUnit,
+      TestosteroneUnit testosteroneUnit) {
     switch (hormone) {
       case Hormone.estradiol:
-        final unit = units.estradiol;
         return estradiolTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
-                  value: UnitValue(test.estradiolLevels!.inUnit(unit), unit),
+                  value: UnitValue(test.estradiolLevels!.inUnit(estradiolUnit),
+                      estradiolUnit),
                   notes: test.notes,
                 ))
             .toList();
       case Hormone.testosterone:
-        final unit = units.testosterone;
         return testosteroneTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
-                  value: UnitValue(test.testosteroneLevels!.inUnit(unit), unit),
+                  value: UnitValue(
+                      test.testosteroneLevels!.inUnit(testosteroneUnit),
+                      testosteroneUnit),
                   notes: test.notes,
                 ))
             .toList();

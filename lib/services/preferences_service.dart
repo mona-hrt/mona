@@ -12,7 +12,9 @@ class PreferencesService extends ChangeNotifier {
   static const _notificationsEnabledKey = 'notifications_enabled';
   static const _customMoleculesKey = 'custom_molecules';
   static const _languageTagKey = 'language_tag';
-  static const _unitsTagKey = "units";
+  static const _unitsTagKey = "units"; // TODO: deprecated, remove in future
+  static const _estradiolUnitKey = "estradiol_unit";
+  static const _testosteroneUnitKey = "testosterone_unit";
   static const _autoCheckUpdatesKey = 'auto_check_updates';
   static const _placementsListKey = 'placements_list';
   static const _scheduleOrderKey = 'schedule_order';
@@ -20,11 +22,13 @@ class PreferencesService extends ChangeNotifier {
       'placement_suggestion_per_schedule';
   static const _hrtCounterEnabledKey = 'intake_counter_enabled';
   static const _logicalDayStartMinutesKey = 'logical_day_start_minutes';
+  static const _slimeModeEnabledKey = 'slime_mode_enabled';
 
   static const bool defaultNotificationsEnabled = false;
   static const bool defaultAutoCheckUpdates = false;
   static const bool defaultHrtCounterEnabled = true;
   static const int defaultLogicalDayStartMinutes = 240;
+  static const bool defaultSlimeModeEnabled = false;
   static const List<Placement> defaultPlacementsList = [
     PresetPlacement(PlacementPreset.left),
     PresetPlacement(PlacementPreset.right),
@@ -104,8 +108,19 @@ class PreferencesService extends ChangeNotifier {
 
   Units get units => Units.values[_prefs.getInt(_unitsTagKey) ?? 0];
 
-  Future<void> setUnits(Units units) async {
-    await _prefs.setInt(_unitsTagKey, units.index);
+  // hormone-specific getters
+  EstradiolUnit get estradiolUnit => EstradiolUnit
+      .values[_prefs.getInt(_estradiolUnitKey) ?? units.estradiol.index];
+  TestosteroneUnit get testosteroneUnit => TestosteroneUnit
+      .values[_prefs.getInt(_testosteroneUnitKey) ?? units.testosterone.index];
+
+  Future<void> setEstradiolUnit(EstradiolUnit unit) async {
+    await _prefs.setInt(_estradiolUnitKey, unit.index);
+    notifyListeners();
+  }
+
+  Future<void> setTestosteroneUnit(TestosteroneUnit unit) async {
+    await _prefs.setInt(_testosteroneUnitKey, unit.index);
     notifyListeners();
   }
 
@@ -202,6 +217,14 @@ class PreferencesService extends ChangeNotifier {
 
   Future<void> setHrtCounterEnabled(bool isEnabled) async {
     await _prefs.setBool(_hrtCounterEnabledKey, isEnabled);
+    notifyListeners();
+  }
+
+  bool get slimeModeEnabled =>
+      _prefs.getBool(_slimeModeEnabledKey) ?? defaultSlimeModeEnabled;
+
+  Future<void> setSlimeModeEnabled(bool isEnabled) async {
+    await _prefs.setBool(_slimeModeEnabledKey, isEnabled);
     notifyListeners();
   }
 
