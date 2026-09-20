@@ -279,5 +279,6 @@
   "mustBeBetween1And28": "必须在 1 到 28 之间",
   "mustBeAtMost": "不能超过 {{max}}",
   "invalidTotalAmount": "总量无效",
-  "cannotExceedTotalCapacity": "不能超过总容量"
+  "cannotExceedTotalCapacity": "不能超过总容量",
+  "backupSaved": "备份已保存"
 }
