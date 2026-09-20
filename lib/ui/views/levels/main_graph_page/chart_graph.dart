@@ -12,28 +12,40 @@ import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
 class _ChartConstants {
   static const double maxYPadding = 1.15;
-  static const double windowWidthFactor = 0.02;
+  static const double maxYClamp = 50;
   static const double labelFontSize = 12;
   static const double titleFontSize = 14;
   static const double axesPadding = 8.0;
   static const double bottomReservedSize = 40;
-  static const double leftReservedSize = 40;
+  static const double leftReservedSize = 30;
   static const double lineBarWidth = 3;
   static const double tooltipPadding = 6;
   static const double tooltipRadius = 8;
 }
 
-class MainGraph extends StatelessWidget {
-  final double window;
-  final DateTime? startDate;
-  final DateTime? endDate;
+class MainGraph extends StatefulWidget {
+  final DateTime startDate;
+  final DateTime endDate;
+  final bool isPanning;
 
-  MainGraph({required this.window, this.startDate, this.endDate});
+  MainGraph({
+    required this.startDate,
+    required this.endDate,
+    this.isPanning = false,
+  });
+
+  @override
+  State<MainGraph> createState() => _MainGraphState();
+}
+
+class _MainGraphState extends State<MainGraph> {
+  double? _lastMaxY;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +61,8 @@ class MainGraph extends StatelessWidget {
 
     final DateTime baseline = medicationIntakeProvider.getGraphLocalStart()!;
     final double tNow = timeDifferenceInDays(clock.now(), baseline);
-    final double graphSpan = medicationIntakeProvider.getGraphSpan(baseline)!;
-    final double tMin =
-        startDate != null ? timeDifferenceInDays(startDate!, baseline) : 0;
-    final double tMax = endDate != null
-        ? timeDifferenceInDays(endDate!, baseline)
-        : graphSpan + GraphCalculator.tMaxOffset;
+    final double tMin = timeDifferenceInDays(widget.startDate, baseline);
+    final double tMax = timeDifferenceInDays(widget.endDate, baseline);
 
     List<GraphIntake> intakes =
         medicationIntakeProvider.getIntakesForGraph(baseline);
@@ -80,53 +88,72 @@ class MainGraph extends StatelessWidget {
       todaySpot = FlSpot(tNow, todayConcentration);
     }
 
+    final double dataMaxY =
+        [...spots, ...bloodSpots].map((s) => s.y).fold(0.0, math.max) *
+            _ChartConstants.maxYPadding;
+    final double computedMaxY = math.max(dataMaxY, _ChartConstants.maxYClamp);
     final double maxY =
-        [...spots, ...bloodSpots].map((s) => s.y).fold(0.0, math.max);
-    final double maxYWithPadding = maxY * _ChartConstants.maxYPadding;
+        widget.isPanning ? (_lastMaxY ?? computedMaxY) : computedMaxY;
+    _lastMaxY = maxY;
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width *
-              (1 + _ChartConstants.windowWidthFactor * window),
-          child: Row(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.only(right: _ChartConstants.axesPadding),
-                child: RotatedBox(
-                  quarterTurns: -1,
-                  child: Text('${t.concentration} (${unit.localizedName})',
-                      style: const TextStyle(
-                          fontSize: _ChartConstants.titleFontSize)),
-                ),
-              ),
-              Expanded(
-                child: LineChart(
-                  LineChartData(
-                    minX: tMin,
-                    maxX: tMax,
-                    minY: 0,
-                    maxY: maxYWithPadding,
-                    gridData: FlGridData(show: true),
-                    titlesData: _buildTitlesData(context, baseline),
-                    borderData: FlBorderData(show: true),
-                    lineBarsData: [
-                      _buildLineBarData(spots, theme),
-                      _buildBloodTestData(bloodSpots, theme),
-                    ],
-                    lineTouchData:
-                        _buildLineTouchData(context, theme, baseline, unit),
-                    extraLinesData:
-                        _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
-                  ),
-                ),
-              ),
-            ],
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+              right: _ChartConstants.axesPadding, left: 2),
+          child: RotatedBox(
+            quarterTurns: -1,
+            child: Text('${t.concentration} (${unit.localizedName})',
+                style:
+                    const TextStyle(fontSize: _ChartConstants.titleFontSize)),
           ),
         ),
-      ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                right: borderPadding, top: 8.0, bottom: 8.0),
+            child: LineChart(
+              LineChartData(
+                minX: tMin,
+                maxX: tMax,
+                minY: 0,
+                maxY: maxY,
+                clipData: const FlClipData.all(),
+                gridData: FlGridData(
+                  show: true,
+                  getDrawingHorizontalLine: (value) => FlLine(
+                    color: theme.colorScheme.outlineVariant,
+                    strokeWidth: 0.4,
+                    dashArray: const [8, 4],
+                  ),
+                  getDrawingVerticalLine: (value) => FlLine(
+                    color: theme.colorScheme.outlineVariant,
+                    strokeWidth: 0.4,
+                    dashArray: const [8, 4],
+                  ),
+                ),
+                titlesData: _buildTitlesData(context, baseline),
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border.all(color: theme.colorScheme.outlineVariant),
+                ),
+                lineBarsData: [
+                  _buildLineBarData(spots, theme),
+                  _buildBloodTestData(bloodSpots, theme),
+                ],
+                lineTouchData:
+                    _buildLineTouchData(context, theme, baseline, unit),
+                extraLinesData:
+                    _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
+              ),
+              duration:
+                  widget.isPanning && !preferencesProvider.slimeModeEnabled
+                      ? Duration.zero
+                      : const Duration(milliseconds: 150),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -183,6 +210,19 @@ class MainGraph extends StatelessWidget {
   LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
       DateTime tMin, EstradiolUnit unit) {
     return LineTouchData(
+      getTouchedSpotIndicator: (barData, spotIndexes) {
+        return spotIndexes.map((index) {
+          return TouchedSpotIndicatorData(
+            FlLine(color: theme.colorScheme.tertiary, strokeWidth: 3),
+            FlDotData(
+              getDotPainter: (spot, percent, bar, i) => FlDotCirclePainter(
+                radius: 8,
+                color: theme.colorScheme.tertiary,
+              ),
+            ),
+          );
+        }).toList();
+      },
       touchTooltipData: LineTouchTooltipData(
         getTooltipColor: (touchedSpots) => theme.colorScheme.tertiaryContainer,
         tooltipBorderRadius:

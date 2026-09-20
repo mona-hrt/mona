@@ -322,6 +322,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get updateDownloadFailed =>
       'Download failed. Please check your connection.';
 
+  /// en: 'Secret settings'
+  String get secretSettings => 'Secret settings';
+
+  /// en: 'Slime mode'
+  String get slimeMode => 'Slime mode';
+
   /// en: 'Time to take {scheduleName}'
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Time to take ${scheduleName}';
@@ -479,6 +485,24 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   /// en: 'Estradiol levels'
   String get estradiolLevelsTitle => 'Estradiol levels';
+
+  /// en: 'W'
+  String get week => 'W';
+
+  /// en: '2 W'
+  String get twoWeeks => '2 W';
+
+  /// en: '3 M'
+  String get threeMonths => '3 M';
+
+  /// en: '6 M'
+  String get sixMonths => '6 M';
+
+  /// en: 'M'
+  String get month => 'M';
+
+  /// en: 'Y'
+  String get year => 'Y';
 
   /// en: 'Taken blood tests will appear here. Start by using the Add button!'
   String get empty_blood_tests =>
@@ -1162,6 +1186,8 @@ extension on Translations {
           'Failed to open installer: ${message}',
       'updateDownloadFailed' =>
         'Download failed. Please check your connection.',
+      'secretSettings' => 'Secret settings',
+      'slimeMode' => 'Slime mode',
       'notificationMedicationReminderTitle' =>
         ({required Object scheduleName}) => 'Time to take ${scheduleName}',
       'notificationMedicationReminderBodyDate' => ({required Object date}) =>
@@ -1220,6 +1246,12 @@ extension on Translations {
         'Add a blood test or log an estradiol injection to get started',
       'bloodTestsTitle' => 'Blood Tests',
       'estradiolLevelsTitle' => 'Estradiol levels',
+      'week' => 'W',
+      'twoWeeks' => '2 W',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'month' => 'M',
+      'year' => 'Y',
       'empty_blood_tests' =>
         'Taken blood tests will appear here. Start by using the Add button!',
       'addBloodTest' => 'Add a blood test',

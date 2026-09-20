@@ -15,6 +15,7 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/settings/application_sites_page.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
+import 'package:mona/ui/views/home/settings/secret_settings_page.dart';
 import 'package:mona/ui/views/home/settings/theme_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
 import 'package:mona/ui/widgets/tappable_list_tile.dart';
@@ -373,9 +374,16 @@ class _SettingsPageState extends State<SettingsPage>
               if (!snapshot.hasData) return const SizedBox.shrink();
               final info = snapshot.data!;
               return Center(
-                child: Text(
-                  t.appVersion(version: info.version),
-                  style: Theme.of(context).textTheme.bodySmall,
+                child: GestureDetector(
+                  onLongPress: () {
+                    Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (context) => const SecretSettingsPage(),
+                    ));
+                  },
+                  child: Text(
+                    t.appVersion(version: info.version),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
               );
             },

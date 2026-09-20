@@ -22,11 +22,13 @@ class PreferencesService extends ChangeNotifier {
       'placement_suggestion_per_schedule';
   static const _hrtCounterEnabledKey = 'intake_counter_enabled';
   static const _logicalDayStartMinutesKey = 'logical_day_start_minutes';
+  static const _slimeModeEnabledKey = 'slime_mode_enabled';
 
   static const bool defaultNotificationsEnabled = false;
   static const bool defaultAutoCheckUpdates = false;
   static const bool defaultHrtCounterEnabled = true;
   static const int defaultLogicalDayStartMinutes = 240;
+  static const bool defaultSlimeModeEnabled = false;
   static const List<Placement> defaultPlacementsList = [
     PresetPlacement(PlacementPreset.left),
     PresetPlacement(PlacementPreset.right),
@@ -215,6 +217,14 @@ class PreferencesService extends ChangeNotifier {
 
   Future<void> setHrtCounterEnabled(bool isEnabled) async {
     await _prefs.setBool(_hrtCounterEnabledKey, isEnabled);
+    notifyListeners();
+  }
+
+  bool get slimeModeEnabled =>
+      _prefs.getBool(_slimeModeEnabledKey) ?? defaultSlimeModeEnabled;
+
+  Future<void> setSlimeModeEnabled(bool isEnabled) async {
+    await _prefs.setBool(_slimeModeEnabledKey, isEnabled);
     notifyListeners();
   }
 
