@@ -15,7 +15,6 @@ class ChartRangeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return M3EToggleButtonGroup(
-      style: M3EButtonStyle.tonal,
       type: M3EButtonGroupType.connected,
       size: M3EButtonSize.xs,
       decoration: M3EToggleButtonDecoration.styleFrom(

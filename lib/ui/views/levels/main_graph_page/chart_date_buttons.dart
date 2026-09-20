@@ -25,22 +25,20 @@ class ChartDateButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         M3EButton(
+          style: M3EButtonStyle.tonal,
           size: M3EButtonSize.md,
-          decoration: M3EButtonDecoration.styleFrom(
-            backgroundColor: theme.colorScheme.secondary,
-            foregroundColor: theme.colorScheme.onSecondary,
-          ),
           onPressed: () => _selectDate(context),
-          child: Text(
-              DateFormat.yMMMd(context.intlLanguageTag).format(startDate)),
+          child:
+              Text(DateFormat.yMMMd(context.intlLanguageTag).format(startDate)),
         ),
         const SizedBox(width: 8),
         M3EButton(
           style: M3EButtonStyle.filled,
           size: M3EButtonSize.md,
           decoration: M3EButtonDecoration.styleFrom(
-            backgroundColor: theme.colorScheme.secondaryContainer,
-            foregroundColor: theme.colorScheme.onSecondaryContainer,
+            haptic: M3EHapticFeedback.light,
+            backgroundColor: theme.colorScheme.secondary,
+            foregroundColor: theme.colorScheme.onSecondary,
           ),
           onPressed: _resetToToday,
           child: const Icon(Symbols.today_rounded),
