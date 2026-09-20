@@ -17,7 +17,7 @@ import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
 class _ChartConstants {
-  static const double maxYPadding = 1.1;
+  static const double maxYPadding = 1.15;
   static const double maxYClamp = 50;
   static const double labelFontSize = 12;
   static const double titleFontSize = 14;
