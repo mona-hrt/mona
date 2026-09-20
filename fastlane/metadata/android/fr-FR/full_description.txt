@@ -7,13 +7,16 @@ Pourquoi Mona est différente :
 - Gratuite à vie : Pas d'abonnement, pas de fonctionnalités premium. Mona est gratuite pour tout le monde.
 
 Rappels de traitements :
+
 - Ajoutez vos plannings médicaux
 - Obtenez des informations détaillées sur vos prises à venir (dose, date, côté, prises manquées)
 - Recevez des notifications pour ne jamais rater une prise
 
 Gérez votre stock de médicaments efficacement :
+
 - Suivez chaque produit en stock
 Les quantités restantes sont mises à jour automatiquement à chaque prise
 
 Graphes de niveaux hormonaux :
+
 - Pour les personnes en monothérapie d'estradiol, visualisez l'estimation de vos niveaux hormonaux au cours du temps
