@@ -15,6 +15,7 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/settings/application_sites_page.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
+import 'package:mona/ui/views/home/settings/secret_settings_page.dart';
 import 'package:mona/ui/views/home/settings/theme_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
 import 'package:mona/ui/widgets/tappable_list_tile.dart';
@@ -95,12 +96,16 @@ class _SettingsPageState extends State<SettingsPage>
 
   Future<void> _exportData() async {
     try {
-      final savedPath = await BackupService().exportData();
+      final box = context.findRenderObject() as RenderBox?;
+      final origin =
+          box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+      final success =
+          await BackupService().exportData(sharePositionOrigin: origin);
 
-      if (savedPath != null && mounted) {
+      if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(t.backupSavedTo(path: savedPath)),
+            content: Text(t.backupSaved),
             duration: const Duration(seconds: 4),
           ),
         );
@@ -187,7 +192,8 @@ class _SettingsPageState extends State<SettingsPage>
     return Scaffold(
       appBar: AppBar(title: Text(t.settingsTitle)),
       body: ListView(
-        padding: pagePadding,
+        padding: pagePadding +
+            EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
         children: [
           _sectionHeader(t.schedulesAndNotifications),
           M3ESegmentedColumn(
@@ -254,7 +260,8 @@ class _SettingsPageState extends State<SettingsPage>
               ),
               TappableListTile(
                 title: t.units,
-                subtitle: preferencesService.units.localizedName,
+                subtitle:
+                    '${preferencesService.estradiolUnit.localizedName} & ${preferencesService.testosteroneUnit.localizedName}',
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute<void>(
@@ -320,7 +327,7 @@ class _SettingsPageState extends State<SettingsPage>
               ),
             ],
           ),
-          if (Platform.isAndroid && !isStoreDistribution) ...[
+          if (isSelfUpdating) ...[
             SizedBox(height: borderPadding),
             _sectionHeader(t.updates),
             M3ESegmentedColumn(
@@ -367,14 +374,20 @@ class _SettingsPageState extends State<SettingsPage>
               if (!snapshot.hasData) return const SizedBox.shrink();
               final info = snapshot.data!;
               return Center(
-                child: Text(
-                  t.appVersion(version: info.version),
-                  style: Theme.of(context).textTheme.bodySmall,
+                child: GestureDetector(
+                  onLongPress: () {
+                    Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (context) => const SecretSettingsPage(),
+                    ));
+                  },
+                  child: Text(
+                    t.appVersion(version: info.version),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
               );
             },
           ),
-          const SizedBox(height: 32),
         ],
       ),
     );

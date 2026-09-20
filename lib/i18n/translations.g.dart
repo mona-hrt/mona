@@ -3,8 +3,8 @@
 /// Source: lib/i18n/generated
 /// To regenerate, run: `dart run slang`
 ///
-/// Locales: 22
-/// Strings: 5417 (246 per locale)
+/// Locales: 23
+/// Strings: 5706 (248 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -36,6 +36,7 @@ import 'translations_uk.g.dart' as l_uk;
 import 'translations_ur.g.dart' as l_ur;
 import 'translations_en_GB.g.dart' as l_en_GB;
 import 'translations_pt_BR.g.dart' as l_pt_BR;
+import 'translations_zh_Hans.g.dart' as l_zh_Hans;
 part 'translations_en.g.dart';
 
 /// Supported locales.
@@ -66,7 +67,8 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
   uk(languageCode: 'uk'),
   ur(languageCode: 'ur'),
   enGb(languageCode: 'en', countryCode: 'GB'),
-  ptBr(languageCode: 'pt', countryCode: 'BR');
+  ptBr(languageCode: 'pt', countryCode: 'BR'),
+  zhHans(languageCode: 'zh', scriptCode: 'Hans');
 
   const AppLocale({
     required this.languageCode,
@@ -229,6 +231,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
         );
       case AppLocale.ptBr:
         return l_pt_BR.TranslationsPtBr(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.zhHans:
+        return l_zh_Hans.TranslationsZhHans(
           overrides: overrides,
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,

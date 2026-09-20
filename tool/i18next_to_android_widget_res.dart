@@ -128,6 +128,10 @@ String _buildStringsXml(Map<String, String> strings) {
 String _valuesDirName(String locale) {
   final parts = locale.split('-');
   if (parts.length == 1) return 'values-${parts[0]}';
+  // A 4-letter subtag is a script, use the BCP 47 form
+  if (parts.skip(1).any((p) => p.length == 4)) {
+    return 'values-b+${parts.join('+')}';
+  }
   return 'values-${parts[0]}-r${parts[1]}';
 }
 

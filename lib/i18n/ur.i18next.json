@@ -70,7 +70,6 @@
   "checkForUpdates": "پیش رفت کے لئے جانچ",
   "checkForUpdatesDescription": "تازہ ورژن کے لئے دستی دیکھیے\\n‫یہ آپ کو انٹرنیٹ سے جوڑ دے گا\\n(کوئی کوائف نہیں بھیجا جائے گا)",
   "appVersion": "‫‫‫Mona ورژن {{version}}",
-  "backupSavedTo": "پر آمد ‫{{path}} میں محفوظ ہوا",
   "exportFailed": "پر آمد کرنا ناکام: ‫{{error}}",
   "importDataTitle": "کوائف بر آمد",
   "importDataSubtitle": "‫JSON ذخیرہ سے کوائف بحال کیجیے",

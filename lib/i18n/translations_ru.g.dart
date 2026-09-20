@@ -139,9 +139,6 @@ class TranslationsRu extends Translations
   @override
   String appVersion({required Object version}) => 'Mona, версия ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Копия данных сохранена в ${path}';
-  @override
   String exportFailed({required Object error}) => 'Ошибка экспорта: ${error}';
   @override
   String get importDataTitle => 'Импорт данных';
@@ -802,8 +799,6 @@ extension on TranslationsRu {
       'checkForUpdatesDescription' =>
         'Вручную проверить наличие обновлений\nДанное действие подключит вас к интернету\n(Данные переданы не будут)',
       'appVersion' => ({required Object version}) => 'Mona, версия ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Копия данных сохранена в ${path}',
       'exportFailed' => ({required Object error}) =>
           'Ошибка экспорта: ${error}',
       'importDataTitle' => 'Импорт данных',

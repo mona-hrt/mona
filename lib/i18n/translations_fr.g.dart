@@ -185,8 +185,7 @@ class TranslationsFr extends Translations
   @override
   String appVersion({required Object version}) => 'Mona version ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Sauvegarde enregistrée dans : ${path}';
+  String get backupSaved => 'Sauvegarde enregistrée';
   @override
   String exportFailed({required Object error}) =>
       'Échec de l\'exportation : ${error}';
@@ -247,6 +246,10 @@ class TranslationsFr extends Translations
   @override
   String get updateDownloadFailed =>
       'Échec du téléchargement. Vérifiez votre connexion.';
+  @override
+  String get secretSettings => 'Paramètres secrets';
+  @override
+  String get slimeMode => 'Mode slime';
   @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Il est temps de prendre ${scheduleName}';
@@ -356,6 +359,18 @@ class TranslationsFr extends Translations
   String get bloodTestsTitle => 'Prises de sang';
   @override
   String get estradiolLevelsTitle => 'Taux d\'estradiol';
+  @override
+  String get week => 'S';
+  @override
+  String get twoWeeks => '2 S';
+  @override
+  String get threeMonths => '3 M';
+  @override
+  String get sixMonths => '6 M';
+  @override
+  String get month => 'M';
+  @override
+  String get year => 'A';
   @override
   String get empty_blood_tests =>
       'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !';
@@ -889,8 +904,7 @@ extension on TranslationsFr {
       'checkForUpdatesDescription' =>
         'Vérifier manuellement la dernière version\nCela vous connectera à Internet\n(Aucune donnée ne sera envoyée)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Sauvegarde enregistrée dans : ${path}',
+      'backupSaved' => 'Sauvegarde enregistrée',
       'exportFailed' => ({required Object error}) =>
           'Échec de l\'exportation : ${error}',
       'importDataTitle' => 'Importer des données',
@@ -927,6 +941,8 @@ extension on TranslationsFr {
           'Échec de l\'ouverture de l\'installateur : ${message}',
       'updateDownloadFailed' =>
         'Échec du téléchargement. Vérifiez votre connexion.',
+      'secretSettings' => 'Paramètres secrets',
+      'slimeMode' => 'Mode slime',
       'notificationMedicationReminderTitle' => (
               {required Object scheduleName}) =>
           'Il est temps de prendre ${scheduleName}',
@@ -987,6 +1003,12 @@ extension on TranslationsFr {
         'Ajoutez une prise de sang ou enregistrez une injection d\'estradiol pour commencer',
       'bloodTestsTitle' => 'Prises de sang',
       'estradiolLevelsTitle' => 'Taux d\'estradiol',
+      'week' => 'S',
+      'twoWeeks' => '2 S',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'month' => 'M',
+      'year' => 'A',
       'empty_blood_tests' =>
         'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !',
       'addBloodTest' => 'Ajouter une analyse de sang',

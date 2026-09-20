@@ -181,7 +181,7 @@ class TranslationsEnGb extends Translations
   @override
   String appVersion({required Object version}) => 'Mona version ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'Backup saved to: ${path}';
+  String get backupSaved => 'Backup saved';
   @override
   String exportFailed({required Object error}) => 'Failed to export: ${error}';
   @override
@@ -238,6 +238,10 @@ class TranslationsEnGb extends Translations
   @override
   String get updateDownloadFailed =>
       'Download failed. Please check your connection.';
+  @override
+  String get secretSettings => 'Secret settings';
+  @override
+  String get slimeMode => 'Slime mode';
   @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Time to take ${scheduleName}';
@@ -346,6 +350,18 @@ class TranslationsEnGb extends Translations
   String get bloodTestsTitle => 'Blood Tests';
   @override
   String get estradiolLevelsTitle => 'Estradiol levels';
+  @override
+  String get week => 'W';
+  @override
+  String get twoWeeks => '2 W';
+  @override
+  String get threeMonths => '3 M';
+  @override
+  String get sixMonths => '6 M';
+  @override
+  String get month => 'M';
+  @override
+  String get year => 'Y';
   @override
   String get empty_blood_tests =>
       'Taken blood tests will appear here. Start by using the Add button!';
@@ -849,7 +865,7 @@ extension on TranslationsEnGb {
       'checkForUpdatesDescription' =>
         'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Backup saved to: ${path}',
+      'backupSaved' => 'Backup saved',
       'exportFailed' => ({required Object error}) =>
           'Failed to export: ${error}',
       'importDataTitle' => 'Import Data',
@@ -883,6 +899,8 @@ extension on TranslationsEnGb {
           'Failed to open installer: ${message}',
       'updateDownloadFailed' =>
         'Download failed. Please check your connection.',
+      'secretSettings' => 'Secret settings',
+      'slimeMode' => 'Slime mode',
       'notificationMedicationReminderTitle' =>
         ({required Object scheduleName}) => 'Time to take ${scheduleName}',
       'notificationMedicationReminderBodyDate' => ({required Object date}) =>
@@ -941,6 +959,12 @@ extension on TranslationsEnGb {
         'Add a blood test or log an estradiol injection to get started',
       'bloodTestsTitle' => 'Blood Tests',
       'estradiolLevelsTitle' => 'Estradiol levels',
+      'week' => 'W',
+      'twoWeeks' => '2 W',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'month' => 'M',
+      'year' => 'Y',
       'empty_blood_tests' =>
         'Taken blood tests will appear here. Start by using the Add button!',
       'addBloodTest' => 'Add a blood test',

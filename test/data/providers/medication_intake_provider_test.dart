@@ -725,34 +725,6 @@ void main() {
         // Assert
         expect(intakes[1].time, closeTo(0.5, 1e-9));
       });
-
-      test('getGraphSpan is the offset of the last intake from the baseline',
-          () async {
-        // Arrange
-        repo.insert(
-            anInjection(id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 6, 0)));
-        repo.insert(anInjection(
-            id: 11, takenDateTime: DateTime.utc(2025, 6, 3, 18, 0)));
-        await provider.fetchIntakes();
-        final baseline = provider.getFirstGraphIntakeInstant()!;
-
-        // Act
-        final span = provider.getGraphSpan(baseline);
-
-        // Assert: 2 days 12h -> 2.5 days.
-        expect(span, closeTo(2.5, 1e-9));
-      });
-
-      test('getGraphSpan is null when no plottable intakes', () async {
-        // Arrange
-        await provider.fetchIntakes();
-
-        // Act
-        final span = provider.getGraphSpan(DateTime.utc(2025, 6, 1));
-
-        // Assert
-        expect(span, isNull);
-      });
     });
 
     group('firstTakenLocalDate', () {

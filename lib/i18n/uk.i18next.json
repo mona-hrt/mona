@@ -52,7 +52,6 @@
   "checkForUpdates": "Перевірити на оновлення",
   "checkForUpdatesDescription": "Перевірити на наявність крайньої версії вручну\\nЦе підключить вас до мережі\\n(Жодних даних не буде надіслано)",
   "appVersion": "Версія Mona - {{version}}",
-  "backupSavedTo": "Бекап збережено до: {{path}}",
   "exportFailed": "Не вдалося експортувати: {{error}}",
   "importDataTitle": "Імпортувати дані",
   "importDataSubtitle": "Відновити дані з JSON бекапу",
