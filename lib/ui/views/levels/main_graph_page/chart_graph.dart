@@ -212,10 +212,10 @@ class _MainGraphState extends State<MainGraph> {
       getTouchedSpotIndicator: (barData, spotIndexes) {
         return spotIndexes.map((index) {
           return TouchedSpotIndicatorData(
-            FlLine(color: theme.colorScheme.tertiary, strokeWidth: 4),
+            FlLine(color: theme.colorScheme.tertiary, strokeWidth: 3),
             FlDotData(
               getDotPainter: (spot, percent, bar, i) => FlDotCirclePainter(
-                radius: 10,
+                radius: 8,
                 color: theme.colorScheme.tertiary,
               ),
             ),
