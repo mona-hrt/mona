@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
-import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
 import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
@@ -24,9 +24,9 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
       deliveryForm?.localizedUnit(count) ??
       administrationRoute.localizedUnit(count);
 
-  String localizedSupplyAmount(Decimal dose, Molecule molecule) {
+  String localizedSupplyAmount(Decimal dose) {
     final amount = getAmount(dose);
-    return ' $dose ${molecule.localizedUnit} = $amount '
+    return ' $dose ${molecule.unitFor(DosingBasis.mass)} = $amount '
         '${localizedUnit(amount.toDouble())}';
   }
 
@@ -42,7 +42,7 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
 
   String _localizedConcentration() {
     final routeConcentrationUnit = localizedUnit(1);
-    return '$concentration ${molecule.localizedUnit}/$routeConcentrationUnit';
+    return '$concentration ${molecule.unitFor(DosingBasis.mass)}/$routeConcentrationUnit';
   }
 
   String _localizedRemaining() {

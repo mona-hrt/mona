@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/delivery_form.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -275,7 +276,7 @@ class _EditItemPageState extends State<EditItemPage> {
           label: _concentrationLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: '${_molecule.localizedUnit}/$_unitLabel',
+          suffixText: '${_molecule.unitFor(DosingBasis.mass)}/$_unitLabel',
           errorText: _concentrationError,
           regexFormatter: RegexPatterns.floatNumber,
         ),

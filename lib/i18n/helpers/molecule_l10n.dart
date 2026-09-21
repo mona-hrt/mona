@@ -1,3 +1,4 @@
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/i18n/helpers/ester_l10n.dart';
@@ -15,6 +16,11 @@ extension MoleculeL10n on Molecule {
   }
 
   String get localizedUnit => localizedUnitString(massUnit);
+
+  String unitFor(DosingBasis basis) => switch (basis) {
+        DosingBasis.mass => localizedUnitString(massUnit),
+        DosingBasis.releaseRate => localizedUnitString(rateUnit ?? massUnit),
+      };
 }
 
 String localizedUnitString(String unit) {
