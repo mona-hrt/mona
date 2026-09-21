@@ -21,7 +21,7 @@
   "tomorrow": "mañana",
   "lastTaken": "Última toma",
   "neverTakenYet": "Aún no tomado",
-  "scheduleFrequencyDaily": "Cada día",
+  "scheduleFrequencyDaily": "Diariamente",
   "scheduleFrequencyEveryNDays_one": "Cada {{count}} día",
   "scheduleFrequencyEveryNDays_many": "Cada {{count}} días",
   "scheduleFrequencyEveryNDays_other": "Cada {{count}} días",
