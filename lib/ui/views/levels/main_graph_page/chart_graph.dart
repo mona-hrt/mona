@@ -17,7 +17,7 @@ import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
 class _ChartConstants {
-  static const double maxYPadding = 1.25;
+  static const double maxYPadding = 1.1;
   static const double maxYClamp = 50;
   static const double labelFontSize = 12;
   static const double titleFontSize = 14;
@@ -92,8 +92,9 @@ class _MainGraphState extends State<MainGraph> {
     final double dataMaxY =
         [...spots, ...bloodSpots].map((s) => s.y).fold(0.0, math.max) *
             _ChartConstants.maxYPadding;
-    final double dataMinY =
-        [...spots, ...bloodSpots].map((s) => s.y).fold(0.0, math.min);
+    final double dataMinY = [...spots, ...bloodSpots]
+        .map((s) => s.y)
+        .fold(double.infinity, math.min);
     final double computedMaxY = math.max(dataMaxY, _ChartConstants.maxYClamp);
     final double maxY =
         widget.isPanning ? (_lastMaxY ?? computedMaxY) : computedMaxY;
