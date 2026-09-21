@@ -21,7 +21,7 @@
   "tomorrow": "zajtra",
   "lastTaken": "Vzatá naposledy",
   "neverTakenYet": "Nevzatá nikdy",
-  "scheduleFrequencyDaily": "Každý deň",
+  "scheduleFrequencyDaily": "Denne",
   "scheduleFrequencyEveryNDays_one": "Každý deň",
   "scheduleFrequencyEveryNDays_few": "Každé {{count}} dni",
   "scheduleFrequencyEveryNDays_other": "Každých {{count}} dní",
@@ -306,5 +306,18 @@
   "HrtCounter": "Čas na HRT",
   "hrtWidgetPlaceholder": "Otvorte Mona a zaznamenajte svoje prvé dávky",
   "hrtWidgetPreviewSample": "Na HRT 8 mesiacov",
-  "hrtWidgetPreviewIntakeSample": "16 zaznamenaných dávok"
+  "hrtWidgetPreviewIntakeSample": "16 zaznamenaných dávok",
+  "asNeeded": "Podľa potreby",
+  "scheduleFrequencyDailyDescription": "Každý deň v určených časoch",
+  "scheduleFrequencyIntervalDescription": "Každých pár dní",
+  "scheduleFrequencyWeeklyDescription": "Určité dni v týždni",
+  "scheduleFrequencyMonthlyDescription": "Každý mesiac v rovnaký deň",
+  "scheduleFrequencyAsNeeded": "Podľa potreby",
+  "scheduleFrequencyAsNeededDescription": "Bez pevne stanoveného času",
+  "backupSaved": "Záloha bola uložená",
+  "secretSettings": "Skryté nastavenia",
+  "slimeMode": "Slizový mód",
+  "empty_levels": "Ak chcete začať, pridajte výsledok krvného testu alebo zaznamenajte injekciu estradiolu",
+  "estradiolLevelsTitle": "Hodnoty estradiolu",
+  "unitNgPerMl": "ng/mL"
 }
