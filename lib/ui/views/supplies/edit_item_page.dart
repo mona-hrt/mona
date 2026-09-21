@@ -7,9 +7,8 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/i18n/helpers/administration_route_l10n.dart';
-import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
@@ -71,12 +70,10 @@ class _EditItemPageState extends State<EditItemPage> {
   }
 
   String get _unitLabel =>
-      _deliveryForm?.localizedUnit(1) ?? _administrationRoute.localizedUnit(1);
+      countUnitLabel(_administrationRoute, _deliveryForm, 1);
 
   String get _concentrationLabel =>
-      _administrationRoute == AdministrationRoute.injection
-          ? t.concentration
-          : t.concentrationLabelPerUnit(unit: _unitLabel);
+      dosePerUnitFieldLabel(_administrationRoute, _deliveryForm);
 
   bool get _isFormValid =>
       _nameError == null &&

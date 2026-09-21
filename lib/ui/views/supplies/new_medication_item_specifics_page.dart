@@ -7,9 +7,8 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/i18n/helpers/administration_route_l10n.dart';
-import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -58,14 +57,17 @@ class _NewMedicationItemSpecificsPageState
     return validator(_ester);
   }
 
-  String? get _unitLabel =>
-      _deliveryForm?.localizedUnit(1) ?? _administrationRoute?.localizedUnit(1);
+  String? get _unitLabel {
+    final route = _administrationRoute;
+    return route == null ? null : countUnitLabel(route, _deliveryForm, 1);
+  }
 
-  String get _concentrationLabel =>
-      _administrationRoute == AdministrationRoute.injection ||
-              _unitLabel == null
-          ? t.concentration
-          : t.concentrationLabelPerUnit(unit: _unitLabel!);
+  String get _concentrationLabel {
+    final route = _administrationRoute;
+    return route == null
+        ? t.concentration
+        : dosePerUnitFieldLabel(route, _deliveryForm);
+  }
 
   bool get _isFormValid =>
       _totalAmountError == null &&
