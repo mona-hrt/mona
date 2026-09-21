@@ -14,13 +14,17 @@ extension MoleculeL10n on Molecule {
     return compound ?? '$localizedName ${ester.localizedName}';
   }
 
-  String get localizedUnit {
-    switch (unit) {
-      case 'mg':
-        return t.unitMilligram;
-      default:
-        return unit;
-    }
+  String get localizedUnit => localizedUnitString(massUnit);
+}
+
+String localizedUnitString(String unit) {
+  switch (unit) {
+    case 'mg':
+      return t.unitMilligram;
+    case 'µg/day':
+      return t.unitMicrogramPerDay;
+    default:
+      return unit;
   }
 }
 

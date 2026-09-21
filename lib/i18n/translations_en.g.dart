@@ -778,6 +778,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'mg'
   String get unitMilligram => 'mg';
 
+  /// en: 'µg/day'
+  String get unitMicrogramPerDay => 'µg/day';
+
   /// en: 'pg/mL'
   String get unitPgPerMl => 'pg/mL';
 
@@ -1347,6 +1350,7 @@ extension on Translations {
       'deliveryFormSachet' => 'Sachet',
       'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
+      'unitMicrogramPerDay' => 'µg/day',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',

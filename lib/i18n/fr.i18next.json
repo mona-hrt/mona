@@ -280,6 +280,7 @@
   "deliveryFormSachet": "Sachet",
   "deliveryFormGram": "Tube",
   "unitMilligram": "mg",
+  "unitMicrogramPerDay": "µg/jour",
   "unitPgPerMl": "pg/mL",
   "unitPmolPerL": "pmol/L",
   "unitNgPerDl": "ng/dL",

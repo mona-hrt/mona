@@ -559,6 +559,8 @@ class TranslationsFr extends Translations
   @override
   String get unitMilligram => 'mg';
   @override
+  String get unitMicrogramPerDay => 'µg/jour';
+  @override
   String get unitPgPerMl => 'pg/mL';
   @override
   String get unitPmolPerL => 'pmol/L';
@@ -1106,6 +1108,7 @@ extension on TranslationsFr {
       'deliveryFormSachet' => 'Sachet',
       'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
+      'unitMicrogramPerDay' => 'µg/jour',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
