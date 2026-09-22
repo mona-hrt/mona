@@ -247,8 +247,8 @@ void main() {
       group('generic items', () {
         late MedicationIntake addedIntake;
         final updatedItems = <GenericSupply>[];
-        final syringe = aGenericSupply(id: 7, amount: 5);
-        final needle = aGenericSupply(id: 8, amount: 3);
+        final syringe = aGenericSupplyItem(id: 7, amount: 5);
+        final needle = aGenericSupplyItem(id: 8, amount: 3);
 
         setUp(() async {
           // Arrange
@@ -293,7 +293,7 @@ void main() {
 
       group('duplicate generic items', () {
         final updatedItems = <GenericSupply>[];
-        final syringe = aGenericSupply(id: 7, amount: 5);
+        final syringe = aGenericSupplyItem(id: 7, amount: 5);
 
         setUp(() async {
           // Arrange
@@ -529,8 +529,8 @@ void main() {
 
       group('GenericSupply', () {
         final updatedItems = <GenericSupply>[];
-        final syringe = aGenericSupply(id: 7, amount: 5);
-        final needle = aGenericSupply(id: 8, amount: 3);
+        final syringe = aGenericSupplyItem(id: 7, amount: 5);
+        final needle = aGenericSupplyItem(id: 8, amount: 3);
         final intake = aMedicationIntake(
           genericSupplyItemIds: [syringe.id, needle.id],
         );
@@ -567,7 +567,7 @@ void main() {
 
       group('duplicate GenericSupply', () {
         final updatedItems = <GenericSupply>[];
-        final syringe = aGenericSupply(id: 7, amount: 5);
+        final syringe = aGenericSupplyItem(id: 7, amount: 5);
         final intake = aMedicationIntake(
           genericSupplyItemIds: [syringe.id, syringe.id],
         );
@@ -920,7 +920,7 @@ void main() {
 
         group('generics', () {
           test('no-op when the generic list is unchanged', () async {
-            final item = aGenericSupply(amount: 5);
+            final item = aGenericSupplyItem(amount: 5);
             expect(
               await capture(
                 previousGenerics: [item],
@@ -931,7 +931,7 @@ void main() {
           });
 
           test('added generic: decrements it', () async {
-            final added = aGenericSupply(amount: 5);
+            final added = aGenericSupplyItem(amount: 5);
             expect(
               await capture(nextGenerics: [added]),
               [_generic(id: added.id, amount: 4)],
@@ -939,7 +939,7 @@ void main() {
           });
 
           test('removed generic: increments it', () async {
-            final removed = aGenericSupply(amount: 5);
+            final removed = aGenericSupplyItem(amount: 5);
             expect(
               await capture(previousGenerics: [removed]),
               [_generic(id: removed.id, amount: 6)],
@@ -948,8 +948,8 @@ void main() {
 
           test('swapped generic: puts back the removed, uses the added',
               () async {
-            final removed = aGenericSupply(amount: 5);
-            final added = aGenericSupply(amount: 2);
+            final removed = aGenericSupplyItem(amount: 5);
+            final added = aGenericSupplyItem(amount: 2);
             expect(
               await capture(
                 previousGenerics: [removed],
@@ -963,8 +963,8 @@ void main() {
           });
 
           test('keeps one generic while adding another', () async {
-            final kept = aGenericSupply(amount: 5);
-            final added = aGenericSupply(amount: 2);
+            final kept = aGenericSupplyItem(amount: 5);
+            final added = aGenericSupplyItem(amount: 2);
             expect(
               await capture(
                 previousGenerics: [kept],
@@ -976,7 +976,7 @@ void main() {
 
           test('adding a duplicate of a kept generic: decrements once',
               () async {
-            final generic = aGenericSupply(amount: 5);
+            final generic = aGenericSupplyItem(amount: 5);
             expect(
               await capture(
                 previousGenerics: [generic],
@@ -988,7 +988,7 @@ void main() {
 
           test('removing a duplicate of a kept generic: increments once',
               () async {
-            final generic = aGenericSupply(amount: 5);
+            final generic = aGenericSupplyItem(amount: 5);
             expect(
               await capture(
                 previousGenerics: [generic, generic],
@@ -1171,8 +1171,8 @@ void main() {
             usedDose: Decimal.parse('4'),
             dosePerUnit: Decimal.parse('10'),
           );
-          final removedGeneric = aGenericSupply(amount: 5);
-          final addedGeneric = aGenericSupply(amount: 2);
+          final removedGeneric = aGenericSupplyItem(amount: 5);
+          final addedGeneric = aGenericSupplyItem(amount: 2);
           // previous medication: 10 - (2 + 0.5 x 10) = 3.
           // next medication: 4 + (3 + 0.2 x 10) = 9.
           expect(
@@ -1471,8 +1471,8 @@ void main() {
       test('returns the previous intake generics', () {
         // Arrange
         final schedule = aMedicationSchedule(id: 42);
-        final syringe = aGenericSupply(id: 7, amount: 5);
-        final needle = aGenericSupply(id: 8, amount: 3);
+        final syringe = aGenericSupplyItem(id: 7, amount: 5);
+        final needle = aGenericSupplyItem(id: 8, amount: 3);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
             .thenReturn(aMedicationIntake(genericSupplyItemIds: [7, 8]));
         when(mockSupplyItemProvider.getItemsByIds([7, 8]))
@@ -1488,7 +1488,7 @@ void main() {
       test('drops generics that were deleted', () {
         // Arrange
         final schedule = aMedicationSchedule(id: 42);
-        final needle = aGenericSupply(id: 8, amount: 3);
+        final needle = aGenericSupplyItem(id: 8, amount: 3);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
             .thenReturn(aMedicationIntake(genericSupplyItemIds: [7, 8]));
         when(mockSupplyItemProvider.getItemsByIds([7, 8])).thenReturn([needle]);
@@ -1503,7 +1503,7 @@ void main() {
       test('keeps generics that are out of stock', () {
         // Arrange
         final schedule = aMedicationSchedule(id: 42);
-        final emptySyringe = aGenericSupply(id: 7, amount: 0);
+        final emptySyringe = aGenericSupplyItem(id: 7, amount: 0);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
             .thenReturn(aMedicationIntake(genericSupplyItemIds: [7]));
         when(mockSupplyItemProvider.getItemsByIds([7]))
