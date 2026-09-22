@@ -74,7 +74,7 @@ void main() {
       test('decrements amount by 1', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = aGenericSupply(amount: 5);
+        final item = aGenericSupplyItem(amount: 5);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
@@ -89,7 +89,7 @@ void main() {
       test('clamps amount at zero when already empty', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = aGenericSupply(amount: 0);
+        final item = aGenericSupplyItem(amount: 0);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
@@ -106,7 +106,7 @@ void main() {
       test('increments amount by 1', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = aGenericSupply(amount: 5);
+        final item = aGenericSupplyItem(amount: 5);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
