@@ -5,7 +5,7 @@ const String createSupplyItemsTable = '''
       name TEXT NOT NULL,
       totalDose TEXT,
       usedDose TEXT,
-      concentration TEXT,
+      dosePerUnit TEXT,
       molecule TEXT,
       administrationRoute TEXT,
       ester TEXT,

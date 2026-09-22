@@ -366,6 +366,23 @@ const String _bloodTestsV20 = '''
     )
     ''';
 
+const String _supplyItemsV21 = '''
+    CREATE TABLE supply_items(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      type TEXT NOT NULL,
+      name TEXT NOT NULL,
+      totalDose TEXT,
+      usedDose TEXT,
+      dosePerUnit TEXT,
+      molecule TEXT,
+      administrationRoute TEXT,
+      ester TEXT,
+      amount INTEGER,
+      genericSupplyType TEXT,
+      deliveryForm TEXT
+    )
+    ''';
+
 const Map<int, List<String>> _historicalSchemas = {
   4: [
     _supplyItemsV4,
@@ -470,7 +487,7 @@ const Map<int, List<String>> _historicalSchemas = {
     _bloodTestsV20,
   ],
   21: [
-    _supplyItemsV19,
+    _supplyItemsV21,
     _medicationIntakesV16,
     _medicationSchedulesV13,
     _bloodTestsV20,

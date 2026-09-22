@@ -26,7 +26,7 @@ void main() {
           name: 'h',
           totalDose: Decimal.parse('10'),
           usedDose: Decimal.parse('5'),
-          concentration: Decimal.parse('1'),
+          dosePerUnit: Decimal.parse('1'),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
         );
@@ -146,7 +146,7 @@ void main() {
           name: 'progesterone',
           totalDose: Decimal.parse('30'),
           usedDose: Decimal.parse('10'),
-          concentration: Decimal.parse('1'),
+          dosePerUnit: Decimal.parse('1'),
           molecule: KnownMolecules.progesterone,
           administrationRoute: AdministrationRoute.oral,
         );

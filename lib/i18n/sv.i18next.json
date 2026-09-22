@@ -183,7 +183,7 @@
   "adminRoute": "Administreringsväg",
   "totalAmount": "Total mängd",
   "concentration": "Koncentration",
-  "concentrationLabelPerUnit": "Dos per {{unit}}",
+  "dosePerUnitLabel": "Dos per {{unit}}",
   "editItem": "Redigera artikel",
   "usedAmount": "Använd mängd",
   "deleteItem": "Ta bort {{name}}?",

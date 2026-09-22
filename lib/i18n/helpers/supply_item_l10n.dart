@@ -24,7 +24,7 @@ String dosePerUnitFieldLabel(
 ) =>
     route == AdministrationRoute.injection
         ? t.concentration
-        : t.concentrationLabelPerUnit(
+        : t.dosePerUnitLabel(
             unit: countUnitLabel(route, deliveryForm, 1),
           );
 
@@ -60,7 +60,7 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
 
   String _localizedConcentration() {
     final routeConcentrationUnit = localizedUnit(1);
-    return '$concentration ${molecule.unitFor(DosingBasis.mass)}/$routeConcentrationUnit';
+    return '$dosePerUnit ${molecule.unitFor(DosingBasis.mass)}/$routeConcentrationUnit';
   }
 
   String _localizedRemaining() {

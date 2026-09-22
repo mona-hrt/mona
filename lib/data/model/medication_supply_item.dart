@@ -29,7 +29,7 @@ class MedicationSupplyItem extends SupplyItem
   final String name;
   final Decimal totalDose;
   final Decimal usedDose;
-  final Decimal concentration;
+  final Decimal dosePerUnit;
   @MappableField(hook: JsonStringHook())
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
@@ -40,7 +40,7 @@ class MedicationSupplyItem extends SupplyItem
     int? id,
     required this.name,
     required this.totalDose,
-    required this.concentration,
+    required this.dosePerUnit,
     Decimal? usedDose,
     required this.molecule,
     required this.administrationRoute,
@@ -57,7 +57,7 @@ class MedicationSupplyItem extends SupplyItem
         usedDose >= Decimal.zero &&
         usedDose <= totalDose &&
         name != '' &&
-        concentration > Decimal.zero;
+        dosePerUnit > Decimal.zero;
   }
 
   bool canUseDose(Decimal doseToUse) {
@@ -71,10 +71,10 @@ class MedicationSupplyItem extends SupplyItem
   }
 
   Decimal getAmount(Decimal dose) =>
-      (dose.toRational() / concentration.toRational())
+      (dose.toRational() / dosePerUnit.toRational())
           .toDecimal(scaleOnInfinitePrecision: 3);
 
-  Decimal getDose(Decimal amount) => amount * concentration;
+  Decimal getDose(Decimal amount) => amount * dosePerUnit;
 
   static String? Function(String?) usedAmountValidator(String totalAmount) {
     return (String? value) {
@@ -103,7 +103,7 @@ class MedicationSupplyItem extends SupplyItem
   static String? validateTotalAmount(String? value) =>
       requiredStrictlyPositiveDecimal(value);
 
-  static String? validateConcentration(String? value) =>
+  static String? validateDosePerUnit(String? value) =>
       requiredStrictlyPositiveDecimal(value);
 
   static String? validateMolecule(Molecule? value) => requiredMolecule(value);

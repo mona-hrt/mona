@@ -35,7 +35,7 @@ void main() {
       final item = MedicationSupplyItem(
         name: 'h',
         totalDose: Decimal.parse('1'),
-        concentration: Decimal.parse('1'),
+        dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
@@ -53,7 +53,7 @@ void main() {
       final item = MedicationSupplyItem(
         name: 'h',
         totalDose: Decimal.parse('1'),
-        concentration: Decimal.parse('1'),
+        dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
@@ -62,7 +62,7 @@ void main() {
         name: 'h',
         id: id,
         totalDose: Decimal.parse('2'),
-        concentration: Decimal.parse('1'),
+        dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
@@ -80,7 +80,7 @@ void main() {
       final item = MedicationSupplyItem(
         name: 'h',
         totalDose: Decimal.parse('1'),
-        concentration: Decimal.parse('1'),
+        dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
@@ -97,7 +97,7 @@ void main() {
         id: 1,
         name: 'g',
         totalDose: Decimal.parse('1'),
-        concentration: Decimal.parse('1'),
+        dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );
@@ -105,7 +105,7 @@ void main() {
         id: 2,
         name: 'h',
         totalDose: Decimal.parse('2'),
-        concentration: Decimal.parse('1'),
+        dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
       );

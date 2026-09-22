@@ -188,7 +188,7 @@ MedicationSupplyItem aMedicationSupplyItem({
   String? name,
   Decimal? totalDose,
   Decimal? usedDose,
-  Decimal? concentration,
+  Decimal? dosePerUnit,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
 }) {
@@ -198,7 +198,7 @@ MedicationSupplyItem aMedicationSupplyItem({
     name: name ?? 'MedSupply-$resolvedId',
     totalDose: totalDose ?? Decimal.parse('10'),
     usedDose: usedDose ?? Decimal.parse('1'),
-    concentration: concentration ?? Decimal.parse('1'),
+    dosePerUnit: dosePerUnit ?? Decimal.parse('1'),
     molecule: KnownMolecules.estradiol,
     administrationRoute: administrationRoute,
     ester: ester,

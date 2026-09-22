@@ -327,7 +327,7 @@ void main() {
           late MedicationSupplyItem updatedSupplyItem;
           final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
-            concentration: Decimal.parse('1'),
+            dosePerUnit: Decimal.parse('1'),
           );
           final dose = Decimal.parse('2');
 
@@ -362,7 +362,7 @@ void main() {
           late MedicationSupplyItem updatedSupplyItem;
           final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
-            concentration: Decimal.parse('10'),
+            dosePerUnit: Decimal.parse('10'),
           );
           final dose = Decimal.parse('2');
           // 100 μL x 0.001 mL/μL x concentration 10 = 1 extra dose unit.
@@ -417,7 +417,7 @@ void main() {
           late MedicationSupplyItem updatedSupplyItem;
           final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
-            concentration: Decimal.parse('10'),
+            dosePerUnit: Decimal.parse('10'),
           );
           final dose = Decimal.parse('2');
 
@@ -453,7 +453,7 @@ void main() {
           late MedicationSupplyItem updatedSupplyItem;
           final supplyItem = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
-            concentration: Decimal.parse('10'),
+            dosePerUnit: Decimal.parse('10'),
           );
           final dose = Decimal.parse('2');
           // 0.5 mL x concentration 10 = 5 extra dose units.
@@ -690,7 +690,7 @@ void main() {
           final supplyItem = aMedicationSupplyItem(
             totalDose: Decimal.parse('100'),
             usedDose: Decimal.parse('20'),
-            concentration: Decimal.parse('10'),
+            dosePerUnit: Decimal.parse('10'),
           );
           final dose = Decimal.parse('2');
           // 0.5 mL x concentration 10 = 5 dose units to put back on top of dose.
@@ -730,7 +730,7 @@ void main() {
           final supplyItem = aMedicationSupplyItem(
             totalDose: Decimal.parse('100'),
             usedDose: Decimal.parse('20'),
-            concentration: Decimal.parse('10'),
+            dosePerUnit: Decimal.parse('10'),
           );
           final dose = Decimal.parse('2');
           // 100 μL x 0.001 mL/μL x concentration 10 = 1 dose unit to put back on top of dose.
@@ -770,7 +770,7 @@ void main() {
           final supplyItem = aMedicationSupplyItem(
             totalDose: Decimal.parse('100'),
             usedDose: Decimal.parse('30'),
-            concentration: Decimal.parse('10'),
+            dosePerUnit: Decimal.parse('10'),
           );
           final dose = Decimal.parse('2');
           // 0.5 mL x concentration 10 = 5 dose units.
@@ -1005,7 +1005,7 @@ void main() {
               ' takenDose + (concentration x wastedAmount)', () async {
             final next = aMedicationSupplyItem(
               usedDose: Decimal.parse('1'),
-              concentration: Decimal.parse('10'),
+              dosePerUnit: Decimal.parse('10'),
             );
             // 1 + 2 + 0.5 x 10 = 8.
             expect(
@@ -1025,7 +1025,7 @@ void main() {
             // Arrange
             final next = aMedicationSupplyItem(
               usedDose: Decimal.parse('1'),
-              concentration: Decimal.parse('10'),
+              dosePerUnit: Decimal.parse('10'),
             );
 
             // Act
@@ -1046,7 +1046,7 @@ void main() {
               ' used dose', () async {
             final previous = aMedicationSupplyItem(
               usedDose: Decimal.parse('10'),
-              concentration: Decimal.parse('10'),
+              dosePerUnit: Decimal.parse('10'),
             );
             // 10 - (2 + 0.5 x 10) = 3.
             expect(
@@ -1065,7 +1065,7 @@ void main() {
             // Arrange
             final previous = aMedicationSupplyItem(
               usedDose: Decimal.parse('10'),
-              concentration: Decimal.parse('10'),
+              dosePerUnit: Decimal.parse('10'),
             );
 
             // Act
@@ -1086,7 +1086,7 @@ void main() {
               ' old and new used dose', () async {
             final item = aMedicationSupplyItem(
               usedDose: Decimal.parse('10'),
-              concentration: Decimal.parse('10'),
+              dosePerUnit: Decimal.parse('10'),
             );
             // old: 2 + 0.5 x 10 = 7; new: 3 + 0.2 x 10 = 5; 10 + (5 - 7) = 8.
             expect(
@@ -1109,7 +1109,7 @@ void main() {
             final item = aMedicationSupplyItem(
               totalDose: Decimal.parse('100'),
               usedDose: Decimal.parse('20'),
-              concentration: Decimal.parse('10'),
+              dosePerUnit: Decimal.parse('10'),
             );
 
             // Act
@@ -1136,11 +1136,11 @@ void main() {
               () async {
             final previous = aMedicationSupplyItem(
               usedDose: Decimal.parse('10'),
-              concentration: Decimal.parse('10'),
+              dosePerUnit: Decimal.parse('10'),
             );
             final next = aMedicationSupplyItem(
               usedDose: Decimal.parse('4'),
-              concentration: Decimal.parse('10'),
+              dosePerUnit: Decimal.parse('10'),
             );
             // previous: 10 - (2 + 5) = 3; new: 4 + (3 + 2) = 9.
             expect(
@@ -1165,11 +1165,11 @@ void main() {
             ' medication, uses the new one, and swaps the generic', () async {
           final previousMedication = aMedicationSupplyItem(
             usedDose: Decimal.parse('10'),
-            concentration: Decimal.parse('10'),
+            dosePerUnit: Decimal.parse('10'),
           );
           final nextMedication = aMedicationSupplyItem(
             usedDose: Decimal.parse('4'),
-            concentration: Decimal.parse('10'),
+            dosePerUnit: Decimal.parse('10'),
           );
           final removedGeneric = aGenericSupply(amount: 5);
           final addedGeneric = aGenericSupply(amount: 2);

@@ -517,8 +517,7 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get noItemsToAdd => 'Nenhum item disponível';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose por ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dose por ${unit}';
   @override
   String get allItemsFilter => 'Todos';
   @override
@@ -1003,8 +1002,7 @@ extension on TranslationsPtBr {
           'O tempo antes de ${time} conta para o dia anterior',
       'chooseItem' => 'Escolha um item',
       'noItemsToAdd' => 'Nenhum item disponível',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose por ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose por ${unit}',
       'allItemsFilter' => 'Todos',
       'medicationItemsFilter' => 'Medicação',
       'genericItems' => 'Consumíveis',

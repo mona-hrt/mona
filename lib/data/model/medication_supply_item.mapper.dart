@@ -48,10 +48,10 @@ class MedicationSupplyItemMapper
     'totalDose',
     _$totalDose,
   );
-  static Decimal _$concentration(MedicationSupplyItem v) => v.concentration;
-  static const Field<MedicationSupplyItem, Decimal> _f$concentration = Field(
-    'concentration',
-    _$concentration,
+  static Decimal _$dosePerUnit(MedicationSupplyItem v) => v.dosePerUnit;
+  static const Field<MedicationSupplyItem, Decimal> _f$dosePerUnit = Field(
+    'dosePerUnit',
+    _$dosePerUnit,
   );
   static Decimal _$usedDose(MedicationSupplyItem v) => v.usedDose;
   static const Field<MedicationSupplyItem, Decimal> _f$usedDose = Field(
@@ -85,7 +85,7 @@ class MedicationSupplyItemMapper
     #id: _f$id,
     #name: _f$name,
     #totalDose: _f$totalDose,
-    #concentration: _f$concentration,
+    #dosePerUnit: _f$dosePerUnit,
     #usedDose: _f$usedDose,
     #molecule: _f$molecule,
     #administrationRoute: _f$administrationRoute,
@@ -105,7 +105,7 @@ class MedicationSupplyItemMapper
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       totalDose: data.dec(_f$totalDose),
-      concentration: data.dec(_f$concentration),
+      dosePerUnit: data.dec(_f$dosePerUnit),
       usedDose: data.dec(_f$usedDose),
       molecule: data.dec(_f$molecule),
       administrationRoute: data.dec(_f$administrationRoute),
@@ -182,7 +182,7 @@ abstract class MedicationSupplyItemCopyWith<
     int? id,
     String? name,
     Decimal? totalDose,
-    Decimal? concentration,
+    Decimal? dosePerUnit,
     Decimal? usedDose,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
@@ -210,7 +210,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
     Object? id = $none,
     String? name,
     Decimal? totalDose,
-    Decimal? concentration,
+    Decimal? dosePerUnit,
     Object? usedDose = $none,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
@@ -222,7 +222,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
           if (id != $none) #id: id,
           if (name != null) #name: name,
           if (totalDose != null) #totalDose: totalDose,
-          if (concentration != null) #concentration: concentration,
+          if (dosePerUnit != null) #dosePerUnit: dosePerUnit,
           if (usedDose != $none) #usedDose: usedDose,
           if (molecule != null) #molecule: molecule,
           if (administrationRoute != null)
@@ -236,7 +236,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
         id: data.get(#id, or: $value.id),
         name: data.get(#name, or: $value.name),
         totalDose: data.get(#totalDose, or: $value.totalDose),
-        concentration: data.get(#concentration, or: $value.concentration),
+        dosePerUnit: data.get(#dosePerUnit, or: $value.dosePerUnit),
         usedDose: data.get(#usedDose, or: $value.usedDose),
         molecule: data.get(#molecule, or: $value.molecule),
         administrationRoute: data.get(

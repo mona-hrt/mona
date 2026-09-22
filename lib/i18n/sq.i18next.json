@@ -168,7 +168,7 @@
   "adminRoute": "Rruga e administrimit",
   "totalAmount": "Sasia totale",
   "concentration": "Përqendrimi",
-  "concentrationLabelPerUnit": "Doza për {{unit}}",
+  "dosePerUnitLabel": "Doza për {{unit}}",
   "editItem": "Modifiko artikullin",
   "usedAmount": "Sasia e përdorur",
   "deleteItem": "Të fshihet {{name}}?",

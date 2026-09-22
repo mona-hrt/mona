@@ -41,7 +41,7 @@ void main() {
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '0',
-        'concentration': '10',
+        'dosePerUnit': '10',
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
       });
@@ -95,7 +95,7 @@ void main() {
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '10',
-        'concentration': '200',
+        'dosePerUnit': '200',
         'molecule': '{"name":"progesterone","unit":"mg"}',
         'administrationRoute': 'oral',
       });
@@ -160,7 +160,7 @@ void main() {
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '10',
-        'concentration': '200',
+        'dosePerUnit': '200',
         'molecule': '{"name":"progesterone","unit":"mg"}',
         'administrationRoute': 'oral',
       });

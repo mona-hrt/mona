@@ -36,7 +36,7 @@ class NewMedicationItemSpecificsPage extends StatefulWidget {
 class _NewMedicationItemSpecificsPageState
     extends State<NewMedicationItemSpecificsPage> {
   late TextEditingController _totalAmountController;
-  late TextEditingController _concentrationController;
+  late TextEditingController _dosePerUnitController;
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
@@ -45,8 +45,8 @@ class _NewMedicationItemSpecificsPageState
 
   String? get _totalAmountError =>
       MedicationSupplyItem.validateTotalAmount(_totalAmountController.text);
-  String? get _concentrationError =>
-      MedicationSupplyItem.validateConcentration(_concentrationController.text);
+  String? get _dosePerUnitError =>
+      MedicationSupplyItem.validateDosePerUnit(_dosePerUnitController.text);
   String? get _moleculeError =>
       MedicationSupplyItem.validateMolecule(_molecule);
   String? get _administrationRouteError =>
@@ -62,7 +62,7 @@ class _NewMedicationItemSpecificsPageState
     return route == null ? null : countUnitLabel(route, _deliveryForm, 1);
   }
 
-  String get _concentrationLabel {
+  String get _dosePerUnitLabel {
     final route = _administrationRoute;
     return route == null
         ? t.concentration
@@ -71,7 +71,7 @@ class _NewMedicationItemSpecificsPageState
 
   bool get _isFormValid =>
       _totalAmountError == null &&
-      _concentrationError == null &&
+      _dosePerUnitError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null;
@@ -135,13 +135,13 @@ class _NewMedicationItemSpecificsPageState
 
   void _addItem() async {
     final totalAmount = _totalAmountController.text.toDecimal;
-    final concentration = _concentrationController.text.toDecimal;
-    final totalDose = concentration * totalAmount;
+    final dosePerUnit = _dosePerUnitController.text.toDecimal;
+    final totalDose = dosePerUnit * totalAmount;
 
     final item = MedicationSupplyItem(
       name: widget.name,
       totalDose: totalDose,
-      concentration: concentration,
+      dosePerUnit: dosePerUnit,
       molecule: _molecule!,
       administrationRoute: _administrationRoute!,
       ester: _ester,
@@ -162,13 +162,13 @@ class _NewMedicationItemSpecificsPageState
     _preferencesService =
         Provider.of<PreferencesService>(context, listen: false);
     _totalAmountController = TextEditingController();
-    _concentrationController = TextEditingController();
+    _dosePerUnitController = TextEditingController();
   }
 
   @override
   void dispose() {
     _totalAmountController.dispose();
-    _concentrationController.dispose();
+    _dosePerUnitController.dispose();
     super.dispose();
   }
 
@@ -220,8 +220,8 @@ class _NewMedicationItemSpecificsPageState
           regexFormatter: RegexPatterns.floatNumber,
         ),
         FormTextField(
-          controller: _concentrationController,
-          label: _concentrationLabel,
+          controller: _dosePerUnitController,
+          label: _dosePerUnitLabel,
           fieldKey: const ValueKey('newMedicationItemConcentration'),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),

@@ -36,7 +36,7 @@ class EditItemPage extends StatefulWidget {
 class _EditItemPageState extends State<EditItemPage> {
   late TextEditingController _totalAmountController;
   late TextEditingController _usedAmountController;
-  late TextEditingController _concentrationController;
+  late TextEditingController _dosePerUnitController;
   late TextEditingController _nameController;
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
@@ -56,8 +56,8 @@ class _EditItemPageState extends State<EditItemPage> {
     return validator(_usedAmountController.text);
   }
 
-  String? get _concentrationError =>
-      MedicationSupplyItem.validateConcentration(_concentrationController.text);
+  String? get _dosePerUnitError =>
+      MedicationSupplyItem.validateDosePerUnit(_dosePerUnitController.text);
 
   String? get _moleculeError =>
       MedicationSupplyItem.validateMolecule(_molecule);
@@ -72,14 +72,14 @@ class _EditItemPageState extends State<EditItemPage> {
   String get _unitLabel =>
       countUnitLabel(_administrationRoute, _deliveryForm, 1);
 
-  String get _concentrationLabel =>
+  String get _dosePerUnitLabel =>
       dosePerUnitFieldLabel(_administrationRoute, _deliveryForm);
 
   bool get _isFormValid =>
       _nameError == null &&
       _totalAmountError == null &&
       _usedAmountError == null &&
-      _concentrationError == null &&
+      _dosePerUnitError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null;
@@ -140,15 +140,15 @@ class _EditItemPageState extends State<EditItemPage> {
     if (!_isFormValid) return;
     if (!mounted) return;
 
-    final concentration = _concentrationController.text.toDecimal;
-    final totalDose = concentration * _totalAmountController.text.toDecimal;
-    final usedDose = concentration * _usedAmountController.text.toDecimal;
+    final dosePerUnit = _dosePerUnitController.text.toDecimal;
+    final totalDose = dosePerUnit * _totalAmountController.text.toDecimal;
+    final usedDose = dosePerUnit * _usedAmountController.text.toDecimal;
     final ester = _useEsterField ? _ester : null;
 
     final updatedItem = widget.item.copyWith(
       name: _nameController.text,
       totalDose: totalDose,
-      concentration: concentration,
+      dosePerUnit: dosePerUnit,
       usedDose: usedDose,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
@@ -182,8 +182,8 @@ class _EditItemPageState extends State<EditItemPage> {
         widget.item.getAmount(widget.item.usedDose).toString();
     _totalAmountController = TextEditingController(text: totalAmountText);
     _usedAmountController = TextEditingController(text: usedAmountText);
-    _concentrationController =
-        TextEditingController(text: widget.item.concentration.toString());
+    _dosePerUnitController =
+        TextEditingController(text: widget.item.dosePerUnit.toString());
     _nameController = TextEditingController(text: widget.item.name);
     _molecule = widget.item.molecule;
     _administrationRoute = widget.item.administrationRoute;
@@ -199,7 +199,7 @@ class _EditItemPageState extends State<EditItemPage> {
   void dispose() {
     _totalAmountController.dispose();
     _usedAmountController.dispose();
-    _concentrationController.dispose();
+    _dosePerUnitController.dispose();
     _nameController.dispose();
     super.dispose();
   }
@@ -269,12 +269,12 @@ class _EditItemPageState extends State<EditItemPage> {
             errorText: _usedAmountError,
             regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
-          controller: _concentrationController,
-          label: _concentrationLabel,
+          controller: _dosePerUnitController,
+          label: _dosePerUnitLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: '${_molecule.unitFor(DosingBasis.mass)}/$_unitLabel',
-          errorText: _concentrationError,
+          errorText: _dosePerUnitError,
           regexFormatter: RegexPatterns.floatNumber,
         ),
       ],

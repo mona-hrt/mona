@@ -557,8 +557,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get concentration => 'Concentration';
 
   /// en: 'Dose per {unit}'
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose per ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dose per ${unit}';
 
   /// en: 'Edit item'
   String get editItem => 'Edit item';
@@ -1274,8 +1273,7 @@ extension on Translations {
       'adminRoute' => 'Administration route',
       'totalAmount' => 'Total amount',
       'concentration' => 'Concentration',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose per ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose per ${unit}',
       'editItem' => 'Edit item',
       'usedAmount' => 'Used amount',
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',
