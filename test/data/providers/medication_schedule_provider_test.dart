@@ -15,9 +15,7 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     preferences = await PreferencesService.init();
-    repo = GenericRepositoryMock<MedicationSchedule>(
-      withId: (i, id) => i.copyWith(id: id),
-    );
+    repo = GenericRepositoryMock<MedicationSchedule>();
     provider = MedicationScheduleProvider(
       repository: repo,
       preferences: preferences,

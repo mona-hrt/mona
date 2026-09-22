@@ -19,18 +19,7 @@ void main() {
   });
 
   setUp(() {
-    repo = GenericRepositoryMock<MedicationIntake>(
-      withId: (i, id) => MedicationIntake(
-          id: id,
-          takenDose: i.takenDose,
-          takenDateTime: i.takenDateTime,
-          takenTimeZone: i.takenTimeZone,
-          scheduleId: i.scheduleId,
-          molecule: i.molecule,
-          administrationRoute: i.administrationRoute,
-          ester: i.ester,
-          dosingBasis: i.dosingBasis),
-    );
+    repo = GenericRepositoryMock<MedicationIntake>();
     provider = MedicationIntakeProvider(repository: repo);
     repo.insert(MedicationIntake(
       id: 1,

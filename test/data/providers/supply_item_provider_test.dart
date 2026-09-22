@@ -51,7 +51,7 @@ void main() {
   late GenericRepositoryMock<SupplyItem> repo;
 
   setUp(() async {
-    repo = GenericRepositoryMock<SupplyItem>(withId: (item, _) => item);
+    repo = GenericRepositoryMock<SupplyItem>();
     provider = SupplyItemProvider(repository: repo);
     await pumpEventQueue();
   });
