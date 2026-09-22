@@ -15,6 +15,7 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
+import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/model/units.dart';
 
 /// A time before the [testNow] hour (noon).
@@ -27,6 +28,9 @@ const evening = TimeOfDay(hour: 20, minute: 30);
 
 int _nextId = 1;
 int _generateId() => _nextId++;
+
+Molecule aMolecule({String name = 'custom', String massUnit = 'mg'}) =>
+    Molecule(name: name, massUnit: massUnit);
 
 MedicationSchedule aMedicationSchedule({
   int? id,
@@ -204,6 +208,7 @@ MedicationSupplyItem aMedicationSupplyItem({
   Decimal? usedDose,
   Decimal? dosePerUnit,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
+  Molecule molecule = KnownMolecules.estradiol,
   Ester? ester,
   DosingBasis dosingBasis = DosingBasis.mass,
 }) {
@@ -214,14 +219,14 @@ MedicationSupplyItem aMedicationSupplyItem({
     totalDose: totalDose ?? Decimal.parse('10'),
     usedDose: usedDose ?? Decimal.parse('1'),
     dosePerUnit: dosePerUnit ?? Decimal.parse('1'),
-    molecule: KnownMolecules.estradiol,
+    molecule: molecule,
     administrationRoute: administrationRoute,
     ester: ester,
     dosingBasis: dosingBasis,
   );
 }
 
-GenericSupply aGenericSupply({
+GenericSupply aGenericSupplyItem({
   int? id,
   String? name,
   int amount = 5,
@@ -235,6 +240,16 @@ GenericSupply aGenericSupply({
     genericSupplyType: genericSupplyType,
   );
 }
+
+SupplyItem aSupplyItem({
+  int? id,
+  String? name,
+}) =>
+    switch (Random().nextInt(2)) {
+      0 => aMedicationSupplyItem(id: id, name: name),
+      1 => aGenericSupplyItem(id: id, name: name),
+      _ => throw StateError('unreachable'),
+    };
 
 /// The day after [testNow] at 09:00 UTC.
 final _tomorrowMorning = DateTime.utc(2026, 6, 2, 9, 0);
