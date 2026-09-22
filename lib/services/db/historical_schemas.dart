@@ -380,7 +380,7 @@ const String _supplyItemsV21 = '''
       amount INTEGER,
       genericSupplyType TEXT,
       deliveryForm TEXT,
-      dosingBasis TEXT NOT NULL
+      dosingBasis TEXT
     )
     ''';
 

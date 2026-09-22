@@ -12,7 +12,7 @@ const String createSupplyItemsTable = '''
       amount INTEGER,
       genericSupplyType TEXT,
       deliveryForm TEXT,
-      dosingBasis TEXT NOT NULL
+      dosingBasis TEXT
     )
     ''';
 

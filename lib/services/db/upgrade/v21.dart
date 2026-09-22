@@ -107,7 +107,7 @@ class DbUpgradeV21 implements DbUpgrade {
         amount INTEGER,
         genericSupplyType TEXT,
         deliveryForm TEXT,
-        dosingBasis TEXT NOT NULL
+        dosingBasis TEXT
       );
       ''');
 

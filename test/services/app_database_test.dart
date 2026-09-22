@@ -72,7 +72,6 @@ void main() {
         'name': 'Test generic Item',
         'amount': 5,
         'genericSupplyType': 'syringe',
-        'dosingBasis': 'mass',
       });
 
       final item = await db.query(
