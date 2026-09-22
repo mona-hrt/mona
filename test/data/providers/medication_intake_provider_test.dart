@@ -1,10 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/medication_intake.dart';
-import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import '../../fixtures.dart';
@@ -21,26 +18,12 @@ void main() {
   setUp(() {
     repo = GenericRepositoryMock<MedicationIntake>();
     provider = MedicationIntakeProvider(repository: repo);
-    repo.insert(MedicationIntake(
-      id: 1,
-      takenDose: Decimal.parse('10.5'),
-      takenDateTime: DateTime.utc(2025, 9, 12, 8, 15),
-      takenTimeZone: 'Etc/UTC',
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.gel,
-      dosingBasis: DosingBasis.mass,
-    ));
-    repo.insert(MedicationIntake(
-      id: 2,
-      takenDose: Decimal.parse('5.0'),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: AdministrationRoute.gel,
-      dosingBasis: DosingBasis.mass,
-    ));
   });
 
   group('MedicationIntakeProvider Tests', () {
     test('initialization loads intakes', () async {
+      repo.insert(aMedicationIntake(id: 1));
+      repo.insert(aMedicationIntake(id: 2));
       await provider.fetchIntakes();
       expect(provider.intakes.length, repo.items.length);
     });
@@ -65,6 +48,7 @@ void main() {
 
     test('updateIntake updates an existing item', () async {
       // Arrange
+      repo.insert(aMedicationIntake(id: 1));
       final intakeToUpdate = repo.items.first;
       final updatedIntake = aMedicationIntake(
         id: intakeToUpdate.id,
@@ -82,6 +66,10 @@ void main() {
     });
 
     test('deleteIntakeFromId removes the item', () async {
+      // Arrange
+      repo.insert(aMedicationIntake(id: 1));
+      repo.insert(aMedicationIntake(id: 2));
+
       // Act
       await provider.deleteIntakeFromId(1);
 
@@ -94,6 +82,8 @@ void main() {
 
     test('deleteIntake removes the item by object', () async {
       // Arrange
+      repo.insert(aMedicationIntake(id: 1));
+      repo.insert(aMedicationIntake(id: 2));
       final intakeToDelete = repo.items.first;
 
       // Act
@@ -107,6 +97,8 @@ void main() {
     });
 
     test('takenIntakes and notTakenIntakes return correct subsets', () async {
+      repo.insert(aMedicationIntake(id: 1));
+      repo.insert(aMedicationIntake(id: 2, taken: false));
       await provider.fetchIntakes();
       expect(
         [provider.takenIntakes, provider.notTakenIntakes],
@@ -151,20 +143,15 @@ void main() {
 
     group('getTakenIntakesForSchedule', () {
       test('returns only taken intakes for the given schedule', () async {
-        repo.insert(aMedicationIntake(
-            id: 100,
-            scheduleId: 100,
-            takenDateTime: DateTime.utc(2025, 9, 13, 8, 15)));
-        repo.insert(aMedicationIntake(
-            id: 200,
-            scheduleId: 200,
-            takenDateTime: DateTime.utc(2025, 9, 13, 8, 15)));
+        repo.insert(aMedicationIntake(scheduleId: 100));
+        repo.insert(aMedicationIntake(scheduleId: 200));
         await provider.fetchIntakes();
 
         expect(provider.getTakenIntakesDescForSchedule(100).length, 1);
       });
 
       test('returns empty list if no taken intakes for schedule', () async {
+        repo.insert(aMedicationIntake(scheduleId: 42));
         await provider.fetchIntakes();
 
         expect(provider.getTakenIntakesDescForSchedule(3), isEmpty);
@@ -278,6 +265,7 @@ void main() {
     group('getLastTakenIntakeForSchedule', () {
       test('returns null when no taken intakes exist for schedule', () async {
         // Arrange
+        repo.insert(aMedicationIntake(scheduleId: 42));
         await provider.fetchIntakes();
 
         // Act
@@ -360,7 +348,8 @@ void main() {
       });
 
       test('returns null when no injection intakes exist', () async {
-        // Arrange (default setUp inserts only gel intakes)
+        // Arrange
+        repo.insert(aMedicationIntake());
         await provider.fetchIntakes();
 
         // Act
@@ -437,7 +426,8 @@ void main() {
 
       test('getFirstGraphIntakeInstant is null when no plottable intakes',
           () async {
-        // Arrange: setUp only inserts gel intakes, which are not plottable.
+        // Arrange
+        repo.insert(aMedicationIntake());
         await provider.fetchIntakes();
 
         // Act
@@ -493,6 +483,7 @@ void main() {
 
       test('getGraphLocalStart is null when no plottable intakes', () async {
         // Arrange
+        repo.insert(aMedicationIntake());
         await provider.fetchIntakes();
 
         // Act
@@ -503,7 +494,8 @@ void main() {
       });
 
       test('excludes non-injection intakes from the graph', () async {
-        // Arrange: setUp already added gel intakes
+        // Arrange
+        repo.insert(aMedicationIntake());
         repo.insert(
             anInjection(id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 0)));
         await provider.fetchIntakes();
@@ -531,8 +523,7 @@ void main() {
       });
 
       test('a later injection gets its exact fractional offset', () async {
-        // Arrange: 12h after the baseline -> 0.5 days, not a snapped whole
-        // number.
+        // Arrange: 12h after the baseline -> 0.5 days
         repo.insert(anInjection(
             id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 23, 39)));
         repo.insert(anInjection(
@@ -551,8 +542,8 @@ void main() {
     group('firstTakenLocalDate', () {
       test('returns null when there are no taken intakes', () async {
         // Arrange
+        repo.insert(aMedicationIntake(taken: false));
         await provider.fetchIntakes();
-        await provider.deleteIntakeFromId(1);
 
         // Act
         final result = provider.firstTakenLocalDate;
