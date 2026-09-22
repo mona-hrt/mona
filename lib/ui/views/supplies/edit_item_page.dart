@@ -273,7 +273,8 @@ class _EditItemPageState extends State<EditItemPage> {
           label: _dosePerUnitLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: '${_molecule.unitFor(DosingBasis.mass)}/$_unitLabel',
+          suffixText:
+              '${_molecule.localizedUnit(DosingBasis.mass)}/$_unitLabel',
           errorText: _dosePerUnitError,
           regexFormatter: RegexPatterns.floatNumber,
         ),

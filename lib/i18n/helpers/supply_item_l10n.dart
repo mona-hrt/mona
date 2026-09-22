@@ -44,7 +44,7 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
 
   String localizedSupplyAmount(Decimal dose) {
     final amount = getAmount(dose);
-    return ' $dose ${molecule.unitFor(DosingBasis.mass)} = $amount '
+    return ' $dose ${molecule.localizedUnit(DosingBasis.mass)} = $amount '
         '${localizedUnit(amount.toDouble())}';
   }
 
@@ -60,7 +60,7 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
 
   String _localizedConcentration() {
     final routeConcentrationUnit = localizedUnit(1);
-    return '$dosePerUnit ${molecule.unitFor(DosingBasis.mass)}/$routeConcentrationUnit';
+    return '$dosePerUnit ${molecule.localizedUnit(DosingBasis.mass)}/$routeConcentrationUnit';
   }
 
   String _localizedRemaining() {

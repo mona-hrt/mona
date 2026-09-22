@@ -246,7 +246,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                 label: t.takenAmount,
                 onChanged: _onTakenDoseChanged,
                 inputType: TextInputType.numberWithOptions(decimal: true),
-                suffixText: widget.schedule.molecule.unitFor(DosingBasis.mass),
+                suffixText:
+                    widget.schedule.molecule.localizedUnit(DosingBasis.mass),
                 errorText: _takenDoseError,
                 regexFormatter: RegexPatterns.floatNumber),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)

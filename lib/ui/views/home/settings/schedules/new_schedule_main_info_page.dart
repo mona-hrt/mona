@@ -178,7 +178,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
           controller: _doseController,
           label: t.amount,
           fieldKey: const ValueKey('newScheduleAmount'),
-          suffixText: _molecule?.unitFor(DosingBasis.mass),
+          suffixText: _molecule?.localizedUnit(DosingBasis.mass),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,

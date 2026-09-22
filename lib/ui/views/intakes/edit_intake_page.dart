@@ -267,7 +267,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
               label: t.takenAmount,
               onChanged: _onTakenDoseChanged,
               inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.intake.molecule.unitFor(DosingBasis.mass),
+              suffixText:
+                  widget.intake.molecule.localizedUnit(DosingBasis.mass),
               errorText: _takenDoseError,
               regexFormatter: RegexPatterns.floatNumber,
             ),

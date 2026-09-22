@@ -15,9 +15,7 @@ extension MoleculeL10n on Molecule {
     return compound ?? '$localizedName ${ester.localizedName}';
   }
 
-  String get localizedUnit => localizedUnitString(massUnit);
-
-  String unitFor(DosingBasis basis) => switch (basis) {
+  String localizedUnit(DosingBasis basis) => switch (basis) {
         DosingBasis.mass => localizedUnitString(massUnit),
         DosingBasis.releaseRate => localizedUnitString(rateUnit ?? massUnit),
       };

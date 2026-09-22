@@ -6,7 +6,8 @@ import 'package:mona/i18n/helpers/placement_l10n.dart';
 
 extension MedicationIntakeL10n on MedicationIntake {
   String get localizedSummary {
-    final intakeString = '$takenDose ${molecule.unitFor(DosingBasis.mass)} • '
+    final intakeString =
+        '$takenDose ${molecule.localizedUnit(DosingBasis.mass)} • '
         '${molecule.localizedNameWithEster(ester)} • '
         '${administrationRoute.localizedName}';
     if (placements.isEmpty) return intakeString;

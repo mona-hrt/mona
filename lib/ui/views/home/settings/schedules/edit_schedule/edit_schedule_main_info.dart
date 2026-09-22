@@ -212,7 +212,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           label: t.amount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule.unitFor(DosingBasis.mass),
+          suffixText: _molecule.localizedUnit(DosingBasis.mass),
           errorText: _doseError,
           regexFormatter: RegexPatterns.floatNumber,
         ),

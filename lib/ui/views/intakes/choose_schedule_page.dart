@@ -57,7 +57,7 @@ class ChooseScheduleTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     final String subtitle =
-        "${schedule.dose} ${schedule.molecule.unitFor(DosingBasis.mass)} • "
+        "${schedule.dose} ${schedule.molecule.localizedUnit(DosingBasis.mass)} • "
         "${schedule.molecule.localizedNameWithEster(schedule.ester)} • "
         "${schedule.administrationRoute.localizedName}";
 

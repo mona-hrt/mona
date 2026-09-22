@@ -227,7 +227,7 @@ class _NewMedicationItemSpecificsPageState
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _molecule != null && _unitLabel != null
-              ? '${_molecule!.unitFor(DosingBasis.mass)}/$_unitLabel'
+              ? '${_molecule!.localizedUnit(DosingBasis.mass)}/$_unitLabel'
               : null,
           regexFormatter: RegexPatterns.floatNumber,
         ),

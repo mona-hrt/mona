@@ -137,7 +137,7 @@ class IntakeTileViewModel {
       return t.taken;
     }
 
-    return "${schedule.dose} ${schedule.molecule.unitFor(DosingBasis.mass)} • "
+    return "${schedule.dose} ${schedule.molecule.localizedUnit(DosingBasis.mass)} • "
         "${schedule.molecule.localizedNameWithEster(schedule.ester)}";
   }
 
