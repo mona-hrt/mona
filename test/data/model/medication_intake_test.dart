@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -19,6 +20,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         ),
         throwsArgumentError,
       );
@@ -33,6 +35,7 @@ void main() {
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         ),
         throwsArgumentError,
       );
@@ -45,12 +48,14 @@ void main() {
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       );
 
       final intakeNotTaken = MedicationIntake(
         takenDose: Decimal.one,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       );
 
       expect(
@@ -74,6 +79,7 @@ void main() {
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -93,6 +99,7 @@ void main() {
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -112,6 +119,7 @@ void main() {
               'Europe/Amsterdam', // missing from package:timezone latest.dart
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         expect(intake.takenLocalDate, Date(year: 2024, month: 6, day: 15));
@@ -127,6 +135,7 @@ void main() {
           takenTimeZone: 'America/New_York',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -144,6 +153,7 @@ void main() {
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -161,6 +171,7 @@ void main() {
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -180,6 +191,7 @@ void main() {
           takenTimeZone: 'America/New_York',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -199,6 +211,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act

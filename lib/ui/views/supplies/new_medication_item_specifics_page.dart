@@ -146,6 +146,7 @@ class _NewMedicationItemSpecificsPageState
       administrationRoute: _administrationRoute!,
       ester: _ester,
       deliveryForm: _deliveryForm,
+      dosingBasis: DosingBasis.mass,
     );
     final created =
         await Provider.of<SupplyItemProvider>(context, listen: false).add(item);

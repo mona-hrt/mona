@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/services/db/app_database.dart';
@@ -38,6 +39,7 @@ void main() {
         dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        dosingBasis: DosingBasis.mass,
       );
 
       int insertedId = await repository.insert(item);
@@ -56,6 +58,7 @@ void main() {
         dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        dosingBasis: DosingBasis.mass,
       );
       int id = await repository.insert(item);
       final updatedItem = MedicationSupplyItem(
@@ -65,6 +68,7 @@ void main() {
         dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        dosingBasis: DosingBasis.mass,
       );
 
       await repository.update(updatedItem, id);
@@ -83,6 +87,7 @@ void main() {
         dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        dosingBasis: DosingBasis.mass,
       );
       int id = await repository.insert(item);
 
@@ -100,6 +105,7 @@ void main() {
         dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        dosingBasis: DosingBasis.mass,
       );
       final item2 = MedicationSupplyItem(
         id: 2,
@@ -108,6 +114,7 @@ void main() {
         dosePerUnit: Decimal.parse('1'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        dosingBasis: DosingBasis.mass,
       );
       int id1 = await repository.insert(item1);
       int id2 = await repository.insert(item2);

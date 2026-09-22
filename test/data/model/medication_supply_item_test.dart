@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/delivery_form.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -27,6 +28,7 @@ MedicationSupplyItem makeMed({
     administrationRoute: route,
     ester: ester,
     deliveryForm: deliveryForm,
+    dosingBasis: DosingBasis.mass,
   );
 }
 

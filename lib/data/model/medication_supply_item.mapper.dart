@@ -25,6 +25,7 @@ class MedicationSupplyItemMapper
       AdministrationRouteMapper.ensureInitialized();
       EsterMapper.ensureInitialized();
       DeliveryFormMapper.ensureInitialized();
+      DosingBasisMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -79,6 +80,11 @@ class MedicationSupplyItemMapper
   static DeliveryForm? _$deliveryForm(MedicationSupplyItem v) => v.deliveryForm;
   static const Field<MedicationSupplyItem, DeliveryForm> _f$deliveryForm =
       Field('deliveryForm', _$deliveryForm, opt: true);
+  static DosingBasis _$dosingBasis(MedicationSupplyItem v) => v.dosingBasis;
+  static const Field<MedicationSupplyItem, DosingBasis> _f$dosingBasis = Field(
+    'dosingBasis',
+    _$dosingBasis,
+  );
 
   @override
   final MappableFields<MedicationSupplyItem> fields = const {
@@ -91,6 +97,7 @@ class MedicationSupplyItemMapper
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
     #deliveryForm: _f$deliveryForm,
+    #dosingBasis: _f$dosingBasis,
   };
 
   @override
@@ -111,6 +118,7 @@ class MedicationSupplyItemMapper
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
       deliveryForm: data.dec(_f$deliveryForm),
+      dosingBasis: data.dec(_f$dosingBasis),
     );
   }
 
@@ -188,6 +196,7 @@ abstract class MedicationSupplyItemCopyWith<
     AdministrationRoute? administrationRoute,
     Ester? ester,
     DeliveryForm? deliveryForm,
+    DosingBasis? dosingBasis,
   });
   MedicationSupplyItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -216,6 +225,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
     Object? deliveryForm = $none,
+    DosingBasis? dosingBasis,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -229,6 +239,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
             #administrationRoute: administrationRoute,
           if (ester != $none) #ester: ester,
           if (deliveryForm != $none) #deliveryForm: deliveryForm,
+          if (dosingBasis != null) #dosingBasis: dosingBasis,
         }),
       );
   @override
@@ -245,6 +256,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
         ),
         ester: data.get(#ester, or: $value.ester),
         deliveryForm: data.get(#deliveryForm, or: $value.deliveryForm),
+        dosingBasis: data.get(#dosingBasis, or: $value.dosingBasis),
       );
 
   @override

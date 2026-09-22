@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
@@ -27,7 +28,8 @@ void main() {
           scheduleId: i.scheduleId,
           molecule: i.molecule,
           administrationRoute: i.administrationRoute,
-          ester: i.ester),
+          ester: i.ester,
+          dosingBasis: i.dosingBasis),
     );
     provider = MedicationIntakeProvider(repository: repo);
     repo.insert(MedicationIntake(
@@ -37,12 +39,14 @@ void main() {
       takenTimeZone: 'Etc/UTC',
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.gel,
+      dosingBasis: DosingBasis.mass,
     ));
     repo.insert(MedicationIntake(
       id: 2,
       takenDose: Decimal.parse('5.0'),
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.gel,
+      dosingBasis: DosingBasis.mass,
     ));
   });
 
@@ -63,6 +67,7 @@ void main() {
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       ));
 
       // Assert
@@ -82,6 +87,7 @@ void main() {
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       );
 
       // Act
@@ -139,12 +145,14 @@ void main() {
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       ));
       provider.add(MedicationIntake(
         id: 101,
         takenDose: Decimal.parse('1.0'),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       ));
       provider.add(MedicationIntake(
         id: 102,
@@ -153,6 +161,7 @@ void main() {
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       ));
 
       final sorted = provider.takenIntakesSortedDesc;
@@ -188,6 +197,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 200,
@@ -197,6 +207,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
 
@@ -225,6 +236,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         );
 
         final result = provider.getLastIntakeLocalDateFromList([intake]);
@@ -240,6 +252,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         );
 
         final intake2 = MedicationIntake(
@@ -250,6 +263,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         );
 
         final intake3 = MedicationIntake(
@@ -260,6 +274,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         );
 
         final result = provider
@@ -277,6 +292,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         );
 
         final intake2 = MedicationIntake(
@@ -287,6 +303,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         );
 
         final result =
@@ -307,6 +324,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 101,
@@ -316,6 +334,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 102,
@@ -325,6 +344,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 103,
@@ -334,6 +354,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
         final targetDate = Date(year: 2025, month: 9, day: 13);
@@ -355,6 +376,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
         final otherDate = Date(year: 2025, month: 9, day: 14);
@@ -376,6 +398,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
         final targetDate = Date(year: 2025, month: 9, day: 13);
@@ -411,6 +434,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
 
@@ -432,6 +456,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 101,
@@ -441,6 +466,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 102,
@@ -450,6 +476,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
 
@@ -470,6 +497,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 200,
@@ -479,6 +507,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
 
@@ -522,6 +551,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
 
@@ -542,6 +572,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 101,
@@ -550,6 +581,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 102,
@@ -558,6 +590,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
 
@@ -578,6 +611,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.injection,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 200,
@@ -586,6 +620,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
 
@@ -749,6 +784,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         repo.insert(MedicationIntake(
           id: 101,
@@ -757,6 +793,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.gel,
+          dosingBasis: DosingBasis.mass,
         ));
         await provider.fetchIntakes();
 

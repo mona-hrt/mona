@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -28,6 +29,7 @@ MedicationSupplyItem defaultMedicationItem({
     molecule: molecule ?? KnownMolecules.estradiol,
     administrationRoute: route,
     ester: ester,
+    dosingBasis: DosingBasis.mass,
   );
 }
 

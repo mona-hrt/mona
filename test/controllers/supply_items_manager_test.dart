@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -29,6 +30,7 @@ void main() {
           dosePerUnit: Decimal.parse('1'),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((_) async {});
@@ -149,6 +151,7 @@ void main() {
           dosePerUnit: Decimal.parse('1'),
           molecule: KnownMolecules.progesterone,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         nextItem = baseItem.copyWith(id: 1);

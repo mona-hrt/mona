@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -35,6 +36,7 @@ MedicationSchedule aMedicationSchedule({
   Decimal? dose,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
+  DosingBasis dosingBasis = DosingBasis.mass,
 }) {
   return MedicationSchedule(
     id: id ?? _generateId(),
@@ -45,6 +47,7 @@ MedicationSchedule aMedicationSchedule({
     molecule: KnownMolecules.estradiol,
     administrationRoute: administrationRoute,
     ester: ester,
+    dosingBasis: dosingBasis,
   );
 }
 
@@ -121,6 +124,7 @@ MedicationIntake aMedicationIntake({
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
   List<Placement> placements = const [],
+  DosingBasis dosingBasis = DosingBasis.mass,
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
@@ -139,6 +143,7 @@ MedicationIntake aMedicationIntake({
       deadSpace: deadSpace,
       ester: ester,
       placements: placements,
+      dosingBasis: dosingBasis,
     );
 
 /// An estradiol injection intake (the only kind plotted on the graph),
@@ -150,6 +155,7 @@ MedicationIntake anInjection({
   Decimal? dose,
   Ester ester = Ester.valerate,
   List<Placement> placements = const [],
+  DosingBasis dosingBasis = DosingBasis.mass,
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
@@ -161,6 +167,7 @@ MedicationIntake anInjection({
       administrationRoute: AdministrationRoute.injection,
       ester: ester,
       placements: placements,
+      dosingBasis: dosingBasis,
     );
 
 BloodTest aBloodTest({
@@ -191,6 +198,7 @@ MedicationSupplyItem aMedicationSupplyItem({
   Decimal? dosePerUnit,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
+  DosingBasis dosingBasis = DosingBasis.mass,
 }) {
   final resolvedId = id ?? _generateId();
   return MedicationSupplyItem(
@@ -202,6 +210,7 @@ MedicationSupplyItem aMedicationSupplyItem({
     molecule: KnownMolecules.estradiol,
     administrationRoute: administrationRoute,
     ester: ester,
+    dosingBasis: dosingBasis,
   );
 }
 
