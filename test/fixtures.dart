@@ -117,6 +117,8 @@ MedicationIntake aMedicationIntake({
   int? id,
   int? scheduleId,
   Decimal? dose,
+  DateTime? takenDateTime,
+  bool taken = true,
   int? medicationSupplyItemId,
   List<int> genericSupplyItemIds = const [],
   Decimal? wastedAmount,
@@ -125,26 +127,31 @@ MedicationIntake aMedicationIntake({
   Ester? ester,
   List<Placement> placements = const [],
   DosingBasis dosingBasis = DosingBasis.mass,
-}) =>
-    MedicationIntake(
-      id: id ?? _generateId(),
-      takenDose: dose ?? Decimal.one,
-      takenDateTime: time != null
-          ? DateTime.utc(2025, 1, 1, time.hour, time.minute)
-          : DateTime.utc(2025, 1, 1),
-      takenTimeZone: 'Etc/UTC',
-      scheduleId: scheduleId ?? _generateId(),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: administrationRoute,
-      scheduledTime: time,
-      medicationSupplyItemId: medicationSupplyItemId,
-      genericSupplyItemIds: genericSupplyItemIds,
-      wastedAmount: wastedAmount,
-      deadSpace: deadSpace,
-      ester: ester,
-      placements: placements,
-      dosingBasis: dosingBasis,
-    );
+}) {
+  final takenAt = !taken
+      ? null
+      : takenDateTime ??
+          (time != null
+              ? DateTime.utc(2025, 1, 1, time.hour, time.minute)
+              : DateTime.utc(2025, 1, 1));
+  return MedicationIntake(
+    id: id ?? _generateId(),
+    takenDose: dose ?? Decimal.one,
+    takenDateTime: takenAt,
+    takenTimeZone: takenAt != null ? 'Etc/UTC' : null,
+    scheduleId: scheduleId ?? _generateId(),
+    molecule: KnownMolecules.estradiol,
+    administrationRoute: administrationRoute,
+    scheduledTime: time,
+    medicationSupplyItemId: medicationSupplyItemId,
+    genericSupplyItemIds: genericSupplyItemIds,
+    wastedAmount: wastedAmount,
+    deadSpace: deadSpace,
+    ester: ester,
+    placements: placements,
+    dosingBasis: dosingBasis,
+  );
+}
 
 /// An estradiol injection intake (the only kind plotted on the graph),
 /// pinned to an exact UTC [takenDateTime].
