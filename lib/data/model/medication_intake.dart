@@ -26,7 +26,7 @@ part 'medication_intake.mapper.dart';
 class MedicationIntake with MedicationIntakeMappable {
   final int id;
   final TimeOfDay? scheduledTime;
-  final DateTime? takenDateTime;
+  final DateTime? takenDateTime; // todo make non nullable ?
   final String? takenTimeZone;
   final Decimal takenDose;
   final Decimal? wastedAmount; // mL
