@@ -2,10 +2,9 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
-import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
-import 'package:mona/data/model/molecule.dart';
+import '../fixtures.dart';
 import '../mocks/mocks.mocks.dart';
 
 void main() {
@@ -22,13 +21,9 @@ void main() {
       late MedicationSupplyItem item;
 
       setUp(() {
-        item = MedicationSupplyItem(
-          name: 'h',
+        item = aMedicationSupplyItem(
           totalDose: Decimal.parse('10'),
           usedDose: Decimal.parse('5'),
-          concentration: Decimal.parse('1'),
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.oral,
         );
 
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((_) async {});
@@ -79,11 +74,7 @@ void main() {
       test('decrements amount by 1', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = GenericSupply(
-            id: 7,
-            name: 'Syringe',
-            amount: 5,
-            genericSupplyType: GenericSupplyType.syringe);
+        final item = aGenericSupplyItem(amount: 5);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
@@ -98,11 +89,7 @@ void main() {
       test('clamps amount at zero when already empty', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = GenericSupply(
-            id: 9,
-            name: 'Syringe',
-            amount: 0,
-            genericSupplyType: GenericSupplyType.syringe);
+        final item = aGenericSupplyItem(amount: 0);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
@@ -119,11 +106,7 @@ void main() {
       test('increments amount by 1', () async {
         // Arrange
         late GenericSupply updatedItem;
-        final item = GenericSupply(
-            id: 7,
-            name: 'Syringe',
-            amount: 5,
-            genericSupplyType: GenericSupplyType.syringe);
+        final item = aGenericSupplyItem(amount: 5);
         when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
           updatedItem = inv.positionalArguments.first as GenericSupply;
         });
@@ -141,14 +124,10 @@ void main() {
       late MedicationSupplyItem nextItem;
 
       setUp(() {
-        baseItem = MedicationSupplyItem(
+        baseItem = aMedicationSupplyItem(
           id: 0,
-          name: 'progesterone',
           totalDose: Decimal.parse('30'),
           usedDose: Decimal.parse('10'),
-          concentration: Decimal.parse('1'),
-          molecule: KnownMolecules.progesterone,
-          administrationRoute: AdministrationRoute.oral,
         );
 
         nextItem = baseItem.copyWith(id: 1);

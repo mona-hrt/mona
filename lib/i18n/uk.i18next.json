@@ -285,7 +285,7 @@
   "startOfDayDescription": "Час до {{time}} зараховується до попереднього дня",
   "chooseItem": "Виберіть препарат",
   "noItemsToAdd": "Немає доступних препаратів",
-  "concentrationLabelPerUnit": "Доза на {{unit}}",
+  "dosePerUnitLabel": "Доза на {{unit}}",
   "allItemsFilter": "Усі",
   "medicationItemsFilter": "Ліки",
   "genericItems": "Витратні матеріали",

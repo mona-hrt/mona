@@ -32,9 +32,4 @@ extension AdministrationRouteL10n on AdministrationRoute {
         AdministrationRoute.transdermalDrops =>
           t.administrationRouteUnitMl(count: count),
       };
-
-  String get localizedConcentrationLabel =>
-      this == AdministrationRoute.injection
-          ? t.concentration
-          : t.concentrationLabelPerUnit(unit: localizedUnit(1));
 }

@@ -551,8 +551,7 @@ class TranslationsSk extends Translations
   @override
   String get placementRightAbdomen => 'Pravá abdominálna oblasť';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dávka na ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dávka na ${unit}';
   @override
   String get HrtCounter => 'Čas na HRT';
   @override
@@ -1020,8 +1019,7 @@ extension on TranslationsSk {
       'placementRightButtock' => 'Pravý sedací sval',
       'placementLeftAbdomen' => 'Ľavá abdominálna oblasť',
       'placementRightAbdomen' => 'Pravá abdominálna oblasť',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dávka na ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dávka na ${unit}',
       'HrtCounter' => 'Čas na HRT',
       'hrtWidgetPlaceholder' => 'Otvorte Mona a zaznamenajte svoje prvé dávky',
       'hrtWidgetPreviewSample' => 'Na HRT 8 mesiacov',

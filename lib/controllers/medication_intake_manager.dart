@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -56,6 +57,7 @@ class MedicationIntakeManager {
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
       placements: placements,
+      dosingBasis: DosingBasis.mass,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);

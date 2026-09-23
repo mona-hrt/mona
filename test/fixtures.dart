@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -14,6 +15,7 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
+import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/model/units.dart';
 
 /// A time before the [testNow] hour (noon).
@@ -27,6 +29,9 @@ const evening = TimeOfDay(hour: 20, minute: 30);
 int _nextId = 1;
 int _generateId() => _nextId++;
 
+Molecule aMolecule({String name = 'custom', String massUnit = 'mg'}) =>
+    Molecule(name: name, massUnit: massUnit);
+
 MedicationSchedule aMedicationSchedule({
   int? id,
   String? name,
@@ -35,6 +40,7 @@ MedicationSchedule aMedicationSchedule({
   Decimal? dose,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
+  DosingBasis dosingBasis = DosingBasis.mass,
 }) {
   return MedicationSchedule(
     id: id ?? _generateId(),
@@ -45,6 +51,7 @@ MedicationSchedule aMedicationSchedule({
     molecule: KnownMolecules.estradiol,
     administrationRoute: administrationRoute,
     ester: ester,
+    dosingBasis: dosingBasis,
   );
 }
 
@@ -114,6 +121,8 @@ MedicationIntake aMedicationIntake({
   int? id,
   int? scheduleId,
   Decimal? dose,
+  DateTime? takenDateTime,
+  bool taken = true,
   int? medicationSupplyItemId,
   List<int> genericSupplyItemIds = const [],
   Decimal? wastedAmount,
@@ -121,25 +130,32 @@ MedicationIntake aMedicationIntake({
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
   List<Placement> placements = const [],
-}) =>
-    MedicationIntake(
-      id: id ?? _generateId(),
-      takenDose: dose ?? Decimal.one,
-      takenDateTime: time != null
-          ? DateTime.utc(2025, 1, 1, time.hour, time.minute)
-          : DateTime.utc(2025, 1, 1),
-      takenTimeZone: 'Etc/UTC',
-      scheduleId: scheduleId ?? _generateId(),
-      molecule: KnownMolecules.estradiol,
-      administrationRoute: administrationRoute,
-      scheduledTime: time,
-      medicationSupplyItemId: medicationSupplyItemId,
-      genericSupplyItemIds: genericSupplyItemIds,
-      wastedAmount: wastedAmount,
-      deadSpace: deadSpace,
-      ester: ester,
-      placements: placements,
-    );
+  DosingBasis dosingBasis = DosingBasis.mass,
+}) {
+  final takenAt = !taken
+      ? null
+      : takenDateTime ??
+          (time != null
+              ? DateTime.utc(2025, 1, 1, time.hour, time.minute)
+              : DateTime.utc(2025, 1, 1));
+  return MedicationIntake(
+    id: id ?? _generateId(),
+    takenDose: dose ?? Decimal.one,
+    takenDateTime: takenAt,
+    takenTimeZone: takenAt != null ? 'Etc/UTC' : null,
+    scheduleId: scheduleId ?? _generateId(),
+    molecule: KnownMolecules.estradiol,
+    administrationRoute: administrationRoute,
+    scheduledTime: time,
+    medicationSupplyItemId: medicationSupplyItemId,
+    genericSupplyItemIds: genericSupplyItemIds,
+    wastedAmount: wastedAmount,
+    deadSpace: deadSpace,
+    ester: ester,
+    placements: placements,
+    dosingBasis: dosingBasis,
+  );
+}
 
 /// An estradiol injection intake (the only kind plotted on the graph),
 /// pinned to an exact UTC [takenDateTime].
@@ -150,6 +166,7 @@ MedicationIntake anInjection({
   Decimal? dose,
   Ester ester = Ester.valerate,
   List<Placement> placements = const [],
+  DosingBasis dosingBasis = DosingBasis.mass,
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
@@ -161,6 +178,7 @@ MedicationIntake anInjection({
       administrationRoute: AdministrationRoute.injection,
       ester: ester,
       placements: placements,
+      dosingBasis: dosingBasis,
     );
 
 BloodTest aBloodTest({
@@ -188,9 +206,11 @@ MedicationSupplyItem aMedicationSupplyItem({
   String? name,
   Decimal? totalDose,
   Decimal? usedDose,
-  Decimal? concentration,
+  Decimal? dosePerUnit,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
+  Molecule molecule = KnownMolecules.estradiol,
   Ester? ester,
+  DosingBasis dosingBasis = DosingBasis.mass,
 }) {
   final resolvedId = id ?? _generateId();
   return MedicationSupplyItem(
@@ -198,14 +218,15 @@ MedicationSupplyItem aMedicationSupplyItem({
     name: name ?? 'MedSupply-$resolvedId',
     totalDose: totalDose ?? Decimal.parse('10'),
     usedDose: usedDose ?? Decimal.parse('1'),
-    concentration: concentration ?? Decimal.parse('1'),
-    molecule: KnownMolecules.estradiol,
+    dosePerUnit: dosePerUnit ?? Decimal.parse('1'),
+    molecule: molecule,
     administrationRoute: administrationRoute,
     ester: ester,
+    dosingBasis: dosingBasis,
   );
 }
 
-GenericSupply aGenericSupply({
+GenericSupply aGenericSupplyItem({
   int? id,
   String? name,
   int amount = 5,
@@ -219,6 +240,16 @@ GenericSupply aGenericSupply({
     genericSupplyType: genericSupplyType,
   );
 }
+
+SupplyItem aSupplyItem({
+  int? id,
+  String? name,
+}) =>
+    switch (Random().nextInt(2)) {
+      0 => aMedicationSupplyItem(id: id, name: name),
+      1 => aGenericSupplyItem(id: id, name: name),
+      _ => throw StateError('unreachable'),
+    };
 
 /// The day after [testNow] at 09:00 UTC.
 final _tomorrowMorning = DateTime.utc(2026, 6, 2, 9, 0);

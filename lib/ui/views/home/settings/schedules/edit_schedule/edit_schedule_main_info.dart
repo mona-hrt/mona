@@ -3,6 +3,7 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -211,7 +212,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           label: t.amount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule.localizedUnit,
+          suffixText: _molecule.localizedUnit(DosingBasis.mass),
           errorText: _doseError,
           regexFormatter: RegexPatterns.floatNumber,
         ),

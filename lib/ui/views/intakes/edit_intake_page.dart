@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -266,16 +267,14 @@ class _EditIntakePageState extends State<EditIntakePage> {
               label: t.takenAmount,
               onChanged: _onTakenDoseChanged,
               inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.intake.molecule.localizedUnit,
+              suffixText:
+                  widget.intake.molecule.localizedUnit(DosingBasis.mass),
               errorText: _takenDoseError,
               regexFormatter: RegexPatterns.floatNumber,
             ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
-                infoText: supplyItem.localizedSupplyAmount(
-                  _takenDose,
-                  widget.intake.molecule,
-                ),
+                infoText: supplyItem.localizedSupplyAmount(_takenDose),
               ),
             FormSpacer(),
             IntakeSupplyPicker(

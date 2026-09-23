@@ -558,8 +558,7 @@ class TranslationsDe extends Translations
   @override
   String get noItemsToAdd => 'Keine Einträge verfügbar';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dosis pro ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dosis pro ${unit}';
   @override
   String get applicationSitesDescription =>
       'Verwalte die Stellen, zwischen denen du wechselst';
@@ -1028,8 +1027,7 @@ extension on TranslationsDe {
           'Zeit vor ${time} zählt zum vorherigen Tag',
       'chooseItem' => 'Eintrag auswählen',
       'noItemsToAdd' => 'Keine Einträge verfügbar',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dosis pro ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dosis pro ${unit}',
       'applicationSitesDescription' =>
         'Verwalte die Stellen, zwischen denen du wechselst',
       'placementSuggestionPerScheduleTitle' => 'Pro Zeitplan vorschlagen',

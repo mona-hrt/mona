@@ -274,7 +274,7 @@
   "supplyItem": "Voorraaditem",
   "needleDeadSpace": "Dode ruimte van de naald",
   "adminRoute": "Toedieningsweg",
-  "concentrationLabelPerUnit": "Dosis per {{unit}}",
+  "dosePerUnitLabel": "Dosis per {{unit}}",
   "bandageRemaining_one": "Nog 1 verband over",
   "bandageRemaining_other": "Nog {{count}} verbanden over",
   "medicationTestosteroneEnanthate": "Testosteron-enanthaat",

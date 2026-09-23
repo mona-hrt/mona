@@ -287,7 +287,7 @@
   "startOfDayDescription": "El tiempo antes de las {{time}} cuenta para el día anterior",
   "chooseItem": "Elige un elemento",
   "noItemsToAdd": "No hay elementos disponibles",
-  "concentrationLabelPerUnit": "Dosis por {{unit}}",
+  "dosePerUnitLabel": "Dosis por {{unit}}",
   "allItemsFilter": "Todos",
   "genericItems": "Consumibles",
   "genericItemType": "Consumible",

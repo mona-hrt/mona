@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
@@ -56,7 +57,7 @@ class ChooseScheduleTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     final String subtitle =
-        "${schedule.dose} ${schedule.molecule.localizedUnit} • "
+        "${schedule.dose} ${schedule.molecule.localizedUnit(DosingBasis.mass)} • "
         "${schedule.molecule.localizedNameWithEster(schedule.ester)} • "
         "${schedule.administrationRoute.localizedName}";
 
