@@ -180,6 +180,8 @@
   "totalAmount": "Total amount",
   "concentration": "Concentration",
   "dosePerUnitLabel": "Dose per {{unit}}",
+  "dosingBasisMass": "Total dose",
+  "dosingBasisReleaseRate": "Release rate",
   "editItem": "Edit item",
   "usedAmount": "Used amount",
   "deleteItem": "Delete {{name}}?",

@@ -190,6 +190,8 @@
   "totalAmount": "Quantité totale",
   "concentration": "Concentration",
   "dosePerUnitLabel": "Dose par {{unit}}",
+  "dosingBasisMass": "Dose totale",
+  "dosingBasisReleaseRate": "Débit de libération",
   "editItem": "Modifier l'élément",
   "usedAmount": "Quantité utilisée",
   "deleteItem": "Supprimer {{name}} ?",

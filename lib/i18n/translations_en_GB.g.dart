@@ -401,6 +401,10 @@ class TranslationsEnGb extends Translations
   @override
   String dosePerUnitLabel({required Object unit}) => 'Dose per ${unit}';
   @override
+  String get dosingBasisMass => 'Total dose';
+  @override
+  String get dosingBasisReleaseRate => 'Release rate';
+  @override
   String get editItem => 'Edit item';
   @override
   String get usedAmount => 'Used amount';
@@ -986,6 +990,8 @@ extension on TranslationsEnGb {
       'totalAmount' => 'Total amount',
       'concentration' => 'Concentration',
       'dosePerUnitLabel' => ({required Object unit}) => 'Dose per ${unit}',
+      'dosingBasisMass' => 'Total dose',
+      'dosingBasisReleaseRate' => 'Release rate',
       'editItem' => 'Edit item',
       'usedAmount' => 'Used amount',
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',

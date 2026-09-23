@@ -412,6 +412,10 @@ class TranslationsFr extends Translations
   @override
   String dosePerUnitLabel({required Object unit}) => 'Dose par ${unit}';
   @override
+  String get dosingBasisMass => 'Dose totale';
+  @override
+  String get dosingBasisReleaseRate => 'Débit de libération';
+  @override
   String get editItem => 'Modifier l\'élément';
   @override
   String get usedAmount => 'Quantité utilisée';
@@ -558,7 +562,7 @@ class TranslationsFr extends Translations
   @override
   String get unitMilligram => 'mg';
   @override
-  String get unitMicrogramPerDay => 'µg/jour';
+  String get unitMicrogramPerDay => 'µg/j';
   @override
   String get unitPgPerMl => 'pg/mL';
   @override
@@ -1032,6 +1036,8 @@ extension on TranslationsFr {
       'totalAmount' => 'Quantité totale',
       'concentration' => 'Concentration',
       'dosePerUnitLabel' => ({required Object unit}) => 'Dose par ${unit}',
+      'dosingBasisMass' => 'Dose totale',
+      'dosingBasisReleaseRate' => 'Débit de libération',
       'editItem' => 'Modifier l\'élément',
       'usedAmount' => 'Quantité utilisée',
       'deleteItem' => ({required Object name}) => 'Supprimer ${name} ?',
@@ -1106,7 +1112,7 @@ extension on TranslationsFr {
       'deliveryFormSachet' => 'Sachet',
       'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
-      'unitMicrogramPerDay' => 'µg/jour',
+      'unitMicrogramPerDay' => 'µg/j',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
