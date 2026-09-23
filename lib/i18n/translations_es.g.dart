@@ -86,7 +86,7 @@ class TranslationsEs extends Translations
   @override
   String get neverTakenYet => 'Aún no tomado';
   @override
-  String get scheduleFrequencyDaily => 'Cada día';
+  String get scheduleFrequencyDaily => 'Diariamente';
   @override
   String get scheduleFrequencyInterval => 'Intervalo';
   @override
@@ -773,7 +773,7 @@ extension on TranslationsEs {
       'tomorrow' => 'mañana',
       'lastTaken' => 'Última toma',
       'neverTakenYet' => 'Aún no tomado',
-      'scheduleFrequencyDaily' => 'Cada día',
+      'scheduleFrequencyDaily' => 'Diariamente',
       'scheduleFrequencyInterval' => 'Intervalo',
       'scheduleFrequencyWeekly' => 'Semanal',
       'newUpdateAvailable' => '¡Hay una nueva actualización disponible!',

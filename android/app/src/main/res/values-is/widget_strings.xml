@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="hrt_widget_title">Tíma á HRT</string>
     <string name="hrt_widget_description">Sýnið hversu lengi þið hafið verið á HRT og heildarinntöku ykkar</string>
+    <string name="hrt_home_widget_placeholder">Opnaðu Mona til að skrá fyrstu inntöku þína</string>
+    <string name="hrt_widget_preview_sample">Á HRT í 8 mánuði</string>
+    <string name="hrt_widget_preview_intake_sample">16 inntökur skráðar</string>
 </resources>

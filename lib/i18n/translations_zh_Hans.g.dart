@@ -576,6 +576,24 @@ class TranslationsZhHans extends Translations
   @override
   String get cannotExceedTotalCapacity => '不能超过总容量';
   @override
+  String get backupSaved => '备份已保存';
+  @override
+  String get secretSettings => '隐藏设置';
+  @override
+  String get slimeMode => '史莱姆模式';
+  @override
+  String get week => '周';
+  @override
+  String get twoWeeks => '2周';
+  @override
+  String get threeMonths => '3个月';
+  @override
+  String get sixMonths => '6个月';
+  @override
+  String get month => '1个月';
+  @override
+  String get year => '年';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('zh'))(
         count,
@@ -1003,6 +1021,15 @@ extension on TranslationsZhHans {
       'mustBeAtMost' => ({required Object max}) => '不能超过 ${max}',
       'invalidTotalAmount' => '总量无效',
       'cannotExceedTotalCapacity' => '不能超过总容量',
+      'backupSaved' => '备份已保存',
+      'secretSettings' => '隐藏设置',
+      'slimeMode' => '史莱姆模式',
+      'week' => '周',
+      'twoWeeks' => '2周',
+      'threeMonths' => '3个月',
+      'sixMonths' => '6个月',
+      'month' => '1个月',
+      'year' => '年',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('zh'))(
             count,

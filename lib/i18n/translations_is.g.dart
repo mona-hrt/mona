@@ -552,6 +552,74 @@ class TranslationsIs extends Translations
   @override
   String get noItemsToAdd => 'Engar atriði tiltækar';
   @override
+  String get asNeeded => 'Eftir þörfum';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Á hverjum degi, á ákveðnum tímum';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Á nokkurra daga fresti';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Ákveðnir dagar vikunnar';
+  @override
+  String get scheduleFrequencyMonthlyDescription => 'Sama dag í hverjum mánuði';
+  @override
+  String get scheduleFrequencyAsNeeded => 'Eftir þörfum';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'Engin föst tímaáætlun';
+  @override
+  String get backupSaved => 'Öryggisafrit vistað';
+  @override
+  String get secretSettings => 'Leyndarmálsstillingar';
+  @override
+  String get slimeMode => 'Slímstilling';
+  @override
+  String get HrtCounter => 'Tíma á HRT';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Opnaðu Mona til að skrá fyrstu inntöku þína';
+  @override
+  String get hrtWidgetPreviewSample => 'Á HRT í 8 mánuði';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 inntökur skráðar';
+  @override
+  String get empty_levels =>
+      'Bættu við blóðprufu eða skráðu estradíólsprautu til að byrja';
+  @override
+  String get estradiolLevelsTitle => 'Estradíólstig';
+  @override
+  String get week => 'Vik';
+  @override
+  String get twoWeeks => '2 Vik';
+  @override
+  String get threeMonths => '3 Mánu';
+  @override
+  String get sixMonths => '6 Mánu';
+  @override
+  String get month => 'Mánu';
+  @override
+  String get year => 'Ár';
+  @override
+  String dosePerUnitLabel({required Object unit}) =>
+      'Skammtur á hverja ${unit}';
+  @override
+  String get deliveryForm => 'Neysluaðferð';
+  @override
+  String get deliveryFormPump => 'Dæla';
+  @override
+  String get deliveryFormSachet => 'Poki';
+  @override
+  String get deliveryFormGram => 'Rör';
+  @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
+  String get applicationSites => 'Umsóknarsíður';
+  @override
+  String get applicationSitesInstructions =>
+      'Stjórnaðu stöðunum sem þú skiptist á milli. Staðsetningar eru lagðar til út frá inntökusögu þinni. Haltu inni til að endurraða.';
+  @override
+  String mustBeAtMost({required Object max}) =>
+      'Verður að vera í mesta lagi ${max}';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
@@ -712,6 +780,20 @@ class TranslationsIs extends Translations
         count,
         one: '1 inntaka skráð',
         other: '${count} inntökur skráðar',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'Poki',
+        other: 'Pokar',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'gramm',
+        other: 'grömm',
       );
 }
 
@@ -986,6 +1068,41 @@ extension on TranslationsIs {
         'Áætlar næstu inntöku með fullu millibili eftir að þú tókst hana síðast',
       'chooseItem' => 'Veldu atriði',
       'noItemsToAdd' => 'Engar atriði tiltækar',
+      'asNeeded' => 'Eftir þörfum',
+      'scheduleFrequencyDailyDescription' => 'Á hverjum degi, á ákveðnum tímum',
+      'scheduleFrequencyIntervalDescription' => 'Á nokkurra daga fresti',
+      'scheduleFrequencyWeeklyDescription' => 'Ákveðnir dagar vikunnar',
+      'scheduleFrequencyMonthlyDescription' => 'Sama dag í hverjum mánuði',
+      'scheduleFrequencyAsNeeded' => 'Eftir þörfum',
+      'scheduleFrequencyAsNeededDescription' => 'Engin föst tímaáætlun',
+      'backupSaved' => 'Öryggisafrit vistað',
+      'secretSettings' => 'Leyndarmálsstillingar',
+      'slimeMode' => 'Slímstilling',
+      'HrtCounter' => 'Tíma á HRT',
+      'hrtWidgetPlaceholder' => 'Opnaðu Mona til að skrá fyrstu inntöku þína',
+      'hrtWidgetPreviewSample' => 'Á HRT í 8 mánuði',
+      'hrtWidgetPreviewIntakeSample' => '16 inntökur skráðar',
+      'empty_levels' =>
+        'Bættu við blóðprufu eða skráðu estradíólsprautu til að byrja',
+      'estradiolLevelsTitle' => 'Estradíólstig',
+      'week' => 'Vik',
+      'twoWeeks' => '2 Vik',
+      'threeMonths' => '3 Mánu',
+      'sixMonths' => '6 Mánu',
+      'month' => 'Mánu',
+      'year' => 'Ár',
+      'dosePerUnitLabel' => ({required Object unit}) =>
+          'Skammtur á hverja ${unit}',
+      'deliveryForm' => 'Neysluaðferð',
+      'deliveryFormPump' => 'Dæla',
+      'deliveryFormSachet' => 'Poki',
+      'deliveryFormGram' => 'Rör',
+      'unitNgPerMl' => 'ng/mL',
+      'applicationSites' => 'Umsóknarsíður',
+      'applicationSitesInstructions' =>
+        'Stjórnaðu stöðunum sem þú skiptist á milli. Staðsetningar eru lagðar til út frá inntökusögu þinni. Haltu inni til að endurraða.',
+      'mustBeAtMost' => ({required Object max}) =>
+          'Verður að vera í mesta lagi ${max}',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
@@ -1124,6 +1241,18 @@ extension on TranslationsIs {
             count,
             one: '1 inntaka skráð',
             other: '${count} inntökur skráðar',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'Poki',
+            other: 'Pokar',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'gramm',
+            other: 'grömm',
           ),
       _ => null,
     };
