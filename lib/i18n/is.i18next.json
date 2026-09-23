@@ -301,7 +301,7 @@
   "sixMonths": "6 Mánu",
   "month": "Mánu",
   "year": "Ár",
-  "concentrationLabelPerUnit": "Skammtur á hverja {{unit}}",
+  "dosePerUnitLabel": "Skammtur á hverja {{unit}}",
   "deliveryForm": "Neysluaðferð",
   "deliveryFormPump": "Dæla",
   "deliveryFormSachet": "Poki",
