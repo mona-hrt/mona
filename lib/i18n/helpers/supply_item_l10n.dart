@@ -1,8 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/delivery_form.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
+import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
 import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
@@ -26,6 +28,23 @@ String dosePerUnitFieldLabel(
         : t.dosePerUnitLabel(
             unit: countUnitLabel(route, deliveryForm, 1),
           );
+
+bool isQuantifiable(AdministrationRoute route, DeliveryForm? deliveryForm) {
+  if (deliveryForm != null) return deliveryForm != DeliveryForm.gram;
+  return route != AdministrationRoute.injection &&
+      route != AdministrationRoute.transdermalDrops;
+}
+
+String doseUnitLabel(
+  Molecule molecule,
+  DosingBasis dosingBasis,
+  AdministrationRoute route,
+  DeliveryForm? deliveryForm,
+) {
+  final doseUnit = molecule.localizedUnit(dosingBasis);
+  if (isQuantifiable(route, deliveryForm)) return doseUnit;
+  return '$doseUnit/${countUnitLabel(route, deliveryForm, 1)}';
+}
 
 extension SupplyItemL10n on SupplyItem {
   String get localizedSummary {
@@ -58,8 +77,8 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
   }
 
   String _localizedConcentration() {
-    final routeConcentrationUnit = localizedUnit(1);
-    return '$dosePerUnit ${molecule.localizedUnit(dosingBasis)}/$routeConcentrationUnit';
+    return '$dosePerUnit '
+        '${doseUnitLabel(molecule, dosingBasis, administrationRoute, deliveryForm)}';
   }
 
   String _localizedRemaining() {

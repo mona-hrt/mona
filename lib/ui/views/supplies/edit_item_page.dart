@@ -7,7 +7,6 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -297,7 +296,12 @@ class _EditItemPageState extends State<EditItemPage> {
           label: _dosePerUnitLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: '${_molecule.localizedUnit(_dosingBasis)}/$_unitLabel',
+          suffixText: doseUnitLabel(
+            _molecule,
+            _dosingBasis,
+            _administrationRoute,
+            _deliveryForm,
+          ),
           errorText: _dosePerUnitError,
           regexFormatter: RegexPatterns.floatNumber,
         ),
