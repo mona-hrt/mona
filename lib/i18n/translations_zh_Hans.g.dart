@@ -365,7 +365,7 @@ class TranslationsZhHans extends Translations
   @override
   String get concentration => '浓度';
   @override
-  String concentrationLabelPerUnit({required Object unit}) => '每 ${unit} 剂量';
+  String dosePerUnitLabel({required Object unit}) => '每 ${unit} 剂量';
   @override
   String get editItem => '编辑物品';
   @override
@@ -898,7 +898,7 @@ extension on TranslationsZhHans {
       'adminRoute' => '给药途径',
       'totalAmount' => '总量',
       'concentration' => '浓度',
-      'concentrationLabelPerUnit' => ({required Object unit}) => '每 ${unit} 剂量',
+      'dosePerUnitLabel' => ({required Object unit}) => '每 ${unit} 剂量',
       'editItem' => '编辑物品',
       'usedAmount' => '已用量',
       'deleteItem' => ({required Object name}) => '删除 ${name}？',

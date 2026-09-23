@@ -515,7 +515,7 @@ class TranslationsRu extends Translations
   @override
   String get noItemsToAdd => 'Нет доступных препаратов';
   @override
-  String concentrationLabelPerUnit({required Object unit}) => 'Доза на ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Доза на ${unit}';
   @override
   String get allItemsFilter => 'Все';
   @override
@@ -998,8 +998,7 @@ extension on TranslationsRu {
           'Время до ${time} засчитывается к предыдущему дню',
       'chooseItem' => 'Выберите препарат',
       'noItemsToAdd' => 'Нет доступных препаратов',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Доза на ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Доза на ${unit}',
       'allItemsFilter' => 'Все',
       'medicationItemsFilter' => 'Лекарства',
       'genericItems' => 'Расходники',

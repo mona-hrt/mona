@@ -59,3 +59,6 @@ lib/i18n/generated/
 
 # VS Code related
 .vscode/
+
+# Widget Preview related
+.widget_preview/

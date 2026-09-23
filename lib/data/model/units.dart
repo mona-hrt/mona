@@ -81,6 +81,7 @@ enum TestosteroneUnit implements Unit<TestosteroneUnit> {
   }
 }
 
+@Deprecated("directly use EstradiolUnit and TestosteroneUnit instead")
 enum Units {
   // ignore: constant_identifier_names
   pg_mL_ng_dL(

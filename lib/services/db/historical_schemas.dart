@@ -366,6 +366,61 @@ const String _bloodTestsV20 = '''
     )
     ''';
 
+const String _supplyItemsV21 = '''
+    CREATE TABLE supply_items(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      type TEXT NOT NULL,
+      name TEXT NOT NULL,
+      totalDose TEXT,
+      usedDose TEXT,
+      dosePerUnit TEXT,
+      molecule TEXT,
+      administrationRoute TEXT,
+      ester TEXT,
+      amount INTEGER,
+      genericSupplyType TEXT,
+      deliveryForm TEXT,
+      dosingBasis TEXT
+    )
+    ''';
+
+const String _medicationIntakesV21 = '''
+    CREATE TABLE medication_intakes(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      scheduledTime TEXT,
+      takenDateTime TEXT,
+      takenTimeZone TEXT,
+      takenDose TEXT NOT NULL,
+      wastedAmount TEXT,
+      deadSpace TEXT,
+      scheduleId INTEGER,
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      medicationSupplyItemId INTEGER,
+      genericSupplyItemIds TEXT NOT NULL,
+      notes TEXT,
+      placements TEXT NOT NULL,
+      dosingBasis TEXT NOT NULL,
+      FOREIGN KEY (medicationSupplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL,
+      FOREIGN KEY (scheduleId) REFERENCES medication_schedules(id) ON DELETE SET NULL
+    )
+    ''';
+
+const String _medicationSchedulesV21 = '''
+    CREATE TABLE medication_schedules(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      dose TEXT NOT NULL,
+      startDate TEXT NOT NULL,
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      scheduling TEXT NOT NULL,
+      dosingBasis TEXT NOT NULL
+    )
+    ''';
+
 const Map<int, List<String>> _historicalSchemas = {
   4: [
     _supplyItemsV4,
@@ -467,6 +522,12 @@ const Map<int, List<String>> _historicalSchemas = {
     _supplyItemsV19,
     _medicationIntakesV16,
     _medicationSchedulesV13,
+    _bloodTestsV20,
+  ],
+  21: [
+    _supplyItemsV21,
+    _medicationIntakesV21,
+    _medicationSchedulesV21,
     _bloodTestsV20,
   ],
 };

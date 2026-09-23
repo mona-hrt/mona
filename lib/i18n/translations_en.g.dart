@@ -557,8 +557,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get concentration => 'Concentration';
 
   /// en: 'Dose per {unit}'
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose per ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dose per ${unit}';
 
   /// en: 'Edit item'
   String get editItem => 'Edit item';
@@ -777,6 +776,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   /// en: 'mg'
   String get unitMilligram => 'mg';
+
+  /// en: 'µg/day'
+  String get unitMicrogramPerDay => 'µg/day';
 
   /// en: 'pg/mL'
   String get unitPgPerMl => 'pg/mL';
@@ -1271,8 +1273,7 @@ extension on Translations {
       'adminRoute' => 'Administration route',
       'totalAmount' => 'Total amount',
       'concentration' => 'Concentration',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose per ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose per ${unit}',
       'editItem' => 'Edit item',
       'usedAmount' => 'Used amount',
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',
@@ -1347,6 +1348,7 @@ extension on Translations {
       'deliveryFormSachet' => 'Sachet',
       'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
+      'unitMicrogramPerDay' => 'µg/day',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',

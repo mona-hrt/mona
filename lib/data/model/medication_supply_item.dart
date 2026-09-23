@@ -4,6 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/delivery_form.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -29,23 +30,25 @@ class MedicationSupplyItem extends SupplyItem
   final String name;
   final Decimal totalDose;
   final Decimal usedDose;
-  final Decimal concentration;
+  final Decimal dosePerUnit;
   @MappableField(hook: JsonStringHook())
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
   final DeliveryForm? deliveryForm;
+  final DosingBasis dosingBasis;
 
   MedicationSupplyItem({
     int? id,
     required this.name,
     required this.totalDose,
-    required this.concentration,
+    required this.dosePerUnit,
     Decimal? usedDose,
     required this.molecule,
     required this.administrationRoute,
     this.ester,
     this.deliveryForm,
+    required this.dosingBasis,
   })  : usedDose = usedDose ?? Decimal.zero,
         id = id ?? clock.now().millisecondsSinceEpoch;
 
@@ -57,7 +60,7 @@ class MedicationSupplyItem extends SupplyItem
         usedDose >= Decimal.zero &&
         usedDose <= totalDose &&
         name != '' &&
-        concentration > Decimal.zero;
+        dosePerUnit > Decimal.zero;
   }
 
   bool canUseDose(Decimal doseToUse) {
@@ -71,10 +74,10 @@ class MedicationSupplyItem extends SupplyItem
   }
 
   Decimal getAmount(Decimal dose) =>
-      (dose.toRational() / concentration.toRational())
+      (dose.toRational() / dosePerUnit.toRational())
           .toDecimal(scaleOnInfinitePrecision: 3);
 
-  Decimal getDose(Decimal amount) => amount * concentration;
+  Decimal getDose(Decimal amount) => amount * dosePerUnit;
 
   static String? Function(String?) usedAmountValidator(String totalAmount) {
     return (String? value) {
@@ -103,7 +106,7 @@ class MedicationSupplyItem extends SupplyItem
   static String? validateTotalAmount(String? value) =>
       requiredStrictlyPositiveDecimal(value);
 
-  static String? validateConcentration(String? value) =>
+  static String? validateDosePerUnit(String? value) =>
       requiredStrictlyPositiveDecimal(value);
 
   static String? validateMolecule(Molecule? value) => requiredMolecule(value);

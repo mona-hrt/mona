@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.1/mona-1.21.1.ipa",
-      "size": 12420263,
-      "version": "1.21.1",
-      "versionDate": "2026-09-13T20:20:42Z",
-      "versionDescription": "Fix:\r\n- Used correct icon weight and text size in buttons",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.22.0/mona-1.22.0.ipa",
+      "size": 11728505,
+      "version": "1.22.0",
+      "versionDate": "2026-09-20T17:24:03Z",
+      "versionDescription": "New:\r\n\r\n- The graph page got a UI refresh\r\n- Units for estradiol and testosterone can be chosen independently\r\n- You can now reorder your schedules\r\n- New language: Simplified Chinese\r\n\r\nFix:\r\n\r\n- Upcoming intakes now display in chronological order\r\n- Adjusted padding around pharmacy page button group\r\n- Fixed a black screen issue when using the back gesture right after an intake",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.22.0/mona-1.22.0.ipa",
+          "size": 11728505,
+          "version": "1.22.0",
+          "buildVersion": "28",
+          "date": "2026-09-20T17:24:03Z",
+          "localizedDescription": "New:\r\n\r\n- The graph page got a UI refresh\r\n- Units for estradiol and testosterone can be chosen independently\r\n- You can now reorder your schedules\r\n- New language: Simplified Chinese\r\n\r\nFix:\r\n\r\n- Upcoming intakes now display in chronological order\r\n- Adjusted padding around pharmacy page button group\r\n- Fixed a black screen issue when using the back gesture right after an intake",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.1/mona-1.21.1.ipa",
           "size": 12420263,

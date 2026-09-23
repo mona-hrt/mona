@@ -410,8 +410,7 @@ class TranslationsFr extends Translations
   @override
   String get concentration => 'Concentration';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose par ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dose par ${unit}';
   @override
   String get editItem => 'Modifier l\'élément';
   @override
@@ -558,6 +557,8 @@ class TranslationsFr extends Translations
   String get deliveryFormGram => 'Tube';
   @override
   String get unitMilligram => 'mg';
+  @override
+  String get unitMicrogramPerDay => 'µg/jour';
   @override
   String get unitPgPerMl => 'pg/mL';
   @override
@@ -1030,8 +1031,7 @@ extension on TranslationsFr {
       'adminRoute' => 'Voie d\'administration',
       'totalAmount' => 'Quantité totale',
       'concentration' => 'Concentration',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose par ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose par ${unit}',
       'editItem' => 'Modifier l\'élément',
       'usedAmount' => 'Quantité utilisée',
       'deleteItem' => ({required Object name}) => 'Supprimer ${name} ?',
@@ -1106,6 +1106,7 @@ extension on TranslationsFr {
       'deliveryFormSachet' => 'Sachet',
       'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
+      'unitMicrogramPerDay' => 'µg/jour',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',

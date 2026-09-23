@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
@@ -136,7 +137,7 @@ class IntakeTileViewModel {
       return t.taken;
     }
 
-    return "${schedule.dose} ${schedule.molecule.localizedUnit} • "
+    return "${schedule.dose} ${schedule.molecule.localizedUnit(DosingBasis.mass)} • "
         "${schedule.molecule.localizedNameWithEster(schedule.ester)}";
   }
 

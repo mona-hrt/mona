@@ -4,19 +4,13 @@ import 'package:mona/services/repository.dart';
 class GenericRepositoryMock<T extends dynamic> extends Mock
     implements Repository<T> {
   final List<T> _items = [];
-  int _nextId = 1;
-  final T Function(T, int) withId;
-
-  GenericRepositoryMock({required this.withId});
 
   List<T> get items => _items;
 
   @override
   Future<int> insert(T item) async {
-    final id = item.id ?? _nextId++;
-    final newItem = withId(item, id);
-    _items.add(newItem);
-    return (newItem as dynamic).id;
+    _items.add(item);
+    return (item as dynamic).id;
   }
 
   @override

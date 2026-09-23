@@ -25,6 +25,7 @@ class MedicationSupplyItemMapper
       AdministrationRouteMapper.ensureInitialized();
       EsterMapper.ensureInitialized();
       DeliveryFormMapper.ensureInitialized();
+      DosingBasisMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -48,10 +49,10 @@ class MedicationSupplyItemMapper
     'totalDose',
     _$totalDose,
   );
-  static Decimal _$concentration(MedicationSupplyItem v) => v.concentration;
-  static const Field<MedicationSupplyItem, Decimal> _f$concentration = Field(
-    'concentration',
-    _$concentration,
+  static Decimal _$dosePerUnit(MedicationSupplyItem v) => v.dosePerUnit;
+  static const Field<MedicationSupplyItem, Decimal> _f$dosePerUnit = Field(
+    'dosePerUnit',
+    _$dosePerUnit,
   );
   static Decimal _$usedDose(MedicationSupplyItem v) => v.usedDose;
   static const Field<MedicationSupplyItem, Decimal> _f$usedDose = Field(
@@ -79,18 +80,24 @@ class MedicationSupplyItemMapper
   static DeliveryForm? _$deliveryForm(MedicationSupplyItem v) => v.deliveryForm;
   static const Field<MedicationSupplyItem, DeliveryForm> _f$deliveryForm =
       Field('deliveryForm', _$deliveryForm, opt: true);
+  static DosingBasis _$dosingBasis(MedicationSupplyItem v) => v.dosingBasis;
+  static const Field<MedicationSupplyItem, DosingBasis> _f$dosingBasis = Field(
+    'dosingBasis',
+    _$dosingBasis,
+  );
 
   @override
   final MappableFields<MedicationSupplyItem> fields = const {
     #id: _f$id,
     #name: _f$name,
     #totalDose: _f$totalDose,
-    #concentration: _f$concentration,
+    #dosePerUnit: _f$dosePerUnit,
     #usedDose: _f$usedDose,
     #molecule: _f$molecule,
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
     #deliveryForm: _f$deliveryForm,
+    #dosingBasis: _f$dosingBasis,
   };
 
   @override
@@ -105,12 +112,13 @@ class MedicationSupplyItemMapper
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       totalDose: data.dec(_f$totalDose),
-      concentration: data.dec(_f$concentration),
+      dosePerUnit: data.dec(_f$dosePerUnit),
       usedDose: data.dec(_f$usedDose),
       molecule: data.dec(_f$molecule),
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
       deliveryForm: data.dec(_f$deliveryForm),
+      dosingBasis: data.dec(_f$dosingBasis),
     );
   }
 
@@ -182,12 +190,13 @@ abstract class MedicationSupplyItemCopyWith<
     int? id,
     String? name,
     Decimal? totalDose,
-    Decimal? concentration,
+    Decimal? dosePerUnit,
     Decimal? usedDose,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Ester? ester,
     DeliveryForm? deliveryForm,
+    DosingBasis? dosingBasis,
   });
   MedicationSupplyItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -210,25 +219,27 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
     Object? id = $none,
     String? name,
     Decimal? totalDose,
-    Decimal? concentration,
+    Decimal? dosePerUnit,
     Object? usedDose = $none,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
     Object? deliveryForm = $none,
+    DosingBasis? dosingBasis,
   }) =>
       $apply(
         FieldCopyWithData({
           if (id != $none) #id: id,
           if (name != null) #name: name,
           if (totalDose != null) #totalDose: totalDose,
-          if (concentration != null) #concentration: concentration,
+          if (dosePerUnit != null) #dosePerUnit: dosePerUnit,
           if (usedDose != $none) #usedDose: usedDose,
           if (molecule != null) #molecule: molecule,
           if (administrationRoute != null)
             #administrationRoute: administrationRoute,
           if (ester != $none) #ester: ester,
           if (deliveryForm != $none) #deliveryForm: deliveryForm,
+          if (dosingBasis != null) #dosingBasis: dosingBasis,
         }),
       );
   @override
@@ -236,7 +247,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
         id: data.get(#id, or: $value.id),
         name: data.get(#name, or: $value.name),
         totalDose: data.get(#totalDose, or: $value.totalDose),
-        concentration: data.get(#concentration, or: $value.concentration),
+        dosePerUnit: data.get(#dosePerUnit, or: $value.dosePerUnit),
         usedDose: data.get(#usedDose, or: $value.usedDose),
         molecule: data.get(#molecule, or: $value.molecule),
         administrationRoute: data.get(
@@ -245,6 +256,7 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
         ),
         ester: data.get(#ester, or: $value.ester),
         deliveryForm: data.get(#deliveryForm, or: $value.deliveryForm),
+        dosingBasis: data.get(#dosingBasis, or: $value.dosingBasis),
       );
 
   @override

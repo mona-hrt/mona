@@ -516,8 +516,7 @@ class TranslationsPt extends Translations
   @override
   String get noItemsToAdd => 'Não há itens disponíveis';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose por ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dose por ${unit}';
   @override
   String get allItemsFilter => 'Todos';
   @override
@@ -1004,8 +1003,7 @@ extension on TranslationsPt {
           'O tempo antes das ${time} conta para o dia anterior',
       'chooseItem' => 'Escolhe um item',
       'noItemsToAdd' => 'Não há itens disponíveis',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose por ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose por ${unit}',
       'allItemsFilter' => 'Todos',
       'medicationItemsFilter' => 'Medicação',
       'genericItems' => 'Consumíveis',

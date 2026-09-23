@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
@@ -7,7 +8,8 @@ import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 
 extension MedicationScheduleL10n on MedicationSchedule {
-  String get localizedSummary => '$dose ${molecule.localizedUnit} • '
+  String get localizedSummary =>
+      '$dose ${molecule.localizedUnit(DosingBasis.mass)} • '
       '${molecule.localizedNameWithEster(ester)} • '
       '${administrationRoute.localizedName}';
 

@@ -399,6 +399,8 @@ class TranslationsEnGb extends Translations
   @override
   String get concentration => 'Concentration';
   @override
+  String dosePerUnitLabel({required Object unit}) => 'Dose per ${unit}';
+  @override
   String get editItem => 'Edit item';
   @override
   String get usedAmount => 'Used amount';
@@ -545,6 +547,8 @@ class TranslationsEnGb extends Translations
   @override
   String get unitMilligram => 'mg';
   @override
+  String get unitMicrogramPerDay => 'µg/day';
+  @override
   String get unitPgPerMl => 'pg/mL';
   @override
   String get unitPmolPerL => 'pmol/L';
@@ -611,9 +615,6 @@ class TranslationsEnGb extends Translations
   String get invalidTotalAmount => 'Invalid total amount';
   @override
   String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
-  @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose per ${unit}';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
@@ -984,6 +985,7 @@ extension on TranslationsEnGb {
       'adminRoute' => 'Administration route',
       'totalAmount' => 'Total amount',
       'concentration' => 'Concentration',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose per ${unit}',
       'editItem' => 'Edit item',
       'usedAmount' => 'Used amount',
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',
@@ -1058,6 +1060,7 @@ extension on TranslationsEnGb {
       'deliveryFormSachet' => 'Sachet',
       'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
+      'unitMicrogramPerDay' => 'µg/day',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
@@ -1092,8 +1095,6 @@ extension on TranslationsEnGb {
       'mustBeAtMost' => ({required Object max}) => 'Must be at most ${max}',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose per ${unit}',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -177,7 +178,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
           controller: _doseController,
           label: t.amount,
           fieldKey: const ValueKey('newScheduleAmount'),
-          suffixText: _molecule?.localizedUnit,
+          suffixText: _molecule?.localizedUnit(DosingBasis.mass),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,

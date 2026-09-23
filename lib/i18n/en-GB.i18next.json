@@ -179,6 +179,7 @@
   "adminRoute": "Administration route",
   "totalAmount": "Total amount",
   "concentration": "Concentration",
+  "dosePerUnitLabel": "Dose per {{unit}}",
   "editItem": "Edit item",
   "usedAmount": "Used amount",
   "deleteItem": "Delete {{name}}?",
@@ -263,6 +264,7 @@
   "deliveryFormSachet": "Sachet",
   "deliveryFormGram": "Tube",
   "unitMilligram": "mg",
+  "unitMicrogramPerDay": "µg/day",
   "unitPgPerMl": "pg/mL",
   "unitPmolPerL": "pmol/L",
   "unitNgPerDl": "ng/dL",
@@ -312,6 +314,5 @@
   "mustBeBetween1And28": "Must be between 1 and 28",
   "mustBeAtMost": "Must be at most {{max}}",
   "invalidTotalAmount": "Invalid total amount",
-  "cannotExceedTotalCapacity": "Cannot exceed total capacity",
-  "concentrationLabelPerUnit": "Dose per {{unit}}"
+  "cannotExceedTotalCapacity": "Cannot exceed total capacity"
 }
