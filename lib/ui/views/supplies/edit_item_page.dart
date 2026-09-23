@@ -12,6 +12,7 @@ import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
+import 'package:mona/ui/widgets/dosing_basis_field.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/delivery_form_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
@@ -42,6 +43,7 @@ class _EditItemPageState extends State<EditItemPage> {
   late AdministrationRoute _administrationRoute;
   late Ester? _ester;
   late DeliveryForm? _deliveryForm;
+  late DosingBasis _dosingBasis;
   late PreferencesService _preferencesService;
   late SupplyItemProvider _supplyItemProvider;
 
@@ -88,6 +90,9 @@ class _EditItemPageState extends State<EditItemPage> {
       _molecule == KnownMolecules.estradiol &&
       _administrationRoute == AdministrationRoute.injection;
 
+  bool get _supportsReleaseRate =>
+      supportsReleaseRate(_molecule, _administrationRoute);
+
   void _onMoleculeChanged(Molecule? molecule) {
     if (molecule != null) {
       setState(() {
@@ -95,6 +100,10 @@ class _EditItemPageState extends State<EditItemPage> {
 
         if (!_useEsterField) {
           _ester = null;
+        }
+
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
         }
       });
     }
@@ -114,6 +123,18 @@ class _EditItemPageState extends State<EditItemPage> {
         if (!_useEsterField) {
           _ester = null;
         }
+
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
+        }
+      });
+    }
+  }
+
+  void _onDosingBasisChanged(DosingBasis? dosingBasis) {
+    if (dosingBasis != null) {
+      setState(() {
+        _dosingBasis = dosingBasis;
       });
     }
   }
@@ -144,6 +165,7 @@ class _EditItemPageState extends State<EditItemPage> {
     final totalDose = dosePerUnit * _totalAmountController.text.toDecimal;
     final usedDose = dosePerUnit * _usedAmountController.text.toDecimal;
     final ester = _useEsterField ? _ester : null;
+    final dosingBasis = _supportsReleaseRate ? _dosingBasis : DosingBasis.mass;
 
     final updatedItem = widget.item.copyWith(
       name: _nameController.text,
@@ -154,6 +176,7 @@ class _EditItemPageState extends State<EditItemPage> {
       administrationRoute: _administrationRoute,
       ester: ester,
       deliveryForm: _deliveryForm,
+      dosingBasis: dosingBasis,
     );
     _supplyItemProvider.updateItem(updatedItem);
 
@@ -189,6 +212,7 @@ class _EditItemPageState extends State<EditItemPage> {
     _administrationRoute = widget.item.administrationRoute;
     _ester = widget.item.ester;
     _deliveryForm = widget.item.deliveryForm;
+    _dosingBasis = widget.item.dosingBasis;
     _supplyItemProvider =
         Provider.of<SupplyItemProvider>(context, listen: false);
     _preferencesService =
@@ -273,10 +297,15 @@ class _EditItemPageState extends State<EditItemPage> {
           label: _dosePerUnitLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText:
-              '${_molecule.localizedUnit(DosingBasis.mass)}/$_unitLabel',
+          suffixText: '${_molecule.localizedUnit(_dosingBasis)}/$_unitLabel',
           errorText: _dosePerUnitError,
           regexFormatter: RegexPatterns.floatNumber,
+        ),
+        DosingBasisField(
+          molecule: _molecule,
+          route: _administrationRoute,
+          value: _dosingBasis,
+          onChanged: _onDosingBasisChanged,
         ),
       ],
     );

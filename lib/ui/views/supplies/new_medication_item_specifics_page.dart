@@ -11,6 +11,7 @@ import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/ui/widgets/dosing_basis_field.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/delivery_form_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
@@ -41,6 +42,7 @@ class _NewMedicationItemSpecificsPageState
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
   DeliveryForm? _deliveryForm;
+  DosingBasis _dosingBasis = DosingBasis.mass;
   late PreferencesService _preferencesService;
 
   String? get _totalAmountError =>
@@ -80,12 +82,23 @@ class _NewMedicationItemSpecificsPageState
       _molecule == KnownMolecules.estradiol &&
       _administrationRoute == AdministrationRoute.injection;
 
+  bool get _supportsReleaseRate {
+    final molecule = _molecule;
+    final route = _administrationRoute;
+    return molecule != null &&
+        route != null &&
+        supportsReleaseRate(molecule, route);
+  }
+
   void _onMoleculeChanged(Molecule? molecule) {
     if (molecule != null) {
       setState(() {
         _molecule = molecule;
         if (!_useEsterField) {
           _ester = null;
+        }
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
         }
       });
     }
@@ -103,6 +116,17 @@ class _NewMedicationItemSpecificsPageState
         if (!_useEsterField) {
           _ester = null;
         }
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
+        }
+      });
+    }
+  }
+
+  void _onDosingBasisChanged(DosingBasis? dosingBasis) {
+    if (dosingBasis != null) {
+      setState(() {
+        _dosingBasis = dosingBasis;
       });
     }
   }
@@ -146,7 +170,7 @@ class _NewMedicationItemSpecificsPageState
       administrationRoute: _administrationRoute!,
       ester: _ester,
       deliveryForm: _deliveryForm,
-      dosingBasis: DosingBasis.mass,
+      dosingBasis: _dosingBasis,
     );
     final created =
         await Provider.of<SupplyItemProvider>(context, listen: false).add(item);
@@ -227,10 +251,17 @@ class _NewMedicationItemSpecificsPageState
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _molecule != null && _unitLabel != null
-              ? '${_molecule!.localizedUnit(DosingBasis.mass)}/$_unitLabel'
+              ? '${_molecule!.localizedUnit(_dosingBasis)}/$_unitLabel'
               : null,
           regexFormatter: RegexPatterns.floatNumber,
         ),
+        if (_molecule != null && _administrationRoute != null)
+          DosingBasisField(
+            molecule: _molecule!,
+            route: _administrationRoute!,
+            value: _dosingBasis,
+            onChanged: _onDosingBasisChanged,
+          ),
       ],
     );
   }
