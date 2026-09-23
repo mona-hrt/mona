@@ -559,12 +559,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Dose per {unit}'
   String dosePerUnitLabel({required Object unit}) => 'Dose per ${unit}';
 
-  /// en: 'Total dose'
-  String get dosingBasisMass => 'Total dose';
-
-  /// en: 'Release rate'
-  String get dosingBasisReleaseRate => 'Release rate';
-
   /// en: 'Edit item'
   String get editItem => 'Edit item';
 
@@ -1280,8 +1274,6 @@ extension on Translations {
       'totalAmount' => 'Total amount',
       'concentration' => 'Concentration',
       'dosePerUnitLabel' => ({required Object unit}) => 'Dose per ${unit}',
-      'dosingBasisMass' => 'Total dose',
-      'dosingBasisReleaseRate' => 'Release rate',
       'editItem' => 'Edit item',
       'usedAmount' => 'Used amount',
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',
