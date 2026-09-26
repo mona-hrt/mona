@@ -4,6 +4,7 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -28,6 +29,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
   final AdministrationRoute administrationRoute;
   final Ester? ester;
   final Date startDate;
+  final DosingBasis dosingBasis;
 
   const NewScheduleSchedulingPage({
     super.key,
@@ -36,6 +38,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
     required this.molecule,
     required this.administrationRoute,
     required this.startDate,
+    required this.dosingBasis,
     this.ester,
   });
 
@@ -165,6 +168,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       molecule: widget.molecule,
       administrationRoute: widget.administrationRoute,
       ester: widget.ester,
+      dosingBasis: widget.dosingBasis,
     );
 
     Provider.of<MedicationScheduleProvider>(context, listen: false)

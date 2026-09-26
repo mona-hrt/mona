@@ -56,6 +56,7 @@ class MedicationIntakeManager {
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
       placements: placements,
+      dosingBasis: schedule.dosingBasis,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);

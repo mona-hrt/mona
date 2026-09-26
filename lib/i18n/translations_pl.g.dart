@@ -365,8 +365,7 @@ class TranslationsPl extends Translations
   @override
   String get concentration => 'Stężenie';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dawka na ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dawka na ${unit}';
   @override
   String get editItem => 'Edytuj przedmiot';
   @override
@@ -927,8 +926,7 @@ extension on TranslationsPl {
       'adminRoute' => 'Droga podania',
       'totalAmount' => 'Łączna ilość',
       'concentration' => 'Stężenie',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dawka na ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dawka na ${unit}',
       'editItem' => 'Edytuj przedmiot',
       'usedAmount' => 'Zużyta ilość',
       'deleteItem' => ({required Object name}) => 'Usunąć ${name}?',

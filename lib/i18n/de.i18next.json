@@ -279,7 +279,7 @@
   "startOfDayDescription": "Zeit vor {{time}} zählt zum vorherigen Tag",
   "chooseItem": "Eintrag auswählen",
   "noItemsToAdd": "Keine Einträge verfügbar",
-  "concentrationLabelPerUnit": "Dosis pro {{unit}}",
+  "dosePerUnitLabel": "Dosis pro {{unit}}",
   "applicationSitesDescription": "Verwalte die Stellen, zwischen denen du wechselst",
   "placementSuggestionPerScheduleTitle": "Pro Zeitplan vorschlagen",
   "placementSuggestionPerScheduleDescription": "Nächste Stelle nur anhand der Historie dieses Zeitplans vorschlagen.",

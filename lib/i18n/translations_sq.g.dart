@@ -381,8 +381,7 @@ class TranslationsSq extends Translations
   @override
   String get concentration => 'Përqendrimi';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Doza për ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Doza për ${unit}';
   @override
   String get editItem => 'Modifiko artikullin';
   @override
@@ -935,8 +934,7 @@ extension on TranslationsSq {
       'adminRoute' => 'Rruga e administrimit',
       'totalAmount' => 'Sasia totale',
       'concentration' => 'Përqendrimi',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Doza për ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Doza për ${unit}',
       'editItem' => 'Modifiko artikullin',
       'usedAmount' => 'Sasia e përdorur',
       'deleteItem' => ({required Object name}) => 'Të fshihet ${name}?',

@@ -136,7 +136,7 @@ class IntakeTileViewModel {
       return t.taken;
     }
 
-    return "${schedule.dose} ${schedule.molecule.localizedUnit} • "
+    return "${schedule.dose} ${schedule.molecule.localizedUnit(schedule.dosingBasis)} • "
         "${schedule.molecule.localizedNameWithEster(schedule.ester)}";
   }
 

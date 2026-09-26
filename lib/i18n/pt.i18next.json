@@ -285,7 +285,7 @@
   "startOfDayDescription": "O tempo antes das {{time}} conta para o dia anterior",
   "chooseItem": "Escolhe um item",
   "noItemsToAdd": "Não há itens disponíveis",
-  "concentrationLabelPerUnit": "Dose por {{unit}}",
+  "dosePerUnitLabel": "Dose por {{unit}}",
   "allItemsFilter": "Todos",
   "medicationItemsFilter": "Medicação",
   "genericItems": "Consumíveis",

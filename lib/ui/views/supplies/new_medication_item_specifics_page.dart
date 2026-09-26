@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/delivery_form.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/i18n/helpers/administration_route_l10n.dart';
-import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
-import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/ui/widgets/dosing_basis_field.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/delivery_form_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
@@ -36,17 +36,18 @@ class NewMedicationItemSpecificsPage extends StatefulWidget {
 class _NewMedicationItemSpecificsPageState
     extends State<NewMedicationItemSpecificsPage> {
   late TextEditingController _totalAmountController;
-  late TextEditingController _concentrationController;
+  late TextEditingController _dosePerUnitController;
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
   DeliveryForm? _deliveryForm;
+  DosingBasis _dosingBasis = DosingBasis.mass;
   late PreferencesService _preferencesService;
 
   String? get _totalAmountError =>
       MedicationSupplyItem.validateTotalAmount(_totalAmountController.text);
-  String? get _concentrationError =>
-      MedicationSupplyItem.validateConcentration(_concentrationController.text);
+  String? get _dosePerUnitError =>
+      MedicationSupplyItem.validateDosePerUnit(_dosePerUnitController.text);
   String? get _moleculeError =>
       MedicationSupplyItem.validateMolecule(_molecule);
   String? get _administrationRouteError =>
@@ -57,18 +58,21 @@ class _NewMedicationItemSpecificsPageState
     return validator(_ester);
   }
 
-  String? get _unitLabel =>
-      _deliveryForm?.localizedUnit(1) ?? _administrationRoute?.localizedUnit(1);
+  String? get _unitLabel {
+    final route = _administrationRoute;
+    return route == null ? null : countUnitLabel(route, _deliveryForm, 1);
+  }
 
-  String get _concentrationLabel =>
-      _administrationRoute == AdministrationRoute.injection ||
-              _unitLabel == null
-          ? t.concentration
-          : t.concentrationLabelPerUnit(unit: _unitLabel!);
+  String get _dosePerUnitLabel {
+    final route = _administrationRoute;
+    return route == null
+        ? t.concentration
+        : dosePerUnitFieldLabel(route, _deliveryForm);
+  }
 
   bool get _isFormValid =>
       _totalAmountError == null &&
-      _concentrationError == null &&
+      _dosePerUnitError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null;
@@ -77,12 +81,23 @@ class _NewMedicationItemSpecificsPageState
       _molecule == KnownMolecules.estradiol &&
       _administrationRoute == AdministrationRoute.injection;
 
+  bool get _supportsReleaseRate {
+    final molecule = _molecule;
+    final route = _administrationRoute;
+    return molecule != null &&
+        route != null &&
+        supportsReleaseRate(molecule, route);
+  }
+
   void _onMoleculeChanged(Molecule? molecule) {
     if (molecule != null) {
       setState(() {
         _molecule = molecule;
         if (!_useEsterField) {
           _ester = null;
+        }
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
         }
       });
     }
@@ -100,6 +115,17 @@ class _NewMedicationItemSpecificsPageState
         if (!_useEsterField) {
           _ester = null;
         }
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
+        }
+      });
+    }
+  }
+
+  void _onDosingBasisChanged(DosingBasis? dosingBasis) {
+    if (dosingBasis != null) {
+      setState(() {
+        _dosingBasis = dosingBasis;
       });
     }
   }
@@ -132,17 +158,18 @@ class _NewMedicationItemSpecificsPageState
 
   void _addItem() async {
     final totalAmount = _totalAmountController.text.toDecimal;
-    final concentration = _concentrationController.text.toDecimal;
-    final totalDose = concentration * totalAmount;
+    final dosePerUnit = _dosePerUnitController.text.toDecimal;
+    final totalDose = dosePerUnit * totalAmount;
 
     final item = MedicationSupplyItem(
       name: widget.name,
       totalDose: totalDose,
-      concentration: concentration,
+      dosePerUnit: dosePerUnit,
       molecule: _molecule!,
       administrationRoute: _administrationRoute!,
       ester: _ester,
       deliveryForm: _deliveryForm,
+      dosingBasis: _dosingBasis,
     );
     final created =
         await Provider.of<SupplyItemProvider>(context, listen: false).add(item);
@@ -159,13 +186,13 @@ class _NewMedicationItemSpecificsPageState
     _preferencesService =
         Provider.of<PreferencesService>(context, listen: false);
     _totalAmountController = TextEditingController();
-    _concentrationController = TextEditingController();
+    _dosePerUnitController = TextEditingController();
   }
 
   @override
   void dispose() {
     _totalAmountController.dispose();
-    _concentrationController.dispose();
+    _dosePerUnitController.dispose();
     super.dispose();
   }
 
@@ -217,16 +244,28 @@ class _NewMedicationItemSpecificsPageState
           regexFormatter: RegexPatterns.floatNumber,
         ),
         FormTextField(
-          controller: _concentrationController,
-          label: _concentrationLabel,
+          controller: _dosePerUnitController,
+          label: _dosePerUnitLabel,
           fieldKey: const ValueKey('newMedicationItemConcentration'),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule != null && _unitLabel != null
-              ? '${_molecule!.localizedUnit}/$_unitLabel'
+          suffixText: _molecule != null && _administrationRoute != null
+              ? doseUnitLabel(
+                  _molecule!,
+                  _dosingBasis,
+                  _administrationRoute!,
+                  _deliveryForm,
+                )
               : null,
           regexFormatter: RegexPatterns.floatNumber,
         ),
+        if (_molecule != null && _administrationRoute != null)
+          DosingBasisField(
+            molecule: _molecule!,
+            route: _administrationRoute!,
+            value: _dosingBasis,
+            onChanged: _onDosingBasisChanged,
+          ),
       ],
     );
   }

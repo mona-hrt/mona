@@ -266,16 +266,14 @@ class _EditIntakePageState extends State<EditIntakePage> {
               label: t.takenAmount,
               onChanged: _onTakenDoseChanged,
               inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.intake.molecule.localizedUnit,
+              suffixText: widget.intake.molecule
+                  .localizedUnit(widget.intake.dosingBasis),
               errorText: _takenDoseError,
               regexFormatter: RegexPatterns.floatNumber,
             ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
-                infoText: supplyItem.localizedSupplyAmount(
-                  _takenDose,
-                  widget.intake.molecule,
-                ),
+                infoText: supplyItem.localizedSupplyAmount(_takenDose),
               ),
             FormSpacer(),
             IntakeSupplyPicker(

@@ -17,16 +17,7 @@ void main() {
   });
 
   setUp(() {
-    repo = GenericRepositoryMock<BloodTest>(
-      withId: (i, id) => BloodTest(
-        id: id,
-        dateTime: i.dateTime,
-        timeZone: i.timeZone,
-        estradiolLevels: i.estradiolLevels,
-        testosteroneLevels: i.testosteroneLevels,
-        notes: i.notes,
-      ),
-    );
+    repo = GenericRepositoryMock<BloodTest>();
   });
 
   group('BloodTestProvider Tests', () {

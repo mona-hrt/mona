@@ -549,8 +549,7 @@ class TranslationsNl extends Translations
   @override
   String get adminRoute => 'Toedieningsweg';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dosis per ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dosis per ${unit}';
   @override
   String get medicationTestosteroneEnanthate => 'Testosteron-enanthaat';
   @override
@@ -1022,8 +1021,7 @@ extension on TranslationsNl {
       'supplyItem' => 'Voorraaditem',
       'needleDeadSpace' => 'Dode ruimte van de naald',
       'adminRoute' => 'Toedieningsweg',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dosis per ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dosis per ${unit}',
       'medicationTestosteroneEnanthate' => 'Testosteron-enanthaat',
       'medicationTestosteroneValerate' => 'Testosteronvaleraat',
       'medicationTestosteroneCypionate' => 'Testosteroncypionaat',

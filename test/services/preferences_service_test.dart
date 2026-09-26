@@ -6,6 +6,7 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../fixtures.dart';
 
 void main() {
   setUp(() {
@@ -77,7 +78,7 @@ void main() {
         final jsonString = jsonEncode([
           {
             'name': 'nulcac2',
-            'unit': 'mg',
+            'massUnit': 'mg',
           }
         ]);
         await prefs.setString('custom_molecules', jsonString);
@@ -88,7 +89,7 @@ void main() {
         final molecules = service.customMolecules;
 
         // Assert
-        expect(molecules, contains(Molecule(name: 'nulcac2', unit: 'mg')));
+        expect(molecules, contains(aMolecule(name: 'nulcac2')));
       });
 
       test('should add new custom molecule', () async {
@@ -96,19 +97,18 @@ void main() {
         final service = await PreferencesService.init();
 
         // Act
-        await service.addCustomMolecule(Molecule(name: 'nulcac2', unit: 'mg'));
+        await service.addCustomMolecule(aMolecule(name: 'nulcac2'));
 
-        expect(service.customMolecules,
-            contains(Molecule(name: 'nulcac2', unit: 'mg')));
+        expect(service.customMolecules, contains(aMolecule(name: 'nulcac2')));
       });
 
       test('should not add duplicate molecule', () async {
         // Arrange
         final service = await PreferencesService.init();
-        await service.addCustomMolecule(Molecule(name: 'nulcac2', unit: 'mg'));
+        await service.addCustomMolecule(aMolecule(name: 'nulcac2'));
 
         // Act
-        await service.addCustomMolecule(Molecule(name: 'Nulcac2', unit: 'mg'));
+        await service.addCustomMolecule(aMolecule(name: 'Nulcac2'));
 
         // Assert
         expect(
@@ -123,7 +123,7 @@ void main() {
       test('should remove molecule by normalized name', () async {
         // Arrange
         final service = await PreferencesService.init();
-        final molecule = Molecule(name: 'DeleteMe', unit: 'mg');
+        final molecule = aMolecule(name: 'DeleteMe');
         await service.addCustomMolecule(molecule);
 
         // Act
@@ -137,8 +137,8 @@ void main() {
         // Arrange
         final service = await PreferencesService.init();
 
-        final custom = Molecule(name: 'bicanul', unit: 'mg');
-        final customDuplicate = Molecule(name: 'Estradiol', unit: 'mg');
+        final custom = aMolecule(name: 'bicanul');
+        final customDuplicate = aMolecule(name: 'Estradiol');
         // built-in is named 'estradiol'
 
         await service.addCustomMolecule(custom);

@@ -23,6 +23,7 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
       MoleculeMapper.ensureInitialized();
       AdministrationRouteMapper.ensureInitialized();
       EsterMapper.ensureInitialized();
+      DosingBasisMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -72,6 +73,11 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     _$ester,
     opt: true,
   );
+  static DosingBasis _$dosingBasis(MedicationSchedule v) => v.dosingBasis;
+  static const Field<MedicationSchedule, DosingBasis> _f$dosingBasis = Field(
+    'dosingBasis',
+    _$dosingBasis,
+  );
 
   @override
   final MappableFields<MedicationSchedule> fields = const {
@@ -83,6 +89,7 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     #molecule: _f$molecule,
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
+    #dosingBasis: _f$dosingBasis,
   };
 
   static MedicationSchedule _instantiate(DecodingData data) {
@@ -95,6 +102,7 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
       molecule: data.dec(_f$molecule),
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
+      dosingBasis: data.dec(_f$dosingBasis),
     );
   }
 
@@ -173,6 +181,7 @@ abstract class MedicationScheduleCopyWith<$R, $In extends MedicationSchedule,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Ester? ester,
+    DosingBasis? dosingBasis,
   });
   MedicationScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -204,6 +213,7 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
+    DosingBasis? dosingBasis,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -216,6 +226,7 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
           if (administrationRoute != null)
             #administrationRoute: administrationRoute,
           if (ester != $none) #ester: ester,
+          if (dosingBasis != null) #dosingBasis: dosingBasis,
         }),
       );
   @override
@@ -231,6 +242,7 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
           or: $value.administrationRoute,
         ),
         ester: data.get(#ester, or: $value.ester),
+        dosingBasis: data.get(#dosingBasis, or: $value.dosingBasis),
       );
 
   @override
