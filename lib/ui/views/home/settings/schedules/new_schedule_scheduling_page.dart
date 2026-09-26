@@ -29,6 +29,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
   final AdministrationRoute administrationRoute;
   final Ester? ester;
   final Date startDate;
+  final DosingBasis dosingBasis;
 
   const NewScheduleSchedulingPage({
     super.key,
@@ -37,6 +38,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
     required this.molecule,
     required this.administrationRoute,
     required this.startDate,
+    required this.dosingBasis,
     this.ester,
   });
 
@@ -166,7 +168,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       molecule: widget.molecule,
       administrationRoute: widget.administrationRoute,
       ester: widget.ester,
-      dosingBasis: DosingBasis.mass,
+      dosingBasis: widget.dosingBasis,
     );
 
     Provider.of<MedicationScheduleProvider>(context, listen: false)
