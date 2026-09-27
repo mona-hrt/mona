@@ -83,7 +83,7 @@ class TranslationsNl extends Translations
   @override
   String get tomorrow => 'morgen';
   @override
-  String get scheduleFrequencyDaily => 'Elke dag';
+  String get scheduleFrequencyDaily => 'Dagelijks';
   @override
   String get scheduleFrequencyWeekly => 'Wekelijks';
   @override
@@ -108,8 +108,6 @@ class TranslationsNl extends Translations
   String get language => 'Taal';
   @override
   String get languageFollowDevice => 'Apparaattaal volgen';
-  @override
-  String get selectLanguage => 'Taal Selecteren';
   @override
   String get enableNotifications => 'Meldingen aanzetten';
   @override
@@ -156,9 +154,6 @@ class TranslationsNl extends Translations
   @override
   String appVersion({required Object version}) => 'Mona versie ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Backup opgeslagen in: ${path}';
-  @override
   String exportFailed({required Object error}) =>
       'Exporteren mislukt: ${error}';
   @override
@@ -183,7 +178,7 @@ class TranslationsNl extends Translations
   @override
   String get updates => 'Updates';
   @override
-  String get dataManagement => 'Data Management';
+  String get dataManagement => 'Gegevensbeheer';
   @override
   String get exportDataTitle => 'Data Exporteren';
   @override
@@ -349,7 +344,7 @@ class TranslationsNl extends Translations
   @override
   String get medicationItemType => 'Medicatie';
   @override
-  String get genericItemType => 'Verbruiksmaterialen';
+  String get genericItemType => 'Verbruiksmateriaal';
   @override
   String get supplyType => 'Type';
   @override
@@ -380,13 +375,13 @@ class TranslationsNl extends Translations
   @override
   String get name => 'Naam';
   @override
-  String get molecule => 'Molecule';
+  String get molecule => 'Molecuul';
   @override
   String get ester => 'Ester';
   @override
   String get estradiol => 'Oestradiol';
   @override
-  String get progesterone => 'Progesterone';
+  String get progesterone => 'Progesteron';
   @override
   String get testosterone => 'Testosteron';
   @override
@@ -493,15 +488,13 @@ class TranslationsNl extends Translations
   @override
   String get placementRightAbdomen => 'Rechterzijde van de buik';
   @override
-  String get injectionSites => 'Injectieplekken';
+  String get applicationSitesDescription => 'Beheer de plekken waar je wisselt';
   @override
-  String get injectionSitesDescription => 'Beheer de plekken waar je wisselt';
+  String get addApplicationSite => 'Plek toevoegen';
   @override
-  String get addInjectionSite => 'Plek toevoegen';
+  String get noApplicationSitesYet => 'Nog geen plekken';
   @override
-  String get noInjectionSitesYet => 'Nog geen plekken';
-  @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Voeg hieronder plekken toe om te beginnen.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggesteer per schema';
@@ -554,8 +547,7 @@ class TranslationsNl extends Translations
   @override
   String get adminRoute => 'Toedieningsweg';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dosis per ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dosis per ${unit}';
   @override
   String get medicationTestosteroneEnanthate => 'Testosteron-enanthaat';
   @override
@@ -571,6 +563,29 @@ class TranslationsNl extends Translations
       'Testosteroncypionaat-suspensie';
   @override
   String get customSiteLabel => 'Aangepaste pleknaam';
+  @override
+  String get asNeeded => 'Wanneer nodig';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Om de paar dagen';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Bepaalde dagen van de week';
+  @override
+  String get scheduleFrequencyMonthlyDescription =>
+      'Elke maand op dezelfde dag';
+  @override
+  String get scheduleFrequencyAsNeeded => 'Wanneer nodig';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'Geen vast schema';
+  @override
+  String get empty_levels =>
+      'Voeg een bloedtest toe of log een estradiol injectie om te beginnen';
+  @override
+  String get estradiolLevelsTitle => 'Oestradiolspiegels';
+  @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Elke dag, op specifieke tijden';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
@@ -639,8 +654,8 @@ class TranslationsNl extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
         count,
-        one: '${count} ${unit} over',
-        other: '${count} ${unit} over',
+        one: 'Nog ${count} ${unit} over',
+        other: 'Nog ${count} ${unit} over',
       );
   @override
   String syringeRemaining({required num count}) =>
@@ -758,7 +773,7 @@ extension on TranslationsNl {
       'taken' => 'Genomen',
       'yesterday' => 'gisteren',
       'tomorrow' => 'morgen',
-      'scheduleFrequencyDaily' => 'Elke dag',
+      'scheduleFrequencyDaily' => 'Dagelijks',
       'scheduleFrequencyWeekly' => 'Wekelijks',
       'scheduleFrequencyMonthly' => 'Maandelijks',
       'newUpdateAvailable' => 'Een nieuwe update is beschikbaar!',
@@ -771,7 +786,6 @@ extension on TranslationsNl {
       'noSchedules' => 'Geen geplande momenten',
       'language' => 'Taal',
       'languageFollowDevice' => 'Apparaattaal volgen',
-      'selectLanguage' => 'Taal Selecteren',
       'enableNotifications' => 'Meldingen aanzetten',
       'enableNotificationsDescription' => 'Reminders verzenden',
       'notificationsDisabledTitle' => 'Meldingen staan uit',
@@ -796,8 +810,6 @@ extension on TranslationsNl {
       'checkForUpdatesDescription' =>
         'Handmatig controleren op de nieuwste versie\nEr wordt verbinding gemaakt met het internet\n(Er worden geen gegevens verzonden)',
       'appVersion' => ({required Object version}) => 'Mona versie ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Backup opgeslagen in: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Exporteren mislukt: ${error}',
       'importDataTitle' => 'Data importeren',
@@ -812,7 +824,7 @@ extension on TranslationsNl {
       'importFailed' => ({required Object error}) =>
           'Importeren mislukt: ${error}',
       'updates' => 'Updates',
-      'dataManagement' => 'Data Management',
+      'dataManagement' => 'Gegevensbeheer',
       'exportDataTitle' => 'Data Exporteren',
       'exportDataSubtitle' => 'Sla je data op in een JSON bestand',
       'units' => 'Eenheden',
@@ -902,7 +914,7 @@ extension on TranslationsNl {
       'medicationItemsFilter' => 'Medicatie',
       'genericItems' => 'Verbruiksmaterialen',
       'medicationItemType' => 'Medicatie',
-      'genericItemType' => 'Verbruiksmaterialen',
+      'genericItemType' => 'Verbruiksmateriaal',
       'supplyType' => 'Type',
       'syringe' => 'Injectiespuiten',
       'wipe' => 'Doekjes',
@@ -917,10 +929,10 @@ extension on TranslationsNl {
       'deleteElement' => 'Dit item verwijderen?',
       'irreversibleAction' => 'Deze actie kan niet ongedaan worden gemaakt.',
       'name' => 'Naam',
-      'molecule' => 'Molecule',
+      'molecule' => 'Molecuul',
       'ester' => 'Ester',
       'estradiol' => 'Oestradiol',
-      'progesterone' => 'Progesterone',
+      'progesterone' => 'Progesteron',
       'testosterone' => 'Testosteron',
       'nandrolone' => 'Nandrolon',
       'dihydrotestosterone' => 'Dihydrotestosteron',
@@ -974,12 +986,10 @@ extension on TranslationsNl {
       'placementRightButtock' => 'Rechterbil',
       'placementLeftAbdomen' => 'Linkerzijde van de buik',
       'placementRightAbdomen' => 'Rechterzijde van de buik',
-      'injectionSites' => 'Injectieplekken',
-      'injectionSitesDescription' => 'Beheer de plekken waar je wisselt',
-      'addInjectionSite' => 'Plek toevoegen',
-      'noInjectionSitesYet' => 'Nog geen plekken',
-      'noInjectionAddOneToGetStarted' =>
-        'Voeg hieronder plekken toe om te beginnen.',
+      'applicationSitesDescription' => 'Beheer de plekken waar je wisselt',
+      'addApplicationSite' => 'Plek toevoegen',
+      'noApplicationSitesYet' => 'Nog geen plekken',
+      'addSiteToGetStarted' => 'Voeg hieronder plekken toe om te beginnen.',
       'placementSuggestionPerScheduleTitle' => 'Suggesteer per schema',
       'placementSuggestionPerScheduleDescription' =>
         'Baseer de suggestie voor de volgende plek alleen op de geschiedenis van dit schema.',
@@ -1008,8 +1018,7 @@ extension on TranslationsNl {
       'supplyItem' => 'Voorraaditem',
       'needleDeadSpace' => 'Dode ruimte van de naald',
       'adminRoute' => 'Toedieningsweg',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dosis per ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dosis per ${unit}',
       'medicationTestosteroneEnanthate' => 'Testosteron-enanthaat',
       'medicationTestosteroneValerate' => 'Testosteronvaleraat',
       'medicationTestosteroneCypionate' => 'Testosteroncypionaat',
@@ -1018,6 +1027,17 @@ extension on TranslationsNl {
       'medicationTestosteroneCypionateSuspension' =>
         'Testosteroncypionaat-suspensie',
       'customSiteLabel' => 'Aangepaste pleknaam',
+      'asNeeded' => 'Wanneer nodig',
+      'scheduleFrequencyIntervalDescription' => 'Om de paar dagen',
+      'scheduleFrequencyWeeklyDescription' => 'Bepaalde dagen van de week',
+      'scheduleFrequencyMonthlyDescription' => 'Elke maand op dezelfde dag',
+      'scheduleFrequencyAsNeeded' => 'Wanneer nodig',
+      'scheduleFrequencyAsNeededDescription' => 'Geen vast schema',
+      'empty_levels' =>
+        'Voeg een bloedtest toe of log een estradiol injectie om te beginnen',
+      'estradiolLevelsTitle' => 'Oestradiolspiegels',
+      'unitNgPerMl' => 'ng/mL',
+      'scheduleFrequencyDailyDescription' => 'Elke dag, op specifieke tijden',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
             count,
@@ -1076,8 +1096,8 @@ extension on TranslationsNl {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
             count,
-            one: '${count} ${unit} over',
-            other: '${count} ${unit} over',
+            one: 'Nog ${count} ${unit} over',
+            other: 'Nog ${count} ${unit} over',
           ),
       'syringeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(

@@ -21,7 +21,8 @@ class HrtCounterCard extends StatelessWidget {
     if (!enabled || duration == null) return const SizedBox.shrink();
 
     final theme = Theme.of(context);
-    return M3ECardColumn(
+    return M3ESegmentedColumn(
+      color: theme.colorScheme.surfaceContainerHighest,
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.symmetric(vertical: 8),
       children: [

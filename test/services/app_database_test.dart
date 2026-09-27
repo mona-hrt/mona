@@ -41,9 +41,10 @@ void main() {
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '0',
-        'concentration': '10',
+        'dosePerUnit': '10',
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
+        'dosingBasis': 'mass',
       });
 
       final item = await db.query(
@@ -95,9 +96,10 @@ void main() {
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '10',
-        'concentration': '200',
+        'dosePerUnit': '200',
         'molecule': '{"name":"progesterone","unit":"mg"}',
         'administrationRoute': 'oral',
+        'dosingBasis': 'mass',
       });
 
       final id = await db.insert('medication_intakes', {
@@ -108,6 +110,7 @@ void main() {
         'administrationRoute': 'oral',
         'medicationSupplyItemId': supplyItemId,
         'genericSupplyItemIds': '[]',
+        'dosingBasis': 'mass',
       });
 
       final allIntakes = await db.query(
@@ -144,6 +147,7 @@ void main() {
                 'administrationRoute': 'oral',
                 'medicationSupplyItemId': supplyItemId,
                 'genericSupplyItemIds': '[]',
+                'dosingBasis': 'mass',
               }),
           throwsA(
             predicate((e) =>
@@ -160,9 +164,10 @@ void main() {
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '10',
-        'concentration': '200',
+        'dosePerUnit': '200',
         'molecule': '{"name":"progesterone","unit":"mg"}',
         'administrationRoute': 'oral',
+        'dosingBasis': 'mass',
       });
 
       final intakeId = await db.insert('medication_intakes', {
@@ -173,6 +178,7 @@ void main() {
         'administrationRoute': 'oral',
         'medicationSupplyItemId': supplyItemId,
         'genericSupplyItemIds': '[]',
+        'dosingBasis': 'mass',
       });
 
       await db
@@ -204,6 +210,7 @@ void main() {
                 'administrationRoute': 'oral',
                 'scheduleId': scheduleId,
                 'genericSupplyItemIds': '[]',
+                'dosingBasis': 'mass',
               }),
           throwsA(
             predicate((e) =>
@@ -224,6 +231,7 @@ void main() {
         'administrationRoute': 'oral',
         'scheduling':
             '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
+        'dosingBasis': 'mass',
       });
 
       final intakeId = await db.insert('medication_intakes', {
@@ -234,6 +242,7 @@ void main() {
         'administrationRoute': 'oral',
         'scheduleId': scheduleId,
         'genericSupplyItemIds': '[]',
+        'dosingBasis': 'mass',
       });
 
       // Act
@@ -260,6 +269,7 @@ void main() {
         'administrationRoute': 'oral',
         'scheduling':
             '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
+        'dosingBasis': 'mass',
       });
 
       final schedule = await db.query(

@@ -18,7 +18,8 @@ die() { echo "error: $*" >&2; exit 1; }
 preflight() {
   command -v jq >/dev/null 2>&1 || die "jq is required but not installed"
   command -v gh >/dev/null 2>&1 || die "gh (GitHub CLI) is required but not installed"
-  gh auth status >/dev/null 2>&1 || die "gh is not authenticated. run 'gh auth login'"
+  gh auth status --hostname github.com >/dev/null 2>&1 \
+    || die "gh is not authenticated for github.com. run 'gh auth login --hostname github.com'"
 }
 
 read_version() {

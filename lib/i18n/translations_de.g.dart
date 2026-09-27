@@ -113,8 +113,6 @@ class TranslationsDe extends Translations
   @override
   String get languageFollowDevice => 'Gerätesprache verwenden';
   @override
-  String get selectLanguage => 'Sprache auswählen';
-  @override
   String get enableNotifications => 'Benachrichtigungen aktivieren';
   @override
   String get enableNotificationsDescription => 'Erinnerungen senden';
@@ -141,9 +139,6 @@ class TranslationsDe extends Translations
       'Manuell nach der neuesten Version suchen\nDies stellt eine Internetverbindung her\n(Es werden keine Daten gesendet)';
   @override
   String appVersion({required Object version}) => 'Mona Version ${version}';
-  @override
-  String backupSavedTo({required Object path}) =>
-      'Backup gespeichert unter: ${path}';
   @override
   String exportFailed({required Object error}) =>
       'Export fehlgeschlagen: ${error}';
@@ -517,16 +512,13 @@ class TranslationsDe extends Translations
   @override
   String get placementRightAbdomen => 'Rechter Bauch';
   @override
-  String get injectionSites => 'Injektionsstellen';
-  @override
-  String get addInjectionSite => 'Stelle hinzufügen';
+  String get addApplicationSite => 'Stelle hinzufügen';
   @override
   String get customSiteLabel => 'Eigener Stellenname';
   @override
-  String get noInjectionSitesYet => 'Noch keine Stellen';
+  String get noApplicationSitesYet => 'Noch keine Stellen';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Füge eine Stelle hinzu, um zu beginnen.';
+  String get addSiteToGetStarted => 'Füge eine Stelle hinzu, um zu beginnen.';
   @override
   String get placementLeftButtock => 'Linkes Gesäß';
   @override
@@ -564,10 +556,9 @@ class TranslationsDe extends Translations
   @override
   String get noItemsToAdd => 'Keine Einträge verfügbar';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dosis pro ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dosis pro ${unit}';
   @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Verwalte die Stellen, zwischen denen du wechselst';
   @override
   String get placementSuggestionPerScheduleTitle => 'Pro Zeitplan vorschlagen';
@@ -576,6 +567,26 @@ class TranslationsDe extends Translations
       'Nächste Stelle nur anhand der Historie dieses Zeitplans vorschlagen.';
   @override
   String get mustBeBetween1And28 => 'Muss zwischen 1 und 28 liegen';
+  @override
+  String get asNeeded => 'Nach Bedarf';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Täglich, zu bestimmten Zeiten';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Alle paar Tage';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Bestimmte Tage der Woche';
+  @override
+  String get scheduleFrequencyMonthlyDescription => 'Jeden Monat am selben Tag';
+  @override
+  String get scheduleFrequencyAsNeeded => 'Nach Bedarf';
+  @override
+  String get empty_levels =>
+      'Trage eine Blutuntersuchung oder Estradiol-Injektion ein, um loszulegen';
+  @override
+  String get estradiolLevelsTitle => 'Estradiol-Werte';
+  @override
+  String get unitNgPerMl => 'ng/mL';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
@@ -778,7 +789,6 @@ extension on TranslationsDe {
       'noSchedules' => 'Keine Zeitpläne',
       'language' => 'Sprache',
       'languageFollowDevice' => 'Gerätesprache verwenden',
-      'selectLanguage' => 'Sprache auswählen',
       'enableNotifications' => 'Benachrichtigungen aktivieren',
       'enableNotificationsDescription' => 'Erinnerungen senden',
       'notificationsDisabledTitle' => 'Benachrichtigungen sind deaktiviert',
@@ -793,8 +803,6 @@ extension on TranslationsDe {
       'checkForUpdatesDescription' =>
         'Manuell nach der neuesten Version suchen\nDies stellt eine Internetverbindung her\n(Es werden keine Daten gesendet)',
       'appVersion' => ({required Object version}) => 'Mona Version ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Backup gespeichert unter: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Export fehlgeschlagen: ${error}',
       'importDataTitle' => 'Daten importieren',
@@ -992,12 +1000,10 @@ extension on TranslationsDe {
       'placementRightArm' => 'Rechter Arm',
       'placementLeftAbdomen' => 'Linker Bauch',
       'placementRightAbdomen' => 'Rechter Bauch',
-      'injectionSites' => 'Injektionsstellen',
-      'addInjectionSite' => 'Stelle hinzufügen',
+      'addApplicationSite' => 'Stelle hinzufügen',
       'customSiteLabel' => 'Eigener Stellenname',
-      'noInjectionSitesYet' => 'Noch keine Stellen',
-      'noInjectionAddOneToGetStarted' =>
-        'Füge eine Stelle hinzu, um zu beginnen.',
+      'noApplicationSitesYet' => 'Noch keine Stellen',
+      'addSiteToGetStarted' => 'Füge eine Stelle hinzu, um zu beginnen.',
       'placementLeftButtock' => 'Linkes Gesäß',
       'placementRightButtock' => 'Rechtes Gesäß',
       'scheduleFrequencyMonthly' => 'Monatlich',
@@ -1018,14 +1024,23 @@ extension on TranslationsDe {
           'Zeit vor ${time} zählt zum vorherigen Tag',
       'chooseItem' => 'Eintrag auswählen',
       'noItemsToAdd' => 'Keine Einträge verfügbar',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dosis pro ${unit}',
-      'injectionSitesDescription' =>
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dosis pro ${unit}',
+      'applicationSitesDescription' =>
         'Verwalte die Stellen, zwischen denen du wechselst',
       'placementSuggestionPerScheduleTitle' => 'Pro Zeitplan vorschlagen',
       'placementSuggestionPerScheduleDescription' =>
         'Nächste Stelle nur anhand der Historie dieses Zeitplans vorschlagen.',
       'mustBeBetween1And28' => 'Muss zwischen 1 und 28 liegen',
+      'asNeeded' => 'Nach Bedarf',
+      'scheduleFrequencyDailyDescription' => 'Täglich, zu bestimmten Zeiten',
+      'scheduleFrequencyIntervalDescription' => 'Alle paar Tage',
+      'scheduleFrequencyWeeklyDescription' => 'Bestimmte Tage der Woche',
+      'scheduleFrequencyMonthlyDescription' => 'Jeden Monat am selben Tag',
+      'scheduleFrequencyAsNeeded' => 'Nach Bedarf',
+      'empty_levels' =>
+        'Trage eine Blutuntersuchung oder Estradiol-Injektion ein, um loszulegen',
+      'estradiolLevelsTitle' => 'Estradiol-Werte',
+      'unitNgPerMl' => 'ng/mL',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,

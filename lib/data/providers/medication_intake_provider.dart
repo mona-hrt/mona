@@ -112,16 +112,6 @@ class MedicationIntakeProvider extends ChangeNotifier {
     return DateTime(local.year, local.month, local.day);
   }
 
-  double? getGraphSpan(DateTime tMin) {
-    if (plottableIntakes.isEmpty) return null;
-
-    final lastInstant = plottableIntakes
-        .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b)
-        .takenDateTime!;
-
-    return timeDifferenceInDays(lastInstant, tMin);
-  }
-
   Date? getLastIntakeLocalDateFromList(List<MedicationIntake> intakes) {
     if (intakes.isEmpty) return null;
 

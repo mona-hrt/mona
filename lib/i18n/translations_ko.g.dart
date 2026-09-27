@@ -88,8 +88,6 @@ class TranslationsKo extends Translations
   @override
   String get language => '언어';
   @override
-  String get selectLanguage => '언어 선택';
-  @override
   String get enableNotifications => '알림 활성화';
   @override
   String get notificationsDisabledTitle => '알림이 비활성화되어 있습니다';
@@ -281,7 +279,6 @@ extension on TranslationsKo {
       'schedules' => '일정',
       'noSchedules' => '일정 없음',
       'language' => '언어',
-      'selectLanguage' => '언어 선택',
       'enableNotifications' => '알림 활성화',
       'notificationsDisabledTitle' => '알림이 비활성화되어 있습니다',
       'clickToOpenSettings' => '설정을 열려면 탭하세요',

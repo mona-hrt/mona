@@ -114,8 +114,6 @@ class TranslationsPl extends Translations
   @override
   String get languageFollowDevice => 'Użyj języka urządzenia';
   @override
-  String get selectLanguage => 'Wybierz język';
-  @override
   String get enableNotifications => 'Włącz powiadomienia';
   @override
   String get enableNotificationsDescription => 'Wysyłaj przypomnienia';
@@ -166,9 +164,6 @@ class TranslationsPl extends Translations
       'Sprawdź ręcznie najnowszą wersję\nSpowoduje to połączenie z Internetem\n(Żadne dane nie zostaną wysłane)';
   @override
   String appVersion({required Object version}) => 'Mona wersja ${version}';
-  @override
-  String backupSavedTo({required Object path}) =>
-      'Kopia zapasowa zapisana w: ${path}';
   @override
   String exportFailed({required Object error}) =>
       'Eksport nie powiódł się: ${error}';
@@ -368,8 +363,7 @@ class TranslationsPl extends Translations
   @override
   String get concentration => 'Stężenie';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dawka na ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dawka na ${unit}';
   @override
   String get editItem => 'Edytuj przedmiot';
   @override
@@ -541,19 +535,16 @@ class TranslationsPl extends Translations
   @override
   String get placementRightAbdomen => 'Prawa część brzucha';
   @override
-  String get injectionSites => 'Miejsca iniekcji';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Zarządzaj miejscami, między którymi rotujesz';
   @override
-  String get addInjectionSite => 'Dodaj miejsce';
+  String get addApplicationSite => 'Dodaj miejsce';
   @override
   String get customSiteLabel => 'Własna nazwa miejsca';
   @override
-  String get noInjectionSitesYet => 'Brak miejsc';
+  String get noApplicationSitesYet => 'Brak miejsc';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Dodaj miejsce poniżej, aby zacząć.';
+  String get addSiteToGetStarted => 'Dodaj miejsce poniżej, aby zacząć.';
   @override
   String get placementSuggestionPerScheduleTitle =>
       'Sugeruj według harmonogramu';
@@ -796,7 +787,6 @@ extension on TranslationsPl {
       'noSchedules' => 'Brak harmonogramów',
       'language' => 'Język',
       'languageFollowDevice' => 'Użyj języka urządzenia',
-      'selectLanguage' => 'Wybierz język',
       'enableNotifications' => 'Włącz powiadomienia',
       'enableNotificationsDescription' => 'Wysyłaj przypomnienia',
       'anchorToLastIntake' => 'Przelicz na podstawie ostatniego przyjęcia',
@@ -824,8 +814,6 @@ extension on TranslationsPl {
       'checkForUpdatesDescription' =>
         'Sprawdź ręcznie najnowszą wersję\nSpowoduje to połączenie z Internetem\n(Żadne dane nie zostaną wysłane)',
       'appVersion' => ({required Object version}) => 'Mona wersja ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Kopia zapasowa zapisana w: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Eksport nie powiódł się: ${error}',
       'importDataTitle' => 'Importuj dane',
@@ -935,8 +923,7 @@ extension on TranslationsPl {
       'adminRoute' => 'Droga podania',
       'totalAmount' => 'Łączna ilość',
       'concentration' => 'Stężenie',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dawka na ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dawka na ${unit}',
       'editItem' => 'Edytuj przedmiot',
       'usedAmount' => 'Zużyta ilość',
       'deleteItem' => ({required Object name}) => 'Usunąć ${name}?',
@@ -1023,13 +1010,12 @@ extension on TranslationsPl {
       'placementRightButtock' => 'Prawy pośladek',
       'placementLeftAbdomen' => 'Lewa część brzucha',
       'placementRightAbdomen' => 'Prawa część brzucha',
-      'injectionSites' => 'Miejsca iniekcji',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'Zarządzaj miejscami, między którymi rotujesz',
-      'addInjectionSite' => 'Dodaj miejsce',
+      'addApplicationSite' => 'Dodaj miejsce',
       'customSiteLabel' => 'Własna nazwa miejsca',
-      'noInjectionSitesYet' => 'Brak miejsc',
-      'noInjectionAddOneToGetStarted' => 'Dodaj miejsce poniżej, aby zacząć.',
+      'noApplicationSitesYet' => 'Brak miejsc',
+      'addSiteToGetStarted' => 'Dodaj miejsce poniżej, aby zacząć.',
       'placementSuggestionPerScheduleTitle' => 'Sugeruj według harmonogramu',
       'placementSuggestionPerScheduleDescription' =>
         'Opieraj sugestię kolejnego miejsca wyłącznie na historii tego harmonogramu.',

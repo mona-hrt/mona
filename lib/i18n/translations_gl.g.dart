@@ -112,8 +112,6 @@ class TranslationsGl extends Translations
   @override
   String get languageFollowDevice => 'Seguir o idioma do dispositivo';
   @override
-  String get selectLanguage => 'Seleccionar idioma';
-  @override
   String get enableNotifications => 'Activar notificacións';
   @override
   String get enableNotificationsDescription => 'Enviar recordatorios';
@@ -160,9 +158,6 @@ class TranslationsGl extends Translations
       'Busca a última versión manualmente\nIsto conectarache ao Internet\n(Non se enviarán datos)';
   @override
   String appVersion({required Object version}) => 'Versión ${version} de Mona';
-  @override
-  String backupSavedTo({required Object path}) =>
-      'Copia de seguridade gardada en: ${path}';
   @override
   String exportFailed({required Object error}) => 'Error ao exportar: ${error}';
   @override
@@ -506,7 +501,6 @@ extension on TranslationsGl {
       'noSchedules' => 'Sen horarios',
       'language' => 'Idioma',
       'languageFollowDevice' => 'Seguir o idioma do dispositivo',
-      'selectLanguage' => 'Seleccionar idioma',
       'enableNotifications' => 'Activar notificacións',
       'enableNotificationsDescription' => 'Enviar recordatorios',
       'notificationsDisabledTitle' => 'As notificacións están desactivadas',
@@ -532,8 +526,6 @@ extension on TranslationsGl {
         'Busca a última versión manualmente\nIsto conectarache ao Internet\n(Non se enviarán datos)',
       'appVersion' => ({required Object version}) =>
           'Versión ${version} de Mona',
-      'backupSavedTo' => ({required Object path}) =>
-          'Copia de seguridade gardada en: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Error ao exportar: ${error}',
       'importDataTitle' => 'Importar Datos',

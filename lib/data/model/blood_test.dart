@@ -20,6 +20,7 @@ class BloodTest with BloodTestMappable {
   final UnitValue<EstradiolUnit>? estradiolLevels;
   @MappableField(hook: JsonStringHook())
   final UnitValue<TestosteroneUnit>? testosteroneLevels;
+  final String? notes;
 
   BloodTest({
     int? id,
@@ -27,6 +28,7 @@ class BloodTest with BloodTestMappable {
     required this.timeZone,
     this.estradiolLevels,
     this.testosteroneLevels,
+    this.notes,
   }) : id = id ?? clock.now().millisecondsSinceEpoch {
     if (!dateTime.isUtc) {
       throw ArgumentError('dateTime must be UTC');

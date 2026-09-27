@@ -66,6 +66,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
   bool get _isInjection =>
       widget.intake.administrationRoute == AdministrationRoute.injection;
 
+  bool get _usesPlacements => widget.intake.administrationRoute.usesPlacements;
+
   void _editIntake(
     MedicationIntakeProvider medicationIntakeProvider,
     SupplyItemProvider supplyItemProvider,
@@ -101,7 +103,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
       notes: notes,
     );
 
-    if (!mounted) return;
+    if (!mounted || ModalRoute.of(context)?.isCurrent != true) return;
     Navigator.of(context).pop();
   }
 
@@ -115,6 +117,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
     MedicationIntakeManager(
             medicationIntakeProvider, supplyItemProvider, preferencesService)
         .deleteIntake(intake);
+    if (ModalRoute.of(context)?.isCurrent != true) return;
     Navigator.of(context).pop();
   }
 
@@ -205,7 +208,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
-        if (!isLoading && !_hasInitializedSide && _isInjection) {
+        if (!isLoading && !_hasInitializedSide && _usesPlacements) {
           _selectedPlacements = widget.intake.placements;
           _hasInitializedSide = true;
         }
@@ -263,16 +266,14 @@ class _EditIntakePageState extends State<EditIntakePage> {
               label: t.takenAmount,
               onChanged: _onTakenDoseChanged,
               inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.intake.molecule.localizedUnit,
+              suffixText: widget.intake.molecule
+                  .localizedUnit(widget.intake.dosingBasis),
               errorText: _takenDoseError,
               regexFormatter: RegexPatterns.floatNumber,
             ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
-                infoText: supplyItem.localizedSupplyAmount(
-                  _takenDose,
-                  widget.intake.molecule,
-                ),
+                infoText: supplyItem.localizedSupplyAmount(_takenDose),
               ),
             FormSpacer(),
             IntakeSupplyPicker(
@@ -294,15 +295,16 @@ class _EditIntakePageState extends State<EditIntakePage> {
                   () => _selectedGenerics = [..._selectedGenerics, generic]),
             ),
             FormSpacer(),
+            if (_usesPlacements &&
+                preferencesService.placementsList.isNotEmpty) ...[
+              PlacementPicker(
+                options: preferencesService.placementsList,
+                selected: _selectedPlacements,
+                onChanged: _onPlacementChanged,
+              ),
+              FormSpacer(),
+            ],
             if (_isInjection) ...[
-              if (preferencesService.placementsList.isNotEmpty) ...[
-                PlacementPicker(
-                  options: preferencesService.placementsList,
-                  selected: _selectedPlacements,
-                  onChanged: _onPlacementChanged,
-                ),
-                FormSpacer(),
-              ],
               FormTextField(
                 controller: _wastedAmountController,
                 label: t.wastedAmount,

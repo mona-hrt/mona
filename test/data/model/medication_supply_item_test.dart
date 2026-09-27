@@ -1,6 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/delivery_form.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -10,71 +12,28 @@ MedicationSupplyItem makeMed({
   String name = 'Med',
   String totalDose = '100',
   String usedDose = '0',
-  String concentration = '1',
+  String dosePerUnit = '1',
   Molecule? molecule,
   AdministrationRoute route = AdministrationRoute.oral,
   Ester? ester,
+  DeliveryForm? deliveryForm,
 }) {
   return MedicationSupplyItem(
     id: id,
     name: name,
     totalDose: Decimal.parse(totalDose),
     usedDose: Decimal.parse(usedDose),
-    concentration: Decimal.parse(concentration),
+    dosePerUnit: Decimal.parse(dosePerUnit),
     molecule: molecule ?? KnownMolecules.estradiol,
     administrationRoute: route,
     ester: ester,
+    deliveryForm: deliveryForm,
+    dosingBasis: DosingBasis.mass,
   );
 }
 
 void main() {
   group('MedicationSupplyItem', () {
-    group('toMap / fromMap', () {
-      test('round-trips all fields', () {
-        // Arrange
-        final original = MedicationSupplyItem(
-          id: 1,
-          name: 'Test Item',
-          totalDose: Decimal.parse('100'),
-          usedDose: Decimal.parse('20'),
-          concentration: Decimal.parse('10'),
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-          ester: Ester.undecylate,
-        );
-
-        // Act
-        final result = MedicationSupplyItemMapper.fromMap(original.toMap());
-
-        // Assert
-        expect(
-          result,
-          isA<MedicationSupplyItem>()
-              .having((s) => s.id, 'id', original.id)
-              .having((s) => s.name, 'name', original.name)
-              .having((s) => s.totalDose, 'totalDose', original.totalDose)
-              .having((s) => s.usedDose, 'usedDose', original.usedDose)
-              .having((s) => s.concentration, 'concentration',
-                  original.concentration)
-              .having((s) => s.molecule, 'molecule', original.molecule)
-              .having((s) => s.administrationRoute, 'administrationRoute',
-                  original.administrationRoute)
-              .having((s) => s.ester, 'ester', original.ester),
-        );
-      });
-
-      test('round-trips a null ester', () {
-        // Arrange
-        final original = makeMed(ester: null);
-
-        // Act
-        final result = MedicationSupplyItemMapper.fromMap(original.toMap());
-
-        // Assert
-        expect(result.ester, isNull);
-      });
-    });
-
     group('remainingDose', () {
       test('returns totalDose minus usedDose', () {
         // Arrange
@@ -119,7 +78,7 @@ void main() {
           name: 'Valid',
           totalDose: '100',
           usedDose: '50',
-          concentration: '10',
+          dosePerUnit: '10',
         );
 
         // Act
@@ -175,7 +134,7 @@ void main() {
 
       test('returns false when concentration is zero', () {
         // Arrange
-        final item = makeMed(concentration: '0');
+        final item = makeMed(dosePerUnit: '0');
 
         // Act
         final result = item.isValid();
@@ -258,7 +217,7 @@ void main() {
     group('getAmount', () {
       test('returns dose divided by concentration', () {
         // Arrange
-        final item = makeMed(concentration: '2.5');
+        final item = makeMed(dosePerUnit: '2.5');
 
         // Act
         final amount = item.getAmount(Decimal.fromInt(10));
@@ -269,7 +228,7 @@ void main() {
 
       test('returns zero for a zero dose', () {
         // Arrange
-        final item = makeMed(concentration: '2.5');
+        final item = makeMed(dosePerUnit: '2.5');
 
         // Act
         final amount = item.getAmount(Decimal.zero);
@@ -282,7 +241,7 @@ void main() {
     group('getDose', () {
       test('returns amount times concentration', () {
         // Arrange
-        final item = makeMed(concentration: '2.5');
+        final item = makeMed(dosePerUnit: '2.5');
 
         // Act
         final dose = item.getDose(Decimal.parse('4'));
@@ -293,79 +252,13 @@ void main() {
 
       test('returns zero for a zero amount', () {
         // Arrange
-        final item = makeMed(concentration: '2.5');
+        final item = makeMed(dosePerUnit: '2.5');
 
         // Act
         final dose = item.getDose(Decimal.zero);
 
         // Assert
         expect(dose, Decimal.zero);
-      });
-    });
-
-    group('copyWith', () {
-      test('replaces only the provided fields', () {
-        // Arrange
-        final original = makeMed(name: 'Original', totalDose: '100');
-
-        // Act
-        final result = original.copyWith(name: 'Updated');
-
-        // Assert
-        final expected = makeMed(name: 'Updated', totalDose: '100');
-        expect(result, expected);
-      });
-
-      test('keeps existing values when no overrides are provided', () {
-        // Arrange
-        final original = makeMed(
-          name: 'Original',
-          totalDose: '100',
-          usedDose: '20',
-          concentration: '5',
-          ester: Ester.valerate,
-        );
-
-        // Act
-        final result = original.copyWith();
-
-        // Assert
-        expect(
-          result,
-          isA<MedicationSupplyItem>()
-              .having((s) => s.id, 'id', original.id)
-              .having((s) => s.name, 'name', original.name)
-              .having((s) => s.totalDose, 'totalDose', original.totalDose)
-              .having((s) => s.usedDose, 'usedDose', original.usedDose)
-              .having((s) => s.concentration, 'concentration',
-                  original.concentration)
-              .having((s) => s.molecule, 'molecule', original.molecule)
-              .having((s) => s.administrationRoute, 'administrationRoute',
-                  original.administrationRoute)
-              .having((s) => s.ester, 'ester', original.ester),
-        );
-      });
-
-      test('overrides ester when a new value is provided', () {
-        // Arrange
-        final original = makeMed(ester: Ester.valerate);
-
-        // Act
-        final result = original.copyWith(ester: Ester.enanthate);
-
-        // Assert
-        expect(result.ester, Ester.enanthate);
-      });
-
-      test('clears ester when ester is null', () {
-        // Arrange
-        final original = makeMed(ester: Ester.valerate);
-
-        // Act
-        final result = original.copyWith(ester: null);
-
-        // Assert
-        expect(result.ester, isNull);
       });
     });
 

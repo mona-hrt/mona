@@ -86,7 +86,7 @@ class TranslationsSk extends Translations
   @override
   String get neverTakenYet => 'Nevzatá nikdy';
   @override
-  String get scheduleFrequencyDaily => 'Každý deň';
+  String get scheduleFrequencyDaily => 'Denne';
   @override
   String get scheduleFrequencyInterval => 'Interval';
   @override
@@ -112,8 +112,6 @@ class TranslationsSk extends Translations
   @override
   String get languageFollowDevice => 'Jazyk podľa zariadenia';
   @override
-  String get selectLanguage => 'Vyber jazyk';
-  @override
   String get enableNotifications => 'Zapni notifikácie';
   @override
   String get enableNotificationsDescription => 'Posielať pripomienky';
@@ -138,8 +136,6 @@ class TranslationsSk extends Translations
       'Skontrolovať najnovšiu verziu manuálne\nTáto akcia ťa pripojí na internet.\n(Žiadne dáta nebudú odoslané)';
   @override
   String appVersion({required Object version}) => 'Mona verzia ${version}';
-  @override
-  String backupSavedTo({required Object path}) => 'Záloha uložená: ${path}';
   @override
   String exportFailed({required Object error}) =>
       'Export dát sa nepodaril: ${error}';
@@ -529,24 +525,21 @@ class TranslationsSk extends Translations
   @override
   String get genericItems => 'Spotrebný materiál';
   @override
-  String get injectionSites => 'Miesta vpichu';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Spravujte miesta vpichu, ktoré striedate';
   @override
-  String get addInjectionSite => 'Pridať miesto vpichu';
+  String get addApplicationSite => 'Pridať miesto vpichu';
   @override
   String get customSiteLabel => 'Vlastný názov miesta vpichu';
   @override
-  String get noInjectionSitesYet => 'Zatiaľ žiadne miesta vpichu';
+  String get noApplicationSitesYet => 'Zatiaľ žiadne miesta vpichu';
   @override
   String get placementSuggestionPerScheduleTitle => 'Navrhnúť podľa plánu';
   @override
   String get placementSuggestionPerScheduleDescription =>
       'Odporúčanie ďalšieho miesta vpichu odvodzujte len z histórie tohto plánu.';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Ak chcete začať, pridajte miesto vpichu.';
+  String get addSiteToGetStarted => 'Ak chcete začať, pridajte miesto vpichu.';
   @override
   String get placementLeftButtock => 'Ľavý sedací sval';
   @override
@@ -556,8 +549,7 @@ class TranslationsSk extends Translations
   @override
   String get placementRightAbdomen => 'Pravá abdominálna oblasť';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dávka na ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dávka na ${unit}';
   @override
   String get HrtCounter => 'Čas na HRT';
   @override
@@ -567,6 +559,35 @@ class TranslationsSk extends Translations
   String get hrtWidgetPreviewSample => 'Na HRT 8 mesiacov';
   @override
   String get hrtWidgetPreviewIntakeSample => '16 zaznamenaných dávok';
+  @override
+  String get asNeeded => 'Podľa potreby';
+  @override
+  String get scheduleFrequencyDailyDescription => 'Každý deň v určených časoch';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Každých pár dní';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Určité dni v týždni';
+  @override
+  String get scheduleFrequencyMonthlyDescription =>
+      'Každý mesiac v rovnaký deň';
+  @override
+  String get scheduleFrequencyAsNeeded => 'Podľa potreby';
+  @override
+  String get scheduleFrequencyAsNeededDescription =>
+      'Bez pevne stanoveného času';
+  @override
+  String get backupSaved => 'Záloha bola uložená';
+  @override
+  String get secretSettings => 'Skryté nastavenia';
+  @override
+  String get slimeMode => 'Slizový mód';
+  @override
+  String get empty_levels =>
+      'Ak chcete začať, pridajte výsledok krvného testu alebo zaznamenajte injekciu estradiolu';
+  @override
+  String get estradiolLevelsTitle => 'Hodnoty estradiolu';
+  @override
+  String get unitNgPerMl => 'ng/mL';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
@@ -778,7 +799,7 @@ extension on TranslationsSk {
       'tomorrow' => 'zajtra',
       'lastTaken' => 'Vzatá naposledy',
       'neverTakenYet' => 'Nevzatá nikdy',
-      'scheduleFrequencyDaily' => 'Každý deň',
+      'scheduleFrequencyDaily' => 'Denne',
       'scheduleFrequencyInterval' => 'Interval',
       'scheduleFrequencyWeekly' => 'Týždenne',
       'newUpdateAvailable' => 'Je k dispozícii nová aktualizácia!',
@@ -791,7 +812,6 @@ extension on TranslationsSk {
       'noSchedules' => 'Žiadne plány',
       'language' => 'Jazyk',
       'languageFollowDevice' => 'Jazyk podľa zariadenia',
-      'selectLanguage' => 'Vyber jazyk',
       'enableNotifications' => 'Zapni notifikácie',
       'enableNotificationsDescription' => 'Posielať pripomienky',
       'notificationsDisabledTitle' => 'Notifikácie sú vypnuté',
@@ -806,7 +826,6 @@ extension on TranslationsSk {
       'checkForUpdatesDescription' =>
         'Skontrolovať najnovšiu verziu manuálne\nTáto akcia ťa pripojí na internet.\n(Žiadne dáta nebudú odoslané)',
       'appVersion' => ({required Object version}) => 'Mona verzia ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Záloha uložená: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Export dát sa nepodaril: ${error}',
       'importDataTitle' => 'Import dát',
@@ -1013,26 +1032,38 @@ extension on TranslationsSk {
       'mustBeBetween1And28' => 'Musí byť medzi 1 a 28',
       'chooseItem' => 'Zvoľte položku',
       'genericItems' => 'Spotrebný materiál',
-      'injectionSites' => 'Miesta vpichu',
-      'injectionSitesDescription' => 'Spravujte miesta vpichu, ktoré striedate',
-      'addInjectionSite' => 'Pridať miesto vpichu',
+      'applicationSitesDescription' =>
+        'Spravujte miesta vpichu, ktoré striedate',
+      'addApplicationSite' => 'Pridať miesto vpichu',
       'customSiteLabel' => 'Vlastný názov miesta vpichu',
-      'noInjectionSitesYet' => 'Zatiaľ žiadne miesta vpichu',
+      'noApplicationSitesYet' => 'Zatiaľ žiadne miesta vpichu',
       'placementSuggestionPerScheduleTitle' => 'Navrhnúť podľa plánu',
       'placementSuggestionPerScheduleDescription' =>
         'Odporúčanie ďalšieho miesta vpichu odvodzujte len z histórie tohto plánu.',
-      'noInjectionAddOneToGetStarted' =>
-        'Ak chcete začať, pridajte miesto vpichu.',
+      'addSiteToGetStarted' => 'Ak chcete začať, pridajte miesto vpichu.',
       'placementLeftButtock' => 'Ľavý sedací sval',
       'placementRightButtock' => 'Pravý sedací sval',
       'placementLeftAbdomen' => 'Ľavá abdominálna oblasť',
       'placementRightAbdomen' => 'Pravá abdominálna oblasť',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dávka na ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dávka na ${unit}',
       'HrtCounter' => 'Čas na HRT',
       'hrtWidgetPlaceholder' => 'Otvorte Mona a zaznamenajte svoje prvé dávky',
       'hrtWidgetPreviewSample' => 'Na HRT 8 mesiacov',
       'hrtWidgetPreviewIntakeSample' => '16 zaznamenaných dávok',
+      'asNeeded' => 'Podľa potreby',
+      'scheduleFrequencyDailyDescription' => 'Každý deň v určených časoch',
+      'scheduleFrequencyIntervalDescription' => 'Každých pár dní',
+      'scheduleFrequencyWeeklyDescription' => 'Určité dni v týždni',
+      'scheduleFrequencyMonthlyDescription' => 'Každý mesiac v rovnaký deň',
+      'scheduleFrequencyAsNeeded' => 'Podľa potreby',
+      'scheduleFrequencyAsNeededDescription' => 'Bez pevne stanoveného času',
+      'backupSaved' => 'Záloha bola uložená',
+      'secretSettings' => 'Skryté nastavenia',
+      'slimeMode' => 'Slizový mód',
+      'empty_levels' =>
+        'Ak chcete začať, pridajte výsledok krvného testu alebo zaznamenajte injekciu estradiolu',
+      'estradiolLevelsTitle' => 'Hodnoty estradiolu',
+      'unitNgPerMl' => 'ng/mL',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,

@@ -1,11 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
-import 'package:mona/data/model/molecule.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/repository.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import '../fixtures.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -32,13 +31,7 @@ void main() {
     });
 
     test('Insert and retrieve a SupplyItem', () async {
-      final item = MedicationSupplyItem(
-        name: 'h',
-        totalDose: Decimal.parse('1'),
-        concentration: Decimal.parse('1'),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
+      final item = aMedicationSupplyItem();
 
       int insertedId = await repository.insert(item);
       final items = await repository.getAll();
@@ -50,22 +43,10 @@ void main() {
     });
 
     test('Update a SupplyItem', () async {
-      final item = MedicationSupplyItem(
-        name: 'h',
-        totalDose: Decimal.parse('1'),
-        concentration: Decimal.parse('1'),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
+      final item = aMedicationSupplyItem();
       int id = await repository.insert(item);
-      final updatedItem = MedicationSupplyItem(
-        name: 'h',
-        id: id,
-        totalDose: Decimal.parse('2'),
-        concentration: Decimal.parse('1'),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
+      final updatedItem =
+          aMedicationSupplyItem(id: id, totalDose: Decimal.parse('2'));
 
       await repository.update(updatedItem, id);
 
@@ -77,13 +58,7 @@ void main() {
     });
 
     test('Delete a SupplyItem', () async {
-      final item = MedicationSupplyItem(
-        name: 'h',
-        totalDose: Decimal.parse('1'),
-        concentration: Decimal.parse('1'),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
+      final item = aMedicationSupplyItem();
       int id = await repository.insert(item);
 
       await repository.delete(id);
@@ -93,22 +68,8 @@ void main() {
     });
 
     test('Only delete the specified SupplyItem', () async {
-      final item1 = MedicationSupplyItem(
-        id: 1,
-        name: 'g',
-        totalDose: Decimal.parse('1'),
-        concentration: Decimal.parse('1'),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
-      final item2 = MedicationSupplyItem(
-        id: 2,
-        name: 'h',
-        totalDose: Decimal.parse('2'),
-        concentration: Decimal.parse('1'),
-        molecule: KnownMolecules.estradiol,
-        administrationRoute: AdministrationRoute.oral,
-      );
+      final item1 = aMedicationSupplyItem(id: 1);
+      final item2 = aMedicationSupplyItem(id: 2);
       int id1 = await repository.insert(item1);
       int id2 = await repository.insert(item2);
 

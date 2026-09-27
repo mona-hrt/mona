@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -25,7 +26,7 @@ part 'medication_intake.mapper.dart';
 class MedicationIntake with MedicationIntakeMappable {
   final int id;
   final TimeOfDay? scheduledTime;
-  final DateTime? takenDateTime;
+  final DateTime? takenDateTime; // todo make non nullable ?
   final String? takenTimeZone;
   final Decimal takenDose;
   final Decimal? wastedAmount; // mL
@@ -42,6 +43,7 @@ class MedicationIntake with MedicationIntakeMappable {
   final String? notes;
   @MappableField(hook: JsonStringHook())
   final List<Placement> placements;
+  final DosingBasis dosingBasis;
 
   MedicationIntake({
     int? id,
@@ -59,6 +61,7 @@ class MedicationIntake with MedicationIntakeMappable {
     this.genericSupplyItemIds = const [],
     this.notes,
     this.placements = const [],
+    required this.dosingBasis,
   }) : id = id ?? clock.now().millisecondsSinceEpoch {
     if (takenDateTime != null && !takenDateTime!.isUtc) {
       throw ArgumentError('takenDateTime must be UTC');

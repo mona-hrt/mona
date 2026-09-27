@@ -17,15 +17,7 @@ void main() {
   });
 
   setUp(() {
-    repo = GenericRepositoryMock<BloodTest>(
-      withId: (i, id) => BloodTest(
-        id: id,
-        dateTime: i.dateTime,
-        timeZone: i.timeZone,
-        estradiolLevels: i.estradiolLevels,
-        testosteroneLevels: i.testosteroneLevels,
-      ),
-    );
+    repo = GenericRepositoryMock<BloodTest>();
   });
 
   group('BloodTestProvider Tests', () {
@@ -431,8 +423,8 @@ void main() {
             testosteroneLevel: Decimal.parse('1.0')));
 
         // Act
-        final result =
-            provider.levelEntries(Hormone.estradiol, Units.pg_mL_ng_dL);
+        final result = provider.levelEntries(
+            Hormone.estradiol, EstradiolUnit.pg_mL, TestosteroneUnit.ng_dL);
 
         // Assert
         expect(result.map((e) => e.value.value), [Decimal.parse('100.0')]);
@@ -446,12 +438,31 @@ void main() {
             estradiolLevel: Decimal.parse('100.0')));
 
         // Act
-        final result =
-            provider.levelEntries(Hormone.estradiol, Units.pmol_L_nmol_L);
+        final result = provider.levelEntries(
+            Hormone.estradiol, EstradiolUnit.pmol_L, TestosteroneUnit.nmol_L);
 
         // Assert
         expect(result.single.value,
             UnitValue(Decimal.parse('367.1'), EstradiolUnit.pmol_L));
+      });
+
+      test('estradiol and testosterone units can be independent', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0'),
+            testosteroneLevel: Decimal.parse('1.0')));
+
+        // Act
+        final estradiolEntries = provider.levelEntries(
+            Hormone.estradiol, EstradiolUnit.pg_mL, TestosteroneUnit.nmol_L);
+        final testosteroneEntries = provider.levelEntries(
+            Hormone.testosterone, EstradiolUnit.pg_mL, TestosteroneUnit.nmol_L);
+
+        // Assert
+        expect(estradiolEntries.single.value.unit, EstradiolUnit.pg_mL);
+        expect(testosteroneEntries.single.value.unit, TestosteroneUnit.nmol_L);
       });
 
       test('testosterone excludes tests without testosterone levels', () async {
@@ -465,11 +476,27 @@ void main() {
             estradiolLevel: Decimal.parse('100.0')));
 
         // Act
-        final result =
-            provider.levelEntries(Hormone.testosterone, Units.pg_mL_ng_dL);
+        final result = provider.levelEntries(
+            Hormone.testosterone, EstradiolUnit.pg_mL, TestosteroneUnit.ng_dL);
 
         // Assert
         expect(result.map((e) => e.value.value), [Decimal.parse('1.0')]);
+      });
+
+      test('carries the note of each test', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0'),
+            notes: 'did not test before my last injection'));
+
+        // Act
+        final result = provider.levelEntries(
+            Hormone.estradiol, EstradiolUnit.pg_mL, TestosteroneUnit.ng_dL);
+
+        // Assert
+        expect(result.single.notes, 'did not test before my last injection');
       });
 
       test('preserves the newest-first order of the tests', () async {
@@ -486,8 +513,8 @@ void main() {
             estradiolLevel: Decimal.parse('150.0')));
 
         // Act
-        final result =
-            provider.levelEntries(Hormone.estradiol, Units.pg_mL_ng_dL);
+        final result = provider.levelEntries(
+            Hormone.estradiol, EstradiolUnit.pg_mL, TestosteroneUnit.ng_dL);
 
         // Assert
         expect(result.map((e) => e.value.value), [

@@ -27,6 +27,7 @@ class EditBloodTestPage extends StatefulWidget {
 class _EditBloodTestPageState extends State<EditBloodTestPage> {
   late TextEditingController _estradiolLevelsController;
   late TextEditingController _testosteroneLevelsController;
+  late TextEditingController _notesController;
   late DateTime _testDateTime;
   late BloodTestProvider _bloodTestProvider;
   late PreferencesService _preferencesService;
@@ -61,15 +62,14 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
     final timezone =
         _dateTimeChanged ? await FlutterTimezone.getLocalTimezone() : null;
 
-    final defaultUnits = _preferencesService.units;
-
     final estradiolLevels = _estradiolLevelsController.text.toDecimalOrNull;
-    final estradiolUnit =
-        widget.bloodtest.estradiolLevels?.unit ?? defaultUnits.estradiol;
+    final estradiolUnit = widget.bloodtest.estradiolLevels?.unit ??
+        _preferencesService.estradiolUnit;
     final testosteroneLevels =
         _testosteroneLevelsController.text.toDecimalOrNull;
-    final testosteroneUnit =
-        widget.bloodtest.testosteroneLevels?.unit ?? defaultUnits.testosterone;
+    final testosteroneUnit = widget.bloodtest.testosteroneLevels?.unit ??
+        _preferencesService.testosteroneUnit;
+    final notes = _notesController.text.isEmpty ? null : _notesController.text;
 
     final updatedBloodTest = widget.bloodtest.copyWith(
         dateTime: _testDateTime.toUtc(),
@@ -79,7 +79,8 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
             : null,
         testosteroneLevels: testosteroneLevels != null
             ? UnitValue(testosteroneLevels, testosteroneUnit)
-            : null);
+            : null,
+        notes: notes);
     await _bloodTestProvider.updateBloodTest(updatedBloodTest);
 
     if (!mounted) return;
@@ -95,6 +96,8 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
         text: widget.bloodtest.estradiolLevels?.value.toString());
     _testosteroneLevelsController = TextEditingController(
         text: widget.bloodtest.testosteroneLevels?.value.toString());
+    _notesController =
+        TextEditingController(text: widget.bloodtest.notes ?? '');
     _testDateTime = widget.bloodtest.localDateTime;
   }
 
@@ -102,12 +105,12 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
   void dispose() {
     _estradiolLevelsController.dispose();
     _testosteroneLevelsController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final defaultUnits = _preferencesService.units;
     return ModelForm(
       title: t.editBloodTest,
       avatar: Symbols.lab_panel_rounded,
@@ -123,9 +126,9 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
-          suffixText:
-              (widget.bloodtest.estradiolLevels?.unit ?? defaultUnits.estradiol)
-                  .localizedName,
+          suffixText: (widget.bloodtest.estradiolLevels?.unit ??
+                  _preferencesService.estradiolUnit)
+              .localizedName,
         ),
         FormTextField(
           controller: _testosteroneLevelsController,
@@ -135,7 +138,7 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
           suffixText: (widget.bloodtest.testosteroneLevels?.unit ??
-                  defaultUnits.testosterone)
+                  _preferencesService.testosteroneUnit)
               .localizedName,
         ),
         FormSpacer(),
@@ -147,6 +150,14 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
             _testDateTime = date;
             _dateTimeChanged = true;
           }),
+        ),
+        FormTextField(
+          controller: _notesController,
+          label: t.notes,
+          fieldKey: const ValueKey('editBloodTestNotes'),
+          onChanged: _refresh,
+          inputType: TextInputType.multiline,
+          multiline: true,
         ),
       ],
     );

@@ -24,17 +24,31 @@ class MoleculeMapper extends ClassMapperBase<Molecule> {
 
   static String _$name(Molecule v) => v.name;
   static const Field<Molecule, String> _f$name = Field('name', _$name);
-  static String _$unit(Molecule v) => v.unit;
-  static const Field<Molecule, String> _f$unit = Field('unit', _$unit);
+  static String _$massUnit(Molecule v) => v.massUnit;
+  static const Field<Molecule, String> _f$massUnit = Field(
+    'massUnit',
+    _$massUnit,
+  );
+  static String? _$rateUnit(Molecule v) => v.rateUnit;
+  static const Field<Molecule, String> _f$rateUnit = Field(
+    'rateUnit',
+    _$rateUnit,
+    opt: true,
+  );
 
   @override
   final MappableFields<Molecule> fields = const {
     #name: _f$name,
-    #unit: _f$unit,
+    #massUnit: _f$massUnit,
+    #rateUnit: _f$rateUnit,
   };
 
   static Molecule _instantiate(DecodingData data) {
-    return Molecule(name: data.dec(_f$name), unit: data.dec(_f$unit));
+    return Molecule(
+      name: data.dec(_f$name),
+      massUnit: data.dec(_f$massUnit),
+      rateUnit: data.dec(_f$rateUnit),
+    );
   }
 
   @override
@@ -94,7 +108,7 @@ extension MoleculeValueCopy<$R, $Out> on ObjectCopyWith<$R, Molecule, $Out> {
 
 abstract class MoleculeCopyWith<$R, $In extends Molecule, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? name, String? unit});
+  $R call({String? name, String? massUnit, String? rateUnit});
   MoleculeCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -107,16 +121,18 @@ class _MoleculeCopyWithImpl<$R, $Out>
   late final ClassMapperBase<Molecule> $mapper =
       MoleculeMapper.ensureInitialized();
   @override
-  $R call({String? name, String? unit}) => $apply(
+  $R call({String? name, String? massUnit, Object? rateUnit = $none}) => $apply(
         FieldCopyWithData({
           if (name != null) #name: name,
-          if (unit != null) #unit: unit,
+          if (massUnit != null) #massUnit: massUnit,
+          if (rateUnit != $none) #rateUnit: rateUnit,
         }),
       );
   @override
   Molecule $make(CopyWithData data) => Molecule(
         name: data.get(#name, or: $value.name),
-        unit: data.get(#unit, or: $value.unit),
+        massUnit: data.get(#massUnit, or: $value.massUnit),
+        rateUnit: data.get(#rateUnit, or: $value.rateUnit),
       );
 
   @override

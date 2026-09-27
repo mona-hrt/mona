@@ -46,7 +46,7 @@ class FormDateField extends StatelessWidget {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: (selectedDate ?? date).toDateTime(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1900),
       lastDate: DateTime(2100),
     );
 

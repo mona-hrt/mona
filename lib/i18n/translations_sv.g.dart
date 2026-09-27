@@ -96,8 +96,6 @@ class TranslationsSv extends Translations
   @override
   String get languageFollowDevice => 'Använd enhetens språk';
   @override
-  String get selectLanguage => 'Välj Språk';
-  @override
   String get enableNotifications => 'Aktivera aviseringar';
   @override
   String get ester => 'Ester';
@@ -215,9 +213,6 @@ class TranslationsSv extends Translations
   @override
   String get checkForUpdatesDescription =>
       'Sök manuellt efter senaste versionen\nDetta kommer att ansluta dig till internet\n(Ingen data skickas)';
-  @override
-  String backupSavedTo({required Object path}) =>
-      'Säkerhetskopia sparad i: ${path}';
   @override
   String exportFailed({required Object error}) =>
       'Export misslyckades: ${error}';
@@ -408,7 +403,7 @@ class TranslationsSv extends Translations
   @override
   String get concentration => 'Koncentration';
   @override
-  String concentrationLabelPerUnit({required Object unit}) => 'Dos per ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dos per ${unit}';
   @override
   String get editItem => 'Redigera artikel';
   @override
@@ -540,17 +535,16 @@ class TranslationsSv extends Translations
   @override
   String get placementRightAbdomen => 'Höger buk';
   @override
-  String get injectionSites => 'Injektionsställen';
+  String get applicationSitesDescription =>
+      'Hantera ställena du roterar mellan';
   @override
-  String get injectionSitesDescription => 'Hantera ställena du roterar mellan';
-  @override
-  String get addInjectionSite => 'Lägg till ställe';
+  String get addApplicationSite => 'Lägg till ställe';
   @override
   String get customSiteLabel => 'Anpassat ställenamn';
   @override
-  String get noInjectionSitesYet => 'Inga ställen än';
+  String get noApplicationSitesYet => 'Inga ställen än';
   @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Lägg till ett ställe nedan för att komma igång.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Föreslå per schema';
@@ -760,7 +754,6 @@ extension on TranslationsSv {
       'noSchedules' => 'Inga scheman',
       'language' => 'Språk',
       'languageFollowDevice' => 'Använd enhetens språk',
-      'selectLanguage' => 'Välj Språk',
       'enableNotifications' => 'Aktivera aviseringar',
       'ester' => 'Ester',
       'estradiol' => 'Östradiol',
@@ -822,8 +815,6 @@ extension on TranslationsSv {
       'checkForUpdates' => 'Sök efter uppdateringar',
       'checkForUpdatesDescription' =>
         'Sök manuellt efter senaste versionen\nDetta kommer att ansluta dig till internet\n(Ingen data skickas)',
-      'backupSavedTo' => ({required Object path}) =>
-          'Säkerhetskopia sparad i: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Export misslyckades: ${error}',
       'importDataSubtitle' => 'Återställ data från en JSON-säkerhetskopia',
@@ -930,8 +921,7 @@ extension on TranslationsSv {
       'adminRoute' => 'Administreringsväg',
       'totalAmount' => 'Total mängd',
       'concentration' => 'Koncentration',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dos per ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dos per ${unit}',
       'editItem' => 'Redigera artikel',
       'usedAmount' => 'Använd mängd',
       'deleteItem' => ({required Object name}) => 'Ta bort ${name}?',
@@ -997,12 +987,11 @@ extension on TranslationsSv {
       'placementRightButtock' => 'Höger skinka',
       'placementLeftAbdomen' => 'Vänster buk',
       'placementRightAbdomen' => 'Höger buk',
-      'injectionSites' => 'Injektionsställen',
-      'injectionSitesDescription' => 'Hantera ställena du roterar mellan',
-      'addInjectionSite' => 'Lägg till ställe',
+      'applicationSitesDescription' => 'Hantera ställena du roterar mellan',
+      'addApplicationSite' => 'Lägg till ställe',
       'customSiteLabel' => 'Anpassat ställenamn',
-      'noInjectionSitesYet' => 'Inga ställen än',
-      'noInjectionAddOneToGetStarted' =>
+      'noApplicationSitesYet' => 'Inga ställen än',
+      'addSiteToGetStarted' =>
         'Lägg till ett ställe nedan för att komma igång.',
       'placementSuggestionPerScheduleTitle' => 'Föreslå per schema',
       'placementSuggestionPerScheduleDescription' =>

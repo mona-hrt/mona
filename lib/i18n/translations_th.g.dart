@@ -112,8 +112,6 @@ class TranslationsTh extends Translations
   @override
   String get languageFollowDevice => 'ตามภาษาระบบ';
   @override
-  String get selectLanguage => 'เลือกภาษา';
-  @override
   String get enableNotifications => 'เปิดการแจ้งเตือน';
   @override
   String get enableNotificationsDescription => 'ส่งการแจ้งเตือน';
@@ -137,8 +135,6 @@ class TranslationsTh extends Translations
       'ตรวจหาอัพเดตใหม่\nต้องมีการเชื่อมต่ออินเทอร์เน็ต\n(ไม่มีข้อมูลใดๆออกนอกเครื่อง)';
   @override
   String appVersion({required Object version}) => 'Mona เวอร์ชั่น ${version}';
-  @override
-  String backupSavedTo({required Object path}) => 'แบ็คอัพบันทึกไปที่ ${path}';
   @override
   String exportFailed({required Object error}) => 'นำออกล้มเหลว: ${error}';
   @override
@@ -507,17 +503,15 @@ class TranslationsTh extends Translations
   @override
   String get placementRightAbdomen => 'ช่องท้องด้านขวา';
   @override
-  String get injectionSites => 'ตำแหน่งฉีดยา';
+  String get applicationSitesDescription => 'จัดการตำแหน่งฉีดยาต่างๆ';
   @override
-  String get injectionSitesDescription => 'จัดการตำแหน่งฉีดยาต่างๆ';
-  @override
-  String get addInjectionSite => 'เพื่มตำแหน่ง';
+  String get addApplicationSite => 'เพื่มตำแหน่ง';
   @override
   String get customSiteLabel => 'กำหนดตำแหน่งเอง';
   @override
-  String get noInjectionSitesYet => 'ยังไม่มีตำแหน่ง';
+  String get noApplicationSitesYet => 'ยังไม่มีตำแหน่ง';
   @override
-  String get noInjectionAddOneToGetStarted => 'โปรดเพื่มตำแหน่ง';
+  String get addSiteToGetStarted => 'โปรดเพื่มตำแหน่ง';
   @override
   String get placementSuggestionPerScheduleTitle =>
       'แนะนำตำแหน่งฉีดโดยแยกตาราง';
@@ -713,7 +707,6 @@ extension on TranslationsTh {
       'noSchedules' => 'ไม่มีตารางเวลา',
       'language' => 'ภาษา',
       'languageFollowDevice' => 'ตามภาษาระบบ',
-      'selectLanguage' => 'เลือกภาษา',
       'enableNotifications' => 'เปิดการแจ้งเตือน',
       'enableNotificationsDescription' => 'ส่งการแจ้งเตือน',
       'notificationsDisabledTitle' => 'การแจ้งเตือนได้ปิดอยู่',
@@ -727,8 +720,6 @@ extension on TranslationsTh {
         'ตรวจหาอัพเดตใหม่\nต้องมีการเชื่อมต่ออินเทอร์เน็ต\n(ไม่มีข้อมูลใดๆออกนอกเครื่อง)',
       'appVersion' => ({required Object version}) =>
           'Mona เวอร์ชั่น ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'แบ็คอัพบันทึกไปที่ ${path}',
       'exportFailed' => ({required Object error}) => 'นำออกล้มเหลว: ${error}',
       'importDataTitle' => 'นำเข้าข้อมูล',
       'importDataSubtitle' => 'กู้คืนข้อมูลจากแบ็คอัพ JSON',
@@ -920,12 +911,11 @@ extension on TranslationsTh {
       'placementRightButtock' => 'แก้มก้นฝั่งขวา',
       'placementLeftAbdomen' => 'ช่องท้องด้านซ้าย',
       'placementRightAbdomen' => 'ช่องท้องด้านขวา',
-      'injectionSites' => 'ตำแหน่งฉีดยา',
-      'injectionSitesDescription' => 'จัดการตำแหน่งฉีดยาต่างๆ',
-      'addInjectionSite' => 'เพื่มตำแหน่ง',
+      'applicationSitesDescription' => 'จัดการตำแหน่งฉีดยาต่างๆ',
+      'addApplicationSite' => 'เพื่มตำแหน่ง',
       'customSiteLabel' => 'กำหนดตำแหน่งเอง',
-      'noInjectionSitesYet' => 'ยังไม่มีตำแหน่ง',
-      'noInjectionAddOneToGetStarted' => 'โปรดเพื่มตำแหน่ง',
+      'noApplicationSitesYet' => 'ยังไม่มีตำแหน่ง',
+      'addSiteToGetStarted' => 'โปรดเพื่มตำแหน่ง',
       'placementSuggestionPerScheduleTitle' => 'แนะนำตำแหน่งฉีดโดยแยกตาราง',
       'placementSuggestionPerScheduleDescription' =>
         'แนะนำตำแหน่งฉีดถัดไปตามประวัติการฉีดของตารางเวลานั้นๆเท่านั้น',

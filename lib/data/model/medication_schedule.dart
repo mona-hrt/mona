@@ -4,6 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -31,6 +32,7 @@ class MedicationSchedule with MedicationScheduleMappable {
   final Ester? ester;
   @MappableField(hook: JsonStringHook())
   final SchedulingStrategy scheduling;
+  final DosingBasis dosingBasis;
 
   MedicationSchedule({
     int? id,
@@ -41,6 +43,7 @@ class MedicationSchedule with MedicationScheduleMappable {
     required this.molecule,
     required this.administrationRoute,
     this.ester,
+    required this.dosingBasis,
   })  : id = id ?? clock.now().millisecondsSinceEpoch,
         startDate = startDate ?? Date.today();
 

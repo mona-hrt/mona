@@ -112,8 +112,6 @@ class TranslationsPt extends Translations
   @override
   String get languageFollowDevice => 'Seguir o idioma do dispositivo';
   @override
-  String get selectLanguage => 'Selecionar idioma';
-  @override
   String get enableNotifications => 'Ativar notificações';
   @override
   String get enableNotificationsDescription => 'Enviar lembretes';
@@ -139,8 +137,6 @@ class TranslationsPt extends Translations
       'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)';
   @override
   String appVersion({required Object version}) => 'Versão do Mona ${version}';
-  @override
-  String backupSavedTo({required Object path}) => 'Backup salvo em: ${path}';
   @override
   String exportFailed({required Object error}) => 'Falha ao exportar: ${error}';
   @override
@@ -518,8 +514,7 @@ class TranslationsPt extends Translations
   @override
   String get noItemsToAdd => 'Não há itens disponíveis';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose por ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dose por ${unit}';
   @override
   String get allItemsFilter => 'Todos';
   @override
@@ -547,19 +542,16 @@ class TranslationsPt extends Translations
   @override
   String get placementRightAbdomen => 'Abdómen direito';
   @override
-  String get injectionSites => 'Zonas de injeção';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Gere as zonas entre as quais alternas';
   @override
-  String get addInjectionSite => 'Adicionar zona';
+  String get addApplicationSite => 'Adicionar zona';
   @override
   String get customSiteLabel => 'Nome de zona personalizado';
   @override
-  String get noInjectionSitesYet => 'Ainda não há zonas';
+  String get noApplicationSitesYet => 'Ainda não há zonas';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Adiciona uma zona abaixo para começar.';
+  String get addSiteToGetStarted => 'Adiciona uma zona abaixo para começar.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Sugerir por horário';
   @override
@@ -791,7 +783,6 @@ extension on TranslationsPt {
       'noSchedules' => 'Sem cronogramas',
       'language' => 'Idioma',
       'languageFollowDevice' => 'Seguir o idioma do dispositivo',
-      'selectLanguage' => 'Selecionar idioma',
       'enableNotifications' => 'Ativar notificações',
       'enableNotificationsDescription' => 'Enviar lembretes',
       'notificationsDisabledTitle' => 'As notificações estão desativadas',
@@ -808,7 +799,6 @@ extension on TranslationsPt {
         'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)',
       'appVersion' => ({required Object version}) =>
           'Versão do Mona ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Backup salvo em: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Falha ao exportar: ${error}',
       'importDataTitle' => 'Importar dados',
@@ -1010,8 +1000,7 @@ extension on TranslationsPt {
           'O tempo antes das ${time} conta para o dia anterior',
       'chooseItem' => 'Escolhe um item',
       'noItemsToAdd' => 'Não há itens disponíveis',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose por ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose por ${unit}',
       'allItemsFilter' => 'Todos',
       'medicationItemsFilter' => 'Medicação',
       'genericItems' => 'Consumíveis',
@@ -1025,13 +1014,11 @@ extension on TranslationsPt {
       'placementRightButtock' => 'Nádega direita',
       'placementLeftAbdomen' => 'Abdómen esquerdo',
       'placementRightAbdomen' => 'Abdómen direito',
-      'injectionSites' => 'Zonas de injeção',
-      'injectionSitesDescription' => 'Gere as zonas entre as quais alternas',
-      'addInjectionSite' => 'Adicionar zona',
+      'applicationSitesDescription' => 'Gere as zonas entre as quais alternas',
+      'addApplicationSite' => 'Adicionar zona',
       'customSiteLabel' => 'Nome de zona personalizado',
-      'noInjectionSitesYet' => 'Ainda não há zonas',
-      'noInjectionAddOneToGetStarted' =>
-        'Adiciona uma zona abaixo para começar.',
+      'noApplicationSitesYet' => 'Ainda não há zonas',
+      'addSiteToGetStarted' => 'Adiciona uma zona abaixo para começar.',
       'placementSuggestionPerScheduleTitle' => 'Sugerir por horário',
       'placementSuggestionPerScheduleDescription' =>
         'Baseia a sugestão da próxima zona apenas no histórico deste horário.',

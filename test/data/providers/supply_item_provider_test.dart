@@ -2,54 +2,18 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
-import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import '../../fixtures.dart';
 import 'generic_repository_mock.dart';
-
-MedicationSupplyItem defaultMedicationItem({
-  int? id,
-  String name = 'Med',
-  String totalDose = '100',
-  String usedDose = '0',
-  String concentration = '1',
-  Molecule? molecule,
-  AdministrationRoute route = AdministrationRoute.oral,
-  Ester? ester,
-}) {
-  return MedicationSupplyItem(
-    id: id,
-    name: name,
-    totalDose: Decimal.parse(totalDose),
-    usedDose: Decimal.parse(usedDose),
-    concentration: Decimal.parse(concentration),
-    molecule: molecule ?? KnownMolecules.estradiol,
-    administrationRoute: route,
-    ester: ester,
-  );
-}
-
-GenericSupply defaultGenericItem({
-  int? id,
-  String name = 'Generic',
-  int amount = 1,
-}) {
-  return GenericSupply(
-    id: id,
-    name: name,
-    amount: amount,
-    genericSupplyType: GenericSupplyType.syringe,
-  );
-}
 
 void main() {
   late SupplyItemProvider provider;
   late GenericRepositoryMock<SupplyItem> repo;
 
   setUp(() async {
-    repo = GenericRepositoryMock<SupplyItem>(withId: (item, _) => item);
+    repo = GenericRepositoryMock<SupplyItem>();
     provider = SupplyItemProvider(repository: repo);
     await pumpEventQueue();
   });
@@ -58,8 +22,8 @@ void main() {
     group('fetchItems', () {
       test('loads items from the repository', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
-        await repo.insert(defaultMedicationItem(id: 2));
+        await repo.insert(aSupplyItem());
+        await repo.insert(aSupplyItem());
 
         // Act
         await provider.fetchItems();
@@ -84,8 +48,8 @@ void main() {
     group('medicationItems', () {
       test('returns only MedicationSupplyItem entries', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
-        await repo.insert(defaultGenericItem(id: 2));
+        await repo.insert(aMedicationSupplyItem(id: 1));
+        await repo.insert(aGenericSupplyItem(id: 2));
         await provider.fetchItems();
 
         // Act
@@ -98,7 +62,7 @@ void main() {
       test('returns an empty list when no medication items are present',
           () async {
         // Arrange
-        await repo.insert(defaultGenericItem(id: 1));
+        await repo.insert(aGenericSupplyItem());
         await provider.fetchItems();
 
         // Act
@@ -112,8 +76,8 @@ void main() {
     group('genericItems', () {
       test('returns only GenericSupply entries', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
-        await repo.insert(defaultGenericItem(id: 2));
+        await repo.insert(aMedicationSupplyItem(id: 1));
+        await repo.insert(aGenericSupplyItem(id: 2));
         await provider.fetchItems();
 
         // Act
@@ -125,7 +89,7 @@ void main() {
 
       test('returns an empty list when no generic items are present', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
+        await repo.insert(aMedicationSupplyItem());
         await provider.fetchItems();
 
         // Act
@@ -139,12 +103,24 @@ void main() {
     group('medicationItemsOrderedByRatio', () {
       test('orders most-used (lowest remaining ratio) first', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
-            id: 1, name: 'A', totalDose: '100', usedDose: '90'));
-        await repo.insert(defaultMedicationItem(
-            id: 2, name: 'B', totalDose: '100', usedDose: '10'));
-        await repo.insert(defaultMedicationItem(
-            id: 3, name: 'C', totalDose: '100', usedDose: '50'));
+        await repo.insert(aMedicationSupplyItem(
+          id: 1,
+          name: 'A',
+          totalDose: Decimal.parse('100'),
+          usedDose: Decimal.parse('90'),
+        ));
+        await repo.insert(aMedicationSupplyItem(
+          id: 2,
+          name: 'B',
+          totalDose: Decimal.parse('100'),
+          usedDose: Decimal.parse('10'),
+        ));
+        await repo.insert(aMedicationSupplyItem(
+          id: 3,
+          name: 'C',
+          totalDose: Decimal.parse('100'),
+          usedDose: Decimal.parse('50'),
+        ));
         await provider.fetchItems();
 
         // Act
@@ -156,8 +132,8 @@ void main() {
 
       test('ignores generic items', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
-        await repo.insert(defaultGenericItem(id: 2));
+        await repo.insert(aMedicationSupplyItem(id: 1));
+        await repo.insert(aGenericSupplyItem(id: 2));
         await provider.fetchItems();
 
         // Act
@@ -172,9 +148,9 @@ void main() {
       test('allItemsOrderedByName orders items alphabetically by name',
           () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1, name: 'Banana'));
-        await repo.insert(defaultGenericItem(id: 2, name: 'Apple'));
-        await repo.insert(defaultMedicationItem(id: 3, name: 'Carrot'));
+        await repo.insert(aMedicationSupplyItem(id: 1, name: 'Banana'));
+        await repo.insert(aGenericSupplyItem(id: 2, name: 'Apple'));
+        await repo.insert(aMedicationSupplyItem(id: 3, name: 'Carrot'));
         await provider.fetchItems();
 
         // Act
@@ -189,9 +165,9 @@ void main() {
           'medicationItemsOrderedByName orders only medication items alphabetically by name',
           () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1, name: 'Banana'));
-        await repo.insert(defaultGenericItem(id: 2, name: 'Apple'));
-        await repo.insert(defaultMedicationItem(id: 3, name: 'Carrot'));
+        await repo.insert(aMedicationSupplyItem(id: 1, name: 'Banana'));
+        await repo.insert(aGenericSupplyItem(id: 2, name: 'Apple'));
+        await repo.insert(aMedicationSupplyItem(id: 3, name: 'Carrot'));
         await provider.fetchItems();
 
         // Act
@@ -205,9 +181,9 @@ void main() {
           'genericItemsOrderedByName orders only generic items alphabetically by name',
           () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1, name: 'Banana'));
-        await repo.insert(defaultGenericItem(id: 2, name: 'Apple'));
-        await repo.insert(defaultGenericItem(id: 3, name: 'Carrot'));
+        await repo.insert(aMedicationSupplyItem(id: 1, name: 'Banana'));
+        await repo.insert(aGenericSupplyItem(id: 2, name: 'Apple'));
+        await repo.insert(aGenericSupplyItem(id: 3, name: 'Carrot'));
         await provider.fetchItems();
 
         // Act
@@ -221,8 +197,8 @@ void main() {
     group('getItemById', () {
       test('returns the matching item', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
-        await repo.insert(defaultMedicationItem(id: 2));
+        await repo.insert(aSupplyItem(id: 1));
+        await repo.insert(aSupplyItem(id: 2));
         await provider.fetchItems();
 
         // Act
@@ -234,7 +210,7 @@ void main() {
 
       test('returns null when no item matches the id', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
+        await repo.insert(aSupplyItem(id: 1));
         await provider.fetchItems();
 
         // Act
@@ -246,7 +222,7 @@ void main() {
 
       test('returns null when the id is null', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
+        await repo.insert(aSupplyItem(id: 1));
         await provider.fetchItems();
 
         // Act
@@ -260,9 +236,9 @@ void main() {
     group('getItemsByIds', () {
       test('returns the items matching the given ids', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
-        await repo.insert(defaultGenericItem(id: 2));
-        await repo.insert(defaultGenericItem(id: 3));
+        await repo.insert(aSupplyItem(id: 1));
+        await repo.insert(aSupplyItem(id: 2));
+        await repo.insert(aSupplyItem(id: 3));
         await provider.fetchItems();
 
         // Act
@@ -274,8 +250,8 @@ void main() {
 
       test('preserves the order of the given ids', () async {
         // Arrange
-        await repo.insert(defaultGenericItem(id: 1));
-        await repo.insert(defaultGenericItem(id: 2));
+        await repo.insert(aSupplyItem(id: 1));
+        await repo.insert(aSupplyItem(id: 2));
         await provider.fetchItems();
 
         // Act
@@ -287,7 +263,7 @@ void main() {
 
       test('skips ids that no longer exist', () async {
         // Arrange
-        await repo.insert(defaultGenericItem(id: 1));
+        await repo.insert(aSupplyItem(id: 1));
         await provider.fetchItems();
 
         // Act
@@ -299,7 +275,7 @@ void main() {
 
       test('returns an empty list when given no ids', () async {
         // Arrange
-        await repo.insert(defaultGenericItem(id: 1));
+        await repo.insert(aSupplyItem(id: 1));
         await provider.fetchItems();
 
         // Act
@@ -313,7 +289,7 @@ void main() {
     group('add', () {
       test('inserts the new item into items', () async {
         // Arrange
-        final newItem = defaultMedicationItem(id: 1, name: 'New');
+        final newItem = aSupplyItem(id: 1);
 
         // Act
         await provider.add(newItem);
@@ -328,7 +304,7 @@ void main() {
         provider.addListener(() => notifications++);
 
         // Act
-        await provider.add(defaultMedicationItem(id: 1));
+        await provider.add(aSupplyItem(id: 1));
 
         // Assert
         expect(notifications, greaterThan(0));
@@ -338,9 +314,9 @@ void main() {
     group('updateItem', () {
       test('replaces the item in items with the updated one', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1, name: 'Original'));
+        await repo.insert(aSupplyItem(id: 1, name: 'Original'));
         await provider.fetchItems();
-        final updated = defaultMedicationItem(id: 1, name: 'Updated');
+        final updated = aSupplyItem(id: 1, name: 'Updated');
 
         // Act
         await provider.updateItem(updated);
@@ -352,14 +328,13 @@ void main() {
 
       test('notifies listeners', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
+        await repo.insert(aSupplyItem(id: 1));
         await provider.fetchItems();
         var notifications = 0;
         provider.addListener(() => notifications++);
 
         // Act
-        await provider
-            .updateItem(defaultMedicationItem(id: 1, name: 'Updated'));
+        await provider.updateItem(aSupplyItem(id: 1, name: 'Updated'));
 
         // Assert
         expect(notifications, greaterThan(0));
@@ -369,8 +344,8 @@ void main() {
     group('deleteItem', () {
       test('removes the given item from items', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
-        await repo.insert(defaultMedicationItem(id: 2));
+        await repo.insert(aSupplyItem(id: 1));
+        await repo.insert(aSupplyItem(id: 2));
         await provider.fetchItems();
         final toDelete = provider.items.firstWhere((i) => i.id == 1);
 
@@ -383,7 +358,7 @@ void main() {
 
       test('notifies listeners', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(id: 1));
+        await repo.insert(aSupplyItem(id: 1));
         await provider.fetchItems();
         final toDelete = provider.items.first;
         var notifications = 0;
@@ -400,25 +375,25 @@ void main() {
     group('getMostUsedItemForMedication', () {
       test('returns the item with the lowest remaining ratio', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 1,
-          totalDose: '200',
-          usedDose: '150',
-          route: AdministrationRoute.injection,
+          totalDose: Decimal.parse('200'),
+          usedDose: Decimal.parse('150'),
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 2,
-          totalDose: '200',
-          usedDose: '50',
-          route: AdministrationRoute.injection,
+          totalDose: Decimal.parse('200'),
+          usedDose: Decimal.parse('50'),
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 3,
-          totalDose: '200',
-          usedDose: '100',
-          route: AdministrationRoute.injection,
+          totalDose: Decimal.parse('200'),
+          usedDose: Decimal.parse('100'),
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
         await provider.fetchItems();
@@ -436,16 +411,16 @@ void main() {
 
       test('ignores items with a different administration route', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 1,
-          usedDose: '50',
-          route: AdministrationRoute.injection,
+          usedDose: Decimal.parse('50'),
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 2,
-          usedDose: '99',
-          route: AdministrationRoute.oral,
+          usedDose: Decimal.parse('99'),
+          administrationRoute: AdministrationRoute.oral,
         ));
         await provider.fetchItems();
 
@@ -462,18 +437,19 @@ void main() {
 
       test('ignores items with a different molecule', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 1,
+          usedDose: Decimal.parse('50'),
+          totalDose: Decimal.parse('100'),
           molecule: KnownMolecules.estradiol,
-          route: AdministrationRoute.injection,
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 2,
-          usedDose: '99',
+          usedDose: Decimal.parse('99'),
+          totalDose: Decimal.parse('100'),
           molecule: KnownMolecules.progesterone,
-          route: AdministrationRoute.injection,
-          ester: Ester.valerate,
         ));
         await provider.fetchItems();
 
@@ -490,15 +466,15 @@ void main() {
 
       test('ignores items with a different ester', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 1,
-          route: AdministrationRoute.injection,
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 2,
-          usedDose: '99',
-          route: AdministrationRoute.injection,
+          usedDose: Decimal.parse('99'),
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.enanthate,
         ));
         await provider.fetchItems();
@@ -516,7 +492,8 @@ void main() {
 
       test('returns null when there are no medication items', () async {
         // Arrange
-        await repo.insert(defaultGenericItem(id: 1));
+        await repo.insert(aMedicationSupplyItem(
+            id: 1, molecule: KnownMolecules.testosterone));
         await provider.fetchItems();
 
         // Act
@@ -532,8 +509,8 @@ void main() {
 
       test('returns null when no medication item matches', () async {
         // Arrange
-        await repo.insert(
-            defaultMedicationItem(id: 1, route: AdministrationRoute.oral));
+        await repo.insert(aMedicationSupplyItem(
+            id: 1, administrationRoute: AdministrationRoute.oral));
         await provider.fetchItems();
 
         // Act
@@ -551,25 +528,25 @@ void main() {
     group('getItemsForMedication', () {
       test('returns matching items ordered by most used first', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 1,
-          totalDose: '200',
-          usedDose: '150',
-          route: AdministrationRoute.injection,
+          totalDose: Decimal.parse('200'),
+          usedDose: Decimal.parse('150'),
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 2,
-          totalDose: '200',
-          usedDose: '50',
-          route: AdministrationRoute.injection,
+          totalDose: Decimal.parse('200'),
+          usedDose: Decimal.parse('50'),
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 3,
-          totalDose: '200',
-          usedDose: '100',
-          route: AdministrationRoute.injection,
+          totalDose: Decimal.parse('200'),
+          usedDose: Decimal.parse('100'),
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
         await provider.fetchItems();
@@ -587,15 +564,16 @@ void main() {
 
       test('filters out items with a different molecule', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 1,
-          route: AdministrationRoute.injection,
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 2,
           molecule: KnownMolecules.progesterone,
-          route: AdministrationRoute.injection,
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
         await provider.fetchItems();
@@ -613,13 +591,13 @@ void main() {
 
       test('filters out items with a different administration route', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 1,
-          route: AdministrationRoute.injection,
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(
-            defaultMedicationItem(id: 2, route: AdministrationRoute.oral));
+        await repo.insert(aMedicationSupplyItem(
+            id: 2, administrationRoute: AdministrationRoute.oral));
         await provider.fetchItems();
 
         // Act
@@ -635,14 +613,14 @@ void main() {
 
       test('filters out items with a different ester', () async {
         // Arrange
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 1,
-          route: AdministrationRoute.injection,
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.valerate,
         ));
-        await repo.insert(defaultMedicationItem(
+        await repo.insert(aMedicationSupplyItem(
           id: 2,
-          route: AdministrationRoute.injection,
+          administrationRoute: AdministrationRoute.injection,
           ester: Ester.enanthate,
         ));
         await provider.fetchItems();
@@ -661,7 +639,8 @@ void main() {
       test('returns an empty list when there are no medication items',
           () async {
         // Arrange
-        await repo.insert(defaultGenericItem(id: 1));
+        await repo.insert(aMedicationSupplyItem(
+            id: 1, administrationRoute: AdministrationRoute.oral));
         await provider.fetchItems();
 
         // Act
@@ -677,8 +656,8 @@ void main() {
 
       test('returns an empty list when no medication item matches', () async {
         // Arrange
-        await repo.insert(
-            defaultMedicationItem(id: 1, route: AdministrationRoute.oral));
+        await repo.insert(aMedicationSupplyItem(
+            id: 1, administrationRoute: AdministrationRoute.oral));
         await provider.fetchItems();
 
         // Act

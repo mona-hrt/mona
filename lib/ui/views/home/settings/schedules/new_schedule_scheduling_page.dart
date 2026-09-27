@@ -4,6 +4,7 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -15,6 +16,7 @@ import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
 import 'package:mona/ui/widgets/scheduling_type_picker.dart';
 import 'package:mona/ui/widgets/time_list_card.dart';
+import 'package:mona/ui/widgets/tinted_switch_tile.dart';
 import 'package:mona/ui/widgets/weekday_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
@@ -27,6 +29,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
   final AdministrationRoute administrationRoute;
   final Ester? ester;
   final Date startDate;
+  final DosingBasis dosingBasis;
 
   const NewScheduleSchedulingPage({
     super.key,
@@ -35,6 +38,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
     required this.molecule,
     required this.administrationRoute,
     required this.startDate,
+    required this.dosingBasis,
     this.ester,
   });
 
@@ -164,6 +168,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       molecule: widget.molecule,
       administrationRoute: widget.administrationRoute,
       ester: widget.ester,
+      dosingBasis: widget.dosingBasis,
     );
 
     Provider.of<MedicationScheduleProvider>(context, listen: false)
@@ -223,19 +228,18 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         label: t.every,
         fieldKey: const ValueKey('newScheduleEvery'),
         suffixText: t.days,
+        errorText: _intervalDaysError,
         onChanged: _refresh,
         inputType: TextInputType.number,
         regexFormatter: RegexPatterns.intNumber,
       ),
-      M3ECardColumn(
+      M3ESegmentedColumn(
         padding: EdgeInsets.zero,
         margin: EdgeInsets.symmetric(vertical: 8),
         children: [
-          SwitchListTile(
-            title: Text(t.anchorToLastIntake),
-            subtitle: Text(t.anchorToLastIntakeDescription),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          TintedSwitchTile(
+            title: t.anchorToLastIntake,
+            subtitle: t.anchorToLastIntakeDescription,
             value: _anchorToLastIntake,
             onChanged: (value) => setState(() => _anchorToLastIntake = value),
           ),
@@ -263,9 +267,9 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         onEdit: _editTime,
         onDelete: _deleteTime,
         trailingChildren: [
-          SwitchListTile(
-            title: Text(t.enableNotifications),
-            subtitle: Text(t.enableNotificationsDescription),
+          TintedSwitchTile(
+            title: t.enableNotifications,
+            subtitle: t.enableNotificationsDescription,
             value: _dailyNotify,
             onChanged: (value) => setState(() => _dailyNotify = value),
           ),

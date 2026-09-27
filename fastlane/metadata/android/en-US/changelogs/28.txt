@@ -1,0 +1,12 @@
+New:
+
+- The graph page got a UI refresh
+- Units for estradiol and testosterone can be chosen independently
+- You can now reorder your schedules
+- New language: Simplified Chinese
+
+Fix:
+
+- Upcoming intakes now display in chronological order
+- Adjusted padding around pharmacy page button group
+- Fixed a black screen issue when using the back gesture right after an intake

@@ -140,6 +140,20 @@ class MockPreferencesService extends _i1.Mock
       ) as _i7.Units);
 
   @override
+  _i7.EstradiolUnit get estradiolUnit => (super.noSuchMethod(
+        Invocation.getter(#estradiolUnit),
+        returnValue: _i7.EstradiolUnit.pg_mL,
+        returnValueForMissingStub: _i7.EstradiolUnit.pg_mL,
+      ) as _i7.EstradiolUnit);
+
+  @override
+  _i7.TestosteroneUnit get testosteroneUnit => (super.noSuchMethod(
+        Invocation.getter(#testosteroneUnit),
+        returnValue: _i7.TestosteroneUnit.ng_dL,
+        returnValueForMissingStub: _i7.TestosteroneUnit.ng_dL,
+      ) as _i7.TestosteroneUnit);
+
+  @override
   List<_i8.Molecule> get customMolecules => (super.noSuchMethod(
         Invocation.getter(#customMolecules),
         returnValue: <_i8.Molecule>[],
@@ -161,6 +175,13 @@ class MockPreferencesService extends _i1.Mock
       ) as List<_i9.Placement>);
 
   @override
+  List<int> get scheduleOrder => (super.noSuchMethod(
+        Invocation.getter(#scheduleOrder),
+        returnValue: <int>[],
+        returnValueForMissingStub: <int>[],
+      ) as List<int>);
+
+  @override
   bool get placementSuggestionPerSchedule => (super.noSuchMethod(
         Invocation.getter(#placementSuggestionPerSchedule),
         returnValue: false,
@@ -170,6 +191,13 @@ class MockPreferencesService extends _i1.Mock
   @override
   bool get hrtCounterEnabled => (super.noSuchMethod(
         Invocation.getter(#hrtCounterEnabled),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  bool get slimeModeEnabled => (super.noSuchMethod(
+        Invocation.getter(#slimeModeEnabled),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
@@ -256,10 +284,22 @@ class MockPreferencesService extends _i1.Mock
       ) as _i10.Future<void>);
 
   @override
-  _i10.Future<void> setUnits(_i7.Units? units) => (super.noSuchMethod(
+  _i10.Future<void> setEstradiolUnit(_i7.EstradiolUnit? unit) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #setUnits,
-          [units],
+          #setEstradiolUnit,
+          [unit],
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
+
+  @override
+  _i10.Future<void> setTestosteroneUnit(_i7.TestosteroneUnit? unit) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setTestosteroneUnit,
+          [unit],
         ),
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),
@@ -298,6 +338,16 @@ class MockPreferencesService extends _i1.Mock
       ) as _i10.Future<void>);
 
   @override
+  _i10.Future<void> setScheduleOrder(List<int>? order) => (super.noSuchMethod(
+        Invocation.method(
+          #setScheduleOrder,
+          [order],
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
+
+  @override
   _i10.Future<void> setPlacementSuggestionPerSchedule(bool? isEnabled) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -313,6 +363,16 @@ class MockPreferencesService extends _i1.Mock
       (super.noSuchMethod(
         Invocation.method(
           #setHrtCounterEnabled,
+          [isEnabled],
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
+
+  @override
+  _i10.Future<void> setSlimeModeEnabled(bool? isEnabled) => (super.noSuchMethod(
+        Invocation.method(
+          #setSlimeModeEnabled,
           [isEnabled],
         ),
         returnValue: _i10.Future<void>.value(),

@@ -3,6 +3,7 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/i18n/helpers/scheduling_type_l10n.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 
 class SchedulingTypePicker extends StatelessWidget {
   final SchedulingType value;
@@ -49,14 +50,14 @@ class SchedulingTypePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return M3ECardColumn(
+    return M3ESegmentedColumn(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.symmetric(vertical: 8),
       children: [
-        ListTile(
+        TappableListTile(
           key: const ValueKey('schedulingTypePicker'),
-          title: Text(value.localizedName),
-          subtitle: Text(value.localizedDescription),
+          title: value.localizedName,
+          subtitle: value.localizedDescription,
           trailing: const Icon(Symbols.edit_rounded),
           onTap: () => _openTypeSheet(context),
         ),

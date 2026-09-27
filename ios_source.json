@@ -31,12 +31,57 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.0/mona-1.20.0.ipa",
-      "size": 12343046,
-      "version": "1.20.0",
-      "versionDate": "2026-08-26T22:06:30Z",
-      "versionDescription": "New:\r\n\r\n- Preview your levels in the new levels tab\r\n- You can now see your blood test levels as charts\r\n- New language: Albanian\r\n\r\nFix:\r\n\r\n- Used consistent icons\r\n- Corrected colors used in the item picker\r\n- Added all supported languages to the widget",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.23.0/mona-1.23.0.ipa",
+      "size": 11765788,
+      "version": "1.23.0",
+      "versionDate": "2026-09-27T14:56:14Z",
+      "versionDescription": "New:\r\n\r\n- Patches now support a dosing rate (µg/day)\r\n- Added a \"getting involved\" section in the settings\r\n- New language: Hindi\r\n\r\nFix:\r\n\r\n- Centered the estradiol graph in the window",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.23.0/mona-1.23.0.ipa",
+          "size": 11765788,
+          "version": "1.23.0",
+          "buildVersion": "29",
+          "date": "2026-09-27T14:56:14Z",
+          "localizedDescription": "New:\r\n\r\n- Patches now support a dosing rate (µg/day)\r\n- Added a \"getting involved\" section in the settings\r\n- New language: Hindi\r\n\r\nFix:\r\n\r\n- Centered the estradiol graph in the window",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.22.0/mona-1.22.0.ipa",
+          "size": 11728505,
+          "version": "1.22.0",
+          "buildVersion": "28",
+          "date": "2026-09-20T17:24:03Z",
+          "localizedDescription": "New:\r\n\r\n- The graph page got a UI refresh\r\n- Units for estradiol and testosterone can be chosen independently\r\n- You can now reorder your schedules\r\n- New language: Simplified Chinese\r\n\r\nFix:\r\n\r\n- Upcoming intakes now display in chronological order\r\n- Adjusted padding around pharmacy page button group\r\n- Fixed a black screen issue when using the back gesture right after an intake",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.1/mona-1.21.1.ipa",
+          "size": 12420263,
+          "version": "1.21.1",
+          "buildVersion": "27",
+          "date": "2026-09-13T20:20:42Z",
+          "localizedDescription": "Fix:\r\n- Used correct icon weight and text size in buttons",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.0/mona-1.21.0.ipa",
+          "size": 12420991,
+          "version": "1.21.0",
+          "buildVersion": "26",
+          "date": "2026-09-13T17:54:41Z",
+          "localizedDescription": "New:\r\n- You can now create items for gel tubes and sachets.\r\n- Application sites can now be used with patches.\r\n- Add notes to your blood tests.\r\n\r\nFix:\r\n- Added a guard against huge intervals in schedules that would cause a crash.",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.1/mona-1.20.1.ipa",
+          "size": 12354764,
+          "version": "1.20.1",
+          "buildVersion": "25",
+          "date": "2026-09-11T09:38:59Z",
+          "localizedDescription": "New:\n\n- New languages: Italian, Urdu\n\nFix:\n\n- The UI now refreshes on a day change\n- Allowed dates before 2000 to be selected\n- Removed graph preview when no injections are active\n- Rounded remaining supply amount to one decimal",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.0/mona-1.20.0.ipa",
           "size": 12343046,

@@ -3,6 +3,7 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -13,6 +14,7 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_scheduling_page.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
+import 'package:mona/ui/widgets/dosing_basis_field.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
@@ -21,6 +23,7 @@ import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +44,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
   late Ester? _ester;
+  late DosingBasis _dosingBasis;
   late Date _startDate;
   late PreferencesService _preferencesService;
   late MedicationScheduleProvider _medicationScheduleProvider;
@@ -72,6 +76,9 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       _molecule == KnownMolecules.estradiol &&
       _administrationRoute == AdministrationRoute.injection;
 
+  bool get _supportsReleaseRate =>
+      supportsReleaseRate(_molecule, _administrationRoute);
+
   void _onMoleculeChanged(Molecule? molecule) {
     if (molecule != null) {
       setState(() {
@@ -79,6 +86,10 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
 
         if (!_useEsterField) {
           _ester = null;
+        }
+
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
         }
       });
     }
@@ -92,6 +103,10 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
         if (!_useEsterField) {
           _ester = null;
         }
+
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
+        }
       });
     }
   }
@@ -100,6 +115,14 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     if (ester != null) {
       setState(() {
         _ester = ester;
+      });
+    }
+  }
+
+  void _onDosingBasisChanged(DosingBasis? dosingBasis) {
+    if (dosingBasis != null) {
+      setState(() {
+        _dosingBasis = dosingBasis;
       });
     }
   }
@@ -113,6 +136,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     final originalSchedule =
         _medicationScheduleProvider.getScheduleById(widget.schedule.id) ??
             widget.schedule;
+    final dosingBasis = _supportsReleaseRate ? _dosingBasis : DosingBasis.mass;
     final updatedSchedule = originalSchedule.copyWith(
       name: _nameController.text,
       dose: _doseController.text.toDecimal,
@@ -120,6 +144,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       administrationRoute: _administrationRoute,
       ester: _useEsterField ? _ester : null,
       startDate: _startDate,
+      dosingBasis: dosingBasis,
     );
     _medicationScheduleProvider.updateSchedule(updatedSchedule);
 
@@ -151,6 +176,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     _molecule = widget.schedule.molecule;
     _administrationRoute = widget.schedule.administrationRoute;
     _ester = widget.schedule.ester;
+    _dosingBasis = widget.schedule.dosingBasis;
     _startDate = widget.schedule.startDate;
   }
 
@@ -210,9 +236,15 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           label: t.amount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule.localizedUnit,
+          suffixText: _molecule.localizedUnit(_dosingBasis),
           errorText: _doseError,
           regexFormatter: RegexPatterns.floatNumber,
+        ),
+        DosingBasisField(
+          molecule: _molecule,
+          route: _administrationRoute,
+          value: _dosingBasis,
+          onChanged: _onDosingBasisChanged,
         ),
         FormSpacer(),
         FormDateField(
@@ -222,14 +254,14 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           onChanged: (date) => setState(() => _startDate = date),
         ),
         FormSpacer(),
-        M3ECardColumn(
+        M3ESegmentedColumn(
           padding: EdgeInsets.zero,
           margin: EdgeInsets.symmetric(vertical: 8),
           children: [
-            ListTile(
+            TappableListTile(
               key: const ValueKey('editScheduleSchedulingTile'),
-              title: Text(t.scheduling),
-              subtitle: Text(currentSchedule.localizedFrequency),
+              title: t.scheduling,
+              subtitle: currentSchedule.localizedFrequency,
               leading: Icon(Symbols.event_repeat_rounded),
               trailing: Icon(Symbols.chevron_right_rounded),
               onTap: () {

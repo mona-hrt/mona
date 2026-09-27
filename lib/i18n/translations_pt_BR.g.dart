@@ -113,8 +113,6 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get languageFollowDevice => 'Seguir o idioma do dispositivo';
   @override
-  String get selectLanguage => 'Selecionar idioma';
-  @override
   String get enableNotifications => 'Ativar notificações';
   @override
   String get enableNotificationsDescription => 'Enviar lembretes';
@@ -140,8 +138,6 @@ class TranslationsPtBr extends TranslationsPt
       'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)';
   @override
   String appVersion({required Object version}) => 'Versão do Mona ${version}';
-  @override
-  String backupSavedTo({required Object path}) => 'Backup salvo em: ${path}';
   @override
   String exportFailed({required Object error}) => 'Falha ao exportar: ${error}';
   @override
@@ -519,8 +515,7 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get noItemsToAdd => 'Nenhum item disponível';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose por ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dose por ${unit}';
   @override
   String get allItemsFilter => 'Todos';
   @override
@@ -548,19 +543,16 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get placementRightAbdomen => 'Abdômen direito';
   @override
-  String get injectionSites => 'Locais de injeção';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Gerencie os locais entre os quais você alterna';
   @override
-  String get addInjectionSite => 'Adicionar local';
+  String get addApplicationSite => 'Adicionar local';
   @override
   String get customSiteLabel => 'Nome de local personalizado';
   @override
-  String get noInjectionSitesYet => 'Ainda não há locais';
+  String get noApplicationSitesYet => 'Ainda não há locais';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Adicione um local abaixo para começar.';
+  String get addSiteToGetStarted => 'Adicione um local abaixo para começar.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Sugerir por agendamento';
   @override
@@ -792,7 +784,6 @@ extension on TranslationsPtBr {
       'noSchedules' => 'Sem cronogramas',
       'language' => 'Idioma',
       'languageFollowDevice' => 'Seguir o idioma do dispositivo',
-      'selectLanguage' => 'Selecionar idioma',
       'enableNotifications' => 'Ativar notificações',
       'enableNotificationsDescription' => 'Enviar lembretes',
       'notificationsDisabledTitle' => 'As notificações estão desativadas',
@@ -809,7 +800,6 @@ extension on TranslationsPtBr {
         'Verificar manualmente a versão mais recente\nIsso se conectará à Internet\n(Nenhum dado será enviado)',
       'appVersion' => ({required Object version}) =>
           'Versão do Mona ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Backup salvo em: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Falha ao exportar: ${error}',
       'importDataTitle' => 'Importar dados',
@@ -1009,8 +999,7 @@ extension on TranslationsPtBr {
           'O tempo antes de ${time} conta para o dia anterior',
       'chooseItem' => 'Escolha um item',
       'noItemsToAdd' => 'Nenhum item disponível',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose por ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose por ${unit}',
       'allItemsFilter' => 'Todos',
       'medicationItemsFilter' => 'Medicação',
       'genericItems' => 'Consumíveis',
@@ -1024,14 +1013,12 @@ extension on TranslationsPtBr {
       'placementRightButtock' => 'Nádega direita',
       'placementLeftAbdomen' => 'Abdômen esquerdo',
       'placementRightAbdomen' => 'Abdômen direito',
-      'injectionSites' => 'Locais de injeção',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'Gerencie os locais entre os quais você alterna',
-      'addInjectionSite' => 'Adicionar local',
+      'addApplicationSite' => 'Adicionar local',
       'customSiteLabel' => 'Nome de local personalizado',
-      'noInjectionSitesYet' => 'Ainda não há locais',
-      'noInjectionAddOneToGetStarted' =>
-        'Adicione um local abaixo para começar.',
+      'noApplicationSitesYet' => 'Ainda não há locais',
+      'addSiteToGetStarted' => 'Adicione um local abaixo para começar.',
       'placementSuggestionPerScheduleTitle' => 'Sugerir por agendamento',
       'placementSuggestionPerScheduleDescription' =>
         'Baseie a sugestão do próximo local apenas no histórico deste agendamento.',

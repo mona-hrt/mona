@@ -131,8 +131,6 @@ class TranslationsFr extends Translations
   @override
   String get languageFollowDevice => 'Suivre la langue de l\'appareil';
   @override
-  String get selectLanguage => 'Sélectionner la langue';
-  @override
   String get enableNotifications => 'Activer les notifications';
   @override
   String get enableNotificationsDescription => 'Envoyer des rappels';
@@ -185,8 +183,23 @@ class TranslationsFr extends Translations
   @override
   String appVersion({required Object version}) => 'Mona version ${version}';
   @override
-  String backupSavedTo({required Object path}) =>
-      'Sauvegarde enregistrée dans : ${path}';
+  String get getInvolved => 'Contribuer';
+  @override
+  String get reportBug => 'Signaler un bug';
+  @override
+  String get reportBugDescription => 'Ouvrir une issue sur GitHub';
+  @override
+  String get translateApp => 'Traduire l\'application';
+  @override
+  String get translateAppDescription => 'Aider à traduire Mona sur Weblate';
+  @override
+  String get languageMissing => 'Il manque votre langue ?';
+  @override
+  String get donate => 'Faire un don';
+  @override
+  String get donateDescription => 'Soutenir Mona sur Ko-fi';
+  @override
+  String get backupSaved => 'Sauvegarde enregistrée';
   @override
   String exportFailed({required Object error}) =>
       'Échec de l\'exportation : ${error}';
@@ -247,6 +260,10 @@ class TranslationsFr extends Translations
   @override
   String get updateDownloadFailed =>
       'Échec du téléchargement. Vérifiez votre connexion.';
+  @override
+  String get secretSettings => 'Paramètres secrets';
+  @override
+  String get slimeMode => 'Mode slime';
   @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Il est temps de prendre ${scheduleName}';
@@ -357,6 +374,18 @@ class TranslationsFr extends Translations
   @override
   String get estradiolLevelsTitle => 'Taux d\'estradiol';
   @override
+  String get week => 'S';
+  @override
+  String get twoWeeks => '2 S';
+  @override
+  String get threeMonths => '3 M';
+  @override
+  String get sixMonths => '6 M';
+  @override
+  String get month => 'M';
+  @override
+  String get year => 'A';
+  @override
   String get empty_blood_tests =>
       'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !';
   @override
@@ -395,8 +424,7 @@ class TranslationsFr extends Translations
   @override
   String get concentration => 'Concentration';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose par ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dose par ${unit}';
   @override
   String get editItem => 'Modifier l\'élément';
   @override
@@ -534,7 +562,17 @@ class TranslationsFr extends Translations
   @override
   String get transdermalDrops => 'Gouttes transdermiques';
   @override
+  String get deliveryForm => 'Forme';
+  @override
+  String get deliveryFormPump => 'Pompe';
+  @override
+  String get deliveryFormSachet => 'Sachet';
+  @override
+  String get deliveryFormGram => 'Tube';
+  @override
   String get unitMilligram => 'mg';
+  @override
+  String get unitMicrogramPerDay => 'µg/j';
   @override
   String get unitPgPerMl => 'pg/mL';
   @override
@@ -570,17 +608,20 @@ class TranslationsFr extends Translations
   @override
   String get placementRightAbdomen => 'Abdomen (droite)';
   @override
-  String get injectionSites => 'Sites d\'injection';
+  String get applicationSites => 'Sites d\'application';
   @override
-  String get injectionSitesDescription => 'Gérez votre rotation de sites';
+  String get applicationSitesDescription => 'Gérez votre rotation de sites';
   @override
-  String get addInjectionSite => 'Ajouter un site';
+  String get applicationSitesInstructions =>
+      'Gérez votre rotation de sites. Les sites sont suggérés en fonction de votre historique de prises. Appuyez longuement pour réorganiser.';
+  @override
+  String get addApplicationSite => 'Ajouter un site';
   @override
   String get customSiteLabel => 'Nom de site personnalisé';
   @override
-  String get noInjectionSitesYet => 'Aucun site';
+  String get noApplicationSitesYet => 'Aucun site';
   @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Ajoutez un site ci-dessous pour commencer.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggérer par planning';
@@ -593,6 +634,8 @@ class TranslationsFr extends Translations
   String get mustBePositiveNumber => 'Doit être un nombre positif';
   @override
   String get mustBeBetween1And28 => 'Doit être entre 1 et 28';
+  @override
+  String mustBeAtMost({required Object max}) => 'Doit être moins de ${max}';
   @override
   String get invalidTotalAmount => 'Montant total invalide';
   @override
@@ -760,6 +803,22 @@ class TranslationsFr extends Translations
         other: 'pressions',
       );
   @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: 'sachet',
+        many: 'de sachets',
+        other: 'sachets',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: 'gramme',
+        many: 'de grammes',
+        other: 'grammes',
+      );
+  @override
   String administrationRouteUnitImplant({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
@@ -831,7 +890,6 @@ extension on TranslationsFr {
       'noSchedules' => 'Aucun planning',
       'language' => 'Langue',
       'languageFollowDevice' => 'Suivre la langue de l\'appareil',
-      'selectLanguage' => 'Sélectionner la langue',
       'enableNotifications' => 'Activer les notifications',
       'enableNotificationsDescription' => 'Envoyer des rappels',
       'anchorToLastIntake' => 'Recalculer à chaque prise',
@@ -860,8 +918,15 @@ extension on TranslationsFr {
       'checkForUpdatesDescription' =>
         'Vérifier manuellement la dernière version\nCela vous connectera à Internet\n(Aucune donnée ne sera envoyée)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Sauvegarde enregistrée dans : ${path}',
+      'getInvolved' => 'Contribuer',
+      'reportBug' => 'Signaler un bug',
+      'reportBugDescription' => 'Ouvrir une issue sur GitHub',
+      'translateApp' => 'Traduire l\'application',
+      'translateAppDescription' => 'Aider à traduire Mona sur Weblate',
+      'languageMissing' => 'Il manque votre langue ?',
+      'donate' => 'Faire un don',
+      'donateDescription' => 'Soutenir Mona sur Ko-fi',
+      'backupSaved' => 'Sauvegarde enregistrée',
       'exportFailed' => ({required Object error}) =>
           'Échec de l\'exportation : ${error}',
       'importDataTitle' => 'Importer des données',
@@ -898,6 +963,8 @@ extension on TranslationsFr {
           'Échec de l\'ouverture de l\'installateur : ${message}',
       'updateDownloadFailed' =>
         'Échec du téléchargement. Vérifiez votre connexion.',
+      'secretSettings' => 'Paramètres secrets',
+      'slimeMode' => 'Mode slime',
       'notificationMedicationReminderTitle' => (
               {required Object scheduleName}) =>
           'Il est temps de prendre ${scheduleName}',
@@ -958,6 +1025,12 @@ extension on TranslationsFr {
         'Ajoutez une prise de sang ou enregistrez une injection d\'estradiol pour commencer',
       'bloodTestsTitle' => 'Prises de sang',
       'estradiolLevelsTitle' => 'Taux d\'estradiol',
+      'week' => 'S',
+      'twoWeeks' => '2 S',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'month' => 'M',
+      'year' => 'A',
       'empty_blood_tests' =>
         'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !',
       'addBloodTest' => 'Ajouter une analyse de sang',
@@ -979,8 +1052,7 @@ extension on TranslationsFr {
       'adminRoute' => 'Voie d\'administration',
       'totalAmount' => 'Quantité totale',
       'concentration' => 'Concentration',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose par ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose par ${unit}',
       'editItem' => 'Modifier l\'élément',
       'usedAmount' => 'Quantité utilisée',
       'deleteItem' => ({required Object name}) => 'Supprimer ${name} ?',
@@ -1050,7 +1122,12 @@ extension on TranslationsFr {
       'suppository' => 'Suppositoire',
       'transdermalSpray' => 'Spray transdermique',
       'transdermalDrops' => 'Gouttes transdermiques',
+      'deliveryForm' => 'Forme',
+      'deliveryFormPump' => 'Pompe',
+      'deliveryFormSachet' => 'Sachet',
+      'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
+      'unitMicrogramPerDay' => 'µg/j',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
@@ -1068,19 +1145,21 @@ extension on TranslationsFr {
       'placementRightButtock' => 'Fesse droite',
       'placementLeftAbdomen' => 'Abdomen (gauche)',
       'placementRightAbdomen' => 'Abdomen (droite)',
-      'injectionSites' => 'Sites d\'injection',
-      'injectionSitesDescription' => 'Gérez votre rotation de sites',
-      'addInjectionSite' => 'Ajouter un site',
+      'applicationSites' => 'Sites d\'application',
+      'applicationSitesDescription' => 'Gérez votre rotation de sites',
+      'applicationSitesInstructions' =>
+        'Gérez votre rotation de sites. Les sites sont suggérés en fonction de votre historique de prises. Appuyez longuement pour réorganiser.',
+      'addApplicationSite' => 'Ajouter un site',
       'customSiteLabel' => 'Nom de site personnalisé',
-      'noInjectionSitesYet' => 'Aucun site',
-      'noInjectionAddOneToGetStarted' =>
-        'Ajoutez un site ci-dessous pour commencer.',
+      'noApplicationSitesYet' => 'Aucun site',
+      'addSiteToGetStarted' => 'Ajoutez un site ci-dessous pour commencer.',
       'placementSuggestionPerScheduleTitle' => 'Suggérer par planning',
       'placementSuggestionPerScheduleDescription' =>
         'Base la suggestion du site suivant sur ce planning uniquement.',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'mustBeBetween1And28' => 'Doit être entre 1 et 28',
+      'mustBeAtMost' => ({required Object max}) => 'Doit être moins de ${max}',
       'invalidTotalAmount' => 'Montant total invalide',
       'cannotExceedTotalCapacity' => 'Ne peut pas dépasser la capacité totale',
       'daysAgoCount' => ({required num count}) =>
@@ -1223,6 +1302,20 @@ extension on TranslationsFr {
             one: 'pression',
             many: 'de pressions',
             other: 'pressions',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: 'sachet',
+            many: 'de sachets',
+            other: 'sachets',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: 'gramme',
+            many: 'de grammes',
+            other: 'grammes',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(

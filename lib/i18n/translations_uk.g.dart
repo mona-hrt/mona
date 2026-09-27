@@ -112,8 +112,6 @@ class TranslationsUk extends Translations
   @override
   String get languageFollowDevice => 'Мова пристрою';
   @override
-  String get selectLanguage => 'Вибрати мову';
-  @override
   String get enableNotifications => 'Увімкнути сповіщення';
   @override
   String get enableNotificationsDescription => 'Надсилати нагадування';
@@ -138,8 +136,6 @@ class TranslationsUk extends Translations
       'Перевірити на наявність крайньої версії вручну\nЦе підключить вас до мережі\n(Жодних даних не буде надіслано)';
   @override
   String appVersion({required Object version}) => 'Версія Mona - ${version}';
-  @override
-  String backupSavedTo({required Object path}) => 'Бекап збережено до: ${path}';
   @override
   String exportFailed({required Object error}) =>
       'Не вдалося експортувати: ${error}';
@@ -518,7 +514,7 @@ class TranslationsUk extends Translations
   @override
   String get noItemsToAdd => 'Немає доступних препаратів';
   @override
-  String concentrationLabelPerUnit({required Object unit}) => 'Доза на ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Доза на ${unit}';
   @override
   String get allItemsFilter => 'Усі';
   @override
@@ -546,19 +542,16 @@ class TranslationsUk extends Translations
   @override
   String get placementRightAbdomen => 'Права частина живота';
   @override
-  String get injectionSites => 'Місця ін\'єкцій';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Керуйте місцями, між якими ви чергуєте';
   @override
-  String get addInjectionSite => 'Додати місце';
+  String get addApplicationSite => 'Додати місце';
   @override
   String get customSiteLabel => 'Власна назва місця';
   @override
-  String get noInjectionSitesYet => 'Поки немає місць';
+  String get noApplicationSitesYet => 'Поки немає місць';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Додайте місце нижче, щоб почати.';
+  String get addSiteToGetStarted => 'Додайте місце нижче, щоб почати.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Пропонувати за розкладом';
   @override
@@ -790,7 +783,6 @@ extension on TranslationsUk {
       'noSchedules' => 'Розкладів немає',
       'language' => 'Мова',
       'languageFollowDevice' => 'Мова пристрою',
-      'selectLanguage' => 'Вибрати мову',
       'enableNotifications' => 'Увімкнути сповіщення',
       'enableNotificationsDescription' => 'Надсилати нагадування',
       'notificationsDisabledTitle' => 'Сповіщення вимкнено',
@@ -805,8 +797,6 @@ extension on TranslationsUk {
       'checkForUpdatesDescription' =>
         'Перевірити на наявність крайньої версії вручну\nЦе підключить вас до мережі\n(Жодних даних не буде надіслано)',
       'appVersion' => ({required Object version}) => 'Версія Mona - ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Бекап збережено до: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Не вдалося експортувати: ${error}',
       'importDataTitle' => 'Імпортувати дані',
@@ -1006,8 +996,7 @@ extension on TranslationsUk {
           'Час до ${time} зараховується до попереднього дня',
       'chooseItem' => 'Виберіть препарат',
       'noItemsToAdd' => 'Немає доступних препаратів',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Доза на ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Доза на ${unit}',
       'allItemsFilter' => 'Усі',
       'medicationItemsFilter' => 'Ліки',
       'genericItems' => 'Витратні матеріали',
@@ -1021,12 +1010,11 @@ extension on TranslationsUk {
       'placementRightButtock' => 'Права сідниця',
       'placementLeftAbdomen' => 'Ліва частина живота',
       'placementRightAbdomen' => 'Права частина живота',
-      'injectionSites' => 'Місця ін\'єкцій',
-      'injectionSitesDescription' => 'Керуйте місцями, між якими ви чергуєте',
-      'addInjectionSite' => 'Додати місце',
+      'applicationSitesDescription' => 'Керуйте місцями, між якими ви чергуєте',
+      'addApplicationSite' => 'Додати місце',
       'customSiteLabel' => 'Власна назва місця',
-      'noInjectionSitesYet' => 'Поки немає місць',
-      'noInjectionAddOneToGetStarted' => 'Додайте місце нижче, щоб почати.',
+      'noApplicationSitesYet' => 'Поки немає місць',
+      'addSiteToGetStarted' => 'Додайте місце нижче, щоб почати.',
       'placementSuggestionPerScheduleTitle' => 'Пропонувати за розкладом',
       'placementSuggestionPerScheduleDescription' =>
         'Базувати пропозицію наступного місця лише на історії цього розкладу.',

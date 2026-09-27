@@ -11,6 +11,7 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/levels/blood_tests_page/edit_blood_test_page.dart';
 import 'package:mona/ui/views/levels/blood_tests_page/new_blood_test_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 import 'package:provider/provider.dart';
 
 class BloodTestPage extends StatelessWidget {
@@ -28,7 +29,7 @@ class BloodTestPage extends StatelessWidget {
           isLoading: bloodTestProvider.isLoading,
           isEmpty: bloodtests.isEmpty,
           emptyMessage: t.empty_blood_tests,
-          child: M3ECardList.builder(
+          child: M3ESegmentedList.builder(
             key: const ValueKey('bloodTestsList'),
             listPadding: EdgeInsets.only(
               left: borderPadding,
@@ -63,17 +64,15 @@ class BloodTestPage extends StatelessWidget {
       BloodTestProvider bloodTestProvider) {
     final dateText = DateFormat.yMMMd(context.intlLanguageTag)
         .format(bloodtest.localDateTime);
-    return ListTile(
-      title: Text(dateText),
+    return TappableListTile(
+      title: dateText,
       trailing: Icon(Symbols.chevron_right_rounded),
-      subtitle: Text(
-        [
-          if (bloodtest.estradiolLevels case final e?)
-            '${t.estradiol} : ${e.value} ${e.unit.localizedName}',
-          if (bloodtest.testosteroneLevels case final l?)
-            '${t.testosterone} : ${l.value} ${l.unit.localizedName}',
-        ].join('\n'),
-      ),
+      subtitle: [
+        if (bloodtest.estradiolLevels case final e?)
+          '${t.estradiol} : ${e.value} ${e.unit.localizedName}',
+        if (bloodtest.testosteroneLevels case final l?)
+          '${t.testosterone} : ${l.value} ${l.unit.localizedName}',
+      ].join('\n'),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute<void>(
           fullscreenDialog: true,

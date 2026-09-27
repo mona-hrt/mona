@@ -112,8 +112,6 @@ class TranslationsRu extends Translations
   @override
   String get languageFollowDevice => 'Язык устройства';
   @override
-  String get selectLanguage => 'Выбрать язык';
-  @override
   String get enableNotifications => 'Включить уведомления';
   @override
   String get enableNotificationsDescription => 'Отправлять напоминания';
@@ -138,9 +136,6 @@ class TranslationsRu extends Translations
       'Вручную проверить наличие обновлений\nДанное действие подключит вас к интернету\n(Данные переданы не будут)';
   @override
   String appVersion({required Object version}) => 'Mona, версия ${version}';
-  @override
-  String backupSavedTo({required Object path}) =>
-      'Копия данных сохранена в ${path}';
   @override
   String exportFailed({required Object error}) => 'Ошибка экспорта: ${error}';
   @override
@@ -518,7 +513,7 @@ class TranslationsRu extends Translations
   @override
   String get noItemsToAdd => 'Нет доступных препаратов';
   @override
-  String concentrationLabelPerUnit({required Object unit}) => 'Доза на ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Доза на ${unit}';
   @override
   String get allItemsFilter => 'Все';
   @override
@@ -546,19 +541,16 @@ class TranslationsRu extends Translations
   @override
   String get placementRightAbdomen => 'Правая часть живота';
   @override
-  String get injectionSites => 'Места инъекций';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Управляйте местами, между которыми вы чередуете';
   @override
-  String get addInjectionSite => 'Добавить место';
+  String get addApplicationSite => 'Добавить место';
   @override
   String get customSiteLabel => 'Название места';
   @override
-  String get noInjectionSitesYet => 'Пока нет мест';
+  String get noApplicationSitesYet => 'Пока нет мест';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Добавьте место ниже, чтобы начать.';
+  String get addSiteToGetStarted => 'Добавьте место ниже, чтобы начать.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Предлагать по расписанию';
   @override
@@ -790,7 +782,6 @@ extension on TranslationsRu {
       'noSchedules' => 'Нет расписаний',
       'language' => 'Язык',
       'languageFollowDevice' => 'Язык устройства',
-      'selectLanguage' => 'Выбрать язык',
       'enableNotifications' => 'Включить уведомления',
       'enableNotificationsDescription' => 'Отправлять напоминания',
       'notificationsDisabledTitle' => 'Уведомления отключены',
@@ -805,8 +796,6 @@ extension on TranslationsRu {
       'checkForUpdatesDescription' =>
         'Вручную проверить наличие обновлений\nДанное действие подключит вас к интернету\n(Данные переданы не будут)',
       'appVersion' => ({required Object version}) => 'Mona, версия ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Копия данных сохранена в ${path}',
       'exportFailed' => ({required Object error}) =>
           'Ошибка экспорта: ${error}',
       'importDataTitle' => 'Импорт данных',
@@ -1006,8 +995,7 @@ extension on TranslationsRu {
           'Время до ${time} засчитывается к предыдущему дню',
       'chooseItem' => 'Выберите препарат',
       'noItemsToAdd' => 'Нет доступных препаратов',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Доза на ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Доза на ${unit}',
       'allItemsFilter' => 'Все',
       'medicationItemsFilter' => 'Лекарства',
       'genericItems' => 'Расходники',
@@ -1021,13 +1009,12 @@ extension on TranslationsRu {
       'placementRightButtock' => 'Правая ягодица',
       'placementLeftAbdomen' => 'Левая часть живота',
       'placementRightAbdomen' => 'Правая часть живота',
-      'injectionSites' => 'Места инъекций',
-      'injectionSitesDescription' =>
+      'applicationSitesDescription' =>
         'Управляйте местами, между которыми вы чередуете',
-      'addInjectionSite' => 'Добавить место',
+      'addApplicationSite' => 'Добавить место',
       'customSiteLabel' => 'Название места',
-      'noInjectionSitesYet' => 'Пока нет мест',
-      'noInjectionAddOneToGetStarted' => 'Добавьте место ниже, чтобы начать.',
+      'noApplicationSitesYet' => 'Пока нет мест',
+      'addSiteToGetStarted' => 'Добавьте место ниже, чтобы начать.',
       'placementSuggestionPerScheduleTitle' => 'Предлагать по расписанию',
       'placementSuggestionPerScheduleDescription' =>
         'Основывать предложение следующего места только на истории этого расписания.',

@@ -103,7 +103,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
     await Future.delayed(const Duration(milliseconds: 880));
 
-    if (!mounted) return;
+    if (!mounted || ModalRoute.of(context)?.isCurrent != true) return;
     Navigator.of(context).pop();
   }
 
@@ -177,8 +177,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isInjection =
-        widget.schedule.administrationRoute == AdministrationRoute.injection;
+    final AdministrationRoute route = widget.schedule.administrationRoute;
+    final bool isInjection = route == AdministrationRoute.injection;
+    final bool usesPlacements = route.usesPlacements;
 
     return Consumer3<MedicationIntakeProvider, SupplyItemProvider,
         PreferencesService>(
@@ -187,7 +188,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
-        if (!isLoading && !_hasInitializedSide && isInjection) {
+        if (!isLoading && !_hasInitializedSide && usesPlacements) {
           _orderedPlacements = MedicationIntakeManager(
             medicationIntakeProvider,
             supplyItemProvider,
@@ -244,15 +245,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                 label: t.takenAmount,
                 onChanged: _onTakenDoseChanged,
                 inputType: TextInputType.numberWithOptions(decimal: true),
-                suffixText: widget.schedule.molecule.localizedUnit,
+                suffixText: widget.schedule.molecule
+                    .localizedUnit(widget.schedule.dosingBasis),
                 errorText: _takenDoseError,
                 regexFormatter: RegexPatterns.floatNumber),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
-                infoText: supplyItem.localizedSupplyAmount(
-                  _takenDose,
-                  widget.schedule.molecule,
-                ),
+                infoText: supplyItem.localizedSupplyAmount(_takenDose),
               ),
             FormSpacer(),
             IntakeSupplyPicker(
@@ -274,15 +273,15 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   () => _selectedGenerics = [..._selectedGenerics, generic]),
             ),
             FormSpacer(),
+            if (usesPlacements && _orderedPlacements.isNotEmpty) ...[
+              PlacementPicker(
+                options: _orderedPlacements,
+                selected: _selectedPlacements,
+                onChanged: _onPlacementChanged,
+              ),
+              FormSpacer(),
+            ],
             if (isInjection) ...[
-              if (_orderedPlacements.isNotEmpty) ...[
-                PlacementPicker(
-                  options: _orderedPlacements,
-                  selected: _selectedPlacements,
-                  onChanged: _onPlacementChanged,
-                ),
-                FormSpacer(),
-              ],
               FormTextField(
                   controller: _wastedAmountController,
                   label: t.wastedAmount,

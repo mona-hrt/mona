@@ -86,7 +86,7 @@ class TranslationsEs extends Translations
   @override
   String get neverTakenYet => 'Aún no tomado';
   @override
-  String get scheduleFrequencyDaily => 'Cada día';
+  String get scheduleFrequencyDaily => 'Diariamente';
   @override
   String get scheduleFrequencyInterval => 'Intervalo';
   @override
@@ -111,8 +111,6 @@ class TranslationsEs extends Translations
   String get language => 'Idioma';
   @override
   String get languageFollowDevice => 'Seguir el idioma del dispositivo';
-  @override
-  String get selectLanguage => 'Seleccionar idioma';
   @override
   String get enableNotifications => 'Activar notificaciones';
   @override
@@ -140,9 +138,6 @@ class TranslationsEs extends Translations
       'Buscar manualmente la última versión\nEsto se conectará a Internet\n(No se enviarán datos)';
   @override
   String appVersion({required Object version}) => 'Versión de Mona ${version}';
-  @override
-  String backupSavedTo({required Object path}) =>
-      'Copia de seguridad guardada en: ${path}';
   @override
   String exportFailed({required Object error}) => 'Error al exportar: ${error}';
   @override
@@ -523,8 +518,7 @@ class TranslationsEs extends Translations
   @override
   String get noItemsToAdd => 'No hay elementos disponibles';
   @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dosis por ${unit}';
+  String dosePerUnitLabel({required Object unit}) => 'Dosis por ${unit}';
   @override
   String get allItemsFilter => 'Todos';
   @override
@@ -548,18 +542,16 @@ class TranslationsEs extends Translations
   @override
   String get placementRightAbdomen => 'Abdomen derecho';
   @override
-  String get injectionSites => 'Zonas de inyección';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Gestiona las zonas entre las que rotas';
   @override
-  String get addInjectionSite => 'Añadir zona';
+  String get addApplicationSite => 'Añadir zona';
   @override
   String get customSiteLabel => 'Nombre de zona personalizado';
   @override
-  String get noInjectionSitesYet => 'Aún no hay zonas';
+  String get noApplicationSitesYet => 'Aún no hay zonas';
   @override
-  String get noInjectionAddOneToGetStarted =>
+  String get addSiteToGetStarted =>
       'Añade una zona a continuación para empezar.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Sugerir por horario';
@@ -779,7 +771,7 @@ extension on TranslationsEs {
       'tomorrow' => 'mañana',
       'lastTaken' => 'Última toma',
       'neverTakenYet' => 'Aún no tomado',
-      'scheduleFrequencyDaily' => 'Cada día',
+      'scheduleFrequencyDaily' => 'Diariamente',
       'scheduleFrequencyInterval' => 'Intervalo',
       'scheduleFrequencyWeekly' => 'Semanal',
       'newUpdateAvailable' => '¡Hay una nueva actualización disponible!',
@@ -792,7 +784,6 @@ extension on TranslationsEs {
       'noSchedules' => 'Sin horarios',
       'language' => 'Idioma',
       'languageFollowDevice' => 'Seguir el idioma del dispositivo',
-      'selectLanguage' => 'Seleccionar idioma',
       'enableNotifications' => 'Activar notificaciones',
       'enableNotificationsDescription' => 'Enviar recordatorios',
       'notificationsDisabledTitle' => 'Las notificaciones están desactivadas',
@@ -809,8 +800,6 @@ extension on TranslationsEs {
         'Buscar manualmente la última versión\nEsto se conectará a Internet\n(No se enviarán datos)',
       'appVersion' => ({required Object version}) =>
           'Versión de Mona ${version}',
-      'backupSavedTo' => ({required Object path}) =>
-          'Copia de seguridad guardada en: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Error al exportar: ${error}',
       'importDataTitle' => 'Importar datos',
@@ -1012,8 +1001,7 @@ extension on TranslationsEs {
           'El tiempo antes de las ${time} cuenta para el día anterior',
       'chooseItem' => 'Elige un elemento',
       'noItemsToAdd' => 'No hay elementos disponibles',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dosis por ${unit}',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dosis por ${unit}',
       'allItemsFilter' => 'Todos',
       'genericItems' => 'Consumibles',
       'genericItemType' => 'Consumible',
@@ -1025,13 +1013,11 @@ extension on TranslationsEs {
       'placementRightButtock' => 'Glúteo derecho',
       'placementLeftAbdomen' => 'Abdomen izquierdo',
       'placementRightAbdomen' => 'Abdomen derecho',
-      'injectionSites' => 'Zonas de inyección',
-      'injectionSitesDescription' => 'Gestiona las zonas entre las que rotas',
-      'addInjectionSite' => 'Añadir zona',
+      'applicationSitesDescription' => 'Gestiona las zonas entre las que rotas',
+      'addApplicationSite' => 'Añadir zona',
       'customSiteLabel' => 'Nombre de zona personalizado',
-      'noInjectionSitesYet' => 'Aún no hay zonas',
-      'noInjectionAddOneToGetStarted' =>
-        'Añade una zona a continuación para empezar.',
+      'noApplicationSitesYet' => 'Aún no hay zonas',
+      'addSiteToGetStarted' => 'Añade una zona a continuación para empezar.',
       'placementSuggestionPerScheduleTitle' => 'Sugerir por horario',
       'placementSuggestionPerScheduleDescription' =>
         'Basa la sugerencia de la siguiente zona únicamente en el historial de este horario.',

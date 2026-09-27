@@ -7,6 +7,7 @@ import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/data/providers/today_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
@@ -20,11 +21,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<TodayProvider>(); // needed for the titles and intake cards
     final scheduleProvider = context.watch<MedicationScheduleProvider>();
     final intakeProvider = context.watch<MedicationIntakeProvider>();
 
     final occurrences = splitByDay(
       SlotsBuilder(intakeProvider, scheduleProvider).intakeSlots(),
+      scheduleOrder: scheduleProvider.schedules.map((s) => s.id).toList(),
     );
 
     return MainPageWrapper(
@@ -87,7 +90,7 @@ class _IntakeCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return M3ECardColumn(
+    return M3ESegmentedColumn(
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.symmetric(vertical: 4),
       color: Theme.of(context).colorScheme.surface,
@@ -101,7 +104,7 @@ class _NoIntakesDueCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return M3ECardColumn(
+    return M3ESegmentedColumn(
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.symmetric(vertical: 4),
       color: theme.colorScheme.surface,

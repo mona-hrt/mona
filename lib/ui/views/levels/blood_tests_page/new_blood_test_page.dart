@@ -24,6 +24,7 @@ class NewBloodTestPage extends StatefulWidget {
 class _NewBloodTestPageState extends State<NewBloodTestPage> {
   late TextEditingController _estradiolLevelsController;
   late TextEditingController _testosteroneLevelsController;
+  late TextEditingController _notesController;
   late DateTime _testDateTime;
   late PreferencesService _preferencesService;
 
@@ -58,17 +59,18 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
         _testosteroneLevelsController.text.toDecimalOrNull;
     final timezone = await FlutterTimezone.getLocalTimezone();
     final tzName = timezone.identifier;
-    final units = _preferencesService.units;
+    final notes = _notesController.text.isEmpty ? null : _notesController.text;
 
     final bloodtest = BloodTest(
       dateTime: _testDateTime.toUtc(),
       timeZone: tzName,
       estradiolLevels: estradiolLevels != null
-          ? UnitValue(estradiolLevels, units.estradiol)
+          ? UnitValue(estradiolLevels, _preferencesService.estradiolUnit)
           : null,
       testosteroneLevels: testosteroneLevels != null
-          ? UnitValue(testosteroneLevels, units.testosterone)
+          ? UnitValue(testosteroneLevels, _preferencesService.testosteroneUnit)
           : null,
+      notes: notes,
     );
     await bloodTestProvider.add(bloodtest);
 
@@ -81,6 +83,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
     super.initState();
     _estradiolLevelsController = TextEditingController();
     _testosteroneLevelsController = TextEditingController();
+    _notesController = TextEditingController();
     _testDateTime = clock.now();
     _preferencesService = Provider.of(context, listen: false);
   }
@@ -89,12 +92,12 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
   void dispose() {
     _estradiolLevelsController.dispose();
     _testosteroneLevelsController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final units = _preferencesService.units;
     return ModelForm(
       title: t.newBloodTest,
       avatar: Symbols.lab_panel_rounded,
@@ -109,7 +112,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
           errorText: _estradiolError,
-          suffixText: units.estradiol.localizedName,
+          suffixText: _preferencesService.estradiolUnit.localizedName,
         ),
         FormTextField(
           controller: _testosteroneLevelsController,
@@ -118,7 +121,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
           errorText: _testosteroneError,
-          suffixText: units.testosterone.localizedName,
+          suffixText: _preferencesService.testosteroneUnit.localizedName,
         ),
         FormSpacer(),
         FormDateTimeField(
@@ -126,6 +129,14 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
           label: t.bloodTestDateLabel,
           errorText: _testDateError,
           onChanged: _onDateTimeChanged,
+        ),
+        FormTextField(
+          controller: _notesController,
+          label: t.notes,
+          fieldKey: const ValueKey('newBloodTestNotes'),
+          onChanged: _refresh,
+          inputType: TextInputType.multiline,
+          multiline: true,
         ),
       ],
     );

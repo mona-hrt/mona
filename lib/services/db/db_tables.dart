@@ -5,12 +5,14 @@ const String createSupplyItemsTable = '''
       name TEXT NOT NULL,
       totalDose TEXT,
       usedDose TEXT,
-      concentration TEXT,
+      dosePerUnit TEXT,
       molecule TEXT,
       administrationRoute TEXT,
       ester TEXT,
       amount INTEGER,
-      genericSupplyType TEXT
+      genericSupplyType TEXT,
+      deliveryForm TEXT,
+      dosingBasis TEXT
     )
     ''';
 
@@ -31,6 +33,7 @@ const String createMedicationIntakesTable = '''
       genericSupplyItemIds TEXT NOT NULL,
       notes TEXT,
       placements TEXT NOT NULL,
+      dosingBasis TEXT NOT NULL,
       FOREIGN KEY (medicationSupplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL,
       FOREIGN KEY (scheduleId) REFERENCES medication_schedules(id) ON DELETE SET NULL
     )
@@ -45,7 +48,8 @@ const String createMedicationSchedulesTable = '''
       molecule TEXT NOT NULL,
       administrationRoute TEXT NOT NULL,
       ester TEXT,
-      scheduling TEXT NOT NULL
+      scheduling TEXT NOT NULL,
+      dosingBasis TEXT NOT NULL
     )
     ''';
 
@@ -55,6 +59,7 @@ const String createBloodTestsTable = '''
       dateTime TEXT NOT NULL,
       timeZone TEXT NOT NULL,
       estradiolLevels TEXT,
-      testosteroneLevels TEXT
+      testosteroneLevels TEXT,
+      notes TEXT
     )
     ''';

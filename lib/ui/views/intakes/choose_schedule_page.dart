@@ -25,7 +25,7 @@ class ChooseSchedulePage extends StatelessWidget {
             ? Center(
                 child: Text(t.addSchedulesFirst),
               )
-            : M3ECardList.builder(
+            : M3ESegmentedList.builder(
                 listPadding: pagePadding,
                 padding: EdgeInsets.zero,
                 itemCount: schedules.length,
@@ -56,7 +56,7 @@ class ChooseScheduleTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     final String subtitle =
-        "${schedule.dose} ${schedule.molecule.localizedUnit} • "
+        "${schedule.dose} ${schedule.molecule.localizedUnit(schedule.dosingBasis)} • "
         "${schedule.molecule.localizedNameWithEster(schedule.ester)} • "
         "${schedule.administrationRoute.localizedName}";
 

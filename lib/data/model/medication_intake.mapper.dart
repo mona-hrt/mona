@@ -23,6 +23,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       AdministrationRouteMapper.ensureInitialized();
       EsterMapper.ensureInitialized();
       PlacementMapper.ensureInitialized();
+      DosingBasisMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -125,6 +126,11 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     def: const [],
     hook: JsonStringHook(),
   );
+  static DosingBasis _$dosingBasis(MedicationIntake v) => v.dosingBasis;
+  static const Field<MedicationIntake, DosingBasis> _f$dosingBasis = Field(
+    'dosingBasis',
+    _$dosingBasis,
+  );
 
   @override
   final MappableFields<MedicationIntake> fields = const {
@@ -143,6 +149,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #genericSupplyItemIds: _f$genericSupplyItemIds,
     #notes: _f$notes,
     #placements: _f$placements,
+    #dosingBasis: _f$dosingBasis,
   };
 
   static MedicationIntake _instantiate(DecodingData data) {
@@ -162,6 +169,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       genericSupplyItemIds: data.dec(_f$genericSupplyItemIds),
       notes: data.dec(_f$notes),
       placements: data.dec(_f$placements),
+      dosingBasis: data.dec(_f$dosingBasis),
     );
   }
 
@@ -247,6 +255,7 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     List<int>? genericSupplyItemIds,
     String? notes,
     List<Placement>? placements,
+    DosingBasis? dosingBasis,
   });
   MedicationIntakeCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -295,6 +304,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     List<int>? genericSupplyItemIds,
     Object? notes = $none,
     List<Placement>? placements,
+    DosingBasis? dosingBasis,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -316,6 +326,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
             #genericSupplyItemIds: genericSupplyItemIds,
           if (notes != $none) #notes: notes,
           if (placements != null) #placements: placements,
+          if (dosingBasis != null) #dosingBasis: dosingBasis,
         }),
       );
   @override
@@ -344,6 +355,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         ),
         notes: data.get(#notes, or: $value.notes),
         placements: data.get(#placements, or: $value.placements),
+        dosingBasis: data.get(#dosingBasis, or: $value.dosingBasis),
       );
 
   @override

@@ -7,11 +7,20 @@ const String _flutterAppFlavor = String.fromEnvironment(
   defaultValue: '',
 );
 
+bool get isIOS => Platform.isIOS;
+
+bool get isAndroid => Platform.isAndroid;
+
+bool get isMobile => isAndroid || isIOS;
+
 /// App stores build: no sideload/APK update UI and no [REQUEST_INSTALL_PACKAGES].
 bool get isStoreDistribution => _flutterAppFlavor == 'store';
 
 /// Signed sideload build distributed as a single GitHub APK named `mona-*.apk`.
 bool get isStandaloneDistribution => _flutterAppFlavor == 'standalone';
+
+/// Self-updating build.
+bool get isSelfUpdating => isAndroid && isStandaloneDistribution;
 
 /// iOS 26+ auto-hides the home indicator
 bool get isIosLiquidGlass {

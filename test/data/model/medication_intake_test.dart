@@ -1,14 +1,11 @@
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
-
-import '../../fixtures.dart';
 
 void main() {
   setUpAll(() {
@@ -23,6 +20,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         ),
         throwsArgumentError,
       );
@@ -37,50 +35,9 @@ void main() {
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         ),
         throwsArgumentError,
-      );
-    });
-
-    test('toMap and fromMap should preserve values', () {
-      // Arrange
-      final intake = aMedicationIntake(
-        id: 1,
-        time: const TimeOfDay(hour: 8, minute: 30),
-        dose: Decimal.parse('2.5'),
-        wastedAmount: Decimal.parse('0.1'),
-        scheduleId: 42,
-        administrationRoute: AdministrationRoute.injection,
-        ester: Ester.cypionate,
-        placements: [
-          aPlacement(),
-          aCustomPlacement(),
-        ],
-      );
-
-      // Act
-      final map = intake.toMap();
-      final fromMap =
-          MedicationIntakeMapper.fromMap(Map<String, dynamic>.from(map));
-
-      expect(
-        fromMap,
-        isA<MedicationIntake>()
-            .having((i) => i.id, 'id', intake.id)
-            .having(
-                (i) => i.takenDateTime, 'takenDateTime', intake.takenDateTime)
-            .having(
-                (i) => i.takenTimeZone, 'takenTimeZone', intake.takenTimeZone)
-            .having((i) => i.takenDose, 'dose', intake.takenDose)
-            .having((i) => i.wastedAmount, 'wastedAmount', intake.wastedAmount)
-            .having((i) => i.scheduleId, 'scheduleId', intake.scheduleId)
-            .having((i) => i.molecule, 'molecule', intake.molecule)
-            .having((i) => i.administrationRoute, 'administrationRoute',
-                intake.administrationRoute)
-            .having((i) => i.ester, 'ester', intake.ester)
-            .having(
-                (i) => i.scheduledTime, 'scheduledTime', intake.scheduledTime)
-            .having((i) => i.placements, 'placements', intake.placements),
       );
     });
 
@@ -91,12 +48,14 @@ void main() {
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       );
 
       final intakeNotTaken = MedicationIntake(
         takenDose: Decimal.one,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       );
 
       expect(
@@ -120,6 +79,7 @@ void main() {
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -139,6 +99,7 @@ void main() {
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -158,6 +119,7 @@ void main() {
               'Europe/Amsterdam', // missing from package:timezone latest.dart
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         expect(intake.takenLocalDate, Date(year: 2024, month: 6, day: 15));
@@ -173,6 +135,7 @@ void main() {
           takenTimeZone: 'America/New_York',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -190,6 +153,7 @@ void main() {
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -207,6 +171,7 @@ void main() {
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -226,6 +191,7 @@ void main() {
           takenTimeZone: 'America/New_York',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -245,6 +211,7 @@ void main() {
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act

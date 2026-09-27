@@ -112,8 +112,6 @@ class TranslationsIs extends Translations
   @override
   String get languageFollowDevice => 'Fylgja tækatungumál';
   @override
-  String get selectLanguage => 'Veldu tungumál';
-  @override
   String get enableNotifications => 'Virkjaðu tilkynningar';
   @override
   String get enableNotificationsDescription => 'Sendaðu afgangar';
@@ -158,8 +156,6 @@ class TranslationsIs extends Translations
       'Athugaðu handvirkt hvort nýjustu útgáfan sé til staðar\nÞetta mun tengja þig við internetið\n(Engin gögn verða send)';
   @override
   String appVersion({required Object version}) => 'Mona útgáfa ${version}';
-  @override
-  String backupSavedTo({required Object path}) => 'Afrit vistað í: ${path}';
   @override
   String exportFailed({required Object error}) =>
       'Mistókst að flytja út: ${error}';
@@ -504,19 +500,16 @@ class TranslationsIs extends Translations
   @override
   String get placementRightAbdomen => 'Right kvið';
   @override
-  String get injectionSites => 'Innspýtingarstaðir';
-  @override
-  String get injectionSitesDescription =>
+  String get applicationSitesDescription =>
       'Stjórnaðu síðunum sem þú skiptir á milli';
   @override
-  String get addInjectionSite => 'Bættu við staðir';
+  String get addApplicationSite => 'Bættu við staðir';
   @override
   String get customSiteLabel => 'Sérsniðið staðarnafn';
   @override
-  String get noInjectionSitesYet => 'Engar staðir ennþá';
+  String get noApplicationSitesYet => 'Engar staðir ennþá';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Bættu við stað hér að neðan til að byrja.';
+  String get addSiteToGetStarted => 'Bættu við stað hér að neðan til að byrja.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Tillögur samkvæmt áætlun';
   @override
@@ -556,6 +549,74 @@ class TranslationsIs extends Translations
   String get chooseItem => 'Veldu atriði';
   @override
   String get noItemsToAdd => 'Engar atriði tiltækar';
+  @override
+  String get asNeeded => 'Eftir þörfum';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Á hverjum degi, á ákveðnum tímum';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Á nokkurra daga fresti';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Ákveðnir dagar vikunnar';
+  @override
+  String get scheduleFrequencyMonthlyDescription => 'Sama dag í hverjum mánuði';
+  @override
+  String get scheduleFrequencyAsNeeded => 'Eftir þörfum';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'Engin föst tímaáætlun';
+  @override
+  String get backupSaved => 'Öryggisafrit vistað';
+  @override
+  String get secretSettings => 'Leyndarmálsstillingar';
+  @override
+  String get slimeMode => 'Slímstilling';
+  @override
+  String get HrtCounter => 'Tíma á HRT';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Opnaðu Mona til að skrá fyrstu inntöku þína';
+  @override
+  String get hrtWidgetPreviewSample => 'Á HRT í 8 mánuði';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 inntökur skráðar';
+  @override
+  String get empty_levels =>
+      'Bættu við blóðprufu eða skráðu estradíólsprautu til að byrja';
+  @override
+  String get estradiolLevelsTitle => 'Estradíólstig';
+  @override
+  String get week => 'Vik';
+  @override
+  String get twoWeeks => '2 Vik';
+  @override
+  String get threeMonths => '3 Mánu';
+  @override
+  String get sixMonths => '6 Mánu';
+  @override
+  String get month => 'Mánu';
+  @override
+  String get year => 'Ár';
+  @override
+  String dosePerUnitLabel({required Object unit}) =>
+      'Skammtur á hverja ${unit}';
+  @override
+  String get deliveryForm => 'Neysluaðferð';
+  @override
+  String get deliveryFormPump => 'Dæla';
+  @override
+  String get deliveryFormSachet => 'Poki';
+  @override
+  String get deliveryFormGram => 'Rör';
+  @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
+  String get applicationSites => 'Umsóknarsíður';
+  @override
+  String get applicationSitesInstructions =>
+      'Stjórnaðu stöðunum sem þú skiptist á milli. Staðsetningar eru lagðar til út frá inntökusögu þinni. Haltu inni til að endurraða.';
+  @override
+  String mustBeAtMost({required Object max}) =>
+      'Verður að vera í mesta lagi ${max}';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
@@ -718,6 +779,20 @@ class TranslationsIs extends Translations
         one: '1 inntaka skráð',
         other: '${count} inntökur skráðar',
       );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'Poki',
+        other: 'Pokar',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'gramm',
+        other: 'grömm',
+      );
 }
 
 /// The flat map containing all translations for locale <is>.
@@ -757,7 +832,6 @@ extension on TranslationsIs {
       'noSchedules' => 'Engin Áætlanir',
       'language' => 'Tungumál',
       'languageFollowDevice' => 'Fylgja tækatungumál',
-      'selectLanguage' => 'Veldu tungumál',
       'enableNotifications' => 'Virkjaðu tilkynningar',
       'enableNotificationsDescription' => 'Sendaðu afgangar',
       'notificationsDisabledTitle' => 'Tilkynningar eru óvirkir',
@@ -782,7 +856,6 @@ extension on TranslationsIs {
       'checkForUpdatesDescription' =>
         'Athugaðu handvirkt hvort nýjustu útgáfan sé til staðar\nÞetta mun tengja þig við internetið\n(Engin gögn verða send)',
       'appVersion' => ({required Object version}) => 'Mona útgáfa ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Afrit vistað í: ${path}',
       'exportFailed' => ({required Object error}) =>
           'Mistókst að flytja út: ${error}',
       'importDataTitle' => 'Flytja inn gögn',
@@ -965,13 +1038,12 @@ extension on TranslationsIs {
       'placementRightButtock' => 'Right rass',
       'placementLeftAbdomen' => 'Vinstri kvið',
       'placementRightAbdomen' => 'Right kvið',
-      'injectionSites' => 'Innspýtingarstaðir',
-      'injectionSitesDescription' => 'Stjórnaðu síðunum sem þú skiptir á milli',
-      'addInjectionSite' => 'Bættu við staðir',
+      'applicationSitesDescription' =>
+        'Stjórnaðu síðunum sem þú skiptir á milli',
+      'addApplicationSite' => 'Bættu við staðir',
       'customSiteLabel' => 'Sérsniðið staðarnafn',
-      'noInjectionSitesYet' => 'Engar staðir ennþá',
-      'noInjectionAddOneToGetStarted' =>
-        'Bættu við stað hér að neðan til að byrja.',
+      'noApplicationSitesYet' => 'Engar staðir ennþá',
+      'addSiteToGetStarted' => 'Bættu við stað hér að neðan til að byrja.',
       'placementSuggestionPerScheduleTitle' => 'Tillögur samkvæmt áætlun',
       'placementSuggestionPerScheduleDescription' =>
         'Byggðu tillöguna að næsta stað eingöngu á sögu þessarar áætlunar.',
@@ -993,6 +1065,41 @@ extension on TranslationsIs {
         'Áætlar næstu inntöku með fullu millibili eftir að þú tókst hana síðast',
       'chooseItem' => 'Veldu atriði',
       'noItemsToAdd' => 'Engar atriði tiltækar',
+      'asNeeded' => 'Eftir þörfum',
+      'scheduleFrequencyDailyDescription' => 'Á hverjum degi, á ákveðnum tímum',
+      'scheduleFrequencyIntervalDescription' => 'Á nokkurra daga fresti',
+      'scheduleFrequencyWeeklyDescription' => 'Ákveðnir dagar vikunnar',
+      'scheduleFrequencyMonthlyDescription' => 'Sama dag í hverjum mánuði',
+      'scheduleFrequencyAsNeeded' => 'Eftir þörfum',
+      'scheduleFrequencyAsNeededDescription' => 'Engin föst tímaáætlun',
+      'backupSaved' => 'Öryggisafrit vistað',
+      'secretSettings' => 'Leyndarmálsstillingar',
+      'slimeMode' => 'Slímstilling',
+      'HrtCounter' => 'Tíma á HRT',
+      'hrtWidgetPlaceholder' => 'Opnaðu Mona til að skrá fyrstu inntöku þína',
+      'hrtWidgetPreviewSample' => 'Á HRT í 8 mánuði',
+      'hrtWidgetPreviewIntakeSample' => '16 inntökur skráðar',
+      'empty_levels' =>
+        'Bættu við blóðprufu eða skráðu estradíólsprautu til að byrja',
+      'estradiolLevelsTitle' => 'Estradíólstig',
+      'week' => 'Vik',
+      'twoWeeks' => '2 Vik',
+      'threeMonths' => '3 Mánu',
+      'sixMonths' => '6 Mánu',
+      'month' => 'Mánu',
+      'year' => 'Ár',
+      'dosePerUnitLabel' => ({required Object unit}) =>
+          'Skammtur á hverja ${unit}',
+      'deliveryForm' => 'Neysluaðferð',
+      'deliveryFormPump' => 'Dæla',
+      'deliveryFormSachet' => 'Poki',
+      'deliveryFormGram' => 'Rör',
+      'unitNgPerMl' => 'ng/mL',
+      'applicationSites' => 'Umsóknarsíður',
+      'applicationSitesInstructions' =>
+        'Stjórnaðu stöðunum sem þú skiptist á milli. Staðsetningar eru lagðar til út frá inntökusögu þinni. Haltu inni til að endurraða.',
+      'mustBeAtMost' => ({required Object max}) =>
+          'Verður að vera í mesta lagi ${max}',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
@@ -1131,6 +1238,18 @@ extension on TranslationsIs {
             count,
             one: '1 inntaka skráð',
             other: '${count} inntökur skráðar',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'Poki',
+            other: 'Pokar',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'gramm',
+            other: 'grömm',
           ),
       _ => null,
     };

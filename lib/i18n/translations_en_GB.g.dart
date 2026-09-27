@@ -129,8 +129,6 @@ class TranslationsEnGb extends Translations
   @override
   String get languageFollowDevice => 'Follow device language';
   @override
-  String get selectLanguage => 'Select Language';
-  @override
   String get enableNotifications => 'Enable notifications';
   @override
   String get enableNotificationsDescription => 'Send reminders';
@@ -181,7 +179,23 @@ class TranslationsEnGb extends Translations
   @override
   String appVersion({required Object version}) => 'Mona version ${version}';
   @override
-  String backupSavedTo({required Object path}) => 'Backup saved to: ${path}';
+  String get getInvolved => 'Get involved';
+  @override
+  String get reportBug => 'Report a bug';
+  @override
+  String get reportBugDescription => 'Open an issue on GitHub';
+  @override
+  String get translateApp => 'Translate the app';
+  @override
+  String get translateAppDescription => 'Help translate Mona on Weblate';
+  @override
+  String get languageMissing => 'Is your language missing?';
+  @override
+  String get donate => 'Donate';
+  @override
+  String get donateDescription => 'Support Mona on Ko-fi';
+  @override
+  String get backupSaved => 'Backup saved';
   @override
   String exportFailed({required Object error}) => 'Failed to export: ${error}';
   @override
@@ -238,6 +252,10 @@ class TranslationsEnGb extends Translations
   @override
   String get updateDownloadFailed =>
       'Download failed. Please check your connection.';
+  @override
+  String get secretSettings => 'Secret settings';
+  @override
+  String get slimeMode => 'Slime mode';
   @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Time to take ${scheduleName}';
@@ -347,6 +365,18 @@ class TranslationsEnGb extends Translations
   @override
   String get estradiolLevelsTitle => 'Estradiol levels';
   @override
+  String get week => 'W';
+  @override
+  String get twoWeeks => '2 W';
+  @override
+  String get threeMonths => '3 M';
+  @override
+  String get sixMonths => '6 M';
+  @override
+  String get month => 'M';
+  @override
+  String get year => 'Y';
+  @override
   String get empty_blood_tests =>
       'Taken blood tests will appear here. Start by using the Add button!';
   @override
@@ -382,6 +412,8 @@ class TranslationsEnGb extends Translations
   String get totalAmount => 'Total amount';
   @override
   String get concentration => 'Concentration';
+  @override
+  String dosePerUnitLabel({required Object unit}) => 'Dose per ${unit}';
   @override
   String get editItem => 'Edit item';
   @override
@@ -519,7 +551,17 @@ class TranslationsEnGb extends Translations
   @override
   String get transdermalDrops => 'Transdermal drops';
   @override
+  String get deliveryForm => 'Form';
+  @override
+  String get deliveryFormPump => 'Pump';
+  @override
+  String get deliveryFormSachet => 'Sachet';
+  @override
+  String get deliveryFormGram => 'Tube';
+  @override
   String get unitMilligram => 'mg';
+  @override
+  String get unitMicrogramPerDay => 'µg/day';
   @override
   String get unitPgPerMl => 'pg/mL';
   @override
@@ -555,18 +597,21 @@ class TranslationsEnGb extends Translations
   @override
   String get placementRightAbdomen => 'Right abdomen';
   @override
-  String get injectionSites => 'Injection sites';
+  String get applicationSites => 'Application sites';
   @override
-  String get injectionSitesDescription => 'Manage the sites you rotate between';
+  String get applicationSitesDescription =>
+      'Manage the sites you rotate between';
   @override
-  String get addInjectionSite => 'Add site';
+  String get applicationSitesInstructions =>
+      'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.';
+  @override
+  String get addApplicationSite => 'Add site';
   @override
   String get customSiteLabel => 'Custom site name';
   @override
-  String get noInjectionSitesYet => 'No sites yet';
+  String get noApplicationSitesYet => 'No sites yet';
   @override
-  String get noInjectionAddOneToGetStarted =>
-      'Add a site below to get started.';
+  String get addSiteToGetStarted => 'Add a site below to get started.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
   @override
@@ -579,12 +624,11 @@ class TranslationsEnGb extends Translations
   @override
   String get mustBeBetween1And28 => 'Must be between 1 and 28';
   @override
+  String mustBeAtMost({required Object max}) => 'Must be at most ${max}';
+  @override
   String get invalidTotalAmount => 'Invalid total amount';
   @override
   String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
-  @override
-  String concentrationLabelPerUnit({required Object unit}) =>
-      'Dose per ${unit}';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
@@ -727,6 +771,20 @@ class TranslationsEnGb extends Translations
         other: 'pumps',
       );
   @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'sachet',
+        other: 'sachets',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'gram',
+        other: 'grams',
+      );
+  @override
   String administrationRouteUnitImplant({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
@@ -794,7 +852,6 @@ extension on TranslationsEnGb {
       'noSchedules' => 'No schedules',
       'language' => 'Language',
       'languageFollowDevice' => 'Follow device language',
-      'selectLanguage' => 'Select Language',
       'enableNotifications' => 'Enable notifications',
       'enableNotificationsDescription' => 'Send reminders',
       'anchorToLastIntake' => 'Recalculate based on last intake',
@@ -822,7 +879,15 @@ extension on TranslationsEnGb {
       'checkForUpdatesDescription' =>
         'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)',
       'appVersion' => ({required Object version}) => 'Mona version ${version}',
-      'backupSavedTo' => ({required Object path}) => 'Backup saved to: ${path}',
+      'getInvolved' => 'Get involved',
+      'reportBug' => 'Report a bug',
+      'reportBugDescription' => 'Open an issue on GitHub',
+      'translateApp' => 'Translate the app',
+      'translateAppDescription' => 'Help translate Mona on Weblate',
+      'languageMissing' => 'Is your language missing?',
+      'donate' => 'Donate',
+      'donateDescription' => 'Support Mona on Ko-fi',
+      'backupSaved' => 'Backup saved',
       'exportFailed' => ({required Object error}) =>
           'Failed to export: ${error}',
       'importDataTitle' => 'Import Data',
@@ -856,6 +921,8 @@ extension on TranslationsEnGb {
           'Failed to open installer: ${message}',
       'updateDownloadFailed' =>
         'Download failed. Please check your connection.',
+      'secretSettings' => 'Secret settings',
+      'slimeMode' => 'Slime mode',
       'notificationMedicationReminderTitle' =>
         ({required Object scheduleName}) => 'Time to take ${scheduleName}',
       'notificationMedicationReminderBodyDate' => ({required Object date}) =>
@@ -914,6 +981,12 @@ extension on TranslationsEnGb {
         'Add a blood test or log an estradiol injection to get started',
       'bloodTestsTitle' => 'Blood Tests',
       'estradiolLevelsTitle' => 'Estradiol levels',
+      'week' => 'W',
+      'twoWeeks' => '2 W',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'month' => 'M',
+      'year' => 'Y',
       'empty_blood_tests' =>
         'Taken blood tests will appear here. Start by using the Add button!',
       'addBloodTest' => 'Add a blood test',
@@ -933,6 +1006,7 @@ extension on TranslationsEnGb {
       'adminRoute' => 'Administration route',
       'totalAmount' => 'Total amount',
       'concentration' => 'Concentration',
+      'dosePerUnitLabel' => ({required Object unit}) => 'Dose per ${unit}',
       'editItem' => 'Edit item',
       'usedAmount' => 'Used amount',
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',
@@ -1002,7 +1076,12 @@ extension on TranslationsEnGb {
       'suppository' => 'Suppository',
       'transdermalSpray' => 'Transdermal spray',
       'transdermalDrops' => 'Transdermal drops',
+      'deliveryForm' => 'Form',
+      'deliveryFormPump' => 'Pump',
+      'deliveryFormSachet' => 'Sachet',
+      'deliveryFormGram' => 'Tube',
       'unitMilligram' => 'mg',
+      'unitMicrogramPerDay' => 'µg/day',
       'unitPgPerMl' => 'pg/mL',
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
@@ -1020,22 +1099,23 @@ extension on TranslationsEnGb {
       'placementRightButtock' => 'Right buttock',
       'placementLeftAbdomen' => 'Left abdomen',
       'placementRightAbdomen' => 'Right abdomen',
-      'injectionSites' => 'Injection sites',
-      'injectionSitesDescription' => 'Manage the sites you rotate between',
-      'addInjectionSite' => 'Add site',
+      'applicationSites' => 'Application sites',
+      'applicationSitesDescription' => 'Manage the sites you rotate between',
+      'applicationSitesInstructions' =>
+        'Manage the sites you rotate between. Sites are suggested based on your intakes history. Long press to reorder.',
+      'addApplicationSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
-      'noInjectionSitesYet' => 'No sites yet',
-      'noInjectionAddOneToGetStarted' => 'Add a site below to get started.',
+      'noApplicationSitesYet' => 'No sites yet',
+      'addSiteToGetStarted' => 'Add a site below to get started.',
       'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
       'placementSuggestionPerScheduleDescription' =>
         'Base the next-site suggestion on this schedule\'s history only.',
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'mustBeBetween1And28' => 'Must be between 1 and 28',
+      'mustBeAtMost' => ({required Object max}) => 'Must be at most ${max}',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
-      'concentrationLabelPerUnit' => ({required Object unit}) =>
-          'Dose per ${unit}',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
@@ -1156,6 +1236,18 @@ extension on TranslationsEnGb {
             count,
             one: 'pump',
             other: 'pumps',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'sachet',
+            other: 'sachets',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'gram',
+            other: 'grams',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
