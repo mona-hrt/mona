@@ -26,7 +26,7 @@ done
 
 MAP="fastlane/screenshot_locales.json"
 TARGET="tool/screenshots/screenshots.dart"
-DRIVER="test_driver/screenshots_driver.dart"
+DRIVER="tool/screenshots/screenshots_driver.dart"
 
 [ -f "$MAP" ] || { echo "Missing locale map: $MAP" >&2; exit 1; }
 jq -e . "$MAP" >/dev/null 2>&1 || { echo "Malformed locale map: $MAP" >&2; exit 1; }
