@@ -7,7 +7,7 @@
 #   --frames-only to skip captures
 # Env overrides:
 #   SCREENSHOT_ANDROID_DEVICE  adb device id (default: first attached device)
-#   SCREENSHOT_IOS_DEVICE      simulator name (default: "iPhone 16 Pro Max")
+#   SCREENSHOT_IOS_DEVICE      simulator name (default: "iPhone 17 Pro Max")
 
 set -euo pipefail
 
@@ -38,7 +38,7 @@ while IFS= read -r tag; do
 done < <(jq -r '.[].app' "$MAP")
 
 resolve_ios_udid() {
-  local name="${SCREENSHOT_IOS_DEVICE:-iPhone 16 Pro Max}"
+  local name="${SCREENSHOT_IOS_DEVICE:-iPhone 17 Pro Max}"
   local udid
   udid=$(xcrun simctl list devices available --json \
     | jq -r --arg n "$name" \
