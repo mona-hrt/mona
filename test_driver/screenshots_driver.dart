@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter_driver/flutter_driver.dart';
 
 const _screens = <(String, String?)>[
-  ('01_home', null),
-  ('02_intakes', 'navTabIntakes'),
-  ('03_levels', 'navTabLevels'),
-  ('04_supplies', 'navTabSupplies'),
+  ('1', null),
+  ('2', 'navTabLevels'),
+  ('3', 'navTabIntakes'),
+  ('4', 'navTabSupplies'),
 ];
 
 Future<void> _adb(String serial, List<String> args) async {

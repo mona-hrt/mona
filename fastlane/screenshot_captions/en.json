@@ -1,6 +1,6 @@
 {
-  "01_home": "Never miss a dose",
-  "02_intakes": "See your history at a glance",
-  "03_levels": "Monitor your levels and blood tests",
-  "04_supplies": "Never run out"
+  "1": "Never miss a dose",
+  "2": "See your history at a glance",
+  "3": "Monitor your levels and blood tests",
+  "4": "Never run out"
 }
