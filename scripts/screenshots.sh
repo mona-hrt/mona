@@ -65,11 +65,15 @@ drive_one() {
   echo "==> $platform / $app_tag"
 
   local ios_udid=""
+  local android_serial=""
   if [ "$platform" = "ios" ]; then
     ios_udid="$device"
+  else
+    android_serial="$device"
   fi
 
-  SCREENSHOT_OUT="$out" SCREENSHOT_IOS_UDID="$ios_udid" fvm flutter drive \
+  SCREENSHOT_OUT="$out" SCREENSHOT_IOS_UDID="$ios_udid" \
+    SCREENSHOT_ANDROID_SERIAL="$android_serial" fvm flutter drive \
     --driver="$DRIVER" \
     --target="$TARGET" \
     -d "$device" \
@@ -78,6 +82,9 @@ drive_one() {
 
   if [ "$platform" = "ios" ]; then
     xcrun simctl status_bar "$device" clear || true
+  else
+    adb -s "$device" shell am broadcast \
+      -a com.android.systemui.demo -e command exit >/dev/null 2>&1 || true
   fi
 }
 

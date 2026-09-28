@@ -9,9 +9,23 @@ const _screens = <(String, String?)>[
   ('04_supplies', 'navTabSupplies'),
 ];
 
+Future<void> _adb(String serial, List<String> args) async {
+  final result = await Process.run(
+    'adb',
+    [
+      if (serial.isNotEmpty) ...['-s', serial],
+      ...args
+    ],
+  );
+  if (result.exitCode != 0) {
+    throw Exception('adb ${args.join(' ')} failed: ${result.stderr}');
+  }
+}
+
 Future<void> main() async {
   final outDir = Platform.environment['SCREENSHOT_OUT'] ?? 'build/screenshots';
   final iosUdid = Platform.environment['SCREENSHOT_IOS_UDID'] ?? '';
+  final androidSerial = Platform.environment['SCREENSHOT_ANDROID_SERIAL'] ?? '';
 
   final driver = await FlutterDriver.connect();
 
@@ -39,6 +53,21 @@ Future<void> main() async {
     if (result.exitCode != 0) {
       throw Exception('simctl status_bar override failed: ${result.stderr}');
     }
+  } else {
+    const demo = [
+      'shell',
+      'am',
+      'broadcast',
+      '-a',
+      'com.android.systemui.demo'
+    ];
+    await _adb(androidSerial,
+        ['shell', 'settings', 'put', 'system', 'time_12_24', '24']);
+    await _adb(androidSerial,
+        ['shell', 'settings', 'put', 'global', 'sysui_demo_allowed', '1']);
+    await _adb(androidSerial, [...demo, '-e', 'command', 'enter']);
+    await _adb(androidSerial,
+        [...demo, '-e', 'command', 'clock', '-e', 'hhmm', '1428']);
   }
 
   Future<void> capture(String name) async {
@@ -54,7 +83,20 @@ Future<void> main() async {
         throw Exception('simctl screenshot failed: ${result.stderr}');
       }
     } else {
-      await File(path).writeAsBytes(await driver.screenshot());
+      final result = await Process.run(
+        'adb',
+        [
+          if (androidSerial.isNotEmpty) ...['-s', androidSerial],
+          'exec-out',
+          'screencap',
+          '-p',
+        ],
+        stdoutEncoding: null,
+      );
+      if (result.exitCode != 0) {
+        throw Exception('adb screencap failed: ${result.stderr}');
+      }
+      await File(path).writeAsBytes(result.stdout as List<int>);
     }
   }
 
