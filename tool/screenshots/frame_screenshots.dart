@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -6,7 +7,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/theme/default_color_schemes.dart';
 
-import 'caption_source.dart';
 import 'screenshot_fonts.dart';
 import 'screenshot_frame.dart';
 
@@ -79,4 +79,10 @@ void main() {
 
     expect(files, isNotEmpty, reason: 'no PNGs found in $_inputDir');
   });
+}
+
+Future<Map<String, String>> loadScreenshotCaptions(String path) async {
+  final decoded =
+      jsonDecode(await File(path).readAsString()) as Map<String, dynamic>;
+  return decoded.map((key, value) => MapEntry(key, value as String));
 }
