@@ -17,6 +17,9 @@ import 'package:mona/theme/material_ui_theme.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
 
+const bool _forceDefaultColors = bool.fromEnvironment(
+    'SCREENSHOT_DEFAULT_COLORS'); // avoid dynamic colors when generating store screenshots
+
 class MonaApp extends StatefulWidget {
   const MonaApp({super.key});
 
@@ -117,8 +120,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         final themes = context.read<AppThemeProvider>().buildThemeData(
-              systemLight: lightDynamic,
-              systemDark: darkDynamic,
+              systemLight: _forceDefaultColors ? null : lightDynamic,
+              systemDark: _forceDefaultColors ? null : darkDynamic,
             );
         return MaterialApp(
           title: 'Mona',

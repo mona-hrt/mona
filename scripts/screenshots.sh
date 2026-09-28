@@ -78,6 +78,7 @@ drive_one() {
     --target="$TARGET" \
     -d "$device" \
     --dart-define=SCREENSHOT_LOCALE="$app_tag" \
+    --dart-define=SCREENSHOT_DEFAULT_COLORS=true \
     "$@"
 
   if [ "$platform" = "ios" ]; then
