@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -61,6 +62,7 @@ Future<void> _insertSchedules(Database db) async {
     dose: _d('1.5'),
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.gel,
+    dosingBasis: DosingBasis.mass,
     startDate: today,
     scheduling: const DailySchedule(
       intakeTimes: [
@@ -77,6 +79,7 @@ Future<void> _insertSchedules(Database db) async {
     dose: _d('100'),
     molecule: KnownMolecules.progesterone,
     administrationRoute: AdministrationRoute.oral,
+    dosingBasis: DosingBasis.mass,
     startDate: today.subtract(const Duration(days: 30)),
     scheduling: const AsNeededSchedule(),
   );
@@ -87,6 +90,7 @@ Future<void> _insertSchedules(Database db) async {
     dose: _d('11.25'),
     molecule: KnownMolecules.decapeptyl,
     administrationRoute: AdministrationRoute.injection,
+    dosingBasis: DosingBasis.mass,
     ester: Ester.enanthate,
     startDate: today.add(const Duration(days: 3)),
     scheduling: const IntervalDaysSchedule(intervalDays: 7),
@@ -111,6 +115,7 @@ Future<void> _insertIntakes(Database db) async {
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.injection,
       ester: Ester.enanthate,
+      dosingBasis: DosingBasis.mass,
     ),
   );
 
@@ -121,16 +126,18 @@ Future<void> _insertIntakes(Database db) async {
     takenTimeZone: _tz,
     molecule: KnownMolecules.progesterone,
     administrationRoute: AdministrationRoute.oral,
+    dosingBasis: DosingBasis.mass,
     scheduleId: 102,
   );
 
   final patch = MedicationIntake(
     id: 205,
-    takenDose: _d('0.1'),
+    takenDose: _d('100'),
     takenDateTime: _daysAgoUtc(2),
     takenTimeZone: _tz,
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.patch,
+    dosingBasis: DosingBasis.releaseRate,
     notes: 'Left hip',
   );
 
@@ -142,6 +149,7 @@ Future<void> _insertIntakes(Database db) async {
     takenTimeZone: _tz,
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.gel,
+    dosingBasis: DosingBasis.mass,
     scheduleId: 101,
   );
 
@@ -177,10 +185,11 @@ Future<void> _insertSupplies(Database db) async {
     name: 'Estradiol Enanthate 20 mg/mL',
     totalDose: _d('200'),
     usedDose: _d('40'),
-    concentration: _d('20'),
+    dosePerUnit: _d('20'),
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.injection,
     ester: Ester.enanthate,
+    dosingBasis: DosingBasis.mass,
   );
 
   final gel = MedicationSupplyItem(
@@ -188,9 +197,10 @@ Future<void> _insertSupplies(Database db) async {
     name: 'Estradiol gel 0.06%',
     totalDose: _d('80'),
     usedDose: _d('25'),
-    concentration: _d('0.6'),
+    dosePerUnit: _d('0.6'),
     molecule: KnownMolecules.estradiol,
     administrationRoute: AdministrationRoute.gel,
+    dosingBasis: DosingBasis.mass,
   );
 
   final syringes = GenericSupply(
