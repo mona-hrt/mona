@@ -139,6 +139,7 @@ void main() {
   test('scheduleNotification adds a notification', () async {
     await service.scheduleNotification(
       id: 1,
+      scheduleId: 1,
       title: 'Test',
       body: 'Body',
       scheduledTime: DateTime(2026, 2, 8, 10, 30),
@@ -153,6 +154,24 @@ void main() {
     expect((n['date'] as tz.TZDateTime).minute, 30);
   });
 
+  test('scheduleNotification writes the schedule id into the payload',
+      () async {
+    // Arrange
+    // Act
+    await service.scheduleNotification(
+      id: 1,
+      scheduleId: 42,
+      title: 'Test',
+      body: 'Body',
+      scheduledTime: DateTime(2026, 2, 8, 10, 30),
+    );
+
+    // Assert
+    final payload = jsonDecode(fakePlugin.scheduled.single['payload'] as String)
+        as Map<String, Object?>;
+    expect(payload['scheduleId'], 42);
+  });
+
   test('showNotification adds a shown notification', () async {
     await service.showNotification(title: 'Show', body: 'Body');
     expect(fakePlugin.shown.length, 1);
@@ -164,6 +183,7 @@ void main() {
   test('cancelAllNotifications clears scheduled', () async {
     await service.scheduleNotification(
       id: 1,
+      scheduleId: 1,
       title: 'T1',
       body: 'B1',
       scheduledTime: DateTime(2026, 2, 8, 10, 0),
@@ -175,12 +195,14 @@ void main() {
   test('cancelPendingNotifications removes only pending', () async {
     await service.scheduleNotification(
       id: 1,
+      scheduleId: 1,
       title: 'T1',
       body: 'B1',
       scheduledTime: DateTime(2026, 2, 8, 10, 0),
     );
     await service.scheduleNotification(
       id: 2,
+      scheduleId: 2,
       title: 'T2',
       body: 'B2',
       scheduledTime: DateTime(2026, 2, 9, 10, 0),
@@ -244,6 +266,7 @@ void main() {
     // Act
     await service.scheduleDailyNotification(
       id: 7,
+      scheduleId: 7,
       title: 'D',
       body: 'B',
       firstOccurrence: firstFire,
@@ -265,6 +288,7 @@ void main() {
     // Act
     await service.scheduleWeeklyNotification(
       id: 9,
+      scheduleId: 9,
       title: 'W',
       body: 'B',
       firstOccurrence: firstFire,

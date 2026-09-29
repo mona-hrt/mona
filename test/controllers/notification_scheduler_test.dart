@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clock/clock.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -269,6 +271,35 @@ void main() {
       final latest = scheduledDates.reduce((a, b) => a.isAfter(b) ? a : b);
       expect(latest,
           tz.TZDateTime.from(start.add(const Duration(days: 60)), tz.local));
+    });
+  });
+
+  group('payload', () {
+    String capturedScheduledPayload() => verify(plugin.zonedSchedule(
+          id: anyNamed('id'),
+          title: anyNamed('title'),
+          body: anyNamed('body'),
+          scheduledDate: anyNamed('scheduledDate'),
+          notificationDetails: anyNamed('notificationDetails'),
+          androidScheduleMode: anyNamed('androidScheduleMode'),
+          matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
+          payload: captureAnyNamed('payload'),
+        )).captured.single as String;
+
+    test('embeds the schedule id in the scheduled payload', () async {
+      // Arrange
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn(
+              [anOccurrencePlan(schedule: aMedicationSchedule(id: 42))]);
+      final sut = NotificationScheduler(planner, preferences);
+
+      // Act
+      await sut.regenerateAll('en');
+
+      // Assert
+      final payload =
+          jsonDecode(capturedScheduledPayload()) as Map<String, Object?>;
+      expect(payload['scheduleId'], 42);
     });
   });
 

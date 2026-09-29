@@ -140,12 +140,14 @@ class NotificationService {
 
   Future<void> scheduleNotification({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
     required DateTime scheduledTime,
   }) =>
       _schedule(
         id: id,
+        scheduleId: scheduleId,
         title: title,
         body: body,
         scheduledTime: scheduledTime,
@@ -153,12 +155,14 @@ class NotificationService {
 
   Future<void> scheduleDailyNotification({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
     required DateTime firstOccurrence,
   }) =>
       _schedule(
         id: id,
+        scheduleId: scheduleId,
         title: title,
         body: body,
         scheduledTime: firstOccurrence,
@@ -167,12 +171,14 @@ class NotificationService {
 
   Future<void> scheduleWeeklyNotification({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
     required DateTime firstOccurrence,
   }) =>
       _schedule(
         id: id,
+        scheduleId: scheduleId,
         title: title,
         body: body,
         scheduledTime: firstOccurrence,
@@ -181,12 +187,14 @@ class NotificationService {
 
   Future<void> _schedule({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
     required DateTime scheduledTime,
     DateTimeComponents? matchComponents,
   }) async {
     final payload = jsonEncode({
+      'scheduleId': scheduleId,
       'scheduledTime': scheduledTime.toIso8601String(),
       if (matchComponents != null) 'isRepeating': true,
     });
