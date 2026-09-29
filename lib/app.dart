@@ -28,6 +28,7 @@ class MonaApp extends StatefulWidget {
 }
 
 class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   String? _lastTimeZone;
   late MedicationScheduleProvider _medicationScheduleProvider;
   late MedicationIntakeProvider _medicationIntakeProvider;
@@ -124,6 +125,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
               systemDark: _forceDefaultColors ? null : darkDynamic,
             );
         return MaterialApp(
+          navigatorKey: _navigatorKey,
           title: 'Mona',
           locale: context.watch<LocaleProvider>().locale,
           supportedLocales: context.watch<LocaleProvider>().supportedLocales,
