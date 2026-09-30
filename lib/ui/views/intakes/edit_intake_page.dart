@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
@@ -17,12 +18,12 @@ import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
+import 'package:mona/ui/widgets/dropdowns/injection_type_picker.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
-import 'package:mona/ui/widgets/injection_type_picker.dart';
 import 'package:mona/ui/widgets/intake_supply_picker.dart';
 import 'package:mona/ui/widgets/placement_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
@@ -294,9 +295,15 @@ class _EditIntakePageState extends State<EditIntakePage> {
                 onChanged: _onPlacementChanged,
               ),
             if (_isInjection)
-              InjectionTypePicker(
-                value: _injectionType ?? InjectionType.intramuscular,
-                onChanged: _onInjectionTypeChanged,
+              M3ESegmentedColumn(
+                padding: EdgeInsets.zero,
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                children: [
+                  InjectionTypePicker(
+                    value: _injectionType ?? InjectionType.intramuscular,
+                    onChanged: _onInjectionTypeChanged,
+                  ),
+                ],
               ),
             if (_isInjection ||
                 (_usesPlacements &&
