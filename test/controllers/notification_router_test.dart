@@ -5,21 +5,12 @@ import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
-import 'package:mona/services/notification_service.dart';
 
 import '../fixtures.dart';
 
 void main() {
-  NotificationPayload aPayload(
-    MedicationSchedule schedule, {
-    TimeOfDay? at,
-  }) =>
-      (
-        scheduleId: schedule.id,
-        scheduledTime: DateTime(2026, 2, 8, at?.hour ?? 0, at?.minute ?? 0),
-        isRepeating: true,
-        notificationId: 1,
-      );
+  DateTime aScheduledTime({TimeOfDay? at}) =>
+      DateTime(2026, 2, 8, at?.hour ?? 0, at?.minute ?? 0);
 
   IntakeSlot aSlot(
     MedicationSchedule schedule, {
@@ -34,14 +25,14 @@ void main() {
         intake: taken ? aMedicationIntake(scheduleId: schedule.id) : null,
       );
 
-  group('findSlotFromPayload', () {
+  group('findSlot', () {
     test('finds the correct target for a non-taken slot', () {
       // Arrange
       final schedule = aMedicationSchedule();
       final slots = [aSlot(schedule)];
 
       // Act
-      final target = findSlotFromPayload(aPayload(schedule), slots);
+      final target = findSlot(schedule.id, aScheduledTime(), slots);
 
       // Assert
       expect(target, (schedule, null));
@@ -53,7 +44,7 @@ void main() {
       final slots = [aSlot(schedule, taken: true)];
 
       // Act
-      final target = findSlotFromPayload(aPayload(schedule), slots);
+      final target = findSlot(schedule.id, aScheduledTime(), slots);
 
       // Assert
       expect(target, isNull);
@@ -66,13 +57,14 @@ void main() {
       final slots = [aSlot(other)];
 
       // Act
-      final target = findSlotFromPayload(aPayload(tapped), slots);
+      final target = findSlot(tapped.id, aScheduledTime(), slots);
 
       // Assert
       expect(target, isNull);
     });
 
-    test('matches the daily slot whose time of day equals the payload', () {
+    test('matches the daily slot whose time of day equals the scheduled time',
+        () {
       // Arrange
       final schedule = aMedicationSchedule();
       final slots = [
@@ -82,13 +74,13 @@ void main() {
 
       // Act
       final target =
-          findSlotFromPayload(aPayload(schedule, at: afternoon), slots);
+          findSlot(schedule.id, aScheduledTime(at: afternoon), slots);
 
       // Assert
       expect(target, (schedule, afternoon));
     });
 
-    test('returns null when no daily slot matches the payload time', () {
+    test('returns null when no daily slot matches the scheduled time', () {
       // Arrange
       final schedule = aMedicationSchedule();
       final slots = [
@@ -97,8 +89,7 @@ void main() {
       ];
 
       // Act
-      final target =
-          findSlotFromPayload(aPayload(schedule, at: evening), slots);
+      final target = findSlot(schedule.id, aScheduledTime(at: evening), slots);
 
       // Assert
       expect(target, isNull);

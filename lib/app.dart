@@ -128,7 +128,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _medicationIntakeProvider,
       _medicationScheduleProvider,
     ).intakeSlots();
-    final target = findSlotFromPayload(payload, slots);
+    final target = findSlot(payload.scheduleId, payload.scheduledTime, slots);
 
     if (target != null) {
       final (schedule, scheduledTime) = target;
