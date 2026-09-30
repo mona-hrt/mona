@@ -57,7 +57,7 @@
   "medicalSettings": "Egészségügyi beállítások",
   "theme": "Téma",
   "themeCustomizeColors": "App színek testreszabása",
-  "customThemeEnabled": "Egyedi téma",
+  "customThemeEnabled": "Saját téma",
   "themeGenerate": "Frissítés",
   "importFailed": "Importálás sikertelen: {{error}}",
   "updates": "Frissítések",
@@ -76,5 +76,12 @@
   "updateFailedOpenInstaller": "A telepítő megnyitása sikertelen volt: {{message}}",
   "updateDownloadFailed": "Letöltés sikertelen. Kérem ellenőrizze a kapcsolatát.",
   "secretSettings": "Titkos beállítások",
-  "slimeMode": "Slime mód"
+  "slimeMode": "Slime mód",
+  "themeVariant": "Variáns",
+  "themeContrast": "Kontraszt",
+  "themeContrastStandard": "Átlagos",
+  "themeContrastMedium": "Közepes",
+  "themeContrastHigh": "Magas",
+  "autoUpdate": "Auto-Frissítés",
+  "autoUpdateDescription": "Frissítes autómatikus ellenőrzése az app megnyitásakor"
 }
