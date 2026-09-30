@@ -166,6 +166,7 @@ class NotificationService {
     int? id,
     String? title,
     String? body,
+    String? payload,
   }) async {
     id ??= Random().nextInt(1 << 31);
 
@@ -180,6 +181,7 @@ class NotificationService {
       title: title,
       body: body,
       notificationDetails: _notificationDetails(),
+      payload: payload,
     );
   }
 
@@ -296,6 +298,7 @@ class NotificationService {
       await showNotification(
         title: notification.title,
         body: notification.body,
+        payload: notification.payload,
       );
     }
   }
