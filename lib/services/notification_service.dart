@@ -65,7 +65,8 @@ class NotificationService {
         iOS: iosSettings,
       ),
       onDidReceiveNotificationResponse: (response) {
-        final payload = _parsePayload(response);
+        final payload =
+            _decodePayload(response.payload, notificationId: response.id);
         if (payload != null) onTap?.call(payload);
       },
     );
@@ -81,25 +82,39 @@ class NotificationService {
     final response = details.notificationResponse;
     if (response == null) return null;
 
-    return _parsePayload(response);
+    return _decodePayload(response.payload, notificationId: response.id);
   }
 
-  NotificationPayload? _parsePayload(NotificationResponse response) {
-    final raw = response.payload;
+  static const _scheduleIdKey = 'scheduleId';
+  static const _scheduledTimeKey = 'scheduledTime';
+  static const _isRepeatingKey = 'isRepeating';
+
+  String _encodePayload({
+    required int scheduleId,
+    required DateTime scheduledTime,
+    required bool isRepeating,
+  }) =>
+      jsonEncode({
+        _scheduleIdKey: scheduleId,
+        _scheduledTimeKey: scheduledTime.toIso8601String(),
+        if (isRepeating) _isRepeatingKey: true,
+      });
+
+  NotificationPayload? _decodePayload(String? raw, {int? notificationId}) {
     if (raw == null || raw.isEmpty) return null;
 
     final decoded = jsonDecode(raw);
     if (decoded is! Map) return null;
-    final scheduleId = decoded['scheduleId'];
+    final scheduleId = decoded[_scheduleIdKey];
     final scheduledTime =
-        (decoded['scheduledTime'] as String?)?.toDateTimeOrNull;
+        (decoded[_scheduledTimeKey] as String?)?.toDateTimeOrNull;
     if (scheduleId is! int || scheduledTime == null) return null;
 
     return (
       scheduleId: scheduleId,
       scheduledTime: scheduledTime,
-      isRepeating: decoded['isRepeating'] == true,
-      notificationId: response.id,
+      isRepeating: decoded[_isRepeatingKey] == true,
+      notificationId: notificationId,
     );
   }
 
@@ -240,11 +255,11 @@ class NotificationService {
     required DateTime scheduledTime,
     DateTimeComponents? matchComponents,
   }) async {
-    final payload = jsonEncode({
-      'scheduleId': scheduleId,
-      'scheduledTime': scheduledTime.toIso8601String(),
-      if (matchComponents != null) 'isRepeating': true,
-    });
+    final payload = _encodePayload(
+      scheduleId: scheduleId,
+      scheduledTime: scheduledTime,
+      isRepeating: matchComponents != null,
+    );
     final dateTime = tz.TZDateTime(
         tz.local,
         scheduledTime.year,
@@ -284,9 +299,9 @@ class NotificationService {
 
     return pendingNotifications.where((notification) {
       final payload = jsonDecode(notification.payload ?? '{}');
-      if (payload['isRepeating'] == true) return false;
+      if (payload[_isRepeatingKey] == true) return false;
       final scheduledTime =
-          (payload['scheduledTime'] as String?)?.toDateTimeOrNull;
+          (payload[_scheduledTimeKey] as String?)?.toDateTimeOrNull;
       if (scheduledTime == null) return false;
       return scheduledTime.isBefore(clock.now());
     }).toList();
