@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/controllers/slot_router.dart';
+import 'package:mona/controllers/slot_finder.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
@@ -35,7 +35,7 @@ void main() {
       final target = findSlot(schedule.id, aScheduledTime(), slots);
 
       // Assert
-      expect(target, (schedule, null));
+      expect(target, slots.single);
     });
 
     test('returns null when the matching slot is already taken', () {
@@ -77,7 +77,7 @@ void main() {
           findSlot(schedule.id, aScheduledTime(at: afternoon), slots);
 
       // Assert
-      expect(target, (schedule, afternoon));
+      expect(target, slots.last);
     });
 
     test('returns null when no daily slot matches the scheduled time', () {

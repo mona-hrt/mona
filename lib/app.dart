@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
-import 'package:mona/controllers/slot_router.dart';
+import 'package:mona/controllers/slot_finder.dart';
 import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
@@ -131,12 +131,11 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     final target = findSlot(payload.scheduleId, payload.scheduledTime, slots);
 
     if (target != null) {
-      final (schedule, scheduledTime) = target;
       _navigatorKey.currentState?.push(
         MaterialPageRoute<void>(
           fullscreenDialog: true,
           builder: (_) =>
-              TakeMedicationPage(schedule, scheduledTime: scheduledTime),
+              TakeMedicationPage(target.schedule, scheduledTime: target.time),
         ),
       );
     }

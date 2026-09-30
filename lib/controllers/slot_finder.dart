@@ -1,9 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/intake_slot.dart';
-import 'package:mona/data/model/medication_schedule.dart';
 
-(MedicationSchedule, TimeOfDay?)? findSlot(
+IntakeSlot? findSlot(
   int scheduleId,
   DateTime scheduledTime,
   List<IntakeSlot> slots,
@@ -19,5 +18,5 @@ import 'package:mona/data/model/medication_schedule.dart';
   if (slot == null) return null;
   if (slot.intake != null) return null;
 
-  return (slot.schedule, slot.time);
+  return slot;
 }
