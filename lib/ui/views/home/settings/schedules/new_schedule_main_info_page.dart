@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
@@ -12,11 +13,10 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/settings/schedules/new_schedule_scheduling_page.dart';
 import 'package:mona/ui/widgets/dosing_basis_field.dart';
-import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
-import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
-import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
+import 'package:mona/ui/widgets/dropdowns/administration_route_picker.dart';
+import 'package:mona/ui/widgets/dropdowns/ester_picker.dart';
+import 'package:mona/ui/widgets/dropdowns/molecule_picker.dart';
 import 'package:mona/ui/widgets/forms/form_date_field.dart';
-import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -180,25 +180,27 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
           inputType: TextInputType.text,
         ),
         FormSpacer(),
-        FormDropdownField<Molecule>(
-          value: _molecule,
-          items: moleculeDropdownMenuItems(_preferencesService.allMolecules),
-          onChanged: _onMoleculeChanged,
-          label: t.molecule,
+        M3ESegmentedColumn(
+          padding: EdgeInsets.zero,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          children: [
+            MoleculePicker(
+              value: _molecule,
+              molecules: _preferencesService.allMolecules,
+              onChanged: _onMoleculeChanged,
+            ),
+            AdministrationRoutePicker(
+              value: _administrationRoute,
+              onChanged: _onAdministrationRouteChanged,
+            ),
+            if (_useEsterField)
+              EsterPicker(
+                value: _ester,
+                onChanged: _onEsterChanged,
+              ),
+          ],
         ),
-        FormDropdownField<AdministrationRoute>(
-          value: _administrationRoute,
-          items: administrationRouteDropdownMenuItems(),
-          onChanged: _onAdministrationRouteChanged,
-          label: t.adminRoute,
-        ),
-        if (_useEsterField)
-          FormDropdownField<Ester>(
-            value: _ester,
-            items: esterDropdownMenuItems(),
-            onChanged: _onEsterChanged,
-            label: t.ester,
-          ),
+        FormSpacer(),
         FormTextField(
           controller: _doseController,
           label: t.amount,

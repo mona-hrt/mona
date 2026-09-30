@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/delivery_form.dart';
@@ -11,11 +12,10 @@ import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dosing_basis_field.dart';
-import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
-import 'package:mona/ui/widgets/dropdowns/delivery_form_dropdown.dart';
-import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
-import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
-import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
+import 'package:mona/ui/widgets/dropdowns/administration_route_picker.dart';
+import 'package:mona/ui/widgets/dropdowns/delivery_form_picker.dart';
+import 'package:mona/ui/widgets/dropdowns/ester_picker.dart';
+import 'package:mona/ui/widgets/dropdowns/molecule_picker.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -207,32 +207,31 @@ class _NewMedicationItemSpecificsPageState
       saveChanges: _addItem,
       closeAll: _closeAll,
       fields: [
-        FormDropdownField<Molecule>(
-          value: _molecule,
-          items: moleculeDropdownMenuItems(_preferencesService.allMolecules),
-          onChanged: _onMoleculeChanged,
-          label: t.molecule,
+        M3ESegmentedColumn(
+          padding: EdgeInsets.zero,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          children: [
+            MoleculePicker(
+              value: _molecule,
+              molecules: _preferencesService.allMolecules,
+              onChanged: _onMoleculeChanged,
+            ),
+            AdministrationRoutePicker(
+              value: _administrationRoute,
+              onChanged: _onAdministrationRouteChanged,
+            ),
+            if (_administrationRoute == AdministrationRoute.gel)
+              DeliveryFormPicker(
+                value: _deliveryForm,
+                onChanged: _onDeliveryFormChanged,
+              ),
+            if (_useEsterField)
+              EsterPicker(
+                value: _ester,
+                onChanged: _onEsterChanged,
+              ),
+          ],
         ),
-        FormDropdownField<AdministrationRoute>(
-          value: _administrationRoute,
-          items: administrationRouteDropdownMenuItems(),
-          onChanged: _onAdministrationRouteChanged,
-          label: t.adminRoute,
-        ),
-        if (_administrationRoute == AdministrationRoute.gel)
-          FormDropdownField<DeliveryForm>(
-            value: _deliveryForm,
-            items: deliveryFormDropdownMenuItems(),
-            onChanged: _onDeliveryFormChanged,
-            label: t.deliveryForm,
-          ),
-        if (_useEsterField)
-          FormDropdownField<Ester>(
-            value: _ester,
-            items: esterDropdownMenuItems(),
-            onChanged: _onEsterChanged,
-            label: t.ester,
-          ),
         FormSpacer(),
         FormTextField(
           controller: _totalAmountController,

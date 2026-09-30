@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
@@ -6,8 +7,7 @@ import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
-import 'package:mona/ui/widgets/dropdowns/generic_type_dropdown.dart';
-import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
+import 'package:mona/ui/widgets/dropdowns/generic_type_picker.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -105,15 +105,17 @@ class _EditItemPageState extends State<EditItemPage> {
           errorText: _nameError,
         ),
         FormSpacer(),
-        FormDropdownField<GenericSupplyType>(
-          value: _genericSupplyType,
-          items: genericItemTypeDropdownMenuItems(),
-          onChanged: (value) {
-            if (value == null) return;
-            setState(() => _genericSupplyType = value);
-          },
-          label: t.supplyType,
+        M3ESegmentedColumn(
+          padding: EdgeInsets.zero,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          children: [
+            GenericTypePicker(
+              value: _genericSupplyType,
+              onChanged: (value) => setState(() => _genericSupplyType = value),
+            ),
+          ],
         ),
+        FormSpacer(),
         FormTextField(
             controller: _amountController,
             label: t.amount,
