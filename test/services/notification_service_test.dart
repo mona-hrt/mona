@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:clock/clock.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/services/notification_service.dart';
@@ -12,6 +13,8 @@ class FakeFlutterLocalNotificationsPlugin
     implements FlutterLocalNotificationsPlugin {
   final List<Map<String, dynamic>> scheduled = [];
   final List<Map<String, dynamic>> shown = [];
+  void Function(NotificationResponse)? capturedOnTap;
+  NotificationAppLaunchDetails? launchDetails;
 
   @override
   Future<bool?> initialize({
@@ -20,6 +23,7 @@ class FakeFlutterLocalNotificationsPlugin
     void Function(NotificationResponse)?
         onDidReceiveBackgroundNotificationResponse,
   }) async {
+    capturedOnTap = onDidReceiveNotificationResponse;
     return true;
   }
 
@@ -87,7 +91,7 @@ class FakeFlutterLocalNotificationsPlugin
   @override
   Future<NotificationAppLaunchDetails?>
       getNotificationAppLaunchDetails() async {
-    return null;
+    return launchDetails;
   }
 
   @override
@@ -124,8 +128,15 @@ void main() {
   late FakeFlutterLocalNotificationsPlugin fakePlugin;
 
   setUp(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
     tzdata.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Etc/UTC'));
+
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+            const MethodChannel('flutter_timezone'),
+            (call) async =>
+                call.method == 'getLocalTimezone' ? 'Etc/UTC' : null);
 
     NotificationService.isPlatformSupported = () => true;
     fakePlugin = FakeFlutterLocalNotificationsPlugin();
@@ -299,5 +310,100 @@ void main() {
     final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
     expect(n['matchDateTimeComponents'], DateTimeComponents.dayOfWeekAndTime);
     expect(payload['isRepeating'], isTrue);
+  });
+
+  group('notification taps', () {
+    test('initialize forwards a parsed tap to onTap', () async {
+      // Arrange
+      NotificationPayload? capturedPayload;
+      await service.initialize(onTap: (payload) => capturedPayload = payload);
+
+      // Act
+      fakePlugin.capturedOnTap!(NotificationResponse(
+        notificationResponseType: NotificationResponseType.selectedNotification,
+        id: 99,
+        payload: jsonEncode({
+          'scheduleId': 5,
+          'scheduledTime': DateTime(2026, 2, 8, 9, 0).toIso8601String(),
+        }),
+      ));
+
+      // Assert
+      expect(capturedPayload, (
+        scheduleId: 5,
+        scheduledTime: DateTime(2026, 2, 8, 9, 0),
+        isRepeating: false,
+        notificationId: 99,
+      ));
+    });
+
+    test('getAppLaunchTap returns the tap when a notification launched the app',
+        () async {
+      // Arrange
+      fakePlugin.launchDetails = NotificationAppLaunchDetails(
+        true,
+        notificationResponse: NotificationResponse(
+          notificationResponseType:
+              NotificationResponseType.selectedNotification,
+          id: 7,
+          payload: jsonEncode({
+            'scheduleId': 3,
+            'scheduledTime': DateTime(2026, 2, 8, 9, 0).toIso8601String(),
+            'isRepeating': true,
+          }),
+        ),
+      );
+
+      // Act
+      final payload = await service.getAppLaunchTap();
+
+      // Assert
+      expect(payload, (
+        scheduleId: 3,
+        scheduledTime: DateTime(2026, 2, 8, 9, 0),
+        isRepeating: true,
+        notificationId: 7,
+      ));
+    });
+
+    test('getAppLaunchTap returns null when no notification launched the app',
+        () async {
+      // Arrange
+      fakePlugin.launchDetails = NotificationAppLaunchDetails(
+        false,
+        notificationResponse: NotificationResponse(
+          notificationResponseType:
+              NotificationResponseType.selectedNotification,
+          id: 7,
+          payload: jsonEncode({
+            'scheduleId': 3,
+            'scheduledTime': DateTime(2026, 2, 8, 9, 0).toIso8601String(),
+          }),
+        ),
+      );
+
+      // Act
+      final payload = await service.getAppLaunchTap();
+
+      // Assert
+      expect(payload, isNull);
+    });
+  });
+
+  test('cancel removes the scheduled notification', () async {
+    // Arrange
+    await service.scheduleNotification(
+      id: 1,
+      scheduleId: 1,
+      title: 'T',
+      body: 'B',
+      scheduledTime: DateTime(2026, 2, 8, 10, 0),
+    );
+
+    // Act
+    await service.cancel(1);
+
+    // Assert
+    expect(fakePlugin.scheduled, isEmpty);
   });
 }

@@ -9,6 +9,13 @@ import 'package:mona/util/string_parsing.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
+typedef NotificationPayload = ({
+  int scheduleId,
+  DateTime scheduledTime,
+  bool isRepeating,
+  int? notificationId,
+});
+
 class NotificationService {
   static FlutterLocalNotificationsPlugin Function()? createPlugin =
       () => FlutterLocalNotificationsPlugin();
@@ -34,7 +41,8 @@ class NotificationService {
       _notificationsPlugin.resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin>();
 
-  Future<void> initialize() async {
+  Future<void> initialize(
+      {void Function(NotificationPayload tap)? onTap}) async {
     if (_initialized) return;
 
     tzdata.initializeTimeZones();
@@ -52,13 +60,50 @@ class NotificationService {
     );
 
     await _notificationsPlugin.initialize(
-        settings: InitializationSettings(
-      android: androidSettings,
-      iOS: iosSettings,
-    ));
+      settings: InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
+      onDidReceiveNotificationResponse: (response) {
+        final payload = _parsePayload(response);
+        if (payload != null) onTap?.call(payload);
+      },
+    );
 
     _initialized = true;
   }
+
+  Future<NotificationPayload?> getAppLaunchTap() async {
+    final details =
+        await _notificationsPlugin.getNotificationAppLaunchDetails();
+    if (details == null || !details.didNotificationLaunchApp) return null;
+
+    final response = details.notificationResponse;
+    if (response == null) return null;
+
+    return _parsePayload(response);
+  }
+
+  NotificationPayload? _parsePayload(NotificationResponse response) {
+    final raw = response.payload;
+    if (raw == null || raw.isEmpty) return null;
+
+    final decoded = jsonDecode(raw);
+    if (decoded is! Map) return null;
+    final scheduleId = decoded['scheduleId'];
+    final scheduledTime =
+        (decoded['scheduledTime'] as String?)?.toDateTimeOrNull;
+    if (scheduleId is! int || scheduledTime == null) return null;
+
+    return (
+      scheduleId: scheduleId,
+      scheduledTime: scheduledTime,
+      isRepeating: decoded['isRepeating'] == true,
+      notificationId: response.id,
+    );
+  }
+
+  Future<void> cancel(int id) => _notificationsPlugin.cancel(id: id);
 
   NotificationDetails _notificationDetails() {
     return const NotificationDetails(
