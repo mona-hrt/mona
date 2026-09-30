@@ -34,6 +34,7 @@ const String createMedicationIntakesTable = '''
       notes TEXT,
       placements TEXT NOT NULL,
       dosingBasis TEXT NOT NULL,
+      injectionType TEXT,
       FOREIGN KEY (medicationSupplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL,
       FOREIGN KEY (scheduleId) REFERENCES medication_schedules(id) ON DELETE SET NULL
     )

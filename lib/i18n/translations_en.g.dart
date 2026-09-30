@@ -491,6 +491,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Notes'
   String get notes => 'Notes';
 
+  /// en: 'Injection type'
+  String get injectionType => 'Injection type';
+
+  /// en: 'Intramuscular'
+  String get intramuscular => 'Intramuscular';
+
+  /// en: 'Subcutaneous'
+  String get subcutaneous => 'Subcutaneous';
+
   /// en: 'μL'
   String get microliters => 'μL';
 
@@ -1270,6 +1279,9 @@ extension on Translations {
       'intakeRecorded' => 'Intake recorded',
       'needleDeadSpace' => 'Needle dead space',
       'notes' => 'Notes',
+      'injectionType' => 'Injection type',
+      'intramuscular' => 'Intramuscular',
+      'subcutaneous' => 'Subcutaneous',
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>

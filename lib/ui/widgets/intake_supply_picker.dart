@@ -126,6 +126,11 @@ class IntakeSupplyPicker extends StatelessWidget {
           title: Text(item.name),
           subtitle: Text(item.localizedConcentrationAndRemaining),
           trailing: IconButton(
+            style: IconButton.styleFrom(
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+            ),
             icon: const Icon(Symbols.close_rounded),
             onPressed: onRemoveMedication,
           ),
@@ -140,6 +145,11 @@ class IntakeSupplyPicker extends StatelessWidget {
           title: Text(generic.name),
           subtitle: Text(generic.localizedSummary),
           trailing: IconButton(
+            style: IconButton.styleFrom(
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+            ),
             icon: const Icon(Symbols.close_rounded),
             onPressed: () => onRemoveGenericAt(index),
           ),

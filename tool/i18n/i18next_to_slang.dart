@@ -49,7 +49,19 @@ void _convert(File input, Directory outDir) {
   }
 
   for (final entry in plurals.entries) {
-    result['${entry.key}(param=count)'] = entry.value;
+    final forms = entry.value;
+    // put back decimal forms that are not handled by Weblate (see weblate issue #7520)
+    forms.putIfAbsent(
+      'other',
+      () =>
+          forms['few'] ??
+          forms['many'] ??
+          forms['two'] ??
+          forms['one'] ??
+          forms['zero'] ??
+          '',
+    );
+    result['${entry.key}(param=count)'] = forms;
   }
 
   final outPath = '${outDir.path}/$locale$_outputSuffix';

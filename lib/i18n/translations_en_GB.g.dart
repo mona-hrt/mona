@@ -354,6 +354,12 @@ class TranslationsEnGb extends Translations
   @override
   String get notes => 'Notes';
   @override
+  String get injectionType => 'Injection type';
+  @override
+  String get intramuscular => 'Intramuscular';
+  @override
+  String get subcutaneous => 'Subcutaneous';
+  @override
   String get microliters => 'μL';
   @override
   String get milliliters => 'mL';
@@ -975,6 +981,9 @@ extension on TranslationsEnGb {
       'intakeRecorded' => 'Intake recorded',
       'needleDeadSpace' => 'Needle dead space',
       'notes' => 'Notes',
+      'injectionType' => 'Injection type',
+      'intramuscular' => 'Intramuscular',
+      'subcutaneous' => 'Subcutaneous',
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>

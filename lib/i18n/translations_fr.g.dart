@@ -363,6 +363,12 @@ class TranslationsFr extends Translations
   @override
   String get notes => 'Notes';
   @override
+  String get injectionType => 'Type d\'injection';
+  @override
+  String get intramuscular => 'Intramusculaire';
+  @override
+  String get subcutaneous => 'Sous-cutanée';
+  @override
   String get microliters => 'μL';
   @override
   String get milliliters => 'mL';
@@ -1019,6 +1025,9 @@ extension on TranslationsFr {
       'intakeRecorded' => 'Prise enregistrée',
       'needleDeadSpace' => 'Espace mort de l\'aiguille',
       'notes' => 'Notes',
+      'injectionType' => 'Type d\'injection',
+      'intramuscular' => 'Intramusculaire',
+      'subcutaneous' => 'Sous-cutanée',
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>
