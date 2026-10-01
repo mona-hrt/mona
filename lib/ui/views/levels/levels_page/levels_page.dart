@@ -159,21 +159,24 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
         ),
         if (showPreview) ...[
           const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.only(right: 78),
-            child: Text.rich(
-              textAlign: TextAlign.right,
-              TextSpan(
-                text: nowLevel.toStringAsFixed(0),
-                style: theme.textTheme.headlineSmall
-                    ?.copyWith(color: colorScheme.tertiary),
-                children: [
-                  TextSpan(
-                    text: ' ${unit.localizedName}',
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(color: colorScheme.tertiary),
-                  ),
-                ],
+          FractionallySizedBox(
+            widthFactor: 0.75,
+            alignment: Alignment.centerLeft,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text.rich(
+                TextSpan(
+                  text: nowLevel.toStringAsFixed(0),
+                  style: theme.textTheme.headlineSmall
+                      ?.copyWith(color: colorScheme.tertiary),
+                  children: [
+                    TextSpan(
+                      text: ' ${unit.localizedName}',
+                      style: theme.textTheme.bodyMedium
+                          ?.copyWith(color: colorScheme.tertiary),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
