@@ -345,5 +345,8 @@
   "administrationRouteUnitSachet_other": "sachês",
   "administrationRouteUnitGram_one": "grama",
   "administrationRouteUnitGram_many": "gramas",
-  "administrationRouteUnitGram_other": "gramas"
+  "administrationRouteUnitGram_other": "gramas",
+  "injectionType": "Tipo de injeção",
+  "intramuscular": "Intramuscular",
+  "subcutaneous": "Subcutânea"
 }
