@@ -161,9 +161,9 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
           const SizedBox(height: 16),
           FractionallySizedBox(
             widthFactor: 0.75,
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Align(
-              alignment: Alignment.centerRight,
+              alignment: AlignmentDirectional.centerEnd,
               child: Text.rich(
                 TextSpan(
                   text: nowLevel.toStringAsFixed(0),
