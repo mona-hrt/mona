@@ -13,6 +13,7 @@ import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/views/levels/chart_mirror.dart';
 import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,7 @@ class _ChartConstants {
   static const double titleFontSize = 14;
   static const double axesPadding = 8.0;
   static const double bottomReservedSize = 40;
-  static const double leftReservedSize = 30;
+  static const double yAxisReservedSize = 30;
   static const double lineBarWidth = 3;
   static const double tooltipPadding = 6;
   static const double tooltipRadius = 8;
@@ -64,6 +65,7 @@ class _MainGraphState extends State<MainGraph> {
     final double tNow = timeDifferenceInDays(clock.now(), baseline);
     final double tMin = timeDifferenceInDays(widget.startDate, baseline);
     final double tMax = timeDifferenceInDays(widget.endDate, baseline);
+    final mirror = ChartMirror.of(context, minX: tMin, maxX: tMax);
 
     List<GraphIntake> intakes =
         medicationIntakeProvider.getIntakesForGraph(baseline);
@@ -106,8 +108,8 @@ class _MainGraphState extends State<MainGraph> {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(
-              right: _ChartConstants.axesPadding, left: 2),
+          padding: const EdgeInsetsDirectional.only(
+              end: _ChartConstants.axesPadding, start: 2),
           child: RotatedBox(
             quarterTurns: -1,
             child: Text('${t.concentration} (${unit.localizedName})',
@@ -117,8 +119,8 @@ class _MainGraphState extends State<MainGraph> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(
-                right: borderPadding, top: 8.0, bottom: 8.0),
+            padding: const EdgeInsetsDirectional.only(
+                end: borderPadding, top: 8.0, bottom: 8.0),
             child: LineChart(
               LineChartData(
                 minX: tMin,
@@ -139,19 +141,19 @@ class _MainGraphState extends State<MainGraph> {
                     dashArray: const [8, 4],
                   ),
                 ),
-                titlesData: _buildTitlesData(context, baseline),
+                titlesData: _buildTitlesData(context, baseline, mirror),
                 borderData: FlBorderData(
                   show: true,
                   border: Border.all(color: theme.colorScheme.outlineVariant),
                 ),
                 lineBarsData: [
-                  _buildLineBarData(spots, theme),
-                  _buildBloodTestData(bloodSpots, theme),
+                  _buildLineBarData(mirror.mirroredSpots(spots), theme),
+                  _buildBloodTestData(mirror.mirroredSpots(bloodSpots), theme),
                 ],
                 lineTouchData:
-                    _buildLineTouchData(context, theme, baseline, unit),
-                extraLinesData:
-                    _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
+                    _buildLineTouchData(context, theme, baseline, unit, mirror),
+                extraLinesData: _buildTodayVerticalLine(
+                    theme, todaySpot, tNow, unit, mirror),
               ),
               duration:
                   widget.isPanning && !preferencesProvider.slimeModeEnabled
@@ -165,7 +167,7 @@ class _MainGraphState extends State<MainGraph> {
   }
 
   ExtraLinesData? _buildTodayVerticalLine(ThemeData theme, FlSpot? todaySpot,
-      double daysSinceStart, EstradiolUnit unit) {
+      double daysSinceStart, EstradiolUnit unit, ChartMirror mirror) {
     if (todaySpot == null) return null;
 
     final nowLabel =
@@ -174,13 +176,16 @@ class _MainGraphState extends State<MainGraph> {
     return ExtraLinesData(
       verticalLines: [
         VerticalLine(
-          x: daysSinceStart,
+          x: mirror.mirrored(daysSinceStart),
           color: theme.colorScheme.tertiary,
           strokeWidth: 2,
           dashArray: [6, 4],
           label: VerticalLineLabel(
             show: true,
-            labelResolver: (_) => nowLabel,
+            alignment:
+                mirror.enabled ? Alignment.bottomLeft : Alignment.bottomRight,
+            labelResolver: (_) =>
+                mirror.enabled ? '\u2067$nowLabel\u2069' : nowLabel,
             style: TextStyle(fontSize: 11, color: theme.colorScheme.tertiary),
           ),
         )
@@ -215,7 +220,7 @@ class _MainGraphState extends State<MainGraph> {
   }
 
   LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
-      DateTime tMin, EstradiolUnit unit) {
+      DateTime tMin, EstradiolUnit unit, ChartMirror mirror) {
     return LineTouchData(
       getTouchedSpotIndicator: (barData, spotIndexes) {
         return spotIndexes.map((index) {
@@ -241,23 +246,38 @@ class _MainGraphState extends State<MainGraph> {
             String text;
             if (spot.barIndex == 0) {
               text =
-                  '${t.chartLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
+                  '${t.chartLevelTooltip(date: _getDateLabel(mirror.mirrored(spot.x), tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
             } else {
               text =
-                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
+                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(mirror.mirrored(spot.x), tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
             }
             return LineTooltipItem(
-                text,
-                theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onTertiaryContainer) ??
-                    const TextStyle());
+              text,
+              theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onTertiaryContainer) ??
+                  const TextStyle(),
+              textDirection: Directionality.of(context),
+            );
           }).toList();
         },
       ),
     );
   }
 
-  FlTitlesData _buildTitlesData(BuildContext context, DateTime tMin) {
+  FlTitlesData _buildTitlesData(
+      BuildContext context, DateTime tMin, ChartMirror mirror) {
+    const noTitles = AxisTitles(sideTitles: SideTitles(showTitles: false));
+    final yTitles = AxisTitles(
+      sideTitles: SideTitles(
+        showTitles: true,
+        reservedSize: _ChartConstants.yAxisReservedSize,
+        getTitlesWidget: (value, meta) {
+          return Text(value.toStringAsFixed(0),
+              style: const TextStyle(fontSize: _ChartConstants.labelFontSize));
+        },
+      ),
+    );
+
     return FlTitlesData(
       show: true,
       bottomTitles: AxisTitles(
@@ -269,9 +289,9 @@ class _MainGraphState extends State<MainGraph> {
               meta: meta,
               space: _ChartConstants.axesPadding,
               child: Transform.rotate(
-                angle: -math.pi / 4,
+                angle: mirror.enabled ? math.pi / 4 : -math.pi / 4,
                 child: Text(
-                  _getDateLabel(value, tMin, context),
+                  _getDateLabel(mirror.mirrored(value), tMin, context),
                   style: const TextStyle(
                     fontSize: _ChartConstants.labelFontSize,
                   ),
@@ -281,19 +301,9 @@ class _MainGraphState extends State<MainGraph> {
           },
         ),
       ),
-      leftTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: _ChartConstants.leftReservedSize,
-          getTitlesWidget: (value, meta) {
-            return Text(value.toStringAsFixed(0),
-                style:
-                    const TextStyle(fontSize: _ChartConstants.labelFontSize));
-          },
-        ),
-      ),
-      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      leftTitles: mirror.enabled ? noTitles : yTitles,
+      topTitles: noTitles,
+      rightTitles: mirror.enabled ? yTitles : noTitles,
     );
   }
 
