@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class PreferencesService extends ChangeNotifier {
   static const _notificationsEnabledKey = 'notifications_enabled';
@@ -17,6 +19,8 @@ class PreferencesService extends ChangeNotifier {
   static const _lastSyncTimeKey = 'last_sync_time';
   static const _allowInsecureSyncKey = 'allow_insecure_sync';
   static const _syncEncryptionPassphraseKey = 'sync_encryption_passphrase';
+  static const _syncSaltKey = 'sync_salt';
+  static const _syncCertFingerprintKey = 'sync_cert_fingerprint';
 
   static const bool defaultNotificationsEnabled = false;
 
@@ -24,8 +28,18 @@ class PreferencesService extends ChangeNotifier {
   static const bool defaultAutoCheckUpdates = false;
 
   late final SharedPreferences _prefs;
+  late final FlutterSecureStorage _secureStorage;
 
-  PreferencesService._(this._prefs);
+  String? _syncPasswordCache;
+  String? _syncTokenCache;
+  String? _syncEncryptionPassphraseCache;
+
+  PreferencesService._(
+      this._prefs,
+      this._secureStorage,
+      this._syncPasswordCache,
+      this._syncTokenCache,
+      this._syncEncryptionPassphraseCache);
 
   String? get syncUrl => _prefs.getString(_syncUrlKey);
   Future<void> setSyncUrl(String? url) async {
@@ -37,22 +51,24 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? get syncPassword => _prefs.getString(_syncPasswordKey);
+  String? get syncPassword => _syncPasswordCache;
   Future<void> setSyncPassword(String? password) async {
+    _syncPasswordCache = password;
     if (password == null) {
-      await _prefs.remove(_syncPasswordKey);
+      await _secureStorage.delete(key: _syncPasswordKey);
     } else {
-      await _prefs.setString(_syncPasswordKey, password);
+      await _secureStorage.write(key: _syncPasswordKey, value: password);
     }
     notifyListeners();
   }
 
-  String? get syncToken => _prefs.getString(_syncTokenKey);
+  String? get syncToken => _syncTokenCache;
   Future<void> setSyncToken(String? token) async {
+    _syncTokenCache = token;
     if (token == null) {
-      await _prefs.remove(_syncTokenKey);
+      await _secureStorage.delete(key: _syncTokenKey);
     } else {
-      await _prefs.setString(_syncTokenKey, token);
+      await _secureStorage.write(key: _syncTokenKey, value: token);
     }
     notifyListeners();
   }
@@ -69,24 +85,50 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? get syncEncryptionPassphrase =>
-      _prefs.getString(_syncEncryptionPassphraseKey);
+  String? get syncEncryptionPassphrase => _syncEncryptionPassphraseCache;
   Future<void> setSyncEncryptionPassphrase(String? passphrase) async {
+    _syncEncryptionPassphraseCache = passphrase;
     if (passphrase == null) {
-      await _prefs.remove(_syncEncryptionPassphraseKey);
+      await _secureStorage.delete(key: _syncEncryptionPassphraseKey);
     } else {
-      await _prefs.setString(_syncEncryptionPassphraseKey, passphrase);
+      await _secureStorage.write(
+          key: _syncEncryptionPassphraseKey, value: passphrase);
     }
     notifyListeners();
   }
 
+  String? get syncCertFingerprint => _prefs.getString(_syncCertFingerprintKey);
+  Future<void> setSyncCertFingerprint(String? fp) async {
+    if (fp == null) {
+      await _prefs.remove(_syncCertFingerprintKey);
+    } else {
+      await _prefs.setString(_syncCertFingerprintKey, fp);
+    }
+    notifyListeners();
+  }
+
+  String get syncSalt {
+    var salt = _prefs.getString(_syncSaltKey);
+    if (salt == null) {
+      salt = const Uuid().v4();
+      _prefs.setString(_syncSaltKey, salt);
+    }
+    return salt;
+  }
+
   Future<void> clearSyncSettings() async {
     await _prefs.remove(_syncUrlKey);
-    await _prefs.remove(_syncPasswordKey);
-    await _prefs.remove(_syncTokenKey);
     await _prefs.remove(_lastSyncTimeKey);
     await _prefs.remove(_allowInsecureSyncKey);
-    await _prefs.remove(_syncEncryptionPassphraseKey);
+    await _prefs.remove(_syncSaltKey);
+    await _prefs.remove(_syncCertFingerprintKey);
+
+    _syncPasswordCache = null;
+    _syncTokenCache = null;
+    _syncEncryptionPassphraseCache = null;
+    await _secureStorage.delete(key: _syncPasswordKey);
+    await _secureStorage.delete(key: _syncTokenKey);
+    await _secureStorage.delete(key: _syncEncryptionPassphraseKey);
     notifyListeners();
   }
 
@@ -177,6 +219,26 @@ class PreferencesService extends ChangeNotifier {
 
   static Future<PreferencesService> init() async {
     final prefs = await SharedPreferences.getInstance();
-    return PreferencesService._(prefs);
+    const secureStorage = FlutterSecureStorage();
+
+    for (final key in [
+      _syncPasswordKey,
+      _syncTokenKey,
+      _syncEncryptionPassphraseKey
+    ]) {
+      final oldValue = prefs.getString(key);
+      if (oldValue != null) {
+        await secureStorage.write(key: key, value: oldValue);
+        await prefs.remove(key);
+      }
+    }
+
+    final syncPasswordCache = await secureStorage.read(key: _syncPasswordKey);
+    final syncTokenCache = await secureStorage.read(key: _syncTokenKey);
+    final syncEncryptionPassphraseCache =
+        await secureStorage.read(key: _syncEncryptionPassphraseKey);
+
+    return PreferencesService._(prefs, secureStorage, syncPasswordCache,
+        syncTokenCache, syncEncryptionPassphraseCache);
   }
 }
