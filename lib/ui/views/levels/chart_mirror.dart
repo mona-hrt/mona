@@ -1,9 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
 
-double mirrorX(double x, {required double minX, required double maxX}) =>
-    minX + maxX - x;
-
 class ChartMirror {
   final bool enabled;
 
