@@ -65,7 +65,8 @@ class _MainGraphState extends State<MainGraph> {
     final double tNow = timeDifferenceInDays(clock.now(), baseline);
     final double tMin = timeDifferenceInDays(widget.startDate, baseline);
     final double tMax = timeDifferenceInDays(widget.endDate, baseline);
-    final mirror = ChartMirror.of(context, minX: tMin, maxX: tMax);
+    final mirror = ChartMirror.of(context);
+    final (minX, maxX) = mirror.mirroredRange(tMin, tMax);
 
     List<GraphIntake> intakes =
         medicationIntakeProvider.getIntakesForGraph(baseline);
@@ -123,8 +124,8 @@ class _MainGraphState extends State<MainGraph> {
                 end: borderPadding, top: 8.0, bottom: 8.0),
             child: LineChart(
               LineChartData(
-                minX: tMin,
-                maxX: tMax,
+                minX: minX,
+                maxX: maxX,
                 minY: minY,
                 maxY: maxY,
                 clipData: const FlClipData.all(),

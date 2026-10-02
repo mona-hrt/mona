@@ -17,8 +17,7 @@ class BabyMainChartGraph extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final mirror =
-        ChartMirror.of(context, minX: spots.first.x, maxX: spots.last.x);
+    final mirror = ChartMirror.of(context);
     final minY = spots.map((e) => e.y).reduce((a, b) => a < b ? a : b);
 
     return LineChart(
