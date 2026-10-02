@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:mona/ui/views/levels/chart_mirror.dart';
 
 class BabyMainChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
@@ -16,6 +17,8 @@ class BabyMainChartGraph extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final mirror =
+        ChartMirror.of(context, minX: spots.first.x, maxX: spots.last.x);
     final minY = spots.map((e) => e.y).reduce((a, b) => a < b ? a : b);
 
     return LineChart(
@@ -25,10 +28,10 @@ class BabyMainChartGraph extends StatelessWidget {
         borderData: FlBorderData(show: false),
         titlesData: _titlesData(),
         lineTouchData: LineTouchData(enabled: false),
-        extraLinesData: _nowLine(theme),
+        extraLinesData: _nowLine(theme, mirror),
         lineBarsData: [
           LineChartBarData(
-            spots: spots,
+            spots: mirror.mirroredSpots(spots),
             isCurved: true,
             color: theme.colorScheme.primary,
             barWidth: 2,
@@ -38,19 +41,19 @@ class BabyMainChartGraph extends StatelessWidget {
               color: theme.colorScheme.primary.withValues(alpha: 0.3),
             ),
           ),
-          if (nowX != null) _nowDotBar(theme),
+          if (nowX != null) _nowDotBar(theme, mirror),
         ],
       ),
     );
   }
 
-  ExtraLinesData? _nowLine(ThemeData theme) {
+  ExtraLinesData? _nowLine(ThemeData theme, ChartMirror mirror) {
     if (nowX == null) return null;
 
     return ExtraLinesData(
       verticalLines: [
         VerticalLine(
-          x: nowX!,
+          x: mirror.mirrored(nowX!),
           color: theme.colorScheme.tertiary,
           strokeWidth: 2,
           dashArray: [6, 4],
@@ -59,9 +62,9 @@ class BabyMainChartGraph extends StatelessWidget {
     );
   }
 
-  LineChartBarData _nowDotBar(ThemeData theme) {
+  LineChartBarData _nowDotBar(ThemeData theme, ChartMirror mirror) {
     return LineChartBarData(
-      spots: [FlSpot(nowX!, nowY ?? 0)],
+      spots: [FlSpot(mirror.mirrored(nowX!), nowY ?? 0)],
       barWidth: 0,
       dotData: FlDotData(
         show: true,
