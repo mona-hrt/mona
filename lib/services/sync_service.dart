@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -67,7 +68,15 @@ class SyncService extends ChangeNotifier {
   http.Client get _httpClient {
     if (_prefs.allowInsecureSync) {
       final inner = HttpClient()
-        ..badCertificateCallback = (cert, host, port) => true;
+        ..badCertificateCallback = (cert, host, port) {
+          final currentFp = sha256.convert(cert.der).toString();
+          final savedFp = _prefs.syncCertFingerprint;
+          if (savedFp == null) {
+            _prefs.setSyncCertFingerprint(currentFp);
+            return true;
+          }
+          return currentFp == savedFp;
+        };
       return IOClient(inner);
     }
     return http.Client();
@@ -121,7 +130,7 @@ class SyncService extends ChangeNotifier {
 
       final encryptionKey = await CryptoService.deriveKey(
         _prefs.syncEncryptionPassphrase!,
-        _prefs.syncUrl!,
+        _prefs.syncSalt,
       );
 
       final collections = [
@@ -186,7 +195,7 @@ class SyncService extends ChangeNotifier {
         await _applyRemoteChanges(collection, decryptedItems);
       } else if (response.statusCode == 401) {
         if (await login()) {
-          return _syncCollection(collection, lastSync, encryptionKey);
+          return await _syncCollection(collection, lastSync, encryptionKey);
         }
         throw Exception('Unauthorized');
       } else {
