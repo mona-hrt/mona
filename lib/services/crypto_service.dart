@@ -4,15 +4,16 @@ import 'package:cryptography/cryptography.dart';
 class CryptoService {
   static final _algorithm = AesGcm.with256bits();
 
-  static Future<SecretKey> deriveKey(String passphrase, String url) async {
-    final pbkdf2 = Pbkdf2(
-      macAlgorithm: Hmac.sha256(),
-      iterations: 10000,
-      bits: 256,
+  static Future<SecretKey> deriveKey(
+      String passphrase, String saltString) async {
+    final argon2 = Argon2id(
+      memory: 65536,
+      iterations: 3,
+      parallelism: 1,
+      hashLength: 32,
     );
-    // Use the URL as salt to ensure consistent key derivation for the same server
-    final salt = utf8.encode(url);
-    return await pbkdf2.deriveKeyFromPassword(
+    final salt = utf8.encode(saltString);
+    return await argon2.deriveKeyFromPassword(
       password: passphrase,
       nonce: salt,
     );
