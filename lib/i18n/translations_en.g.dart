@@ -251,8 +251,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Help translate Mona on Weblate'
   String get translateAppDescription => 'Help translate Mona on Weblate';
 
-  /// en: 'Is your language missing?'
-  String get languageMissing => 'Is your language missing?';
+  /// en: 'Is a translation missing?'
+  String get missingTranslation => 'Is a translation missing?';
 
   /// en: 'Donate'
   String get donate => 'Donate';
@@ -490,6 +490,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   /// en: 'Notes'
   String get notes => 'Notes';
+
+  /// en: 'Injection type'
+  String get injectionType => 'Injection type';
+
+  /// en: 'Intramuscular'
+  String get intramuscular => 'Intramuscular';
+
+  /// en: 'Subcutaneous'
+  String get subcutaneous => 'Subcutaneous';
 
   /// en: 'μL'
   String get microliters => 'μL';
@@ -1179,7 +1188,7 @@ extension on Translations {
       'reportBugDescription' => 'Open an issue on GitHub',
       'translateApp' => 'Translate the app',
       'translateAppDescription' => 'Help translate Mona on Weblate',
-      'languageMissing' => 'Is your language missing?',
+      'missingTranslation' => 'Is a translation missing?',
       'donate' => 'Donate',
       'donateDescription' => 'Support Mona on Ko-fi',
       'backupSaved' => 'Backup saved',
@@ -1270,6 +1279,9 @@ extension on Translations {
       'intakeRecorded' => 'Intake recorded',
       'needleDeadSpace' => 'Needle dead space',
       'notes' => 'Notes',
+      'injectionType' => 'Injection type',
+      'intramuscular' => 'Intramuscular',
+      'subcutaneous' => 'Subcutaneous',
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>

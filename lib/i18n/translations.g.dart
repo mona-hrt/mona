@@ -3,8 +3,8 @@
 /// Source: lib/i18n/generated
 /// To regenerate, run: `dart run slang`
 ///
-/// Locales: 24
-/// Strings: 5909 (246 per locale)
+/// Locales: 26
+/// Strings: 6199 (238 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -21,6 +21,8 @@ import 'translations_et.g.dart' as l_et;
 import 'translations_fr.g.dart' as l_fr;
 import 'translations_gl.g.dart' as l_gl;
 import 'translations_hi.g.dart' as l_hi;
+import 'translations_hu.g.dart' as l_hu;
+import 'translations_id.g.dart' as l_id;
 import 'translations_is.g.dart' as l_is;
 import 'translations_it.g.dart' as l_it;
 import 'translations_ko.g.dart' as l_ko;
@@ -54,6 +56,8 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
   fr(languageCode: 'fr'),
   gl(languageCode: 'gl'),
   hi(languageCode: 'hi'),
+  hu(languageCode: 'hu'),
+  id(languageCode: 'id'),
   icelandic(languageCode: 'is'),
   it(languageCode: 'it'),
   ko(languageCode: 'ko'),
@@ -143,6 +147,18 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
         );
       case AppLocale.hi:
         return l_hi.TranslationsHi(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.hu:
+        return l_hu.TranslationsHu(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.id:
+        return l_id.TranslationsId(
           overrides: overrides,
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,

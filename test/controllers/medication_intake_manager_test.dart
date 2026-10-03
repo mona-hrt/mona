@@ -8,6 +8,7 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -148,6 +149,7 @@ void main() {
             schedule: schedule,
             placements: [aPlacement(preset: PlacementPreset.leftThigh)],
             notes: notes,
+            injectionType: InjectionType.subcutaneous,
           );
         });
 
@@ -211,6 +213,11 @@ void main() {
         test('sets notes on the intake', () {
           // Assert
           expect(addedIntake.notes, notes);
+        });
+
+        test('sets injectionType on the intake from the schedule', () {
+          // Assert
+          expect(addedIntake.injectionType, InjectionType.subcutaneous);
         });
       });
 
@@ -827,12 +834,14 @@ void main() {
           medicationSupplyItemId: null,
           wastedAmount: null,
           deadSpace: null,
+          injectionType: InjectionType.subcutaneous,
         );
         final newDose = Decimal.parse('3');
         final newWasted = Decimal.parse('0.2');
         final newDeadSpace = Decimal.parse('50');
         final newTimezone = 'Europe/Paris';
         final newNotes = 'edited';
+        final newType = InjectionType.intramuscular;
 
         when(mockMedicationIntakeProvider.updateIntake(any))
             .thenAnswer((inv) async {
@@ -850,6 +859,7 @@ void main() {
           placements: [aCustomPlacement('belly')],
           medicationItem: null,
           notes: newNotes,
+          injectionType: newType,
         );
 
         // Assert
@@ -866,7 +876,8 @@ void main() {
                   [aCustomPlacement('belly')])
               .having((i) => i.notes, 'notes', newNotes)
               .having((i) => i.medicationSupplyItemId, 'medicationSupplyItemId',
-                  isNull),
+                  isNull)
+              .having((i) => i.injectionType, 'injectionType', newType),
         );
       });
 
@@ -1346,6 +1357,51 @@ void main() {
 
         // Assert
         expect(suggestion, isNull);
+      });
+    });
+
+    group('suggestInjectionType', () {
+      test('returns null when the schedule is not an injection', () {
+        // Arrange
+        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(1234))
+            .thenReturn([
+          aMedicationIntake(administrationRoute: AdministrationRoute.oral)
+        ]);
+
+        // Act
+        final suggestion = manager.suggestInjectionType(scheduleId: 1234);
+
+        // Assert
+        expect(suggestion, isNull);
+      });
+
+      test('returns null when there are no intakes for a schedule', () {
+        // Arrange
+        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(1234))
+            .thenReturn([]);
+
+        // Act
+        final suggestion = manager.suggestInjectionType(scheduleId: 1234);
+
+        // Assert
+        expect(suggestion, isNull);
+      });
+
+      test('returns the injection type of the last intake', () {
+        // Arrange
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(1234))
+            .thenReturn(
+          aMedicationIntake(
+            administrationRoute: AdministrationRoute.injection,
+            injectionType: InjectionType.subcutaneous,
+          ),
+        );
+
+        // Act
+        final suggestion = manager.suggestInjectionType(scheduleId: 1234);
+
+        // Assert
+        expect(suggestion, InjectionType.subcutaneous);
       });
     });
 

@@ -4,8 +4,20 @@
         <item quantity="one">%d दिनों के लिए HRT पर</item>
         <item quantity="other">%d दिनों के लिए HRT पर</item>
     </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">HRT on %d week</item>
+        <item quantity="other">HRT on %d week</item>
+    </plurals>
     <plurals name="on_hrt_for_months">
         <item quantity="one">%d महीनों के लिए HRT पर</item>
         <item quantity="other">%d महीनों के लिए HRT पर</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">HRT पर %d वर्ष</item>
+        <item quantity="other">HRT पर %d वर्ष</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">%d प्रवेश लॉग इन</item>
+        <item quantity="other">%d प्रवेश लॉग इन</item>
     </plurals>
 </resources>

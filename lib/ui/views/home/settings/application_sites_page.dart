@@ -6,7 +6,7 @@ import 'package:mona/i18n/helpers/placement_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
-import 'package:mona/ui/widgets/tinted_switch_tile.dart';
+import 'package:mona/ui/widgets/switch_tile.dart';
 import 'package:provider/provider.dart';
 
 class ApplicationSitesPage extends StatelessWidget {
@@ -60,7 +60,7 @@ class ApplicationSitesPage extends StatelessWidget {
     return M3ESegmentedColumn(
       padding: EdgeInsets.zero,
       children: [
-        TintedSwitchTile(
+        SwitchTile(
           key: const ValueKey('placementScopeToggle'),
           title: t.placementSuggestionPerScheduleTitle,
           subtitle: t.placementSuggestionPerScheduleDescription,

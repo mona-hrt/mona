@@ -7,6 +7,7 @@ import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/placement.dart';
@@ -44,6 +45,7 @@ class MedicationIntake with MedicationIntakeMappable {
   @MappableField(hook: JsonStringHook())
   final List<Placement> placements;
   final DosingBasis dosingBasis;
+  final InjectionType? injectionType;
 
   MedicationIntake({
     int? id,
@@ -62,6 +64,7 @@ class MedicationIntake with MedicationIntakeMappable {
     this.notes,
     this.placements = const [],
     required this.dosingBasis,
+    this.injectionType,
   }) : id = id ?? clock.now().millisecondsSinceEpoch {
     if (takenDateTime != null && !takenDateTime!.isUtc) {
       throw ArgumentError('takenDateTime must be UTC');

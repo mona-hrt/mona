@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mona/data/providers/medication_intake_provider.dart';
@@ -18,13 +19,14 @@ class ChartPage extends StatefulWidget {
 }
 
 class _ChartPageState extends State<ChartPage> with MinuteTicker {
-  double sliderValue = 0;
   LevelDuration _duration = LevelDuration.twoWeeks;
-  DateTime startDate = DateTime.now().subtract(const Duration(days: 9));
+  DateTime targetDate = clock.now().subtract(const Duration(days: 2));
   bool _isPanning = false;
 
   @override
   Widget build(BuildContext context) {
+    final dayBoundaries = _dayBoundaries();
+
     return LiquidGlassBottomClamp(
       child: Scaffold(
         appBar: AppBar(title: Text(t.estradiolLevelsTitle)),
@@ -56,10 +58,10 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                           onHorizontalDragUpdate: (details) {
                             final width = constraints.maxWidth;
                             if (width <= 0) return;
-                            final shift = _offset.inMicroseconds *
+                            final shift = _duration.days.inMicroseconds *
                                 ((details.primaryDelta ?? 0) / width);
                             setState(() {
-                              startDate = startDate.subtract(
+                              targetDate = targetDate.subtract(
                                 Duration(microseconds: shift.round()),
                               );
                             });
@@ -67,8 +69,8 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                           onHorizontalDragEnd: (_) =>
                               setState(() => _isPanning = false),
                           child: MainGraph(
-                            startDate: startDate,
-                            endDate: startDate.add(_offset),
+                            startDate: dayBoundaries.$1,
+                            endDate: dayBoundaries.$2,
                             isPanning: _isPanning,
                           ),
                         );
@@ -83,9 +85,9 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                         bottom: 24),
                     child: ChartDateButtons(
                       index: _duration.index,
-                      startDate: startDate,
-                      onStartDateChanged: (newStartDate) => setState(() {
-                        startDate = newStartDate;
+                      startDate: targetDate,
+                      onStartDateChanged: (newTargetDate) => setState(() {
+                        targetDate = newTargetDate;
                       }),
                     ),
                   ),
@@ -98,20 +100,19 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
     );
   }
 
-  Duration get _offset {
-    switch (_duration) {
-      case LevelDuration.week:
-        return const Duration(days: 7);
-      case LevelDuration.twoWeeks:
-        return const Duration(days: 14);
-      case LevelDuration.month:
-        return const Duration(days: 30);
-      case LevelDuration.threeMonths:
-        return const Duration(days: 90);
-      case LevelDuration.sixMonths:
-        return const Duration(days: 180);
-      case LevelDuration.year:
-        return const Duration(days: 365);
-    }
+  (DateTime, DateTime) _dayBoundaries() {
+    final (daysBefore, daysAfter) = switch (_duration) {
+      LevelDuration.week => (3, 3),
+      LevelDuration.twoWeeks => (7, 6),
+      LevelDuration.month => (15, 14),
+      LevelDuration.threeMonths => (45, 44),
+      LevelDuration.sixMonths => (90, 89),
+      LevelDuration.year => (182, 182),
+    };
+
+    return (
+      targetDate.subtract(Duration(days: daysBefore)),
+      targetDate.add(Duration(days: daysAfter)),
+    );
   }
 }

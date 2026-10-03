@@ -6,6 +6,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -22,6 +23,7 @@ import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/injection_type_picker.dart';
 import 'package:mona/ui/widgets/intake_supply_picker.dart';
 import 'package:mona/ui/widgets/placement_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
@@ -55,6 +57,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   Decimal? _deadSpace;
   late TextEditingController _notesController;
   bool _isTaken = false;
+  InjectionType? _injectionType;
+  bool _hasInitializedInjectionType = false;
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(_takenDoseController.text);
@@ -80,18 +84,20 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     MedicationIntakeManager(
             medicationIntakeProvider, supplyItemProvider, preferencesService)
         .takeMedication(
-            takenDose: _takenDose,
-            scheduledTime: widget.scheduledTime,
-            takenDateTime: _takenDate.toUtc(),
-            medicationItem: _selectedSupplyItem is MedicationSupplyItem
-                ? _selectedSupplyItem as MedicationSupplyItem
-                : null,
-            genericItems: _selectedGenerics,
-            schedule: widget.schedule,
-            placements: _selectedPlacements,
-            deadSpace: _deadSpace,
-            notes: notes,
-            wastedAmount: _wastedAmount);
+      takenDose: _takenDose,
+      scheduledTime: widget.scheduledTime,
+      takenDateTime: _takenDate.toUtc(),
+      medicationItem: _selectedSupplyItem is MedicationSupplyItem
+          ? _selectedSupplyItem as MedicationSupplyItem
+          : null,
+      genericItems: _selectedGenerics,
+      schedule: widget.schedule,
+      placements: _selectedPlacements,
+      deadSpace: _deadSpace,
+      notes: notes,
+      wastedAmount: _wastedAmount,
+      injectionType: _injectionType,
+    );
 
     setState(() {
       _isTaken = true;
@@ -149,6 +155,12 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     } else {
       setState(() {});
     }
+  }
+
+  void _onInjectionTypeChanged(InjectionType type) {
+    setState(() {
+      _injectionType = type;
+    });
   }
 
   void _refresh() => setState(() {});
@@ -223,6 +235,14 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
               .firstWhere((item) => item?.id == selectedId, orElse: () => null);
         }
 
+        if (!isLoading && !_hasInitializedInjectionType) {
+          final manager = MedicationIntakeManager(
+              medicationIntakeProvider, supplyItemProvider, preferencesService);
+          _injectionType =
+              manager.suggestInjectionType(scheduleId: widget.schedule.id);
+          _hasInitializedInjectionType = true;
+        }
+
         return ModelForm(
           title: t.takeMedication(scheduleName: widget.schedule.name),
           avatar: widget.schedule.administrationRoute.icon,
@@ -254,6 +274,20 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                 infoText: supplyItem.localizedSupplyAmount(_takenDose),
               ),
             FormSpacer(),
+            if (usesPlacements && _orderedPlacements.isNotEmpty)
+              PlacementPicker(
+                options: _orderedPlacements,
+                selected: _selectedPlacements,
+                onChanged: _onPlacementChanged,
+              ),
+            if (isInjection)
+              InjectionTypePicker(
+                value: _injectionType ?? InjectionType.intramuscular,
+                onChanged: _onInjectionTypeChanged,
+              ),
+            if (isInjection ||
+                (usesPlacements && _orderedPlacements.isNotEmpty))
+              FormSpacer(),
             IntakeSupplyPicker(
               medicationItem: _selectedSupplyItem is MedicationSupplyItem
                   ? _selectedSupplyItem as MedicationSupplyItem
@@ -273,14 +307,6 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   () => _selectedGenerics = [..._selectedGenerics, generic]),
             ),
             FormSpacer(),
-            if (usesPlacements && _orderedPlacements.isNotEmpty) ...[
-              PlacementPicker(
-                options: _orderedPlacements,
-                selected: _selectedPlacements,
-                onChanged: _onPlacementChanged,
-              ),
-              FormSpacer(),
-            ],
             if (isInjection) ...[
               FormTextField(
                   controller: _wastedAmountController,

@@ -8,6 +8,7 @@ import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -131,6 +132,7 @@ MedicationIntake aMedicationIntake({
   Ester? ester,
   List<Placement> placements = const [],
   DosingBasis dosingBasis = DosingBasis.mass,
+  InjectionType? injectionType,
 }) {
   final takenAt = !taken
       ? null
@@ -154,6 +156,7 @@ MedicationIntake aMedicationIntake({
     ester: ester,
     placements: placements,
     dosingBasis: dosingBasis,
+    injectionType: injectionType,
   );
 }
 

@@ -3,7 +3,9 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
+import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/placement.dart';
@@ -33,6 +35,7 @@ class MedicationIntakeManager {
     String? notes,
     Decimal? wastedAmount, // in mL
     List<Placement> placements = const [],
+    InjectionType? injectionType,
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -57,6 +60,7 @@ class MedicationIntakeManager {
       deadSpace: deadSpace,
       placements: placements,
       dosingBasis: schedule.dosingBasis,
+      injectionType: injectionType,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
@@ -111,6 +115,7 @@ class MedicationIntakeManager {
     List<GenericSupply> genericItems = const [],
     String? notes,
     List<Placement> placements = const [],
+    InjectionType? injectionType,
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -173,6 +178,7 @@ class MedicationIntakeManager {
       genericSupplyItemIds: genericItems.map((item) => item.id).toList(),
       notes: notes,
       placements: placements,
+      injectionType: injectionType,
     ));
   }
 
@@ -204,6 +210,18 @@ class MedicationIntakeManager {
 
   Placement? suggestNextPlacement({required int scheduleId}) =>
       getOrderedPlacements(scheduleId: scheduleId).firstOrNull;
+
+  InjectionType? suggestInjectionType({required int scheduleId}) {
+    final lastIntake =
+        _medicationIntakeProvider.getLastTakenIntakeForSchedule(scheduleId);
+
+    if (lastIntake == null ||
+        lastIntake.administrationRoute != AdministrationRoute.injection) {
+      return null;
+    }
+
+    return lastIntake.injectionType;
+  }
 
   MedicationSupplyItem? suggestMedicationItem({
     required MedicationSchedule schedule,

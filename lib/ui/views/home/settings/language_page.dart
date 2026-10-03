@@ -26,6 +26,8 @@ class LanguagePage extends StatefulWidget {
     'fr': (english: 'French', native: 'Français'),
     'gl': (english: 'Galician', native: 'Galego'),
     'hi': (english: 'Hindi', native: 'हिन्दी'),
+    'hu': (english: 'Hungarian', native: 'Magyar'),
+    'id': (english: 'Indonesian', native: 'Bahasa Indonesia'),
     'is': (english: 'Icelandic', native: 'Íslenska'),
     'it': (english: 'Italian', native: 'Italiano'),
     'ko': (english: 'Korean', native: '한국어'),
@@ -120,7 +122,7 @@ class _LanguagePageState extends State<LanguagePage> {
               children: [
                 TappableListTile(
                   leading: const Icon(Symbols.translate_rounded),
-                  title: t.languageMissing,
+                  title: t.missingTranslation,
                   subtitle: t.translateAppDescription,
                   onTap: () => launchUrl(
                     Uri.parse(_weblateUrl),
