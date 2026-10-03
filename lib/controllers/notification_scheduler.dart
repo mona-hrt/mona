@@ -54,6 +54,7 @@ class NotificationScheduler {
     final dateFormat = DateFormat.MMMMd(localeName);
     return NotificationService().scheduleNotification(
       id: _notificationIdFor(plan.schedule.id, plan.dateTime),
+      scheduleId: plan.schedule.id,
       title: t.notificationMedicationReminderTitle(
           scheduleName: plan.schedule.name),
       body: t.notificationMedicationReminderBodyDate(
@@ -70,6 +71,7 @@ class NotificationScheduler {
     final timeFormat = DateFormat.Hm(localeName);
     return NotificationService().scheduleDailyNotification(
       id: _notificationIdFor(plan.schedule.id, plan.firstFire),
+      scheduleId: plan.schedule.id,
       title: t.notificationMedicationReminderTitle(
           scheduleName: plan.schedule.name),
       body: t.notificationMedicationReminderBodyTime(
@@ -86,6 +88,7 @@ class NotificationScheduler {
     final weekdayFormat = DateFormat.EEEE(localeName);
     return NotificationService().scheduleWeeklyNotification(
       id: _notificationIdFor(plan.schedule.id, plan.firstFire),
+      scheduleId: plan.schedule.id,
       title: t.notificationMedicationReminderTitle(
           scheduleName: plan.schedule.name),
       body: t.notificationMedicationReminderBodyWeekday(
