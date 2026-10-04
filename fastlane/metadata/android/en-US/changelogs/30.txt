@@ -1,0 +1,13 @@
+New:
+
+- You can now specify if an injection is subcutaneous or intramuscular
+- New languages: Indonesian, Hungarian
+- Blood tests can be added directly from the levels screen
+- Notifications now open directly to the "take intake" page
+
+Fix:
+
+- The graph zoom is now more consistent
+- Fixed a crash when displaying decimals in some languages
+- Fixed an import error for some blood tests
+- Minor UI fixes
