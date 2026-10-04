@@ -1,9 +1,9 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
-import 'package:mona/ui/views/levels/main_graph_page/chart_range_selector.dart';
 
 class ChartDateButtons extends StatelessWidget {
   final int index;
@@ -62,17 +62,5 @@ class ChartDateButtons extends StatelessWidget {
     }
   }
 
-  void _resetToToday() {
-    final duration = LevelDuration.values[index];
-    final today = DateTime.now();
-    final newStartDate = switch (duration) {
-      LevelDuration.week => today.subtract(Duration(days: 3)),
-      LevelDuration.twoWeeks => today.subtract(Duration(days: 7)),
-      LevelDuration.month => today.subtract(Duration(days: 15)),
-      LevelDuration.threeMonths => today.subtract(Duration(days: 45)),
-      LevelDuration.sixMonths => today.subtract(Duration(days: 90)),
-      LevelDuration.year => today.subtract(Duration(days: 180)),
-    };
-    onStartDateChanged(newStartDate);
-  }
+  void _resetToToday() => onStartDateChanged(clock.now());
 }

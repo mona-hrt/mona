@@ -189,7 +189,7 @@ class TranslationsEnGb extends Translations
   @override
   String get translateAppDescription => 'Help translate Mona on Weblate';
   @override
-  String get languageMissing => 'Is your language missing?';
+  String get missingTranslation => 'Is a translation missing?';
   @override
   String get donate => 'Donate';
   @override
@@ -353,6 +353,12 @@ class TranslationsEnGb extends Translations
   String get needleDeadSpace => 'Needle dead space';
   @override
   String get notes => 'Notes';
+  @override
+  String get injectionType => 'Injection type';
+  @override
+  String get intramuscular => 'Intramuscular';
+  @override
+  String get subcutaneous => 'Subcutaneous';
   @override
   String get microliters => 'μL';
   @override
@@ -884,7 +890,7 @@ extension on TranslationsEnGb {
       'reportBugDescription' => 'Open an issue on GitHub',
       'translateApp' => 'Translate the app',
       'translateAppDescription' => 'Help translate Mona on Weblate',
-      'languageMissing' => 'Is your language missing?',
+      'missingTranslation' => 'Is a translation missing?',
       'donate' => 'Donate',
       'donateDescription' => 'Support Mona on Ko-fi',
       'backupSaved' => 'Backup saved',
@@ -975,6 +981,9 @@ extension on TranslationsEnGb {
       'intakeRecorded' => 'Intake recorded',
       'needleDeadSpace' => 'Needle dead space',
       'notes' => 'Notes',
+      'injectionType' => 'Injection type',
+      'intramuscular' => 'Intramuscular',
+      'subcutaneous' => 'Subcutaneous',
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>

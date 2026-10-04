@@ -9,8 +9,8 @@ import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
 import 'package:mona/ui/widgets/scheduling_type_picker.dart';
+import 'package:mona/ui/widgets/switch_tile.dart';
 import 'package:mona/ui/widgets/time_list_card.dart';
-import 'package:mona/ui/widgets/tinted_switch_tile.dart';
 import 'package:mona/ui/widgets/weekday_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
@@ -234,7 +234,7 @@ class _EditScheduleSchedulingPageState
         padding: EdgeInsets.zero,
         margin: EdgeInsets.symmetric(vertical: 8),
         children: [
-          TintedSwitchTile(
+          SwitchTile(
             title: t.anchorToLastIntake,
             subtitle: t.anchorToLastIntakeDescription,
             value: _anchorToLastIntake,
@@ -264,10 +264,11 @@ class _EditScheduleSchedulingPageState
         onEdit: _editTime,
         onDelete: _deleteTime,
         trailingChildren: [
-          TintedSwitchTile(
+          SwitchTile(
             title: t.enableNotifications,
             subtitle: t.enableNotificationsDescription,
             value: _dailyNotify,
+            tintEnabled: false,
             onChanged: (value) => setState(() => _dailyNotify = value),
           ),
         ],

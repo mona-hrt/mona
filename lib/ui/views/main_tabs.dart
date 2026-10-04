@@ -1,8 +1,9 @@
 // main_tabs.dart
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/levels/blood_tests_page/blood_test_page.dart';
+import 'package:mona/ui/views/levels/blood_tests_page/new_blood_test_page.dart';
 import 'package:mona/ui/views/levels/levels_page/levels_page.dart';
 import 'home/home_page.dart';
 import 'home/settings/settings_page.dart';
@@ -52,6 +53,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       title: t.nav_levels,
       page: const LevelsPage(),
       icon: Symbols.labs_rounded,
+      navKey: const ValueKey('navTabLevels'),
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       buildActions: (context) => [
         IconButton(
@@ -63,6 +65,18 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
           },
         ),
       ],
+      buildFab: (context) => FloatingActionButton(
+        tooltip: t.addBloodTest,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              fullscreenDialog: true,
+              builder: (context) => NewBloodTestPage(),
+            ),
+          );
+        },
+        child: const Icon(Symbols.add_rounded),
+      ),
     ),
     MainTabConfig(
       title: t.nav_supplies,

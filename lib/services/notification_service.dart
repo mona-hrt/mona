@@ -9,6 +9,13 @@ import 'package:mona/util/string_parsing.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
+typedef NotificationPayload = ({
+  int scheduleId,
+  DateTime scheduledTime,
+  bool isRepeating,
+  int? notificationId,
+});
+
 class NotificationService {
   static FlutterLocalNotificationsPlugin Function()? createPlugin =
       () => FlutterLocalNotificationsPlugin();
@@ -34,7 +41,8 @@ class NotificationService {
       _notificationsPlugin.resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin>();
 
-  Future<void> initialize() async {
+  Future<void> initialize(
+      {void Function(NotificationPayload tap)? onTap}) async {
     if (_initialized) return;
 
     tzdata.initializeTimeZones();
@@ -52,13 +60,65 @@ class NotificationService {
     );
 
     await _notificationsPlugin.initialize(
-        settings: InitializationSettings(
-      android: androidSettings,
-      iOS: iosSettings,
-    ));
+      settings: InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
+      onDidReceiveNotificationResponse: (response) {
+        final payload =
+            _decodePayload(response.payload, notificationId: response.id);
+        if (payload != null) onTap?.call(payload);
+      },
+    );
 
     _initialized = true;
   }
+
+  Future<NotificationPayload?> getAppLaunchTap() async {
+    final details =
+        await _notificationsPlugin.getNotificationAppLaunchDetails();
+    if (details == null || !details.didNotificationLaunchApp) return null;
+
+    final response = details.notificationResponse;
+    if (response == null) return null;
+
+    return _decodePayload(response.payload, notificationId: response.id);
+  }
+
+  static const _scheduleIdKey = 'scheduleId';
+  static const _scheduledTimeKey = 'scheduledTime';
+  static const _isRepeatingKey = 'isRepeating';
+
+  String _encodePayload({
+    required int scheduleId,
+    required DateTime scheduledTime,
+    required bool isRepeating,
+  }) =>
+      jsonEncode({
+        _scheduleIdKey: scheduleId,
+        _scheduledTimeKey: scheduledTime.toIso8601String(),
+        if (isRepeating) _isRepeatingKey: true,
+      });
+
+  NotificationPayload? _decodePayload(String? raw, {int? notificationId}) {
+    if (raw == null || raw.isEmpty) return null;
+
+    final decoded = jsonDecode(raw);
+    if (decoded is! Map) return null;
+    final scheduleId = decoded[_scheduleIdKey];
+    final scheduledTime =
+        (decoded[_scheduledTimeKey] as String?)?.toDateTimeOrNull;
+    if (scheduleId is! int || scheduledTime == null) return null;
+
+    return (
+      scheduleId: scheduleId,
+      scheduledTime: scheduledTime,
+      isRepeating: decoded[_isRepeatingKey] == true,
+      notificationId: notificationId,
+    );
+  }
+
+  Future<void> cancel(int id) => _notificationsPlugin.cancel(id: id);
 
   NotificationDetails _notificationDetails() {
     return const NotificationDetails(
@@ -121,6 +181,7 @@ class NotificationService {
     int? id,
     String? title,
     String? body,
+    String? payload,
   }) async {
     id ??= Random().nextInt(1 << 31);
 
@@ -135,17 +196,20 @@ class NotificationService {
       title: title,
       body: body,
       notificationDetails: _notificationDetails(),
+      payload: payload,
     );
   }
 
   Future<void> scheduleNotification({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
     required DateTime scheduledTime,
   }) =>
       _schedule(
         id: id,
+        scheduleId: scheduleId,
         title: title,
         body: body,
         scheduledTime: scheduledTime,
@@ -153,12 +217,14 @@ class NotificationService {
 
   Future<void> scheduleDailyNotification({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
     required DateTime firstOccurrence,
   }) =>
       _schedule(
         id: id,
+        scheduleId: scheduleId,
         title: title,
         body: body,
         scheduledTime: firstOccurrence,
@@ -167,12 +233,14 @@ class NotificationService {
 
   Future<void> scheduleWeeklyNotification({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
     required DateTime firstOccurrence,
   }) =>
       _schedule(
         id: id,
+        scheduleId: scheduleId,
         title: title,
         body: body,
         scheduledTime: firstOccurrence,
@@ -181,15 +249,17 @@ class NotificationService {
 
   Future<void> _schedule({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
     required DateTime scheduledTime,
     DateTimeComponents? matchComponents,
   }) async {
-    final payload = jsonEncode({
-      'scheduledTime': scheduledTime.toIso8601String(),
-      if (matchComponents != null) 'isRepeating': true,
-    });
+    final payload = _encodePayload(
+      scheduleId: scheduleId,
+      scheduledTime: scheduledTime,
+      isRepeating: matchComponents != null,
+    );
     final dateTime = tz.TZDateTime(
         tz.local,
         scheduledTime.year,
@@ -229,9 +299,9 @@ class NotificationService {
 
     return pendingNotifications.where((notification) {
       final payload = jsonDecode(notification.payload ?? '{}');
-      if (payload['isRepeating'] == true) return false;
+      if (payload[_isRepeatingKey] == true) return false;
       final scheduledTime =
-          (payload['scheduledTime'] as String?)?.toDateTimeOrNull;
+          (payload[_scheduledTimeKey] as String?)?.toDateTimeOrNull;
       if (scheduledTime == null) return false;
       return scheduledTime.isBefore(clock.now());
     }).toList();
@@ -243,6 +313,7 @@ class NotificationService {
       await showNotification(
         title: notification.title,
         body: notification.body,
+        payload: notification.payload,
       );
     }
   }

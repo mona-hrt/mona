@@ -62,3 +62,9 @@ lib/i18n/generated/
 
 # Widget Preview related
 .widget_preview/
+
+# Unused platforms
+macos/*
+linux/*
+windows/*
+web/*

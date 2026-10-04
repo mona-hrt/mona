@@ -5,6 +5,7 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/placement.dart';
@@ -21,6 +22,7 @@ import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/injection_type_picker.dart';
 import 'package:mona/ui/widgets/intake_supply_picker.dart';
 import 'package:mona/ui/widgets/placement_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
@@ -51,6 +53,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   List<GenericSupply> _selectedGenerics = [];
   bool _hasInitializedSupplyItem = false;
   late TextEditingController _notesController;
+  InjectionType? _injectionType;
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(_takenDoseController.text);
@@ -100,6 +103,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
           ? _selectedSupplyItem as MedicationSupplyItem
           : null,
       genericItems: _selectedGenerics,
+      injectionType: _injectionType,
       notes: notes,
     );
 
@@ -170,6 +174,12 @@ class _EditIntakePageState extends State<EditIntakePage> {
     }
   }
 
+  void _onInjectionTypeChanged(InjectionType type) {
+    setState(() {
+      _injectionType = type;
+    });
+  }
+
   void _refresh() => setState(() {});
 
   Future<bool?> confirmDeleteIntake(BuildContext context) {
@@ -183,6 +193,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
     _takenDose = widget.intake.takenDose;
     _wastedAmount = widget.intake.wastedAmount ?? Decimal.zero;
     _deadSpace = widget.intake.deadSpace ?? Decimal.zero;
+    _injectionType = widget.intake.injectionType;
     _takenDoseController = TextEditingController(text: _takenDose.toString());
     _wastedAmountController =
         TextEditingController(text: _wastedAmount.toString());
@@ -276,6 +287,21 @@ class _EditIntakePageState extends State<EditIntakePage> {
                 infoText: supplyItem.localizedSupplyAmount(_takenDose),
               ),
             FormSpacer(),
+            if (_usesPlacements && preferencesService.placementsList.isNotEmpty)
+              PlacementPicker(
+                options: preferencesService.placementsList,
+                selected: _selectedPlacements,
+                onChanged: _onPlacementChanged,
+              ),
+            if (_isInjection)
+              InjectionTypePicker(
+                value: _injectionType ?? InjectionType.intramuscular,
+                onChanged: _onInjectionTypeChanged,
+              ),
+            if (_isInjection ||
+                (_usesPlacements &&
+                    preferencesService.placementsList.isNotEmpty))
+              FormSpacer(),
             IntakeSupplyPicker(
               medicationItem: _selectedSupplyItem is MedicationSupplyItem
                   ? _selectedSupplyItem as MedicationSupplyItem
@@ -295,15 +321,6 @@ class _EditIntakePageState extends State<EditIntakePage> {
                   () => _selectedGenerics = [..._selectedGenerics, generic]),
             ),
             FormSpacer(),
-            if (_usesPlacements &&
-                preferencesService.placementsList.isNotEmpty) ...[
-              PlacementPicker(
-                options: preferencesService.placementsList,
-                selected: _selectedPlacements,
-                onChanged: _onPlacementChanged,
-              ),
-              FormSpacer(),
-            ],
             if (_isInjection) ...[
               FormTextField(
                 controller: _wastedAmountController,

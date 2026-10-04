@@ -193,7 +193,7 @@ class TranslationsFr extends Translations
   @override
   String get translateAppDescription => 'Aider à traduire Mona sur Weblate';
   @override
-  String get languageMissing => 'Il manque votre langue ?';
+  String get missingTranslation => 'Il manque une traduction ?';
   @override
   String get donate => 'Faire un don';
   @override
@@ -362,6 +362,12 @@ class TranslationsFr extends Translations
   String get needleDeadSpace => 'Espace mort de l\'aiguille';
   @override
   String get notes => 'Notes';
+  @override
+  String get injectionType => 'Type d\'injection';
+  @override
+  String get intramuscular => 'Intramusculaire';
+  @override
+  String get subcutaneous => 'Sous-cutanée';
   @override
   String get microliters => 'μL';
   @override
@@ -923,7 +929,7 @@ extension on TranslationsFr {
       'reportBugDescription' => 'Ouvrir une issue sur GitHub',
       'translateApp' => 'Traduire l\'application',
       'translateAppDescription' => 'Aider à traduire Mona sur Weblate',
-      'languageMissing' => 'Il manque votre langue ?',
+      'missingTranslation' => 'Il manque une traduction ?',
       'donate' => 'Faire un don',
       'donateDescription' => 'Soutenir Mona sur Ko-fi',
       'backupSaved' => 'Sauvegarde enregistrée',
@@ -1019,6 +1025,9 @@ extension on TranslationsFr {
       'intakeRecorded' => 'Prise enregistrée',
       'needleDeadSpace' => 'Espace mort de l\'aiguille',
       'notes' => 'Notes',
+      'injectionType' => 'Type d\'injection',
+      'intramuscular' => 'Intramusculaire',
+      'subcutaneous' => 'Sous-cutanée',
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>

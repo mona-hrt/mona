@@ -174,7 +174,7 @@ class TranslationsHi extends Translations
   String get checkForUpdates => 'Updates dekhe';
   @override
   String get checkForUpdatesDescription =>
-      'Naye version ke liye manually check kare\n yeh aapko internet se connect karega\(Koi data nahi milega)';
+      'Naye version ke liye manually check kare\n yeh aapko internet se connect karega\n(Koi data nahi milega)';
   @override
   String appVersion({required Object version}) => 'मोना संस्करण ${version}';
   @override
@@ -285,6 +285,336 @@ class TranslationsHi extends Translations
   @override
   String get empty_intakes => 'ले लिया गया सेवन यहाँ दिखाई देगा';
   @override
+  String get HrtCounter => 'HRT पर समय';
+  @override
+  String get HrtCounterDescription =>
+      'जब तक आप एचआरटी और आपके कुल सेवन पर रहे हैं, तब तक दिखाएं';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'अपना पहला सेवन लॉग इन करने के लिए मोना खोलें';
+  @override
+  String get hrtWidgetPreviewSample => '8 महीने के लिए HRT पर';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 सेवन लॉग इन';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'समय पहले ${time} पिछले दिन की ओर गिनती';
+  @override
+  String get chooseSchedule => 'एक अनुसूची चुनें';
+  @override
+  String get addSchedulesFirst => 'पहले शेड्यूल जोड़ें।।';
+  @override
+  String get editIntake => 'सेवन संपादित करें';
+  @override
+  String get date => 'तारीख';
+  @override
+  String get amount => 'राशि';
+  @override
+  String get takenAmount => 'ली गई राशि';
+  @override
+  String get wastedAmount => 'अपशिष्ट राशि';
+  @override
+  String get none => 'कोई नहीं';
+  @override
+  String get startOfDay => 'दिन की शुरुआत';
+  @override
+  String get supplyItem => 'आपूर्ति आइटम';
+  @override
+  String get chooseItem => 'एक आइटम चुनें';
+  @override
+  String get noItemsToAdd => 'उपलब्ध नहीं है';
+  @override
+  String get injectionSide => 'इंजेक्शन साइड';
+  @override
+  String get deleteIntake => 'इस सेवन को हटा दें?';
+  @override
+  String takeMedication({required Object scheduleName}) => '${scheduleName}';
+  @override
+  String get takeIntake => 'सेवन करें';
+  @override
+  String get intakeRecorded => 'दर्ज करना';
+  @override
+  String get needleDeadSpace => 'सुई मृत अंतरिक्ष';
+  @override
+  String get notes => 'नोट';
+  @override
+  String get microliters => 'μL';
+  @override
+  String get milliliters => 'एमएल';
+  @override
+  String get empty_levels =>
+      'एक रक्त परीक्षण जोड़ें या शुरू करने के लिए एक एस्ट्राडियोल इंजेक्शन लॉग इन करें';
+  @override
+  String get bloodTestsTitle => 'रक्त परीक्षण';
+  @override
+  String get estradiolLevelsTitle => 'एस्ट्राडियोल स्तर';
+  @override
+  String get week => 'डब्ल्यू';
+  @override
+  String get twoWeeks => '2 डब्ल्यू';
+  @override
+  String get threeMonths => '3 एम';
+  @override
+  String get sixMonths => '6 एम';
+  @override
+  String get month => 'एम';
+  @override
+  String get year => 'वाई';
+  @override
+  String get empty_blood_tests =>
+      'रक्त परीक्षण यहाँ दिखाई देगा। ऐड बटन का उपयोग करके शुरू करें!';
+  @override
+  String get addBloodTest => 'रक्त परीक्षण जोड़ें';
+  @override
+  String get editBloodTest => 'रक्त परीक्षण';
+  @override
+  String get newBloodTest => 'न्यू ब्लड टेस्ट';
+  @override
+  String get deleteBloodTest => 'इस रक्त परीक्षण को हटा दें?';
+  @override
+  String get estradiolLevelLabel => 'एस्ट्राडियोल स्तर';
+  @override
+  String get testosteroneLevelLabel => 'टेस्टोस्टेरोन का स्तर';
+  @override
+  String get bloodTestDateLabel => 'परीक्षा तिथि';
+  @override
+  String chartNowConcentration({required Object value}) => 'अब ${value}';
+  @override
+  String chartBloodTestLevelTooltip(
+          {required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String get empty_supplies =>
+      'कोई आपूर्ति नहीं। शुरू करने के लिए एक आइटम जोड़ें।।';
+  @override
+  String get newItem => 'नया आइटम';
+  @override
+  String get adminRoute => 'प्रशासन मार्ग';
+  @override
+  String get totalAmount => 'कुल राशि';
+  @override
+  String get concentration => 'एकाग्रता';
+  @override
+  String dosePerUnitLabel({required Object unit}) => 'प्रति खुराक ${unit}';
+  @override
+  String get editItem => 'आइटम जोड़ें';
+  @override
+  String get usedAmount => 'प्रयुक्त राशि';
+  @override
+  String deleteItem({required Object name}) => '${name}?';
+  @override
+  String get allItemsFilter => 'सब';
+  @override
+  String get medicationItemsFilter => 'दवा';
+  @override
+  String get genericItems => 'उपभोग्य';
+  @override
+  String get medicationItemType => 'दवा';
+  @override
+  String get genericItemType => 'उपभोग्य';
+  @override
+  String get supplyType => 'प्रकार';
+  @override
+  String get syringe => 'सिरिंज';
+  @override
+  String get wipe => 'वाइप्स';
+  @override
+  String get needle => 'सुई';
+  @override
+  String get gloves => 'दस्ताने';
+  @override
+  String get bandage => 'बंधन';
+  @override
+  String get add => 'जोड़ें';
+  @override
+  String get save => 'सहेजें';
+  @override
+  String get cancel => 'रद्द करना';
+  @override
+  String get next => 'अगला';
+  @override
+  String get delete => 'डिलीट';
+  @override
+  String get deleteElement => 'इस मद को हटाएं?';
+  @override
+  String get irreversibleAction => 'यह कार्रवाई नहीं हो सकती है।।';
+  @override
+  String get name => 'नाम';
+  @override
+  String get molecule => 'मोलेकुल';
+  @override
+  String get ester => 'एस्टर';
+  @override
+  String get estradiol => 'एस्ट्राडियोल';
+  @override
+  String get progesterone => 'प्रोजेस्टेरोन';
+  @override
+  String get testosterone => 'टेस्टोस्टेरोन';
+  @override
+  String get nandrolone => 'नांद्र';
+  @override
+  String get dihydrotestosterone => 'Dihydrotestosterone';
+  @override
+  String get spironolactone => 'Spironolactone';
+  @override
+  String get cyproteroneAcetate => 'Cyproterone एसीटेट';
+  @override
+  String get leuprorelinAcetate => 'ल्यूप्रोरेलिन एसीटेट';
+  @override
+  String get bicalutamide => 'Bicalutamide';
+  @override
+  String get decapeptyl => 'Decapeptyl';
+  @override
+  String get raloxifene => 'रालॉक्सीफेन';
+  @override
+  String get tamoxifen => 'टैमोक्सीफेन';
+  @override
+  String get finasteride => 'फिनस्टराइड';
+  @override
+  String get dutasteride => 'Dutasteride';
+  @override
+  String get minoxidil => 'मिनोक्सिडिल';
+  @override
+  String get pioglitazone => 'Pioglitazone';
+  @override
+  String get enanthate => 'Enanthate';
+  @override
+  String get valerate => 'वैलेरेट';
+  @override
+  String get cypionate => 'साइटमैप';
+  @override
+  String get undecylate => 'Undecylate';
+  @override
+  String get benzoate => 'बेंजोएट';
+  @override
+  String get cypionateSuspension => 'Cypionate निलंबन';
+  @override
+  String get medicationEstradiolEnanthate => 'Estradiol enanthate';
+  @override
+  String get medicationEstradiolValerate => 'Estradiol valerate';
+  @override
+  String get medicationEstradiolCypionate => 'Estradiol cypionate';
+  @override
+  String get medicationEstradiolUndecylate => 'Estradiol undecylate';
+  @override
+  String get medicationEstradiolBenzoate => 'Estradiol बेंजोएट';
+  @override
+  String get medicationEstradiolCypionateSuspension =>
+      'Estradiol cypionate निलंबन';
+  @override
+  String get medicationTestosteroneEnanthate => 'टेस्टोस्टेरोन enanthate';
+  @override
+  String get medicationTestosteroneValerate => 'टेस्टोस्टेरोन valerate';
+  @override
+  String get medicationTestosteroneCypionate => 'टेस्टोस्टेरोन cypionate';
+  @override
+  String get medicationTestosteroneUndecylate => 'टेस्टोस्टेरोन undecylate';
+  @override
+  String get medicationTestosteroneBenzoate => 'टेस्टोस्टेरोन benzoate';
+  @override
+  String get medicationTestosteroneCypionateSuspension =>
+      'टेस्टोस्टेरोन साइपीओनेट निलंबन';
+  @override
+  String get injection => 'इंजेक्शन';
+  @override
+  String get oral => 'मौखिक';
+  @override
+  String get sublingual => 'बहुभाषी';
+  @override
+  String get patch => 'पैच';
+  @override
+  String get gel => 'जेल';
+  @override
+  String get implant => 'प्रत्यारोपण';
+  @override
+  String get suppository => 'सपोसिटरी';
+  @override
+  String get transdermalSpray => 'ट्रांसडर्मल स्प्रे';
+  @override
+  String get transdermalDrops => 'ट्रांसडर्मल ड्रॉप';
+  @override
+  String get deliveryForm => 'फॉर्म';
+  @override
+  String get deliveryFormPump => 'पम्प';
+  @override
+  String get deliveryFormSachet => 'साचेत';
+  @override
+  String get deliveryFormGram => 'ट्यूब';
+  @override
+  String get unitMilligram => 'मिलीग्राम';
+  @override
+  String get unitMicrogramPerDay => 'μg / दिन';
+  @override
+  String get unitPgPerMl => 'pg/ml';
+  @override
+  String get unitPmolPerL => 'pmol';
+  @override
+  String get unitNgPerDl => 'ng/dl';
+  @override
+  String get unitNmolPerL => 'nmol/L';
+  @override
+  String get unitNgPerMl => 'एनजी / एमएल';
+  @override
+  String get injectionSideLeft => 'बाएं';
+  @override
+  String get injectionSideRight => 'अधिकार';
+  @override
+  String get placementLeft => 'बाएं तरफ';
+  @override
+  String get placementRight => 'सही पक्ष';
+  @override
+  String get placementLeftThigh => 'बाएं जांघ';
+  @override
+  String get placementRightThigh => 'सही जांघ';
+  @override
+  String get placementLeftArm => 'बाएं हाथ';
+  @override
+  String get placementRightArm => 'दाहिने हाथ';
+  @override
+  String get placementLeftButtock => 'बाएं बटॉक';
+  @override
+  String get placementRightButtock => 'राइट बटॉक';
+  @override
+  String get placementLeftAbdomen => 'बाएं पेट';
+  @override
+  String get placementRightAbdomen => 'दाहिने पेट';
+  @override
+  String get applicationSites => 'अनुप्रयोग साइट';
+  @override
+  String get applicationSitesDescription =>
+      'उन साइटों को प्रबंधित करें जो आप के बीच घूमते हैं';
+  @override
+  String get applicationSitesInstructions =>
+      'उन साइटों को प्रबंधित करें जो आप के बीच घूमते हैं। साइट्स को आपके सेवन इतिहास के आधार पर सुझाव दिया जाता है। फिर से व्यवस्थित करने के लिए लंबे प्रेस।।';
+  @override
+  String get addApplicationSite => 'साइट जोड़ें';
+  @override
+  String get customSiteLabel => 'कस्टम साइट नाम';
+  @override
+  String get noApplicationSitesYet => 'अभी तक कोई साइट नहीं';
+  @override
+  String get addSiteToGetStarted => 'शुरू करने के लिए नीचे एक साइट जोड़ें।।';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'प्रति अनुसूची सुझाव';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'इस कार्यक्रम के इतिहास पर अगले साइट सुझाव को बेस करें।।';
+  @override
+  String get requiredField => 'आवश्यक फ़ील्ड';
+  @override
+  String get mustBePositiveNumber => 'एक सकारात्मक संख्या होना चाहिए';
+  @override
+  String get mustBeBetween1And28 => '1 और 28 के बीच होना चाहिए';
+  @override
+  String mustBeAtMost({required Object max}) => '${max}';
+  @override
+  String get invalidTotalAmount => 'कुल राशि';
+  @override
+  String get cannotExceedTotalCapacity => 'कुल क्षमता से अधिक नहीं';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
         count,
@@ -333,6 +663,132 @@ class TranslationsHi extends Translations
         count,
         one: '${count} महीनों के लिए HRT पर',
         other: '${count} महीनों के लिए HRT पर',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'HRT on ${count} week',
+        other: 'HRT on ${count} week',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'HRT पर ${count} वर्ष',
+        other: 'HRT पर ${count} वर्ष',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: '${count} प्रवेश लॉग इन',
+        other: '${count} प्रवेश लॉग इन',
+      );
+  @override
+  String remaining({required num count, required Object unit}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: '${count} ${unit} शेष',
+        other: '${count} ${unit} शेष',
+      );
+  @override
+  String syringeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: '${count} syringes शेष',
+        other: '${count} syringes शेष',
+      );
+  @override
+  String wipeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: '${count} शेष पोंछे',
+        other: '${count} शेष पोंछे',
+      );
+  @override
+  String needleRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: '${count} सुई शेष',
+        other: '${count} सुई शेष',
+      );
+  @override
+  String glovesRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: '${count} दस्ताने शेष',
+        other: '${count} दस्ताने शेष',
+      );
+  @override
+  String bandageRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: '${count} बैंडेज शेष',
+        other: '${count} बैंडेज शेष',
+      );
+  @override
+  String administrationRouteUnitMl({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'एमएल',
+        other: 'एमएल',
+      );
+  @override
+  String administrationRouteUnitPill({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'गोलियाँ',
+        other: 'गोलियाँ',
+      );
+  @override
+  String administrationRouteUnitPatch({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'पैच',
+        other: 'पैच',
+      );
+  @override
+  String administrationRouteUnitPump({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'पंप',
+        other: 'पंप',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'पाउच',
+        other: 'पाउच',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'ग्राम',
+        other: 'ग्राम',
+      );
+  @override
+  String administrationRouteUnitImplant({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'प्रत्यारोपण',
+        other: 'प्रत्यारोपण',
+      );
+  @override
+  String administrationRouteUnitSuppository({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'सट्टा',
+        other: 'सट्टा',
+      );
+  @override
+  String administrationRouteUnitSpray({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+        count,
+        one: 'स्प्रे',
+        other: 'स्प्रे',
       );
 }
 
@@ -406,7 +862,7 @@ extension on TranslationsHi {
         'Apne aap check jab naye updates launch ho jayenge',
       'checkForUpdates' => 'Updates dekhe',
       'checkForUpdatesDescription' =>
-        'Naye version ke liye manually check kare\n yeh aapko internet se connect karega\(Koi data nahi milega)',
+        'Naye version ke liye manually check kare\n yeh aapko internet se connect karega\n(Koi data nahi milega)',
       'appVersion' => ({required Object version}) => 'मोना संस्करण ${version}',
       'backupSaved' => 'बैकअप बचाया',
       'exportFailed' => ({required Object error}) =>
@@ -469,6 +925,174 @@ extension on TranslationsHi {
       'deleteSchedule' => ({required Object name}) => '${name}?',
       'addNotification' => 'अधिसूचना जोड़ें',
       'empty_intakes' => 'ले लिया गया सेवन यहाँ दिखाई देगा',
+      'HrtCounter' => 'HRT पर समय',
+      'HrtCounterDescription' =>
+        'जब तक आप एचआरटी और आपके कुल सेवन पर रहे हैं, तब तक दिखाएं',
+      'hrtWidgetPlaceholder' => 'अपना पहला सेवन लॉग इन करने के लिए मोना खोलें',
+      'hrtWidgetPreviewSample' => '8 महीने के लिए HRT पर',
+      'hrtWidgetPreviewIntakeSample' => '16 सेवन लॉग इन',
+      'startOfDayDescription' => ({required Object time}) =>
+          'समय पहले ${time} पिछले दिन की ओर गिनती',
+      'chooseSchedule' => 'एक अनुसूची चुनें',
+      'addSchedulesFirst' => 'पहले शेड्यूल जोड़ें।।',
+      'editIntake' => 'सेवन संपादित करें',
+      'date' => 'तारीख',
+      'amount' => 'राशि',
+      'takenAmount' => 'ली गई राशि',
+      'wastedAmount' => 'अपशिष्ट राशि',
+      'none' => 'कोई नहीं',
+      'startOfDay' => 'दिन की शुरुआत',
+      'supplyItem' => 'आपूर्ति आइटम',
+      'chooseItem' => 'एक आइटम चुनें',
+      'noItemsToAdd' => 'उपलब्ध नहीं है',
+      'injectionSide' => 'इंजेक्शन साइड',
+      'deleteIntake' => 'इस सेवन को हटा दें?',
+      'takeMedication' => ({required Object scheduleName}) => '${scheduleName}',
+      'takeIntake' => 'सेवन करें',
+      'intakeRecorded' => 'दर्ज करना',
+      'needleDeadSpace' => 'सुई मृत अंतरिक्ष',
+      'notes' => 'नोट',
+      'microliters' => 'μL',
+      'milliliters' => 'एमएल',
+      'empty_levels' =>
+        'एक रक्त परीक्षण जोड़ें या शुरू करने के लिए एक एस्ट्राडियोल इंजेक्शन लॉग इन करें',
+      'bloodTestsTitle' => 'रक्त परीक्षण',
+      'estradiolLevelsTitle' => 'एस्ट्राडियोल स्तर',
+      'week' => 'डब्ल्यू',
+      'twoWeeks' => '2 डब्ल्यू',
+      'threeMonths' => '3 एम',
+      'sixMonths' => '6 एम',
+      'month' => 'एम',
+      'year' => 'वाई',
+      'empty_blood_tests' =>
+        'रक्त परीक्षण यहाँ दिखाई देगा। ऐड बटन का उपयोग करके शुरू करें!',
+      'addBloodTest' => 'रक्त परीक्षण जोड़ें',
+      'editBloodTest' => 'रक्त परीक्षण',
+      'newBloodTest' => 'न्यू ब्लड टेस्ट',
+      'deleteBloodTest' => 'इस रक्त परीक्षण को हटा दें?',
+      'estradiolLevelLabel' => 'एस्ट्राडियोल स्तर',
+      'testosteroneLevelLabel' => 'टेस्टोस्टेरोन का स्तर',
+      'bloodTestDateLabel' => 'परीक्षा तिथि',
+      'chartNowConcentration' => ({required Object value}) => 'अब ${value}',
+      'chartBloodTestLevelTooltip' =>
+        ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
+      'empty_supplies' => 'कोई आपूर्ति नहीं। शुरू करने के लिए एक आइटम जोड़ें।।',
+      'newItem' => 'नया आइटम',
+      'adminRoute' => 'प्रशासन मार्ग',
+      'totalAmount' => 'कुल राशि',
+      'concentration' => 'एकाग्रता',
+      'dosePerUnitLabel' => ({required Object unit}) => 'प्रति खुराक ${unit}',
+      'editItem' => 'आइटम जोड़ें',
+      'usedAmount' => 'प्रयुक्त राशि',
+      'deleteItem' => ({required Object name}) => '${name}?',
+      'allItemsFilter' => 'सब',
+      'medicationItemsFilter' => 'दवा',
+      'genericItems' => 'उपभोग्य',
+      'medicationItemType' => 'दवा',
+      'genericItemType' => 'उपभोग्य',
+      'supplyType' => 'प्रकार',
+      'syringe' => 'सिरिंज',
+      'wipe' => 'वाइप्स',
+      'needle' => 'सुई',
+      'gloves' => 'दस्ताने',
+      'bandage' => 'बंधन',
+      'add' => 'जोड़ें',
+      'save' => 'सहेजें',
+      'cancel' => 'रद्द करना',
+      'next' => 'अगला',
+      'delete' => 'डिलीट',
+      'deleteElement' => 'इस मद को हटाएं?',
+      'irreversibleAction' => 'यह कार्रवाई नहीं हो सकती है।।',
+      'name' => 'नाम',
+      'molecule' => 'मोलेकुल',
+      'ester' => 'एस्टर',
+      'estradiol' => 'एस्ट्राडियोल',
+      'progesterone' => 'प्रोजेस्टेरोन',
+      'testosterone' => 'टेस्टोस्टेरोन',
+      'nandrolone' => 'नांद्र',
+      'dihydrotestosterone' => 'Dihydrotestosterone',
+      'spironolactone' => 'Spironolactone',
+      'cyproteroneAcetate' => 'Cyproterone एसीटेट',
+      'leuprorelinAcetate' => 'ल्यूप्रोरेलिन एसीटेट',
+      'bicalutamide' => 'Bicalutamide',
+      'decapeptyl' => 'Decapeptyl',
+      'raloxifene' => 'रालॉक्सीफेन',
+      'tamoxifen' => 'टैमोक्सीफेन',
+      'finasteride' => 'फिनस्टराइड',
+      'dutasteride' => 'Dutasteride',
+      'minoxidil' => 'मिनोक्सिडिल',
+      'pioglitazone' => 'Pioglitazone',
+      'enanthate' => 'Enanthate',
+      'valerate' => 'वैलेरेट',
+      'cypionate' => 'साइटमैप',
+      'undecylate' => 'Undecylate',
+      'benzoate' => 'बेंजोएट',
+      'cypionateSuspension' => 'Cypionate निलंबन',
+      'medicationEstradiolEnanthate' => 'Estradiol enanthate',
+      'medicationEstradiolValerate' => 'Estradiol valerate',
+      'medicationEstradiolCypionate' => 'Estradiol cypionate',
+      'medicationEstradiolUndecylate' => 'Estradiol undecylate',
+      'medicationEstradiolBenzoate' => 'Estradiol बेंजोएट',
+      'medicationEstradiolCypionateSuspension' => 'Estradiol cypionate निलंबन',
+      'medicationTestosteroneEnanthate' => 'टेस्टोस्टेरोन enanthate',
+      'medicationTestosteroneValerate' => 'टेस्टोस्टेरोन valerate',
+      'medicationTestosteroneCypionate' => 'टेस्टोस्टेरोन cypionate',
+      'medicationTestosteroneUndecylate' => 'टेस्टोस्टेरोन undecylate',
+      'medicationTestosteroneBenzoate' => 'टेस्टोस्टेरोन benzoate',
+      'medicationTestosteroneCypionateSuspension' =>
+        'टेस्टोस्टेरोन साइपीओनेट निलंबन',
+      'injection' => 'इंजेक्शन',
+      'oral' => 'मौखिक',
+      'sublingual' => 'बहुभाषी',
+      'patch' => 'पैच',
+      'gel' => 'जेल',
+      'implant' => 'प्रत्यारोपण',
+      'suppository' => 'सपोसिटरी',
+      'transdermalSpray' => 'ट्रांसडर्मल स्प्रे',
+      'transdermalDrops' => 'ट्रांसडर्मल ड्रॉप',
+      'deliveryForm' => 'फॉर्म',
+      'deliveryFormPump' => 'पम्प',
+      'deliveryFormSachet' => 'साचेत',
+      'deliveryFormGram' => 'ट्यूब',
+      'unitMilligram' => 'मिलीग्राम',
+      'unitMicrogramPerDay' => 'μg / दिन',
+      'unitPgPerMl' => 'pg/ml',
+      'unitPmolPerL' => 'pmol',
+      'unitNgPerDl' => 'ng/dl',
+      'unitNmolPerL' => 'nmol/L',
+      'unitNgPerMl' => 'एनजी / एमएल',
+      'injectionSideLeft' => 'बाएं',
+      'injectionSideRight' => 'अधिकार',
+      'placementLeft' => 'बाएं तरफ',
+      'placementRight' => 'सही पक्ष',
+      'placementLeftThigh' => 'बाएं जांघ',
+      'placementRightThigh' => 'सही जांघ',
+      'placementLeftArm' => 'बाएं हाथ',
+      'placementRightArm' => 'दाहिने हाथ',
+      'placementLeftButtock' => 'बाएं बटॉक',
+      'placementRightButtock' => 'राइट बटॉक',
+      'placementLeftAbdomen' => 'बाएं पेट',
+      'placementRightAbdomen' => 'दाहिने पेट',
+      'applicationSites' => 'अनुप्रयोग साइट',
+      'applicationSitesDescription' =>
+        'उन साइटों को प्रबंधित करें जो आप के बीच घूमते हैं',
+      'applicationSitesInstructions' =>
+        'उन साइटों को प्रबंधित करें जो आप के बीच घूमते हैं। साइट्स को आपके सेवन इतिहास के आधार पर सुझाव दिया जाता है। फिर से व्यवस्थित करने के लिए लंबे प्रेस।।',
+      'addApplicationSite' => 'साइट जोड़ें',
+      'customSiteLabel' => 'कस्टम साइट नाम',
+      'noApplicationSitesYet' => 'अभी तक कोई साइट नहीं',
+      'addSiteToGetStarted' => 'शुरू करने के लिए नीचे एक साइट जोड़ें।।',
+      'placementSuggestionPerScheduleTitle' => 'प्रति अनुसूची सुझाव',
+      'placementSuggestionPerScheduleDescription' =>
+        'इस कार्यक्रम के इतिहास पर अगले साइट सुझाव को बेस करें।।',
+      'requiredField' => 'आवश्यक फ़ील्ड',
+      'mustBePositiveNumber' => 'एक सकारात्मक संख्या होना चाहिए',
+      'mustBeBetween1And28' => '1 और 28 के बीच होना चाहिए',
+      'mustBeAtMost' => ({required Object max}) => '${max}',
+      'invalidTotalAmount' => 'कुल राशि',
+      'cannotExceedTotalCapacity' => 'कुल क्षमता से अधिक नहीं',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
             count,
@@ -511,6 +1135,114 @@ extension on TranslationsHi {
             count,
             one: '${count} महीनों के लिए HRT पर',
             other: '${count} महीनों के लिए HRT पर',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'HRT on ${count} week',
+            other: 'HRT on ${count} week',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'HRT पर ${count} वर्ष',
+            other: 'HRT पर ${count} वर्ष',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: '${count} प्रवेश लॉग इन',
+            other: '${count} प्रवेश लॉग इन',
+          ),
+      'remaining' => ({required num count, required Object unit}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: '${count} ${unit} शेष',
+            other: '${count} ${unit} शेष',
+          ),
+      'syringeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: '${count} syringes शेष',
+            other: '${count} syringes शेष',
+          ),
+      'wipeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: '${count} शेष पोंछे',
+            other: '${count} शेष पोंछे',
+          ),
+      'needleRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: '${count} सुई शेष',
+            other: '${count} सुई शेष',
+          ),
+      'glovesRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: '${count} दस्ताने शेष',
+            other: '${count} दस्ताने शेष',
+          ),
+      'bandageRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: '${count} बैंडेज शेष',
+            other: '${count} बैंडेज शेष',
+          ),
+      'administrationRouteUnitMl' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'एमएल',
+            other: 'एमएल',
+          ),
+      'administrationRouteUnitPill' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'गोलियाँ',
+            other: 'गोलियाँ',
+          ),
+      'administrationRouteUnitPatch' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'पैच',
+            other: 'पैच',
+          ),
+      'administrationRouteUnitPump' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'पंप',
+            other: 'पंप',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'पाउच',
+            other: 'पाउच',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'ग्राम',
+            other: 'ग्राम',
+          ),
+      'administrationRouteUnitImplant' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'प्रत्यारोपण',
+            other: 'प्रत्यारोपण',
+          ),
+      'administrationRouteUnitSuppository' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'सट्टा',
+            other: 'सट्टा',
+          ),
+      'administrationRouteUnitSpray' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('hi'))(
+            count,
+            one: 'स्प्रे',
+            other: 'स्प्रे',
           ),
       _ => null,
     };

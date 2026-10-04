@@ -15,6 +15,7 @@ import 'package:mona/services/db/upgrade/v19.dart';
 import 'package:mona/services/db/upgrade/v2.dart';
 import 'package:mona/services/db/upgrade/v20.dart';
 import 'package:mona/services/db/upgrade/v21.dart';
+import 'package:mona/services/db/upgrade/v22.dart';
 import 'package:mona/services/db/upgrade/v3.dart';
 import 'package:mona/services/db/upgrade/v4.dart';
 import 'package:mona/services/db/upgrade/v5.dart';
@@ -25,7 +26,7 @@ import 'package:mona/services/db/upgrade/v9.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-const int currentDatabaseVersion = 21;
+const int currentDatabaseVersion = 22;
 
 final Map<int, DbUpgrade> _upgrades = {
   2: DbUpgradeV2(),
@@ -48,6 +49,7 @@ final Map<int, DbUpgrade> _upgrades = {
   19: DbUpgradeV19(),
   20: DbUpgradeV20(),
   21: DbUpgradeV21(),
+  22: DbUpgradeV22(),
 };
 
 class AppDatabase {

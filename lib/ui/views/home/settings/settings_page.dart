@@ -18,8 +18,8 @@ import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
 import 'package:mona/ui/views/home/settings/secret_settings_page.dart';
 import 'package:mona/ui/views/home/settings/theme_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
+import 'package:mona/ui/widgets/switch_tile.dart';
 import 'package:mona/ui/widgets/tappable_list_tile.dart';
-import 'package:mona/ui/widgets/tinted_switch_tile.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -222,7 +222,7 @@ class _SettingsPageState extends State<SettingsPage>
                   ));
                 },
               ),
-              TintedSwitchTile(
+              SwitchTile(
                 title: t.enableNotifications,
                 subtitle: t.enableNotificationsDescription,
                 value: _notificationsEnabled,
@@ -327,7 +327,7 @@ class _SettingsPageState extends State<SettingsPage>
                   );
                 },
               ),
-              TintedSwitchTile(
+              SwitchTile(
                 title: t.HrtCounter,
                 subtitle: t.HrtCounterDescription,
                 value: preferencesService.hrtCounterEnabled,
@@ -342,7 +342,7 @@ class _SettingsPageState extends State<SettingsPage>
             M3ESegmentedColumn(
               padding: EdgeInsets.zero,
               children: [
-                TintedSwitchTile(
+                SwitchTile(
                   title: t.autoUpdate,
                   subtitle: t.autoUpdateDescription,
                   value: _autoCheckUpdatesEnabled,

@@ -5,8 +5,8 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-fvm dart run tool/i18next_to_slang.dart
+fvm dart run tool/i18n/i18next_to_slang.dart
 fvm dart run slang
-fvm dart run tool/i18next_to_android_widget_res.dart
-fvm dart run tool/sanitize_generated.dart
+fvm dart run tool/i18n/i18next_to_android_widget_res.dart
+fvm dart run tool/i18n/sanitize_generated.dart
 fvm dart format lib/i18n/

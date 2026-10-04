@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
+import 'package:mona/controllers/slot_finder.dart';
+import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
@@ -14,8 +16,12 @@ import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
 import 'package:mona/theme/material_ui_theme.dart';
+import 'package:mona/ui/views/home/take_medication_page.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
+
+const bool _forceDefaultColors = bool.fromEnvironment(
+    'SCREENSHOT_DEFAULT_COLORS'); // avoid dynamic colors when generating store screenshots
 
 class MonaApp extends StatefulWidget {
   const MonaApp({super.key});
@@ -25,7 +31,9 @@ class MonaApp extends StatefulWidget {
 }
 
 class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   String? _lastTimeZone;
+  NotificationPayload? _pendingLaunchTap;
   late MedicationScheduleProvider _medicationScheduleProvider;
   late MedicationIntakeProvider _medicationIntakeProvider;
   late PreferencesService _preferencesService;
@@ -41,7 +49,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _lastTimeZone = clock.now().timeZoneOffset.toString();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await NotificationService().initialize();
+      await NotificationService().initialize(onTap: _handleNotificationTap);
       if (!mounted) return;
       _medicationScheduleProvider = context.read<MedicationScheduleProvider>();
       _medicationIntakeProvider = context.read<MedicationIntakeProvider>();
@@ -62,6 +70,11 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _medicationIntakeProvider.addListener(_regenerateHomeWidget);
       _localeProvider.addListener(_regenerateHomeWidget);
       _regenerateHomeWidget();
+
+      _medicationScheduleProvider.addListener(_routeLaunchTap);
+      _medicationIntakeProvider.addListener(_routeLaunchTap);
+      _pendingLaunchTap = await NotificationService().getAppLaunchTap();
+      _routeLaunchTap();
     });
   }
 
@@ -74,6 +87,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _preferencesService.removeListener(_regenerateNotifications);
       _medicationIntakeProvider.removeListener(_regenerateHomeWidget);
       _localeProvider.removeListener(_regenerateHomeWidget);
+      _medicationScheduleProvider.removeListener(_routeLaunchTap);
+      _medicationIntakeProvider.removeListener(_routeLaunchTap);
     }
     super.dispose();
   }
@@ -92,6 +107,42 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _medicationIntakeProvider,
       _localeProvider,
     );
+  }
+
+  void _routeLaunchTap() {
+    final tap = _pendingLaunchTap;
+    if (tap == null || !_initialized || !mounted) return;
+    if (_medicationScheduleProvider.isLoading ||
+        _medicationIntakeProvider.isLoading) {
+      return;
+    }
+
+    _pendingLaunchTap = null;
+    _handleNotificationTap(tap);
+  }
+
+  void _handleNotificationTap(NotificationPayload payload) {
+    if (!_initialized || !mounted) return;
+
+    final slots = SlotsBuilder(
+      _medicationIntakeProvider,
+      _medicationScheduleProvider,
+    ).intakeSlots();
+    final target = findSlot(payload.scheduleId, payload.scheduledTime, slots);
+
+    if (target != null) {
+      _navigatorKey.currentState?.push(
+        MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (_) =>
+              TakeMedicationPage(target.schedule, scheduledTime: target.time),
+        ),
+      );
+    }
+
+    final notificationId = payload.notificationId;
+    if (notificationId != null) NotificationService().cancel(notificationId);
+    if (payload.isRepeating) _regenerateNotifications();
   }
 
   void _checkTimezoneChange() {
@@ -117,10 +168,11 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         final themes = context.read<AppThemeProvider>().buildThemeData(
-              systemLight: lightDynamic,
-              systemDark: darkDynamic,
+              systemLight: _forceDefaultColors ? null : lightDynamic,
+              systemDark: _forceDefaultColors ? null : darkDynamic,
             );
         return MaterialApp(
+          navigatorKey: _navigatorKey,
           title: 'Mona',
           locale: context.watch<LocaleProvider>().locale,
           supportedLocales: context.watch<LocaleProvider>().supportedLocales,

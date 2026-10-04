@@ -569,6 +569,7 @@ class TranslationsPl extends Translations
         one: '${count} dzień temu',
         few: '${count} dni temu',
         many: '${count} dni temu',
+        other: '${count} dni temu',
       );
   @override
   String inDaysCount({required num count}) =>
@@ -577,6 +578,7 @@ class TranslationsPl extends Translations
         one: 'za ${count} dzień',
         few: 'za ${count} dni',
         many: 'za ${count} dni',
+        other: 'za ${count} dni',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
@@ -585,6 +587,7 @@ class TranslationsPl extends Translations
         one: 'Co dzień',
         few: 'Co ${count} dni',
         many: 'Co ${count} dni',
+        other: 'Co ${count} dni',
       );
   @override
   String scheduleFrequencyOnDayEveryNMonths(
@@ -594,6 +597,7 @@ class TranslationsPl extends Translations
         one: 'Dzień ${day}, co miesiąc',
         few: 'Dzień ${day}, co ${count} miesiące',
         many: 'Dzień ${day}, co ${count} miesięcy',
+        other: 'Dzień ${day}, co ${count} miesiące',
       );
   @override
   String schedulesCreated({required num count}) =>
@@ -602,6 +606,7 @@ class TranslationsPl extends Translations
         one: 'Utworzono: ${count}',
         few: 'Utworzono: ${count}',
         many: 'Utworzono: ${count}',
+        other: 'Utworzono: ${count}',
       );
   @override
   String onHrtForDays({required num count}) =>
@@ -610,6 +615,7 @@ class TranslationsPl extends Translations
         one: 'Na HTZ od 1 dnia',
         few: 'Na HTZ od ${count} dni',
         many: 'Na HTZ od ${count} dni',
+        other: 'Na HTZ od ${count} dni',
       );
   @override
   String onHrtForWeeks({required num count}) =>
@@ -618,6 +624,7 @@ class TranslationsPl extends Translations
         one: 'Na HTZ od 1 tygodnia',
         few: 'Na HTZ od ${count} tygodni',
         many: 'Na HTZ od ${count} tygodni',
+        other: 'Na HTZ od ${count} tygodni',
       );
   @override
   String onHrtForMonths({required num count}) =>
@@ -626,6 +633,7 @@ class TranslationsPl extends Translations
         one: 'Na HTZ od 1 miesiąca',
         few: 'Na HTZ od ${count} miesięcy',
         many: 'Na HTZ od ${count} miesięcy',
+        other: 'Na HTZ od ${count} miesięcy',
       );
   @override
   String onHrtForYears({required num count}) =>
@@ -634,6 +642,7 @@ class TranslationsPl extends Translations
         one: 'Na HTZ od 1 roku',
         few: 'Na HTZ od ${count} lat',
         many: 'Na HTZ od ${count} lat',
+        other: 'Na HTZ od ${count} lat',
       );
   @override
   String intakesLoggedCount({required num count}) =>
@@ -642,6 +651,7 @@ class TranslationsPl extends Translations
         one: 'Odnotowano 1 przyjęcie',
         few: 'Odnotowano ${count} przyjęcia',
         many: 'Odnotowano ${count} przyjęć',
+        other: 'Odnotowano ${count} przyjęcia',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -650,6 +660,7 @@ class TranslationsPl extends Translations
         one: 'Pozostało: ${count} ${unit}',
         few: 'Pozostało: ${count} ${unit}',
         many: 'Pozostało: ${count} ${unit}',
+        other: 'Pozostało: ${count} ${unit}',
       );
   @override
   String syringeRemaining({required num count}) =>
@@ -658,6 +669,7 @@ class TranslationsPl extends Translations
         one: 'Pozostało: 1 strzykawka',
         few: 'Pozostało: ${count} strzykawki',
         many: 'Pozostało: ${count} strzykawek',
+        other: 'Pozostało: ${count} strzykawki',
       );
   @override
   String wipeRemaining({required num count}) =>
@@ -666,6 +678,7 @@ class TranslationsPl extends Translations
         one: 'Pozostało: 1 chusteczka',
         few: 'Pozostało: ${count} chusteczki',
         many: 'Pozostało: ${count} chusteczek',
+        other: 'Pozostało: ${count} chusteczki',
       );
   @override
   String needleRemaining({required num count}) =>
@@ -674,6 +687,7 @@ class TranslationsPl extends Translations
         one: 'Pozostało: 1 igła',
         few: 'Pozostało: ${count} igły',
         many: 'Pozostało: ${count} igieł',
+        other: 'Pozostało: ${count} igły',
       );
   @override
   String glovesRemaining({required num count}) =>
@@ -682,6 +696,7 @@ class TranslationsPl extends Translations
         one: 'Pozostało: 1 rękawiczka',
         few: 'Pozostało: ${count} rękawiczki',
         many: 'Pozostało: ${count} rękawiczek',
+        other: 'Pozostało: ${count} rękawiczki',
       );
   @override
   String bandageRemaining({required num count}) =>
@@ -690,6 +705,7 @@ class TranslationsPl extends Translations
         one: 'Pozostało: 1 bandaż',
         few: 'Pozostało: ${count} bandaże',
         many: 'Pozostało: ${count} bandaży',
+        other: 'Pozostało: ${count} bandaże',
       );
   @override
   String administrationRouteUnitMl({required num count}) =>
@@ -698,6 +714,7 @@ class TranslationsPl extends Translations
         one: 'ml',
         few: 'ml',
         many: 'ml',
+        other: 'ml',
       );
   @override
   String administrationRouteUnitPill({required num count}) =>
@@ -706,6 +723,7 @@ class TranslationsPl extends Translations
         one: 'tabletka',
         few: 'tabletki',
         many: 'tabletek',
+        other: 'tabletki',
       );
   @override
   String administrationRouteUnitPatch({required num count}) =>
@@ -714,6 +732,7 @@ class TranslationsPl extends Translations
         one: 'plaster',
         few: 'plastry',
         many: 'plastrów',
+        other: 'plastry',
       );
   @override
   String administrationRouteUnitPump({required num count}) =>
@@ -722,6 +741,7 @@ class TranslationsPl extends Translations
         one: 'pompka',
         few: 'pompki',
         many: 'pompek',
+        other: 'pompki',
       );
   @override
   String administrationRouteUnitImplant({required num count}) =>
@@ -730,6 +750,7 @@ class TranslationsPl extends Translations
         one: 'implant',
         few: 'implanty',
         many: 'implantów',
+        other: 'implanty',
       );
   @override
   String administrationRouteUnitSuppository({required num count}) =>
@@ -738,6 +759,7 @@ class TranslationsPl extends Translations
         one: 'czopek',
         few: 'czopki',
         many: 'czopków',
+        other: 'czopki',
       );
   @override
   String administrationRouteUnitSpray({required num count}) =>
@@ -746,6 +768,7 @@ class TranslationsPl extends Translations
         one: 'spryśnięcie',
         few: 'spryśnięcia',
         many: 'spryśnięć',
+        other: 'spryśnięcia',
       );
 }
 
@@ -1031,6 +1054,7 @@ extension on TranslationsPl {
             one: '${count} dzień temu',
             few: '${count} dni temu',
             many: '${count} dni temu',
+            other: '${count} dni temu',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1038,6 +1062,7 @@ extension on TranslationsPl {
             one: 'za ${count} dzień',
             few: 'za ${count} dni',
             many: 'za ${count} dni',
+            other: 'za ${count} dni',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1045,6 +1070,7 @@ extension on TranslationsPl {
             one: 'Co dzień',
             few: 'Co ${count} dni',
             many: 'Co ${count} dni',
+            other: 'Co ${count} dni',
           ),
       'scheduleFrequencyOnDayEveryNMonths' => (
               {required num count, required Object day}) =>
@@ -1053,6 +1079,7 @@ extension on TranslationsPl {
             one: 'Dzień ${day}, co miesiąc',
             few: 'Dzień ${day}, co ${count} miesiące',
             many: 'Dzień ${day}, co ${count} miesięcy',
+            other: 'Dzień ${day}, co ${count} miesiące',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1060,6 +1087,7 @@ extension on TranslationsPl {
             one: 'Utworzono: ${count}',
             few: 'Utworzono: ${count}',
             many: 'Utworzono: ${count}',
+            other: 'Utworzono: ${count}',
           ),
       'onHrtForDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1067,6 +1095,7 @@ extension on TranslationsPl {
             one: 'Na HTZ od 1 dnia',
             few: 'Na HTZ od ${count} dni',
             many: 'Na HTZ od ${count} dni',
+            other: 'Na HTZ od ${count} dni',
           ),
       'onHrtForWeeks' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1074,6 +1103,7 @@ extension on TranslationsPl {
             one: 'Na HTZ od 1 tygodnia',
             few: 'Na HTZ od ${count} tygodni',
             many: 'Na HTZ od ${count} tygodni',
+            other: 'Na HTZ od ${count} tygodni',
           ),
       'onHrtForMonths' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1081,6 +1111,7 @@ extension on TranslationsPl {
             one: 'Na HTZ od 1 miesiąca',
             few: 'Na HTZ od ${count} miesięcy',
             many: 'Na HTZ od ${count} miesięcy',
+            other: 'Na HTZ od ${count} miesięcy',
           ),
       'onHrtForYears' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1088,6 +1119,7 @@ extension on TranslationsPl {
             one: 'Na HTZ od 1 roku',
             few: 'Na HTZ od ${count} lat',
             many: 'Na HTZ od ${count} lat',
+            other: 'Na HTZ od ${count} lat',
           ),
       'intakesLoggedCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1095,6 +1127,7 @@ extension on TranslationsPl {
             one: 'Odnotowano 1 przyjęcie',
             few: 'Odnotowano ${count} przyjęcia',
             many: 'Odnotowano ${count} przyjęć',
+            other: 'Odnotowano ${count} przyjęcia',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1102,6 +1135,7 @@ extension on TranslationsPl {
             one: 'Pozostało: ${count} ${unit}',
             few: 'Pozostało: ${count} ${unit}',
             many: 'Pozostało: ${count} ${unit}',
+            other: 'Pozostało: ${count} ${unit}',
           ),
       'syringeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1109,6 +1143,7 @@ extension on TranslationsPl {
             one: 'Pozostało: 1 strzykawka',
             few: 'Pozostało: ${count} strzykawki',
             many: 'Pozostało: ${count} strzykawek',
+            other: 'Pozostało: ${count} strzykawki',
           ),
       'wipeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1116,6 +1151,7 @@ extension on TranslationsPl {
             one: 'Pozostało: 1 chusteczka',
             few: 'Pozostało: ${count} chusteczki',
             many: 'Pozostało: ${count} chusteczek',
+            other: 'Pozostało: ${count} chusteczki',
           ),
       'needleRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1123,6 +1159,7 @@ extension on TranslationsPl {
             one: 'Pozostało: 1 igła',
             few: 'Pozostało: ${count} igły',
             many: 'Pozostało: ${count} igieł',
+            other: 'Pozostało: ${count} igły',
           ),
       'glovesRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1130,6 +1167,7 @@ extension on TranslationsPl {
             one: 'Pozostało: 1 rękawiczka',
             few: 'Pozostało: ${count} rękawiczki',
             many: 'Pozostało: ${count} rękawiczek',
+            other: 'Pozostało: ${count} rękawiczki',
           ),
       'bandageRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1137,6 +1175,7 @@ extension on TranslationsPl {
             one: 'Pozostało: 1 bandaż',
             few: 'Pozostało: ${count} bandaże',
             many: 'Pozostało: ${count} bandaży',
+            other: 'Pozostało: ${count} bandaże',
           ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1144,6 +1183,7 @@ extension on TranslationsPl {
             one: 'ml',
             few: 'ml',
             many: 'ml',
+            other: 'ml',
           ),
       'administrationRouteUnitPill' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1151,6 +1191,7 @@ extension on TranslationsPl {
             one: 'tabletka',
             few: 'tabletki',
             many: 'tabletek',
+            other: 'tabletki',
           ),
       'administrationRouteUnitPatch' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1158,6 +1199,7 @@ extension on TranslationsPl {
             one: 'plaster',
             few: 'plastry',
             many: 'plastrów',
+            other: 'plastry',
           ),
       'administrationRouteUnitPump' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1165,6 +1207,7 @@ extension on TranslationsPl {
             one: 'pompka',
             few: 'pompki',
             many: 'pompek',
+            other: 'pompki',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1172,6 +1215,7 @@ extension on TranslationsPl {
             one: 'implant',
             few: 'implanty',
             many: 'implantów',
+            other: 'implanty',
           ),
       'administrationRouteUnitSuppository' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1179,6 +1223,7 @@ extension on TranslationsPl {
             one: 'czopek',
             few: 'czopki',
             many: 'czopków',
+            other: 'czopki',
           ),
       'administrationRouteUnitSpray' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pl'))(
@@ -1186,6 +1231,7 @@ extension on TranslationsPl {
             one: 'spryśnięcie',
             few: 'spryśnięcia',
             many: 'spryśnięć',
+            other: 'spryśnięcia',
           ),
       _ => null,
     };

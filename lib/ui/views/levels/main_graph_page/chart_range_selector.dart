@@ -35,7 +35,18 @@ class ChartRangeSelector extends StatelessWidget {
   }
 }
 
-enum LevelDuration { week, twoWeeks, month, threeMonths, sixMonths, year }
+enum LevelDuration {
+  week(Duration(days: 7)),
+  twoWeeks(Duration(days: 14)),
+  month(Duration(days: 30)),
+  threeMonths(Duration(days: 90)),
+  sixMonths(Duration(days: 180)),
+  year(Duration(days: 365));
+
+  const LevelDuration(this.days);
+
+  final Duration days;
+}
 
 extension _DurationLabel on LevelDuration {
   String get label => switch (this) {
