@@ -71,22 +71,22 @@ class BloodTestProvider extends ChangeNotifier {
 
   Future<void> deleteBloodTestFromId(int id) async {
     await repository.delete(id);
-    await _fetchBloodTests();
+    await fetchBloodTests();
   }
 
   Future<void> deleteBloodTest(BloodTest bloodTest) async {
     await repository.delete(bloodTest.id);
-    await _fetchBloodTests();
+    await fetchBloodTests();
   }
 
   Future<void> add(BloodTest bloodtest) async {
     await repository.insert(bloodtest);
-    await _fetchBloodTests();
+    await fetchBloodTests();
   }
 
   Future<void> updateBloodTest(BloodTest bloodtest) async {
     await repository.update(bloodtest, bloodtest.id);
-    await _fetchBloodTests();
+    await fetchBloodTests();
   }
 
   List<GraphBloodTest> getBloodTestsForGraph(
@@ -109,7 +109,7 @@ class BloodTestProvider extends ChangeNotifier {
     fromMap: (map) => BloodTestMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 
-  Future<void> _fetchBloodTests() async {
+  Future<void> fetchBloodTests() async {
     _bloodTestsSortedDesc = (await repository.getAll())
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
     notifyListeners();
