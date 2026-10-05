@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.23.0/mona-1.23.0.ipa",
-      "size": 11765788,
-      "version": "1.23.0",
-      "versionDate": "2026-09-27T14:56:14Z",
-      "versionDescription": "New:\r\n\r\n- Patches now support a dosing rate (µg/day)\r\n- Added a \"getting involved\" section in the settings\r\n- New language: Hindi\r\n\r\nFix:\r\n\r\n- Centered the estradiol graph in the window",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.0/mona-1.24.0.ipa",
+      "size": 11790178,
+      "version": "1.24.0",
+      "versionDate": "2026-10-04T15:07:37Z",
+      "versionDescription": "New:\r\n\r\n- You can now specify if an injection is subcutaneous or intramuscular\r\n- New languages: Indonesian, Hungarian\r\n- Blood tests can be added directly from the levels screen\r\n- Notifications now open directly to the \"take intake\" page\r\n\r\nFix:\r\n\r\n- The graph zoom is now more consistent\r\n- Fixed a crash when displaying decimals in some languages\r\n- Fixed an import error for some blood tests\r\n- Minor UI fixes",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.0/mona-1.24.0.ipa",
+          "size": 11790178,
+          "version": "1.24.0",
+          "buildVersion": "30",
+          "date": "2026-10-04T15:07:37Z",
+          "localizedDescription": "New:\r\n\r\n- You can now specify if an injection is subcutaneous or intramuscular\r\n- New languages: Indonesian, Hungarian\r\n- Blood tests can be added directly from the levels screen\r\n- Notifications now open directly to the \"take intake\" page\r\n\r\nFix:\r\n\r\n- The graph zoom is now more consistent\r\n- Fixed a crash when displaying decimals in some languages\r\n- Fixed an import error for some blood tests\r\n- Minor UI fixes",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.23.0/mona-1.23.0.ipa",
           "size": 11765788,

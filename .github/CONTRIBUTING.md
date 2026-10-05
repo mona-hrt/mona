@@ -120,6 +120,14 @@ Any new idea or suggestion is welcome !
 Here's how you can bring your ideas and suggestions to Mona :
 Open a new issue, where you explain your idea or suggestion. What does it bring to the application, how does it work, where did you source your information (if needed, for example for an algorithm) ... The team will review your issue, discuss with you about it, and accept it if they like it !
 
+## LLM use
+
+Mona is a health app that people trust with sensitive data. The project values contributions that a human wrote, understands, and can explain.
+
+- Vibe-coded PRs will be rejected.
+- Write PR/issue descriptions yourself, as AI summaries are genuinely hard to read and review.
+- Do not use AI to answer PR comments. You (as a human) must understand the code you wrote enough to answer yourself to our questions.
+
 ## Conventions
 
 ### Branch name
