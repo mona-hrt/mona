@@ -28,5 +28,14 @@
   "appVersion": "Mona versioon {{version}}",
   "exportFailed": "Eksportimine ei õnnestunud: {{error}}",
   "importDataTitle": "Impordi andmed",
-  "importDataSubtitle": "Taasta andmed JSON-vormingus varukoopiast"
+  "importDataSubtitle": "Taasta andmed JSON-vormingus varukoopiast",
+  "allDone": "Kõik on tehtud!",
+  "newUpdateAvailable": "Saadaval on uuendus!",
+  "upcoming": "Õige pea",
+  "schedulesAndNotifications": "Graafikud ja teavitused",
+  "general": "Üldine",
+  "schedules": "Ajastamine",
+  "noSchedules": "Pole ajastatud",
+  "schedulesCreated_one": "{{count}} on loodud",
+  "schedulesCreated_other": "{{count}} on loodud"
 }
