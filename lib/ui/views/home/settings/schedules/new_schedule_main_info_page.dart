@@ -6,19 +6,25 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/settings/schedules/new_schedule_scheduling_page.dart';
+import 'package:mona/ui/widgets/dosing_basis_field.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
+import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -36,33 +42,45 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
+  DosingBasis _dosingBasis = DosingBasis.mass;
+  late Date _startDate;
   late PreferencesService _preferencesService;
 
   String? get _nameError =>
-      MedicationSchedule.validateName(context.l10n, _nameController.text);
+      MedicationSchedule.validateName(_nameController.text);
   String? get _doseError =>
-      MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _moleculeError =>
-      MedicationSchedule.validateMolecule(context.l10n, _molecule);
+      MedicationSchedule.validateDose(_doseController.text);
+  String? get _moleculeError => MedicationSchedule.validateMolecule(_molecule);
   String? get _administrationRouteError =>
-      MedicationSchedule.validateAdministrationRoute(
-          context.l10n, _administrationRoute);
+      MedicationSchedule.validateAdministrationRoute(_administrationRoute);
   String? get _esterError {
-    final validator = MedicationSchedule.esterValidator(
-        context.l10n, _molecule, _administrationRoute);
+    final validator =
+        MedicationSchedule.esterValidator(_molecule, _administrationRoute);
     return validator(_ester);
   }
+
+  String? get _startDateError =>
+      MedicationSchedule.validateStartDate(_startDate);
 
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
-      _esterError == null;
+      _esterError == null &&
+      _startDateError == null;
 
   bool get _useEsterField =>
       _molecule == KnownMolecules.estradiol &&
       _administrationRoute == AdministrationRoute.injection;
+
+  bool get _supportsReleaseRate {
+    final molecule = _molecule;
+    final route = _administrationRoute;
+    return molecule != null &&
+        route != null &&
+        supportsReleaseRate(molecule, route);
+  }
 
   void _onMoleculeChanged(Molecule? molecule) {
     if (molecule != null) {
@@ -70,6 +88,9 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         _molecule = molecule;
         if (!_useEsterField) {
           _ester = null;
+        }
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
         }
       });
     }
@@ -82,6 +103,9 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         if (!_useEsterField) {
           _ester = null;
         }
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
+        }
       });
     }
   }
@@ -90,6 +114,14 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
     if (ester != null) {
       setState(() {
         _ester = ester;
+      });
+    }
+  }
+
+  void _onDosingBasisChanged(DosingBasis? dosingBasis) {
+    if (dosingBasis != null) {
+      setState(() {
+        _dosingBasis = dosingBasis;
       });
     }
   }
@@ -110,6 +142,8 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
           molecule: _molecule!,
           administrationRoute: _administrationRoute!,
           ester: _ester,
+          startDate: _startDate,
+          dosingBasis: _dosingBasis,
         ),
       ),
     );
@@ -122,6 +156,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         Provider.of<PreferencesService>(context, listen: false);
     _nameController = TextEditingController();
     _doseController = TextEditingController();
+    _startDate = Date.today();
   }
 
   @override
@@ -133,52 +168,63 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
-
     return ModelForm(
-      title: localizations.newSchedule,
-      submitButtonLabel: localizations.next,
+      title: t.newSchedule,
+      submitButtonLabel: t.next,
+      submitButtonKey: const ValueKey('newScheduleNext'),
       isFormValid: _isFormValid,
       saveChanges: _next,
-      avatar: Symbols.prescriptions,
+      avatar: Symbols.prescriptions_rounded,
       fields: <Widget>[
         FormTextField(
           controller: _nameController,
-          label: localizations.name,
+          label: t.name,
+          fieldKey: const ValueKey('newScheduleName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
         ),
         FormSpacer(),
         FormDropdownField<Molecule>(
           value: _molecule,
-          items: moleculeDropdownMenuItems(
-            _preferencesService.allMolecules,
-            localizations,
-          ),
+          items: moleculeDropdownMenuItems(_preferencesService.allMolecules),
           onChanged: _onMoleculeChanged,
-          label: localizations.molecule,
+          label: t.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
-          items: administrationRouteDropdownMenuItems(localizations),
+          items: administrationRouteDropdownMenuItems(),
           onChanged: _onAdministrationRouteChanged,
-          label: localizations.adminRoute,
+          label: t.adminRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
-            items: esterDropdownMenuItems(localizations),
+            items: esterDropdownMenuItems(),
             onChanged: _onEsterChanged,
-            label: localizations.ester,
+            label: t.ester,
           ),
-        FormSpacer(),
         FormTextField(
           controller: _doseController,
-          label: localizations.amount,
-          suffixText: _molecule?.unit,
+          label: t.amount,
+          fieldKey: const ValueKey('newScheduleAmount'),
+          suffixText: _molecule?.localizedUnit(_dosingBasis),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: '[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
+        ),
+        if (_molecule != null && _administrationRoute != null)
+          DosingBasisField(
+            molecule: _molecule!,
+            route: _administrationRoute!,
+            value: _dosingBasis,
+            onChanged: _onDosingBasisChanged,
+          ),
+        FormSpacer(),
+        FormDateField(
+          date: _startDate,
+          label: t.startDate,
+          errorText: _startDateError,
+          onChanged: (date) => setState(() => _startDate = date),
         ),
       ],
     );

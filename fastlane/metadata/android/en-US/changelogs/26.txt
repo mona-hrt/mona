@@ -1,0 +1,7 @@
+New:
+- You can now create items for gel tubes and sachets.
+- Application sites can now be used with patches.
+- Add notes to your blood tests.
+
+Fix:
+- Added a guard against huge intervals in schedules that would cause a crash.

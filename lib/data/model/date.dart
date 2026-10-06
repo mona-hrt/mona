@@ -1,7 +1,5 @@
-// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
-
+import 'package:clock/clock.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 bool _isUtcMidnight(DateTime dt) =>
@@ -12,10 +10,15 @@ bool _isUtcMidnight(DateTime dt) =>
     dt.millisecond == 0 &&
     dt.microsecond == 0;
 
+int logicalDayStartMinutes = 240;
+
 class Date {
   final DateTime value;
 
-  Date(this.value) {
+  Date({required int year, int month = 1, int day = 1})
+      : value = DateTime.utc(year, month, day);
+
+  Date.fromUtc(this.value) {
     if (!_isUtcMidnight(value)) {
       throw ArgumentError('Value must be UTC midnight');
     }
@@ -23,7 +26,7 @@ class Date {
 
   Date.fromDateTime(DateTime input) : value = _logicalDay(input);
 
-  Date.today() : value = _logicalDay(DateTime.now());
+  Date.today() : value = _logicalDay(clock.now());
 
   Date.fromString(String input) : value = DateTime.parse(input) {
     if (!_isUtcMidnight(value)) {
@@ -36,6 +39,7 @@ class Date {
   int get year => value.year;
   int get month => value.month;
   int get day => value.day;
+  int get weekday => value.weekday;
   bool get isToday => this == Date.today();
   bool get isBeforeToday => isBefore(Date.today());
   bool get isAfterToday => isAfter(Date.today());
@@ -43,6 +47,16 @@ class Date {
 
   int differenceInDays(Date other) =>
       value.difference(other.value).inDays.abs();
+
+  int differenceInMonths(Date other) {
+    final (earlier, later) = isBefore(other) ? (this, other) : (other, this);
+    var months =
+        (later.year - earlier.year) * 12 + (later.month - earlier.month);
+    if (later.day < earlier.day) months -= 1;
+    return months;
+  }
+
+  int differenceInYears(Date other) => differenceInMonths(other) ~/ 12;
 
   bool isSameDayAs(Date other) =>
       value.year == other.value.year &&
@@ -53,15 +67,25 @@ class Date {
 
   bool isAfter(Date other) => value.isAfter(other.value);
 
-  Date add(Duration duration) => Date(value.add(duration));
+  Date add(Duration duration) => Date.fromUtc(value.add(duration));
 
   Date subtract(Duration duration) {
-    return Date(value.subtract(duration));
+    return Date.fromUtc(value.subtract(duration));
   }
+
+  Date addMonths(int months) =>
+      Date(year: year, month: month + months, day: day);
 
   DateTime toUtcDateTime() => value;
 
-  DateTime toDateTime() => DateTime(year, month, day);
+  DateTime toDateTime() => DateTime(year, month, day, 12, 0);
+
+  DateTime toDateTimeAt(TimeOfDay time) {
+    final int difference = _logicalDayDifference(time.hour, time.minute);
+    Duration dayDifference = Duration(days: difference);
+    return DateTime(year, month, day, time.hour, time.minute)
+        .add(dayDifference);
+  }
 
   String format(DateFormat formatter) => formatter.format(value);
 
@@ -80,10 +104,15 @@ class Date {
   @override
   int get hashCode => value.hashCode;
 
-  // Applies the 4am rule: times before 4am belong to the previous day.
+  // Applies the start-of-day rule: times before [logicalDayStartMinutes]
+  // (minutes since midnight) belong to the previous day.
   static DateTime _logicalDay(DateTime input) {
-    final dayDifference = input.hour < 4 ? 1 : 0;
+    final dayDifference = _logicalDayDifference(input.hour, input.minute);
     return DateTime.utc(input.year, input.month, input.day - dayDifference);
+  }
+
+  static int _logicalDayDifference(int hours, int minutes) {
+    return (hours * 60 + minutes) < logicalDayStartMinutes ? 1 : 0;
   }
   // coverage:ignore-end
 }

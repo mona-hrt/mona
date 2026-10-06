@@ -10,11 +10,14 @@ const String createSupplyItemsTable = '''
       name TEXT NOT NULL,
       totalDose TEXT,
       usedDose TEXT,
-      concentration TEXT,
-      moleculeJson TEXT,
-      administrationRouteName TEXT,
-      esterName TEXT,
-      amount INTEGER
+      dosePerUnit TEXT,
+      molecule TEXT,
+      administrationRoute TEXT,
+      ester TEXT,
+      amount INTEGER,
+      genericSupplyType TEXT,
+      deliveryForm TEXT,
+      dosingBasis TEXT
     )
     ''';
 
@@ -24,17 +27,23 @@ const String createMedicationIntakesTable = '''
       scheduledTime TEXT,
       takenDateTime TEXT,
       takenTimeZone TEXT,
-      dose TEXT NOT NULL,
+      takenDose TEXT NOT NULL,
+      wastedAmount TEXT,
+      deadSpace TEXT,
       scheduleId INTEGER,
-      side TEXT,
-      moleculeJson TEXT NOT NULL,
-      administrationRouteName TEXT NOT NULL,
-      esterName TEXT,
-      supplyItemId INTEGER,
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      medicationSupplyItemId INTEGER,
+      genericSupplyItemIds TEXT NOT NULL,
       notes TEXT,
-      FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
+      placements TEXT NOT NULL,
+      dosingBasis TEXT NOT NULL,
+      injectionType TEXT,
+      FOREIGN KEY (medicationSupplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL,
+      FOREIGN KEY (scheduleId) REFERENCES medication_schedules(id) ON DELETE SET NULL
     )
-    '''; // TODO use foreign key for scheduleId
+    ''';
 
 const String createMedicationSchedulesTable = '''
     CREATE TABLE medication_schedules(
@@ -42,10 +51,11 @@ const String createMedicationSchedulesTable = '''
       name TEXT NOT NULL,
       dose TEXT NOT NULL,
       startDate TEXT NOT NULL,
-      moleculeJson TEXT NOT NULL,
-      administrationRouteName TEXT NOT NULL,
-      esterName TEXT,
-      schedulingStrategy TEXT NOT NULL
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      scheduling TEXT NOT NULL,
+      dosingBasis TEXT NOT NULL
     )
     ''';
 
@@ -56,7 +66,6 @@ const String createBloodTestsTable = '''
       timeZone TEXT NOT NULL,
       estradiolLevels TEXT,
       testosteroneLevels TEXT,
-      estradiolUnit TEXT,
-      testosteroneUnit TEXT
+      notes TEXT
     )
     ''';

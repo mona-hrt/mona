@@ -32,36 +32,41 @@ class SupplyItemManager {
     ));
   }
 
-  /// Uses one unit of the [GenericSupply] and updates the database.
-  Future<void> use(GenericSupply item) async {
+  /// Uses [quantity] units of the [GenericSupply] and updates the database.
+  Future<void> use(GenericSupply item, {int quantity = 1}) async {
+    final updatedAmount =
+        item.amount - quantity < 0 ? 0 : item.amount - quantity;
     await _supplyItemProvider.updateItem(item.copyWith(
-      amount: item.amount - 1,
+      amount: updatedAmount,
     ));
   }
 
-  /// Puts back one unit of the [GenericSupply] and updates the database.
-  Future<void> putBack(GenericSupply item) async {
+  /// Puts back [quantity] units of the [GenericSupply] and updates the database.
+  Future<void> putBack(GenericSupply item, {int quantity = 1}) async {
     await _supplyItemProvider.updateItem(item.copyWith(
-      amount: item.amount + 1,
+      amount: item.amount + quantity,
     ));
   }
 
   /// Switch doses between two [MedicationSupplyItem]
-  void switchDoses(MedicationSupplyItem? previousItem,
-      MedicationSupplyItem? nextItem, Decimal previousDose, Decimal nextDose) {
+  Future<void> switchDoses(
+      MedicationSupplyItem? previousItem,
+      MedicationSupplyItem? nextItem,
+      Decimal previousDose,
+      Decimal nextDose) async {
     bool sameItems = nextItem == previousItem;
 
     if (previousItem != null) {
       if (sameItems) {
         Decimal doseDifference = nextDose - previousDose;
-        useDose(previousItem, doseDifference);
+        await useDose(previousItem, doseDifference);
       } else {
-        useDose(previousItem, -previousDose);
+        await useDose(previousItem, -previousDose);
       }
     }
 
     if (nextItem != null && !sameItems) {
-      useDose(nextItem, nextDose);
+      await useDose(nextItem, nextDose);
     }
   }
 }

@@ -19,7 +19,7 @@ class SupplyItemProvider extends ChangeNotifier {
   static final defaultRepository = Repository<SupplyItem>(
     tableName: 'supply_items',
     toMap: (item) => item.toMap(),
-    fromMap: (map) => SupplyItem.fromMap(map),
+    fromMap: (map) => SupplyItemMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 
   bool get isLoading => _isLoading;
@@ -37,6 +37,15 @@ class SupplyItemProvider extends ChangeNotifier {
           (a, b) => a.getRatio().compareTo(b.getRatio()),
         );
 
+  List<SupplyItem> get allItemsOrderedByName => [..._items]
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+  List<SupplyItem> get medicationItemsOrderedByName => medicationItems
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+  List<SupplyItem> get genericItemsOrderedByName => genericItems
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
   SupplyItem? getItemById(int? id) {
     try {
       return items.firstWhere((item) => item.id == id);
@@ -44,6 +53,9 @@ class SupplyItemProvider extends ChangeNotifier {
       return null;
     }
   }
+
+  List<SupplyItem> getItemsByIds(List<int> ids) =>
+      ids.map(getItemById).whereType<SupplyItem>().toList();
 
   SupplyItemProvider({Repository<SupplyItem>? repository})
       : repository = repository ?? defaultRepository {
@@ -94,9 +106,10 @@ class SupplyItemProvider extends ChangeNotifier {
     await fetchItems();
   }
 
-  Future<void> add(SupplyItem supplyItem) async {
-    await repository.insert(supplyItem);
+  Future<SupplyItem> add(SupplyItem supplyItem) async {
+    final id = await repository.insert(supplyItem);
     await fetchItems();
+    return _items.firstWhere((item) => item.id == id);
   }
 
   Future<void> updateItem(SupplyItem item) async {

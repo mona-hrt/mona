@@ -3,11 +3,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/medication_schedule_l10n.dart';
-import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_page.dart';
+import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_main_info.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 import 'package:provider/provider.dart';
+
 import 'new_schedule_main_info_page.dart';
 
 class SchedulesPage extends StatelessWidget {
@@ -15,12 +20,11 @@ class SchedulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final medicationScheduleProvider =
         context.watch<MedicationScheduleProvider>();
-    final localizations = context.l10n;
 
     if (medicationScheduleProvider.isLoading) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(localizations.schedules),
+          title: Text(t.schedules),
         ),
         body: Center(
           child: CircularProgressIndicator(),
@@ -30,40 +34,45 @@ class SchedulesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(localizations.schedules),
+        title: Text(t.schedules),
       ),
-      body: SafeArea(
-        child: medicationScheduleProvider.schedules.isEmpty
-            ? Center(
-                child: Text(localizations.addScheduleToGetStarted),
-              )
-            : ListView.builder(
-                itemCount: medicationScheduleProvider.schedules.length,
-                itemBuilder: (context, index) {
-                  final schedule = medicationScheduleProvider.schedules[index];
-                  return ListTile(
-                    title: Text(schedule.name),
-                    subtitle: Text(
-                      schedule.localizedSummaryWithFrequency(localizations),
-                    ),
+      body: medicationScheduleProvider.schedules.isEmpty
+          ? SafeArea(
+              child: Center(
+                child: Text(t.addScheduleToGetStarted),
+              ),
+            )
+          : M3EReorderableSegmentedList(
+              margin: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
+              listPadding: pagePadding +
+                  EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+              keyBuilder: (index) =>
+                  ValueKey(medicationScheduleProvider.schedules[index].id),
+              onReorder: (oldIndex, newIndex) =>
+                  medicationScheduleProvider.reorder(oldIndex, newIndex),
+              children: [
+                for (final schedule in medicationScheduleProvider.schedules)
+                  TappableListTile(
+                    title: schedule.name,
+                    subtitle: schedule.localizedSummaryWithFrequency,
                     leading: CircleAvatar(
                       child: Icon(
                         schedule.administrationRoute.icon,
                       ),
                     ),
-                    trailing: Icon(Icons.chevron_right),
+                    trailing: Icon(Symbols.chevron_right_rounded),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (context) =>
-                              EditSchedulePage(schedule: schedule),
+                              EditScheduleMainInfoPage(schedule: schedule),
                         ),
                       );
                     },
-                  );
-                },
-              ),
-      ),
+                  ),
+              ],
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute<void>(
@@ -71,8 +80,8 @@ class SchedulesPage extends StatelessWidget {
             builder: (context) => const NewScheduleMainInfoPage(),
           ));
         },
-        tooltip: localizations.addSchedule,
-        child: Icon(Icons.add),
+        tooltip: t.addSchedule,
+        child: Icon(Symbols.add_rounded),
       ),
     );
   }

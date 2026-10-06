@@ -7,11 +7,15 @@ import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
+import 'package:mona/ui/widgets/dropdowns/generic_type_dropdown.dart';
+import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -27,13 +31,13 @@ class EditItemPage extends StatefulWidget {
 class _EditItemPageState extends State<EditItemPage> {
   late TextEditingController _nameController;
   late TextEditingController _amountController;
+  late GenericSupplyType _genericSupplyType;
   late SupplyItemProvider _supplyItemProvider;
 
-  String? get _nameError =>
-      SupplyItem.validateName(context.l10n, _nameController.text);
+  String? get _nameError => SupplyItem.validateName(_nameController.text);
 
-  String? get _amountError => MedicationSupplyItem.validateTotalAmount(
-      context.l10n, _amountController.text);
+  String? get _amountError =>
+      MedicationSupplyItem.validateTotalAmount(_amountController.text);
 
   bool get _isFormValid => _nameError == null && _amountError == null;
 
@@ -46,6 +50,7 @@ class _EditItemPageState extends State<EditItemPage> {
     final updatedItem = widget.item.copyWith(
       name: _nameController.text,
       amount: _amountController.text.toInt,
+      genericSupplyType: _genericSupplyType,
     );
     _supplyItemProvider.updateItem(updatedItem);
 
@@ -53,10 +58,9 @@ class _EditItemPageState extends State<EditItemPage> {
   }
 
   Future<void> _confirmDelete() async {
-    final localizations = context.l10n;
     final confirmed = await Dialogs.confirmDeleteDialog(
       context: context,
-      title: localizations.deleteItem(widget.item.name),
+      title: t.deleteItem(name: widget.item.name),
     );
 
     if (confirmed == true) {
@@ -72,6 +76,7 @@ class _EditItemPageState extends State<EditItemPage> {
     _amountController =
         TextEditingController(text: widget.item.amount.toString());
     _nameController = TextEditingController(text: widget.item.name);
+    _genericSupplyType = widget.item.genericSupplyType;
     _supplyItemProvider =
         Provider.of<SupplyItemProvider>(context, listen: false);
   }
@@ -85,31 +90,41 @@ class _EditItemPageState extends State<EditItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
-
     return ModelForm(
-      title: localizations.editItem,
-      submitButtonLabel: localizations.save,
+      title: t.editItem,
+      avatar: _genericSupplyType.icon,
+      submitButtonLabel: t.save,
+      submitButtonKey: const ValueKey('editGenericItemSave'),
+      deleteButtonKey: const ValueKey('editGenericItemDelete'),
       isFormValid: _isFormValid,
       saveChanges: _saveChanges,
       onDelete: _confirmDelete,
       fields: [
         FormTextField(
           controller: _nameController,
-          label: localizations.name,
+          label: t.name,
+          fieldKey: const ValueKey('editGenericItemName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,
         ),
         FormSpacer(),
-        FormTextField(
-          controller: _amountController,
-          label: 'amount', // TODO localize
-          onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          errorText: _amountError,
-          regexFormatter: r'[0-9.,]',
+        FormDropdownField<GenericSupplyType>(
+          value: _genericSupplyType,
+          items: genericItemTypeDropdownMenuItems(),
+          onChanged: (value) {
+            if (value == null) return;
+            setState(() => _genericSupplyType = value);
+          },
+          label: t.supplyType,
         ),
+        FormTextField(
+            controller: _amountController,
+            label: t.amount,
+            onChanged: _refresh,
+            inputType: TextInputType.numberWithOptions(decimal: true),
+            errorText: _amountError,
+            regexFormatter: RegexPatterns.floatNumber),
       ],
     );
   }

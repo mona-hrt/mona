@@ -45,9 +45,10 @@ void main() {
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '0',
-        'concentration': '10',
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'dosePerUnit': '10',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'dosingBasis': 'mass',
       });
 
       final item = await db.query(
@@ -68,24 +69,52 @@ void main() {
       );
     });
 
+    test('can insert and query generic supply_items', () async {
+      // Act
+      final id = await db.insert('supply_items', {
+        'type': 'generic',
+        'name': 'Test generic Item',
+        'amount': 5,
+        'genericSupplyType': 'syringe',
+      });
+
+      final item = await db.query(
+        'supply_items',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      // Assert
+      expect(
+          item.single,
+          allOf(
+            containsPair('name', 'Test generic Item'),
+            containsPair('amount', 5),
+            containsPair('genericSupplyType', 'syringe'),
+          ));
+    });
+
     test('can insert and query medication_intakes', () async {
       final supplyItemId = await db.insert('supply_items', {
         'type': 'medication',
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '10',
-        'concentration': '200',
-        'moleculeJson': '{"name":"progesterone","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'dosePerUnit': '200',
+        'molecule': '{"name":"progesterone","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'dosingBasis': 'mass',
       });
 
       final id = await db.insert('medication_intakes', {
         'takenDateTime': null,
-        'dose': '2.5',
-        'side': null,
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
-        'supplyItemId': supplyItemId,
+        'takenDose': '2.5',
+        'placements': '[]',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'medicationSupplyItemId': supplyItemId,
+        'genericSupplyItemIds': '[]',
+        'dosingBasis': 'mass',
       });
 
       final allIntakes = await db.query(
@@ -100,27 +129,29 @@ void main() {
         intake,
         allOf(
           containsPair('id', id),
-          containsPair('dose', '2.5'),
+          containsPair('takenDose', '2.5'),
           containsPair('takenDateTime', null),
-          containsPair('side', null),
-          containsPair('supplyItemId', supplyItemId),
+          containsPair('placements', '[]'),
+          containsPair('medicationSupplyItemId', supplyItemId),
         ),
       );
     });
 
     test(
-        "inserting a supplyItemId that doesn't exist in medication_intakes does not succeed",
+        "inserting a medicationSupplyItemId that doesn't exist in medication_intakes does not succeed",
         () async {
       final supplyItemId = -67;
 
       expect(
           () async => await db.insert('medication_intakes', {
                 'takenDateTime': null,
-                'dose': '2.5',
-                'side': null,
-                'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-                'administrationRouteName': 'oral',
-                'supplyItemId': supplyItemId,
+                'takenDose': '2.5',
+                'placements': '[]',
+                'molecule': '{"name":"estradiol","unit":"mg"}',
+                'administrationRoute': 'oral',
+                'medicationSupplyItemId': supplyItemId,
+                'genericSupplyItemIds': '[]',
+                'dosingBasis': 'mass',
               }),
           throwsA(
             predicate((e) =>
@@ -130,25 +161,28 @@ void main() {
     });
 
     test(
-        "deleting a supplyItem sets the field supplyItemId in medication_intakes NULL",
+        "deleting a supplyItem sets the field medicationSupplyItemId in medication_intakes NULL",
         () async {
       final supplyItemId = await db.insert('supply_items', {
         'type': 'medication',
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '10',
-        'concentration': '200',
-        'moleculeJson': '{"name":"progesterone","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'dosePerUnit': '200',
+        'molecule': '{"name":"progesterone","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'dosingBasis': 'mass',
       });
 
       final intakeId = await db.insert('medication_intakes', {
         'takenDateTime': null,
-        'dose': '2.5',
-        'side': null,
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
-        'supplyItemId': supplyItemId,
+        'takenDose': '2.5',
+        'placements': '[]',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'medicationSupplyItemId': supplyItemId,
+        'genericSupplyItemIds': '[]',
+        'dosingBasis': 'mass',
       });
 
       await db
@@ -160,7 +194,73 @@ void main() {
 
       expect(
         intake,
-        containsPair('supplyItemId', null),
+        containsPair('medicationSupplyItemId', null),
+      );
+    });
+
+    test(
+        "inserting a scheduleId that doesn't exist in medication_intakes does not succeed",
+        () async {
+      // Arrange
+      final scheduleId = -67;
+
+      // Act & Assert
+      expect(
+          () async => await db.insert('medication_intakes', {
+                'takenDateTime': null,
+                'takenDose': '2.5',
+                'placements': '[]',
+                'molecule': '{"name":"estradiol","unit":"mg"}',
+                'administrationRoute': 'oral',
+                'scheduleId': scheduleId,
+                'genericSupplyItemIds': '[]',
+                'dosingBasis': 'mass',
+              }),
+          throwsA(
+            predicate((e) =>
+                e is DatabaseException &&
+                e.getResultCode() == 787), // foreign key constraint failed code
+          ));
+    });
+
+    test(
+        "deleting a schedule sets the field scheduleId in medication_intakes NULL",
+        () async {
+      // Arrange
+      final scheduleId = await db.insert('medication_schedules', {
+        'name': 'Morning Med',
+        'dose': '5',
+        'startDate': DateTime(2025, 9, 13).toIso8601String(),
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'scheduling':
+            '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
+        'dosingBasis': 'mass',
+      });
+
+      final intakeId = await db.insert('medication_intakes', {
+        'takenDateTime': null,
+        'takenDose': '2.5',
+        'placements': '[]',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'scheduleId': scheduleId,
+        'genericSupplyItemIds': '[]',
+        'dosingBasis': 'mass',
+      });
+
+      // Act
+      await db.delete("medication_schedules",
+          where: 'id = ?', whereArgs: [scheduleId]);
+
+      // Assert
+      final intakes = await db
+          .query("medication_intakes", where: 'id = ?', whereArgs: [intakeId]);
+      final intake = intakes.single;
+
+      expect(
+        intake,
+        containsPair('scheduleId', null),
       );
     });
 
@@ -169,10 +269,11 @@ void main() {
         'name': 'Morning Med',
         'dose': '5',
         'startDate': DateTime(2025, 9, 13).toIso8601String(),
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
-        'schedulingStrategy':
-            '{"type":"intervalDays","intervalDays":1,"notificationTime":"8:30"}',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'scheduling':
+            '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
+        'dosingBasis': 'mass',
       });
 
       final schedule = await db.query(
@@ -184,11 +285,11 @@ void main() {
       expect(
         [
           schedule.first['name'],
-          schedule.first['schedulingStrategy'],
+          schedule.first['scheduling'],
         ],
         [
           'Morning Med',
-          '{"type":"intervalDays","intervalDays":1,"notificationTime":"8:30"}',
+          '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
         ],
       );
     });
@@ -197,10 +298,8 @@ void main() {
       final id = await db.insert('blood_tests', {
         'dateTime': DateTime(2025, 9, 13).toIso8601String(),
         'timeZone': 'Etc/UTC',
-        'estradiolLevels': '167.1',
-        'estradiolUnit': 'pg/mL',
-        'testosteroneLevels': '1.67',
-        'testosteroneUnit': 'ng/dL',
+        'estradiolLevels': '{"value":"167.1","unit":"pg/mL"}',
+        'testosteroneLevels': '{"value":"1.67","unit":"ng/dL"}',
       });
 
       final test =
@@ -208,14 +307,10 @@ void main() {
 
       expect([
         test.first['estradiolLevels'],
-        test.first['estradiolUnit'],
         test.first['testosteroneLevels'],
-        test.first['testosteroneUnit'],
       ], [
-        '167.1',
-        'pg/mL',
-        '1.67',
-        'ng/dL',
+        '{"value":"167.1","unit":"pg/mL"}',
+        '{"value":"1.67","unit":"ng/dL"}',
       ]);
     });
   });

@@ -3,21 +3,28 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
+import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:mona/distribution.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
+
+typedef NotificationPayload = ({
+  int scheduleId,
+  DateTime scheduledTime,
+  bool isRepeating,
+  int? notificationId,
+});
 
 class NotificationService {
   static FlutterLocalNotificationsPlugin Function()? createPlugin =
       () => FlutterLocalNotificationsPlugin();
 
-  static bool Function()? isPlatformSupported =
-      () => Platform.isAndroid || Platform.isIOS;
+  static bool Function()? isPlatformSupported = () => isMobile;
 
   late final FlutterLocalNotificationsPlugin _notificationsPlugin;
 
@@ -38,7 +45,8 @@ class NotificationService {
       _notificationsPlugin.resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin>();
 
-  Future<void> initialize() async {
+  Future<void> initialize(
+      {void Function(NotificationPayload tap)? onTap}) async {
     if (_initialized) return;
 
     tzdata.initializeTimeZones();
@@ -56,13 +64,65 @@ class NotificationService {
     );
 
     await _notificationsPlugin.initialize(
-        settings: InitializationSettings(
-      android: androidSettings,
-      iOS: iosSettings,
-    ));
+      settings: InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
+      onDidReceiveNotificationResponse: (response) {
+        final payload =
+            _decodePayload(response.payload, notificationId: response.id);
+        if (payload != null) onTap?.call(payload);
+      },
+    );
 
     _initialized = true;
   }
+
+  Future<NotificationPayload?> getAppLaunchTap() async {
+    final details =
+        await _notificationsPlugin.getNotificationAppLaunchDetails();
+    if (details == null || !details.didNotificationLaunchApp) return null;
+
+    final response = details.notificationResponse;
+    if (response == null) return null;
+
+    return _decodePayload(response.payload, notificationId: response.id);
+  }
+
+  static const _scheduleIdKey = 'scheduleId';
+  static const _scheduledTimeKey = 'scheduledTime';
+  static const _isRepeatingKey = 'isRepeating';
+
+  String _encodePayload({
+    required int scheduleId,
+    required DateTime scheduledTime,
+    required bool isRepeating,
+  }) =>
+      jsonEncode({
+        _scheduleIdKey: scheduleId,
+        _scheduledTimeKey: scheduledTime.toIso8601String(),
+        if (isRepeating) _isRepeatingKey: true,
+      });
+
+  NotificationPayload? _decodePayload(String? raw, {int? notificationId}) {
+    if (raw == null || raw.isEmpty) return null;
+
+    final decoded = jsonDecode(raw);
+    if (decoded is! Map) return null;
+    final scheduleId = decoded[_scheduleIdKey];
+    final scheduledTime =
+        (decoded[_scheduledTimeKey] as String?)?.toDateTimeOrNull;
+    if (scheduleId is! int || scheduledTime == null) return null;
+
+    return (
+      scheduleId: scheduleId,
+      scheduledTime: scheduledTime,
+      isRepeating: decoded[_isRepeatingKey] == true,
+      notificationId: notificationId,
+    );
+  }
+
+  Future<void> cancel(int id) => _notificationsPlugin.cancel(id: id);
 
   NotificationDetails _notificationDetails() {
     return const NotificationDetails(
@@ -81,10 +141,10 @@ class NotificationService {
   }
 
   Future<void> requestNotificationPermission() async {
-    if (Platform.isAndroid) {
+    if (isAndroid) {
       await _androidImplementation?.requestNotificationsPermission();
       await _androidImplementation?.requestExactAlarmsPermission();
-    } else if (Platform.isIOS) {
+    } else if (isIOS) {
       await _iosImplementation?.requestPermissions(
         alert: true,
         badge: true,
@@ -94,12 +154,12 @@ class NotificationService {
   }
 
   Future<bool> hasPermission() async {
-    if (Platform.isAndroid) {
+    if (isAndroid) {
       final granted = await _androidImplementation?.areNotificationsEnabled();
       return granted ?? false;
     }
 
-    if (Platform.isIOS) {
+    if (isIOS) {
       final granted = await _iosImplementation?.checkPermissions();
       return granted?.isEnabled ?? false;
     }
@@ -108,21 +168,28 @@ class NotificationService {
   }
 
   Future<bool> canScheduleExactAlarms() async {
-    if (!Platform.isAndroid) return true;
+    if (!isAndroid) return true;
     final canSchedule =
         await _androidImplementation?.canScheduleExactNotifications();
     return canSchedule ?? false;
+  }
+
+  Future<AndroidScheduleMode> scheduleMode() async {
+    final useExact = await canScheduleExactAlarms();
+    return useExact
+        ? AndroidScheduleMode.exactAllowWhileIdle
+        : AndroidScheduleMode.inexactAllowWhileIdle;
   }
 
   Future<void> showNotification({
     int? id,
     String? title,
     String? body,
+    String? payload,
   }) async {
     id ??= Random().nextInt(1 << 31);
 
-    final supported =
-        isPlatformSupported?.call() ?? (Platform.isAndroid || Platform.isIOS);
+    final supported = isPlatformSupported?.call() ?? isMobile;
     if (!supported) {
       debugPrint('Notification id $id: $title - $body');
       return;
@@ -133,39 +200,86 @@ class NotificationService {
       title: title,
       body: body,
       notificationDetails: _notificationDetails(),
+      payload: payload,
     );
   }
 
   Future<void> scheduleNotification({
     required int id,
+    required int scheduleId,
     required String title,
     required String body,
-    required int year,
-    required int month,
-    required int day,
-    required int hour,
-    required int minute,
+    required DateTime scheduledTime,
+  }) =>
+      _schedule(
+        id: id,
+        scheduleId: scheduleId,
+        title: title,
+        body: body,
+        scheduledTime: scheduledTime,
+      );
+
+  Future<void> scheduleDailyNotification({
+    required int id,
+    required int scheduleId,
+    required String title,
+    required String body,
+    required DateTime firstOccurrence,
+  }) =>
+      _schedule(
+        id: id,
+        scheduleId: scheduleId,
+        title: title,
+        body: body,
+        scheduledTime: firstOccurrence,
+        matchComponents: DateTimeComponents.time,
+      );
+
+  Future<void> scheduleWeeklyNotification({
+    required int id,
+    required int scheduleId,
+    required String title,
+    required String body,
+    required DateTime firstOccurrence,
+  }) =>
+      _schedule(
+        id: id,
+        scheduleId: scheduleId,
+        title: title,
+        body: body,
+        scheduledTime: firstOccurrence,
+        matchComponents: DateTimeComponents.dayOfWeekAndTime,
+      );
+
+  Future<void> _schedule({
+    required int id,
+    required int scheduleId,
+    required String title,
+    required String body,
+    required DateTime scheduledTime,
+    DateTimeComponents? matchComponents,
   }) async {
-    final scheduledDate =
-        tz.TZDateTime(tz.local, year, month, day, hour, minute);
-
-    final payload = jsonEncode({
-      'scheduledTime':
-          DateTime(year, month, day, hour, minute).toIso8601String(),
-    });
-
-    final useExact = await canScheduleExactAlarms();
-    final scheduleMode = useExact
-        ? AndroidScheduleMode.exactAllowWhileIdle
-        : AndroidScheduleMode.inexactAllowWhileIdle;
+    final payload = _encodePayload(
+      scheduleId: scheduleId,
+      scheduledTime: scheduledTime,
+      isRepeating: matchComponents != null,
+    );
+    final dateTime = tz.TZDateTime(
+        tz.local,
+        scheduledTime.year,
+        scheduledTime.month,
+        scheduledTime.day,
+        scheduledTime.hour,
+        scheduledTime.minute);
 
     await _notificationsPlugin.zonedSchedule(
       id: id,
       title: title,
       body: body,
-      scheduledDate: scheduledDate,
+      scheduledDate: dateTime,
       notificationDetails: _notificationDetails(),
-      androidScheduleMode: scheduleMode,
+      androidScheduleMode: await scheduleMode(),
+      matchDateTimeComponents: matchComponents,
       payload: payload,
     );
   }
@@ -189,10 +303,11 @@ class NotificationService {
 
     return pendingNotifications.where((notification) {
       final payload = jsonDecode(notification.payload ?? '{}');
+      if (payload[_isRepeatingKey] == true) return false;
       final scheduledTime =
-          (payload['scheduledTime'] as String).toDateTimeOrNull;
+          (payload[_scheduledTimeKey] as String?)?.toDateTimeOrNull;
       if (scheduledTime == null) return false;
-      return scheduledTime.isBefore(DateTime.now());
+      return scheduledTime.isBefore(clock.now());
     }).toList();
   }
 
@@ -202,6 +317,7 @@ class NotificationService {
       await showNotification(
         title: notification.title,
         body: notification.body,
+        payload: notification.payload,
       );
     }
   }

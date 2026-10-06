@@ -1,17 +1,15 @@
-// SPDX-FileCopyrightText: 2026 Alice Lorido <alice@lori.do>
-// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-// SPDX-FileContributor: Eva Tatarka <eva@tatarka.me>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
-
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
-import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/graph_calculator.dart';
+import 'package:mona/data/model/hormone.dart';
+import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/services/repository.dart';
+import 'package:mona/util/time_difference.dart';
 
 class BloodTestProvider extends ChangeNotifier {
-  List<BloodTest> _bloodtestsSortedDesc = [];
+  List<BloodTest> _bloodTestsSortedDesc = [];
   bool _isLoading = true;
 
   final Repository<BloodTest> repository;
@@ -22,7 +20,54 @@ class BloodTestProvider extends ChangeNotifier {
   }
 
   bool get isLoading => _isLoading;
-  List<BloodTest> get bloodtestsSortedDesc => _bloodtestsSortedDesc;
+  List<BloodTest> get bloodTestsSortedDesc => _bloodTestsSortedDesc;
+
+  List<BloodTest> get estradiolTestsSortedDesc =>
+      _bloodTestsSortedDesc.where((t) => t.estradiolLevels != null).toList();
+
+  List<BloodTest> get testosteroneTestsSortedDesc =>
+      _bloodTestsSortedDesc.where((t) => t.testosteroneLevels != null).toList();
+
+  UnitValue<EstradiolUnit>? latestEstradiolLevel(EstradiolUnit unit) {
+    final latest = _bloodTestsSortedDesc
+        .firstWhereOrNull((t) => t.estradiolLevels != null)
+        ?.estradiolLevels;
+    if (latest == null) return null;
+    return UnitValue(latest.inUnit(unit), unit);
+  }
+
+  UnitValue<TestosteroneUnit>? latestTestosteroneLevel(TestosteroneUnit unit) {
+    final latest = _bloodTestsSortedDesc
+        .firstWhereOrNull((t) => t.testosteroneLevels != null)
+        ?.testosteroneLevels;
+    if (latest == null) return null;
+    return UnitValue(latest.inUnit(unit), unit);
+  }
+
+  List<LevelEntry> levelEntries(Hormone hormone, EstradiolUnit estradiolUnit,
+      TestosteroneUnit testosteroneUnit) {
+    switch (hormone) {
+      case Hormone.estradiol:
+        return estradiolTestsSortedDesc
+            .map((test) => (
+                  localDate: test.localDate,
+                  value: UnitValue(test.estradiolLevels!.inUnit(estradiolUnit),
+                      estradiolUnit),
+                  notes: test.notes,
+                ))
+            .toList();
+      case Hormone.testosterone:
+        return testosteroneTestsSortedDesc
+            .map((test) => (
+                  localDate: test.localDate,
+                  value: UnitValue(
+                      test.testosteroneLevels!.inUnit(testosteroneUnit),
+                      testosteroneUnit),
+                  notes: test.notes,
+                ))
+            .toList();
+    }
+  }
 
   Future<void> deleteBloodTestFromId(int id) async {
     await repository.delete(id);
@@ -44,36 +89,34 @@ class BloodTestProvider extends ChangeNotifier {
     await _fetchBloodTests();
   }
 
-  Map<int, double> getDaysAndBloodTests(Date startDate, EstradiolUnit unit) {
-    if (bloodtestsSortedDesc.isEmpty) return {};
+  List<GraphBloodTest> getBloodTestsForGraph(
+      DateTime tMin, EstradiolUnit unit) {
+    if (bloodTestsSortedDesc.isEmpty) return [];
 
-    return Map.fromEntries(
-      bloodtestsSortedDesc
-          .where((bloodtest) => bloodtest.estradiolLevels != null)
-          .where((bloodtest) => !bloodtest.localDate.isBefore(startDate))
-          .map(
-            (bloodtest) => MapEntry(
-              bloodtest.localDate.differenceInDays(startDate),
-              bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
-            ),
-          ),
-    );
+    return bloodTestsSortedDesc
+        .where((bloodtest) => bloodtest.estradiolLevels != null)
+        .where((bloodtest) => !bloodtest.dateTime.isBefore(tMin))
+        .map((bloodtest) => GraphBloodTest(
+              offset: timeDifferenceInDays(bloodtest.dateTime, tMin),
+              level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
+            ))
+        .toList();
   }
 
   static final _bloodTestRepository = Repository<BloodTest>(
     tableName: 'blood_tests',
     toMap: (BloodTest bloodtest) => bloodtest.toMap(),
-    fromMap: (Map<String, Object?> map) => BloodTest.fromMap(map),
+    fromMap: (map) => BloodTestMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 
   Future<void> _fetchBloodTests() async {
-    _bloodtestsSortedDesc = (await repository.getAll())
+    _bloodTestsSortedDesc = (await repository.getAll())
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
     notifyListeners();
   }
 
   Future<void> _init() async {
-    _bloodtestsSortedDesc = (await repository.getAll())
+    _bloodTestsSortedDesc = (await repository.getAll())
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
     _isLoading = false;
     notifyListeners();

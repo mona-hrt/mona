@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">HRT पर समय</string>
+    <string name="hrt_widget_description">जब तक आप एचआरटी और आपके कुल सेवन पर रहे हैं, तब तक दिखाएं</string>
+    <string name="hrt_home_widget_placeholder">अपना पहला सेवन लॉग इन करने के लिए मोना खोलें</string>
+    <string name="hrt_widget_preview_sample">8 महीने के लिए HRT पर</string>
+    <string name="hrt_widget_preview_intake_sample">16 सेवन लॉग इन</string>
+</resources>

@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 # Contributing to Mona
 
-First off, thank you for considering contributing to Mona! The app is currently in Beta, and we welcome all forms of contributions—whether it's fixing bugs, adding new features, improving documentation, or reporting issues.
+First off, thank you for considering contributing to Mona! We welcome all forms of contributions—whether it's fixing bugs, adding new features, improving documentation, or reporting issues.
 
 This document outlines the process and guidelines for contributing to this project.
 
@@ -26,9 +26,11 @@ We use a standard **Fork and Pull Request** workflow. To keep our main branch st
    git clone https://github.com/YOUR-USERNAME/mona-hrt.git
    cd mona-hrt
    git checkout dev
-   ```
+  ```
 
 ### 2. Set Up the Environment
+
+**Linux / macOS**
 
 We have provided a script to automatically set up FVM, configure your shell, and fetch the necessary dependencies.
 
@@ -37,14 +39,20 @@ chmod +x scripts/setup_dev.sh
 ./scripts/setup_dev.sh
 ```
 
-Windows users :
+> [!NOTE]
+> After running the script, you may need to restart your terminal or run `source ~/.bashrc` (or `~/.zshrc`) to use the FVM commands.
+
+**NixOS**
+
+The repo ships a `flake.nix` with a ready-made dev shell. The only system-level requirement is `programs.nix-ld.enable = true` in your NixOS configuration, which lets FVM's pre-built Dart binaries run.
+
+Enter the shell with `nix develop` (or `direnv allow` if you use direnv), then `fvm flutter run` works as usual.
+
+**Windows**
 
 ```powershell
 ./scripts/setup_dev.ps1
 ```
-
-> [!NOTE]
-> After running the script, you may need to restart your terminal or run `source ~/.bashrc` (or `~/.zshrc`) to use the FVM commands.
 
 ### 3. Create a Feature Branch
 
@@ -64,7 +72,7 @@ Because the project uses FVM, you must prefix all standard Flutter commands with
 fvm flutter pub get
 
 # Run the app
-fvm flutter run
+fvm flutter run --flavor standalone
 
 # Run tests
 fvm flutter test
@@ -91,6 +99,8 @@ Once your changes are ready and tested locally:
 3. Go to the original Mona repository on GitHub and click **New Pull Request**.
 4. Set the base branch to `dev` and the compare branch to your feature branch.
 5. Fill out the PR description, detailing what you changed and why.
+6. Make sure all the checks pass, and correct potential errors.
+
 It is strongly recommended to have an issue linked to your PR especially for bug fixes.
 
 ## Need Help?
@@ -122,6 +132,14 @@ Any new idea or suggestion is welcome !
 Here's how you can bring your ideas and suggestions to Mona :
 Open a new issue, where you explain your idea or suggestion. What does it bring to the application, how does it work, where did you source your information (if needed, for example for an algorithm) ... The team will review your issue, discuss with you about it, and accept it if they like it !
 
+## LLM use
+
+Mona is a health app that people trust with sensitive data. The project values contributions that a human wrote, understands, and can explain.
+
+- Vibe-coded PRs will be rejected.
+- Write PR/issue descriptions yourself, as AI summaries are genuinely hard to read and review.
+- Do not use AI to answer PR comments. You (as a human) must understand the code you wrote enough to answer yourself to our questions.
+
 ## Conventions
 
 ### Branch name
@@ -137,6 +155,7 @@ The name of the branches you create must follow this pattern : `<type>/<short na
 | build | when changing how to build the app, or dependencies     |
 | ci    | when changing the CI/CD scripts                         |
 | chore | when changing the code without altering functionalities |
+
 
 The short name is one or a few words that quickly tells what the branch will bring to the project. Example : `feat/add-multi-notification`.
 

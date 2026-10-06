@@ -1,68 +1,36 @@
-// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
-
+import 'package:clock/clock.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:mona/data/model/supply_item.dart';
-import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/util/validators.dart';
 
-class GenericSupply implements SupplyItem {
+part 'generic_supply_item.mapper.dart';
+
+@MappableEnum()
+enum GenericSupplyType {
+  syringe,
+  wipe,
+  needle,
+  gloves,
+  bandage;
+}
+
+@MappableClass(discriminatorValue: 'generic')
+class GenericSupply extends SupplyItem with GenericSupplyMappable {
   @override
   final int id;
   @override
   final String name;
   final int amount;
+  final GenericSupplyType genericSupplyType;
 
   GenericSupply({
     int? id,
     required this.name,
     required this.amount,
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch;
-
-  factory GenericSupply.fromMap(Map<String, Object?> map) {
-    return GenericSupply(
-      id: map['id'] as int?,
-      name: map['name'] as String,
-      amount: map['amount'] as int,
-    );
-  }
-
-  @override
-  Map<String, Object?> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'amount': amount,
-      'type': SupplyType.generic.name,
-    };
-  }
-
-  GenericSupply copyWith({
-    int? id,
-    String? name,
-    int? amount,
-  }) {
-    return GenericSupply(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      amount: amount ?? this.amount,
-    );
-  }
+    required this.genericSupplyType,
+  }) : id = id ?? clock.now().millisecondsSinceEpoch;
 
   // coverage:ignore-start
-  static String? validateAmount(AppLocalizations l10n, String? value) =>
-      requiredPositiveInt(l10n, value);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is GenericSupply && other.id == id;
-
-  @override
-  int get hashCode => id.hashCode;
-
-  @override
-  String toString() {
-    return 'GenericSupply(id: $id, name: $name, amount: $amount)';
-  }
+  static String? validateAmount(String? value) => requiredPositiveInt(value);
   // coverage:ignore-end
 }

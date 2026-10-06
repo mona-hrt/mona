@@ -1,0 +1,9 @@
+New:
+
+- Patches now support a dosing rate (µg/day)
+- Added a "getting involved" section in the settings
+- New language: Hindi
+
+Fix:
+
+- Centered the estradiol graph in the window

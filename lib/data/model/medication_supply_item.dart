@@ -1,56 +1,56 @@
-// SPDX-FileCopyrightText: 2026 Benjamin Danlos
-// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
-
-import 'dart:convert';
-
+import 'package:clock/clock.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/custom_mappers.dart';
+import 'package:mona/data/model/delivery_form.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/validators.dart';
 
-class MedicationSupplyItem implements SupplyItem {
+part 'medication_supply_item.mapper.dart';
+
+@MappableClass(
+  discriminatorValue: 'medication',
+  includeCustomMappers: [
+    DateStringMapper(),
+    DecimalStringMapper(),
+  ],
+)
+class MedicationSupplyItem extends SupplyItem
+    with MedicationSupplyItemMappable {
   @override
   final int id;
   @override
   final String name;
   final Decimal totalDose;
   final Decimal usedDose;
-  final Decimal concentration;
+  final Decimal dosePerUnit;
+  @MappableField(hook: JsonStringHook())
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
+  final DeliveryForm? deliveryForm;
+  final DosingBasis dosingBasis;
 
   MedicationSupplyItem({
     int? id,
     required this.name,
     required this.totalDose,
-    required this.concentration,
+    required this.dosePerUnit,
     Decimal? usedDose,
     required this.molecule,
     required this.administrationRoute,
     this.ester,
+    this.deliveryForm,
+    required this.dosingBasis,
   })  : usedDose = usedDose ?? Decimal.zero,
-        id = id ?? DateTime.now().millisecondsSinceEpoch;
-
-  factory MedicationSupplyItem.fromMap(Map<String, Object?> map) {
-    return MedicationSupplyItem(
-      id: map['id'] as int?,
-      name: map['name'] as String,
-      totalDose: (map['totalDose'] as String).toDecimal,
-      usedDose: (map['usedDose'] as String).toDecimal,
-      concentration: (map['concentration'] as String).toDecimal,
-      molecule: Molecule.fromJson(jsonDecode(map['moleculeJson'] as String)),
-      administrationRoute: AdministrationRoute.fromName(
-          map['administrationRouteName'] as String),
-      ester: Ester.fromName(map['esterName'] as String?),
-    );
-  }
+        id = id ?? clock.now().millisecondsSinceEpoch;
 
   bool get isUsed => usedDose > Decimal.zero;
   Decimal get remainingDose => totalDose - usedDose;
@@ -60,7 +60,7 @@ class MedicationSupplyItem implements SupplyItem {
         usedDose >= Decimal.zero &&
         usedDose <= totalDose &&
         name != '' &&
-        concentration > Decimal.zero;
+        dosePerUnit > Decimal.zero;
   }
 
   bool canUseDose(Decimal doseToUse) {
@@ -73,101 +73,45 @@ class MedicationSupplyItem implements SupplyItem {
         .toDouble();
   }
 
-  @override
-  Map<String, Object?> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'totalDose': totalDose.toString(),
-      'usedDose': usedDose.toString(),
-      'concentration': concentration.toString(),
-      'moleculeJson': jsonEncode(molecule.toJson()),
-      'administrationRouteName': administrationRoute.name,
-      'esterName': ester?.name,
-      'type': SupplyType.medication.name,
-    };
-  }
-
   Decimal getAmount(Decimal dose) =>
-      (dose.toRational() / concentration.toRational())
+      (dose.toRational() / dosePerUnit.toRational())
           .toDecimal(scaleOnInfinitePrecision: 3);
 
-  Decimal getDose(Decimal amount) => amount * concentration;
+  Decimal getDose(Decimal amount) => amount * dosePerUnit;
 
-  MedicationSupplyItem copyWith({
-    int? id,
-    String? name,
-    Decimal? totalDose,
-    Decimal? usedDose,
-    Decimal? concentration,
-    Molecule? molecule,
-    AdministrationRoute? administrationRoute,
-    Ester? ester,
-    bool clearEster = false,
-  }) {
-    return MedicationSupplyItem(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      totalDose: totalDose ?? this.totalDose,
-      usedDose: usedDose ?? this.usedDose,
-      concentration: concentration ?? this.concentration,
-      molecule: molecule ?? this.molecule,
-      administrationRoute: administrationRoute ?? this.administrationRoute,
-      ester: clearEster ? null : (ester ?? this.ester),
-    );
-  }
-
-  static String? Function(String?) usedAmountValidator(
-      AppLocalizations l10n, String totalAmount) {
+  static String? Function(String?) usedAmountValidator(String totalAmount) {
     return (String? value) {
-      return requiredPositiveDecimal(l10n, value) ??
-          (validateTotalAmount(l10n, totalAmount) != null
-              ? l10n.invalidTotalAmount
+      return requiredPositiveDecimal(value) ??
+          (validateTotalAmount(totalAmount) != null
+              ? t.invalidTotalAmount
               : null) ??
           (value.toDecimalOrZero > totalAmount.toDecimal
-              ? l10n.cannotExceedTotalCapacity
+              ? t.cannotExceedTotalCapacity
               : null);
     };
   }
 
-  static String? Function(Ester?) esterValidator(AppLocalizations l10n,
+  static String? Function(Ester?) esterValidator(
       Molecule? molecule, AdministrationRoute? administrationRoute) {
     return (Ester? value) {
       return (molecule == KnownMolecules.estradiol &&
               administrationRoute == AdministrationRoute.injection &&
               value == null)
-          ? l10n.requiredField
+          ? t.requiredField
           : null;
     };
   }
 
   // coverage:ignore-start
-  static String? validateTotalAmount(AppLocalizations l10n, String? value) =>
-      requiredStrictlyPositiveDecimal(l10n, value);
+  static String? validateTotalAmount(String? value) =>
+      requiredStrictlyPositiveDecimal(value);
 
-  static String? validateConcentration(AppLocalizations l10n, String? value) =>
-      requiredStrictlyPositiveDecimal(l10n, value);
+  static String? validateDosePerUnit(String? value) =>
+      requiredStrictlyPositiveDecimal(value);
 
-  static String? validateMolecule(AppLocalizations l10n, Molecule? value) =>
-      requiredMolecule(l10n, value);
+  static String? validateMolecule(Molecule? value) => requiredMolecule(value);
 
-  static String? validateAdministrationRoute(
-          AppLocalizations l10n, AdministrationRoute? value) =>
-      requiredAdministrationRoute(l10n, value);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is MedicationSupplyItem && other.id == id;
-
-  @override
-  int get hashCode => id.hashCode;
-
-  @override
-  String toString() {
-    return 'SupplyItem(id: $id, name: $name, molecule: ${molecule.name}, '
-        'ester: ${ester?.name}, route: ${administrationRoute.name}, '
-        'concentration: $concentration ${molecule.unit}/${administrationRoute.unit}, '
-        'totalDose: $totalDose, usedDose: $usedDose)';
-  }
+  static String? validateAdministrationRoute(AdministrationRoute? value) =>
+      requiredAdministrationRoute(value);
   // coverage:ignore-end
 }

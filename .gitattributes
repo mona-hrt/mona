@@ -1,6 +1,7 @@
-# SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-#
-# SPDX-License-Identifier: AGPL-3.0-only
-
-lib/l10n/app_localizations*.dart linguist-generated
+lib/i18n/translations*.g.dart linguist-generated
 **/*.mocks.dart linguist-generated
+**/*.mapper.dart linguist-generated
+**/generated_plugins.cmake linguist-generated
+android/app/src/main/res/values*/widget_plurals.xml linguist-generated
+android/app/src/main/res/values*/widget_strings.xml linguist-generated
+pubspec.lock linguist-generated

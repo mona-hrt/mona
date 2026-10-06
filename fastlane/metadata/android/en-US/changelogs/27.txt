@@ -1,0 +1,2 @@
+Fix:
+- Used correct icon weight and text size in buttons

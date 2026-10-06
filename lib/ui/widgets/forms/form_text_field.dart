@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class FormTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -16,6 +17,10 @@ class FormTextField extends StatelessWidget {
   final String? errorText;
   final String? regexFormatter;
 
+  /// Key applied to the inner [TextField] (not the outer widget), so e2e tests
+  /// can target the input without depending on its (localized) label.
+  final Key? fieldKey;
+
   const FormTextField({
     super.key,
     required this.controller,
@@ -27,6 +32,7 @@ class FormTextField extends StatelessWidget {
     this.regexFormatter,
     this.readonly = false,
     this.multiline = false,
+    this.fieldKey,
   });
 
   @override
@@ -34,6 +40,7 @@ class FormTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
+        key: fieldKey,
         controller: controller,
         keyboardType: multiline ? TextInputType.multiline : inputType,
         inputFormatters: regexFormatter != null
@@ -48,7 +55,7 @@ class FormTextField extends StatelessWidget {
           labelText: label,
           suffixText: suffixText,
           errorText: errorText,
-          suffixIcon: errorText != null ? Icon(Icons.error) : null,
+          suffixIcon: errorText != null ? Icon(Symbols.error_rounded) : null,
         ),
         onChanged: (value) => onChanged(),
         readOnly: readonly,

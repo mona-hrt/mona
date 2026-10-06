@@ -1,0 +1,7 @@
+New:
+
+- Monthly schedule: you can now program schedules on a monthly basis.
+
+Fix:
+
+- Default theme got toned down a little bit.

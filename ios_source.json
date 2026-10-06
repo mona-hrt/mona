@@ -31,12 +31,183 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.8.0/mona-1.8.0.ipa",
-      "size": 10700000,
-      "version": "1.8.0",
-      "versionDate": "2026-05-13T11:00:00Z",
-      "versionDescription": "- Transdermal drops: Drops are now a supported route of administration.\n- Notes on intakes: You can now add free notes to any intake. Jot down whatever feels useful!\n- Units: A new setting lets you choose the units used across the whole app.\n- Import from older versions: You can now import data from previous versions of Mona. No one gets left behind!\n\nBug fixes:\n- The word 'schedule' now correctly shows in singular when you only have one\n- The graph's X axis now only looks at injections for its min/max range, instead of all intakes\n- Fixed a bug introduced in 1.7 that was blocking some imports\n- Android back button fix: Pressing back now takes you to the home tab instead of closing the app.\n- Import from older versions: You can now import data from previous versions of Mona. No one gets left behind!\n\nBug fixes:\n- The word 'schedule' now correctly shows in singular when you only have one\n- The graph's X axis now only looks at injections for its min/max range, instead of all intakes\n- Fixed a bug introduced in 1.7 that was blocking some imports",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.0/mona-1.24.0.ipa",
+      "size": 11790178,
+      "version": "1.24.0",
+      "versionDate": "2026-10-04T15:07:37Z",
+      "versionDescription": "New:\r\n\r\n- You can now specify if an injection is subcutaneous or intramuscular\r\n- New languages: Indonesian, Hungarian\r\n- Blood tests can be added directly from the levels screen\r\n- Notifications now open directly to the \"take intake\" page\r\n\r\nFix:\r\n\r\n- The graph zoom is now more consistent\r\n- Fixed a crash when displaying decimals in some languages\r\n- Fixed an import error for some blood tests\r\n- Minor UI fixes",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.0/mona-1.24.0.ipa",
+          "size": 11790178,
+          "version": "1.24.0",
+          "buildVersion": "30",
+          "date": "2026-10-04T15:07:37Z",
+          "localizedDescription": "New:\r\n\r\n- You can now specify if an injection is subcutaneous or intramuscular\r\n- New languages: Indonesian, Hungarian\r\n- Blood tests can be added directly from the levels screen\r\n- Notifications now open directly to the \"take intake\" page\r\n\r\nFix:\r\n\r\n- The graph zoom is now more consistent\r\n- Fixed a crash when displaying decimals in some languages\r\n- Fixed an import error for some blood tests\r\n- Minor UI fixes",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.23.0/mona-1.23.0.ipa",
+          "size": 11765788,
+          "version": "1.23.0",
+          "buildVersion": "29",
+          "date": "2026-09-27T14:56:14Z",
+          "localizedDescription": "New:\r\n\r\n- Patches now support a dosing rate (µg/day)\r\n- Added a \"getting involved\" section in the settings\r\n- New language: Hindi\r\n\r\nFix:\r\n\r\n- Centered the estradiol graph in the window",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.22.0/mona-1.22.0.ipa",
+          "size": 11728505,
+          "version": "1.22.0",
+          "buildVersion": "28",
+          "date": "2026-09-20T17:24:03Z",
+          "localizedDescription": "New:\r\n\r\n- The graph page got a UI refresh\r\n- Units for estradiol and testosterone can be chosen independently\r\n- You can now reorder your schedules\r\n- New language: Simplified Chinese\r\n\r\nFix:\r\n\r\n- Upcoming intakes now display in chronological order\r\n- Adjusted padding around pharmacy page button group\r\n- Fixed a black screen issue when using the back gesture right after an intake",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.1/mona-1.21.1.ipa",
+          "size": 12420263,
+          "version": "1.21.1",
+          "buildVersion": "27",
+          "date": "2026-09-13T20:20:42Z",
+          "localizedDescription": "Fix:\r\n- Used correct icon weight and text size in buttons",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.21.0/mona-1.21.0.ipa",
+          "size": 12420991,
+          "version": "1.21.0",
+          "buildVersion": "26",
+          "date": "2026-09-13T17:54:41Z",
+          "localizedDescription": "New:\r\n- You can now create items for gel tubes and sachets.\r\n- Application sites can now be used with patches.\r\n- Add notes to your blood tests.\r\n\r\nFix:\r\n- Added a guard against huge intervals in schedules that would cause a crash.",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.1/mona-1.20.1.ipa",
+          "size": 12354764,
+          "version": "1.20.1",
+          "buildVersion": "25",
+          "date": "2026-09-11T09:38:59Z",
+          "localizedDescription": "New:\n\n- New languages: Italian, Urdu\n\nFix:\n\n- The UI now refreshes on a day change\n- Allowed dates before 2000 to be selected\n- Removed graph preview when no injections are active\n- Rounded remaining supply amount to one decimal",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.0/mona-1.20.0.ipa",
+          "size": 12343046,
+          "version": "1.20.0",
+          "buildVersion": "24",
+          "date": "2026-08-26T22:06:30Z",
+          "localizedDescription": "New:\r\n\r\n- Preview your levels in the new levels tab\r\n- You can now see your blood test levels as charts\r\n- New language: Albanian\r\n\r\nFix:\r\n\r\n- Used consistent icons\r\n- Corrected colors used in the item picker\r\n- Added all supported languages to the widget",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.19.0/mona-1.19.0.ipa",
+          "size": 12257211,
+          "version": "1.19.0",
+          "buildVersion": "22",
+          "date": "2026-08-23T15:20:37Z",
+          "localizedDescription": "New:\r\n\r\n- You can now use \"as needed\" when setting up a schedule\r\n- Adds pg/mL & ng/mL to the units\r\n- Minor UI tweaks",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.18.0/mona-1.18.0.ipa",
+          "size": 12237415,
+          "version": "1.18.0",
+          "buildVersion": "21",
+          "date": "2026-08-17T18:23:39Z",
+          "localizedDescription": "New:\r\n\r\n- Display your time on HRT as an Android widget!\r\n- Clarifies the concentration setting for non-injection routes\r\n- New language: Swedish",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.1/mona-1.17.1.ipa",
+          "size": 11958933,
+          "version": "1.17.1",
+          "buildVersion": "20",
+          "date": "2026-08-09T16:45:54Z",
+          "localizedDescription": "Fix:\r\n\r\n- Removes bottom margin on iOS 26+",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.0/mona-1.17.0.ipa",
+          "size": 12403138,
+          "version": "1.17.0",
+          "buildVersion": "19",
+          "date": "2026-08-03T15:22:23Z",
+          "localizedDescription": "New:\r\n\r\n- The take medication page was updated to let you choose multiple items, so you can track your items more efficiently.\r\n- Interval schedule now has the option to reschedule based on your last intake, instead of a fixed grid.\r\n- You can now choose at what time days start.\r\n- New language: British English",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.16.0/mona-1.16.0.ipa",
+          "size": 12377361,
+          "version": "1.16.0",
+          "buildVersion": "18",
+          "date": "2026-07-23T15:06:27Z",
+          "localizedDescription": "New:\r\n\r\n- See how long you've been on HRT from the intakes page\r\n- Updated UI for Home and Intakes\r\n- New languages : Dutch, Galician, Korean\r\n\r\nBug fix:\r\n\r\n- Corrects a crash in notification regeneration after manual intakes were logged",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.14.1/mona-1.14.1.ipa",
+          "size": 12276483,
+          "version": "1.14.1",
+          "buildVersion": "16",
+          "date": "2026-07-15T00:00:00Z",
+          "localizedDescription": "New:\n\n- New language: icelandic\n\nFixes:\n\n- Minor UI fixes",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.13.0/mona-1.13.0.ipa",
+          "size": 12165769,
+          "version": "1.13.0",
+          "buildVersion": "14",
+          "date": "2026-07-08T00:00:00Z",
+          "localizedDescription": "New:\n\n- New languages: Estonian, Polish, Toki Pona.\n- Graph now shows injections at the exact time they were taken.\n- You can now see and edit needle dead space for previous intakes.\n\nFix:\n\n- The date picker now always selects the correct date when creating a schedule.",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.1/mona-1.12.1.ipa",
+          "size": 12095714,
+          "version": "1.12.1",
+          "buildVersion": "13",
+          "date": "2026-06-28T00:00:00Z",
+          "localizedDescription": "New:\n\n- Display a message when an intake is recorded\n\nFix:\n\n- Fixes a bug causing notifications to duplicate",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.0/mona-1.12.0.ipa",
+          "size": 12095702,
+          "version": "1.12.0",
+          "buildVersion": "12",
+          "date": "2026-06-15T00:00:00Z",
+          "localizedDescription": "New:\n\n- Add wasted amount with an intake\n- New language: Thai\n\nFixes:\n\n- Version numbers display in the correct order in the update dialog\n- Some icons were missing, they're back now",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.10.1/mona-1.10.1.ipa",
+          "size": 10700000,
+          "version": "1.10.1",
+          "buildVersion": "10",
+          "date": "2026-05-30T00:00:00Z",
+          "localizedDescription": "Fix: Add back multiple notifications for interval schedules",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.10.0/mona-1.10.0.ipa",
+          "size": 10700000,
+          "version": "1.10.0",
+          "buildVersion": "9",
+          "date": "2026-05-29T00:00:00Z",
+          "localizedDescription": "- Added Russian translation. Привет to our new Russian-speaking users!\n- Removed unused internet permission. Your data stays on your device, as it should.\n- Fixed missing title on the 'no intakes today' message.",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.9.0/mona-1.9.0.ipa",
+          "size": 10700000,
+          "version": "1.9.0",
+          "buildVersion": "8",
+          "date": "2026-05-26T00:00:00Z",
+          "localizedDescription": "[NEW] Daily schedule\nSchedule multiple intakes per day with their own times. Each one shows independently on the homepage so you know what you've taken.\n\n[FIX] Ukrainian translation\nAdministration routes were not translated. Fixed.\n\n[FIX] Duplicate notifications\nSome users were getting notified twice for the same intake. Fixed.",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.8.0/mona-1.8.0.ipa",
           "size": 10700000,

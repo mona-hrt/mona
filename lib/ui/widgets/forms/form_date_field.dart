@@ -4,8 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
 
 class FormDateField extends StatelessWidget {
   final Date date;
@@ -29,15 +30,15 @@ class FormDateField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         controller: TextEditingController(
-            text: date.format(DateFormat.yMMMd(context.languageTag))),
+            text: date.format(DateFormat.yMMMd(context.intlLanguageTag))),
         keyboardType: TextInputType.datetime,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: label,
           errorText: errorText,
           suffixIcon: errorText != null
-              ? Icon(Icons.error)
-              : Icon(Icons.calendar_today),
+              ? Icon(Symbols.error_rounded)
+              : Icon(Symbols.calendar_today_rounded),
         ),
         readOnly: true,
         onTap: () => _selectDate(context),
@@ -49,12 +50,12 @@ class FormDateField extends StatelessWidget {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: (selectedDate ?? date).toDateTime(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1900),
       lastDate: DateTime(2100),
     );
 
     if (picked != null) {
-      onChanged(Date(DateTime.utc(picked.year, picked.month, picked.day)));
+      onChanged(Date(year: picked.year, month: picked.month, day: picked.day));
     }
   }
 }

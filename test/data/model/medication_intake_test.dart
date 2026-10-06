@@ -3,11 +3,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -20,11 +19,12 @@ void main() {
     test('constructor should throw if takenDateTime is not UTC', () {
       expect(
         () => MedicationIntake(
-          dose: Decimal.one,
-          takenDateTime: DateTime.now(),
+          takenDose: Decimal.one,
+          takenDateTime: DateTime(2025, 9, 14, 12, 0),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         ),
         throwsArgumentError,
       );
@@ -35,67 +35,31 @@ void main() {
         () {
       expect(
         () => MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         ),
         throwsArgumentError,
       );
     });
 
-    test('toMap and fromMap should preserve values', () {
-      final taken = DateTime.utc(2025, 9, 14, 12, 0);
-
-      final intake = MedicationIntake(
-          id: 1,
-          dose: Decimal.parse('2.5'),
-          takenDateTime: taken,
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.left,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-          ester: Ester.cypionate,
-          scheduledTime: const TimeOfDay(hour: 8, minute: 30));
-
-      final map = intake.toMap();
-      final fromMap =
-          MedicationIntakeMapper.fromMap(Map<String, dynamic>.from(map));
-
-      expect(
-        fromMap,
-        isA<MedicationIntake>()
-            .having((i) => i.id, 'id', intake.id)
-            .having(
-                (i) => i.takenDateTime, 'takenDateTime', intake.takenDateTime)
-            .having(
-                (i) => i.takenTimeZone, 'takenTimeZone', intake.takenTimeZone)
-            .having((i) => i.dose, 'dose', intake.dose)
-            .having((i) => i.scheduleId, 'scheduleId', intake.scheduleId)
-            .having((i) => i.side, 'side', intake.side)
-            .having((i) => i.molecule, 'molecule', intake.molecule)
-            .having((i) => i.administrationRoute, 'administrationRoute',
-                intake.administrationRoute)
-            .having((i) => i.ester, 'ester', intake.ester)
-            .having(
-                (i) => i.scheduledTime, 'scheduledTime', intake.scheduledTime),
-      );
-    });
-
     test('isTaken returns correct value', () {
       final intakeTaken = MedicationIntake(
-        dose: Decimal.one,
+        takenDose: Decimal.one,
         takenDateTime: DateTime.utc(2025, 9, 14, 11, 0),
         takenTimeZone: 'Etc/UTC',
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       );
 
       final intakeNotTaken = MedicationIntake(
-        dose: Decimal.one,
+        takenDose: Decimal.one,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.gel,
+        dosingBasis: DosingBasis.mass,
       );
 
       expect(
@@ -114,11 +78,12 @@ void main() {
       test('takenLocalDateTime returns null when takenDateTime is null', () {
         // Arrange
         final intake = MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: null,
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -133,11 +98,12 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 8, 0),
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -151,15 +117,16 @@ void main() {
           'takenLocalDateTime works with timezone names not in the reduced database',
           () {
         final intake = MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenTimeZone:
               'Europe/Amsterdam', // missing from package:timezone latest.dart
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
-        expect(intake.takenLocalDate, Date(DateTime.utc(2024, 6, 15)));
+        expect(intake.takenLocalDate, Date(year: 2024, month: 6, day: 15));
       });
 
       test(
@@ -167,11 +134,12 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 1, 0),
           takenTimeZone: 'America/New_York',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -184,11 +152,12 @@ void main() {
       test('takenLocalDate returns null when takenDateTime is null', () {
         // Arrange
         final intake = MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: null,
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
@@ -201,18 +170,19 @@ void main() {
       test('takenLocalDate returns correct date in Europe/Paris timezone', () {
         // Arrange
         final intake = MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 10, 0),
           takenTimeZone: 'Europe/Paris',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
         final result = intake.takenLocalDate;
 
         // Assert
-        expect(result, Date(DateTime.utc(2024, 6, 15)));
+        expect(result, Date(year: 2024, month: 6, day: 15));
       });
 
       test(
@@ -220,18 +190,19 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 1, 0),
           takenTimeZone: 'America/New_York',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
         final result = intake.takenLocalDate;
 
         // Assert
-        expect(result, Date(DateTime.utc(2024, 6, 14)));
+        expect(result, Date(year: 2024, month: 6, day: 14));
       });
 
       test(
@@ -239,18 +210,19 @@ void main() {
           () {
         // Arrange
         final intake = MedicationIntake(
-          dose: Decimal.one,
+          takenDose: Decimal.one,
           takenDateTime: DateTime.utc(2024, 6, 15, 2, 0),
           takenTimeZone: 'Etc/UTC',
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          dosingBasis: DosingBasis.mass,
         );
 
         // Act
         final result = intake.takenLocalDate;
 
         // Assert
-        expect(result, Date(DateTime.utc(2024, 6, 14)));
+        expect(result, Date(year: 2024, month: 6, day: 14));
       });
     });
   });

@@ -3,21 +3,32 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_scheduling_page.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
+import 'package:mona/ui/widgets/dosing_basis_field.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
+import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -37,21 +48,23 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
   late Ester? _ester;
+  late DosingBasis _dosingBasis;
+  late Date _startDate;
   late PreferencesService _preferencesService;
   late MedicationScheduleProvider _medicationScheduleProvider;
 
   String? get _nameError =>
-      MedicationSchedule.validateName(context.l10n, _nameController.text);
+      MedicationSchedule.validateName(_nameController.text);
   String? get _doseError =>
-      MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _moleculeError =>
-      MedicationSchedule.validateMolecule(context.l10n, _molecule);
+      MedicationSchedule.validateDose(_doseController.text);
+  String? get _moleculeError => MedicationSchedule.validateMolecule(_molecule);
   String? get _administrationRouteError =>
-      MedicationSchedule.validateAdministrationRoute(
-          context.l10n, _administrationRoute);
+      MedicationSchedule.validateAdministrationRoute(_administrationRoute);
+  String? get _startDateError =>
+      MedicationSchedule.validateStartDate(_startDate);
   String? get _esterError {
-    final validator = MedicationSchedule.esterValidator(
-        context.l10n, _molecule, _administrationRoute);
+    final validator =
+        MedicationSchedule.esterValidator(_molecule, _administrationRoute);
     return validator(_ester);
   }
 
@@ -60,11 +73,15 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       _doseError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
-      _esterError == null;
+      _esterError == null &&
+      _startDateError == null;
 
   bool get _useEsterField =>
       _molecule == KnownMolecules.estradiol &&
       _administrationRoute == AdministrationRoute.injection;
+
+  bool get _supportsReleaseRate =>
+      supportsReleaseRate(_molecule, _administrationRoute);
 
   void _onMoleculeChanged(Molecule? molecule) {
     if (molecule != null) {
@@ -73,6 +90,10 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
 
         if (!_useEsterField) {
           _ester = null;
+        }
+
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
         }
       });
     }
@@ -86,6 +107,10 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
         if (!_useEsterField) {
           _ester = null;
         }
+
+        if (!_supportsReleaseRate) {
+          _dosingBasis = DosingBasis.mass;
+        }
       });
     }
   }
@@ -98,18 +123,32 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     }
   }
 
+  void _onDosingBasisChanged(DosingBasis? dosingBasis) {
+    if (dosingBasis != null) {
+      setState(() {
+        _dosingBasis = dosingBasis;
+      });
+    }
+  }
+
   void _refresh() => setState(() {});
 
   void _saveSchedule() {
     if (!_isFormValid) return;
     if (!mounted) return;
 
-    final updatedSchedule = widget.schedule.copyWith(
+    final originalSchedule =
+        _medicationScheduleProvider.getScheduleById(widget.schedule.id) ??
+            widget.schedule;
+    final dosingBasis = _supportsReleaseRate ? _dosingBasis : DosingBasis.mass;
+    final updatedSchedule = originalSchedule.copyWith(
       name: _nameController.text,
       dose: _doseController.text.toDecimal,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
       ester: _useEsterField ? _ester : null,
+      startDate: _startDate,
+      dosingBasis: dosingBasis,
     );
     _medicationScheduleProvider.updateSchedule(updatedSchedule);
 
@@ -117,10 +156,9 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   }
 
   Future<void> _confirmDelete() async {
-    final localizations = context.l10n;
     final confirmed = await Dialogs.confirmDeleteDialog(
       context: context,
-      title: localizations.deleteSchedule(widget.schedule.name),
+      title: t.deleteSchedule(name: widget.schedule.name),
     );
 
     if (confirmed == true && mounted) {
@@ -142,6 +180,8 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     _molecule = widget.schedule.molecule;
     _administrationRoute = widget.schedule.administrationRoute;
     _ester = widget.schedule.ester;
+    _dosingBasis = widget.schedule.dosingBasis;
+    _startDate = widget.schedule.startDate;
   }
 
   @override
@@ -153,18 +193,24 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
+    final currentSchedule = context
+            .watch<MedicationScheduleProvider>()
+            .getScheduleById(widget.schedule.id) ??
+        widget.schedule;
 
     return ModelForm(
-      title: localizations.editSchedule,
-      submitButtonLabel: localizations.save,
+      title: t.editSchedule,
+      submitButtonLabel: t.save,
+      submitButtonKey: const ValueKey('editScheduleSave'),
+      deleteButtonKey: const ValueKey('editScheduleDelete'),
       isFormValid: _isFormValid,
       saveChanges: _saveSchedule,
       onDelete: _confirmDelete,
       fields: [
         FormTextField(
           controller: _nameController,
-          label: localizations.name,
+          label: t.name,
+          fieldKey: const ValueKey('editScheduleName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,
@@ -172,35 +218,65 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
         FormSpacer(),
         FormDropdownField<Molecule>(
           value: _molecule,
-          items: moleculeDropdownMenuItems(
-            _preferencesService.allMolecules,
-            localizations,
-          ),
+          items: moleculeDropdownMenuItems(_preferencesService.allMolecules),
           onChanged: _onMoleculeChanged,
-          label: localizations.molecule,
+          label: t.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
-          items: administrationRouteDropdownMenuItems(localizations),
+          items: administrationRouteDropdownMenuItems(),
           onChanged: _onAdministrationRouteChanged,
-          label: localizations.adminRoute,
+          label: t.adminRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
-            items: esterDropdownMenuItems(localizations),
+            items: esterDropdownMenuItems(),
             onChanged: _onEsterChanged,
-            label: localizations.ester,
+            label: t.ester,
           ),
-        FormSpacer(),
         FormTextField(
           controller: _doseController,
-          label: localizations.amount,
+          label: t.amount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule.unit,
+          suffixText: _molecule.localizedUnit(_dosingBasis),
           errorText: _doseError,
-          regexFormatter: r'[0-9.,]',
+          regexFormatter: RegexPatterns.floatNumber,
+        ),
+        DosingBasisField(
+          molecule: _molecule,
+          route: _administrationRoute,
+          value: _dosingBasis,
+          onChanged: _onDosingBasisChanged,
+        ),
+        FormSpacer(),
+        FormDateField(
+          date: _startDate,
+          label: t.startDate,
+          errorText: _startDateError,
+          onChanged: (date) => setState(() => _startDate = date),
+        ),
+        FormSpacer(),
+        M3ESegmentedColumn(
+          padding: EdgeInsets.zero,
+          margin: EdgeInsets.symmetric(vertical: 8),
+          children: [
+            TappableListTile(
+              key: const ValueKey('editScheduleSchedulingTile'),
+              title: t.scheduling,
+              subtitle: currentSchedule.localizedFrequency,
+              leading: Icon(Symbols.event_repeat_rounded),
+              trailing: Icon(Symbols.chevron_right_rounded),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) => EditScheduleSchedulingPage(
+                    schedule: currentSchedule,
+                  ),
+                ));
+              },
+            ),
+          ],
         ),
       ],
     );

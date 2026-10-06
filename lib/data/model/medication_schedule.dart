@@ -1,29 +1,21 @@
-// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
-
+import 'package:clock/clock.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/validators.dart';
 
 part 'medication_schedule.mapper.dart';
 
 @MappableClass(
-  // TODO: migrate Molecule (and the daily notification list) to use
-  // JsonStringHook (see mapping_hooks.dart) and delete MoleculeJsonMapper /
-  // NotificationTimesMapper.
   includeCustomMappers: [
-    MoleculeJsonMapper(),
-    AdministrationRouteNameMapper(),
-    EsterNameMapper(),
     DecimalStringMapper(),
     DateStringMapper(),
   ],
@@ -34,14 +26,13 @@ class MedicationSchedule with MedicationScheduleMappable {
   final String name;
   final Decimal dose;
   final Date startDate;
-  @MappableField(key: 'moleculeJson')
+  @MappableField(hook: JsonStringHook())
   final Molecule molecule;
-  @MappableField(key: 'administrationRouteName')
   final AdministrationRoute administrationRoute;
-  @MappableField(key: 'esterName')
   final Ester? ester;
-  @MappableField(key: 'schedulingStrategy', hook: JsonStringHook())
+  @MappableField(hook: JsonStringHook())
   final SchedulingStrategy scheduling;
+  final DosingBasis dosingBasis;
 
   MedicationSchedule({
     int? id,
@@ -52,35 +43,32 @@ class MedicationSchedule with MedicationScheduleMappable {
     required this.molecule,
     required this.administrationRoute,
     this.ester,
-  })  : id = id ?? DateTime.now().millisecondsSinceEpoch,
+    required this.dosingBasis,
+  })  : id = id ?? clock.now().millisecondsSinceEpoch,
         startDate = startDate ?? Date.today();
 
-  static String? Function(Ester?) esterValidator(AppLocalizations l10n,
+  static String? Function(Ester?) esterValidator(
       Molecule? molecule, AdministrationRoute? administrationRoute) {
     return (Ester? value) {
       return (molecule == KnownMolecules.estradiol &&
               administrationRoute == AdministrationRoute.injection &&
               value == null)
-          ? l10n.requiredField
+          ? t.requiredField
           : null;
     };
   }
 
   // coverage:ignore-start
-  static String? validateName(AppLocalizations l10n, String? value) =>
-      requiredString(l10n, value);
+  static String? validateName(String? value) => requiredString(value);
 
-  static String? validateDose(AppLocalizations l10n, String? value) =>
-      requiredStrictlyPositiveDecimal(l10n, value);
+  static String? validateDose(String? value) =>
+      requiredStrictlyPositiveDecimal(value);
 
-  static String? validateStartDate(AppLocalizations l10n, Date? value) =>
-      requiredDate(l10n, value);
+  static String? validateStartDate(Date? value) => requiredDate(value);
 
-  static String? validateMolecule(AppLocalizations l10n, Molecule? value) =>
-      requiredMolecule(l10n, value);
+  static String? validateMolecule(Molecule? value) => requiredMolecule(value);
 
-  static String? validateAdministrationRoute(
-          AppLocalizations l10n, AdministrationRoute? value) =>
-      requiredAdministrationRoute(l10n, value);
+  static String? validateAdministrationRoute(AdministrationRoute? value) =>
+      requiredAdministrationRoute(value);
   // coverage:ignore-end
 }

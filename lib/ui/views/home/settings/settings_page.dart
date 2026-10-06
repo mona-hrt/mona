@@ -6,28 +6,33 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/distribution.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/units_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/backup_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/update_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/views/home/settings/application_sites_page.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
+import 'package:mona/ui/views/home/settings/secret_settings_page.dart';
+import 'package:mona/ui/views/home/settings/theme_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
+import 'package:mona/ui/widgets/switch_tile.dart';
+import 'package:mona/ui/widgets/tappable_list_tile.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-String? _nativeLanguageNameForStoredTag(String tag) {
-  for (final (code, _, nativeName) in LanguagePage.languages) {
-    if (code == tag) return nativeName;
-  }
-  return null;
-}
+const _reportBugUrl = 'https://github.com/mona-hrt/mona/issues/new';
+const _translateUrl = 'https://hosted.weblate.org/engage/mona/';
+const _donateUrl = 'https://ko-fi.com/deliacheminot';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -100,14 +105,17 @@ class _SettingsPageState extends State<SettingsPage>
   }
 
   Future<void> _exportData() async {
-    final localizations = context.l10n;
     try {
-      final savedPath = await BackupService().exportData();
+      final box = context.findRenderObject() as RenderBox?;
+      final origin =
+          box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+      final success =
+          await BackupService().exportData(sharePositionOrigin: origin);
 
-      if (savedPath != null && mounted) {
+      if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(localizations.backupSavedTo(savedPath)),
+            content: Text(t.backupSaved),
             duration: const Duration(seconds: 4),
           ),
         );
@@ -115,29 +123,28 @@ class _SettingsPageState extends State<SettingsPage>
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(localizations.exportFailed(e))),
+          SnackBar(content: Text(t.exportFailed(error: e))),
         );
       }
     }
   }
 
   Future<void> _importData() async {
-    final l10n = context.l10n;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(l10n.importDataTitle),
-        content: Text(l10n.importDataOverwriteWarning),
+        title: Text(t.importDataTitle),
+        content: Text(t.importDataOverwriteWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.cancel),
+            child: Text(t.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.error),
-            child: Text(l10n.importConfirm),
+            child: Text(t.importConfirm),
           ),
         ],
       ),
@@ -151,12 +158,12 @@ class _SettingsPageState extends State<SettingsPage>
             context: context,
             barrierDismissible: false,
             builder: (context) => AlertDialog(
-              title: Text(l10n.importSuccessfulTitle),
-              content: Text(l10n.importRestartRequired),
+              title: Text(t.importSuccessfulTitle),
+              content: Text(t.importRestartRequired),
               actions: [
                 TextButton(
                   onPressed: () => exit(0),
-                  child: Text(l10n.closeApp),
+                  child: Text(t.closeApp),
                 ),
               ],
             ),
@@ -165,11 +172,22 @@ class _SettingsPageState extends State<SettingsPage>
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.importFailed(e))),
+            SnackBar(content: Text(t.importFailed(error: e))),
           );
         }
       }
     }
+  }
+
+  Future<void> _openUrl(String url) async {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  }
+
+  Widget _sectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(title),
+    );
   }
 
   @override
@@ -177,150 +195,216 @@ class _SettingsPageState extends State<SettingsPage>
     final medicationScheduleProvider =
         context.watch<MedicationScheduleProvider>();
     final preferencesService = context.watch<PreferencesService>();
-    final localizations = context.l10n;
 
     if (medicationScheduleProvider.isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text(localizations.settingsTitle)),
+        appBar: AppBar(title: Text(t.settingsTitle)),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(localizations.settingsTitle)),
+      appBar: AppBar(title: Text(t.settingsTitle)),
       body: ListView(
+        padding: pagePadding +
+            EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
         children: [
-          //
-          // ==== Schedules and notifications ====
-          //
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: borderPadding, vertical: 8.0),
-            child: Text(
-              localizations.schedulesAndNotifications,
-            ),
-          ),
-          ListTile(
-            title: Text(localizations.schedules),
-            subtitle: Text(medicationScheduleProvider.schedules.isEmpty
-                ? localizations.noSchedules
-                : localizations.schedulesCreated(
-                    medicationScheduleProvider.schedules.length)),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute<void>(
-                builder: (context) => SchedulesPage(),
-              ));
-            },
-          ),
-          SwitchListTile(
-            title: Text(localizations.enableNotifications),
-            subtitle: Text(localizations.enableNotificationsDescription),
-            value: _notificationsEnabled,
-            onChanged: _toggleNotifications,
-          ),
-          if (_notificationsEnabled && !_permissionGranted)
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: Text(localizations.notificationsDisabledTitle),
-              subtitle: Text(localizations.clickToOpenSettings),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () async {
-                await openAppSettings();
-              },
-            ),
-          if (_notificationsEnabled &&
-              _permissionGranted &&
-              !_exactAlarmsGranted)
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: Text(localizations.exactRemindersDisabled),
-              subtitle: Text(localizations.remindersDelayed),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () async {
-                await openAppSettings();
-              },
-            ),
-          const Divider(),
-          //
-          // ==== General ====
-          //
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: borderPadding, vertical: 8.0),
-            child: Text(
-              localizations.general,
-            ),
-          ),
-          ListTile(
-            title: Text(localizations.language),
-            subtitle: Text(
-              preferencesService.savedLanguageTag == null
-                  ? localizations.languageFollowDevice
-                  : (_nativeLanguageNameForStoredTag(
-                          preferencesService.savedLanguageTag!) ??
-                      preferencesService.savedLanguageTag!),
-            ),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (context) => LanguagePage()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(localizations.units),
-            subtitle: Text(preferencesService.units.name),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute<void>(builder: (context) => UnitsPage()));
-            },
-          ),
-          if (Platform.isAndroid && !isStoreDistribution) ...[
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: borderPadding, vertical: 8.0),
-              child: Text(
-                localizations.updates,
+          _sectionHeader(t.schedulesAndNotifications),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                key: const ValueKey('settingsSchedulesTile'),
+                title: t.schedules,
+                subtitle: medicationScheduleProvider.schedules.isEmpty
+                    ? t.noSchedules
+                    : t.schedulesCreated(
+                        count: medicationScheduleProvider.schedules.length),
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                    builder: (context) => SchedulesPage(),
+                  ));
+                },
               ),
-            ),
-            SwitchListTile(
-              title: Text(localizations.autoUpdate),
-              subtitle: Text(localizations.autoUpdateDescription),
-              value: _autoCheckUpdatesEnabled,
-              onChanged: _toggleAutoCheckUpdates,
-            ),
-            ListTile(
-              title: Text(localizations.checkForUpdates),
-              subtitle: Text(localizations.checkForUpdatesDescription),
-              trailing: const Icon(Symbols.update),
-              onTap: () => UpdateService().checkForUpdates(context),
+              SwitchTile(
+                title: t.enableNotifications,
+                subtitle: t.enableNotificationsDescription,
+                value: _notificationsEnabled,
+                onChanged: _toggleNotifications,
+              ),
+              if (_notificationsEnabled && !_permissionGranted)
+                TappableListTile(
+                  leading: const Icon(Symbols.info_rounded),
+                  title: t.notificationsDisabledTitle,
+                  subtitle: t.clickToOpenSettings,
+                  trailing: const Icon(Symbols.chevron_right_rounded),
+                  onTap: () async {
+                    await openAppSettings();
+                  },
+                ),
+              if (_notificationsEnabled &&
+                  _permissionGranted &&
+                  !_exactAlarmsGranted)
+                TappableListTile(
+                  leading: const Icon(Symbols.info_rounded),
+                  title: t.exactRemindersDisabled,
+                  subtitle: t.remindersDelayed,
+                  trailing: const Icon(Symbols.chevron_right_rounded),
+                  onTap: () async {
+                    await openAppSettings();
+                  },
+                ),
+            ],
+          ),
+          SizedBox(height: borderPadding),
+          _sectionHeader(t.medicalSettings),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                key: const ValueKey('settingsInjectionSitesTile'),
+                title: t.applicationSites,
+                subtitle: t.applicationSitesDescription,
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (context) => const ApplicationSitesPage()));
+                },
+              ),
+              TappableListTile(
+                title: t.units,
+                subtitle:
+                    '${preferencesService.estradiolUnit.localizedName} & ${preferencesService.testosteroneUnit.localizedName}',
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (context) => UnitsPage()));
+                },
+              ),
+              TappableListTile(
+                key: const ValueKey('settingsStartOfDayTile'),
+                title: t.startOfDay,
+                subtitle: t.startOfDayDescription(
+                  time: preferencesService.logicalDayStart.format(context),
+                ),
+                trailing: const Icon(Symbols.access_time_rounded),
+                onTap: () async {
+                  final picked = await showTimePicker(
+                    context: context,
+                    initialTime: preferencesService.logicalDayStart,
+                  );
+                  if (picked != null) {
+                    await preferencesService.setLogicalDayStart(picked);
+                  }
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: borderPadding),
+          _sectionHeader(t.general),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                title: t.language,
+                subtitle: preferencesService.savedLanguageTag == null
+                    ? t.languageFollowDevice
+                    : (LanguagePage.nativeNameOf(
+                            preferencesService.savedLanguageTag!) ??
+                        preferencesService.savedLanguageTag!),
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                        builder: (context) => LanguagePage()),
+                  );
+                },
+              ),
+              TappableListTile(
+                title: t.theme,
+                subtitle: t.themeCustomizeColors,
+                trailing: const Icon(Symbols.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                        builder: (context) => const ThemePage()),
+                  );
+                },
+              ),
+              SwitchTile(
+                title: t.HrtCounter,
+                subtitle: t.HrtCounterDescription,
+                value: preferencesService.hrtCounterEnabled,
+                onChanged: (value) =>
+                    preferencesService.setHrtCounterEnabled(value),
+              ),
+            ],
+          ),
+          if (isSelfUpdating) ...[
+            SizedBox(height: borderPadding),
+            _sectionHeader(t.updates),
+            M3ESegmentedColumn(
+              padding: EdgeInsets.zero,
+              children: [
+                SwitchTile(
+                  title: t.autoUpdate,
+                  subtitle: t.autoUpdateDescription,
+                  value: _autoCheckUpdatesEnabled,
+                  onChanged: _toggleAutoCheckUpdates,
+                ),
+                TappableListTile(
+                  title: t.checkForUpdates,
+                  subtitle: t.checkForUpdatesDescription,
+                  trailing: const Icon(Symbols.update_rounded),
+                  onTap: () => UpdateService().checkForUpdates(context),
+                ),
+              ],
             ),
           ],
-          const Divider(),
-          //
-          // ==== Data management ====
-          //
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: borderPadding, vertical: 8.0),
-            child: Text(
-              localizations.dataManagement,
-            ),
+          SizedBox(height: borderPadding),
+          _sectionHeader(t.dataManagement),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                title: t.exportDataTitle,
+                subtitle: t.exportDataSubtitle,
+                trailing: const Icon(Symbols.upload_rounded),
+                onTap: _exportData,
+              ),
+              TappableListTile(
+                title: t.importDataTitle,
+                subtitle: t.importDataSubtitle,
+                trailing: const Icon(Symbols.download_rounded),
+                onTap: _importData,
+              ),
+            ],
           ),
-          ListTile(
-            title: Text(localizations.exportDataTitle),
-            subtitle: Text(localizations.exportDataSubtitle),
-            trailing: const Icon(Symbols.upload),
-            onTap: _exportData,
-          ),
-          ListTile(
-            title: Text(localizations.importDataTitle),
-            subtitle: Text(localizations.importDataSubtitle),
-            trailing: const Icon(Symbols.download),
-            onTap: _importData,
+          SizedBox(height: borderPadding),
+          _sectionHeader(t.getInvolved),
+          M3ESegmentedColumn(
+            padding: EdgeInsets.zero,
+            children: [
+              TappableListTile(
+                title: t.reportBug,
+                subtitle: t.reportBugDescription,
+                trailing: const Icon(Symbols.bug_report_rounded),
+                onTap: () => _openUrl(_reportBugUrl),
+              ),
+              TappableListTile(
+                title: t.translateApp,
+                subtitle: t.translateAppDescription,
+                trailing: const Icon(Symbols.translate_rounded),
+                onTap: () => _openUrl(_translateUrl),
+              ),
+              TappableListTile(
+                title: t.donate,
+                subtitle: t.donateDescription,
+                trailing: const Icon(Symbols.favorite_rounded),
+                onTap: () => _openUrl(_donateUrl),
+              ),
+            ],
           ),
           const SizedBox(height: 32),
           FutureBuilder<PackageInfo>(
@@ -329,9 +413,16 @@ class _SettingsPageState extends State<SettingsPage>
               if (!snapshot.hasData) return const SizedBox.shrink();
               final info = snapshot.data!;
               return Center(
-                child: Text(
-                  localizations.appVersion(info.version),
-                  style: Theme.of(context).textTheme.bodySmall,
+                child: GestureDetector(
+                  onLongPress: () {
+                    Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (context) => const SecretSettingsPage(),
+                    ));
+                  },
+                  child: Text(
+                    t.appVersion(version: info.version),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
               );
             },

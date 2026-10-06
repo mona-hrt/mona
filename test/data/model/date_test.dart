@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
-
+import 'package:clock/clock.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart';
+
+import '../../util/test_clock.dart';
 
 void main() {
   setUpAll(() async {
@@ -17,12 +17,30 @@ void main() {
 
   group('Date', () {
     group('constructor', () {
+      test('builds a UTC midnight value from year/month/day', () {
+        // Act
+        final date = Date(year: 2026, month: 3, day: 30);
+
+        // Assert
+        expect(date.value, DateTime.utc(2026, 3, 30));
+      });
+
+      test('defaults month and day to 1', () {
+        // Act
+        final date = Date(year: 2026);
+
+        // Assert
+        expect(date.value, DateTime.utc(2026, 1, 1));
+      });
+    });
+
+    group('Date.fromUtc', () {
       test('throws if value is not UTC', () {
         // Arrange
         final invalidDate = DateTime(2026, 3, 30, 12, 0);
 
         // Act & Assert
-        expect(() => Date(invalidDate), throwsArgumentError);
+        expect(() => Date.fromUtc(invalidDate), throwsArgumentError);
       });
 
       test('throws if value is not at midnight', () {
@@ -30,7 +48,7 @@ void main() {
         final invalidDate = DateTime.utc(2026, 3, 30, 12, 0);
 
         // Act & Assert
-        expect(() => Date(invalidDate), throwsArgumentError);
+        expect(() => Date.fromUtc(invalidDate), throwsArgumentError);
       });
 
       test('accepts valid UTC midnight date', () {
@@ -38,7 +56,7 @@ void main() {
         final validDate = DateTime.utc(2026, 3, 30);
 
         // Act
-        final date = Date(validDate);
+        final date = Date.fromUtc(validDate);
 
         // Assert
         expect(date.value, validDate);
@@ -48,13 +66,14 @@ void main() {
     group('Date.fromDateTime', () {
       test('3:59am belongs to the previous day', () {
         // Arrange
-        final input = DateTime(2026, 3, 30, 3, 59);
+        final input = DateTime(2026, 4, 1, 3, 59);
 
         // Act
         final date = Date.fromDateTime(input);
 
         // Assert
-        expect(date.value, DateTime.utc(2026, 3, 29));
+        expect(date.value, DateTime.utc(2026, 3, 31));
+        print('Input: $input, Date: ${date.value}');
       });
 
       test('4:00am belongs to the current day', () {
@@ -114,6 +133,60 @@ void main() {
       });
     });
 
+    group('Date.fromDateTime with a custom start-of-day (4:30am)', () {
+      setUp(() => logicalDayStartMinutes = 270);
+      tearDown(() => logicalDayStartMinutes = 240);
+
+      test('4:29am belongs to the previous day', () {
+        // Arrange
+        final input = DateTime(2026, 3, 30, 4, 29);
+
+        // Act
+        final date = Date.fromDateTime(input);
+
+        // Assert
+        expect(date.value, DateTime.utc(2026, 3, 29));
+      });
+
+      test('4:30am belongs to the current day', () {
+        // Arrange
+        final input = DateTime(2026, 3, 30, 4, 30);
+
+        // Act
+        final date = Date.fromDateTime(input);
+
+        // Assert
+        expect(date.value, DateTime.utc(2026, 3, 30));
+      });
+    });
+
+    group('toDateTimeAt with a custom start-of-day (4:30am)', () {
+      setUp(() => logicalDayStartMinutes = 270);
+      tearDown(() => logicalDayStartMinutes = 240);
+
+      test('a time before the start rolls to the next calendar day', () {
+        // Arrange
+        final date = Date(year: 2026, month: 3, day: 30);
+
+        // Act
+        final result = date.toDateTimeAt(const TimeOfDay(hour: 4, minute: 29));
+
+        // Assert
+        expect(result, DateTime(2026, 3, 31, 4, 29));
+      });
+
+      test('a time at the start stays on the same calendar day', () {
+        // Arrange
+        final date = Date(year: 2026, month: 3, day: 30);
+
+        // Act
+        final result = date.toDateTimeAt(const TimeOfDay(hour: 4, minute: 30));
+
+        // Assert
+        expect(result, DateTime(2026, 3, 30, 4, 30));
+      });
+    });
+
     group('Date.fromString / toString', () {
       test('round-trip preserves the date', () {
         // Arrange
@@ -169,37 +242,40 @@ void main() {
     });
 
     group('today', () {
-      test('Date.today() is today (or yesterday if it is before 4am)', () {
-        // Arrange
-        final now = DateTime.now().toUtc();
-        final logicalDay =
-            now.hour < 4 ? now.subtract(const Duration(days: 1)) : now;
-        final todayWithConstructor = Date(
-            DateTime.utc(logicalDay.year, logicalDay.month, logicalDay.day));
+      test('Date.today() is the current logical day after 4am', () {
+        withFixedClock(() {
+          // Act & Assert
+          expect(Date.today(), Date(year: 2026, month: 6, day: 1));
+        }, at: DateTime(2026, 6, 1, 12, 0));
+      });
 
-        // Act
-        final today = Date.today();
-
-        // Assert
-        expect(today, todayWithConstructor);
+      test('Date.today() rolls back to the previous day before 4am', () {
+        withFixedClock(() {
+          // Act & Assert
+          expect(Date.today(), Date(year: 2026, month: 5, day: 31));
+        }, at: DateTime(2026, 6, 1, 3, 0));
       });
 
       test('isToday is true for today', () {
-        // Arrange
-        final today = Date.today();
+        withFixedClock(() {
+          // Arrange
+          final today = Date.today();
 
-        // Act & Assert
-        expect(today.isToday, isTrue);
+          // Act & Assert
+          expect(today.isToday, isTrue);
+        });
       });
 
       test('isToday is false for dates other than today', () {
-        // Arrange
-        final yesterday = Date.fromDateTime(
-          DateTime.now().subtract(const Duration(days: 1)),
-        );
+        withFixedClock(() {
+          // Arrange
+          final yesterday = Date.fromDateTime(
+            clock.now().subtract(const Duration(days: 1)),
+          );
 
-        // Act & Assert
-        expect(yesterday.isToday, isFalse);
+          // Act & Assert
+          expect(yesterday.isToday, isFalse);
+        });
       });
     });
 
@@ -241,23 +317,27 @@ void main() {
 
     group('daysAwayFromToday', () {
       test('today is 0 days away', () {
-        // Arrange
-        final today = Date.today();
+        withFixedClock(() {
+          // Arrange
+          final today = Date.today();
 
-        // Act & Assert
-        expect(today.daysAwayFromToday, 0);
+          // Act & Assert
+          expect(today.daysAwayFromToday, 0);
+        });
       });
 
       test('yesterday and tomorrow are both 1 day away', () {
-        // Arrange
-        final now = DateTime.now();
-        final yesterday =
-            Date.fromDateTime(now.subtract(const Duration(days: 1)));
-        final tomorrow = Date.fromDateTime(now.add(const Duration(days: 1)));
+        withFixedClock(() {
+          // Arrange
+          final now = clock.now();
+          final yesterday =
+              Date.fromDateTime(now.subtract(const Duration(days: 1)));
+          final tomorrow = Date.fromDateTime(now.add(const Duration(days: 1)));
 
-        // Act & Assert
-        expect(yesterday.daysAwayFromToday, 1);
-        expect(tomorrow.daysAwayFromToday, 1);
+          // Act & Assert
+          expect(yesterday.daysAwayFromToday, 1);
+          expect(tomorrow.daysAwayFromToday, 1);
+        });
       });
     });
 
@@ -304,14 +384,14 @@ void main() {
         final cases = [
           (
             description: 'same day',
-            a: Date(DateTime.utc(2024, 6, 15)),
-            b: Date(DateTime.utc(2024, 6, 15)),
+            a: Date(year: 2024, month: 6, day: 15),
+            b: Date(year: 2024, month: 6, day: 15),
             expected: true,
           ),
           (
             description: 'different day',
-            a: Date(DateTime.utc(2024, 6, 15)),
-            b: Date(DateTime.utc(2024, 6, 16)),
+            a: Date(year: 2024, month: 6, day: 15),
+            b: Date(year: 2024, month: 6, day: 16),
             expected: false,
           ),
         ];
@@ -328,20 +408,20 @@ void main() {
         final cases = [
           (
             description: 'date is before other',
-            a: Date(DateTime.utc(2024, 6, 15)),
-            b: Date(DateTime.utc(2024, 6, 16)),
+            a: Date(year: 2024, month: 6, day: 15),
+            b: Date(year: 2024, month: 6, day: 16),
             expected: true,
           ),
           (
             description: 'date is after other',
-            a: Date(DateTime.utc(2024, 6, 15)),
-            b: Date(DateTime.utc(2024, 6, 14)),
+            a: Date(year: 2024, month: 6, day: 15),
+            b: Date(year: 2024, month: 6, day: 14),
             expected: false,
           ),
           (
             description: 'same day',
-            a: Date(DateTime.utc(2024, 6, 15)),
-            b: Date(DateTime.utc(2024, 6, 15)),
+            a: Date(year: 2024, month: 6, day: 15),
+            b: Date(year: 2024, month: 6, day: 15),
             expected: false,
           ),
         ];
@@ -358,20 +438,20 @@ void main() {
         final cases = [
           (
             description: 'date is after other',
-            a: Date(DateTime.utc(2024, 6, 15)),
-            b: Date(DateTime.utc(2024, 6, 14)),
+            a: Date(year: 2024, month: 6, day: 15),
+            b: Date(year: 2024, month: 6, day: 14),
             expected: true,
           ),
           (
             description: 'date is before other',
-            a: Date(DateTime.utc(2024, 6, 15)),
-            b: Date(DateTime.utc(2024, 6, 16)),
+            a: Date(year: 2024, month: 6, day: 15),
+            b: Date(year: 2024, month: 6, day: 16),
             expected: false,
           ),
           (
             description: 'same day',
-            a: Date(DateTime.utc(2024, 6, 15)),
-            b: Date(DateTime.utc(2024, 6, 15)),
+            a: Date(year: 2024, month: 6, day: 15),
+            b: Date(year: 2024, month: 6, day: 15),
             expected: false,
           ),
         ];
@@ -388,7 +468,7 @@ void main() {
     group('add and subtract', () {
       test('adding a duration results in the correct date', () {
         // Arrange
-        final date = Date(DateTime.utc(2024, 6, 15));
+        final date = Date(year: 2024, month: 6, day: 15);
 
         // Act
         final newDate = date.add(const Duration(days: 5));
@@ -399,7 +479,7 @@ void main() {
 
       test('subtracting a duration results in the correct date', () {
         // Arrange
-        final date = Date(DateTime.utc(2024, 6, 15));
+        final date = Date(year: 2024, month: 6, day: 15);
 
         // Act
         final newDate = date.subtract(const Duration(days: 10));
@@ -409,21 +489,145 @@ void main() {
       });
     });
 
-    group('export', () {
-      test('toDateTime returns a DateTime at midnight of the same day', () {
+    group('addMonths', () {
+      test('adds months within the same year', () {
         // Arrange
-        final date = Date(DateTime.utc(2024, 6, 15));
+        final date = Date(year: 2026, month: 3, day: 21);
+
+        // Act
+        final result = date.addMonths(3);
+
+        // Assert
+        expect(result, Date(year: 2026, month: 6, day: 21));
+      });
+
+      test('rolls over into the next year', () {
+        // Arrange
+        final date = Date(year: 2026, month: 11, day: 21);
+
+        // Act
+        final result = date.addMonths(3);
+
+        // Assert
+        expect(result, Date(year: 2027, month: 2, day: 21));
+      });
+
+      test('subtracts months with a negative argument', () {
+        // Arrange
+        final date = Date(year: 2026, month: 1, day: 21);
+
+        // Act
+        final result = date.addMonths(-2);
+
+        // Assert
+        expect(result, Date(year: 2025, month: 11, day: 21));
+      });
+
+      test('preserves the day of month', () {
+        // Arrange
+        final date = Date(year: 2026, month: 1, day: 28);
+
+        // Act
+        final result = date.addMonths(1);
+
+        // Assert
+        expect(result.day, 28);
+      });
+    });
+
+    group('differenceInMonths', () {
+      final cases = [
+        (
+          description: 'identical dates are 0 months apart',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2025, month: 1, day: 1),
+          expected: 0,
+        ),
+        (
+          description: 'counts whole months within a year',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2025, month: 12, day: 15),
+          expected: 11,
+        ),
+        (
+          description: 'does not count a partial final month',
+          a: Date(year: 2025, month: 1, day: 31),
+          b: Date(year: 2025, month: 5, day: 30),
+          expected: 3,
+        ),
+        (
+          description: 'is unsigned regardless of argument order',
+          a: Date(year: 2025, month: 12, day: 15),
+          b: Date(year: 2025, month: 1, day: 1),
+          expected: 11,
+        ),
+        (
+          description: 'counts across a year boundary',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2026, month: 1, day: 1),
+          expected: 12,
+        ),
+      ];
+
+      for (final c in cases) {
+        test(c.description, () {
+          // Act
+          final result = c.a.differenceInMonths(c.b);
+
+          // Assert
+          expect(result, c.expected);
+        });
+      }
+    });
+
+    group('differenceInYears', () {
+      final cases = [
+        (
+          description: 'less than a year is 0',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2025, month: 12, day: 31),
+          expected: 0,
+        ),
+        (
+          description: 'exactly one year is 1',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2026, month: 1, day: 1),
+          expected: 1,
+        ),
+        (
+          description: 'partial final year does not count',
+          a: Date(year: 2025, month: 6, day: 1),
+          b: Date(year: 2027, month: 5, day: 1),
+          expected: 1,
+        ),
+      ];
+
+      for (final c in cases) {
+        test(c.description, () {
+          // Act
+          final result = c.a.differenceInYears(c.b);
+
+          // Assert
+          expect(result, c.expected);
+        });
+      }
+    });
+
+    group('export', () {
+      test('toDateTime returns a DateTime at noon of the same day', () {
+        // Arrange
+        final date = Date(year: 2024, month: 6, day: 15);
 
         // Act
         final dateTime = date.toDateTime();
 
         // Assert
-        expect(dateTime, DateTime(2024, 6, 15));
+        expect(dateTime, DateTime(2024, 6, 15, 12));
       });
 
       test('toUtcDateTime returns the original UTC DateTime value', () {
         // Arrange
-        final date = Date(DateTime.utc(2024, 6, 15));
+        final date = Date(year: 2024, month: 6, day: 15);
 
         // Act
         final utcDateTime = date.toUtcDateTime();
@@ -434,7 +638,7 @@ void main() {
 
       test('toString returns the ISO string representation of the date', () {
         // Arrange
-        final date = Date(DateTime.utc(2024, 6, 15));
+        final date = Date(year: 2024, month: 6, day: 15);
 
         // Act
         final string = date.toString();
@@ -447,7 +651,7 @@ void main() {
     group('format', () {
       test('formats date with yMMMd', () {
         // Arrange
-        final date = Date(DateTime.utc(2024, 6, 15));
+        final date = Date(year: 2024, month: 6, day: 15);
 
         // Act
         final formatted = date.format(DateFormat.yMMMd('en'));
@@ -459,7 +663,7 @@ void main() {
 
       test('formats date with a custom pattern', () {
         // Arrange
-        final date = Date(DateTime.utc(2024, 6, 15));
+        final date = Date(year: 2024, month: 6, day: 15);
 
         // Act
         final formatted = date.format(DateFormat('dd/MM/yyyy', 'en'));

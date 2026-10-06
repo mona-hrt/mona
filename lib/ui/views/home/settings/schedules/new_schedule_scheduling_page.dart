@@ -5,22 +5,26 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/ui/widgets/forms/form_date_field.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/scheduling_type_picker.dart';
+import 'package:mona/ui/widgets/switch_tile.dart';
+import 'package:mona/ui/widgets/time_list_card.dart';
+import 'package:mona/ui/widgets/weekday_picker.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
-
-enum _ScheduleType { daily, intervalDays }
 
 class NewScheduleSchedulingPage extends StatefulWidget {
   final String name;
@@ -28,6 +32,8 @@ class NewScheduleSchedulingPage extends StatefulWidget {
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
+  final Date startDate;
+  final DosingBasis dosingBasis;
 
   const NewScheduleSchedulingPage({
     super.key,
@@ -35,6 +41,8 @@ class NewScheduleSchedulingPage extends StatefulWidget {
     required this.dose,
     required this.molecule,
     required this.administrationRoute,
+    required this.startDate,
+    required this.dosingBasis,
     this.ester,
   });
 
@@ -44,30 +52,35 @@ class NewScheduleSchedulingPage extends StatefulWidget {
 }
 
 class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
-  _ScheduleType _type = _ScheduleType.daily;
+  SchedulingType _type = SchedulingType.daily;
 
   late TextEditingController _intervalDaysController;
-  bool _intervalNotify = false;
-  TimeOfDay? _intervalTime;
-
-  final List<TimeOfDay> _dailyIntakeTimes = [];
+  final List<TimeOfDay> _intakeOrNotificationTimes = [];
   bool _dailyNotify = true;
+  bool _anchorToLastIntake = false;
+  final List<int> _weeklyDays = [];
+  late TextEditingController _monthlyDayController;
+  late TextEditingController _monthlyIntervalController;
 
-  late Date _startDate;
-
-  String? get _intervalDaysError => IntervalDaysSchedule.validateIntervalDays(
-      context.l10n, _intervalDaysController.text);
-  String? get _startDateError =>
-      MedicationSchedule.validateStartDate(context.l10n, _startDate);
+  String? get _intervalDaysError =>
+      IntervalDaysSchedule.validateIntervalDays(_intervalDaysController.text);
   String? get _dailyIntakeTimesError =>
-      DailySchedule.validateIntakeTimes(context.l10n, _dailyIntakeTimes);
+      DailySchedule.validateIntakeTimes(_intakeOrNotificationTimes);
+  String? get _weeklyDaysError =>
+      WeeklySchedule.validateDaysOfWeek(_weeklyDays);
+  String? get _monthlyDayError =>
+      MonthlySchedule.validateDayOfMonth(_monthlyDayController.text);
+  String? get _monthlyIntervalError =>
+      MonthlySchedule.validateIntervalMonths(_monthlyIntervalController.text);
 
   bool get _isFormValid {
-    if (_startDateError != null) return false;
     return switch (_type) {
-      _ScheduleType.intervalDays => _intervalDaysError == null &&
-          (!_intervalNotify || _intervalTime != null),
-      _ScheduleType.daily => _dailyIntakeTimesError == null,
+      SchedulingType.intervalDays => _intervalDaysError == null,
+      SchedulingType.daily => _dailyIntakeTimesError == null,
+      SchedulingType.weekly => _weeklyDaysError == null,
+      SchedulingType.monthly =>
+        _monthlyDayError == null && _monthlyIntervalError == null,
+      SchedulingType.asNeeded => true,
     };
   }
 
@@ -79,37 +92,25 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       ..pop();
   }
 
-  Future<void> _pickIntervalTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: _intervalTime ?? TimeOfDay.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        _intervalTime = picked;
-      });
-    }
-  }
-
-  Future<void> _addDailyTime() async {
+  Future<void> _addTime() async {
     final picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
     if (picked == null) return;
 
-    final alreadyExists = _dailyIntakeTimes
+    final alreadyExists = _intakeOrNotificationTimes
         .any((t) => t.hour == picked.hour && t.minute == picked.minute);
     if (alreadyExists) return;
 
     setState(() {
-      _dailyIntakeTimes.add(picked);
-      _sortDailyIntakeTimes();
+      _intakeOrNotificationTimes.add(picked);
+      _sortTimes();
     });
   }
 
-  Future<void> _editDailyTime(int index) async {
-    final current = _dailyIntakeTimes[index];
+  Future<void> _editTime(int index) async {
+    final current = _intakeOrNotificationTimes[index];
     final picked = await showTimePicker(
       context: context,
       initialTime: current,
@@ -117,18 +118,18 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     if (picked == null) return;
     if (picked.hour == current.hour && picked.minute == current.minute) return;
 
-    final isDuplicate = _dailyIntakeTimes
+    final isDuplicate = _intakeOrNotificationTimes
         .any((t) => t.hour == picked.hour && t.minute == picked.minute);
     if (isDuplicate) return;
 
     setState(() {
-      _dailyIntakeTimes[index] = picked;
-      _sortDailyIntakeTimes();
+      _intakeOrNotificationTimes[index] = picked;
+      _sortTimes();
     });
   }
 
-  void _sortDailyIntakeTimes() {
-    _dailyIntakeTimes.sort((a, b) {
+  void _sortTimes() {
+    _intakeOrNotificationTimes.sort((a, b) {
       final hourCompare = a.hour.compareTo(b.hour);
       return hourCompare != 0 ? hourCompare : a.minute.compareTo(b.minute);
     });
@@ -138,24 +139,40 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     if (!_isFormValid) return;
 
     final SchedulingStrategy scheduling = switch (_type) {
-      _ScheduleType.intervalDays => IntervalDaysSchedule(
-          intervalDays: _intervalDaysController.text.toInt,
-          notificationTime: _intervalNotify ? _intervalTime : null,
-        ),
-      _ScheduleType.daily => DailySchedule(
-          intakeTimes: List.unmodifiable(_dailyIntakeTimes),
+      SchedulingType.intervalDays => _anchorToLastIntake
+          ? DynamicIntervalSchedule(
+              intervalDays: _intervalDaysController.text.toInt,
+              notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+            )
+          : IntervalDaysSchedule(
+              intervalDays: _intervalDaysController.text.toInt,
+              notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+            ),
+      SchedulingType.daily => DailySchedule(
+          intakeTimes: List.unmodifiable(_intakeOrNotificationTimes),
           notify: _dailyNotify,
         ),
+      SchedulingType.weekly => WeeklySchedule(
+          daysOfWeek: List.unmodifiable(_weeklyDays),
+          notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+        ),
+      SchedulingType.monthly => MonthlySchedule(
+          dayOfMonth: _monthlyDayController.text.toInt,
+          intervalMonths: _monthlyIntervalController.text.toInt,
+          notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+        ),
+      SchedulingType.asNeeded => AsNeededSchedule(),
     };
 
     final schedule = MedicationSchedule(
       name: widget.name,
       dose: widget.dose,
       scheduling: scheduling,
-      startDate: _startDate,
+      startDate: widget.startDate,
       molecule: widget.molecule,
       administrationRoute: widget.administrationRoute,
       ester: widget.ester,
+      dosingBasis: widget.dosingBasis,
     );
 
     Provider.of<MedicationScheduleProvider>(context, listen: false)
@@ -170,116 +187,95 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   void initState() {
     super.initState();
     _intervalDaysController = TextEditingController();
-    _startDate = Date.today();
+    _monthlyDayController = TextEditingController();
+    _monthlyIntervalController = TextEditingController(text: '1');
   }
 
   @override
   void dispose() {
     _intervalDaysController.dispose();
+    _monthlyDayController.dispose();
+    _monthlyIntervalController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return ModelForm(
       title: widget.name,
-      submitButtonLabel: l10n.save,
+      submitButtonLabel: t.save,
+      submitButtonKey: const ValueKey('newScheduleSave'),
       isFormValid: _isFormValid,
       saveChanges: _save,
       closeAll: _closeAll,
       fields: <Widget>[
-        _typeToggle(),
-        const SizedBox(height: 16),
-        ...switch (_type) {
-          _ScheduleType.intervalDays => _intervalDaysSpecifics(),
-          _ScheduleType.daily => _dailySpecifics(),
-        },
-        const SizedBox(height: 16),
-        FormDateField(
-          date: _startDate,
-          label: l10n.startDate,
-          errorText: _startDateError,
-          onChanged: (date) => setState(() {
-            _startDate = date;
-          }),
+        SchedulingTypePicker(
+          value: _type,
+          onChanged: (type) => setState(() => _type = type),
         ),
-      ],
-    );
-  }
-
-  Widget _typeToggle() {
-    final l10n = context.l10n;
-    return M3EToggleButtonGroup(
-      type: M3EButtonGroupType.standard,
-      size: M3EButtonSize.md,
-      selectedIndex: _type.index,
-      onSelectedIndexChanged: (index) {
-        if (index == null) return;
-        setState(() {
-          _type = _ScheduleType.values[index];
-        });
-      },
-      actions: [
-        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyDaily)),
-        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyInterval)),
+        FormSpacer(),
+        ...switch (_type) {
+          SchedulingType.intervalDays => _intervalDaysSpecifics(),
+          SchedulingType.daily => _dailySpecifics(),
+          SchedulingType.weekly => _weeklySpecifics(),
+          SchedulingType.monthly => _monthlySpecifics(),
+          SchedulingType.asNeeded => [],
+        },
       ],
     );
   }
 
   List<Widget> _intervalDaysSpecifics() {
-    final l10n = context.l10n;
     return [
       FormTextField(
         controller: _intervalDaysController,
-        label: l10n.every,
-        suffixText: l10n.days,
+        label: t.every,
+        fieldKey: const ValueKey('newScheduleEvery'),
+        suffixText: t.days,
+        errorText: _intervalDaysError,
         onChanged: _refresh,
         inputType: TextInputType.number,
-        regexFormatter: '[0-9]',
+        regexFormatter: RegexPatterns.intNumber,
       ),
-      FormSpacer(),
-      M3ECardColumn(
+      M3ESegmentedColumn(
         padding: EdgeInsets.zero,
+        margin: EdgeInsets.symmetric(vertical: 8),
         children: [
-          SwitchListTile(
-            title: Text(l10n.enableNotifications),
-            subtitle: Text(l10n.enableNotificationsDescription),
-            value: _intervalNotify,
-            onChanged: (value) => setState(() => _intervalNotify = value),
+          SwitchTile(
+            title: t.anchorToLastIntake,
+            subtitle: t.anchorToLastIntakeDescription,
+            value: _anchorToLastIntake,
+            onChanged: (value) => setState(() => _anchorToLastIntake = value),
           ),
-          if (_intervalNotify)
-            ListTile(
-              leading: const Icon(Icons.alarm),
-              title: Text(_intervalTime?.format(context) ?? l10n.pickATime),
-              onTap: _pickIntervalTime,
-            ),
         ],
+      ),
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: Symbols.notifications_rounded,
+        addLabel: t.addNotification,
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
       ),
     ];
   }
 
   List<Widget> _dailySpecifics() {
-    final l10n = context.l10n;
-    final addCardIndex = _dailyIntakeTimes.length;
     return [
-      M3ECardColumn(
-        padding: EdgeInsets.zero,
-        onTap: (index) {
-          if (index == addCardIndex) _addDailyTime();
-        },
-        children: [
-          for (int i = 0; i < _dailyIntakeTimes.length; i++) _intakeTimeRow(i),
-          ListTile(
-            leading: const Icon(Icons.add),
-            title: Text(l10n.addIntakeTime),
-            onTap: () => _addDailyTime(),
-          ),
-          SwitchListTile(
-            title: Text(l10n.enableNotifications),
-            subtitle: Text(l10n.enableNotificationsDescription),
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: widget.administrationRoute.icon,
+        addLabel: t.addIntakeTime,
+        addTileKey: const ValueKey('addNotificationTile'),
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
+        trailingChildren: [
+          SwitchTile(
+            title: t.enableNotifications,
+            subtitle: t.enableNotificationsDescription,
             value: _dailyNotify,
+            tintEnabled: false,
             onChanged: (value) => setState(() => _dailyNotify = value),
           ),
         ],
@@ -287,20 +283,71 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     ];
   }
 
-  Widget _intakeTimeRow(int index) {
-    final time = _dailyIntakeTimes[index];
-    return ListTile(
-      leading: Icon(widget.administrationRoute.icon),
-      title: Text(time.format(context)),
-      onTap: () => _editDailyTime(index),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete_outline),
-        onPressed: () {
-          setState(() {
-            _dailyIntakeTimes.removeAt(index);
-          });
-        },
+  List<Widget> _weeklySpecifics() {
+    return [
+      WeekdayPicker(
+        selectedDays: _weeklyDays,
+        onDayToggled: _toggleWeeklyDay,
       ),
-    );
+      FormSpacer(),
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: Symbols.notifications_rounded,
+        addLabel: t.addNotification,
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
+      ),
+    ];
+  }
+
+  void _toggleWeeklyDay(int day, bool selected) {
+    setState(() {
+      if (selected) {
+        _weeklyDays.add(day);
+      } else {
+        _weeklyDays.remove(day);
+      }
+    });
+  }
+
+  List<Widget> _monthlySpecifics() {
+    return [
+      FormTextField(
+        controller: _monthlyDayController,
+        label: t.dayOfMonth,
+        fieldKey: const ValueKey('newScheduleDayOfMonth'),
+        errorText: _monthlyDayError,
+        onChanged: _refresh,
+        inputType: TextInputType.number,
+        regexFormatter: RegexPatterns.intNumber,
+      ),
+      FormSpacer(),
+      FormTextField(
+        controller: _monthlyIntervalController,
+        label: t.every,
+        fieldKey: const ValueKey('newScheduleEveryMonths'),
+        suffixText: t.months,
+        errorText: _monthlyIntervalError,
+        onChanged: _refresh,
+        inputType: TextInputType.number,
+        regexFormatter: RegexPatterns.intNumber,
+      ),
+      FormSpacer(),
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: Symbols.notifications_rounded,
+        addLabel: t.addNotification,
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
+      ),
+    ];
+  }
+
+  void _deleteTime(int index) {
+    setState(() {
+      _intakeOrNotificationTimes.removeAt(index);
+    });
   }
 }
