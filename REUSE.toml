@@ -21,7 +21,7 @@ path = [
 SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
 SPDX-License-Identifier = "AGPL-3.0-only"
 
-# These files are generated from lib/i18n/*.i18next.json by scripts/i18n.sh.
+# These files are generated.
 # The translator credits are in the lib/i18n/*.i18next.json.license sidecars.
 [[annotations]]
 path = [
