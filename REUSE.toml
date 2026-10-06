@@ -7,35 +7,16 @@ version = 1
 
 [[annotations]]
 path = [
-  "android/app/src/main/res/mipmap-*/ic_launcher.png",
-  "android/app/src/main/res/drawable-*/ic_launcher_*.png",
-]
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = [
-  "fastlane/screenshots/**",
-  "fastlane/screenshot_captions/**",
-  "fastlane/screenshot_locales.json",
-]
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = [
-  "ios/Flutter/**",
-  "ios/Podfile",
-  "ios/Podfile.lock",
-  "ios/Runner.xcodeproj/**",
-  "ios/Runner.xcworkspace/**",
-  "ios/Runner/Assets.xcassets/AppIcon.appiconset/**",
-  "ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
-  "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage*.png",
-  "ios/Runner/Base.lproj/**",
-  "ios/Runner/Info.plist",
-  "ios/Runner/Runner.entitlements",
+  "*",
+  ".devcontainer/**",
+  ".github/**",
+  "android/**",
+  "assets/**",
+  "docs/**",
+  "fastlane/**",
+  "ios/**",
+  "scripts/**",
+  "tool/**",
 ]
 SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
 SPDX-License-Identifier = "AGPL-3.0-only"

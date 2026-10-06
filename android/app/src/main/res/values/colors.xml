@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-
-SPDX-License-Identifier: AGPL-3.0-only
--->
-
 <resources>
     <color name="ic_launcher_background">#fef2e2</color>
     <color name="hrt_widget_preview_background">#FFF8EDF6</color>
