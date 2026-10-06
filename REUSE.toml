@@ -1,96 +1,41 @@
 # SPDX-FileCopyrightText: 2026 Sienna "suprstarrd" M. <business@suprstarrd.com>
 # SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-# 
+#
 # SPDX-License-Identifier: AGPL-3.0-only
 
 version = 1
 
 [[annotations]]
-path = "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+path = [
+  "android/app/src/main/res/mipmap-*/ic_launcher.png",
+  "android/app/src/main/res/drawable-*/ic_launcher_*.png",
+]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
-path = "android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
-precedence = "override"
+path = [
+  "fastlane/screenshots/**",
+  "fastlane/screenshot_captions/**",
+  "fastlane/screenshot_locales.json",
+]
 SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
-path = "android/app/src/main/res/drawable-xhdpi/ic_launcher_monochrome.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-mdpi/ic_launcher_monochrome.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-xxhdpi/ic_launcher_monochrome.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-hdpi/ic_launcher_monochrome.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-xxxhdpi/ic_launcher_monochrome.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-hdpi/ic_launcher_foreground.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-mdpi/ic_launcher_foreground.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-xhdpi/ic_launcher_foreground.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-xxhdpi/ic_launcher_foreground.png"
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
-SPDX-License-Identifier = "AGPL-3.0-only"
-
-[[annotations]]
-path = "android/app/src/main/res/drawable-xxxhdpi/ic_launcher_foreground.png"
-precedence = "override"
+path = [
+  "ios/Flutter/**",
+  "ios/Podfile",
+  "ios/Podfile.lock",
+  "ios/Runner.xcodeproj/**",
+  "ios/Runner.xcworkspace/**",
+  "ios/Runner/Assets.xcassets/AppIcon.appiconset/**",
+  "ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
+  "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage*.png",
+  "ios/Runner/Base.lproj/**",
+  "ios/Runner/Info.plist",
+  "ios/Runner/Runner.entitlements",
+]
 SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
 SPDX-License-Identifier = "AGPL-3.0-only"
