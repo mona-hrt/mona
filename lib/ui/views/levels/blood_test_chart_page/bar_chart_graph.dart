@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/ui/views/levels/bar_groups.dart';
+import 'package:mona/ui/views/levels/chart_mirror.dart';
 
 class BarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
@@ -24,6 +25,7 @@ class BarChartGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final mirror = ChartMirror.of(context);
     if (spots.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -51,9 +53,11 @@ class BarChartGraph extends StatelessWidget {
               curve: Curves.easeOutQuad,
               BarChartData(
                 maxY: maxY,
-                alignment: BarChartAlignment.start,
+                alignment: mirror.enabled
+                    ? BarChartAlignment.end
+                    : BarChartAlignment.start,
                 groupsSpace: _groupsSpace,
-                barTouchData: _touchData(theme),
+                barTouchData: _touchData(theme, Directionality.of(context)),
                 barGroups: buildBarGroups(
                   spots,
                   barWidth: _barWidth,
@@ -62,11 +66,12 @@ class BarChartGraph extends StatelessWidget {
                       ? theme.colorScheme.surfaceContainerHighest
                       : theme.colorScheme.primary,
                   highlightColor: theme.colorScheme.primary,
+                  mirror: mirror.enabled,
                 ),
                 gridData: const FlGridData(
                   show: false,
                 ),
-                titlesData: _titlesData(context, labels),
+                titlesData: _titlesData(context, labels, mirror),
                 borderData: FlBorderData(show: false),
               ),
             ),
@@ -86,7 +91,8 @@ class BarChartGraph extends StatelessWidget {
     );
   }
 
-  BarTouchData _touchData(ThemeData theme) => BarTouchData(
+  BarTouchData _touchData(ThemeData theme, TextDirection textDirection) =>
+      BarTouchData(
         enabled: true,
         touchTooltipData: BarTouchTooltipData(
           getTooltipColor: (group) => theme.colorScheme.tertiaryContainer,
@@ -101,6 +107,7 @@ class BarChartGraph extends StatelessWidget {
             return BarTooltipItem(
               '${rod.toY}\n$unit',
               TextStyle(color: theme.colorScheme.onTertiaryContainer),
+              textDirection: textDirection,
             );
           },
         ),
@@ -108,6 +115,7 @@ class BarChartGraph extends StatelessWidget {
   FlTitlesData _titlesData(
     BuildContext context,
     List<String> labels,
+    ChartMirror mirror,
   ) {
     final textTheme = Theme.of(context).textTheme;
 
@@ -128,7 +136,7 @@ class BarChartGraph extends StatelessWidget {
               meta: meta,
               space: 10,
               child: Transform.rotate(
-                angle: -math.pi / 4,
+                angle: mirror.enabled ? math.pi / 4 : -math.pi / 4,
                 child: Text(
                   labels[index],
                   style: textTheme.labelSmall,

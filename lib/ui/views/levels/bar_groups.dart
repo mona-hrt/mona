@@ -7,8 +7,9 @@ List<BarChartGroupData> buildBarGroups(
   required int? highlightedIndex,
   required Color barColor,
   required Color highlightColor,
+  required bool mirror,
 }) {
-  return spots
+  final groups = spots
       .asMap()
       .entries
       .map(
@@ -24,4 +25,5 @@ List<BarChartGroupData> buildBarGroups(
         ),
       )
       .toList();
+  return mirror ? groups.reversed.toList() : groups;
 }
