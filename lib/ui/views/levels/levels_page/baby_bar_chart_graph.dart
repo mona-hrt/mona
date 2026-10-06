@@ -6,6 +6,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/ui/views/levels/bar_groups.dart';
+import 'package:mona/ui/views/levels/chart_mirror.dart';
 
 class BabyBarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
@@ -32,6 +33,7 @@ class BabyBarChartGraph extends StatelessWidget {
           highlightedIndex: spots.length - 1,
           barColor: theme.colorScheme.surfaceContainerHighest,
           highlightColor: theme.colorScheme.primary,
+          mirror: ChartMirror.of(context).enabled,
         ),
         gridData: const FlGridData(
           show: false,
