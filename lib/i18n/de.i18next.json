@@ -291,5 +291,10 @@
   "scheduleFrequencyAsNeeded": "Nach Bedarf",
   "empty_levels": "Trage eine Blutuntersuchung oder Estradiol-Injektion ein, um loszulegen",
   "estradiolLevelsTitle": "Estradiol-Werte",
-  "unitNgPerMl": "ng/mL"
+  "unitNgPerMl": "ng/mL",
+  "scheduleFrequencyAsNeededDescription": "Kein festgelegter Zeitplan",
+  "getInvolved": "Mach mit",
+  "reportBug": "Melde Fehler",
+  "reportBugDescription": "Starte einen Issue auf GitHub",
+  "translateApp": "Die App übersetzen"
 }
