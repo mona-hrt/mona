@@ -1,0 +1,22 @@
+Vedd a saját kezedbe a hormonális egészséged a Monával, teljesen lokális, nyílt forráskódú alkalmazás célja, hogy segítsen nyomon követni, megérteni és kezelni a hormonális utad.
+
+Miben más a Mona:
+
+- Teljesen privát: Minden adat az eszközön marad. Semmit sem küldünk szerverre.
+Nyílt forráskód: Az alkalmazás teljesen nyílt forráskódú, amely lehetővé teszi a maximális átláthatóságot és a közösség hozzájárulását.
+- Ingyenes, örökké: Nincs előfizetés, nincs prémium funkció. Mona mindenki számára ingyenes.
+
+Gyógyszer emlékeztetők:
+
+- Adjon hozzá a gyógyszereket
+- Részletes információ az egyes közelgő dózisokhoz (mennyiség, dátum, oldal, kihagyott dózisok)
+- Értesítések, hogy soha ne hagyjon ki gyógyszer bevitelt
+
+Kezelje gyógyszerkészletét hatékonyan:
+
+- Tartsa nyomon az egyes gyógyszereket a készletében
+- A mennyiségek automatikus frissítése minden bevitellel
+
+Hormon szint grafikon:
+
+- Az ösztradiol monoterápia felhasználói számára vizualizálja a jővőbeli szimulált hormonszinteket
