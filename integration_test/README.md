@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2026 Frozzie
+SPDX-FileCopyrightText: 2026 Frozzie "Frozzie89"
 SPDX-FileContributor: Délia Cheminot <delia@cheminot.net>
 
 SPDX-License-Identifier: AGPL-3.0-only

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Frozzie
+// SPDX-FileCopyrightText: 2026 Frozzie "Frozzie89"
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 

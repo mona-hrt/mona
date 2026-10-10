@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Alwenyfae
+// SPDX-FileCopyrightText: 2026 Hexyliae
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 

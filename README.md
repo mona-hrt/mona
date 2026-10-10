@@ -1,9 +1,9 @@
 <!--
 SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-SPDX-FileContributor: Alice Lorido <alice@lori.do>
-SPDX-FileContributor: Alwenyfae
-SPDX-FileContributor: irismessage
-SPDX-FileContributor: Luna Fox
+SPDX-FileContributor: Alice Lorido "yakissa" <alice@lori.do>
+SPDX-FileContributor: Hexyliae
+SPDX-FileContributor: imcb "irismessage"
+SPDX-FileContributor: Luna Fox "AkinoKitsu"
 
 SPDX-License-Identifier: AGPL-3.0-only
 -->

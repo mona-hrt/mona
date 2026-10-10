@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Thomas "Seremptos"
-# SPDX-FileContributor: 2026 Alwenyfae
+# SPDX-FileContributor: Hexyliae
 # SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only

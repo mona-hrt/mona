@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 Alice Boars <contact@ffi.lol>
+# SPDX-FileCopyrightText: 2026 Alice Boars "VirtualFreeEx" <contact@ffi.lol>
 #
 # SPDX-LicenseIdentifier: AGPL-3.0-only
 

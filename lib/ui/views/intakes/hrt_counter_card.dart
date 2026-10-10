@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-// SPDX-FileContributor: Robin Hirst
+// SPDX-FileContributor: Robin Hirst "RobinHirst11"
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 

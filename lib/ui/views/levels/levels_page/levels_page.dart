@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-// SPDX-FileContributor: Lesley Caramella
+// SPDX-FileContributor: Lesley Caramella "vani11agirl"
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 

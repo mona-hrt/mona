@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-// SPDX-FileContributor: Eva Tatarka <eva@tatarka.me>
+// SPDX-FileContributor: Eva Tatarka "evant" <eva@tatarka.me>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 

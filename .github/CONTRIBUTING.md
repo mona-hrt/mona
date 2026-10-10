@@ -1,8 +1,8 @@
 <!--
-SPDX-FileCopyrightText: 2026 Alwenyfae
-SPDX-FileCopyrightText: 2026 Benjamin Danlos
+SPDX-FileCopyrightText: 2026 Hexyliae
+SPDX-FileCopyrightText: 2026 Benjamin Danlos "BenjaminDls"
 SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
-SPDX-FileContributor: Eva "Gastrodon" <mail@gastrodon.io>
+SPDX-FileContributor: Eva Harris "gastrodon" <mail@gastrodon.io>
 
 SPDX-License-Identifier: AGPL-3.0-only
 -->

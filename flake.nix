@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2026 Elaine "Elai_nya"
-# SPDX-FileContributor: Morantoine
+# SPDX-FileCopyrightText: 2026 Elaine "elai-nya"
+# SPDX-FileContributor: antoine "Morantoine"
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 

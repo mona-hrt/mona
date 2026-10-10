@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-// SPDX-FileContributor: Alice Lorido <alice@lori.do>
+// SPDX-FileContributor: Alice Lorido "yakissa" <alice@lori.do>
 // SPDX-FileContributor: Thomas "Seremptos"
-// SPDX-FileContributor: Frozzie
+// SPDX-FileContributor: Frozzie "Frozzie89"
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 

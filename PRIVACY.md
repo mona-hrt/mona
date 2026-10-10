@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
-SPDX-FileContributor: Alwenyfae
+SPDX-FileContributor: Hexyliae
 
 SPDX-License-Identifier: AGPL-3.0-only
 -->

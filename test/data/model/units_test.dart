@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Eva Tatarka <eva@tatarka.me>
+// SPDX-FileCopyrightText: 2026 Eva Tatarka "evant" <eva@tatarka.me>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
