@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +12,9 @@ List<BarChartGroupData> buildBarGroups(
   required int? highlightedIndex,
   required Color barColor,
   required Color highlightColor,
+  required bool mirror,
 }) {
-  return spots
+  final groups = spots
       .asMap()
       .entries
       .map(
@@ -24,4 +30,5 @@ List<BarChartGroupData> buildBarGroups(
         ),
       )
       .toList();
+  return mirror ? groups.reversed.toList() : groups;
 }

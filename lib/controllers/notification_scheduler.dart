@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:intl/intl.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/data/model/planned_notification.dart';

@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
+// SPDX-FileContributor: Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +31,7 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
   @override
   Widget build(BuildContext context) {
     final dayBoundaries = _dayBoundaries();
+    final mirror = Directionality.of(context) == TextDirection.rtl;
 
     return LiquidGlassBottomClamp(
       child: Scaffold(
@@ -58,8 +64,9 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                           onHorizontalDragUpdate: (details) {
                             final width = constraints.maxWidth;
                             if (width <= 0) return;
+                            final delta = details.primaryDelta ?? 0;
                             final shift = _duration.days.inMicroseconds *
-                                ((details.primaryDelta ?? 0) / width);
+                                ((mirror ? -delta : delta) / width);
                             setState(() {
                               targetDate = targetDate.subtract(
                                 Duration(microseconds: shift.round()),

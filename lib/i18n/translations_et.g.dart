@@ -103,6 +103,20 @@ class TranslationsEt extends Translations
   @override
   String get importDataSubtitle => 'Taasta andmed JSON-vormingus varukoopiast';
   @override
+  String get allDone => 'Kõik on tehtud!';
+  @override
+  String get newUpdateAvailable => 'Saadaval on uuendus!';
+  @override
+  String get upcoming => 'Õige pea';
+  @override
+  String get schedulesAndNotifications => 'Graafikud ja teavitused';
+  @override
+  String get general => 'Üldine';
+  @override
+  String get schedules => 'Ajastamine';
+  @override
+  String get noSchedules => 'Pole ajastatud';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
         count,
@@ -122,6 +136,13 @@ class TranslationsEt extends Translations
         count,
         one: 'Iga päev',
         other: 'Iga ${count} päeva järel',
+      );
+  @override
+  String schedulesCreated({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
+        count,
+        one: '${count} on loodud',
+        other: '${count} on loodud',
       );
 }
 
@@ -158,6 +179,13 @@ extension on TranslationsEt {
           'Eksportimine ei õnnestunud: ${error}',
       'importDataTitle' => 'Impordi andmed',
       'importDataSubtitle' => 'Taasta andmed JSON-vormingus varukoopiast',
+      'allDone' => 'Kõik on tehtud!',
+      'newUpdateAvailable' => 'Saadaval on uuendus!',
+      'upcoming' => 'Õige pea',
+      'schedulesAndNotifications' => 'Graafikud ja teavitused',
+      'general' => 'Üldine',
+      'schedules' => 'Ajastamine',
+      'noSchedules' => 'Pole ajastatud',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
             count,
@@ -175,6 +203,12 @@ extension on TranslationsEt {
             count,
             one: 'Iga päev',
             other: 'Iga ${count} päeva järel',
+          ),
+      'schedulesCreated' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('et'))(
+            count,
+            one: '${count} on loodud',
+            other: '${count} on loodud',
           ),
       _ => null,
     };

@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Lesley Caramella "vani11agirl"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -159,21 +164,24 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
         ),
         if (showPreview) ...[
           const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.only(right: 78),
-            child: Text.rich(
-              textAlign: TextAlign.right,
-              TextSpan(
-                text: nowLevel.toStringAsFixed(0),
-                style: theme.textTheme.headlineSmall
-                    ?.copyWith(color: colorScheme.tertiary),
-                children: [
-                  TextSpan(
-                    text: ' ${unit.localizedName}',
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(color: colorScheme.tertiary),
-                  ),
-                ],
+          FractionallySizedBox(
+            widthFactor: 0.75,
+            alignment: AlignmentDirectional.centerStart,
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Text.rich(
+                TextSpan(
+                  text: nowLevel.toStringAsFixed(0),
+                  style: theme.textTheme.headlineSmall
+                      ?.copyWith(color: colorScheme.tertiary),
+                  children: [
+                    TextSpan(
+                      text: ' ${unit.localizedName}',
+                      style: theme.textTheme.bodyMedium
+                          ?.copyWith(color: colorScheme.tertiary),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

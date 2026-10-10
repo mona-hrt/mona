@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Thomas "Seremptos"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 const String createSupplyItemsTable = '''
     CREATE TABLE supply_items(
       id INTEGER PRIMARY KEY AUTOINCREMENT,

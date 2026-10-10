@@ -1,3 +1,12 @@
+<!--
+SPDX-FileCopyrightText: 2026 Hexyliae
+SPDX-FileCopyrightText: 2026 Benjamin Danlos "BenjaminDls"
+SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
+SPDX-FileContributor: Eva Harris "gastrodon" <mail@gastrodon.io>
+
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 # Contributing to Mona
 
 First off, thank you for considering contributing to Mona! We welcome all forms of contributions—whether it's fixing bugs, adding new features, improving documentation, or reporting issues.
@@ -12,7 +21,8 @@ We use a standard **Fork and Pull Request** workflow. To keep our main branch st
 
 1. Fork this repository to your own GitHub account.
 2. Clone your forked repository to your local machine:
-  ```bash
+
+   ```bash
    git clone https://github.com/YOUR-USERNAME/mona-hrt.git
    cd mona-hrt
    git checkout dev
@@ -81,9 +91,11 @@ Once your changes are ready and tested locally:
 
 1. Commit your changes with clear, descriptive commit messages.
 2. Push your branch to your forked repository:
-  ```bash
+
+   ```bash
    git push origin your-branch-name
-  ```
+   ```
+
 3. Go to the original Mona repository on GitHub and click **New Pull Request**.
 4. Set the base branch to `dev` and the compare branch to your feature branch.
 5. Fill out the PR description, detailing what you changed and why.
@@ -112,7 +124,7 @@ To help us identify and fix issues faster, please follow this template :
 - Expected vs. Actual behavior : What did you expect to happen ? What happened ?
 - The version of the app (Android/iOS and version number)
 
-If possible, include screenshots, recordings, or error messages -- anything that can help us understand the issue. 
+If possible, include screenshots, recordings, or error messages -- anything that can help us understand the issue.
 
 ## You have an idea or suggestion ?
 
@@ -133,11 +145,10 @@ Mona is a health app that people trust with sensitive data. The project values c
 ### Branch name
 
 The name of the branches you create must follow this pattern : `<type>/<short name>`.  
-`type` is one of the following : 
-
+`type` is one of the following :
 
 | type  | description                                             |
-| ----- | ------------------------------------------------------- |
+|:-----:|:-------------------------------------------------------:|
 | feat  | when adding new features                                |
 | fix   | when fixing a bug                                       |
 | doc   | when documenting the app                                |
@@ -150,9 +161,9 @@ The short name is one or a few words that quickly tells what the branch will bri
 
 ### Commits
 
-Your commits should also follow a specific pattern : 
+Your commits should also follow a specific pattern :
 
-```
+```text
 <type>: <short description>
 
 <more details (optional)>
@@ -160,12 +171,12 @@ Your commits should also follow a specific pattern :
 
 For example :
 
-```
+```text
 feat: enable multiple notification settings
 
 implement UI and rework notification service
 ```
 
-You are free to do whatever you want on your branches. Once you deem your work finished, please go back on them to tidy your history of commits so that you have only meaningful commits that do not break the app and CICD when checked out individually. 
+You are free to do whatever you want on your branches. Once you deem your work finished, please go back on them to tidy your history of commits so that you have only meaningful commits that do not break the app and CICD when checked out individually.
 
 Thank you for helping make Mona better!

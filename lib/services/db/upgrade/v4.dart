@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Thomas "Seremptos"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/services/db/upgrade/db_upgrade.dart';

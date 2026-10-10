@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileCopyrightText: 2026 Robin Hirst "RobinHirst11"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:flutter/widgets.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:mona/data/model/date.dart';

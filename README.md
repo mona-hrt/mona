@@ -1,3 +1,13 @@
+<!--
+SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+SPDX-FileContributor: Alice Lorido "yakissa" <alice@lori.do>
+SPDX-FileContributor: Hexyliae
+SPDX-FileContributor: imcb "irismessage"
+SPDX-FileContributor: Luna Fox "AkinoKitsu"
+
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 <!-- markdownlint-disable MD033 MD041 -->
 
 <p align="center">
@@ -44,8 +54,13 @@
 
 # Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Features](#features)
+  - [Why Mona is different](#why-mona-is-different)
+  - [Medication reminders](#medication-reminders)
+  - [Manage your medication stock efficiently](#manage-your-medication-stock-efficiently)
+  - [Hormone levels graph](#hormone-levels-graph)
 - [Contributing](#contributing)
 - [Support](#support)
 - [Legal](#legal)

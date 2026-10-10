@@ -1,3 +1,10 @@
+// SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Eva Tatarka "evant" <eva@tatarka.me>
+// SPDX-FileContributor: Lesley Caramella "vani11agirl"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
@@ -71,22 +78,22 @@ class BloodTestProvider extends ChangeNotifier {
 
   Future<void> deleteBloodTestFromId(int id) async {
     await repository.delete(id);
-    await _fetchBloodTests();
+    await fetchBloodTests();
   }
 
   Future<void> deleteBloodTest(BloodTest bloodTest) async {
     await repository.delete(bloodTest.id);
-    await _fetchBloodTests();
+    await fetchBloodTests();
   }
 
   Future<void> add(BloodTest bloodtest) async {
     await repository.insert(bloodtest);
-    await _fetchBloodTests();
+    await fetchBloodTests();
   }
 
   Future<void> updateBloodTest(BloodTest bloodtest) async {
     await repository.update(bloodtest, bloodtest.id);
-    await _fetchBloodTests();
+    await fetchBloodTests();
   }
 
   List<GraphBloodTest> getBloodTestsForGraph(
@@ -109,7 +116,7 @@ class BloodTestProvider extends ChangeNotifier {
     fromMap: (map) => BloodTestMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 
-  Future<void> _fetchBloodTests() async {
+  Future<void> fetchBloodTests() async {
     _bloodTestsSortedDesc = (await repository.getAll())
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
     notifyListeners();
