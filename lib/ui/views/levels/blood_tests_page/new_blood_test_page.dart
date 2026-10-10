@@ -1,3 +1,10 @@
+// SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileCopyrightText: 2026 Eva Tatarka "evant" <eva@tatarka.me>
+// SPDX-FileContributor: Lesley Caramella "vani11agirl"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';

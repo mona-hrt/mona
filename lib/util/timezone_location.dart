@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:timezone/timezone.dart' as tz;
 
 /// Resolves [id] with [tz.getLocation], falling back to [Etc/UTC] when the name

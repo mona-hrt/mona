@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Hexyliae
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/i18n/translations.g.dart';

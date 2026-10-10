@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Thomas "Seremptos"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/medication_schedule.dart';

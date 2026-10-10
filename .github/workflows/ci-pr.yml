@@ -69,6 +69,17 @@ jobs:
       - name: Check formatting
         run: dart format --set-exit-if-changed .
 
+  reuse:
+    name: REUSE compliance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Check copyright and licensing information
+        uses: fsfe/reuse-action@v6
+
   analyze:
     name: Analyze
     runs-on: ubuntu-latest

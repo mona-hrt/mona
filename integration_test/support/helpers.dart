@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Frozzie "Frozzie89"
+// SPDX-FileContributor: Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Shared helpers for the Patrol E2E suite: app launch and per-feature
 // navigation, reused across the *_test.dart files.
 

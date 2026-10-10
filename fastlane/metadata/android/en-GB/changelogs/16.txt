@@ -1,7 +1,0 @@
-New:
-
-- New language: Icelandic
-
-Fixes:
-
-- Minor UI fixes

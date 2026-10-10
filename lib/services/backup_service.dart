@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Hexyliae
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' show Rect;
