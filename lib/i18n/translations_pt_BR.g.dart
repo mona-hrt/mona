@@ -87,7 +87,7 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get neverTakenYet => 'Ainda não tomado';
   @override
-  String get scheduleFrequencyDaily => 'Todos os dias';
+  String get scheduleFrequencyDaily => 'Diariamente';
   @override
   String get scheduleFrequencyInterval => 'Intervalo';
   @override
@@ -561,10 +561,88 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get mustBeBetween1And28 => 'Deve estar entre 1 e 28';
   @override
+  String get asNeeded => 'Conforme necessário';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Todos os dias, em horários específicos';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'A cada poucos dias';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Alguns dias da semana';
+  @override
+  String get scheduleFrequencyMonthlyDescription => 'Mesmo dia a cada mês';
+  @override
+  String get scheduleFrequencyAsNeeded => 'Quando necessário';
+  @override
+  String get scheduleFrequencyAsNeededDescription =>
+      'Sem horário pré‐estabelecido';
+  @override
+  String get backupSaved => 'Dados salvo';
+  @override
+  String get reportBug => 'Reportar um bug';
+  @override
+  String get translateAppDescription => 'Ajude a traduzir o mona no Weblate';
+  @override
+  String get donate => 'Faça uma doação';
+  @override
+  String get translateApp => 'Traduzir o aplicativo';
+  @override
+  String get getInvolved => 'Contribua';
+  @override
+  String get reportBugDescription => 'Abra uma issue no Github';
+  @override
+  String get donateDescription => 'Apoie Mona no Ko‐fi';
+  @override
+  String get missingTranslation => 'Tradução faltando?';
+  @override
+  String get slimeMode => 'Modo Slime';
+  @override
+  String get secretSettings => 'Configurações ocultas';
+  @override
+  String get applicationSites => 'Locais de aplicação';
+  @override
+  String get applicationSitesInstructions =>
+      'Gerencie os locais de aplicação alternando entre eles. Os locais são sugeridos com base em seu histórico de doses. Pressione e segure para reordenar.';
+  @override
+  String mustBeAtMost({required Object max}) => 'No máximo ${max}';
+  @override
+  String get month => 'M';
+  @override
+  String get year => 'A';
+  @override
+  String get estradiolLevelsTitle => 'Níveis de Estradiol';
+  @override
+  String get week => 'S';
+  @override
+  String get twoWeeks => '2 S';
+  @override
+  String get threeMonths => '3 M';
+  @override
+  String get sixMonths => '6 M';
+  @override
+  String get empty_levels =>
+      'Adicione um exame de sangue ou registre uma injeção de estradiol para começar';
+  @override
+  String get deliveryFormPump => 'Pump';
+  @override
+  String get deliveryFormSachet => 'Sachê';
+  @override
+  String get unitMicrogramPerDay => 'µg/dia';
+  @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
+  String get deliveryForm => 'Forma';
+  @override
+  String get injectionType => 'Tipo de injeção';
+  @override
+  String get intramuscular => 'Intramuscular';
+  @override
+  String get subcutaneous => 'Subcutânea';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
-        one: 'há ${count} dias',
+        one: 'há ${count} dia',
         many: 'há ${count} dias',
         other: 'há ${count} dias',
       );
@@ -572,7 +650,7 @@ class TranslationsPtBr extends TranslationsPt
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
-        one: 'em ${count} dias',
+        one: 'em ${count} dia',
         many: 'em ${count} dias',
         other: 'em ${count} dias',
       );
@@ -580,7 +658,7 @@ class TranslationsPtBr extends TranslationsPt
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
-        one: 'A cada ${count} dias',
+        one: 'A cada ${count} dia',
         many: 'A cada ${count} dias',
         other: 'A cada ${count} dias',
       );
@@ -701,7 +779,7 @@ class TranslationsPtBr extends TranslationsPt
           {required num count, required Object day}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
-        one: 'Dia ${day}, a cada ${count} mês',
+        one: 'Dia ${day}, a cada mês',
         many: 'Dia ${day}, a cada ${count} meses',
         other: 'Dia ${day}, a cada ${count} meses',
       );
@@ -745,6 +823,22 @@ class TranslationsPtBr extends TranslationsPt
         many: '${count} doses registradas',
         other: '${count} doses registradas',
       );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+        count,
+        one: 'sachê',
+        many: 'sachês',
+        other: 'sachês',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+        count,
+        one: 'grama',
+        many: 'gramas',
+        other: 'gramas',
+      );
 }
 
 /// The flat map containing all translations for locale <pt-BR>.
@@ -771,7 +865,7 @@ extension on TranslationsPtBr {
       'tomorrow' => 'amanhã',
       'lastTaken' => 'Última dose',
       'neverTakenYet' => 'Ainda não tomado',
-      'scheduleFrequencyDaily' => 'Todos os dias',
+      'scheduleFrequencyDaily' => 'Diariamente',
       'scheduleFrequencyInterval' => 'Intervalo',
       'scheduleFrequencyWeekly' => 'Semanal',
       'newUpdateAvailable' => 'Uma nova atualização está disponível!',
@@ -1023,24 +1117,64 @@ extension on TranslationsPtBr {
       'placementSuggestionPerScheduleDescription' =>
         'Baseie a sugestão do próximo local apenas no histórico deste agendamento.',
       'mustBeBetween1And28' => 'Deve estar entre 1 e 28',
+      'asNeeded' => 'Conforme necessário',
+      'scheduleFrequencyDailyDescription' =>
+        'Todos os dias, em horários específicos',
+      'scheduleFrequencyIntervalDescription' => 'A cada poucos dias',
+      'scheduleFrequencyWeeklyDescription' => 'Alguns dias da semana',
+      'scheduleFrequencyMonthlyDescription' => 'Mesmo dia a cada mês',
+      'scheduleFrequencyAsNeeded' => 'Quando necessário',
+      'scheduleFrequencyAsNeededDescription' => 'Sem horário pré‐estabelecido',
+      'backupSaved' => 'Dados salvo',
+      'reportBug' => 'Reportar um bug',
+      'translateAppDescription' => 'Ajude a traduzir o mona no Weblate',
+      'donate' => 'Faça uma doação',
+      'translateApp' => 'Traduzir o aplicativo',
+      'getInvolved' => 'Contribua',
+      'reportBugDescription' => 'Abra uma issue no Github',
+      'donateDescription' => 'Apoie Mona no Ko‐fi',
+      'missingTranslation' => 'Tradução faltando?',
+      'slimeMode' => 'Modo Slime',
+      'secretSettings' => 'Configurações ocultas',
+      'applicationSites' => 'Locais de aplicação',
+      'applicationSitesInstructions' =>
+        'Gerencie os locais de aplicação alternando entre eles. Os locais são sugeridos com base em seu histórico de doses. Pressione e segure para reordenar.',
+      'mustBeAtMost' => ({required Object max}) => 'No máximo ${max}',
+      'month' => 'M',
+      'year' => 'A',
+      'estradiolLevelsTitle' => 'Níveis de Estradiol',
+      'week' => 'S',
+      'twoWeeks' => '2 S',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'empty_levels' =>
+        'Adicione um exame de sangue ou registre uma injeção de estradiol para começar',
+      'deliveryFormPump' => 'Pump',
+      'deliveryFormSachet' => 'Sachê',
+      'unitMicrogramPerDay' => 'µg/dia',
+      'unitNgPerMl' => 'ng/mL',
+      'deliveryForm' => 'Forma',
+      'injectionType' => 'Tipo de injeção',
+      'intramuscular' => 'Intramuscular',
+      'subcutaneous' => 'Subcutânea',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
-            one: 'há ${count} dias',
+            one: 'há ${count} dia',
             many: 'há ${count} dias',
             other: 'há ${count} dias',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
-            one: 'em ${count} dias',
+            one: 'em ${count} dia',
             many: 'em ${count} dias',
             other: 'em ${count} dias',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
-            one: 'A cada ${count} dias',
+            one: 'A cada ${count} dia',
             many: 'A cada ${count} dias',
             other: 'A cada ${count} dias',
           ),
@@ -1146,7 +1280,7 @@ extension on TranslationsPtBr {
               {required num count, required Object day}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
-            one: 'Dia ${day}, a cada ${count} mês',
+            one: 'Dia ${day}, a cada mês',
             many: 'Dia ${day}, a cada ${count} meses',
             other: 'Dia ${day}, a cada ${count} meses',
           ),
@@ -1184,6 +1318,20 @@ extension on TranslationsPtBr {
             one: '${count} dose registrada',
             many: '${count} doses registradas',
             other: '${count} doses registradas',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+            count,
+            one: 'sachê',
+            many: 'sachês',
+            other: 'sachês',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+            count,
+            one: 'grama',
+            many: 'gramas',
+            other: 'gramas',
           ),
       _ => null,
     };

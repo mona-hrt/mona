@@ -559,6 +559,73 @@ class TranslationsRu extends Translations
   @override
   String get mustBeBetween1And28 => 'Должно быть от 1 до 28';
   @override
+  String get asNeeded => 'По необходимости';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Ежедневно, в одно и то же время';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Раз в несколько дней';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Определенные дни недели';
+  @override
+  String get scheduleFrequencyMonthlyDescription =>
+      'В один и тот же день месяца';
+  @override
+  String get scheduleFrequencyAsNeeded => 'По необходимости';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'Нерегулярно';
+  @override
+  String get reportBug => 'Сообщить об ошибке';
+  @override
+  String get reportBugDescription => 'Открыть тикет GitHub';
+  @override
+  String get translateApp => 'Перевести приложение';
+  @override
+  String get translateAppDescription => 'Помогите с переводом Mona на Weblate';
+  @override
+  String get missingTranslation => 'Нет перевода?';
+  @override
+  String get donate => 'Помочь проекту';
+  @override
+  String get donateDescription => 'Поддержите Mona на Ko-fi';
+  @override
+  String get backupSaved => 'Резервная копия сохранена';
+  @override
+  String get secretSettings => 'Секретные настройки';
+  @override
+  String get injectionType => 'Тип инъекции';
+  @override
+  String get intramuscular => 'Внутремышечно';
+  @override
+  String get subcutaneous => 'Подкожно';
+  @override
+  String get empty_levels =>
+      'Добавьте анализ крови или заполните уровень эстрадиола чтобы начать';
+  @override
+  String get estradiolLevelsTitle => 'Уровень эстрадиола';
+  @override
+  String get week => 'Н';
+  @override
+  String get twoWeeks => '2 Н';
+  @override
+  String get threeMonths => '3 М';
+  @override
+  String get sixMonths => '6 М';
+  @override
+  String get month => 'М';
+  @override
+  String get year => 'Г';
+  @override
+  String get deliveryForm => 'Лекарственная форма';
+  @override
+  String get deliveryFormSachet => 'Саше';
+  @override
+  String get unitMicrogramPerDay => 'мкг/сутки';
+  @override
+  String get unitNgPerMl => 'нг/мл';
+  @override
+  String mustBeAtMost({required Object max}) => 'Не более чем ${max}';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
@@ -765,6 +832,24 @@ class TranslationsRu extends Translations
         few: 'Записано ${count} приёма',
         many: 'Записано ${count} приёмов',
         other: 'Записано ${count} приёма',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'саше',
+        few: 'саше',
+        many: 'саше',
+        other: 'саше',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'грам',
+        few: 'грам',
+        many: 'грам',
+        other: 'грам',
       );
 }
 
@@ -1042,6 +1127,39 @@ extension on TranslationsRu {
       'placementSuggestionPerScheduleDescription' =>
         'Основывать предложение следующего места только на истории этого расписания.',
       'mustBeBetween1And28' => 'Должно быть от 1 до 28',
+      'asNeeded' => 'По необходимости',
+      'scheduleFrequencyDailyDescription' => 'Ежедневно, в одно и то же время',
+      'scheduleFrequencyIntervalDescription' => 'Раз в несколько дней',
+      'scheduleFrequencyWeeklyDescription' => 'Определенные дни недели',
+      'scheduleFrequencyMonthlyDescription' => 'В один и тот же день месяца',
+      'scheduleFrequencyAsNeeded' => 'По необходимости',
+      'scheduleFrequencyAsNeededDescription' => 'Нерегулярно',
+      'reportBug' => 'Сообщить об ошибке',
+      'reportBugDescription' => 'Открыть тикет GitHub',
+      'translateApp' => 'Перевести приложение',
+      'translateAppDescription' => 'Помогите с переводом Mona на Weblate',
+      'missingTranslation' => 'Нет перевода?',
+      'donate' => 'Помочь проекту',
+      'donateDescription' => 'Поддержите Mona на Ko-fi',
+      'backupSaved' => 'Резервная копия сохранена',
+      'secretSettings' => 'Секретные настройки',
+      'injectionType' => 'Тип инъекции',
+      'intramuscular' => 'Внутремышечно',
+      'subcutaneous' => 'Подкожно',
+      'empty_levels' =>
+        'Добавьте анализ крови или заполните уровень эстрадиола чтобы начать',
+      'estradiolLevelsTitle' => 'Уровень эстрадиола',
+      'week' => 'Н',
+      'twoWeeks' => '2 Н',
+      'threeMonths' => '3 М',
+      'sixMonths' => '6 М',
+      'month' => 'М',
+      'year' => 'Г',
+      'deliveryForm' => 'Лекарственная форма',
+      'deliveryFormSachet' => 'Саше',
+      'unitMicrogramPerDay' => 'мкг/сутки',
+      'unitNgPerMl' => 'нг/мл',
+      'mustBeAtMost' => ({required Object max}) => 'Не более чем ${max}',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
@@ -1226,6 +1344,22 @@ extension on TranslationsRu {
             few: 'Записано ${count} приёма',
             many: 'Записано ${count} приёмов',
             other: 'Записано ${count} приёма',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'саше',
+            few: 'саше',
+            many: 'саше',
+            other: 'саше',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'грам',
+            few: 'грам',
+            many: 'грам',
+            other: 'грам',
           ),
       _ => null,
     };

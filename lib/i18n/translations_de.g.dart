@@ -588,6 +588,17 @@ class TranslationsDe extends Translations
   @override
   String get unitNgPerMl => 'ng/mL';
   @override
+  String get scheduleFrequencyAsNeededDescription =>
+      'Kein festgelegter Zeitplan';
+  @override
+  String get getInvolved => 'Mach mit';
+  @override
+  String get reportBug => 'Melde Fehler';
+  @override
+  String get reportBugDescription => 'Starte einen Issue auf GitHub';
+  @override
+  String get translateApp => 'Die App übersetzen';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
@@ -1041,6 +1052,11 @@ extension on TranslationsDe {
         'Trage eine Blutuntersuchung oder Estradiol-Injektion ein, um loszulegen',
       'estradiolLevelsTitle' => 'Estradiol-Werte',
       'unitNgPerMl' => 'ng/mL',
+      'scheduleFrequencyAsNeededDescription' => 'Kein festgelegter Zeitplan',
+      'getInvolved' => 'Mach mit',
+      'reportBug' => 'Melde Fehler',
+      'reportBugDescription' => 'Starte einen Issue auf GitHub',
+      'translateApp' => 'Die App übersetzen',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
