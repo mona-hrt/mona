@@ -1,0 +1,3 @@
+Fix:
+
+- The chart is now right-to-left in RTL languages
