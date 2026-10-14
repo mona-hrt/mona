@@ -312,5 +312,15 @@
   "administrationRouteUnitGram_other": "grömm",
   "applicationSites": "Umsóknarsíður",
   "applicationSitesInstructions": "Stjórnaðu stöðunum sem þú skiptist á milli. Staðsetningar eru lagðar til út frá inntökusögu þinni. Haltu inni til að endurraða.",
-  "mustBeAtMost": "Verður að vera í mesta lagi {{max}}"
+  "mustBeAtMost": "Verður að vera í mesta lagi {{max}}",
+  "getInvolved": "Taktu þátt",
+  "reportBug": "Tilkynna villu",
+  "reportBugDescription": "Opna mál á GitHub",
+  "translateApp": "Þýddu forritið",
+  "translateAppDescription": "Hjálpaðu þýðir Mona á Weblate",
+  "missingTranslation": "Er þýðing vantar?",
+  "donate": "Gefa peninga",
+  "donateDescription": "Styðjið Monu á Ko-fi",
+  "injectionType": "Innspýtingartegund",
+  "intramuscular": "Dæling í vöðva"
 }
