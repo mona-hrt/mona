@@ -561,6 +561,53 @@ class TranslationsEs extends Translations
   @override
   String get mustBeBetween1And28 => 'Debe estar entre 1 y 28';
   @override
+  String get scheduleFrequencyIntervalDescription => 'Cada pocos días';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'Ciertos días de la semana';
+  @override
+  String get scheduleFrequencyMonthlyDescription => 'El mismo día cada mes';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'Ningún horario fijo';
+  @override
+  String get getInvolved => 'Participar';
+  @override
+  String get reportBugDescription => 'Abre una incidencia en GitHub';
+  @override
+  String get translateApp => 'Traduce la app';
+  @override
+  String get translateAppDescription => 'Ayúdanos a traducir Mona en Weblate';
+  @override
+  String get missingTranslation => 'Falta alguna traducción?';
+  @override
+  String get donate => 'Dona';
+  @override
+  String get donateDescription => 'Apoya a Mona en Ko-fi';
+  @override
+  String get secretSettings => 'Ajustes Secretos';
+  @override
+  String get injectionType => 'Tipo de Inyección';
+  @override
+  String get intramuscular => 'Intramuscular';
+  @override
+  String get subcutaneous => 'Subcutánea';
+  @override
+  String get empty_levels =>
+      'Añade un análisis de sangre o registra una inyección de estradiol para empezar';
+  @override
+  String get estradiolLevelsTitle => 'Niveles de Estradiol';
+  @override
+  String get week => 'Sem.';
+  @override
+  String get twoWeeks => '2 Sems.';
+  @override
+  String get threeMonths => '3 Meses';
+  @override
+  String get sixMonths => '6 Meses';
+  @override
+  String get month => 'Mes';
+  @override
+  String get year => 'Año';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
         count,
@@ -1022,6 +1069,30 @@ extension on TranslationsEs {
       'placementSuggestionPerScheduleDescription' =>
         'Basa la sugerencia de la siguiente zona únicamente en el historial de este horario.',
       'mustBeBetween1And28' => 'Debe estar entre 1 y 28',
+      'scheduleFrequencyIntervalDescription' => 'Cada pocos días',
+      'scheduleFrequencyWeeklyDescription' => 'Ciertos días de la semana',
+      'scheduleFrequencyMonthlyDescription' => 'El mismo día cada mes',
+      'scheduleFrequencyAsNeededDescription' => 'Ningún horario fijo',
+      'getInvolved' => 'Participar',
+      'reportBugDescription' => 'Abre una incidencia en GitHub',
+      'translateApp' => 'Traduce la app',
+      'translateAppDescription' => 'Ayúdanos a traducir Mona en Weblate',
+      'missingTranslation' => 'Falta alguna traducción?',
+      'donate' => 'Dona',
+      'donateDescription' => 'Apoya a Mona en Ko-fi',
+      'secretSettings' => 'Ajustes Secretos',
+      'injectionType' => 'Tipo de Inyección',
+      'intramuscular' => 'Intramuscular',
+      'subcutaneous' => 'Subcutánea',
+      'empty_levels' =>
+        'Añade un análisis de sangre o registra una inyección de estradiol para empezar',
+      'estradiolLevelsTitle' => 'Niveles de Estradiol',
+      'week' => 'Sem.',
+      'twoWeeks' => '2 Sems.',
+      'threeMonths' => '3 Meses',
+      'sixMonths' => '6 Meses',
+      'month' => 'Mes',
+      'year' => 'Año',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
             count,

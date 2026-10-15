@@ -30,6 +30,7 @@ class LanguagePage extends StatefulWidget {
     'en-GB': (english: 'British English', native: 'English (UK)'),
     'es': (english: 'Spanish', native: 'Español'),
     'et': (english: 'Estonian', native: 'Eesti'),
+    'eu': (english: 'Basque', native: 'Euskara'),
     'fr': (english: 'French', native: 'Français'),
     'gl': (english: 'Galician', native: 'Galego'),
     'hi': (english: 'Hindi', native: 'हिन्दी'),
