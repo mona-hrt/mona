@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Frozzie "Frozzie89"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:clock/clock.dart';
 import 'package:fake_async/fake_async.dart';
 

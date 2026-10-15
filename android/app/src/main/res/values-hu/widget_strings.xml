@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">Idő hormon terápián</string>
+    <string name="hrt_widget_description">Mutassa az HRT-n töltött időm es az összes bevitelem</string>
+    <string name="hrt_home_widget_placeholder">Nyist meg a Monát az első beviteled feljegyzéséhez</string>
+    <string name="hrt_widget_preview_sample">HRT-n 8 hónapja</string>
+    <string name="hrt_widget_preview_intake_sample">16 bevitel felírva</string>
+</resources>

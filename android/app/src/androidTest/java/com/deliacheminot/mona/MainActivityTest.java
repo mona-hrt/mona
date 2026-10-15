@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Frozzie "Frozzie89"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 package com.deliacheminot.mona;
 
 import androidx.test.platform.app.InstrumentationRegistry;

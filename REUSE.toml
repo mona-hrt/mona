@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2026 Sienna "suprstarrd" M. <business@suprstarrd.com>
+# SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+version = 1
+
+[[annotations]]
+path = [
+  "*",
+  ".devcontainer/**",
+  ".github/**",
+  "android/**",
+  "assets/**",
+  "docs/**",
+  "fastlane/**",
+  "ios/**",
+  "scripts/**",
+  "tool/**",
+]
+SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+# These files are generated.
+# The translator credits are in the lib/i18n/*.i18next.json.license sidecars.
+[[annotations]]
+path = [
+  "android/app/src/main/res/values*/widget_*.xml",
+  "lib/i18n/translations*.g.dart",
+]
+SPDX-FileCopyrightText = "2026 Délia Cheminot <delia@cheminot.net>"
+SPDX-License-Identifier = "AGPL-3.0-only"

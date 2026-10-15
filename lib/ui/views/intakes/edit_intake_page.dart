@@ -1,3 +1,9 @@
+// SPDX-FileCopyrightText: 2026 Thomas "Seremptos"
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Frozzie "Frozzie89"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:clock/clock.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';

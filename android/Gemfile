@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Sienna "suprstarrd" M. <business@suprstarrd.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 source "https://rubygems.org"
 
 gem "fastlane"

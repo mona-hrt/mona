@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2026 Eva Tatarka "evant" <eva@tatarka.me>
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/custom_mappers.dart';

@@ -1,3 +1,0 @@
-Fix:
-
-- Removes bottom margin on iOS 26+

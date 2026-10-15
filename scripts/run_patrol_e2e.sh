@@ -1,4 +1,10 @@
 #!/bin/bash
+# SPDX-FileCopyrightText: 2026 Frozzie "Frozzie89"
+# SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+# SPDX-FileContributor: Robin Hirst "RobinHirst11"
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 # Runs the Patrol Android E2E suite with retries.
 #
 # PATROL_TARGET (optional): a single integration_test/*_test.dart file to run.

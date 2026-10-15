@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">HRT-n 1 napja</item>
+        <item quantity="other">HRT-n %d napja</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">HRT-n 1 hete</item>
+        <item quantity="other">HRT-n %d hete</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">HRT-n 1 hónapja</item>
+        <item quantity="other">HRT-n %d hónapja</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">HRT-n 1 éve</item>
+        <item quantity="other">HRT-n %d éve</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 bevitel felírva</item>
+        <item quantity="other">%d bevitel felírva</item>
+    </plurals>
+</resources>

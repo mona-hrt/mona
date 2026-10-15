@@ -1,3 +1,10 @@
+// SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+// SPDX-FileContributor: Eva Tatarka "evant" <eva@tatarka.me>
+// SPDX-FileContributor: Lesley Caramella "vani11agirl"
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
