@@ -160,6 +160,7 @@ class AppDatabase {
     }
   }
 
+  @visibleForTesting
   static void reset() {
     _database = null;
     _instance = null;

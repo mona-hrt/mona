@@ -17,6 +17,7 @@ class HomeWidgetService {
   static const String _qualifiedAndroidName =
       'com.deliacheminot.mona.HrtGlanceReceiver';
 
+  @visibleForTesting
   static bool Function()? isPlatformSupported = () => isAndroid;
 
   final SaveWidgetData _saveWidgetData;
