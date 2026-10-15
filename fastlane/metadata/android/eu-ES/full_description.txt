@@ -1,0 +1,22 @@
+Hartu zure hormona-osasunaren kontrola Monarekin, zure hormona-bidaia jarraitu, ulertu eta kudeatzen laguntzeko diseinatutako tokiko aplikazio irekiarekin.
+
+Zergatik da Mona desberdina:
+
+- Guztiz pribatua: Zure datu guztiak zure gailuan geratzen dira. Ez da ezer bidaltzen zerbitzarietara.
+- Kode irekia: Aplikazioa guztiz kode irekikoa da, gardentasun handiena eta komunitatearen ekarpenak ahalbidetuz.
+- Bizitza osorako doakoa: Ez harpidetzarik, ez premium funtzionalitaterik. Mona doakoa da guztientzat.
+
+Medikazioen oroigarriak:
+
+- Gehitu zure botika-erregimenak
+- Lortu hurrengo dosi bakoitzerako informazio zehatza (kantitatea, data, aldea, galdutako dosiak)
+- Jaso jakinarazpenak dosirik inoiz gal ez dezazun
+
+Kudeatu zure botiken stocka modu eraginkorrean:
+
+- Jarrai ezazu stockean dagoen botika bakoitzaren jarraipena
+- Kantitateak automatikoki eguneratzen dira sarrera bakoitzarekin
+
+Hormona mailen grafikoa:
+
+- Estradiol monoterapia hartzen duten erabiltzaileentzat, simulatutako hormona mailak denboran zehar bistaratu
