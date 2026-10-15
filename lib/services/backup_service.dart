@@ -182,7 +182,7 @@ class BackupService {
       return false;
     }
 
-    final jsonString = await file.readAsString();
+    final jsonString = utf8.decode(await file.readAsBytes());
     final Map<String, dynamic> backupData = jsonDecode(jsonString);
 
     _validateBackup(backupData);
