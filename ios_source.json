@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.1/mona-1.24.1.ipa",
-      "size": 11836644,
-      "version": "1.24.1",
-      "versionDate": "2026-10-10T17:31:50Z",
-      "versionDescription": "Fix:\r\n\r\n- The chart is now right-to-left in RTL languages",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.2/mona-1.24.2.ipa",
+      "size": 11848223,
+      "version": "1.24.2",
+      "versionDate": "2026-10-17T19:47:08Z",
+      "versionDescription": "New:\r\n\r\n- New language: Basque\r\n\r\nFix:\r\n\r\n- Fixed a bug causing some characters to import badly and the graph to disappear with imported data",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.2/mona-1.24.2.ipa",
+          "size": 11848223,
+          "version": "1.24.2",
+          "buildVersion": "32",
+          "date": "2026-10-17T19:47:08Z",
+          "localizedDescription": "New:\r\n\r\n- New language: Basque\r\n\r\nFix:\r\n\r\n- Fixed a bug causing some characters to import badly and the graph to disappear with imported data",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.1/mona-1.24.1.ipa",
           "size": 11836644,
