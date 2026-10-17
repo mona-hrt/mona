@@ -66,10 +66,9 @@ class TranslationsHu extends Translations
   @override
   String get takeAnIntake => 'Bevevés felírása';
   @override
-  String get addAnItem => 'Elem hozzáadása';
+  String get addAnItem => 'Tárgy hozzáadása';
   @override
-  String get empty_home =>
-      'Kezdje egy időbeosztás hozzáadásával a Beállításokban';
+  String get empty_home => 'Kezdje egy beosztás hozzáadásával a Beállításokban';
   @override
   String get allDone => 'Kész!';
   @override
@@ -107,7 +106,7 @@ class TranslationsHu extends Translations
   @override
   String get scheduleFrequencyAsNeeded => 'Szükség szerint';
   @override
-  String get scheduleFrequencyAsNeededDescription => 'Nincs rögzített ütemezés';
+  String get scheduleFrequencyAsNeededDescription => 'Nincs megadott időpont';
   @override
   String get newUpdateAvailable => 'Új frissítés érhető el!';
   @override
@@ -115,21 +114,21 @@ class TranslationsHu extends Translations
   @override
   String get notifications => 'Értesítések';
   @override
-  String get schedulesAndNotifications => 'Ütemezések és értesítések';
+  String get schedulesAndNotifications => 'Beosztások és értesítések';
   @override
   String get general => 'Általános';
   @override
-  String get schedules => 'Ütemezések';
+  String get schedules => 'Beosztások';
   @override
-  String get noSchedules => 'Nincsen ütemezés';
+  String get noSchedules => 'Nincsen beosztás';
   @override
   String get language => 'Nyelv';
   @override
   String get languageFollowDevice => 'Használja az eszköz nyelvét';
   @override
-  String get enableNotifications => 'Érdesítések bekapcsolása';
+  String get enableNotifications => 'Értesítések engedélyezése';
   @override
-  String get enableNotificationsDescription => 'Küldj emlékeztetőket';
+  String get enableNotificationsDescription => 'Értesítések küldése';
   @override
   String get anchorToLastIntake => 'Újraszámítás a legútóbbi bevitel alapján';
   @override
@@ -230,9 +229,10 @@ class TranslationsHu extends Translations
   @override
   String get reportBugDescription => 'Probléma nyitása GitHub-on';
   @override
-  String get translateApp => 'Segíts fordítani';
+  String get translateApp => 'Segíts az app fordításban';
   @override
-  String get translateAppDescription => 'Segíts Monát lefordítani Weblate-en';
+  String get translateAppDescription =>
+      'Segíts Weblate-en lefordítani az appot';
   @override
   String get missingTranslation => 'Hiányzik egy fordítás?';
   @override
@@ -295,7 +295,7 @@ class TranslationsHu extends Translations
   @override
   String get editScheduleInfo => 'Beosztás infó szerkeztése';
   @override
-  String get scheduling => 'Ütemezés';
+  String get scheduling => 'Beosztás';
   @override
   String get editSchedule => 'Beosztás módosítása';
   @override
@@ -305,7 +305,7 @@ class TranslationsHu extends Translations
   @override
   String get empty_intakes => 'A bevitelek itt fognak megjelenni';
   @override
-  String get HrtCounter => 'Idő hormon terápián';
+  String get HrtCounter => 'HRT-n töltött idő';
   @override
   String get HrtCounterDescription =>
       'Mutassa az HRT-n töltött időm es az összes bevitelem';
@@ -320,7 +320,7 @@ class TranslationsHu extends Translations
   String get startOfDay => 'Nap kezdete';
   @override
   String startOfDayDescription({required Object time}) =>
-      '${time} előtt az előző naphoz fog számítani';
+      '${time} előtt minden, a tegnapi naphoz fog számítani';
   @override
   String get chooseSchedule => 'Válassz beosztást';
   @override
@@ -338,11 +338,11 @@ class TranslationsHu extends Translations
   @override
   String get none => 'Semmi';
   @override
-  String get supplyItem => 'Készlet elem';
+  String get supplyItem => 'Készlet tárgy';
   @override
-  String get chooseItem => 'Válassz egy elemet';
+  String get chooseItem => 'Válassz egy tárgyat';
   @override
-  String get noItemsToAdd => 'Nincs elérhető elem';
+  String get noItemsToAdd => 'Nincs elérhető tárgy';
   @override
   String get injectionSide => 'Injekció oldal';
   @override
@@ -414,21 +414,21 @@ class TranslationsHu extends Translations
   String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
-  String get empty_supplies => 'Nincs készlet. Kezdd egy elem hozzáadásával.';
+  String get empty_supplies => 'Nincs készlet. Kezdd egy tárgy hozzáadásával.';
   @override
-  String get newItem => 'Új elem';
+  String get newItem => 'Új tárgy';
   @override
-  String get adminRoute => 'Adminisztrációs út';
+  String get adminRoute => 'Beviteli forma';
   @override
   String get totalAmount => 'Teljes mennyiség';
   @override
   String get concentration => 'Koncentráció';
   @override
-  String get editItem => 'Elem szerkesztése';
+  String get editItem => 'Tárgy szerkesztése';
   @override
   String get usedAmount => 'Elhasznált mennyiség';
   @override
-  String deleteItem({required Object name}) => 'Törli ${name}-at/et?';
+  String deleteItem({required Object name}) => 'Törli ${name}-t?';
   @override
   String get allItemsFilter => 'Összes';
   @override
@@ -462,7 +462,7 @@ class TranslationsHu extends Translations
   @override
   String get delete => 'Törlés';
   @override
-  String get deleteElement => 'Törli ezt az elemet?';
+  String get deleteElement => 'Törli ezt az tárgyat?';
   @override
   String get irreversibleAction => 'Ezt a műveletet nem lehet visszafordítani.';
   @override
@@ -518,22 +518,22 @@ class TranslationsHu extends Translations
   @override
   String get medicationEstradiolEnanthate => 'Ösztradiol enantát';
   @override
-  String get medicationEstradiolValerate => 'Ösztradiol valerate';
+  String get medicationEstradiolValerate => 'Ösztradiol valerát';
   @override
-  String get medicationEstradiolCypionate => 'Ösztradiol cypionate';
+  String get medicationEstradiolCypionate => 'Ösztradiol cypionát';
   @override
-  String get medicationEstradiolUndecylate => 'Ösztradiol undecylate';
+  String get medicationEstradiolUndecylate => 'Ösztradiol undecilát';
   @override
   String get medicationEstradiolBenzoate => 'Ösztradiol benzoát';
   @override
   String get medicationEstradiolCypionateSuspension =>
-      'Ösztradiol cypionate felfüggesztése';
+      'Ösztradiol cypionát felfüggesztése';
   @override
   String get medicationTestosteroneEnanthate => 'Tesztoszteron enantát';
   @override
   String get medicationTestosteroneValerate => 'Tesztoszteron valerát';
   @override
-  String get medicationTestosteroneCypionate => 'Tesztoszteron cypionate';
+  String get medicationTestosteroneCypionate => 'Tesztoszteron cypionát';
   @override
   String get medicationTestosteroneUndecylate => 'Tesztoszteron undecilát';
   @override
@@ -832,8 +832,8 @@ extension on TranslationsHu {
       'nav_levels' => 'Hormonok',
       'nav_supplies' => 'Készlet',
       'takeAnIntake' => 'Bevevés felírása',
-      'addAnItem' => 'Elem hozzáadása',
-      'empty_home' => 'Kezdje egy időbeosztás hozzáadásával a Beállításokban',
+      'addAnItem' => 'Tárgy hozzáadása',
+      'empty_home' => 'Kezdje egy beosztás hozzáadásával a Beállításokban',
       'allDone' => 'Kész!',
       'noIntakesDue' => 'Nincs mára felírt adag',
       'upcoming' => 'Közelgő',
@@ -851,18 +851,18 @@ extension on TranslationsHu {
       'scheduleFrequencyMonthly' => 'Havonta',
       'scheduleFrequencyMonthlyDescription' => 'Minden hónap ugyanazon napján',
       'scheduleFrequencyAsNeeded' => 'Szükség szerint',
-      'scheduleFrequencyAsNeededDescription' => 'Nincs rögzített ütemezés',
+      'scheduleFrequencyAsNeededDescription' => 'Nincs megadott időpont',
       'newUpdateAvailable' => 'Új frissítés érhető el!',
       'settingsTitle' => 'Beállítások',
       'notifications' => 'Értesítések',
-      'schedulesAndNotifications' => 'Ütemezések és értesítések',
+      'schedulesAndNotifications' => 'Beosztások és értesítések',
       'general' => 'Általános',
-      'schedules' => 'Ütemezések',
-      'noSchedules' => 'Nincsen ütemezés',
+      'schedules' => 'Beosztások',
+      'noSchedules' => 'Nincsen beosztás',
       'language' => 'Nyelv',
       'languageFollowDevice' => 'Használja az eszköz nyelvét',
-      'enableNotifications' => 'Érdesítések bekapcsolása',
-      'enableNotificationsDescription' => 'Küldj emlékeztetőket',
+      'enableNotifications' => 'Értesítések engedélyezése',
+      'enableNotificationsDescription' => 'Értesítések küldése',
       'anchorToLastIntake' => 'Újraszámítás a legútóbbi bevitel alapján',
       'scheduleFrequencyWeeklyDescription' => 'A hét egy napján',
       'goToSettings' => 'Menj a beállításokhoz',
@@ -918,8 +918,8 @@ extension on TranslationsHu {
       'getInvolved' => 'Kapcsolódj be',
       'reportBug' => 'Hiba jelentése',
       'reportBugDescription' => 'Probléma nyitása GitHub-on',
-      'translateApp' => 'Segíts fordítani',
-      'translateAppDescription' => 'Segíts Monát lefordítani Weblate-en',
+      'translateApp' => 'Segíts az app fordításban',
+      'translateAppDescription' => 'Segíts Weblate-en lefordítani az appot',
       'missingTranslation' => 'Hiányzik egy fordítás?',
       'donate' => 'Adományozz',
       'donateDescription' => 'Támogast Monát Ko-Fi-n',
@@ -955,12 +955,12 @@ extension on TranslationsHu {
       'pickATime' => 'Válasszon egy időt',
       'addIntakeTime' => 'Idő hozzáadása',
       'editScheduleInfo' => 'Beosztás infó szerkeztése',
-      'scheduling' => 'Ütemezés',
+      'scheduling' => 'Beosztás',
       'editSchedule' => 'Beosztás módosítása',
       'deleteSchedule' => ({required Object name}) => 'Törli a(z) ${name}-et?',
       'addNotification' => 'Emlékeztető hozzáadása',
       'empty_intakes' => 'A bevitelek itt fognak megjelenni',
-      'HrtCounter' => 'Idő hormon terápián',
+      'HrtCounter' => 'HRT-n töltött idő',
       'HrtCounterDescription' =>
         'Mutassa az HRT-n töltött időm es az összes bevitelem',
       'hrtWidgetPlaceholder' =>
@@ -969,7 +969,7 @@ extension on TranslationsHu {
       'hrtWidgetPreviewIntakeSample' => '16 bevitel felírva',
       'startOfDay' => 'Nap kezdete',
       'startOfDayDescription' => ({required Object time}) =>
-          '${time} előtt az előző naphoz fog számítani',
+          '${time} előtt minden, a tegnapi naphoz fog számítani',
       'chooseSchedule' => 'Válassz beosztást',
       'addSchedulesFirst' => 'Előbb adj hozzá egy beosztást.',
       'editIntake' => 'Bevutel módosítása',
@@ -978,9 +978,9 @@ extension on TranslationsHu {
       'takenAmount' => 'Bevett mennyiség',
       'wastedAmount' => 'Elpazarolt mennyiség',
       'none' => 'Semmi',
-      'supplyItem' => 'Készlet elem',
-      'chooseItem' => 'Válassz egy elemet',
-      'noItemsToAdd' => 'Nincs elérhető elem',
+      'supplyItem' => 'Készlet tárgy',
+      'chooseItem' => 'Válassz egy tárgyat',
+      'noItemsToAdd' => 'Nincs elérhető tárgy',
       'injectionSide' => 'Injekció oldal',
       'deleteIntake' => 'Szeretné törölni ezt a bevutelt?',
       'takeMedication' => ({required Object scheduleName}) =>
@@ -1018,14 +1018,14 @@ extension on TranslationsHu {
         ({required Object date, required Object level}) => '${date}: ${level}',
       'chartLevelTooltip' => ({required Object date, required Object level}) =>
           '${date}: ${level}',
-      'empty_supplies' => 'Nincs készlet. Kezdd egy elem hozzáadásával.',
-      'newItem' => 'Új elem',
-      'adminRoute' => 'Adminisztrációs út',
+      'empty_supplies' => 'Nincs készlet. Kezdd egy tárgy hozzáadásával.',
+      'newItem' => 'Új tárgy',
+      'adminRoute' => 'Beviteli forma',
       'totalAmount' => 'Teljes mennyiség',
       'concentration' => 'Koncentráció',
-      'editItem' => 'Elem szerkesztése',
+      'editItem' => 'Tárgy szerkesztése',
       'usedAmount' => 'Elhasznált mennyiség',
-      'deleteItem' => ({required Object name}) => 'Törli ${name}-at/et?',
+      'deleteItem' => ({required Object name}) => 'Törli ${name}-t?',
       'allItemsFilter' => 'Összes',
       'medicationItemsFilter' => 'Gyógyszer',
       'genericItems' => 'Fogyóeszközök',
@@ -1042,7 +1042,7 @@ extension on TranslationsHu {
       'cancel' => 'Mégse',
       'next' => 'Következő',
       'delete' => 'Törlés',
-      'deleteElement' => 'Törli ezt az elemet?',
+      'deleteElement' => 'Törli ezt az tárgyat?',
       'irreversibleAction' => 'Ezt a műveletet nem lehet visszafordítani.',
       'name' => 'Név',
       'molecule' => 'Molekula',
@@ -1070,15 +1070,15 @@ extension on TranslationsHu {
       'benzoate' => 'Benzoát',
       'cypionateSuspension' => 'Cypionát felfüggesztés',
       'medicationEstradiolEnanthate' => 'Ösztradiol enantát',
-      'medicationEstradiolValerate' => 'Ösztradiol valerate',
-      'medicationEstradiolCypionate' => 'Ösztradiol cypionate',
-      'medicationEstradiolUndecylate' => 'Ösztradiol undecylate',
+      'medicationEstradiolValerate' => 'Ösztradiol valerát',
+      'medicationEstradiolCypionate' => 'Ösztradiol cypionát',
+      'medicationEstradiolUndecylate' => 'Ösztradiol undecilát',
       'medicationEstradiolBenzoate' => 'Ösztradiol benzoát',
       'medicationEstradiolCypionateSuspension' =>
-        'Ösztradiol cypionate felfüggesztése',
+        'Ösztradiol cypionát felfüggesztése',
       'medicationTestosteroneEnanthate' => 'Tesztoszteron enantát',
       'medicationTestosteroneValerate' => 'Tesztoszteron valerát',
-      'medicationTestosteroneCypionate' => 'Tesztoszteron cypionate',
+      'medicationTestosteroneCypionate' => 'Tesztoszteron cypionát',
       'medicationTestosteroneUndecylate' => 'Tesztoszteron undecilát',
       'medicationTestosteroneBenzoate' => 'Tesztoszteron benzoát',
       'medicationTestosteroneCypionateSuspension' =>

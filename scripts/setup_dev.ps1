@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Thomas "Seremptos"
 # SPDX-FileContributor: Hexyliae
 # SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
+# SPDX-FileContributor: ThePeculiarPeninsula
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
@@ -85,7 +86,7 @@ if($currentPath.Split(";") -contains $PUB_CACHE_BIN) {
 }
 
 Write-Host "`nConfiguring project to use the correct Flutter SDK...`n" -ForegroundColor Magenta;
-& fvm use 3.41.5;
+& fvm use 3.47.4;
 
 Write-Host "`nFetching the latest dependencies...`n" -ForegroundColor Magenta;
 & fvm flutter pub get;

@@ -3,8 +3,8 @@
 /// Source: lib/i18n/generated
 /// To regenerate, run: `dart run slang`
 ///
-/// Locales: 26
-/// Strings: 6604 (254 per locale)
+/// Locales: 27
+/// Strings: 6720 (248 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -18,6 +18,7 @@ export 'package:slang_flutter/slang_flutter.dart';
 import 'translations_de.g.dart' as l_de;
 import 'translations_es.g.dart' as l_es;
 import 'translations_et.g.dart' as l_et;
+import 'translations_eu.g.dart' as l_eu;
 import 'translations_fr.g.dart' as l_fr;
 import 'translations_gl.g.dart' as l_gl;
 import 'translations_hi.g.dart' as l_hi;
@@ -53,6 +54,7 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
   de(languageCode: 'de'),
   es(languageCode: 'es'),
   et(languageCode: 'et'),
+  eu(languageCode: 'eu'),
   fr(languageCode: 'fr'),
   gl(languageCode: 'gl'),
   hi(languageCode: 'hi'),
@@ -129,6 +131,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
         );
       case AppLocale.et:
         return l_et.TranslationsEt(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.eu:
+        return l_eu.TranslationsEu(
           overrides: overrides,
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,

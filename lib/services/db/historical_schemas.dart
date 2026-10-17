@@ -565,6 +565,12 @@ const Map<int, List<String>> _historicalSchemas = {
     _medicationSchedulesV21,
     _bloodTestsV20,
   ],
+  23: [
+    _supplyItemsV21,
+    _medicationIntakesV22,
+    _medicationSchedulesV21,
+    _bloodTestsV20,
+  ],
 };
 
 List<String> historicalSchemaFor(int version) {

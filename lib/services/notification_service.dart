@@ -21,9 +21,11 @@ typedef NotificationPayload = ({
 });
 
 class NotificationService {
+  @visibleForTesting
   static FlutterLocalNotificationsPlugin Function()? createPlugin =
       () => FlutterLocalNotificationsPlugin();
 
+  @visibleForTesting
   static bool Function()? isPlatformSupported = () => isMobile;
 
   late final FlutterLocalNotificationsPlugin _notificationsPlugin;

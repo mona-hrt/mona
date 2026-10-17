@@ -2,6 +2,7 @@
 
 # SPDX-FileCopyrightText: 2026 Hexyliae
 # SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
+# SPDX-FileContributor: ThePeculiarPeninsula
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
@@ -31,7 +32,7 @@ add_to_profile() {
     local profile_file=$1
     if [ -f "$profile_file" ]; then
         if ! grep -q "$PUB_CACHE_BIN" "$profile_file"; then
-            echo -e "\n# Add Dart Pub Cache for FVM\n$PATH_EXPORT_CMD" >> "$profile_file"
+            echo -e "\n# Add Dart Pub Cache for FVM\nexport PATH=\"\$PATH\":\"$PUB_CACHE_BIN\"" >> "$profile_file"
             echo -e "  ↳ Added FVM to $profile_file"
         else
             echo -e "  ↳ FVM path already exists in $profile_file"
@@ -56,7 +57,7 @@ fi
 export PATH="$PATH:$PUB_CACHE_BIN"
 
 echo -e "\nConfiguring project to use the correct Flutter SDK..."
-fvm use 3.41.5
+fvm use 3.47.4
 
 echo -e "\nFetching the latest dependencies..."
 fvm flutter pub get

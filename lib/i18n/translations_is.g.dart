@@ -618,6 +618,26 @@ class TranslationsIs extends Translations
   String mustBeAtMost({required Object max}) =>
       'Verður að vera í mesta lagi ${max}';
   @override
+  String get getInvolved => 'Taktu þátt';
+  @override
+  String get reportBug => 'Tilkynna villu';
+  @override
+  String get reportBugDescription => 'Opna mál á GitHub';
+  @override
+  String get translateApp => 'Þýddu forritið';
+  @override
+  String get translateAppDescription => 'Hjálpaðu þýðir Mona á Weblate';
+  @override
+  String get missingTranslation => 'Er þýðing vantar?';
+  @override
+  String get donate => 'Gefa peninga';
+  @override
+  String get donateDescription => 'Styðjið Monu á Ko-fi';
+  @override
+  String get injectionType => 'Innspýtingartegund';
+  @override
+  String get intramuscular => 'Dæling í vöðva';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
@@ -1100,6 +1120,16 @@ extension on TranslationsIs {
         'Stjórnaðu stöðunum sem þú skiptist á milli. Staðsetningar eru lagðar til út frá inntökusögu þinni. Haltu inni til að endurraða.',
       'mustBeAtMost' => ({required Object max}) =>
           'Verður að vera í mesta lagi ${max}',
+      'getInvolved' => 'Taktu þátt',
+      'reportBug' => 'Tilkynna villu',
+      'reportBugDescription' => 'Opna mál á GitHub',
+      'translateApp' => 'Þýddu forritið',
+      'translateAppDescription' => 'Hjálpaðu þýðir Mona á Weblate',
+      'missingTranslation' => 'Er þýðing vantar?',
+      'donate' => 'Gefa peninga',
+      'donateDescription' => 'Styðjið Monu á Ko-fi',
+      'injectionType' => 'Innspýtingartegund',
+      'intramuscular' => 'Dæling í vöðva',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
