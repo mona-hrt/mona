@@ -1,0 +1,7 @@
+New:
+
+- New language: Basque
+
+Fix:
+
+- Fixed a bug causing some characters to import badly and the graph to disappear with imported data
