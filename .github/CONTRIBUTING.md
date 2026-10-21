@@ -22,11 +22,11 @@ We use a standard **Fork and Pull Request** workflow. To keep our main branch st
 1. Fork this repository to your own GitHub account.
 2. Clone your forked repository to your local machine:
 
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/mona-hrt.git
-   cd mona-hrt
-   git checkout dev
-  ```
+```bash
+git clone https://github.com/YOUR-USERNAME/mona.git
+cd mona
+git checkout dev
+```
 
 ### 2. Set Up the Environment
 
