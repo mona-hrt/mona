@@ -188,10 +188,10 @@ Mona follows the [REUSE](https://reuse.software) specification. Each file must s
 ```dart
 // SPDX-FileCopyrightText: 2026 Your Name "your-github-username" <email>
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 ```
 
-**When you change a file**, add your name to its header. Do not remove the names that are already there.
+**When you change a file**, add your name to its header. Do not remove the names that are already there. Do not change the license identifier.
 
 ```dart
 // SPDX-FileCopyrightText: 2026 Example Name
@@ -199,6 +199,8 @@ Mona follows the [REUSE](https://reuse.software) specification. Each file must s
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 ```
+
+Regardless of the file's stated license identifier, your contributions will be licensed under the GNU Affero General Public License, version 3 of the License, with the [proxy designation](../LICENSES/LicenseRef-Proxy.txt) and [digital storefront exception](../LICENSES/LicenseRef-Digital-storefront-exception-1.2.txt). (If you have contributed in the past, we are currently seeking express permission from you to use your *past* contributions with these additions to the License. Please see [#416](https://github.com/mona-hrt/mona/issues/416) and [#418](https://github.com/mona-hrt/mona/issues/418) for more details.)
 
 Some files cannot hold a comment, for example JSON files and generated files. Put the header in a sidecar file instead. A sidecar has the same name with `.license` at the end.
 
