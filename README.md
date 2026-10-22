@@ -4,6 +4,7 @@ SPDX-FileContributor: Alice Lorido "yakissa" <alice@lori.do>
 SPDX-FileContributor: Hexyliae
 SPDX-FileContributor: imcb "irismessage"
 SPDX-FileContributor: Luna Fox "AkinoKitsu"
+SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
 
 SPDX-License-Identifier: AGPL-3.0-only
 -->
@@ -23,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-only
   <a href="https://apps.apple.com/app/mona-hrt-journal/id6757274628">
     <img alt="Download on the App Store" title="Download on the App Store" src="https://i.imgur.com/GZIiReo.png" height="45">
   </a>
-  <a href="https://stikstore.app/altdirect/?url=https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/ios_source.json&r=sidestore" target="_blank">
+  <a href="https://altdirect.app/?url=https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/ios_source.json&r=sidestore" target="_blank">
     <img alt="Add Source to SideStore" title="Add Source to SideStore" src="https://sidestore.io/assets/badges/add-source-to-sidestore.png" height="45">
   </a>
   <a href="https://github.com/mona-hrt/mona/releases/latest/download/mona.ipa" target="_blank">
