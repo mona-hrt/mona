@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';

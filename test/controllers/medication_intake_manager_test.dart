@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
 // SPDX-FileContributor: Alice Lorido "yakissa" <alice@lori.do>
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/services.dart';

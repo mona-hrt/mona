@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
