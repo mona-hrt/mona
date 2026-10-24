@@ -2,7 +2,7 @@
 // SPDX-FileContributor: Alice Lorido "yakissa" <alice@lori.do>
 // SPDX-FileContributor: Lesley Caramella "vani11agirl"
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
