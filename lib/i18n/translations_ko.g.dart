@@ -193,7 +193,7 @@ class TranslationsKo extends Translations
   @override
   String get nandrolone => '난드롤론';
   @override
-  String get spironolactone => '스피로노락톤';
+  String get spironolactone => '스피로놀락톤';
   @override
   String get cyproteroneAcetate => '시프로테론 아세테이트';
   @override
@@ -203,7 +203,7 @@ class TranslationsKo extends Translations
   @override
   String get decapeptyl => '데카펩틸';
   @override
-  String get raloxifene => '라록시펜';
+  String get raloxifene => '랄록시펜';
   @override
   String get tamoxifen => '타목시펜';
   @override
@@ -227,19 +227,19 @@ class TranslationsKo extends Translations
   @override
   String get injection => '주사';
   @override
-  String get oral => '먹는 약(경구)';
+  String get oral => '먹는 약';
   @override
   String get sublingual => '혀 밑에 녹이는 약(설하)';
   @override
-  String get patch => '붙이는 패치';
+  String get patch => '패치';
   @override
-  String get gel => '바르는 겔';
+  String get gel => '겔';
   @override
   String get implant => '체내 이식(임플란트)';
   @override
   String get suppository => '좌약';
   @override
-  String get transdermalSpray => '피부 흡수형(스프레이)';
+  String get transdermalSpray => '피부 스프레이';
   @override
   String get takeAnIntake => '투여 기록하기';
   @override
@@ -393,6 +393,184 @@ class TranslationsKo extends Translations
   @override
   String get HrtCounter => 'HRT 기간';
   @override
+  String get hrtWidgetPlaceholder => 'Mona를 열어 첫 투여 기록 남기기';
+  @override
+  String get hrtWidgetPreviewSample => 'HRT 시작 후 8달';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16건 투여 기록됨';
+  @override
+  String get startOfDay => '하루 시작 시간';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      '${time}시 이전 기록은 전날로 기록됩니다';
+  @override
+  String get takenAmount => '복용량';
+  @override
+  String get wastedAmount => '폐기량';
+  @override
+  String get chooseItem => '항목을 선택하세요';
+  @override
+  String get noItemsToAdd => '선택할 수 있는 항목 없음';
+  @override
+  String get intakeRecorded => '투여 기록됨';
+  @override
+  String get notes => '참고';
+  @override
+  String get injectionType => '주사 방식';
+  @override
+  String get intramuscular => '근육주사';
+  @override
+  String get subcutaneous => '피하주사';
+  @override
+  String get milliliters => 'mL';
+  @override
+  String get empty_levels => '시작하려면 혈액검사 결과나 에스트라디올 주사 기록을 추가하세요';
+  @override
+  String get bloodTestsTitle => '혈액검사';
+  @override
+  String get estradiolLevelsTitle => '에스트라디올 수치';
+  @override
+  String get week => '주';
+  @override
+  String get twoWeeks => '2주';
+  @override
+  String get threeMonths => '3개월';
+  @override
+  String get sixMonths => '6개월';
+  @override
+  String get month => '개월';
+  @override
+  String get year => '년';
+  @override
+  String get addBloodTest => '혈액검사 추가';
+  @override
+  String get editBloodTest => '혈액검사 수정';
+  @override
+  String get newBloodTest => '새 혈액검사';
+  @override
+  String get deleteBloodTest => '이 혈액검사를 지울까요?';
+  @override
+  String get estradiolLevelLabel => '에스트라디올 수치';
+  @override
+  String get testosteroneLevelLabel => '테스토스테론 수치';
+  @override
+  String get bloodTestDateLabel => '검사 날짜';
+  @override
+  String chartNowConcentration({required Object value}) => '현재 ${value}';
+  @override
+  String chartBloodTestLevelTooltip(
+          {required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String get allItemsFilter => '모두';
+  @override
+  String get medicationItemsFilter => '약';
+  @override
+  String get genericItems => '소모품';
+  @override
+  String get medicationItemType => '약';
+  @override
+  String get genericItemType => '소모품';
+  @override
+  String get supplyType => '종류';
+  @override
+  String get syringe => '주사기';
+  @override
+  String get needle => '주사바늘';
+  @override
+  String get gloves => '장갑';
+  @override
+  String get wipe => '소독솜';
+  @override
+  String get bandage => '밴드';
+  @override
+  String get cancel => '취소';
+  @override
+  String get delete => '삭제';
+  @override
+  String get deleteElement => '이 항목을 지울까요?';
+  @override
+  String get irreversibleAction => '이 동작은 되돌릴 수 없습니다.';
+  @override
+  String get dihydrotestosterone => '다이하이드로테스토스테론';
+  @override
+  String get pioglitazone => '피오글리타존';
+  @override
+  String get medicationEstradiolEnanthate => '에스트라디올 에난테이트';
+  @override
+  String get medicationEstradiolValerate => '에스트라디올 발레레이트';
+  @override
+  String get medicationEstradiolCypionate => '에스트라디올 시피오네이트';
+  @override
+  String get medicationEstradiolUndecylate => '에스트라디올 운데실레이트';
+  @override
+  String get medicationEstradiolBenzoate => '에스트라디올 벤조에이트';
+  @override
+  String get medicationEstradiolCypionateSuspension => '에스트라디올 시피오네이트 현탁액';
+  @override
+  String get medicationTestosteroneEnanthate => '테스토스테론 에난테이트';
+  @override
+  String get medicationTestosteroneValerate => '테스토스테론 발레레이트';
+  @override
+  String get medicationTestosteroneCypionate => '테스토스테론 시피오네이트';
+  @override
+  String get medicationTestosteroneUndecylate => '테스토스테론 운데실레이트';
+  @override
+  String get medicationTestosteroneBenzoate => '테스토스테론 벤조에이트';
+  @override
+  String get medicationTestosteroneCypionateSuspension => '테스토스테론 시피오네이트 현탁액';
+  @override
+  String get deliveryForm => '형태';
+  @override
+  String get deliveryFormPump => '펌프';
+  @override
+  String get deliveryFormSachet => '포';
+  @override
+  String get deliveryFormGram => '튜브';
+  @override
+  String get unitMilligram => 'mg';
+  @override
+  String get unitMicrogramPerDay => 'µg/일';
+  @override
+  String get unitPgPerMl => 'pg/mL';
+  @override
+  String get unitPmolPerL => 'pmol/L';
+  @override
+  String get unitNgPerDl => 'ng/dL';
+  @override
+  String get unitNmolPerL => 'nmol/L';
+  @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
+  String get injectionSideLeft => '왼쪽';
+  @override
+  String get injectionSideRight => '오른쪽';
+  @override
+  String get placementLeft => '좌측';
+  @override
+  String get placementRight => '우측';
+  @override
+  String get placementLeftThigh => '왼쪽 윗다리';
+  @override
+  String get placementRightThigh => '오른쪽 윗다리';
+  @override
+  String get placementLeftArm => '왼쪽 팔';
+  @override
+  String get placementRightArm => '오른쪽 팔';
+  @override
+  String get placementLeftButtock => '왼쪽 엉덩이';
+  @override
+  String get placementRightButtock => '오른쪽 엉덩이';
+  @override
+  String get placementLeftAbdomen => '왼쪽 복부';
+  @override
+  String get placementRightAbdomen => '오른쪽 복부';
+  @override
+  String get applicationSites => '투여 부위';
+  @override
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
@@ -458,6 +636,78 @@ class TranslationsKo extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
         other: '${count}건 투여 기록됨',
+      );
+  @override
+  String syringeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '주사기 ${count}개 남음',
+      );
+  @override
+  String needleRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '주사바늘 ${count}개 남음',
+      );
+  @override
+  String glovesRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '장갑 ${count}개 남음',
+      );
+  @override
+  String bandageRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '밴드 ${count}개 남음',
+      );
+  @override
+  String administrationRouteUnitMl({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: 'ml',
+      );
+  @override
+  String administrationRouteUnitPill({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '정',
+      );
+  @override
+  String administrationRouteUnitPatch({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '패치',
+      );
+  @override
+  String administrationRouteUnitPump({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '펌프',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '포',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '그램',
+      );
+  @override
+  String administrationRouteUnitSuppository({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '좌약',
+      );
+  @override
+  String administrationRouteUnitSpray({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+        count,
+        other: '스프레이',
       );
 }
 
@@ -540,12 +790,12 @@ extension on TranslationsKo {
       'progesterone' => '프로게스테론',
       'testosterone' => '테스토스테론',
       'nandrolone' => '난드롤론',
-      'spironolactone' => '스피로노락톤',
+      'spironolactone' => '스피로놀락톤',
       'cyproteroneAcetate' => '시프로테론 아세테이트',
       'leuprorelinAcetate' => '류프로렐린 아세테이트',
       'bicalutamide' => '비칼루타미드',
       'decapeptyl' => '데카펩틸',
-      'raloxifene' => '라록시펜',
+      'raloxifene' => '랄록시펜',
       'tamoxifen' => '타목시펜',
       'finasteride' => '피나스테리드',
       'dutasteride' => '두타스테리드',
@@ -557,13 +807,13 @@ extension on TranslationsKo {
       'benzoate' => '벤조에이트',
       'cypionateSuspension' => '시피오네이트 현탁액',
       'injection' => '주사',
-      'oral' => '먹는 약(경구)',
+      'oral' => '먹는 약',
       'sublingual' => '혀 밑에 녹이는 약(설하)',
-      'patch' => '붙이는 패치',
-      'gel' => '바르는 겔',
+      'patch' => '패치',
+      'gel' => '겔',
       'implant' => '체내 이식(임플란트)',
       'suppository' => '좌약',
-      'transdermalSpray' => '피부 흡수형(스프레이)',
+      'transdermalSpray' => '피부 스프레이',
       'takeAnIntake' => '투여 기록하기',
       'addAnItem' => '항목 추가',
       'asNeeded' => '필요시',
@@ -643,6 +893,96 @@ extension on TranslationsKo {
       'addIntakeTime' => '시간 추가하기',
       'scheduling' => '일정',
       'HrtCounter' => 'HRT 기간',
+      'hrtWidgetPlaceholder' => 'Mona를 열어 첫 투여 기록 남기기',
+      'hrtWidgetPreviewSample' => 'HRT 시작 후 8달',
+      'hrtWidgetPreviewIntakeSample' => '16건 투여 기록됨',
+      'startOfDay' => '하루 시작 시간',
+      'startOfDayDescription' => ({required Object time}) =>
+          '${time}시 이전 기록은 전날로 기록됩니다',
+      'takenAmount' => '복용량',
+      'wastedAmount' => '폐기량',
+      'chooseItem' => '항목을 선택하세요',
+      'noItemsToAdd' => '선택할 수 있는 항목 없음',
+      'intakeRecorded' => '투여 기록됨',
+      'notes' => '참고',
+      'injectionType' => '주사 방식',
+      'intramuscular' => '근육주사',
+      'subcutaneous' => '피하주사',
+      'milliliters' => 'mL',
+      'empty_levels' => '시작하려면 혈액검사 결과나 에스트라디올 주사 기록을 추가하세요',
+      'bloodTestsTitle' => '혈액검사',
+      'estradiolLevelsTitle' => '에스트라디올 수치',
+      'week' => '주',
+      'twoWeeks' => '2주',
+      'threeMonths' => '3개월',
+      'sixMonths' => '6개월',
+      'month' => '개월',
+      'year' => '년',
+      'addBloodTest' => '혈액검사 추가',
+      'editBloodTest' => '혈액검사 수정',
+      'newBloodTest' => '새 혈액검사',
+      'deleteBloodTest' => '이 혈액검사를 지울까요?',
+      'estradiolLevelLabel' => '에스트라디올 수치',
+      'testosteroneLevelLabel' => '테스토스테론 수치',
+      'bloodTestDateLabel' => '검사 날짜',
+      'chartNowConcentration' => ({required Object value}) => '현재 ${value}',
+      'chartBloodTestLevelTooltip' =>
+        ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
+      'allItemsFilter' => '모두',
+      'medicationItemsFilter' => '약',
+      'genericItems' => '소모품',
+      'medicationItemType' => '약',
+      'genericItemType' => '소모품',
+      'supplyType' => '종류',
+      'syringe' => '주사기',
+      'needle' => '주사바늘',
+      'gloves' => '장갑',
+      'wipe' => '소독솜',
+      'bandage' => '밴드',
+      'cancel' => '취소',
+      'delete' => '삭제',
+      'deleteElement' => '이 항목을 지울까요?',
+      'irreversibleAction' => '이 동작은 되돌릴 수 없습니다.',
+      'dihydrotestosterone' => '다이하이드로테스토스테론',
+      'pioglitazone' => '피오글리타존',
+      'medicationEstradiolEnanthate' => '에스트라디올 에난테이트',
+      'medicationEstradiolValerate' => '에스트라디올 발레레이트',
+      'medicationEstradiolCypionate' => '에스트라디올 시피오네이트',
+      'medicationEstradiolUndecylate' => '에스트라디올 운데실레이트',
+      'medicationEstradiolBenzoate' => '에스트라디올 벤조에이트',
+      'medicationEstradiolCypionateSuspension' => '에스트라디올 시피오네이트 현탁액',
+      'medicationTestosteroneEnanthate' => '테스토스테론 에난테이트',
+      'medicationTestosteroneValerate' => '테스토스테론 발레레이트',
+      'medicationTestosteroneCypionate' => '테스토스테론 시피오네이트',
+      'medicationTestosteroneUndecylate' => '테스토스테론 운데실레이트',
+      'medicationTestosteroneBenzoate' => '테스토스테론 벤조에이트',
+      'medicationTestosteroneCypionateSuspension' => '테스토스테론 시피오네이트 현탁액',
+      'deliveryForm' => '형태',
+      'deliveryFormPump' => '펌프',
+      'deliveryFormSachet' => '포',
+      'deliveryFormGram' => '튜브',
+      'unitMilligram' => 'mg',
+      'unitMicrogramPerDay' => 'µg/일',
+      'unitPgPerMl' => 'pg/mL',
+      'unitPmolPerL' => 'pmol/L',
+      'unitNgPerDl' => 'ng/dL',
+      'unitNmolPerL' => 'nmol/L',
+      'unitNgPerMl' => 'ng/mL',
+      'injectionSideLeft' => '왼쪽',
+      'injectionSideRight' => '오른쪽',
+      'placementLeft' => '좌측',
+      'placementRight' => '우측',
+      'placementLeftThigh' => '왼쪽 윗다리',
+      'placementRightThigh' => '오른쪽 윗다리',
+      'placementLeftArm' => '왼쪽 팔',
+      'placementRightArm' => '오른쪽 팔',
+      'placementLeftButtock' => '왼쪽 엉덩이',
+      'placementRightButtock' => '오른쪽 엉덩이',
+      'placementLeftAbdomen' => '왼쪽 복부',
+      'placementRightAbdomen' => '오른쪽 복부',
+      'applicationSites' => '투여 부위',
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
@@ -698,6 +1038,66 @@ extension on TranslationsKo {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
             other: '${count}건 투여 기록됨',
+          ),
+      'syringeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '주사기 ${count}개 남음',
+          ),
+      'needleRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '주사바늘 ${count}개 남음',
+          ),
+      'glovesRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '장갑 ${count}개 남음',
+          ),
+      'bandageRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '밴드 ${count}개 남음',
+          ),
+      'administrationRouteUnitMl' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: 'ml',
+          ),
+      'administrationRouteUnitPill' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '정',
+          ),
+      'administrationRouteUnitPatch' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '패치',
+          ),
+      'administrationRouteUnitPump' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '펌프',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '포',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '그램',
+          ),
+      'administrationRouteUnitSuppository' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '좌약',
+          ),
+      'administrationRouteUnitSpray' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
+            count,
+            other: '스프레이',
           ),
       _ => null,
     };

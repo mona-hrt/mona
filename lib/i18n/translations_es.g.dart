@@ -596,17 +596,17 @@ class TranslationsEs extends Translations
   @override
   String get estradiolLevelsTitle => 'Niveles de Estradiol';
   @override
-  String get week => 'Sem.';
+  String get week => 'S';
   @override
-  String get twoWeeks => '2 Sems.';
+  String get twoWeeks => '2 S';
   @override
-  String get threeMonths => '3 Meses';
+  String get threeMonths => '3 M';
   @override
-  String get sixMonths => '6 Meses';
+  String get sixMonths => '6 M';
   @override
-  String get month => 'Mes';
+  String get month => 'M';
   @override
-  String get year => 'Año';
+  String get year => 'A';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
@@ -1087,12 +1087,12 @@ extension on TranslationsEs {
       'empty_levels' =>
         'Añade un análisis de sangre o registra una inyección de estradiol para empezar',
       'estradiolLevelsTitle' => 'Niveles de Estradiol',
-      'week' => 'Sem.',
-      'twoWeeks' => '2 Sems.',
-      'threeMonths' => '3 Meses',
-      'sixMonths' => '6 Meses',
-      'month' => 'Mes',
-      'year' => 'Año',
+      'week' => 'S',
+      'twoWeeks' => '2 S',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'month' => 'M',
+      'year' => 'A',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
             count,

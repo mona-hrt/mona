@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hrt_widget_title">HRT 기간</string>
+    <string name="hrt_home_widget_placeholder">Mona를 열어 첫 투여 기록 남기기</string>
+    <string name="hrt_widget_preview_sample">HRT 시작 후 8달</string>
+    <string name="hrt_widget_preview_intake_sample">16건 투여 기록됨</string>
 </resources>
