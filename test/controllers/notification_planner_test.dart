@@ -395,6 +395,26 @@ void main() {
       });
     });
 
+    test('firstFire keeps the correct time across a DST change', () {
+      withFixedClock(at: DateTime(2026, 10, 24, 21, 0), () {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDailyStrategy(intakeTimes: const [evening]),
+          )
+        ]);
+
+        // Act
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        // Assert
+        expect(plan.firstFire, DateTime(2026, 10, 25, 20, 30));
+      });
+    });
+
     test('a manually-logged intake (null scheduledTime) still plans the slot',
         () {
       withFixedClock(() {
@@ -767,6 +787,27 @@ void main() {
         // Assert
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
+      });
+    });
+
+    test('firstFire keeps the correct time across a DST change', () {
+      withFixedClock(at: DateTime(2026, 10, 24, 21, 0), () {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+              scheduling: aWeeklyStrategy(
+                  daysOfWeek: const [DateTime.saturday],
+                  notificationTimes: const [evening]))
+        ]);
+
+        // Act
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        // Assert
+        expect(plan.firstFire, DateTime(2026, 10, 31, 20, 30));
       });
     });
 

@@ -148,7 +148,7 @@ class NotificationPlanner {
           DateTime candidate = start.toDateTimeAt(time);
           if (!candidate.isAfter(now) ||
               takenDateTimesToday.contains(candidate)) {
-            candidate = candidate.add(const Duration(days: 1));
+            candidate = start.add(const Duration(days: 1)).toDateTimeAt(time);
           }
           return PlannedRepeating(
             schedule,
@@ -177,7 +177,8 @@ class NotificationPlanner {
                 scheduling.nextDateOn(dayOfWeek, schedule.startDate);
             DateTime candidate = nextDate.toDateTimeAt(time);
             if (nextDate.isToday && (!candidate.isAfter(now) || takenToday)) {
-              candidate = candidate.add(const Duration(days: 7));
+              candidate =
+                  nextDate.add(const Duration(days: 7)).toDateTimeAt(time);
             }
             return PlannedRepeating(
               schedule,
