@@ -26,10 +26,12 @@ class GraphIntake {
 class GraphBloodTest {
   final double level;
   final double offset;
+  final ValueComparison comparison;
 
   const GraphBloodTest({
     required this.level,
     required this.offset,
+    this.comparison = ValueComparison.equal,
   });
 }
 

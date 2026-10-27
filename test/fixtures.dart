@@ -192,7 +192,9 @@ BloodTest aBloodTest({
   int? id,
   required DateTime dateTime,
   Decimal? estradiolLevel,
+  ValueComparison estradiolComparison = ValueComparison.equal,
   Decimal? testosteroneLevel,
+  ValueComparison testosteroneComparison = ValueComparison.equal,
   String? notes,
 }) =>
     BloodTest(
@@ -200,10 +202,12 @@ BloodTest aBloodTest({
       dateTime: dateTime,
       timeZone: 'Etc/UTC',
       estradiolLevels: estradiolLevel != null
-          ? UnitValue(estradiolLevel, EstradiolUnit.pg_mL)
+          ? UnitValue(estradiolLevel, EstradiolUnit.pg_mL,
+              comparison: estradiolComparison)
           : null,
       testosteroneLevels: testosteroneLevel != null
-          ? UnitValue(testosteroneLevel, TestosteroneUnit.ng_dL)
+          ? UnitValue(testosteroneLevel, TestosteroneUnit.ng_dL,
+              comparison: testosteroneComparison)
           : null,
       notes: notes,
     );

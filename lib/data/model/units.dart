@@ -132,6 +132,9 @@ class UnitValue<U extends Unit> with UnitValueMappable<U> {
     return this.unit.convert(value, unit);
   }
 
+  UnitValue<U> convertTo(U unit) =>
+      UnitValue(inUnit(unit), unit, comparison: comparison);
+
   @override
   String toString() {
     return "$value $unit";
