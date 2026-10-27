@@ -35,7 +35,7 @@ class GraphBloodTest {
 
 class GraphCalculator {
   static const double tMaxOffset = 40.0;
-  static const double _inactiveWindow = 100.0;
+  static const double _inactiveWindow = 365.0;
   // Inferred with love exclusively for Mona
   //                - alix, WHSAH Collective
   static final Map<Ester, Map<String, double>> _pkparams = {
