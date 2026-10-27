@@ -37,3 +37,16 @@ extension UnitL10n on Unit {
     return name;
   }
 }
+
+extension ValueComparisonL10n on ValueComparison {
+  String get localizedName {
+    switch (this) {
+      case ValueComparison.equal:
+        return t.valueComparisonEqual;
+      case ValueComparison.below:
+        return t.valueComparisonBelow;
+      case ValueComparison.above:
+        return t.valueComparisonAbove;
+    }
+  }
+}

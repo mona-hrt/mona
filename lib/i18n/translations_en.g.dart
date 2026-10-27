@@ -825,6 +825,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'ng/mL'
   String get unitNgPerMl => 'ng/mL';
 
+  /// en: 'Equal to'
+  String get valueComparisonEqual => 'Equal to';
+
+  /// en: 'At or below'
+  String get valueComparisonBelow => 'At or below';
+
+  /// en: 'At or above'
+  String get valueComparisonAbove => 'At or above';
+
   /// en: 'Left'
   String get injectionSideLeft => 'Left';
 
@@ -1394,6 +1403,9 @@ extension on Translations {
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
       'unitNgPerMl' => 'ng/mL',
+      'valueComparisonEqual' => 'Equal to',
+      'valueComparisonBelow' => 'At or below',
+      'valueComparisonAbove' => 'At or above',
       'injectionSideLeft' => 'Left',
       'injectionSideRight' => 'Right',
       'placementLeft' => 'Left side',

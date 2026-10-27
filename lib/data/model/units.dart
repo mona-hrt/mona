@@ -115,9 +115,15 @@ enum Units {
 
 @MappableEnum()
 enum ValueComparison {
-  equal,
-  below,
-  above;
+  equal('='),
+  below('≤'),
+  above('≥');
+
+  final String symbol;
+
+  const ValueComparison(this.symbol);
+
+  ValueComparison get next => values[(index + 1) % values.length];
 }
 
 @MappableClass(includeCustomMappers: [DecimalStringMapper()])
