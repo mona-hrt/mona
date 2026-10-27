@@ -49,7 +49,7 @@ void main() {
     test('is zero at the end of the inactive window (100 days)', () {
       // Act
       final concentration =
-          calculator.totalConcentrationAtTime(100.0, [intakeAt(0.0)], unit);
+          calculator.totalConcentrationAtTime(365.0, [intakeAt(0.0)], unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -58,7 +58,7 @@ void main() {
     test('is zero past the inactive window', () {
       // Act
       final concentration =
-          calculator.totalConcentrationAtTime(150.0, [intakeAt(0.0)], unit);
+          calculator.totalConcentrationAtTime(366.0, [intakeAt(0.0)], unit);
 
       // Assert
       expect(concentration, 0.0);
