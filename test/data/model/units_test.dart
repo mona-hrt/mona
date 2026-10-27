@@ -63,5 +63,17 @@ void main() {
 
       expect(converted, Decimal.parse('230.72'));
     });
+
+    test('levels with different comparisons are not equal', () {
+      // Arrange
+      final below = UnitValue(20.toDecimal(), EstradiolUnit.pg_mL,
+          comparison: ValueComparison.below);
+
+      // Act
+      final isEqual = below == UnitValue(20.toDecimal(), EstradiolUnit.pg_mL);
+
+      // Assert
+      expect(isEqual, false);
+    });
   });
 }
