@@ -75,9 +75,9 @@ class BloodTestPage extends StatelessWidget {
       trailing: Icon(Symbols.chevron_right_rounded),
       subtitle: [
         if (bloodtest.estradiolLevels case final e?)
-          '${t.estradiol} : ${e.value} ${e.unit.localizedName}',
+          '${t.estradiol} : ${e.displayValue} ${e.unit.localizedName}',
         if (bloodtest.testosteroneLevels case final l?)
-          '${t.testosterone} : ${l.value} ${l.unit.localizedName}',
+          '${t.testosterone} : ${l.displayValue} ${l.unit.localizedName}',
       ].join('\n'),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute<void>(

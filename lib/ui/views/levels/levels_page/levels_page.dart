@@ -48,7 +48,7 @@ class LevelsPage extends StatelessWidget {
             (
               hormone: Hormone.estradiol,
               label: t.estradiol,
-              value: estradiolLevel.value.toString(),
+              value: estradiolLevel.displayValue,
               unit: estradiolLevel.unit.localizedName,
               entries: bloodTestProvider.levelEntries(Hormone.estradiol,
                   preferences.estradiolUnit, preferences.testosteroneUnit),
@@ -57,7 +57,7 @@ class LevelsPage extends StatelessWidget {
             (
               hormone: Hormone.testosterone,
               label: t.testosterone,
-              value: testosteroneLevel.value.toString(),
+              value: testosteroneLevel.displayValue,
               unit: testosteroneLevel.unit.localizedName,
               entries: bloodTestProvider.levelEntries(Hormone.testosterone,
                   preferences.estradiolUnit, preferences.testosteroneUnit),

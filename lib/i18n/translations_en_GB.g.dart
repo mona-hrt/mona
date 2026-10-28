@@ -579,6 +579,12 @@ class TranslationsEnGb extends Translations
   @override
   String get unitNgPerMl => 'ng/mL';
   @override
+  String get valueComparisonEqual => 'Equal to';
+  @override
+  String get valueComparisonBelow => 'At or below';
+  @override
+  String get valueComparisonAbove => 'At or above';
+  @override
   String get injectionSideLeft => 'Left';
   @override
   String get injectionSideRight => 'Right';
@@ -1096,6 +1102,9 @@ extension on TranslationsEnGb {
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
       'unitNgPerMl' => 'ng/mL',
+      'valueComparisonEqual' => 'Equal to',
+      'valueComparisonBelow' => 'At or below',
+      'valueComparisonAbove' => 'At or above',
       'injectionSideLeft' => 'Left',
       'injectionSideRight' => 'Right',
       'placementLeft' => 'Left side',
