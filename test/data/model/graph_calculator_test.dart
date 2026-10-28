@@ -46,7 +46,7 @@ void main() {
       expect(concentration, greaterThan(0.0));
     });
 
-    test('is zero at the end of the inactive window (100 days)', () {
+    test('is zero at the end of the inactive window (365 days)', () {
       // Act
       final concentration =
           calculator.totalConcentrationAtTime(365.0, [intakeAt(0.0)], unit);
@@ -92,6 +92,62 @@ void main() {
 
       // Assert
       expect(two, closeTo(2 * single, 1e-6));
+    });
+  });
+
+  group('expected levels', () {
+    final cases = [
+      (ester: Ester.enanthate, day: 4.9913, level: 37.584),
+      (ester: Ester.enanthate, day: 7.0, level: 35.467),
+      (ester: Ester.valerate, day: 1.6922, level: 73.509),
+      (ester: Ester.valerate, day: 7.0, level: 27.130),
+      (ester: Ester.benzoate, day: 0.4919, level: 260.064),
+      (ester: Ester.benzoate, day: 7.0, level: 9.669),
+      (ester: Ester.cypionate, day: 3.3899, level: 24.999),
+      (ester: Ester.cypionate, day: 7.0, level: 20.476),
+      (ester: Ester.cypionateSuspension, day: 0.6513, level: 53.516),
+      (ester: Ester.cypionateSuspension, day: 7.0, level: 29.284),
+      (ester: Ester.undecylate, day: 2.7737, level: 4.912),
+      (ester: Ester.undecylate, day: 7.0, level: 4.542),
+    ];
+
+    for (final c in cases) {
+      test('1 mg ${c.ester.name} is ${c.level} pg/mL on day ${c.day}', () {
+        // Arrange
+        final intake = GraphIntake(dose: 1.0, ester: c.ester, time: 0.0);
+
+        // Act
+        final concentration =
+            calculator.totalConcentrationAtTime(c.day, [intake], unit);
+
+        // Assert
+        expect(concentration, closeTo(c.level, 1e-3));
+      });
+    }
+
+    test('1 mg valerate is 269.852 pmol/L at its peak', () {
+      // Arrange
+      const intake = GraphIntake(dose: 1.0, ester: Ester.valerate, time: 0.0);
+
+      // Act
+      final concentration = calculator.totalConcentrationAtTime(
+          1.6922, [intake], EstradiolUnit.pmol_L);
+
+      // Assert
+      expect(concentration, closeTo(269.852, 1e-3));
+    });
+
+    test('100 mg undecylate is still 0.183 pg/mL on day 364', () {
+      // Arrange
+      const intake =
+          GraphIntake(dose: 100.0, ester: Ester.undecylate, time: 0.0);
+
+      // Act
+      final concentration =
+          calculator.totalConcentrationAtTime(364.0, [intake], unit);
+
+      // Assert
+      expect(concentration, closeTo(0.183, 1e-3));
     });
   });
 
