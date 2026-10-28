@@ -6,7 +6,6 @@
 
 plugins {
     id "com.android.application"
-    id "org.jetbrains.kotlin.android"
     id "org.jetbrains.kotlin.plugin.compose"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -58,10 +57,6 @@ android {
         targetCompatibility JavaVersion.VERSION_17
         // for supporting Java 8+ APIs on lower Android versions
         coreLibraryDesugaringEnabled = true
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -139,6 +134,12 @@ android {
             // avoids stripping locales the device is not set to
             enableSplit = false
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
