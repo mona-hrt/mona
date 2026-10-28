@@ -141,6 +141,11 @@ class UnitValue<U extends Unit> with UnitValueMappable<U> {
   UnitValue<U> convertTo(U unit) =>
       UnitValue(inUnit(unit), unit, comparison: comparison);
 
+  String get displayValue => switch (comparison) {
+        ValueComparison.equal => '$value',
+        _ => '${comparison.symbol}\u00A0$value',
+      };
+
   @override
   String toString() {
     return "$value $unit";

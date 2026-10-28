@@ -112,7 +112,7 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
             ),
             Text.rich(
               TextSpan(
-                text: entry.value.value.toString(),
+                text: entry.value.displayValue,
                 style: theme.textTheme.titleMedium,
                 children: [
                   TextSpan(
