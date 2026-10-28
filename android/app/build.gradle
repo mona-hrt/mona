@@ -66,6 +66,7 @@ android {
 
     buildFeatures {
         compose true
+        resValues true
     }
 
     // Patrol E2E: required for `clearPackageData` between Dart tests.
