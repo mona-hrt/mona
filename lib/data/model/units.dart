@@ -124,6 +124,8 @@ enum ValueComparison {
   const ValueComparison(this.symbol);
 
   ValueComparison get next => values[(index + 1) % values.length];
+
+  String get prefix => this == equal ? '' : '$symbol\u00A0';
 }
 
 @MappableClass(includeCustomMappers: [DecimalStringMapper()])
@@ -141,10 +143,7 @@ class UnitValue<U extends Unit> with UnitValueMappable<U> {
   UnitValue<U> convertTo(U unit) =>
       UnitValue(inUnit(unit), unit, comparison: comparison);
 
-  String get displayValue => switch (comparison) {
-        ValueComparison.equal => '$value',
-        _ => '${comparison.symbol}\u00A0$value',
-      };
+  String get displayValue => '${comparison.prefix}$value';
 
   @override
   String toString() {
