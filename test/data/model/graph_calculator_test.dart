@@ -207,4 +207,27 @@ void main() {
       expect(spots.length, 2);
     });
   });
+
+  group('comparisonAt', () {
+    const bloodTests = [
+      GraphBloodTest(level: 200, offset: 1.0),
+      GraphBloodTest(level: 5, offset: 4.5, comparison: ValueComparison.below),
+    ];
+
+    final cases = [
+      (offset: 4.5, expected: ValueComparison.below),
+      (offset: 1.0, expected: ValueComparison.equal),
+      (offset: 2.0, expected: ValueComparison.equal),
+    ];
+
+    for (final c in cases) {
+      test('at offset ${c.offset} is ${c.expected.name}', () {
+        // Act
+        final comparison = bloodTests.comparisonAt(c.offset);
+
+        // Assert
+        expect(comparison, c.expected);
+      });
+    }
+  });
 }

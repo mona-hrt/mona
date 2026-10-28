@@ -16,10 +16,10 @@ import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
+import 'package:mona/ui/widgets/forms/form_level_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
-import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +31,8 @@ class NewBloodTestPage extends StatefulWidget {
 class _NewBloodTestPageState extends State<NewBloodTestPage> {
   late TextEditingController _estradiolLevelsController;
   late TextEditingController _testosteroneLevelsController;
+  ValueComparison _estradiolComparison = ValueComparison.equal;
+  ValueComparison _testosteroneComparison = ValueComparison.equal;
   late TextEditingController _notesController;
   late DateTime _testDateTime;
   late PreferencesService _preferencesService;
@@ -72,10 +74,12 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
       dateTime: _testDateTime.toUtc(),
       timeZone: tzName,
       estradiolLevels: estradiolLevels != null
-          ? UnitValue(estradiolLevels, _preferencesService.estradiolUnit)
+          ? UnitValue(estradiolLevels, _preferencesService.estradiolUnit,
+              comparison: _estradiolComparison)
           : null,
       testosteroneLevels: testosteroneLevels != null
-          ? UnitValue(testosteroneLevels, _preferencesService.testosteroneUnit)
+          ? UnitValue(testosteroneLevels, _preferencesService.testosteroneUnit,
+              comparison: _testosteroneComparison)
           : null,
       notes: notes,
     );
@@ -112,21 +116,23 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
       isFormValid: _isFormValid,
       saveChanges: _addBloodTest,
       fields: <Widget>[
-        FormTextField(
+        FormLevelField(
           controller: _estradiolLevelsController,
+          comparison: _estradiolComparison,
+          onComparisonChanged: (comparison) =>
+              setState(() => _estradiolComparison = comparison),
           label: t.estradiolLevelLabel,
           onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: RegexPatterns.floatNumber,
           errorText: _estradiolError,
           suffixText: _preferencesService.estradiolUnit.localizedName,
         ),
-        FormTextField(
+        FormLevelField(
           controller: _testosteroneLevelsController,
+          comparison: _testosteroneComparison,
+          onComparisonChanged: (comparison) =>
+              setState(() => _testosteroneComparison = comparison),
           label: t.testosteroneLevelLabel,
           onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: RegexPatterns.floatNumber,
           errorText: _testosteroneError,
           suffixText: _preferencesService.testosteroneUnit.localizedName,
         ),

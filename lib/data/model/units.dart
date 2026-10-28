@@ -113,16 +113,37 @@ enum Units {
   }
 }
 
+@MappableEnum()
+enum ValueComparison {
+  equal('='),
+  below('≤'),
+  above('≥');
+
+  final String symbol;
+
+  const ValueComparison(this.symbol);
+
+  ValueComparison get next => values[(index + 1) % values.length];
+
+  String get prefix => this == equal ? '' : '$symbol\u00A0';
+}
+
 @MappableClass(includeCustomMappers: [DecimalStringMapper()])
 class UnitValue<U extends Unit> with UnitValueMappable<U> {
   final Decimal value;
   final U unit;
+  final ValueComparison comparison;
 
-  UnitValue(this.value, this.unit);
+  UnitValue(this.value, this.unit, {this.comparison = ValueComparison.equal});
 
   Decimal inUnit(U unit) {
     return this.unit.convert(value, unit);
   }
+
+  UnitValue<U> convertTo(U unit) =>
+      UnitValue(inUnit(unit), unit, comparison: comparison);
+
+  String get displayValue => '${comparison.prefix}$value';
 
   @override
   String toString() {
@@ -135,8 +156,9 @@ class UnitValue<U extends Unit> with UnitValueMappable<U> {
       other is UnitValue &&
           runtimeType == other.runtimeType &&
           value == other.value &&
-          unit == other.unit;
+          unit == other.unit &&
+          comparison == other.comparison;
 
   @override
-  int get hashCode => Object.hash(value, unit);
+  int get hashCode => Object.hash(value, unit, comparison);
 }
