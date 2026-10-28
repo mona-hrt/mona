@@ -47,7 +47,10 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
   String? get _testosteroneLevelsError =>
       BloodTest.validateLevel(_testosteroneLevelsController.text);
 
-  bool get _isFormValid => _testDateError == null;
+  bool get _isFormValid =>
+      _testDateError == null &&
+      _estradiolLevelsError == null &&
+      _testosteroneLevelsError == null;
 
   void _refresh() {
     setState(() {});
