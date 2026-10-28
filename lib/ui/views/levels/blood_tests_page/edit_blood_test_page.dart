@@ -15,10 +15,10 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
+import 'package:mona/ui/widgets/forms/form_level_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
-import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +33,8 @@ class EditBloodTestPage extends StatefulWidget {
 class _EditBloodTestPageState extends State<EditBloodTestPage> {
   late TextEditingController _estradiolLevelsController;
   late TextEditingController _testosteroneLevelsController;
+  late ValueComparison _estradiolComparison;
+  late ValueComparison _testosteroneComparison;
   late TextEditingController _notesController;
   late DateTime _testDateTime;
   late BloodTestProvider _bloodTestProvider;
@@ -81,10 +83,12 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
         dateTime: _testDateTime.toUtc(),
         timeZone: timezone?.identifier,
         estradiolLevels: estradiolLevels != null
-            ? UnitValue(estradiolLevels, estradiolUnit)
+            ? UnitValue(estradiolLevels, estradiolUnit,
+                comparison: _estradiolComparison)
             : null,
         testosteroneLevels: testosteroneLevels != null
-            ? UnitValue(testosteroneLevels, testosteroneUnit)
+            ? UnitValue(testosteroneLevels, testosteroneUnit,
+                comparison: _testosteroneComparison)
             : null,
         notes: notes);
     await _bloodTestProvider.updateBloodTest(updatedBloodTest);
@@ -102,6 +106,10 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
         text: widget.bloodtest.estradiolLevels?.value.toString());
     _testosteroneLevelsController = TextEditingController(
         text: widget.bloodtest.testosteroneLevels?.value.toString());
+    _estradiolComparison =
+        widget.bloodtest.estradiolLevels?.comparison ?? ValueComparison.equal;
+    _testosteroneComparison = widget.bloodtest.testosteroneLevels?.comparison ??
+        ValueComparison.equal;
     _notesController =
         TextEditingController(text: widget.bloodtest.notes ?? '');
     _testDateTime = widget.bloodtest.localDateTime;
@@ -125,24 +133,26 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
       saveChanges: _saveBloodTest,
       onDelete: _confirmDelete,
       fields: <Widget>[
-        FormTextField(
+        FormLevelField(
           controller: _estradiolLevelsController,
+          comparison: _estradiolComparison,
+          onComparisonChanged: (comparison) =>
+              setState(() => _estradiolComparison = comparison),
           label: t.estradiolLevelLabel,
           errorText: _estradiolLevelsError,
           onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: RegexPatterns.floatNumber,
           suffixText: (widget.bloodtest.estradiolLevels?.unit ??
                   _preferencesService.estradiolUnit)
               .localizedName,
         ),
-        FormTextField(
+        FormLevelField(
           controller: _testosteroneLevelsController,
+          comparison: _testosteroneComparison,
+          onComparisonChanged: (comparison) =>
+              setState(() => _testosteroneComparison = comparison),
           label: t.testosteroneLevelLabel,
           errorText: _testosteroneLevelsError,
           onChanged: _refresh,
-          inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: RegexPatterns.floatNumber,
           suffixText: (widget.bloodtest.testosteroneLevels?.unit ??
                   _preferencesService.testosteroneUnit)
               .localizedName,
