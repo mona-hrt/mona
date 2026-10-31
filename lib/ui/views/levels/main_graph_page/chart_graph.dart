@@ -2,7 +2,7 @@
 // SPDX-FileContributor: Délia Cheminot <delia@cheminot.net>
 // SPDX-FileContributor: Lesley Caramella "vani11agirl"
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'dart:math' as math;
 

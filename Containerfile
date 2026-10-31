@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Alice Boars "VirtualFreeEx" <contact@ffi.lol>
 #
-# SPDX-LicenseIdentifier: AGPL-3.0-only
+# SPDX-LicenseIdentifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 # SPDX-SnippetBegin
 # SPDX-License-Identifier: MIT
