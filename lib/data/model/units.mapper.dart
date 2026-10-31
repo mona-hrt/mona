@@ -31,6 +31,8 @@ class EstradiolUnitMapper extends EnumMapper<EstradiolUnit> {
         return EstradiolUnit.pg_mL;
       case "pmol/L":
         return EstradiolUnit.pmol_L;
+      case "ng/L":
+        return EstradiolUnit.ng_L;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -43,6 +45,8 @@ class EstradiolUnitMapper extends EnumMapper<EstradiolUnit> {
         return "pg/mL";
       case EstradiolUnit.pmol_L:
         return "pmol/L";
+      case EstradiolUnit.ng_L:
+        return "ng/L";
     }
   }
 }
@@ -79,6 +83,8 @@ class TestosteroneUnitMapper extends EnumMapper<TestosteroneUnit> {
         return TestosteroneUnit.ng_mL;
       case "nmol/L":
         return TestosteroneUnit.nmol_L;
+      case "µg/L":
+        return TestosteroneUnit.ug_L;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -93,6 +99,8 @@ class TestosteroneUnitMapper extends EnumMapper<TestosteroneUnit> {
         return "ng/mL";
       case TestosteroneUnit.nmol_L:
         return "nmol/L";
+      case TestosteroneUnit.ug_L:
+        return "µg/L";
     }
   }
 }

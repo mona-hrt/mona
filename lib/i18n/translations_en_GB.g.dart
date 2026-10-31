@@ -579,6 +579,10 @@ class TranslationsEnGb extends Translations
   @override
   String get unitNgPerMl => 'ng/mL';
   @override
+  String get unitNgPerL => 'ng/L';
+  @override
+  String get unitMicrogramPerL => 'µg/L';
+  @override
   String get valueComparisonEqual => 'Equal to';
   @override
   String get valueComparisonBelow => 'At or below';
@@ -1102,6 +1106,8 @@ extension on TranslationsEnGb {
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
       'unitNgPerMl' => 'ng/mL',
+      'unitNgPerL' => 'ng/L',
+      'unitMicrogramPerL' => 'µg/L',
       'valueComparisonEqual' => 'Equal to',
       'valueComparisonBelow' => 'At or below',
       'valueComparisonAbove' => 'At or above',
