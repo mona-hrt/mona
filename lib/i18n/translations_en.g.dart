@@ -825,6 +825,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'ng/mL'
   String get unitNgPerMl => 'ng/mL';
 
+  /// en: 'ng/L'
+  String get unitNgPerL => 'ng/L';
+
+  /// en: 'µg/L'
+  String get unitMicrogramPerL => 'µg/L';
+
   /// en: 'Equal to'
   String get valueComparisonEqual => 'Equal to';
 
@@ -1403,6 +1409,8 @@ extension on Translations {
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
       'unitNgPerMl' => 'ng/mL',
+      'unitNgPerL' => 'ng/L',
+      'unitMicrogramPerL' => 'µg/L',
       'valueComparisonEqual' => 'Equal to',
       'valueComparisonBelow' => 'At or below',
       'valueComparisonAbove' => 'At or above',

@@ -12,6 +12,8 @@ extension EstradiolUnitL10n on EstradiolUnit {
         return t.unitPgPerMl;
       case EstradiolUnit.pmol_L:
         return t.unitPmolPerL;
+      case EstradiolUnit.ng_L:
+        return t.unitNgPerL;
     }
   }
 }
@@ -25,6 +27,8 @@ extension TestosteroneUnitL10n on TestosteroneUnit {
         return t.unitNmolPerL;
       case TestosteroneUnit.ng_mL:
         return t.unitNgPerMl;
+      case TestosteroneUnit.ug_L:
+        return t.unitMicrogramPerL;
     }
   }
 }

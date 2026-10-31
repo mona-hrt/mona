@@ -280,6 +280,8 @@
   "unitNgPerDl": "ng/dL",
   "unitNmolPerL": "nmol/L",
   "unitNgPerMl": "ng/mL",
+  "unitNgPerL": "ng/L",
+  "unitMicrogramPerL": "µg/L",
   "valueComparisonEqual": "Equal to",
   "valueComparisonBelow": "At or below",
   "valueComparisonAbove": "At or above",
