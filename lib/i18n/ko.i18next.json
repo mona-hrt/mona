@@ -275,5 +275,6 @@
   "placementRightButtock": "오른쪽 엉덩이",
   "placementLeftAbdomen": "왼쪽 복부",
   "placementRightAbdomen": "오른쪽 복부",
-  "applicationSites": "투여 부위"
+  "applicationSites": "투여 부위",
+  "themeVariant": "종류"
 }
