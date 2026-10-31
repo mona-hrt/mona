@@ -62,6 +62,10 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
                     height: 250,
                     child: BarChartGraph(
                       spots: chronologicalEntries.toSpots(),
+                      comparisons: [
+                        for (final entry in chronologicalEntries)
+                          entry.value.comparison
+                      ],
                       labels: _entriesLabels(context, chronologicalEntries),
                       unit: unitLabel,
                       highlightedIndex: _highlightedBarIndex,
@@ -112,7 +116,7 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
             ),
             Text.rich(
               TextSpan(
-                text: entry.value.value.toString(),
+                text: entry.value.displayValue,
                 style: theme.textTheme.titleMedium,
                 children: [
                   TextSpan(

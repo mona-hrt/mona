@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -395,6 +395,26 @@ void main() {
       });
     });
 
+    test('firstFire keeps the correct time across a DST change', () {
+      withFixedClock(at: DateTime(2026, 10, 24, 21, 0), () {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDailyStrategy(intakeTimes: const [evening]),
+          )
+        ]);
+
+        // Act
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        // Assert
+        expect(plan.firstFire, DateTime(2026, 10, 25, 20, 30));
+      });
+    });
+
     test('a manually-logged intake (null scheduledTime) still plans the slot',
         () {
       withFixedClock(() {
@@ -767,6 +787,27 @@ void main() {
         // Assert
         expect(plan.firstFire,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
+      });
+    });
+
+    test('firstFire keeps the correct time across a DST change', () {
+      withFixedClock(at: DateTime(2026, 10, 24, 21, 0), () {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+              scheduling: aWeeklyStrategy(
+                  daysOfWeek: const [DateTime.saturday],
+                  notificationTimes: const [evening]))
+        ]);
+
+        // Act
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        // Assert
+        expect(plan.firstFire, DateTime(2026, 10, 31, 20, 30));
       });
     });
 

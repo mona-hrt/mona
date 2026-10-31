@@ -8,60 +8,158 @@ import 'package:mona/data/model/units.dart';
 
 void main() {
   group('UnitValue', () {
-    test('estradiol converts same does not change value', () {
-      final value = UnitValue(200.toDecimal(), EstradiolUnit.pg_mL);
-      final converted = value.inUnit(EstradiolUnit.pg_mL);
+    final estradiolCases = [
+      (
+        value: '200',
+        from: EstradiolUnit.pg_mL,
+        into: EstradiolUnit.pg_mL,
+        expected: '200'
+      ),
+      (
+        value: '200',
+        from: EstradiolUnit.pg_mL,
+        into: EstradiolUnit.pmol_L,
+        expected: '734.2'
+      ),
+      (
+        value: '700',
+        from: EstradiolUnit.pmol_L,
+        into: EstradiolUnit.pg_mL,
+        expected: '190.68'
+      ),
+      (
+        value: '200',
+        from: EstradiolUnit.ng_L,
+        into: EstradiolUnit.pg_mL,
+        expected: '200'
+      ),
+      (
+        value: '200',
+        from: EstradiolUnit.pg_mL,
+        into: EstradiolUnit.ng_L,
+        expected: '200'
+      ),
+      (
+        value: '200',
+        from: EstradiolUnit.ng_L,
+        into: EstradiolUnit.pmol_L,
+        expected: '734.2'
+      ),
+    ];
 
-      expect(converted, 200.toDecimal());
+    for (final c in estradiolCases) {
+      test('estradiol converts ${c.value} ${c.from} to ${c.into}', () {
+        // Arrange
+        final level = UnitValue(Decimal.parse(c.value), c.from);
+
+        // Act
+        final converted = level.inUnit(c.into);
+
+        // Assert
+        expect(converted, Decimal.parse(c.expected));
+      });
+    }
+
+    final testosteroneCases = [
+      (
+        value: '250',
+        from: TestosteroneUnit.ng_dL,
+        into: TestosteroneUnit.ng_dL,
+        expected: '250'
+      ),
+      (
+        value: '250',
+        from: TestosteroneUnit.ng_dL,
+        into: TestosteroneUnit.nmol_L,
+        expected: '8.66'
+      ),
+      (
+        value: '8',
+        from: TestosteroneUnit.nmol_L,
+        into: TestosteroneUnit.ng_mL,
+        expected: '2.3072'
+      ),
+      (
+        value: '8',
+        from: TestosteroneUnit.ng_dL,
+        into: TestosteroneUnit.ng_mL,
+        expected: '0.08'
+      ),
+      (
+        value: '8',
+        from: TestosteroneUnit.nmol_L,
+        into: TestosteroneUnit.ng_dL,
+        expected: '230.72'
+      ),
+      (
+        value: '2.5',
+        from: TestosteroneUnit.ug_L,
+        into: TestosteroneUnit.ng_mL,
+        expected: '2.5'
+      ),
+      (
+        value: '2.5',
+        from: TestosteroneUnit.ng_mL,
+        into: TestosteroneUnit.ug_L,
+        expected: '2.5'
+      ),
+      (
+        value: '2.5',
+        from: TestosteroneUnit.ug_L,
+        into: TestosteroneUnit.ng_dL,
+        expected: '250'
+      ),
+      (
+        value: '2.5',
+        from: TestosteroneUnit.ug_L,
+        into: TestosteroneUnit.nmol_L,
+        expected: '8.66'
+      ),
+    ];
+
+    for (final c in testosteroneCases) {
+      test('testosterone converts ${c.value} ${c.from} to ${c.into}', () {
+        // Arrange
+        final level = UnitValue(Decimal.parse(c.value), c.from);
+
+        // Act
+        final converted = level.inUnit(c.into);
+
+        // Assert
+        expect(converted, Decimal.parse(c.expected));
+      });
+    }
+
+    test('levels with different comparisons are not equal', () {
+      // Arrange
+      final below = UnitValue(20.toDecimal(), EstradiolUnit.pg_mL,
+          comparison: ValueComparison.below);
+
+      // Act
+      final isEqual = below == UnitValue(20.toDecimal(), EstradiolUnit.pg_mL);
+
+      // Assert
+      expect(isEqual, false);
     });
 
-    test('estradiol converts from pg/mL to pmol/L', () {
-      final value = UnitValue(200.toDecimal(), EstradiolUnit.pg_mL);
-      final converted = value.inUnit(EstradiolUnit.pmol_L);
+    final displayCases = [
+      (comparison: ValueComparison.equal, expected: '20'),
+      (comparison: ValueComparison.below, expected: '≤\u00A020'),
+      (comparison: ValueComparison.above, expected: '≥\u00A020'),
+    ];
 
-      expect(converted, Decimal.parse('734.20'));
-    });
+    for (final c in displayCases) {
+      test('${c.comparison.name} level displays as ${c.expected}', () {
+        // Arrange
+        final level = UnitValue(20.toDecimal(), EstradiolUnit.pg_mL,
+            comparison: c.comparison);
 
-    test('estradiol converts from pmol/L to pg/mL', () {
-      final value = UnitValue(700.toDecimal(), EstradiolUnit.pmol_L);
-      final converted = value.inUnit(EstradiolUnit.pg_mL);
+        // Act
+        final text = level.displayValue;
 
-      expect(converted, Decimal.parse('190.68'));
-    });
-
-    test('testosterone converts same does not change value', () {
-      final value = UnitValue(250.toDecimal(), TestosteroneUnit.ng_dL);
-      final converted = value.inUnit(TestosteroneUnit.ng_dL);
-
-      expect(converted, 250.toDecimal());
-    });
-
-    test('testosterone converts from ng/dL to nmol/L', () {
-      final value = UnitValue(250.toDecimal(), TestosteroneUnit.ng_dL);
-      final converted = value.inUnit(TestosteroneUnit.nmol_L);
-
-      expect(converted, Decimal.parse('8.66'));
-    });
-
-    test('testosterone converts from nmol/L to ng/mL', () {
-      final value = UnitValue(8.toDecimal(), TestosteroneUnit.nmol_L);
-      final converted = value.inUnit(TestosteroneUnit.ng_mL);
-
-      expect(converted, Decimal.parse('2.3072'));
-    });
-
-    test('testosterone converts from ng/dL to ng/mL', () {
-      final value = UnitValue(8.toDecimal(), TestosteroneUnit.ng_dL);
-      final converted = value.inUnit(TestosteroneUnit.ng_mL);
-
-      expect(converted, Decimal.parse('0.08'));
-    });
-
-    test('testosterone converts from nmol/L to ng/dL', () {
-      final value = UnitValue(8.toDecimal(), TestosteroneUnit.nmol_L);
-      final converted = value.inUnit(TestosteroneUnit.ng_dL);
-
-      expect(converted, Decimal.parse('230.72'));
-    });
+        // Assert
+        expect(text, c.expected);
+      });
+    }
   });
 }
