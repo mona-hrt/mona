@@ -2,5 +2,22 @@
   "appTitle": "مونا",
   "nav_home": "مونا",
   "tomorrow": "فردا",
-  "scheduleFrequencyDaily": "روزانه"
+  "scheduleFrequencyDaily": "روزانه",
+  "nav_intakes": "ورودی‌ها",
+  "nav_levels": "سطوح",
+  "addAnItem": "یک مورد اضافه کنید",
+  "allDone": "تمام شد!",
+  "month": "ماه",
+  "year": "سال",
+  "estradiol": "استرادیول",
+  "patch": "پچ",
+  "gel": "ژل",
+  "implant": "ایمپلنت",
+  "settingsTitle": "تنظیمات",
+  "notifications": "اعلان‌ها",
+  "save": "ذخیره",
+  "cancel": "لغو",
+  "next": "بعدی",
+  "delete": "حذف",
+  "deleteElement": "آیا این مورد حذف شود؟"
 }
