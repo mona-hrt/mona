@@ -14,8 +14,8 @@ import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
+import 'package:mona/i18n/fallback_localizations.dart';
 import 'package:mona/i18n/locale_provider.dart';
-import 'package:mona/i18n/tok_localizations.dart';
 import 'package:mona/services/home_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -182,8 +182,9 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
           locale: context.watch<LocaleProvider>().locale,
           supportedLocales: context.watch<LocaleProvider>().supportedLocales,
           localizationsDelegates: const [
-            TokMaterialLocalizationsDelegate(),
-            TokCupertinoLocalizationsDelegate(),
+            FallbackMaterialLocalizationsDelegate(),
+            FallbackCupertinoLocalizationsDelegate(),
+            FallbackWidgetsLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
