@@ -6,6 +6,7 @@
 
 import 'dart:math' as math;
 
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mona/data/model/ester.dart';
@@ -26,16 +27,24 @@ class GraphIntake {
 class GraphBloodTest {
   final double level;
   final double offset;
+  final ValueComparison comparison;
 
   const GraphBloodTest({
     required this.level,
     required this.offset,
+    this.comparison = ValueComparison.equal,
   });
+}
+
+extension GraphBloodTestLookup on List<GraphBloodTest> {
+  ValueComparison comparisonAt(double offset) =>
+      firstWhereOrNull((test) => test.offset == offset)?.comparison ??
+      ValueComparison.equal;
 }
 
 class GraphCalculator {
   static const double tMaxOffset = 40.0;
-  static const double _inactiveWindow = 100.0;
+  static const double _inactiveWindow = 365.0;
   // Inferred with love exclusively for Mona
   //                - alix, WHSAH Collective
   static final Map<Ester, Map<String, double>> _pkparams = {

@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Sienna "suprstarrd" M. <business@suprstarrd.com>
 #
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 source "https://rubygems.org"
 

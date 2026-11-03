@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.2/mona-1.24.2.ipa",
-      "size": 11848223,
-      "version": "1.24.2",
-      "versionDate": "2026-10-17T19:47:08Z",
-      "versionDescription": "New:\r\n\r\n- New language: Basque\r\n\r\nFix:\r\n\r\n- Fixed a bug causing some characters to import badly and the graph to disappear with imported data",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.0/mona-1.25.0.ipa",
+      "size": 11876148,
+      "version": "1.25.0",
+      "versionDate": "2026-11-03T12:53:20Z",
+      "versionDescription": "New:\r\n\r\n- You can now record labs with data below or above a value.\r\n- New units: ng/L and µg/L.\r\n- New languages: Arabic, Kurdish, Persian, Hebrew, Luri and Dari.\r\n\r\nFix:\r\n\r\n- Corrected wrong time on daily / weekly notifications after DST.\r\n- The estradiol undecylate graph is not cut anymore after 100 days.",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.0/mona-1.25.0.ipa",
+          "size": 11876148,
+          "version": "1.25.0",
+          "buildVersion": "33",
+          "date": "2026-11-03T12:53:20Z",
+          "localizedDescription": "New:\r\n\r\n- You can now record labs with data below or above a value.\r\n- New units: ng/L and µg/L.\r\n- New languages: Arabic, Kurdish, Persian, Hebrew, Luri and Dari.\r\n\r\nFix:\r\n\r\n- Corrected wrong time on daily / weekly notifications after DST.\r\n- The estradiol undecylate graph is not cut anymore after 100 days.",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.24.2/mona-1.24.2.ipa",
           "size": 11848223,

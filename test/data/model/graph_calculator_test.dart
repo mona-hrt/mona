@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -46,10 +46,10 @@ void main() {
       expect(concentration, greaterThan(0.0));
     });
 
-    test('is zero at the end of the inactive window (100 days)', () {
+    test('is zero at the end of the inactive window (365 days)', () {
       // Act
       final concentration =
-          calculator.totalConcentrationAtTime(100.0, [intakeAt(0.0)], unit);
+          calculator.totalConcentrationAtTime(365.0, [intakeAt(0.0)], unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -58,7 +58,7 @@ void main() {
     test('is zero past the inactive window', () {
       // Act
       final concentration =
-          calculator.totalConcentrationAtTime(150.0, [intakeAt(0.0)], unit);
+          calculator.totalConcentrationAtTime(366.0, [intakeAt(0.0)], unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -92,6 +92,62 @@ void main() {
 
       // Assert
       expect(two, closeTo(2 * single, 1e-6));
+    });
+  });
+
+  group('expected levels', () {
+    final cases = [
+      (ester: Ester.enanthate, day: 4.9913, level: 37.584),
+      (ester: Ester.enanthate, day: 7.0, level: 35.467),
+      (ester: Ester.valerate, day: 1.6922, level: 73.509),
+      (ester: Ester.valerate, day: 7.0, level: 27.130),
+      (ester: Ester.benzoate, day: 0.4919, level: 260.064),
+      (ester: Ester.benzoate, day: 7.0, level: 9.669),
+      (ester: Ester.cypionate, day: 3.3899, level: 24.999),
+      (ester: Ester.cypionate, day: 7.0, level: 20.476),
+      (ester: Ester.cypionateSuspension, day: 0.6513, level: 53.516),
+      (ester: Ester.cypionateSuspension, day: 7.0, level: 29.284),
+      (ester: Ester.undecylate, day: 2.7737, level: 4.912),
+      (ester: Ester.undecylate, day: 7.0, level: 4.542),
+    ];
+
+    for (final c in cases) {
+      test('1 mg ${c.ester.name} is ${c.level} pg/mL on day ${c.day}', () {
+        // Arrange
+        final intake = GraphIntake(dose: 1.0, ester: c.ester, time: 0.0);
+
+        // Act
+        final concentration =
+            calculator.totalConcentrationAtTime(c.day, [intake], unit);
+
+        // Assert
+        expect(concentration, closeTo(c.level, 1e-3));
+      });
+    }
+
+    test('1 mg valerate is 269.852 pmol/L at its peak', () {
+      // Arrange
+      const intake = GraphIntake(dose: 1.0, ester: Ester.valerate, time: 0.0);
+
+      // Act
+      final concentration = calculator.totalConcentrationAtTime(
+          1.6922, [intake], EstradiolUnit.pmol_L);
+
+      // Assert
+      expect(concentration, closeTo(269.852, 1e-3));
+    });
+
+    test('100 mg undecylate is still 0.183 pg/mL on day 364', () {
+      // Arrange
+      const intake =
+          GraphIntake(dose: 100.0, ester: Ester.undecylate, time: 0.0);
+
+      // Act
+      final concentration =
+          calculator.totalConcentrationAtTime(364.0, [intake], unit);
+
+      // Assert
+      expect(concentration, closeTo(0.183, 1e-3));
     });
   });
 
@@ -206,5 +262,28 @@ void main() {
       // Assert
       expect(spots.length, 2);
     });
+  });
+
+  group('comparisonAt', () {
+    const bloodTests = [
+      GraphBloodTest(level: 200, offset: 1.0),
+      GraphBloodTest(level: 5, offset: 4.5, comparison: ValueComparison.below),
+    ];
+
+    final cases = [
+      (offset: 4.5, expected: ValueComparison.below),
+      (offset: 1.0, expected: ValueComparison.equal),
+      (offset: 2.0, expected: ValueComparison.equal),
+    ];
+
+    for (final c in cases) {
+      test('at offset ${c.offset} is ${c.expected.name}', () {
+        // Act
+        final comparison = bloodTests.comparisonAt(c.offset);
+
+        // Assert
+        expect(comparison, c.expected);
+      });
+    }
   });
 }

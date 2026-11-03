@@ -4,6 +4,7 @@ SPDX-FileContributor: Alice Lorido "yakissa" <alice@lori.do>
 SPDX-FileContributor: Hexyliae
 SPDX-FileContributor: imcb "irismessage"
 SPDX-FileContributor: Luna Fox "AkinoKitsu"
+SPDX-FileContributor: Sienna "suprstarrd" M. <business@suprstarrd.com>
 
 SPDX-License-Identifier: AGPL-3.0-only
 -->
@@ -23,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-only
   <a href="https://apps.apple.com/app/mona-hrt-journal/id6757274628">
     <img alt="Download on the App Store" title="Download on the App Store" src="https://i.imgur.com/GZIiReo.png" height="45">
   </a>
-  <a href="https://stikstore.app/altdirect/?url=https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/ios_source.json&r=sidestore" target="_blank">
+  <a href="https://altdirect.app/?url=https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/ios_source.json&r=sidestore" target="_blank">
     <img alt="Add Source to SideStore" title="Add Source to SideStore" src="https://sidestore.io/assets/badges/add-source-to-sidestore.png" height="45">
   </a>
   <a href="https://github.com/mona-hrt/mona/releases/latest/download/mona.ipa" target="_blank">
@@ -151,6 +152,36 @@ Mona is free software: you can redistribute it and/or modify it under the terms 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+<!-- Do not uncomment the below text until all contributors have agreed to the proxy. When you uncomment, remove this comment line. -->
+<!--
+Pursuant to section 14 of the License, Délia Cheminot and Alice Lorido are hereby designated as proxies who are authorized to issue a public statement accepting any future version of the License for use with this Program. Therefore, notwithstanding the statement that this Program is licensed under version 3 of the License, a public acceptance by either designated proxy of any subsequent version of the License shall permanently authorize the use of that accepted version for this Program.
+-->
+<!-- Do not uncomment the above text until all contributors have agreed to the proxy. When you uncomment, remove this comment line. -->
+
+<!--
+SPDX-SnippetBegin
+SPDX-License-Identifier: CC-BY-SA-4.0
+SPDX-SnippetCopyrightText: 2019 Bart van Ingen Schenau
+SPDX-SnippetCopyrightText: 2026 Sienna "suprstarrd" M. <business@suprstarrd.com>
+SPDX-SnippetComment: Source: <https://opensource.stackexchange.com/revisions/8682/1>.
+SPDX-SnippetComment: Source: <http://gist.githubusercontent.com/suprstarrd/8bf00b47692ea10339b85509ee1f1eff/raw/85dda6360ef9ef64fc72f87e1b5230740fb50171/1_Digital-storefront-exception.md>.
+SPDX-SnippetComment: Attribution being waived does not mean it is prohibited.
+-->
+<!-- Do not uncomment the below text until all contributors have agreed to the digital storefront exception. When you uncomment, remove this comment line. -->
+<!--
+As a special exception, the copyright holders of this program give you permission to distribute the program through a digital storefront and/or digital program testing service (hereon referred to as the Service), even if that Service has terms and conditions that are incompatible with the License, provided that a) the Corresponding Source is also available under the License, including this exception and (if any) all other exceptions extended to your version of the program, through a channel without those terms and conditions; b) the terms and conditions of the Service do not prevent you from complying with the terms and conditions of the License for this program through channels other than the digital Service; and c) except as permitted by this exception or any other exceptions granted by the copyright holders of this program, you comply with the terms of the License. If you modify this program, you may extend this exception to your version of the program, but you are not obligated to do so. If you do not wish to do so, you may delete this exception statement from your version, but you may no longer rely on the exception to distribute the modified program through such Services until the exception is restored to your version. If the program as you received it specifies that a proxy can decide whether future versions of this exception shall apply, that proxy's public statement of acceptance of any version is permanent authorization for you to choose that version for the exception. This is version 1.2 of the exception. This exception's text is provided with no warranties given and attribution waived, under Creative Commons Attribution-ShareAlike 4.0 International, and modified from an original work with no warranties given and attribution waived. To view a copy of the license for this exception's text, visit <https://creativecommons.org/licenses/by-sa/4.0/>.
+-->
+<!-- Do not uncomment the above text until all contributors have agreed to the digital storefront exception. When you uncomment, remove this comment line. -->
+<!--
+SPDX-SnippetEnd
+-->
+
+<!-- Do not uncomment the below text until all contributors have agreed to both the proxy and the digital storefront exception. When you uncomment, remove this comment line. -->
+<!--
+Délia Cheminot and Alice Lorido are hereby designated as proxies who are authorized to issue a public statement accepting any future version of the above exception for use with this Program. Therefore, notwithstanding the statement that this Program is licensed with version 1.2 of the exception, a public acceptance by either designated proxy of any subsequent version of the exception shall permanently authorize the use of that accepted version for this Program.
+-->
+<!-- Do not uncomment the above text until all contributors have agreed to both the proxy and the digital storefront exception. When you uncomment, remove this comment line. -->
 
 <p align="center">
   <a href="https://www.gnu.org/licenses/agpl-3.0.html">

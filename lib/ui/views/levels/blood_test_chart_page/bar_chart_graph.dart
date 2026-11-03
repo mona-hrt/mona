@@ -1,23 +1,26 @@
 // SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
 // SPDX-FileContributor: Délia Cheminot <delia@cheminot.net>
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:mona/data/model/units.dart';
 import 'package:mona/ui/views/levels/bar_groups.dart';
 import 'package:mona/ui/views/levels/chart_mirror.dart';
 
 class BarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
+  final List<ValueComparison> comparisons;
   final List<String> labels;
   final String unit;
   final int? highlightedIndex;
 
   BarChartGraph(
       {required this.spots,
+      required this.comparisons,
       required this.labels,
       required this.unit,
       this.highlightedIndex});
@@ -110,7 +113,7 @@ class BarChartGraph extends StatelessWidget {
             rodIndex,
           ) {
             return BarTooltipItem(
-              '${rod.toY}\n$unit',
+              '${comparisons[group.x].prefix}${rod.toY}\n$unit',
               TextStyle(color: theme.colorScheme.onTertiaryContainer),
               textDirection: textDirection,
             );

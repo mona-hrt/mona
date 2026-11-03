@@ -1,0 +1,5 @@
+Mona is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3 of the License.
+
+Pursuant to section 14 of the License, Délia Cheminot and Alice Lorido are hereby designated as proxies who are authorized to issue a public statement accepting any future version of the License for use with this Program. Therefore, notwithstanding the statement that this Program is licensed under version 3 of the License, a public acceptance by either designated proxy of any subsequent version of the License shall permanently authorize the use of that accepted version for this Program.
+
+Délia Cheminot and Alice Lorido are hereby designated as proxies who are authorized to issue a public statement accepting any future version of the digital storefront exception for use with this Program. Therefore, notwithstanding the statement that this Program is licensed with version 1.2 of the exception, a public acceptance by either designated proxy of any subsequent version of the exception shall permanently authorize the use of that accepted version for this Program.
