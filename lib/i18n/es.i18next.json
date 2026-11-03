@@ -323,10 +323,10 @@
   "subcutaneous": "Subcutánea",
   "empty_levels": "Añade un análisis de sangre o registra una inyección de estradiol para empezar",
   "estradiolLevelsTitle": "Niveles de Estradiol",
-  "week": "Sem.",
-  "twoWeeks": "2 Sems.",
-  "threeMonths": "3 Meses",
-  "sixMonths": "6 Meses",
-  "month": "Mes",
-  "year": "Año"
+  "week": "S",
+  "twoWeeks": "2 S",
+  "threeMonths": "3 M",
+  "sixMonths": "6 M",
+  "month": "M",
+  "year": "A"
 }

@@ -587,6 +587,59 @@ class TranslationsNl extends Translations
   String get scheduleFrequencyDailyDescription =>
       'Elke dag, op specifieke tijden';
   @override
+  String get getInvolved => 'Help mee';
+  @override
+  String get reportBug => 'Rapporteer een bug';
+  @override
+  String get reportBugDescription => 'Open een ticket op GitHub';
+  @override
+  String get translateApp => 'Vertaal de app';
+  @override
+  String get translateAppDescription => 'Help Mona te vertalen op Weblate';
+  @override
+  String get missingTranslation => 'Mist er een vertaling?';
+  @override
+  String get donate => 'Doneer';
+  @override
+  String get donateDescription => 'Ondersteun Mona op Ko-fi';
+  @override
+  String get backupSaved => 'Backup opgeslagen';
+  @override
+  String get secretSettings => 'Geheime instellingen';
+  @override
+  String get slimeMode => 'Slijm modus';
+  @override
+  String get injectionType => 'Injectiesoort';
+  @override
+  String get intramuscular => 'Intramusculair';
+  @override
+  String get subcutaneous => 'Subcutaan';
+  @override
+  String get week => 'W';
+  @override
+  String get twoWeeks => '2 W';
+  @override
+  String get threeMonths => '3 M';
+  @override
+  String get sixMonths => '6 M';
+  @override
+  String get month => 'M';
+  @override
+  String get year => 'J';
+  @override
+  String get deliveryFormPump => 'Pomp';
+  @override
+  String get deliveryFormSachet => 'Zakje';
+  @override
+  String get deliveryFormGram => 'Buis';
+  @override
+  String get unitMicrogramPerDay => 'µg/dag';
+  @override
+  String get applicationSites => 'Aanbrengplekken';
+  @override
+  String mustBeAtMost({required Object max}) =>
+      'Moet op z\'n minst ${max} zijn';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
         count,
@@ -747,6 +800,20 @@ class TranslationsNl extends Translations
         count,
         one: 'Nog 1 verband over',
         other: 'Nog ${count} verbanden over',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'zakje',
+        other: 'zakjes',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'gram',
+        other: 'gram',
       );
 }
 
@@ -1038,6 +1105,33 @@ extension on TranslationsNl {
       'estradiolLevelsTitle' => 'Oestradiolspiegels',
       'unitNgPerMl' => 'ng/mL',
       'scheduleFrequencyDailyDescription' => 'Elke dag, op specifieke tijden',
+      'getInvolved' => 'Help mee',
+      'reportBug' => 'Rapporteer een bug',
+      'reportBugDescription' => 'Open een ticket op GitHub',
+      'translateApp' => 'Vertaal de app',
+      'translateAppDescription' => 'Help Mona te vertalen op Weblate',
+      'missingTranslation' => 'Mist er een vertaling?',
+      'donate' => 'Doneer',
+      'donateDescription' => 'Ondersteun Mona op Ko-fi',
+      'backupSaved' => 'Backup opgeslagen',
+      'secretSettings' => 'Geheime instellingen',
+      'slimeMode' => 'Slijm modus',
+      'injectionType' => 'Injectiesoort',
+      'intramuscular' => 'Intramusculair',
+      'subcutaneous' => 'Subcutaan',
+      'week' => 'W',
+      'twoWeeks' => '2 W',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'month' => 'M',
+      'year' => 'J',
+      'deliveryFormPump' => 'Pomp',
+      'deliveryFormSachet' => 'Zakje',
+      'deliveryFormGram' => 'Buis',
+      'unitMicrogramPerDay' => 'µg/dag',
+      'applicationSites' => 'Aanbrengplekken',
+      'mustBeAtMost' => ({required Object max}) =>
+          'Moet op z\'n minst ${max} zijn',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
             count,
@@ -1176,6 +1270,18 @@ extension on TranslationsNl {
             count,
             one: 'Nog 1 verband over',
             other: 'Nog ${count} verbanden over',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'zakje',
+            other: 'zakjes',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'gram',
+            other: 'gram',
           ),
       _ => null,
     };
