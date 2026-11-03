@@ -571,6 +571,8 @@ class TranslationsKo extends Translations
   @override
   String get applicationSites => '투여 부위';
   @override
+  String get themeVariant => '종류';
+  @override
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
@@ -983,6 +985,7 @@ extension on TranslationsKo {
       'placementLeftAbdomen' => '왼쪽 복부',
       'placementRightAbdomen' => '오른쪽 복부',
       'applicationSites' => '투여 부위',
+      'themeVariant' => '종류',
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,

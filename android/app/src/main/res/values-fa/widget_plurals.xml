@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">یک روز تحت هورمون درمانی</item>
+        <item quantity="other">به مدت %d روز تحت هورمون درمانی</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">یک هفته تحت هورمون درمانی</item>
+        <item quantity="other">%d هفته تحت هورمون درمانی</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">یک ماه تحت هورمون درمانی</item>
+        <item quantity="other">%d ماه تحت هورمون درمانی</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">یک سال تحت هورمون درمانی</item>
+        <item quantity="other">%d سال تحت هورمون درمانی</item>
+    </plurals>
+</resources>
