@@ -24,23 +24,28 @@ enum EstradiolUnit implements Unit<EstradiolUnit> {
   pg_mL("pg/mL"),
   @MappableValue("pmol/L")
   // ignore: constant_identifier_names
-  pmol_L("pmol/L");
+  pmol_L("pmol/L"),
+  @MappableValue("ng/L")
+  // ignore: constant_identifier_names
+  ng_L("ng/L");
 
   @override
   final String name;
 
   const EstradiolUnit(this.name);
 
-  static Decimal _factor = Decimal.parse('3.671');
+  static final Map<EstradiolUnit, Decimal> _toPmolL = {
+    EstradiolUnit.pg_mL: Decimal.parse('3.671'),
+    EstradiolUnit.pmol_L: Decimal.one,
+    EstradiolUnit.ng_L: Decimal.parse('3.671'),
+  };
 
   @override
   Decimal convert(Decimal value, EstradiolUnit into) {
     if (into == this) return value;
-    return switch (into) {
-      EstradiolUnit.pg_mL =>
-        (value / _factor).toDecimal(scaleOnInfinitePrecision: 2),
-      EstradiolUnit.pmol_L => value * _factor
-    };
+    final valueInPmolL = value * _toPmolL[this]!;
+    return (valueInPmolL / _toPmolL[into]!)
+        .toDecimal(scaleOnInfinitePrecision: 2);
   }
 
   @override
@@ -59,7 +64,10 @@ enum TestosteroneUnit implements Unit<TestosteroneUnit> {
   ng_mL("ng/mL"),
   @MappableValue("nmol/L")
   // ignore: constant_identifier_names
-  nmol_L("nmol/L");
+  nmol_L("nmol/L"),
+  @MappableValue("µg/L")
+  // ignore: constant_identifier_names
+  ug_L("µg/L");
 
   @override
   final String name;
@@ -70,6 +78,7 @@ enum TestosteroneUnit implements Unit<TestosteroneUnit> {
     TestosteroneUnit.ng_dL: Decimal.one,
     TestosteroneUnit.ng_mL: Decimal.fromInt(100),
     TestosteroneUnit.nmol_L: Decimal.parse("28.84"),
+    TestosteroneUnit.ug_L: Decimal.fromInt(100),
   };
 
   @override
@@ -113,16 +122,37 @@ enum Units {
   }
 }
 
+@MappableEnum()
+enum ValueComparison {
+  equal('='),
+  below('≤'),
+  above('≥');
+
+  final String symbol;
+
+  const ValueComparison(this.symbol);
+
+  ValueComparison get next => values[(index + 1) % values.length];
+
+  String get prefix => this == equal ? '' : '$symbol\u00A0';
+}
+
 @MappableClass(includeCustomMappers: [DecimalStringMapper()])
 class UnitValue<U extends Unit> with UnitValueMappable<U> {
   final Decimal value;
   final U unit;
+  final ValueComparison comparison;
 
-  UnitValue(this.value, this.unit);
+  UnitValue(this.value, this.unit, {this.comparison = ValueComparison.equal});
 
   Decimal inUnit(U unit) {
     return this.unit.convert(value, unit);
   }
+
+  UnitValue<U> convertTo(U unit) =>
+      UnitValue(inUnit(unit), unit, comparison: comparison);
+
+  String get displayValue => '${comparison.prefix}$value';
 
   @override
   String toString() {
@@ -135,8 +165,9 @@ class UnitValue<U extends Unit> with UnitValueMappable<U> {
       other is UnitValue &&
           runtimeType == other.runtimeType &&
           value == other.value &&
-          unit == other.unit;
+          unit == other.unit &&
+          comparison == other.comparison;
 
   @override
-  int get hashCode => Object.hash(value, unit);
+  int get hashCode => Object.hash(value, unit, comparison);
 }

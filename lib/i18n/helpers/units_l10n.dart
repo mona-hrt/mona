@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
 //
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:mona/data/model/units.dart';
 import 'package:mona/i18n/translations.g.dart';
@@ -12,6 +12,8 @@ extension EstradiolUnitL10n on EstradiolUnit {
         return t.unitPgPerMl;
       case EstradiolUnit.pmol_L:
         return t.unitPmolPerL;
+      case EstradiolUnit.ng_L:
+        return t.unitNgPerL;
     }
   }
 }
@@ -25,6 +27,8 @@ extension TestosteroneUnitL10n on TestosteroneUnit {
         return t.unitNmolPerL;
       case TestosteroneUnit.ng_mL:
         return t.unitNgPerMl;
+      case TestosteroneUnit.ug_L:
+        return t.unitMicrogramPerL;
     }
   }
 }
@@ -35,5 +39,18 @@ extension UnitL10n on Unit {
     if (unit is EstradiolUnit) return unit.localizedName;
     if (unit is TestosteroneUnit) return unit.localizedName;
     return name;
+  }
+}
+
+extension ValueComparisonL10n on ValueComparison {
+  String get localizedName {
+    switch (this) {
+      case ValueComparison.equal:
+        return t.valueComparisonEqual;
+      case ValueComparison.below:
+        return t.valueComparisonBelow;
+      case ValueComparison.above:
+        return t.valueComparisonAbove;
+    }
   }
 }

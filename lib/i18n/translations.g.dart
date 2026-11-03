@@ -3,8 +3,8 @@
 /// Source: lib/i18n/generated
 /// To regenerate, run: `dart run slang`
 ///
-/// Locales: 27
-/// Strings: 6720 (248 per locale)
+/// Locales: 33
+/// Strings: 7089 (214 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -15,20 +15,26 @@ import 'package:slang/generated.dart';
 import 'package:slang_flutter/slang_flutter.dart';
 export 'package:slang_flutter/slang_flutter.dart';
 
+import 'translations_ar.g.dart' as l_ar;
+import 'translations_ckb.g.dart' as l_ckb;
 import 'translations_de.g.dart' as l_de;
 import 'translations_es.g.dart' as l_es;
 import 'translations_et.g.dart' as l_et;
 import 'translations_eu.g.dart' as l_eu;
+import 'translations_fa.g.dart' as l_fa;
 import 'translations_fr.g.dart' as l_fr;
 import 'translations_gl.g.dart' as l_gl;
+import 'translations_he.g.dart' as l_he;
 import 'translations_hi.g.dart' as l_hi;
 import 'translations_hu.g.dart' as l_hu;
 import 'translations_id.g.dart' as l_id;
 import 'translations_is.g.dart' as l_is;
 import 'translations_it.g.dart' as l_it;
 import 'translations_ko.g.dart' as l_ko;
+import 'translations_lrc.g.dart' as l_lrc;
 import 'translations_nl.g.dart' as l_nl;
 import 'translations_pl.g.dart' as l_pl;
+import 'translations_prs.g.dart' as l_prs;
 import 'translations_pt.g.dart' as l_pt;
 import 'translations_ru.g.dart' as l_ru;
 import 'translations_sk.g.dart' as l_sk;
@@ -51,20 +57,26 @@ part 'translations_en.g.dart';
 /// - if (LocaleSettings.currentLocale == AppLocale.en) // locale check
 enum AppLocale with BaseAppLocale<AppLocale, Translations> {
   en(languageCode: 'en'),
+  ar(languageCode: 'ar'),
+  ckb(languageCode: 'ckb'),
   de(languageCode: 'de'),
   es(languageCode: 'es'),
   et(languageCode: 'et'),
   eu(languageCode: 'eu'),
+  fa(languageCode: 'fa'),
   fr(languageCode: 'fr'),
   gl(languageCode: 'gl'),
+  he(languageCode: 'he'),
   hi(languageCode: 'hi'),
   hu(languageCode: 'hu'),
   id(languageCode: 'id'),
   icelandic(languageCode: 'is'),
   it(languageCode: 'it'),
   ko(languageCode: 'ko'),
+  lrc(languageCode: 'lrc'),
   nl(languageCode: 'nl'),
   pl(languageCode: 'pl'),
+  prs(languageCode: 'prs'),
   pt(languageCode: 'pt'),
   ru(languageCode: 'ru'),
   sk(languageCode: 'sk'),
@@ -117,6 +129,18 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,
         );
+      case AppLocale.ar:
+        return l_ar.TranslationsAr(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.ckb:
+        return l_ckb.TranslationsCkb(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
       case AppLocale.de:
         return l_de.TranslationsDe(
           overrides: overrides,
@@ -141,6 +165,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,
         );
+      case AppLocale.fa:
+        return l_fa.TranslationsFa(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
       case AppLocale.fr:
         return l_fr.TranslationsFr(
           overrides: overrides,
@@ -149,6 +179,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
         );
       case AppLocale.gl:
         return l_gl.TranslationsGl(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.he:
+        return l_he.TranslationsHe(
           overrides: overrides,
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,
@@ -189,6 +225,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,
         );
+      case AppLocale.lrc:
+        return l_lrc.TranslationsLrc(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
       case AppLocale.nl:
         return l_nl.TranslationsNl(
           overrides: overrides,
@@ -197,6 +239,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
         );
       case AppLocale.pl:
         return l_pl.TranslationsPl(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.prs:
+        return l_prs.TranslationsPrs(
           overrides: overrides,
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,

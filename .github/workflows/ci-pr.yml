@@ -120,6 +120,8 @@ jobs:
         run: flutter pub get
 
       - name: Run tests with coverage
+        env:
+          TZ: Europe/Paris # for dst / timezone tests
         run: flutter test --coverage
 
   build_android:

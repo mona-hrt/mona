@@ -39,16 +39,14 @@ class BloodTestProvider extends ChangeNotifier {
     final latest = _bloodTestsSortedDesc
         .firstWhereOrNull((t) => t.estradiolLevels != null)
         ?.estradiolLevels;
-    if (latest == null) return null;
-    return UnitValue(latest.inUnit(unit), unit);
+    return latest?.convertTo(unit);
   }
 
   UnitValue<TestosteroneUnit>? latestTestosteroneLevel(TestosteroneUnit unit) {
     final latest = _bloodTestsSortedDesc
         .firstWhereOrNull((t) => t.testosteroneLevels != null)
         ?.testosteroneLevels;
-    if (latest == null) return null;
-    return UnitValue(latest.inUnit(unit), unit);
+    return latest?.convertTo(unit);
   }
 
   List<LevelEntry> levelEntries(Hormone hormone, EstradiolUnit estradiolUnit,
@@ -58,8 +56,7 @@ class BloodTestProvider extends ChangeNotifier {
         return estradiolTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
-                  value: UnitValue(test.estradiolLevels!.inUnit(estradiolUnit),
-                      estradiolUnit),
+                  value: test.estradiolLevels!.convertTo(estradiolUnit),
                   notes: test.notes,
                 ))
             .toList();
@@ -67,9 +64,7 @@ class BloodTestProvider extends ChangeNotifier {
         return testosteroneTestsSortedDesc
             .map((test) => (
                   localDate: test.localDate,
-                  value: UnitValue(
-                      test.testosteroneLevels!.inUnit(testosteroneUnit),
-                      testosteroneUnit),
+                  value: test.testosteroneLevels!.convertTo(testosteroneUnit),
                   notes: test.notes,
                 ))
             .toList();
@@ -106,6 +101,7 @@ class BloodTestProvider extends ChangeNotifier {
         .map((bloodtest) => GraphBloodTest(
               offset: timeDifferenceInDays(bloodtest.dateTime, tMin),
               level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
+              comparison: bloodtest.estradiolLevels!.comparison,
             ))
         .toList();
   }

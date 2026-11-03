@@ -157,8 +157,8 @@ class _MainGraphState extends State<MainGraph> {
                   _buildLineBarData(mirror.mirroredSpots(spots), theme),
                   _buildBloodTestData(mirror.mirroredSpots(bloodSpots), theme),
                 ],
-                lineTouchData:
-                    _buildLineTouchData(context, theme, baseline, unit, mirror),
+                lineTouchData: _buildLineTouchData(
+                    context, theme, baseline, unit, mirror, bloodTests),
                 extraLinesData: _buildTodayVerticalLine(
                     theme, todaySpot, tNow, unit, mirror),
               ),
@@ -226,8 +226,13 @@ class _MainGraphState extends State<MainGraph> {
     );
   }
 
-  LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
-      DateTime tMin, EstradiolUnit unit, ChartMirror mirror) {
+  LineTouchData _buildLineTouchData(
+      BuildContext context,
+      ThemeData theme,
+      DateTime tMin,
+      EstradiolUnit unit,
+      ChartMirror mirror,
+      List<GraphBloodTest> bloodTests) {
     return LineTouchData(
       getTouchedSpotIndicator: (barData, spotIndexes) {
         return spotIndexes.map((index) {
@@ -255,8 +260,10 @@ class _MainGraphState extends State<MainGraph> {
               text =
                   '${t.chartLevelTooltip(date: _getDateLabel(mirror.mirrored(spot.x), tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
             } else {
+              final comparison =
+                  bloodTests.comparisonAt(mirror.mirrored(spot.x));
               text =
-                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(mirror.mirrored(spot.x), tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
+                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(mirror.mirrored(spot.x), tMin, context), level: '${comparison.prefix}${spot.y.toStringAsFixed(1)}')} ${unit.localizedName}';
             }
             return LineTooltipItem(
               text,

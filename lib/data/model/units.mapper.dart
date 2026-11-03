@@ -31,6 +31,8 @@ class EstradiolUnitMapper extends EnumMapper<EstradiolUnit> {
         return EstradiolUnit.pg_mL;
       case "pmol/L":
         return EstradiolUnit.pmol_L;
+      case "ng/L":
+        return EstradiolUnit.ng_L;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -43,6 +45,8 @@ class EstradiolUnitMapper extends EnumMapper<EstradiolUnit> {
         return "pg/mL";
       case EstradiolUnit.pmol_L:
         return "pmol/L";
+      case EstradiolUnit.ng_L:
+        return "ng/L";
     }
   }
 }
@@ -79,6 +83,8 @@ class TestosteroneUnitMapper extends EnumMapper<TestosteroneUnit> {
         return TestosteroneUnit.ng_mL;
       case "nmol/L":
         return TestosteroneUnit.nmol_L;
+      case "µg/L":
+        return TestosteroneUnit.ug_L;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -93,6 +99,8 @@ class TestosteroneUnitMapper extends EnumMapper<TestosteroneUnit> {
         return "ng/mL";
       case TestosteroneUnit.nmol_L:
         return "nmol/L";
+      case TestosteroneUnit.ug_L:
+        return "µg/L";
     }
   }
 }
@@ -101,6 +109,56 @@ extension TestosteroneUnitMapperExtension on TestosteroneUnit {
   dynamic toValue() {
     TestosteroneUnitMapper.ensureInitialized();
     return MapperContainer.globals.toValue<TestosteroneUnit>(this);
+  }
+}
+
+class ValueComparisonMapper extends EnumMapper<ValueComparison> {
+  ValueComparisonMapper._();
+
+  static ValueComparisonMapper? _instance;
+  static ValueComparisonMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = ValueComparisonMapper._());
+    }
+    return _instance!;
+  }
+
+  static ValueComparison fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  ValueComparison decode(dynamic value) {
+    switch (value) {
+      case r'equal':
+        return ValueComparison.equal;
+      case r'below':
+        return ValueComparison.below;
+      case r'above':
+        return ValueComparison.above;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(ValueComparison self) {
+    switch (self) {
+      case ValueComparison.equal:
+        return r'equal';
+      case ValueComparison.below:
+        return r'below';
+      case ValueComparison.above:
+        return r'above';
+    }
+  }
+}
+
+extension ValueComparisonMapperExtension on ValueComparison {
+  String toValue() {
+    ValueComparisonMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<ValueComparison>(this) as String;
   }
 }
 
@@ -113,6 +171,7 @@ class UnitValueMapper extends ClassMapperBase<UnitValue> {
       MapperBase.addType<Unit>(<T>(f) => f<Unit<T>>());
       MapperContainer.globals.use(_instance = UnitValueMapper._());
       MapperContainer.globals.useAll([DecimalStringMapper()]);
+      ValueComparisonMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -131,15 +190,27 @@ class UnitValueMapper extends ClassMapperBase<UnitValue> {
     _$unit,
     arg: _arg$unit,
   );
+  static ValueComparison _$comparison(UnitValue v) => v.comparison;
+  static const Field<UnitValue, ValueComparison> _f$comparison = Field(
+    'comparison',
+    _$comparison,
+    opt: true,
+    def: ValueComparison.equal,
+  );
 
   @override
   final MappableFields<UnitValue> fields = const {
     #value: _f$value,
     #unit: _f$unit,
+    #comparison: _f$comparison,
   };
 
   static UnitValue<U> _instantiate<U extends Unit<dynamic>>(DecodingData data) {
-    return UnitValue(data.dec(_f$value), data.dec(_f$unit));
+    return UnitValue(
+      data.dec(_f$value),
+      data.dec(_f$unit),
+      comparison: data.dec(_f$comparison),
+    );
   }
 
   @override
@@ -204,7 +275,7 @@ extension UnitValueValueCopy<$R, $Out, U extends Unit<dynamic>>
 
 abstract class UnitValueCopyWith<$R, $In extends UnitValue<U>, $Out,
     U extends Unit<dynamic>> implements ClassCopyWith<$R, $In, $Out> {
-  $R call({Decimal? value, U? unit});
+  $R call({Decimal? value, U? unit, ValueComparison? comparison});
   UnitValueCopyWith<$R2, $In, $Out2, U> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -217,16 +288,18 @@ class _UnitValueCopyWithImpl<$R, $Out, U extends Unit<dynamic>>
   late final ClassMapperBase<UnitValue> $mapper =
       UnitValueMapper.ensureInitialized();
   @override
-  $R call({Decimal? value, U? unit}) => $apply(
+  $R call({Decimal? value, U? unit, ValueComparison? comparison}) => $apply(
         FieldCopyWithData({
           if (value != null) #value: value,
           if (unit != null) #unit: unit,
+          if (comparison != null) #comparison: comparison,
         }),
       );
   @override
   UnitValue<U> $make(CopyWithData data) => UnitValue(
         data.get(#value, or: $value.value),
         data.get(#unit, or: $value.unit),
+        comparison: data.get(#comparison, or: $value.comparison),
       );
 
   @override
