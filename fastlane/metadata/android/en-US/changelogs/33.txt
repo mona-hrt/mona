@@ -1,0 +1,10 @@
+New:
+
+- You can now record labs with data below or above a value.
+- New units: ng/L and µg/L.
+- New languages: Arabic, Kurdish, Persian, Hebrew, Luri and Dari.
+
+Fix:
+
+- Corrected wrong time on daily / weekly notifications after DST.
+- The estradiol undecylate graph is not cut anymore after 100 days.
