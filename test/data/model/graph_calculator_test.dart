@@ -107,6 +107,7 @@ void main() {
       (ester: Ester.cypionate, day: 7.0, level: 20.476),
       (ester: Ester.cypionateSuspension, day: 0.6513, level: 53.516),
       (ester: Ester.cypionateSuspension, day: 7.0, level: 29.284),
+      (ester: Ester.undecylate, day: 0.25, level: 1.654),
       (ester: Ester.undecylate, day: 2.7737, level: 4.912),
       (ester: Ester.undecylate, day: 7.0, level: 4.542),
     ];
