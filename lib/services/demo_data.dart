@@ -21,6 +21,7 @@ import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/pk/simulation.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/model/supply_item.dart';

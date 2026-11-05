@@ -8,9 +8,9 @@ import 'dart:ui' as _i9;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mona/data/model/date.dart' as _i8;
-import 'package:mona/data/model/graph_calculator.dart' as _i7;
 import 'package:mona/data/model/medication_intake.dart' as _i5;
 import 'package:mona/data/model/medication_schedule.dart' as _i11;
+import 'package:mona/data/model/pk/simulation.dart' as _i7;
 import 'package:mona/data/providers/medication_intake_provider.dart' as _i4;
 import 'package:mona/data/providers/medication_schedule_provider.dart' as _i10;
 import 'package:mona/services/preferences_service.dart' as _i3;

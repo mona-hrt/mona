@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/graph_calculator.dart';
+import 'package:mona/data/model/pk/simulation.dart';
 import 'package:mona/data/model/units.dart';
 
 void main() {

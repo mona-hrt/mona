@@ -6,9 +6,9 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/pk/simulation.dart';
 import 'package:mona/services/repository.dart';
 import 'package:mona/util/time_difference.dart';
 
