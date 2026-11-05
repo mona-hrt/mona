@@ -324,5 +324,10 @@
   "deliveryForm": "شکل دارویی",
   "deliveryFormGram": "تیوب",
   "supplyItem": "مورد موجودی",
-  "genericItemType": "مورد مصرفی"
+  "genericItemType": "مورد مصرفی",
+  "unitNgPerL": "ng/L",
+  "unitMicrogramPerL": "µg/L",
+  "valueComparisonEqual": "برابر با",
+  "valueComparisonAbove": "مساوی یا بالاتر از آن",
+  "valueComparisonBelow": "مساوی یا پایین‌تر از آن"
 }
