@@ -16,7 +16,7 @@ import 'package:mona/data/model/administration_route.dart' as _i16;
 import 'package:mona/data/model/date.dart' as _i10;
 import 'package:mona/data/model/ester.dart' as _i17;
 import 'package:mona/data/model/generic_supply_item.dart' as _i14;
-import 'package:mona/data/model/graph_calculator.dart' as _i9;
+import 'package:mona/data/model/calculator/hormone_simulation.dart' as _i9;
 import 'package:mona/data/model/medication_intake.dart' as _i7;
 import 'package:mona/data/model/medication_supply_item.dart' as _i13;
 import 'package:mona/data/model/molecule.dart' as _i15;

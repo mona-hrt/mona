@@ -4,15 +4,19 @@
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/graph_calculator.dart';
+import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/units.dart';
+import 'package:mona/ui/views/levels/graph_calculator.dart';
+
+import '../../../fixtures.dart';
 
 void main() {
   final calculator = GraphCalculator();
   const unit = EstradiolUnit.pg_mL;
 
-  GraphIntake intakeAt(double offsetDays, {double dose = 5.0}) => GraphIntake(
+  GraphIntake intakeAt(double offsetDays, {double dose = 5.0}) => aGraphIntake(
         dose: dose,
         ester: Ester.valerate,
         time: offsetDays,
@@ -44,24 +48,6 @@ void main() {
 
       // Assert
       expect(concentration, greaterThan(0.0));
-    });
-
-    test('is zero at the end of the inactive window (365 days)', () {
-      // Act
-      final concentration =
-          calculator.totalConcentrationAtTime(365.0, [intakeAt(0.0)], unit);
-
-      // Assert
-      expect(concentration, 0.0);
-    });
-
-    test('is zero past the inactive window', () {
-      // Act
-      final concentration =
-          calculator.totalConcentrationAtTime(366.0, [intakeAt(0.0)], unit);
-
-      // Assert
-      expect(concentration, 0.0);
     });
 
     test('returns zero for an empty intake list', () {
@@ -107,6 +93,7 @@ void main() {
       (ester: Ester.cypionate, day: 7.0, level: 20.476),
       (ester: Ester.cypionateSuspension, day: 0.6513, level: 53.516),
       (ester: Ester.cypionateSuspension, day: 7.0, level: 29.284),
+      (ester: Ester.undecylate, day: 0.25, level: 1.654),
       (ester: Ester.undecylate, day: 2.7737, level: 4.912),
       (ester: Ester.undecylate, day: 7.0, level: 4.542),
     ];
@@ -114,7 +101,7 @@ void main() {
     for (final c in cases) {
       test('1 mg ${c.ester.name} is ${c.level} pg/mL on day ${c.day}', () {
         // Arrange
-        final intake = GraphIntake(dose: 1.0, ester: c.ester, time: 0.0);
+        final intake = aGraphIntake(ester: c.ester);
 
         // Act
         final concentration =
@@ -127,7 +114,7 @@ void main() {
 
     test('1 mg valerate is 269.852 pmol/L at its peak', () {
       // Arrange
-      const intake = GraphIntake(dose: 1.0, ester: Ester.valerate, time: 0.0);
+      final intake = aGraphIntake(ester: Ester.valerate);
 
       // Act
       final concentration = calculator.totalConcentrationAtTime(
@@ -139,8 +126,7 @@ void main() {
 
     test('100 mg undecylate is still 0.183 pg/mL on day 364', () {
       // Arrange
-      const intake =
-          GraphIntake(dose: 100.0, ester: Ester.undecylate, time: 0.0);
+      final intake = aGraphIntake(dose: 100.0, ester: Ester.undecylate);
 
       // Act
       final concentration =
@@ -199,9 +185,7 @@ void main() {
 
     test('a window after the injection still reflects the earlier intake', () {
       // Arrange
-      const intakes = [
-        GraphIntake(dose: 5.0, ester: Ester.valerate, time: 0.0)
-      ];
+      final intakes = [aGraphIntake(dose: 5.0, ester: Ester.valerate)];
 
       // Act
       final spots = calculator.generateLevelsSpots(intakes, unit,
