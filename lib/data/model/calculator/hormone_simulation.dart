@@ -21,15 +21,17 @@ class GraphIntake {
   });
 }
 
-const double _inactiveWindow = 365.0;
+final double _inactiveDecay = math.log(1e6);
 const double _equalRatesThreshold = 1e-8;
 
 /// Level in pg/mL, [elapsed] days after one injection of [dose] mg.
 double singleInjectionConcentration(
     InjectionParams params, double dose, double elapsed) {
-  if (elapsed <= 0 || elapsed >= _inactiveWindow) return 0.0;
-
   final InjectionParams(:f, :auc, :k1, :k2, :k3) = params;
+
+  // e^(−k_min × t) = 1e-6 <=> t = ln(1e6) / k_min
+  final inactiveWindow = _inactiveDecay / math.min(k1, math.min(k2, k3));
+  if (elapsed <= 0 || elapsed >= inactiveWindow) return 0.0;
 
   final sum = _batemanSum(k1, k2, k3, elapsed);
   return dose * f * auc * k1 * k2 * k3 * sum;

@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
+import 'dart:math' as math;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
@@ -69,5 +71,30 @@ void main() {
         expect(level, closeTo(c.level, 1e-3));
       });
     }
+
+    test('1 mg valerate is zero ln(1e6) / k1 days after the injection', () {
+      // Arrange
+      final valerate = defaultInjectionParams[Ester.valerate]!;
+      final inactiveWindow = math.log(1e6) / valerate.k1;
+
+      // Act
+      final level = singleInjectionConcentration(valerate, 1.0, inactiveWindow);
+
+      // Assert
+      expect(level, 0.0);
+    });
+
+    test(
+        '100 mg undecylate is still 0.083 pg/mL on day 400 (after inactive window)',
+        () {
+      // Arrange
+      final undecylate = defaultInjectionParams[Ester.undecylate]!;
+
+      // Act
+      final level = singleInjectionConcentration(undecylate, 100.0, 400.0);
+
+      // Assert
+      expect(level, closeTo(0.083385, 1e-6));
+    });
   });
 }

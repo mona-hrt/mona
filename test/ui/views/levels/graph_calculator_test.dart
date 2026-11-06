@@ -48,24 +48,6 @@ void main() {
       expect(concentration, greaterThan(0.0));
     });
 
-    test('is zero at the end of the inactive window (365 days)', () {
-      // Act
-      final concentration =
-          calculator.totalConcentrationAtTime(365.0, [intakeAt(0.0)], unit);
-
-      // Assert
-      expect(concentration, 0.0);
-    });
-
-    test('is zero past the inactive window', () {
-      // Act
-      final concentration =
-          calculator.totalConcentrationAtTime(366.0, [intakeAt(0.0)], unit);
-
-      // Assert
-      expect(concentration, 0.0);
-    });
-
     test('returns zero for an empty intake list', () {
       // Act
       final concentration = calculator.totalConcentrationAtTime(2.0, [], unit);
