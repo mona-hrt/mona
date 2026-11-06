@@ -32,4 +32,42 @@ void main() {
       expect(level, closeTo(2 * 73.509, 1e-3));
     });
   });
+
+  group('singleInjectionConcentration', () {
+    final enanthate = defaultInjectionParams[Ester.enanthate]!;
+    final InjectionParams(:k1, :k2, :k3) = enanthate;
+
+    final cases = [
+      (rates: 'k1 equal to k3', k1: k3, k2: k2, k3: k3, level: 44.999748),
+      (rates: 'k1 equal to k2', k1: k2, k2: k2, k3: k3, level: 18.860433),
+      (rates: 'k2 equal to k3', k1: k1, k2: k3, k3: k3, level: 32.944842),
+      (rates: 'all rates equal', k1: k3, k2: k3, k3: k3, level: 59.293969),
+      (
+        rates: 'k1 within 1e-14 of k3',
+        k1: k3 * (1 + 1e-14),
+        k2: k2,
+        k3: k3,
+        level: 44.999748,
+      ),
+    ];
+
+    for (final c in cases) {
+      test('1 mg with ${c.rates} is ${c.level} pg/mL on day 7', () {
+        // Arrange
+        final params = InjectionParams(
+          f: enanthate.f,
+          auc: enanthate.auc,
+          k1: c.k1,
+          k2: c.k2,
+          k3: c.k3,
+        );
+
+        // Act
+        final level = singleInjectionConcentration(params, 1.0, 7.0);
+
+        // Assert
+        expect(level, closeTo(c.level, 1e-3));
+      });
+    }
+  });
 }
