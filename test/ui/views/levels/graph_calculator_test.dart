@@ -10,11 +10,13 @@ import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/ui/views/levels/graph_calculator.dart';
 
+import '../../../fixtures.dart';
+
 void main() {
   final calculator = GraphCalculator();
   const unit = EstradiolUnit.pg_mL;
 
-  GraphIntake intakeAt(double offsetDays, {double dose = 5.0}) => GraphIntake(
+  GraphIntake intakeAt(double offsetDays, {double dose = 5.0}) => aGraphIntake(
         dose: dose,
         ester: Ester.valerate,
         time: offsetDays,
@@ -99,7 +101,7 @@ void main() {
     for (final c in cases) {
       test('1 mg ${c.ester.name} is ${c.level} pg/mL on day ${c.day}', () {
         // Arrange
-        final intake = GraphIntake(dose: 1.0, ester: c.ester, time: 0.0);
+        final intake = aGraphIntake(ester: c.ester);
 
         // Act
         final concentration =
@@ -112,7 +114,7 @@ void main() {
 
     test('1 mg valerate is 269.852 pmol/L at its peak', () {
       // Arrange
-      const intake = GraphIntake(dose: 1.0, ester: Ester.valerate, time: 0.0);
+      final intake = aGraphIntake(ester: Ester.valerate);
 
       // Act
       final concentration = calculator.totalConcentrationAtTime(
@@ -124,8 +126,7 @@ void main() {
 
     test('100 mg undecylate is still 0.183 pg/mL on day 364', () {
       // Arrange
-      const intake =
-          GraphIntake(dose: 100.0, ester: Ester.undecylate, time: 0.0);
+      final intake = aGraphIntake(dose: 100.0, ester: Ester.undecylate);
 
       // Act
       final concentration =
@@ -184,9 +185,7 @@ void main() {
 
     test('a window after the injection still reflects the earlier intake', () {
       // Arrange
-      const intakes = [
-        GraphIntake(dose: 5.0, ester: Ester.valerate, time: 0.0)
-      ];
+      final intakes = [aGraphIntake(dose: 5.0, ester: Ester.valerate)];
 
       // Act
       final spots = calculator.generateLevelsSpots(intakes, unit,

@@ -5,17 +5,19 @@
 import 'dart:math' as math;
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/molecule.dart';
+
+import '../../../fixtures.dart';
 
 void main() {
   group('HormoneSimulation', () {
     test('uses the params it is given', () {
       // Arrange
-      const intakes = [
-        GraphIntake(dose: 1.0, ester: Ester.valerate, time: 0.0)
-      ];
+      final intakes = [aGraphIntake(ester: Ester.valerate)];
       final valerate = defaultInjectionParams[Ester.valerate]!;
       final params = {
         Ester.valerate: InjectionParams(
@@ -28,11 +30,84 @@ void main() {
       };
 
       // Act
-      final level = HormoneSimulation(intakes, params).levelAt(1.6922);
+      final level = HormoneSimulation(intakes, params)
+          .levelAt(KnownMolecules.estradiol, 1.6922);
 
       // Assert
       expect(level, closeTo(2 * 73.509, 1e-3));
     });
+
+    test(
+        'adds nothing to the estradiol level for an intake it does not simulate',
+        () {
+      // Arrange
+      final intakes = [
+        aGraphIntake(ester: Ester.valerate),
+        aGraphIntake(route: AdministrationRoute.patch, ester: Ester.valerate),
+      ];
+
+      // Act
+      final level = HormoneSimulation(intakes, defaultInjectionParams)
+          .levelAt(KnownMolecules.estradiol, 1.6922);
+
+      // Assert
+      expect(level, closeTo(73.509, 1e-3));
+    });
+
+    test('the testosterone level ignores estradiol doses', () {
+      // Arrange
+      final intakes = [aGraphIntake(ester: Ester.valerate)];
+
+      // Act
+      final level = HormoneSimulation(intakes, defaultInjectionParams)
+          .levelAt(KnownMolecules.testosterone, 1.6922);
+
+      // Assert
+      expect(level, 0.0);
+    });
+  });
+
+  group('isSimulated', () {
+    final cases = [
+      (
+        intake: 'an estradiol injection with an ester',
+        molecule: KnownMolecules.estradiol,
+        route: AdministrationRoute.injection,
+        ester: Ester.valerate,
+        expected: true,
+      ),
+      (
+        intake: 'a testosterone injection with an ester',
+        molecule: KnownMolecules.testosterone,
+        route: AdministrationRoute.injection,
+        ester: Ester.valerate,
+        expected: false,
+      ),
+      (
+        intake: 'an estradiol injection with no ester',
+        molecule: KnownMolecules.estradiol,
+        route: AdministrationRoute.injection,
+        ester: null,
+        expected: false,
+      ),
+      (
+        intake: 'an estradiol patch with an ester',
+        molecule: KnownMolecules.estradiol,
+        route: AdministrationRoute.patch,
+        ester: Ester.valerate,
+        expected: false,
+      ),
+    ];
+
+    for (final c in cases) {
+      test('${c.intake} is simulated: ${c.expected}', () {
+        // Act
+        final simulated = isSimulated(c.molecule, c.route, c.ester);
+
+        // Assert
+        expect(simulated, c.expected);
+      });
+    }
   });
 
   group('singleInjectionConcentration', () {

@@ -6,20 +6,31 @@
 
 import 'dart:math' as math;
 
+import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/molecule.dart';
 
 class GraphIntake {
   final double dose;
-  final Ester ester;
+  final Molecule molecule;
+  final AdministrationRoute route;
+  final Ester? ester;
   final double time; // in days
 
   const GraphIntake({
     required this.dose,
+    required this.molecule,
+    required this.route,
     required this.ester,
     required this.time,
   });
 }
+
+bool isSimulated(Molecule molecule, AdministrationRoute route, Ester? ester) =>
+    molecule == KnownMolecules.estradiol &&
+    route == AdministrationRoute.injection &&
+    ester != null;
 
 final double _inactiveDecay = math.log(1e6);
 const double _equalRatesThreshold = 1e-8;
@@ -83,9 +94,12 @@ class HormoneSimulation {
 
   const HormoneSimulation(this.intakes, this.params);
 
-  /// Estradiol level in pg/mL at day [t].
-  double levelAt(double t) => intakes
+  /// Level of [molecule] in pg/mL at day [t].
+  double levelAt(Molecule molecule, double t) => intakes
+      .where((intake) =>
+          intake.molecule == molecule &&
+          isSimulated(intake.molecule, intake.route, intake.ester))
       .map((intake) => singleInjectionConcentration(
-          params[intake.ester]!, intake.dose, t - intake.time))
+          params[intake.ester!]!, intake.dose, t - intake.time))
       .fold(0.0, (sum, val) => sum + val);
 }

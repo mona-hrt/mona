@@ -414,7 +414,9 @@ class DemoData {
       for (final intake in injections)
         GraphIntake(
           dose: intake.takenDose.toDouble(),
-          ester: intake.ester!,
+          molecule: intake.molecule,
+          route: intake.administrationRoute,
+          ester: intake.ester,
           time: timeDifferenceInDays(intake.takenDateTime!, origin),
         ),
     ], defaultInjectionParams);
@@ -457,8 +459,8 @@ class DemoData {
       final dateTime = _at(_hrtStart.add(Duration(days: day)),
           const TimeOfDay(hour: 8, minute: 30),
           jitter: 15);
-      final predicted =
-          simulation.levelAt(timeDifferenceInDays(dateTime, origin));
+      final predicted = simulation.levelAt(
+          KnownMolecules.estradiol, timeDifferenceInDays(dateTime, origin));
       final estradiol = Decimal.parse(max(
         predicted * (0.85 + 0.3 * _random.nextDouble()),
         18 + 10 * _random.nextDouble(),

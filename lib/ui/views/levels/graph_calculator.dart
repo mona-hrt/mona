@@ -12,6 +12,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/graph_blood_test.dart';
+import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/units.dart';
 
 extension GraphBloodTestLookup on List<GraphBloodTest> {
@@ -27,8 +28,8 @@ class GraphCalculator {
       double t, List<GraphIntake> intakes, EstradiolUnit unit) {
     if (intakes.isEmpty) return 0.0;
 
-    final concentration =
-        HormoneSimulation(intakes, defaultInjectionParams).levelAt(t);
+    final concentration = HormoneSimulation(intakes, defaultInjectionParams)
+        .levelAt(KnownMolecules.estradiol, t);
     return EstradiolUnit.pg_mL
         .convert(Decimal.parse(concentration.toString()), unit)
         .toDouble();
