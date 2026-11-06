@@ -6,8 +6,8 @@
 
 import 'dart:math' as math;
 
+import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/pk/injection_params.dart';
 
 class GraphIntake {
   final double dose;
@@ -37,11 +37,11 @@ double singleInjectionConcentration(
   return dose * f * auc * k1 * k2 * k3 * (part1 - part2 + part3);
 }
 
-class Simulation {
+class HormoneSimulation {
   final List<GraphIntake> intakes;
   final Map<Ester, InjectionParams> params;
 
-  const Simulation(this.intakes, this.params);
+  const HormoneSimulation(this.intakes, this.params);
 
   /// Estradiol level in pg/mL at day [t].
   double levelAt(double t) => intakes

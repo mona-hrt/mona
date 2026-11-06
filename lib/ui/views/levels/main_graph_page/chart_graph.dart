@@ -10,8 +10,8 @@ import 'package:clock/clock.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mona/data/model/graph_calculator.dart';
-import 'package:mona/data/model/pk/simulation.dart';
+import 'package:mona/data/model/calculator/hormone_simulation.dart';
+import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
@@ -21,6 +21,7 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/levels/chart_mirror.dart';
+import 'package:mona/ui/views/levels/graph_calculator.dart';
 import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 

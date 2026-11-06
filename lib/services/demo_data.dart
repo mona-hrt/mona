@@ -10,18 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/calculator/hormone_simulation.dart';
+import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
-import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/model/pk/simulation.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/model/supply_item.dart';
@@ -410,14 +410,14 @@ class DemoData {
 
   void _addBloodTests(List<MedicationIntake> injections) {
     final origin = injections.first.takenDateTime!;
-    final graphIntakes = [
+    final simulation = HormoneSimulation([
       for (final intake in injections)
         GraphIntake(
           dose: intake.takenDose.toDouble(),
           ester: intake.ester!,
           time: timeDifferenceInDays(intake.takenDateTime!, origin),
         ),
-    ];
+    ], defaultInjectionParams);
 
     const plan = [
       (
@@ -457,11 +457,8 @@ class DemoData {
       final dateTime = _at(_hrtStart.add(Duration(days: day)),
           const TimeOfDay(hour: 8, minute: 30),
           jitter: 15);
-      final predicted = GraphCalculator().totalConcentrationAtTime(
-        timeDifferenceInDays(dateTime, origin),
-        graphIntakes,
-        EstradiolUnit.pg_mL,
-      );
+      final predicted =
+          simulation.levelAt(timeDifferenceInDays(dateTime, origin));
       final estradiol = Decimal.parse(max(
         predicted * (0.85 + 0.3 * _random.nextDouble()),
         18 + 10 * _random.nextDouble(),

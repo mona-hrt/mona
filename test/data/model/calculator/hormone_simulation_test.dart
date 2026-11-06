@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mona/data/model/calculator/hormone_simulation.dart';
+import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/pk/injection_params.dart';
-import 'package:mona/data/model/pk/simulation.dart';
 
 void main() {
-  group('Simulation', () {
+  group('HormoneSimulation', () {
     test('uses the params it is given', () {
       // Arrange
       const intakes = [
@@ -26,7 +26,7 @@ void main() {
       };
 
       // Act
-      final level = Simulation(intakes, params).levelAt(1.6922);
+      final level = HormoneSimulation(intakes, params).levelAt(1.6922);
 
       // Assert
       expect(level, closeTo(2 * 73.509, 1e-3));
