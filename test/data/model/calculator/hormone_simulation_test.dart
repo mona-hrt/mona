@@ -84,9 +84,7 @@ void main() {
       expect(level, 0.0);
     });
 
-    test(
-        '100 mg undecylate is still 0.083 pg/mL on day 400 (after inactive window)',
-        () {
+    test('100 mg undecylate is still 0.083 pg/mL on day 400', () {
       // Arrange
       final undecylate = defaultInjectionParams[Ester.undecylate]!;
 
