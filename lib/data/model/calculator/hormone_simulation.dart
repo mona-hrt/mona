@@ -97,6 +97,8 @@ class HormoneSimulation {
   /// Level of [molecule] in pg/mL at day [t].
   double levelAt(Molecule molecule, double t) => intakes
       .where((intake) =>
+          intake.dose > 0 &&
+          intake.dose.isFinite &&
           intake.molecule == molecule &&
           isSimulated(intake.molecule, intake.route, intake.ester))
       .map((intake) => singleInjectionConcentration(

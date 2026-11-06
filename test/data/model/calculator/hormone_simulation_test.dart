@@ -65,6 +65,23 @@ void main() {
       // Assert
       expect(level, 0.0);
     });
+
+    for (final dose in [-1.0, double.nan, double.infinity]) {
+      test('adds nothing to the estradiol level for a dose of $dose', () {
+        // Arrange
+        final intakes = [
+          aGraphIntake(ester: Ester.valerate),
+          aGraphIntake(dose: dose, ester: Ester.valerate),
+        ];
+
+        // Act
+        final level = HormoneSimulation(intakes, defaultInjectionParams)
+            .levelAt(KnownMolecules.estradiol, 1.6922);
+
+        // Assert
+        expect(level, closeTo(73.509, 1e-3));
+      });
+    }
   });
 
   group('isSimulated', () {
