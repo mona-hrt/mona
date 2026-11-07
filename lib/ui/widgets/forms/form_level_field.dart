@@ -38,7 +38,7 @@ class FormLevelField extends StatelessWidget {
           child: M3EButton(
             onPressed: () => onComparisonChanged(comparison.next),
             style: M3EButtonStyle.tonal,
-            size: M3EButtonSize.md,
+            size: M3EButtonSize.sm,
             tooltip: comparison.localizedName,
             child: Text(comparison.symbol),
           ),
