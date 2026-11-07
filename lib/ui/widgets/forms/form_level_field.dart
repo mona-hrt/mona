@@ -37,8 +37,8 @@ class FormLevelField extends StatelessWidget {
           padding: const EdgeInsetsDirectional.only(end: 8),
           child: M3EButton(
             onPressed: () => onComparisonChanged(comparison.next),
-            style: M3EButtonStyle.tonal,
-            size: M3EButtonSize.sm,
+            style: M3EButtonStyle.outlined,
+            size: M3EButtonSize.md,
             tooltip: comparison.localizedName,
             child: Text(comparison.symbol),
           ),
