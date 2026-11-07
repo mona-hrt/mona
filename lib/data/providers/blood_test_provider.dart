@@ -8,7 +8,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
-import 'package:mona/data/model/graph_calculator.dart';
+import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/model/units.dart';

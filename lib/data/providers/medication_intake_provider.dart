@@ -5,10 +5,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/medication_intake.dart';
-import 'package:mona/data/model/molecule.dart';
 import 'package:mona/services/repository.dart';
 import 'package:mona/util/time_difference.dart';
 
@@ -40,10 +39,8 @@ class MedicationIntakeProvider extends ChangeNotifier {
       _intakes.where((intake) => !intake.isTaken).toList();
 
   List<MedicationIntake> get plottableIntakes => takenIntakes
-      .where((intake) =>
-          intake.molecule == KnownMolecules.estradiol &&
-          intake.administrationRoute == AdministrationRoute.injection &&
-          intake.ester != null)
+      .where((intake) => isSimulated(
+          intake.molecule, intake.administrationRoute, intake.ester))
       .toList();
 
   Future<void> _init() async {
@@ -95,7 +92,9 @@ class MedicationIntakeProvider extends ChangeNotifier {
     return plottableIntakes
         .map((intake) => GraphIntake(
               dose: intake.takenDose.toDouble(),
-              ester: intake.ester!,
+              molecule: intake.molecule,
+              route: intake.administrationRoute,
+              ester: intake.ester,
               time: timeDifferenceInDays(intake.takenDateTime!, tMin),
             ))
         .toList();
