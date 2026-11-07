@@ -31,7 +31,6 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
   @override
   Widget build(BuildContext context) {
     final dayBoundaries = _dayBoundaries();
-    final mirror = Directionality.of(context) == TextDirection.rtl;
 
     return LiquidGlassBottomClamp(
       child: Scaffold(
@@ -64,9 +63,8 @@ class _ChartPageState extends State<ChartPage> with MinuteTicker {
                           onHorizontalDragUpdate: (details) {
                             final width = constraints.maxWidth;
                             if (width <= 0) return;
-                            final delta = details.primaryDelta ?? 0;
                             final shift = _duration.days.inMicroseconds *
-                                ((mirror ? -delta : delta) / width);
+                                ((details.primaryDelta ?? 0) / width);
                             setState(() {
                               targetDate = targetDate.subtract(
                                 Duration(microseconds: shift.round()),
