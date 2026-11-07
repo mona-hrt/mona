@@ -2,6 +2,7 @@
 <resources>
     <string name="hrt_widget_title">مدت زمان هورمون درمانی</string>
     <string name="hrt_widget_description">مدت زمانی را که تحت هورمون درمانی بوده‌اید و مجموع مقادیر دریافتی شما را نشان می‌دهد.</string>
+    <string name="hrt_home_widget_placeholder">برای ثبت اولین نوبت مصرف، مونا را باز کنید</string>
     <string name="hrt_widget_preview_sample">۸ ماه هورمون درمانی</string>
     <string name="hrt_widget_preview_intake_sample">۱۶ مورد ثبت شده</string>
 </resources>

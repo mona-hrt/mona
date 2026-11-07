@@ -640,6 +640,10 @@ class TranslationsNl extends Translations
   String mustBeAtMost({required Object max}) =>
       'Moet op z\'n minst ${max} zijn';
   @override
+  String get unitNgPerL => 'ng/L';
+  @override
+  String get unitMicrogramPerL => 'µg/L';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
         count,
@@ -1132,6 +1136,8 @@ extension on TranslationsNl {
       'applicationSites' => 'Aanbrengplekken',
       'mustBeAtMost' => ({required Object max}) =>
           'Moet op z\'n minst ${max} zijn',
+      'unitNgPerL' => 'ng/L',
+      'unitMicrogramPerL' => 'µg/L',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
             count,

@@ -595,14 +595,73 @@ class TranslationsDe extends Translations
   @override
   String get reportBug => 'Melde Fehler';
   @override
-  String get reportBugDescription => 'Starte einen Issue auf GitHub';
+  String get reportBugDescription => 'Öffne einen Fehler auf GitHub';
   @override
   String get translateApp => 'Die App übersetzen';
+  @override
+  String get translateAppDescription => 'Hilf Mona auf Weblate zu Übersetzen';
+  @override
+  String get missingTranslation => 'Fehlt eine Übersetzung?';
+  @override
+  String get donate => 'Spenden';
+  @override
+  String get donateDescription => 'Mona auf Ko-fi unterstützen';
+  @override
+  String get backupSaved => 'Backup gespeichert';
+  @override
+  String get secretSettings => 'Geheime Einstellungen';
+  @override
+  String get slimeMode => 'Schleim-Modus';
+  @override
+  String get injectionType => 'Injektionstyp';
+  @override
+  String get intramuscular => 'Intramuskulär';
+  @override
+  String get subcutaneous => 'Subkutan';
+  @override
+  String get week => 'W';
+  @override
+  String get twoWeeks => '2 W';
+  @override
+  String get threeMonths => '3 M';
+  @override
+  String get sixMonths => '6 M';
+  @override
+  String get month => 'M';
+  @override
+  String get year => 'J';
+  @override
+  String get unitMicrogramPerDay => 'µg/Tag';
+  @override
+  String get unitNgPerL => 'ng/L';
+  @override
+  String get unitMicrogramPerL => 'µg/L';
+  @override
+  String get valueComparisonEqual => 'Ist gleich';
+  @override
+  String get valueComparisonBelow => 'Kleiner oder gleich';
+  @override
+  String get valueComparisonAbove => 'Größer oder gleich';
+  @override
+  String get applicationSites => 'Anwendungsstellen';
+  @override
+  String get applicationSitesInstructions =>
+      'Verwalte die Stellen, zwischen denen du wechselst. Stellen werden basierend auf deinen vorherigen Einnahmen vorgeschlagen. Gedrückt halten zum Umsortieren.';
+  @override
+  String mustBeAtMost({required Object max}) => 'Darf maximal ${max} sein';
+  @override
+  String get deliveryForm => 'Anwendungsform';
+  @override
+  String get deliveryFormPump => 'Pumpe';
+  @override
+  String get deliveryFormSachet => 'Beutel';
+  @override
+  String get deliveryFormGram => 'Tube';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
-        one: 'vor ${count} Tag',
+        one: 'vor einem Tag',
         other: 'vor ${count} Tagen',
       );
   @override
@@ -759,6 +818,20 @@ class TranslationsDe extends Translations
         count,
         one: '1 Einnahme erfasst',
         other: '${count} Einnahmen erfasst',
+      );
+  @override
+  String administrationRouteUnitGram({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+        count,
+        one: 'Gramm',
+        other: 'Gramm',
+      );
+  @override
+  String administrationRouteUnitSachet({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+        count,
+        one: 'Beutel',
+        other: 'Beutel',
       );
 }
 
@@ -1055,12 +1128,42 @@ extension on TranslationsDe {
       'scheduleFrequencyAsNeededDescription' => 'Kein festgelegter Zeitplan',
       'getInvolved' => 'Mach mit',
       'reportBug' => 'Melde Fehler',
-      'reportBugDescription' => 'Starte einen Issue auf GitHub',
+      'reportBugDescription' => 'Öffne einen Fehler auf GitHub',
       'translateApp' => 'Die App übersetzen',
+      'translateAppDescription' => 'Hilf Mona auf Weblate zu Übersetzen',
+      'missingTranslation' => 'Fehlt eine Übersetzung?',
+      'donate' => 'Spenden',
+      'donateDescription' => 'Mona auf Ko-fi unterstützen',
+      'backupSaved' => 'Backup gespeichert',
+      'secretSettings' => 'Geheime Einstellungen',
+      'slimeMode' => 'Schleim-Modus',
+      'injectionType' => 'Injektionstyp',
+      'intramuscular' => 'Intramuskulär',
+      'subcutaneous' => 'Subkutan',
+      'week' => 'W',
+      'twoWeeks' => '2 W',
+      'threeMonths' => '3 M',
+      'sixMonths' => '6 M',
+      'month' => 'M',
+      'year' => 'J',
+      'unitMicrogramPerDay' => 'µg/Tag',
+      'unitNgPerL' => 'ng/L',
+      'unitMicrogramPerL' => 'µg/L',
+      'valueComparisonEqual' => 'Ist gleich',
+      'valueComparisonBelow' => 'Kleiner oder gleich',
+      'valueComparisonAbove' => 'Größer oder gleich',
+      'applicationSites' => 'Anwendungsstellen',
+      'applicationSitesInstructions' =>
+        'Verwalte die Stellen, zwischen denen du wechselst. Stellen werden basierend auf deinen vorherigen Einnahmen vorgeschlagen. Gedrückt halten zum Umsortieren.',
+      'mustBeAtMost' => ({required Object max}) => 'Darf maximal ${max} sein',
+      'deliveryForm' => 'Anwendungsform',
+      'deliveryFormPump' => 'Pumpe',
+      'deliveryFormSachet' => 'Beutel',
+      'deliveryFormGram' => 'Tube',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
-            one: 'vor ${count} Tag',
+            one: 'vor einem Tag',
             other: 'vor ${count} Tagen',
           ),
       'inDaysCount' => ({required num count}) =>
@@ -1195,6 +1298,18 @@ extension on TranslationsDe {
             count,
             one: '1 Einnahme erfasst',
             other: '${count} Einnahmen erfasst',
+          ),
+      'administrationRouteUnitGram' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+            count,
+            one: 'Gramm',
+            other: 'Gramm',
+          ),
+      'administrationRouteUnitSachet' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+            count,
+            one: 'Beutel',
+            other: 'Beutel',
           ),
       _ => null,
     };
