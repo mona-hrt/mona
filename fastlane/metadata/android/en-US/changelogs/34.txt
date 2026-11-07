@@ -1,0 +1,4 @@
+Fix:
+
+- Reverted the time charts to left-to-right in all languages.
+- Minor UI improvements.
