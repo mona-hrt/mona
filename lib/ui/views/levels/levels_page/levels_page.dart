@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
@@ -19,6 +18,7 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/levels/blood_test_chart_page/blood_tests_chart_page.dart';
+import 'package:mona/ui/views/levels/graph_calculator.dart';
 import 'package:mona/ui/views/levels/level_entry_spots.dart';
 import 'package:mona/ui/views/levels/levels_page/baby_bar_chart_graph.dart';
 import 'package:mona/ui/views/levels/levels_page/baby_main_chart_graph.dart';
@@ -166,9 +166,9 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
           const SizedBox(height: 16),
           FractionallySizedBox(
             widthFactor: 0.75,
-            alignment: AlignmentDirectional.centerStart,
+            alignment: Alignment.centerLeft,
             child: Align(
-              alignment: AlignmentDirectional.centerEnd,
+              alignment: Alignment.centerRight,
               child: Text.rich(
                 TextSpan(
                   text: nowLevel.toStringAsFixed(0),

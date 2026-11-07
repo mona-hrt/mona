@@ -133,9 +133,10 @@ class _LanguagePageState extends State<LanguagePage> {
               key: _cardKey,
               padding: EdgeInsets.zero,
               elevation: 2,
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
               children: [
                 TappableListTile(
-                  leading: const Icon(Symbols.translate_rounded),
+                  trailing: const Icon(Symbols.open_in_new_rounded),
                   title: t.missingTranslation,
                   subtitle: t.translateAppDescription,
                   onTap: () => launchUrl(
