@@ -16,4 +16,8 @@
         <item quantity="one">یک سال تحت هورمون درمانی</item>
         <item quantity="other">%d سال تحت هورمون درمانی</item>
     </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">یک نوبت مصرف ثبت شد</item>
+        <item quantity="other">%d نوبت مصرف ثبت شد</item>
+    </plurals>
 </resources>

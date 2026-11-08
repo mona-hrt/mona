@@ -53,6 +53,10 @@ class TranslationsHe extends Translations
       TranslationsHe(meta: meta ?? this.$meta);
 
   // Translations
+  @override
+  String get appTitle => 'מונה';
+  @override
+  String get nav_home => 'מונה';
 }
 
 /// The flat map containing all translations for locale <he>.
@@ -62,6 +66,10 @@ class TranslationsHe extends Translations
 /// so the map is split into smaller functions (512 entries each).
 extension on TranslationsHe {
   dynamic _flatMapFunction(String path) {
-    ;
+    return switch (path) {
+      'appTitle' => 'מונה',
+      'nav_home' => 'מונה',
+      _ => null,
+    };
   }
 }

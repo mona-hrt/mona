@@ -53,6 +53,10 @@ class TranslationsPrs extends Translations
       TranslationsPrs(meta: meta ?? this.$meta);
 
   // Translations
+  @override
+  String get appTitle => 'مونا';
+  @override
+  String get nav_home => 'مونا';
 }
 
 /// The flat map containing all translations for locale <prs>.
@@ -62,6 +66,10 @@ class TranslationsPrs extends Translations
 /// so the map is split into smaller functions (512 entries each).
 extension on TranslationsPrs {
   dynamic _flatMapFunction(String path) {
-    ;
+    return switch (path) {
+      'appTitle' => 'مونا',
+      'nav_home' => 'مونا',
+      _ => null,
+    };
   }
 }
