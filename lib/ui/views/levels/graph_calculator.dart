@@ -13,6 +13,7 @@ import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/hormone.dart';
+import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/units.dart';
 
 extension GraphBloodTestLookup on List<GraphBloodTest> {
@@ -22,23 +23,21 @@ extension GraphBloodTestLookup on List<GraphBloodTest> {
 }
 
 class GraphCalculator {
-  static const double tMaxOffset = 40.0;
-
-  double totalConcentrationAtTime(
-      double t, List<GraphIntake> intakes, EstradiolUnit unit) {
+  double totalConcentrationAtTime(double t, List<MedicationIntake> intakes,
+      DateTime origin, EstradiolUnit unit) {
     if (intakes.isEmpty) return 0.0;
 
     return _levelAt(
-        HormoneSimulation(intakes, defaultInjectionParams), t, unit);
+        HormoneSimulation(intakes, defaultInjectionParams, origin), t, unit);
   }
 
   List<FlSpot> generateLevelsSpots(
-      List<GraphIntake> intakes, EstradiolUnit unit,
-      {double tMin = 0, double? tMax, int numPoints = 1000}) {
+      List<MedicationIntake> intakes, DateTime origin, EstradiolUnit unit,
+      {double tMin = 0, required double tMax, int numPoints = 1000}) {
     if (intakes.isEmpty) return <FlSpot>[];
 
-    tMax ??= intakes.map((i) => i.time).reduce(math.max) + tMaxOffset;
-    final simulation = HormoneSimulation(intakes, defaultInjectionParams);
+    final simulation =
+        HormoneSimulation(intakes, defaultInjectionParams, origin);
     final List<math.Point> points = [];
 
     for (int i = 0; i <= numPoints; i++) {

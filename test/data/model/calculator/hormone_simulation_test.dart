@@ -4,6 +4,7 @@
 
 import 'dart:math' as math;
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';
@@ -18,7 +19,7 @@ void main() {
   group('HormoneSimulation', () {
     test('uses the params it is given', () {
       // Arrange
-      final intakes = [aGraphIntake(ester: Ester.valerate)];
+      final intakes = [aSimulatedInjection(ester: Ester.valerate)];
       final valerate = defaultInjectionParams[Ester.valerate]!;
       final params = {
         Ester.valerate: InjectionParams(
@@ -31,11 +32,24 @@ void main() {
       };
 
       // Act
-      final level =
-          HormoneSimulation(intakes, params).levelAt(Hormone.estradiol, 1.6922);
+      final level = HormoneSimulation(intakes, params, simulationOrigin)
+          .levelAt(Hormone.estradiol, 1.6922);
 
       // Assert
       expect(level, closeTo(2 * 73.509, 1e-3));
+    });
+
+    test('counts the days from its origin', () {
+      // Arrange
+      final intakes = [aSimulatedInjection(day: 1.0)];
+
+      // Act
+      final level =
+          HormoneSimulation(intakes, defaultInjectionParams, simulationOrigin)
+              .levelAt(Hormone.estradiol, 2.6922);
+
+      // Assert
+      expect(level, closeTo(73.509, 1e-3));
     });
 
     test(
@@ -43,13 +57,15 @@ void main() {
         () {
       // Arrange
       final intakes = [
-        aGraphIntake(ester: Ester.valerate),
-        aGraphIntake(route: AdministrationRoute.patch, ester: Ester.valerate),
+        aSimulatedInjection(),
+        aSimulatedInjection()
+            .copyWith(administrationRoute: AdministrationRoute.patch),
       ];
 
       // Act
-      final level = HormoneSimulation(intakes, defaultInjectionParams)
-          .levelAt(Hormone.estradiol, 1.6922);
+      final level =
+          HormoneSimulation(intakes, defaultInjectionParams, simulationOrigin)
+              .levelAt(Hormone.estradiol, 1.6922);
 
       // Assert
       expect(level, closeTo(73.509, 1e-3));
@@ -57,62 +73,62 @@ void main() {
 
     test('the testosterone level ignores estradiol doses', () {
       // Arrange
-      final intakes = [aGraphIntake(ester: Ester.valerate)];
+      final intakes = [aSimulatedInjection(ester: Ester.valerate)];
 
       // Act
-      final level = HormoneSimulation(intakes, defaultInjectionParams)
-          .levelAt(Hormone.testosterone, 1.6922);
+      final level =
+          HormoneSimulation(intakes, defaultInjectionParams, simulationOrigin)
+              .levelAt(Hormone.testosterone, 1.6922);
 
       // Assert
       expect(level, 0.0);
     });
-
-    for (final dose in [-1.0, double.nan, double.infinity]) {
-      test('adds nothing to the estradiol level for a dose of $dose', () {
-        // Arrange
-        final intakes = [
-          aGraphIntake(ester: Ester.valerate),
-          aGraphIntake(dose: dose, ester: Ester.valerate),
-        ];
-
-        // Act
-        final level = HormoneSimulation(intakes, defaultInjectionParams)
-            .levelAt(Hormone.estradiol, 1.6922);
-
-        // Assert
-        expect(level, closeTo(73.509, 1e-3));
-      });
-    }
   });
 
   group('isSimulated', () {
+    final injection = aSimulatedInjection();
+
     final cases = [
       (
         intake: 'an estradiol injection with an ester',
-        molecule: KnownMolecules.estradiol,
-        route: AdministrationRoute.injection,
-        ester: Ester.valerate,
+        value: injection,
         expected: true,
       ),
       (
-        intake: 'a testosterone injection with an ester',
-        molecule: KnownMolecules.testosterone,
-        route: AdministrationRoute.injection,
-        ester: Ester.valerate,
+        intake: 'a testosterone injection',
+        value: injection.copyWith(molecule: KnownMolecules.testosterone),
         expected: false,
       ),
       (
-        intake: 'an estradiol injection with no ester',
-        molecule: KnownMolecules.estradiol,
-        route: AdministrationRoute.injection,
-        ester: null,
+        intake: 'an injection with no ester',
+        value: injection.copyWith(ester: null),
         expected: false,
       ),
       (
-        intake: 'an estradiol patch with an ester',
-        molecule: KnownMolecules.estradiol,
-        route: AdministrationRoute.patch,
-        ester: Ester.valerate,
+        intake: 'an estradiol patch',
+        value:
+            injection.copyWith(administrationRoute: AdministrationRoute.patch),
+        expected: false,
+      ),
+      (
+        intake: 'an injection not taken',
+        value: injection.copyWith(takenDateTime: null, takenTimeZone: null),
+        expected: false,
+      ),
+      (
+        intake: 'an injection of -1 mg',
+        value: injection.copyWith(takenDose: Decimal.fromInt(-1)),
+        expected: false,
+      ),
+      (
+        intake: 'an injection of 0 mg',
+        value: injection.copyWith(takenDose: Decimal.zero),
+        expected: false,
+      ),
+      (
+        intake: 'an injection of 1e400 mg',
+        value: injection.copyWith(
+            takenDose: Decimal.fromBigInt(BigInt.from(10).pow(400))),
         expected: false,
       ),
     ];
@@ -120,7 +136,7 @@ void main() {
     for (final c in cases) {
       test('${c.intake} is simulated: ${c.expected}', () {
         // Act
-        final simulated = isSimulated(c.molecule, c.route, c.ester);
+        final simulated = isSimulated(c.value);
 
         // Assert
         expect(simulated, c.expected);

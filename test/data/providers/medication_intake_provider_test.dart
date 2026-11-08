@@ -502,44 +502,12 @@ void main() {
         repo.insert(aMedicationIntake());
         repo.insert(
             anInjection(id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 0)));
-        await provider.fetchIntakes();
-        final baseline = provider.getFirstGraphIntakeInstant()!;
 
         // Act
-        final intakes = provider.getIntakesForGraph(baseline);
-
-        // Assert
-        expect(intakes.length, 1);
-      });
-
-      test('the baseline injection has offset zero', () async {
-        // Arrange
-        repo.insert(anInjection(
-            id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 23, 39)));
         await provider.fetchIntakes();
-        final baseline = provider.getFirstGraphIntakeInstant()!;
-
-        // Act
-        final intakes = provider.getIntakesForGraph(baseline);
 
         // Assert
-        expect(intakes.single.time, closeTo(0.0, 1e-9));
-      });
-
-      test('a later injection gets its exact fractional offset', () async {
-        // Arrange: 12h after the baseline -> 0.5 days
-        repo.insert(anInjection(
-            id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 23, 39)));
-        repo.insert(anInjection(
-            id: 11, takenDateTime: DateTime.utc(2025, 6, 2, 11, 39)));
-        await provider.fetchIntakes();
-        final baseline = provider.getFirstGraphIntakeInstant()!;
-
-        // Act
-        final intakes = provider.getIntakesForGraph(baseline);
-
-        // Assert
-        expect(intakes[1].time, closeTo(0.5, 1e-9));
+        expect(provider.plottableIntakes.length, 1);
       });
     });
 

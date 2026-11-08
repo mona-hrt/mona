@@ -411,16 +411,8 @@ class DemoData {
 
   void _addBloodTests(List<MedicationIntake> injections) {
     final origin = injections.first.takenDateTime!;
-    final simulation = HormoneSimulation([
-      for (final intake in injections)
-        GraphIntake(
-          dose: intake.takenDose.toDouble(),
-          molecule: intake.molecule,
-          route: intake.administrationRoute,
-          ester: intake.ester,
-          time: timeDifferenceInDays(intake.takenDateTime!, origin),
-        ),
-    ], defaultInjectionParams);
+    final simulation =
+        HormoneSimulation(injections, defaultInjectionParams, origin);
 
     const plan = [
       (
