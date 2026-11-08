@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.1/mona-1.25.1.ipa",
-      "size": 11873556,
-      "version": "1.25.1",
-      "versionDate": "2026-11-07T19:05:25Z",
-      "versionDescription": "Fix:\r\n\r\n- Reverted the time charts to left-to-right in all languages.\r\n- Minor UI improvements.",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.2/mona-1.25.2.ipa",
+      "size": 11882599,
+      "version": "1.25.2",
+      "versionDate": "2026-11-08T18:20:12Z",
+      "versionDescription": "Fix:\n\n- Corrected a performance drop in the simulator.",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.2/mona-1.25.2.ipa",
+          "size": 11882599,
+          "version": "1.25.2",
+          "buildVersion": "35",
+          "date": "2026-11-08T18:20:12Z",
+          "localizedDescription": "Fix:\n\n- Corrected a performance drop in the simulator.",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.1/mona-1.25.1.ipa",
           "size": 11873556,
