@@ -10,7 +10,6 @@ import 'package:clock/clock.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
-import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
@@ -73,13 +72,13 @@ class _MainGraphState extends State<MainGraph> {
     final double tMin = timeDifferenceInDays(widget.startDate, baseline);
     final double tMax = timeDifferenceInDays(widget.endDate, baseline);
 
-    List<GraphIntake> intakes =
-        medicationIntakeProvider.getIntakesForGraph(baseline);
+    final intakes = medicationIntakeProvider.intakes;
     List<GraphBloodTest> bloodTests =
         bloodTestProvider.getBloodTestsForGraph(baseline, unit);
 
     final List<FlSpot> spots = GraphCalculator().generateLevelsSpots(
       intakes,
+      baseline,
       unit,
       tMin: tMin,
       tMax: tMax,
@@ -92,8 +91,8 @@ class _MainGraphState extends State<MainGraph> {
     FlSpot? todaySpot;
 
     if (tNow >= tMin && tNow <= tMax) {
-      final todayConcentration =
-          GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
+      final todayConcentration = GraphCalculator()
+          .totalConcentrationAtTime(tNow, intakes, baseline, unit);
       todaySpot = FlSpot(tNow, todayConcentration);
     }
 

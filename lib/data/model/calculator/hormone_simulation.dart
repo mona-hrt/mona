@@ -9,28 +9,22 @@ import 'dart:math' as math;
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/hormone.dart';
+import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/util/time_difference.dart';
 
-class GraphIntake {
-  final double dose;
-  final Molecule molecule;
-  final AdministrationRoute route;
-  final Ester? ester;
-  final double time; // in days
+bool isSimulated(MedicationIntake intake) {
+  if (!intake.isTaken ||
+      intake.administrationRoute != AdministrationRoute.injection ||
+      intake.ester == null ||
+      intake.molecule != KnownMolecules.estradiol) {
+    return false;
+  }
 
-  const GraphIntake({
-    required this.dose,
-    required this.molecule,
-    required this.route,
-    required this.ester,
-    required this.time,
-  });
+  final dose = intake.takenDose.toDouble();
+  return dose > 0 && dose.isFinite;
 }
-
-bool isSimulated(Molecule molecule, AdministrationRoute route, Ester? ester) =>
-    molecule == KnownMolecules.estradiol &&
-    route == AdministrationRoute.injection &&
-    ester != null;
 
 final double _inactiveDecay = math.log(1e6);
 const double _equalRatesThreshold = 1e-8;
@@ -88,20 +82,32 @@ double _distinctRatesSum(double k1, double k2, double k3, double elapsed) {
   return part1 - part2 + part3;
 }
 
+typedef _SimulationIntake = ({
+  InjectionParams params,
+  double dose,
+  double time,
+});
+
 class HormoneSimulation {
-  final List<GraphIntake> intakes;
-  final Map<Ester, InjectionParams> params;
+  final Map<Hormone, List<_SimulationIntake>> _intakes;
 
-  const HormoneSimulation(this.intakes, this.params);
+  HormoneSimulation(List<MedicationIntake> intakes,
+      Map<Ester, InjectionParams> params, DateTime origin)
+      : _intakes = {
+          Hormone.estradiol: [
+            for (final intake in intakes)
+              if (isSimulated(intake))
+                (
+                  params: params[intake.ester!]!,
+                  dose: intake.takenDose.toDouble(),
+                  time: timeDifferenceInDays(intake.takenDateTime!, origin),
+                ),
+          ],
+        };
 
-  /// Level of [molecule] in pg/mL at day [t].
-  double levelAt(Molecule molecule, double t) => intakes
-      .where((intake) =>
-          intake.dose > 0 &&
-          intake.dose.isFinite &&
-          intake.molecule == molecule &&
-          isSimulated(intake.molecule, intake.route, intake.ester))
+  /// Level of [hormone] in pg/mL, [t] days after the origin.
+  double levelAt(Hormone hormone, double t) => (_intakes[hormone] ?? const [])
       .map((intake) => singleInjectionConcentration(
-          params[intake.ester!]!, intake.dose, t - intake.time))
+          intake.params, intake.dose, t - intake.time))
       .fold(0.0, (sum, val) => sum + val);
 }

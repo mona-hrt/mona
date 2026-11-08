@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
+import 'package:decimal/decimal.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/graph_blood_test.dart';
+import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/ui/views/levels/graph_calculator.dart';
 
@@ -16,17 +17,14 @@ void main() {
   final calculator = GraphCalculator();
   const unit = EstradiolUnit.pg_mL;
 
-  GraphIntake intakeAt(double offsetDays, {double dose = 5.0}) => aGraphIntake(
-        dose: dose,
-        ester: Ester.valerate,
-        time: offsetDays,
-      );
+  MedicationIntake intakeAt(double day) =>
+      aSimulatedInjection(day: day, dose: Decimal.fromInt(5));
 
   group('totalConcentrationAtTime', () {
     test('is zero before the injection offset', () {
       // Act
-      final concentration =
-          calculator.totalConcentrationAtTime(-1.0, [intakeAt(0.0)], unit);
+      final concentration = calculator.totalConcentrationAtTime(
+          -1.0, [intakeAt(0.0)], simulationOrigin, unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -34,8 +32,8 @@ void main() {
 
     test('is zero at the injection offset', () {
       // Act
-      final concentration =
-          calculator.totalConcentrationAtTime(0.0, [intakeAt(0.0)], unit);
+      final concentration = calculator.totalConcentrationAtTime(
+          0.0, [intakeAt(0.0)], simulationOrigin, unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -43,8 +41,8 @@ void main() {
 
     test('is positive within the active window', () {
       // Act
-      final concentration =
-          calculator.totalConcentrationAtTime(2.0, [intakeAt(0.0)], unit);
+      final concentration = calculator.totalConcentrationAtTime(
+          2.0, [intakeAt(0.0)], simulationOrigin, unit);
 
       // Assert
       expect(concentration, greaterThan(0.0));
@@ -52,7 +50,8 @@ void main() {
 
     test('returns zero for an empty intake list', () {
       // Act
-      final concentration = calculator.totalConcentrationAtTime(2.0, [], unit);
+      final concentration =
+          calculator.totalConcentrationAtTime(2.0, [], simulationOrigin, unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -60,10 +59,10 @@ void main() {
 
     test('a fractional offset shifts the curve by exactly that amount', () {
       // Act
-      final shifted =
-          calculator.totalConcentrationAtTime(2.5, [intakeAt(0.5)], unit);
-      final base =
-          calculator.totalConcentrationAtTime(2.0, [intakeAt(0.0)], unit);
+      final shifted = calculator.totalConcentrationAtTime(
+          2.5, [intakeAt(0.5)], simulationOrigin, unit);
+      final base = calculator.totalConcentrationAtTime(
+          2.0, [intakeAt(0.0)], simulationOrigin, unit);
 
       // Assert
       expect(shifted, closeTo(base, 1e-9));
@@ -71,10 +70,10 @@ void main() {
 
     test('sums the contribution of multiple injections', () {
       // Act
-      final single =
-          calculator.totalConcentrationAtTime(2.0, [intakeAt(0.0)], unit);
+      final single = calculator.totalConcentrationAtTime(
+          2.0, [intakeAt(0.0)], simulationOrigin, unit);
       final two = calculator.totalConcentrationAtTime(
-          2.0, [intakeAt(0.0), intakeAt(0.0)], unit);
+          2.0, [intakeAt(0.0), intakeAt(0.0)], simulationOrigin, unit);
 
       // Assert
       expect(two, closeTo(2 * single, 1e-6));
@@ -101,11 +100,11 @@ void main() {
     for (final c in cases) {
       test('1 mg ${c.ester.name} is ${c.level} pg/mL on day ${c.day}', () {
         // Arrange
-        final intake = aGraphIntake(ester: c.ester);
+        final intake = aSimulatedInjection(ester: c.ester);
 
         // Act
-        final concentration =
-            calculator.totalConcentrationAtTime(c.day, [intake], unit);
+        final concentration = calculator.totalConcentrationAtTime(
+            c.day, [intake], simulationOrigin, unit);
 
         // Assert
         expect(concentration, closeTo(c.level, 1e-3));
@@ -114,11 +113,11 @@ void main() {
 
     test('1 mg valerate is 269.852 pmol/L at its peak', () {
       // Arrange
-      final intake = aGraphIntake(ester: Ester.valerate);
+      final intake = aSimulatedInjection(ester: Ester.valerate);
 
       // Act
       final concentration = calculator.totalConcentrationAtTime(
-          1.6922, [intake], EstradiolUnit.pmol_L);
+          1.6922, [intake], simulationOrigin, EstradiolUnit.pmol_L);
 
       // Assert
       expect(concentration, closeTo(269.852, 1e-3));
@@ -126,11 +125,12 @@ void main() {
 
     test('100 mg undecylate is still 0.183 pg/mL on day 364', () {
       // Arrange
-      final intake = aGraphIntake(dose: 100.0, ester: Ester.undecylate);
+      final intake = aSimulatedInjection(
+          dose: Decimal.fromInt(100), ester: Ester.undecylate);
 
       // Act
-      final concentration =
-          calculator.totalConcentrationAtTime(364.0, [intake], unit);
+      final concentration = calculator.totalConcentrationAtTime(
+          364.0, [intake], simulationOrigin, unit);
 
       // Assert
       expect(concentration, closeTo(0.183, 1e-3));
@@ -140,7 +140,8 @@ void main() {
   group('generateLevelsSpots', () {
     test('returns an empty list for no intakes', () {
       // Act
-      final spots = calculator.generateLevelsSpots([], unit);
+      final spots = calculator
+          .generateLevelsSpots([], simulationOrigin, unit, tMax: 10.0);
 
       // Assert
       expect(spots, isEmpty);
@@ -148,26 +149,18 @@ void main() {
 
     test('produces numPoints + 1 spots', () {
       // Act
-      final spots =
-          calculator.generateLevelsSpots([intakeAt(0.0)], unit, numPoints: 10);
+      final spots = calculator.generateLevelsSpots(
+          [intakeAt(0.0)], simulationOrigin, unit,
+          tMax: 10.0, numPoints: 10);
 
       // Assert
       expect(spots.length, 11);
     });
 
-    test('spans up to maxOffset + tMaxOffset', () {
-      // Act
-      final spots = calculator.generateLevelsSpots(
-          [intakeAt(0.0), intakeAt(3.5)], unit,
-          numPoints: 10);
-
-      // Assert
-      expect(spots.last.x, closeTo(3.5 + GraphCalculator.tMaxOffset, 1e-9));
-    });
-
     test('samples up to an explicit tMax when provided', () {
       // Act
-      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+      final spots = calculator.generateLevelsSpots(
+          [intakeAt(0.0)], simulationOrigin, unit,
           tMax: 10.0, numPoints: 10);
 
       // Assert
@@ -176,7 +169,8 @@ void main() {
 
     test('starts sampling at tMin when provided', () {
       // Act
-      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+      final spots = calculator.generateLevelsSpots(
+          [intakeAt(0.0)], simulationOrigin, unit,
           tMin: 5.0, tMax: 10.0, numPoints: 10);
 
       // Assert
@@ -185,10 +179,13 @@ void main() {
 
     test('a window after the injection still reflects the earlier intake', () {
       // Arrange
-      final intakes = [aGraphIntake(dose: 5.0, ester: Ester.valerate)];
+      final intakes = [
+        aSimulatedInjection(dose: Decimal.fromInt(5), ester: Ester.valerate)
+      ];
 
       // Act
-      final spots = calculator.generateLevelsSpots(intakes, unit,
+      final spots = calculator.generateLevelsSpots(
+          intakes, simulationOrigin, unit,
           tMin: 5.0, tMax: 10.0, numPoints: 10);
 
       // Assert

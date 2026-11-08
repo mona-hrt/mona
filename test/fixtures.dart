@@ -8,7 +8,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
-import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
@@ -189,19 +188,18 @@ MedicationIntake anInjection({
       dosingBasis: dosingBasis,
     );
 
-GraphIntake aGraphIntake({
-  double dose = 1.0,
-  Molecule molecule = KnownMolecules.estradiol,
-  AdministrationRoute route = AdministrationRoute.injection,
-  Ester? ester = Ester.valerate,
-  double time = 0.0,
+final simulationOrigin = DateTime.utc(2025, 6, 1);
+
+MedicationIntake aSimulatedInjection({
+  double day = 0.0,
+  Decimal? dose,
+  Ester ester = Ester.valerate,
 }) =>
-    GraphIntake(
-      dose: dose,
-      molecule: molecule,
-      route: route,
+    anInjection(
+      takenDateTime: simulationOrigin.add(
+          Duration(microseconds: (day * Duration.microsecondsPerDay).round())),
+      dose: dose ?? Decimal.one,
       ester: ester,
-      time: time,
     );
 
 BloodTest aBloodTest({
