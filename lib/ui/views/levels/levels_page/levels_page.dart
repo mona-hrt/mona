@@ -134,12 +134,13 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
     final intakeProvider = context.watch<MedicationIntakeProvider>();
     final unit = context.watch<PreferencesService>().estradiolUnit;
     final baseline = intakeProvider.getGraphLocalStart()!;
-    final intakes = intakeProvider.getIntakesForGraph(baseline);
+    final intakes = intakeProvider.intakes;
     final tNow = timeDifferenceInDays(clock.now(), baseline);
-    final lastWeekSpots = GraphCalculator()
-        .generateLevelsSpots(intakes, unit, tMin: tNow - 9, tMax: tNow + 5);
-    final nowLevel =
-        GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
+    final lastWeekSpots = GraphCalculator().generateLevelsSpots(
+        intakes, baseline, unit,
+        tMin: tNow - 9, tMax: tNow + 5);
+    final nowLevel = GraphCalculator()
+        .totalConcentrationAtTime(tNow, intakes, baseline, unit);
     final showPreview =
         lastWeekSpots.peakY >= 10; // value meaningless under 10 whatever unit
 

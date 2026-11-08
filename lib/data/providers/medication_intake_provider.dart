@@ -9,7 +9,6 @@ import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/services/repository.dart';
-import 'package:mona/util/time_difference.dart';
 
 class MedicationIntakeProvider extends ChangeNotifier {
   List<MedicationIntake> _intakes = [];
@@ -38,10 +37,8 @@ class MedicationIntakeProvider extends ChangeNotifier {
   List<MedicationIntake> get notTakenIntakes =>
       _intakes.where((intake) => !intake.isTaken).toList();
 
-  List<MedicationIntake> get plottableIntakes => takenIntakes
-      .where((intake) => isSimulated(
-          intake.molecule, intake.administrationRoute, intake.ester))
-      .toList();
+  List<MedicationIntake> get plottableIntakes =>
+      _intakes.where(isSimulated).toList();
 
   Future<void> _init() async {
     _intakes = await repository.getAll();
@@ -84,20 +81,6 @@ class MedicationIntakeProvider extends ChangeNotifier {
   Future<void> updateIntake(MedicationIntake intake) async {
     await repository.update(intake, intake.id);
     await fetchIntakes();
-  }
-
-  List<GraphIntake> getIntakesForGraph(DateTime tMin) {
-    if (plottableIntakes.isEmpty) return [];
-
-    return plottableIntakes
-        .map((intake) => GraphIntake(
-              dose: intake.takenDose.toDouble(),
-              molecule: intake.molecule,
-              route: intake.administrationRoute,
-              ester: intake.ester,
-              time: timeDifferenceInDays(intake.takenDateTime!, tMin),
-            ))
-        .toList();
   }
 
   DateTime? getFirstGraphIntakeInstant() {
