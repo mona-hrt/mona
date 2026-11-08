@@ -1,0 +1,3 @@
+Fix:
+
+- Corrected a performance drop in the simulator.
