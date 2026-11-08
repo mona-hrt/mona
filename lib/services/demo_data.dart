@@ -17,6 +17,7 @@ import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
@@ -460,7 +461,7 @@ class DemoData {
           const TimeOfDay(hour: 8, minute: 30),
           jitter: 15);
       final predicted = simulation.levelAt(
-          KnownMolecules.estradiol, timeDifferenceInDays(dateTime, origin));
+          Hormone.estradiol, timeDifferenceInDays(dateTime, origin));
       final estradiol = Decimal.parse(max(
         predicted * (0.85 + 0.3 * _random.nextDouble()),
         18 + 10 * _random.nextDouble(),

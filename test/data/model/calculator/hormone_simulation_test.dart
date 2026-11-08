@@ -9,6 +9,7 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/molecule.dart';
 
 import '../../../fixtures.dart';
@@ -30,8 +31,8 @@ void main() {
       };
 
       // Act
-      final level = HormoneSimulation(intakes, params)
-          .levelAt(KnownMolecules.estradiol, 1.6922);
+      final level =
+          HormoneSimulation(intakes, params).levelAt(Hormone.estradiol, 1.6922);
 
       // Assert
       expect(level, closeTo(2 * 73.509, 1e-3));
@@ -48,7 +49,7 @@ void main() {
 
       // Act
       final level = HormoneSimulation(intakes, defaultInjectionParams)
-          .levelAt(KnownMolecules.estradiol, 1.6922);
+          .levelAt(Hormone.estradiol, 1.6922);
 
       // Assert
       expect(level, closeTo(73.509, 1e-3));
@@ -60,7 +61,7 @@ void main() {
 
       // Act
       final level = HormoneSimulation(intakes, defaultInjectionParams)
-          .levelAt(KnownMolecules.testosterone, 1.6922);
+          .levelAt(Hormone.testosterone, 1.6922);
 
       // Assert
       expect(level, 0.0);
@@ -76,7 +77,7 @@ void main() {
 
         // Act
         final level = HormoneSimulation(intakes, defaultInjectionParams)
-            .levelAt(KnownMolecules.estradiol, 1.6922);
+            .levelAt(Hormone.estradiol, 1.6922);
 
         // Assert
         expect(level, closeTo(73.509, 1e-3));

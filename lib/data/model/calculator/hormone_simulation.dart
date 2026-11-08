@@ -9,6 +9,7 @@ import 'dart:math' as math;
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/molecule.dart';
 
 class GraphIntake {
@@ -88,20 +89,34 @@ double _distinctRatesSum(double k1, double k2, double k3, double elapsed) {
   return part1 - part2 + part3;
 }
 
+typedef _SimulationIntake = ({
+  InjectionParams params,
+  double dose,
+  double time,
+});
+
 class HormoneSimulation {
-  final List<GraphIntake> intakes;
-  final Map<Ester, InjectionParams> params;
+  final Map<Hormone, List<_SimulationIntake>> _intakes;
 
-  const HormoneSimulation(this.intakes, this.params);
+  HormoneSimulation(
+      List<GraphIntake> intakes, Map<Ester, InjectionParams> params)
+      : _intakes = {
+          Hormone.estradiol: [
+            for (final intake in intakes)
+              if (intake.dose > 0 &&
+                  intake.dose.isFinite &&
+                  isSimulated(intake.molecule, intake.route, intake.ester))
+                (
+                  params: params[intake.ester!]!,
+                  dose: intake.dose,
+                  time: intake.time,
+                ),
+          ],
+        };
 
-  /// Level of [molecule] in pg/mL at day [t].
-  double levelAt(Molecule molecule, double t) => intakes
-      .where((intake) =>
-          intake.dose > 0 &&
-          intake.dose.isFinite &&
-          intake.molecule == molecule &&
-          isSimulated(intake.molecule, intake.route, intake.ester))
+  /// Level of [hormone] in pg/mL at day [t].
+  double levelAt(Hormone hormone, double t) => (_intakes[hormone] ?? const [])
       .map((intake) => singleInjectionConcentration(
-          params[intake.ester!]!, intake.dose, t - intake.time))
+          intake.params, intake.dose, t - intake.time))
       .fold(0.0, (sum, val) => sum + val);
 }
