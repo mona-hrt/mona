@@ -9,6 +9,7 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/units.dart';
+import 'package:mona/ui/views/levels/chart_time_axis.dart';
 import 'package:mona/ui/views/levels/graph_calculator.dart';
 
 import '../../../fixtures.dart';
@@ -24,7 +25,7 @@ void main() {
     test('is zero before the injection offset', () {
       // Act
       final concentration = calculator.totalConcentrationAtTime(
-          -1.0, [intakeAt(0.0)], simulationOrigin, unit);
+          simulationDay(-1.0), [intakeAt(0.0)], unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -33,7 +34,7 @@ void main() {
     test('is zero at the injection offset', () {
       // Act
       final concentration = calculator.totalConcentrationAtTime(
-          0.0, [intakeAt(0.0)], simulationOrigin, unit);
+          simulationDay(0.0), [intakeAt(0.0)], unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -42,7 +43,7 @@ void main() {
     test('is positive within the active window', () {
       // Act
       final concentration = calculator.totalConcentrationAtTime(
-          2.0, [intakeAt(0.0)], simulationOrigin, unit);
+          simulationDay(2.0), [intakeAt(0.0)], unit);
 
       // Assert
       expect(concentration, greaterThan(0.0));
@@ -51,7 +52,7 @@ void main() {
     test('returns zero for an empty intake list', () {
       // Act
       final concentration =
-          calculator.totalConcentrationAtTime(2.0, [], simulationOrigin, unit);
+          calculator.totalConcentrationAtTime(simulationDay(2.0), [], unit);
 
       // Assert
       expect(concentration, 0.0);
@@ -60,9 +61,9 @@ void main() {
     test('a fractional offset shifts the curve by exactly that amount', () {
       // Act
       final shifted = calculator.totalConcentrationAtTime(
-          2.5, [intakeAt(0.5)], simulationOrigin, unit);
+          simulationDay(2.5), [intakeAt(0.5)], unit);
       final base = calculator.totalConcentrationAtTime(
-          2.0, [intakeAt(0.0)], simulationOrigin, unit);
+          simulationDay(2.0), [intakeAt(0.0)], unit);
 
       // Assert
       expect(shifted, closeTo(base, 1e-9));
@@ -71,9 +72,9 @@ void main() {
     test('sums the contribution of multiple injections', () {
       // Act
       final single = calculator.totalConcentrationAtTime(
-          2.0, [intakeAt(0.0)], simulationOrigin, unit);
+          simulationDay(2.0), [intakeAt(0.0)], unit);
       final two = calculator.totalConcentrationAtTime(
-          2.0, [intakeAt(0.0), intakeAt(0.0)], simulationOrigin, unit);
+          simulationDay(2.0), [intakeAt(0.0), intakeAt(0.0)], unit);
 
       // Assert
       expect(two, closeTo(2 * single, 1e-6));
@@ -104,7 +105,7 @@ void main() {
 
         // Act
         final concentration = calculator.totalConcentrationAtTime(
-            c.day, [intake], simulationOrigin, unit);
+            simulationDay(c.day), [intake], unit);
 
         // Assert
         expect(concentration, closeTo(c.level, 1e-3));
@@ -117,7 +118,7 @@ void main() {
 
       // Act
       final concentration = calculator.totalConcentrationAtTime(
-          1.6922, [intake], simulationOrigin, EstradiolUnit.pmol_L);
+          simulationDay(1.6922), [intake], EstradiolUnit.pmol_L);
 
       // Assert
       expect(concentration, closeTo(269.852, 1e-3));
@@ -130,7 +131,7 @@ void main() {
 
       // Act
       final concentration = calculator.totalConcentrationAtTime(
-          364.0, [intake], simulationOrigin, unit);
+          simulationDay(364.0), [intake], unit);
 
       // Assert
       expect(concentration, closeTo(0.183, 1e-3));
@@ -140,8 +141,8 @@ void main() {
   group('generateLevelsSpots', () {
     test('returns an empty list for no intakes', () {
       // Act
-      final spots = calculator
-          .generateLevelsSpots([], simulationOrigin, unit, tMax: 10.0);
+      final spots = calculator.generateLevelsSpots([], unit,
+          tMin: simulationDay(0.0), tMax: simulationDay(10.0));
 
       // Assert
       expect(spots, isEmpty);
@@ -149,9 +150,8 @@ void main() {
 
     test('produces numPoints + 1 spots', () {
       // Act
-      final spots = calculator.generateLevelsSpots(
-          [intakeAt(0.0)], simulationOrigin, unit,
-          tMax: 10.0, numPoints: 10);
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+          tMin: simulationDay(0.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
       expect(spots.length, 11);
@@ -159,22 +159,20 @@ void main() {
 
     test('samples up to an explicit tMax when provided', () {
       // Act
-      final spots = calculator.generateLevelsSpots(
-          [intakeAt(0.0)], simulationOrigin, unit,
-          tMax: 10.0, numPoints: 10);
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+          tMin: simulationDay(0.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
-      expect(spots.last.x, closeTo(10.0, 1e-9));
+      expect(spots.last.x, chartX(simulationDay(10.0)));
     });
 
     test('starts sampling at tMin when provided', () {
       // Act
-      final spots = calculator.generateLevelsSpots(
-          [intakeAt(0.0)], simulationOrigin, unit,
-          tMin: 5.0, tMax: 10.0, numPoints: 10);
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+          tMin: simulationDay(5.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
-      expect(spots.first.x, closeTo(5.0, 1e-9));
+      expect(spots.first.x, chartX(simulationDay(5.0)));
     });
 
     test('a window after the injection still reflects the earlier intake', () {
@@ -184,9 +182,8 @@ void main() {
       ];
 
       // Act
-      final spots = calculator.generateLevelsSpots(
-          intakes, simulationOrigin, unit,
-          tMin: 5.0, tMax: 10.0, numPoints: 10);
+      final spots = calculator.generateLevelsSpots(intakes, unit,
+          tMin: simulationDay(5.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
       expect(spots.every((s) => s.y > 0.0), isTrue);
@@ -196,49 +193,53 @@ void main() {
   group('generateBloodSpots', () {
     test('returns an empty list for no blood tests', () {
       // Act
-      final spots = calculator.generateBloodSpots([]);
+      final spots = calculator.generateBloodSpots([],
+          tMin: simulationDay(0.0), tMax: simulationDay(10.0));
 
       // Assert
       expect(spots, isEmpty);
     });
 
-    test('maps each blood test to a spot at (offset, level)', () {
+    test('maps each blood test to a spot at (chartX(dateTime), level)', () {
       // Act
       final spots = calculator.generateBloodSpots(
-          const [GraphBloodTest(offset: 1.5, level: 120.0)]);
+          [GraphBloodTest(dateTime: simulationDay(1.5), level: 120.0)],
+          tMin: simulationDay(0.0), tMax: simulationDay(10.0));
 
       // Assert
       expect(
           spots.single,
           isA<FlSpot>()
-              .having((s) => s.x, 'x', 1.5)
+              .having((s) => s.x, 'x', chartX(simulationDay(1.5)))
               .having((s) => s.y, 'y', 120.0));
     });
 
     test('keeps only blood tests within the tMin/tMax range', () {
       // Arrange
-      const tests = [
-        GraphBloodTest(offset: 1.0, level: 100.0),
-        GraphBloodTest(offset: 5.0, level: 200.0),
-        GraphBloodTest(offset: 9.0, level: 300.0),
+      final tests = [
+        GraphBloodTest(dateTime: simulationDay(1.0), level: 100.0),
+        GraphBloodTest(dateTime: simulationDay(5.0), level: 200.0),
+        GraphBloodTest(dateTime: simulationDay(9.0), level: 300.0),
       ];
 
       // Act
-      final spots = calculator.generateBloodSpots(tests, tMin: 2.0, tMax: 8.0);
+      final spots = calculator.generateBloodSpots(tests,
+          tMin: simulationDay(2.0), tMax: simulationDay(8.0));
 
       // Assert
-      expect(spots.single.x, 5.0);
+      expect(spots.single.y, 200.0);
     });
 
     test('includes blood tests exactly on the range bounds', () {
       // Arrange
-      const tests = [
-        GraphBloodTest(offset: 2.0, level: 100.0),
-        GraphBloodTest(offset: 8.0, level: 300.0),
+      final tests = [
+        GraphBloodTest(dateTime: simulationDay(2.0), level: 100.0),
+        GraphBloodTest(dateTime: simulationDay(8.0), level: 300.0),
       ];
 
       // Act
-      final spots = calculator.generateBloodSpots(tests, tMin: 2.0, tMax: 8.0);
+      final spots = calculator.generateBloodSpots(tests,
+          tMin: simulationDay(2.0), tMax: simulationDay(8.0));
 
       // Assert
       expect(spots.length, 2);
@@ -246,21 +247,25 @@ void main() {
   });
 
   group('comparisonAt', () {
-    const bloodTests = [
-      GraphBloodTest(level: 200, offset: 1.0),
-      GraphBloodTest(level: 5, offset: 4.5, comparison: ValueComparison.below),
+    final bloodTests = [
+      GraphBloodTest(level: 200, dateTime: simulationDay(1.0)),
+      GraphBloodTest(
+          level: 5,
+          dateTime: simulationDay(4.5),
+          comparison: ValueComparison.below),
     ];
 
     final cases = [
-      (offset: 4.5, expected: ValueComparison.below),
-      (offset: 1.0, expected: ValueComparison.equal),
-      (offset: 2.0, expected: ValueComparison.equal),
+      (day: 4.5, expected: ValueComparison.below),
+      (day: 1.0, expected: ValueComparison.equal),
+      (day: 2.0, expected: ValueComparison.equal),
     ];
 
     for (final c in cases) {
-      test('at offset ${c.offset} is ${c.expected.name}', () {
+      test('on day ${c.day} is ${c.expected.name}', () {
         // Act
-        final comparison = bloodTests.comparisonAt(c.offset);
+        final comparison =
+            bloodTests.comparisonAt(chartX(simulationDay(c.day)));
 
         // Assert
         expect(comparison, c.expected);

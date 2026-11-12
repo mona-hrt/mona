@@ -287,8 +287,7 @@ void main() {
         provider = BloodTestProvider(repository: repo);
 
         // Act
-        final result = provider.getBloodTestsForGraph(
-            DateTime.utc(2025, 5, 4), EstradiolUnit.pg_mL);
+        final result = provider.getBloodTestsForGraph(EstradiolUnit.pg_mL);
 
         // Assert
         expect(result, isEmpty);
@@ -304,28 +303,24 @@ void main() {
             .add(aBloodTest(dateTime: DateTime.utc(2025, 5, 5))); // no level
 
         // Act
-        final result = provider.getBloodTestsForGraph(
-            DateTime.utc(2025, 5, 4), EstradiolUnit.pg_mL);
+        final result = provider.getBloodTestsForGraph(EstradiolUnit.pg_mL);
 
         // Assert
         expect(result.map((t) => t.level), [234.5]);
       });
 
-      test('computes a fractional-day offset from the exact baseline instant',
-          () async {
-        // Arrange: 2 days, 2 hours, 59 minutes after the baseline ->
-        // ~2.1243 days.
+      test('carries the date time of each blood test', () async {
+        // Arrange
         provider = BloodTestProvider(repository: repo);
         await provider.add(aBloodTest(
             dateTime: DateTime.utc(2025, 5, 6, 23, 59),
             estradiolLevel: Decimal.parse('12.3')));
 
         // Act
-        final result = provider.getBloodTestsForGraph(
-            DateTime.utc(2025, 5, 4, 21, 0), EstradiolUnit.pg_mL);
+        final result = provider.getBloodTestsForGraph(EstradiolUnit.pg_mL);
 
         // Assert
-        expect(result.single.offset, closeTo(2.1243, 1e-4));
+        expect(result.single.dateTime, DateTime.utc(2025, 5, 6, 23, 59));
       });
 
       test('carries the comparison of each level', () async {
@@ -337,8 +332,7 @@ void main() {
             estradiolComparison: ValueComparison.below));
 
         // Act
-        final result = provider.getBloodTestsForGraph(
-            DateTime.utc(2025, 5, 4), EstradiolUnit.pg_mL);
+        final result = provider.getBloodTestsForGraph(EstradiolUnit.pg_mL);
 
         // Assert
         expect(result.single.comparison, ValueComparison.below);

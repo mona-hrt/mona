@@ -105,9 +105,8 @@ class HormoneSimulation {
           ],
         };
 
-  double levelAt(Hormone hormone, DateTime instant) =>
-      (_intakes[hormone] ?? const [])
-          .map((intake) => singleInjectionConcentration(intake.params,
-              intake.dose, timeDifferenceInDays(instant, intake.time)))
-          .fold(0.0, (sum, val) => sum + val);
+  double levelAt(Hormone hormone, DateTime t) => (_intakes[hormone] ?? const [])
+      .map((intake) => singleInjectionConcentration(
+          intake.params, intake.dose, timeDifferenceInDays(t, intake.time)))
+      .fold(0.0, (sum, val) => sum + val);
 }

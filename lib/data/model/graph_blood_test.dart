@@ -6,12 +6,12 @@ import 'package:mona/data/model/units.dart';
 
 class GraphBloodTest {
   final double level;
-  final double offset;
+  final DateTime dateTime;
   final ValueComparison comparison;
 
   const GraphBloodTest({
     required this.level,
-    required this.offset,
+    required this.dateTime,
     this.comparison = ValueComparison.equal,
   });
 }

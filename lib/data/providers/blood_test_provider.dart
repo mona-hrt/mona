@@ -13,7 +13,6 @@ import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/services/repository.dart';
-import 'package:mona/util/time_difference.dart';
 
 class BloodTestProvider extends ChangeNotifier {
   List<BloodTest> _bloodTestsSortedDesc = [];
@@ -91,11 +90,10 @@ class BloodTestProvider extends ChangeNotifier {
     await fetchBloodTests();
   }
 
-  List<GraphBloodTest> getBloodTestsForGraph(
-          DateTime origin, EstradiolUnit unit) =>
+  List<GraphBloodTest> getBloodTestsForGraph(EstradiolUnit unit) =>
       estradiolTestsSortedDesc
           .map((bloodtest) => GraphBloodTest(
-                offset: timeDifferenceInDays(bloodtest.dateTime, origin),
+                dateTime: bloodtest.dateTime,
                 level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
                 comparison: bloodtest.estradiolLevels!.comparison,
               ))
