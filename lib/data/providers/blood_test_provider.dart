@@ -92,19 +92,14 @@ class BloodTestProvider extends ChangeNotifier {
   }
 
   List<GraphBloodTest> getBloodTestsForGraph(
-      DateTime tMin, EstradiolUnit unit) {
-    if (bloodTestsSortedDesc.isEmpty) return [];
-
-    return bloodTestsSortedDesc
-        .where((bloodtest) => bloodtest.estradiolLevels != null)
-        .where((bloodtest) => !bloodtest.dateTime.isBefore(tMin))
-        .map((bloodtest) => GraphBloodTest(
-              offset: timeDifferenceInDays(bloodtest.dateTime, tMin),
-              level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
-              comparison: bloodtest.estradiolLevels!.comparison,
-            ))
-        .toList();
-  }
+          DateTime origin, EstradiolUnit unit) =>
+      estradiolTestsSortedDesc
+          .map((bloodtest) => GraphBloodTest(
+                offset: timeDifferenceInDays(bloodtest.dateTime, origin),
+                level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
+                comparison: bloodtest.estradiolLevels!.comparison,
+              ))
+          .toList();
 
   static final _bloodTestRepository = Repository<BloodTest>(
     tableName: 'blood_tests',

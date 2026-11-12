@@ -311,25 +311,6 @@ void main() {
         expect(result.map((t) => t.level), [234.5]);
       });
 
-      test('excludes bloodtests strictly before the baseline instant',
-          () async {
-        // Arrange
-        provider = BloodTestProvider(repository: repo);
-        await provider.add(aBloodTest(
-            dateTime: DateTime.utc(2025, 5, 3, 12, 0),
-            estradiolLevel: Decimal.parse('100.0')));
-        await provider.add(aBloodTest(
-            dateTime: DateTime.utc(2025, 5, 5, 12, 0),
-            estradiolLevel: Decimal.parse('200.0')));
-
-        // Act
-        final result = provider.getBloodTestsForGraph(
-            DateTime.utc(2025, 5, 4), EstradiolUnit.pg_mL);
-
-        // Assert
-        expect(result.map((t) => t.level), [200.0]);
-      });
-
       test('computes a fractional-day offset from the exact baseline instant',
           () async {
         // Arrange: 2 days, 2 hours, 59 minutes after the baseline ->

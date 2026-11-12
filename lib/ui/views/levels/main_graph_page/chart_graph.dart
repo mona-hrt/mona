@@ -225,7 +225,7 @@ class _MainGraphState extends State<MainGraph> {
   }
 
   LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
-      DateTime tMin, EstradiolUnit unit, List<GraphBloodTest> bloodTests) {
+      DateTime baseline, EstradiolUnit unit, List<GraphBloodTest> bloodTests) {
     return LineTouchData(
       getTouchedSpotIndicator: (barData, spotIndexes) {
         return spotIndexes.map((index) {
@@ -251,11 +251,11 @@ class _MainGraphState extends State<MainGraph> {
             String text;
             if (spot.barIndex == 0) {
               text =
-                  '${t.chartLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
+                  '${t.chartLevelTooltip(date: _getDateLabel(spot.x, baseline, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
             } else {
               final comparison = bloodTests.comparisonAt(spot.x);
               text =
-                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: '${comparison.prefix}${spot.y.toStringAsFixed(1)}')} ${unit.localizedName}';
+                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(spot.x, baseline, context), level: '${comparison.prefix}${spot.y.toStringAsFixed(1)}')} ${unit.localizedName}';
             }
             return LineTooltipItem(
               text,
@@ -270,7 +270,7 @@ class _MainGraphState extends State<MainGraph> {
     );
   }
 
-  FlTitlesData _buildTitlesData(BuildContext context, DateTime tMin) {
+  FlTitlesData _buildTitlesData(BuildContext context, DateTime baseline) {
     return FlTitlesData(
       show: true,
       bottomTitles: AxisTitles(
@@ -284,7 +284,7 @@ class _MainGraphState extends State<MainGraph> {
               child: Transform.rotate(
                 angle: -math.pi / 4,
                 child: Text(
-                  _getDateLabel(value, tMin, context),
+                  _getDateLabel(value, baseline, context),
                   style: const TextStyle(
                     fontSize: _ChartConstants.labelFontSize,
                   ),
@@ -310,8 +310,8 @@ class _MainGraphState extends State<MainGraph> {
     );
   }
 
-  String _getDateLabel(double value, DateTime tMin, BuildContext context) {
-    final date = tMin
+  String _getDateLabel(double value, DateTime baseline, BuildContext context) {
+    final date = baseline
         .add(Duration(
             microseconds: (value * Duration.microsecondsPerDay).round()))
         .toLocal();
