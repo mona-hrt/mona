@@ -10,7 +10,7 @@ import 'package:clock/clock.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
-import 'package:mona/data/model/graph_blood_test.dart';
+import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
@@ -19,8 +19,8 @@ import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/views/levels/chart_time_axis.dart';
 import 'package:mona/ui/views/levels/graph_calculator.dart';
-import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
 class _ChartConstants {
@@ -67,32 +67,31 @@ class _MainGraphState extends State<MainGraph> {
       return SizedBox.shrink();
     }
 
-    final DateTime baseline = medicationIntakeProvider.getGraphLocalStart()!;
-    final double tNow = timeDifferenceInDays(clock.now(), baseline);
-    final double tMin = timeDifferenceInDays(widget.startDate, baseline);
-    final double tMax = timeDifferenceInDays(widget.endDate, baseline);
+    final DateTime now = clock.now();
+    final double tNow = chartX(now);
+    final double tMin = chartX(widget.startDate);
+    final double tMax = chartX(widget.endDate);
 
     final intakes = medicationIntakeProvider.intakes;
-    List<GraphBloodTest> bloodTests =
-        bloodTestProvider.getBloodTestsForGraph(baseline, unit);
+    List<BloodTest> bloodTests = bloodTestProvider.estradiolTestsSortedDesc;
 
     final List<FlSpot> spots = GraphCalculator().generateLevelsSpots(
       intakes,
-      baseline,
       unit,
-      tMin: tMin,
-      tMax: tMax,
+      tMin: widget.startDate,
+      tMax: widget.endDate,
     );
     final List<FlSpot> bloodSpots = GraphCalculator().generateBloodSpots(
       bloodTests,
-      tMin: tMin,
-      tMax: tMax,
+      unit,
+      tMin: widget.startDate,
+      tMax: widget.endDate,
     );
     FlSpot? todaySpot;
 
     if (tNow >= tMin && tNow <= tMax) {
-      final todayConcentration = GraphCalculator()
-          .totalConcentrationAtTime(tNow, intakes, baseline, unit);
+      final todayConcentration =
+          GraphCalculator().totalConcentrationAtTime(now, intakes, unit);
       todaySpot = FlSpot(tNow, todayConcentration);
     }
 
@@ -147,7 +146,7 @@ class _MainGraphState extends State<MainGraph> {
                     dashArray: const [8, 4],
                   ),
                 ),
-                titlesData: _buildTitlesData(context, baseline),
+                titlesData: _buildTitlesData(context),
                 borderData: FlBorderData(
                   show: true,
                   border: Border.all(color: theme.colorScheme.outlineVariant),
@@ -156,8 +155,8 @@ class _MainGraphState extends State<MainGraph> {
                   _buildLineBarData(spots, theme),
                   _buildBloodTestData(bloodSpots, theme),
                 ],
-                lineTouchData: _buildLineTouchData(
-                    context, theme, baseline, unit, bloodTests),
+                lineTouchData:
+                    _buildLineTouchData(context, theme, unit, bloodTests),
                 extraLinesData: _buildTodayVerticalLine(
                     theme, todaySpot, tNow, unit, Directionality.of(context)),
               ),
@@ -173,7 +172,7 @@ class _MainGraphState extends State<MainGraph> {
   }
 
   ExtraLinesData? _buildTodayVerticalLine(ThemeData theme, FlSpot? todaySpot,
-      double daysSinceStart, EstradiolUnit unit, TextDirection textDirection) {
+      double nowX, EstradiolUnit unit, TextDirection textDirection) {
     if (todaySpot == null) return null;
 
     final nowLabel =
@@ -182,7 +181,7 @@ class _MainGraphState extends State<MainGraph> {
     return ExtraLinesData(
       verticalLines: [
         VerticalLine(
-          x: daysSinceStart,
+          x: nowX,
           color: theme.colorScheme.tertiary,
           strokeWidth: 2,
           dashArray: [6, 4],
@@ -225,7 +224,7 @@ class _MainGraphState extends State<MainGraph> {
   }
 
   LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
-      DateTime tMin, EstradiolUnit unit, List<GraphBloodTest> bloodTests) {
+      EstradiolUnit unit, List<BloodTest> bloodTests) {
     return LineTouchData(
       getTouchedSpotIndicator: (barData, spotIndexes) {
         return spotIndexes.map((index) {
@@ -251,11 +250,11 @@ class _MainGraphState extends State<MainGraph> {
             String text;
             if (spot.barIndex == 0) {
               text =
-                  '${t.chartLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
+                  '${t.chartLevelTooltip(date: _getDateLabel(spot.x, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
             } else {
               final comparison = bloodTests.comparisonAt(spot.x);
               text =
-                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: '${comparison.prefix}${spot.y.toStringAsFixed(1)}')} ${unit.localizedName}';
+                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(spot.x, context), level: '${comparison.prefix}${spot.y.toStringAsFixed(1)}')} ${unit.localizedName}';
             }
             return LineTooltipItem(
               text,
@@ -270,7 +269,7 @@ class _MainGraphState extends State<MainGraph> {
     );
   }
 
-  FlTitlesData _buildTitlesData(BuildContext context, DateTime tMin) {
+  FlTitlesData _buildTitlesData(BuildContext context) {
     return FlTitlesData(
       show: true,
       bottomTitles: AxisTitles(
@@ -284,7 +283,7 @@ class _MainGraphState extends State<MainGraph> {
               child: Transform.rotate(
                 angle: -math.pi / 4,
                 child: Text(
-                  _getDateLabel(value, tMin, context),
+                  _getDateLabel(value, context),
                   style: const TextStyle(
                     fontSize: _ChartConstants.labelFontSize,
                   ),
@@ -310,11 +309,8 @@ class _MainGraphState extends State<MainGraph> {
     );
   }
 
-  String _getDateLabel(double value, DateTime tMin, BuildContext context) {
-    final date = tMin
-        .add(Duration(
-            microseconds: (value * Duration.microsecondsPerDay).round()))
-        .toLocal();
+  String _getDateLabel(double value, BuildContext context) {
+    final date = chartDate(value).toLocal();
     return DateFormat.Md(context.intlLanguageTag).format(date);
   }
 }
