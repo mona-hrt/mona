@@ -281,64 +281,6 @@ void main() {
       });
     });
 
-    group('getBloodTestsForGraph', () {
-      test('returns empty list when no bloodtests', () {
-        // Arrange
-        provider = BloodTestProvider(repository: repo);
-
-        // Act
-        final result = provider.getBloodTestsForGraph(EstradiolUnit.pg_mL);
-
-        // Assert
-        expect(result, isEmpty);
-      });
-
-      test('excludes bloodtests without estradiolLevels', () async {
-        // Arrange
-        provider = BloodTestProvider(repository: repo);
-        await provider.add(aBloodTest(
-            dateTime: DateTime.utc(2025, 5, 4, 3, 0),
-            estradiolLevel: Decimal.parse('234.5')));
-        await provider
-            .add(aBloodTest(dateTime: DateTime.utc(2025, 5, 5))); // no level
-
-        // Act
-        final result = provider.getBloodTestsForGraph(EstradiolUnit.pg_mL);
-
-        // Assert
-        expect(result.map((t) => t.level), [234.5]);
-      });
-
-      test('carries the date time of each blood test', () async {
-        // Arrange
-        provider = BloodTestProvider(repository: repo);
-        await provider.add(aBloodTest(
-            dateTime: DateTime.utc(2025, 5, 6, 23, 59),
-            estradiolLevel: Decimal.parse('12.3')));
-
-        // Act
-        final result = provider.getBloodTestsForGraph(EstradiolUnit.pg_mL);
-
-        // Assert
-        expect(result.single.dateTime, DateTime.utc(2025, 5, 6, 23, 59));
-      });
-
-      test('carries the comparison of each level', () async {
-        // Arrange
-        provider = BloodTestProvider(repository: repo);
-        await provider.add(aBloodTest(
-            dateTime: DateTime.utc(2025, 5, 5),
-            estradiolLevel: Decimal.parse('5'),
-            estradiolComparison: ValueComparison.below));
-
-        // Act
-        final result = provider.getBloodTestsForGraph(EstradiolUnit.pg_mL);
-
-        // Assert
-        expect(result.single.comparison, ValueComparison.below);
-      });
-    });
-
     group('latestEstradiolLevel', () {
       test('returns null when no estradiol tests', () {
         // Arrange

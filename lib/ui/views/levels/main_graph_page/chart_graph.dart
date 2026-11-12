@@ -10,7 +10,7 @@ import 'package:clock/clock.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
-import 'package:mona/data/model/graph_blood_test.dart';
+import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
@@ -73,8 +73,7 @@ class _MainGraphState extends State<MainGraph> {
     final double tMax = chartX(widget.endDate);
 
     final intakes = medicationIntakeProvider.intakes;
-    List<GraphBloodTest> bloodTests =
-        bloodTestProvider.getBloodTestsForGraph(unit);
+    List<BloodTest> bloodTests = bloodTestProvider.estradiolTestsSortedDesc;
 
     final List<FlSpot> spots = GraphCalculator().generateLevelsSpots(
       intakes,
@@ -84,6 +83,7 @@ class _MainGraphState extends State<MainGraph> {
     );
     final List<FlSpot> bloodSpots = GraphCalculator().generateBloodSpots(
       bloodTests,
+      unit,
       tMin: widget.startDate,
       tMax: widget.endDate,
     );
@@ -224,7 +224,7 @@ class _MainGraphState extends State<MainGraph> {
   }
 
   LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
-      EstradiolUnit unit, List<GraphBloodTest> bloodTests) {
+      EstradiolUnit unit, List<BloodTest> bloodTests) {
     return LineTouchData(
       getTouchedSpotIndicator: (barData, spotIndexes) {
         return spotIndexes.map((index) {

@@ -6,7 +6,6 @@ import 'package:decimal/decimal.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/ui/views/levels/chart_time_axis.dart';
@@ -193,7 +192,7 @@ void main() {
   group('generateBloodSpots', () {
     test('returns an empty list for no blood tests', () {
       // Act
-      final spots = calculator.generateBloodSpots([],
+      final spots = calculator.generateBloodSpots([], unit,
           tMin: simulationDay(0.0), tMax: simulationDay(10.0));
 
       // Assert
@@ -202,9 +201,10 @@ void main() {
 
     test('maps each blood test to a spot at (chartX(dateTime), level)', () {
       // Act
-      final spots = calculator.generateBloodSpots(
-          [GraphBloodTest(dateTime: simulationDay(1.5), level: 120.0)],
-          tMin: simulationDay(0.0), tMax: simulationDay(10.0));
+      final spots = calculator.generateBloodSpots([
+        aBloodTest(
+            dateTime: simulationDay(1.5), estradiolLevel: Decimal.parse('120'))
+      ], unit, tMin: simulationDay(0.0), tMax: simulationDay(10.0));
 
       // Assert
       expect(
@@ -217,13 +217,16 @@ void main() {
     test('keeps only blood tests within the tMin/tMax range', () {
       // Arrange
       final tests = [
-        GraphBloodTest(dateTime: simulationDay(1.0), level: 100.0),
-        GraphBloodTest(dateTime: simulationDay(5.0), level: 200.0),
-        GraphBloodTest(dateTime: simulationDay(9.0), level: 300.0),
+        aBloodTest(
+            dateTime: simulationDay(1.0), estradiolLevel: Decimal.parse('100')),
+        aBloodTest(
+            dateTime: simulationDay(5.0), estradiolLevel: Decimal.parse('200')),
+        aBloodTest(
+            dateTime: simulationDay(9.0), estradiolLevel: Decimal.parse('300')),
       ];
 
       // Act
-      final spots = calculator.generateBloodSpots(tests,
+      final spots = calculator.generateBloodSpots(tests, unit,
           tMin: simulationDay(2.0), tMax: simulationDay(8.0));
 
       // Assert
@@ -233,12 +236,14 @@ void main() {
     test('includes blood tests exactly on the range bounds', () {
       // Arrange
       final tests = [
-        GraphBloodTest(dateTime: simulationDay(2.0), level: 100.0),
-        GraphBloodTest(dateTime: simulationDay(8.0), level: 300.0),
+        aBloodTest(
+            dateTime: simulationDay(2.0), estradiolLevel: Decimal.parse('100')),
+        aBloodTest(
+            dateTime: simulationDay(8.0), estradiolLevel: Decimal.parse('300')),
       ];
 
       // Act
-      final spots = calculator.generateBloodSpots(tests,
+      final spots = calculator.generateBloodSpots(tests, unit,
           tMin: simulationDay(2.0), tMax: simulationDay(8.0));
 
       // Assert
@@ -248,11 +253,12 @@ void main() {
 
   group('comparisonAt', () {
     final bloodTests = [
-      GraphBloodTest(level: 200, dateTime: simulationDay(1.0)),
-      GraphBloodTest(
-          level: 5,
+      aBloodTest(
+          dateTime: simulationDay(1.0), estradiolLevel: Decimal.parse('200')),
+      aBloodTest(
           dateTime: simulationDay(4.5),
-          comparison: ValueComparison.below),
+          estradiolLevel: Decimal.parse('5'),
+          estradiolComparison: ValueComparison.below),
     ];
 
     final cases = [

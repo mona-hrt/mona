@@ -9,17 +9,19 @@ import 'dart:math' as math;
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
-import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/ui/views/levels/chart_time_axis.dart';
 
-extension GraphBloodTestLookup on List<GraphBloodTest> {
+extension BloodTestLookup on List<BloodTest> {
   ValueComparison comparisonAt(double offset) =>
-      firstWhereOrNull((test) => chartX(test.dateTime) == offset)?.comparison ??
+      firstWhereOrNull((test) => chartX(test.dateTime) == offset)
+          ?.estradiolLevels!
+          .comparison ??
       ValueComparison.equal;
 }
 
@@ -56,7 +58,8 @@ class GraphCalculator {
         .toDouble();
   }
 
-  List<FlSpot> generateBloodSpots(List<GraphBloodTest> bloodTests,
+  List<FlSpot> generateBloodSpots(
+      List<BloodTest> bloodTests, EstradiolUnit unit,
       {required DateTime tMin, required DateTime tMax}) {
     if (bloodTests.isEmpty) return <FlSpot>[];
 
@@ -64,7 +67,8 @@ class GraphCalculator {
         .where((bloodTest) =>
             !bloodTest.dateTime.isBefore(tMin) &&
             !bloodTest.dateTime.isAfter(tMax))
-        .map((bloodTest) => FlSpot(chartX(bloodTest.dateTime), bloodTest.level))
+        .map((bloodTest) => FlSpot(chartX(bloodTest.dateTime),
+            bloodTest.estradiolLevels!.inUnit(unit).toDouble()))
         .toList();
   }
 }

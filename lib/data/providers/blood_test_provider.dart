@@ -8,7 +8,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
-import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/model/units.dart';
@@ -89,15 +88,6 @@ class BloodTestProvider extends ChangeNotifier {
     await repository.update(bloodtest, bloodtest.id);
     await fetchBloodTests();
   }
-
-  List<GraphBloodTest> getBloodTestsForGraph(EstradiolUnit unit) =>
-      estradiolTestsSortedDesc
-          .map((bloodtest) => GraphBloodTest(
-                dateTime: bloodtest.dateTime,
-                level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
-                comparison: bloodtest.estradiolLevels!.comparison,
-              ))
-          .toList();
 
   static final _bloodTestRepository = Repository<BloodTest>(
     tableName: 'blood_tests',
