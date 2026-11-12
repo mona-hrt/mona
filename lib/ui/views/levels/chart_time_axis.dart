@@ -7,6 +7,6 @@ import 'package:mona/util/fractional_days.dart';
 final _axisOrigin = DateTime(2000);
 
 double chartX(DateTime instant) =>
-    instant.difference(_axisOrigin).inFractionalDays;
+    instant.difference(_axisOrigin).inFractionalDays; // limitation: ignores DST
 
 DateTime chartDate(double x) => _axisOrigin.add(durationFromDays(x));
