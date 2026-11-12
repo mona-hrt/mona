@@ -4,3 +4,6 @@
 
 double timeDifferenceInDays(DateTime instant, DateTime baseline) =>
     instant.difference(baseline).inMicroseconds / Duration.microsecondsPerDay;
+
+Duration durationFromDays(double days) =>
+    Duration(microseconds: (days * Duration.microsecondsPerDay).round());

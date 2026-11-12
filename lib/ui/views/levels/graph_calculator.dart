@@ -15,6 +15,7 @@ import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/units.dart';
+import 'package:mona/util/time_difference.dart';
 
 extension GraphBloodTestLookup on List<GraphBloodTest> {
   ValueComparison comparisonAt(double offset) =>
@@ -28,7 +29,7 @@ class GraphCalculator {
     if (intakes.isEmpty) return 0.0;
 
     return _levelAt(
-        HormoneSimulation(intakes, defaultInjectionParams, origin), t, unit);
+        HormoneSimulation(intakes, defaultInjectionParams), origin, t, unit);
   }
 
   List<FlSpot> generateLevelsSpots(
@@ -36,20 +37,21 @@ class GraphCalculator {
       {double tMin = 0, required double tMax, int numPoints = 1000}) {
     if (intakes.isEmpty) return <FlSpot>[];
 
-    final simulation =
-        HormoneSimulation(intakes, defaultInjectionParams, origin);
+    final simulation = HormoneSimulation(intakes, defaultInjectionParams);
     final List<math.Point> points = [];
 
     for (int i = 0; i <= numPoints; i++) {
       final t = tMin + ((tMax - tMin) / numPoints) * i;
-      points.add(math.Point(t, _levelAt(simulation, t, unit)));
+      points.add(math.Point(t, _levelAt(simulation, origin, t, unit)));
     }
 
     return points.map((p) => FlSpot(p.x.toDouble(), p.y.toDouble())).toList();
   }
 
-  double _levelAt(HormoneSimulation simulation, double t, EstradiolUnit unit) {
-    final concentration = simulation.levelAt(Hormone.estradiol, t);
+  double _levelAt(HormoneSimulation simulation, DateTime origin, double t,
+      EstradiolUnit unit) {
+    final concentration =
+        simulation.levelAt(Hormone.estradiol, origin.add(durationFromDays(t)));
     return EstradiolUnit.pg_mL
         .convert(Decimal.parse(concentration.toString()), unit)
         .toDouble();

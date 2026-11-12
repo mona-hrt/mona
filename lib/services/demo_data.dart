@@ -27,7 +27,6 @@ import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/model/units.dart';
-import 'package:mona/util/time_difference.dart';
 
 const _morning = TimeOfDay(hour: 8, minute: 0);
 const _lateMorning = TimeOfDay(hour: 10, minute: 30);
@@ -410,9 +409,7 @@ class DemoData {
   }
 
   void _addBloodTests(List<MedicationIntake> injections) {
-    final origin = injections.first.takenDateTime!;
-    final simulation =
-        HormoneSimulation(injections, defaultInjectionParams, origin);
+    final simulation = HormoneSimulation(injections, defaultInjectionParams);
 
     const plan = [
       (
@@ -452,8 +449,7 @@ class DemoData {
       final dateTime = _at(_hrtStart.add(Duration(days: day)),
           const TimeOfDay(hour: 8, minute: 30),
           jitter: 15);
-      final predicted = simulation.levelAt(
-          Hormone.estradiol, timeDifferenceInDays(dateTime, origin));
+      final predicted = simulation.levelAt(Hormone.estradiol, dateTime);
       final estradiol = Decimal.parse(max(
         predicted * (0.85 + 0.3 * _random.nextDouble()),
         18 + 10 * _random.nextDouble(),
