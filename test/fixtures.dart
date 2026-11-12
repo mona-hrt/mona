@@ -22,6 +22,7 @@ import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/model/units.dart';
+import 'package:mona/util/fractional_days.dart';
 
 /// A time before the [testNow] hour (noon).
 const morning = TimeOfDay(hour: 9, minute: 0);
@@ -190,14 +191,16 @@ MedicationIntake anInjection({
 
 final simulationOrigin = DateTime.utc(2025, 6, 1);
 
+DateTime simulationDay(double day) =>
+    simulationOrigin.add(durationFromDays(day));
+
 MedicationIntake aSimulatedInjection({
   double day = 0.0,
   Decimal? dose,
   Ester ester = Ester.valerate,
 }) =>
     anInjection(
-      takenDateTime: simulationOrigin.add(
-          Duration(microseconds: (day * Duration.microsecondsPerDay).round())),
+      takenDateTime: simulationDay(day),
       dose: dose ?? Decimal.one,
       ester: ester,
     );

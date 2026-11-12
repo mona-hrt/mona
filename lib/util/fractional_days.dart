@@ -1,0 +1,10 @@
+// SPDX-FileCopyrightText: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
+
+extension FractionalDays on Duration {
+  double get inFractionalDays => inMicroseconds / Duration.microsecondsPerDay;
+}
+
+Duration durationFromDays(double days) =>
+    Duration(microseconds: (days * Duration.microsecondsPerDay).round());

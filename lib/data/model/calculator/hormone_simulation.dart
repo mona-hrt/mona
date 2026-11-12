@@ -12,7 +12,7 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/util/time_difference.dart';
+import 'package:mona/util/fractional_days.dart';
 
 bool isSimulated(MedicationIntake intake) {
   if (!intake.isTaken ||
@@ -85,14 +85,14 @@ double _distinctRatesSum(double k1, double k2, double k3, double elapsed) {
 typedef _SimulationIntake = ({
   InjectionParams params,
   double dose,
-  double time,
+  DateTime time,
 });
 
 class HormoneSimulation {
   final Map<Hormone, List<_SimulationIntake>> _intakes;
 
-  HormoneSimulation(List<MedicationIntake> intakes,
-      Map<Ester, InjectionParams> params, DateTime origin)
+  HormoneSimulation(
+      List<MedicationIntake> intakes, Map<Ester, InjectionParams> params)
       : _intakes = {
           Hormone.estradiol: [
             for (final intake in intakes)
@@ -100,14 +100,13 @@ class HormoneSimulation {
                 (
                   params: params[intake.ester!]!,
                   dose: intake.takenDose.toDouble(),
-                  time: timeDifferenceInDays(intake.takenDateTime!, origin),
+                  time: intake.takenDateTime!,
                 ),
           ],
         };
 
-  /// Level of [hormone] in pg/mL, [t] days after the origin.
-  double levelAt(Hormone hormone, double t) => (_intakes[hormone] ?? const [])
-      .map((intake) => singleInjectionConcentration(
-          intake.params, intake.dose, t - intake.time))
+  double levelAt(Hormone hormone, DateTime t) => (_intakes[hormone] ?? const [])
+      .map((intake) => singleInjectionConcentration(intake.params, intake.dose,
+          t.difference(intake.time).inFractionalDays))
       .fold(0.0, (sum, val) => sum + val);
 }
