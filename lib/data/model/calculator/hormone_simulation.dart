@@ -12,7 +12,7 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/util/time_difference.dart';
+import 'package:mona/util/fractional_days.dart';
 
 bool isSimulated(MedicationIntake intake) {
   if (!intake.isTaken ||
@@ -106,7 +106,7 @@ class HormoneSimulation {
         };
 
   double levelAt(Hormone hormone, DateTime t) => (_intakes[hormone] ?? const [])
-      .map((intake) => singleInjectionConcentration(
-          intake.params, intake.dose, timeDifferenceInDays(t, intake.time)))
+      .map((intake) => singleInjectionConcentration(intake.params, intake.dose,
+          t.difference(intake.time).inFractionalDays))
       .fold(0.0, (sum, val) => sum + val);
 }

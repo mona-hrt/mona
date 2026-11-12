@@ -22,7 +22,7 @@ import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/model/units.dart';
-import 'package:mona/util/time_difference.dart';
+import 'package:mona/util/fractional_days.dart';
 
 /// A time before the [testNow] hour (noon).
 const morning = TimeOfDay(hour: 9, minute: 0);

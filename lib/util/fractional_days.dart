@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
-double timeDifferenceInDays(DateTime instant, DateTime baseline) =>
-    instant.difference(baseline).inMicroseconds / Duration.microsecondsPerDay;
+extension FractionalDays on Duration {
+  double get inFractionalDays => inMicroseconds / Duration.microsecondsPerDay;
+}
 
 Duration durationFromDays(double days) =>
     Duration(microseconds: (days * Duration.microsecondsPerDay).round());
