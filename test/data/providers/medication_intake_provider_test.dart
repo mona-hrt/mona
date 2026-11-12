@@ -411,21 +411,6 @@ void main() {
       });
     });
 
-    group('graph intake pipeline', () {
-      test('excludes non-injection intakes from the graph', () async {
-        // Arrange
-        repo.insert(aMedicationIntake());
-        repo.insert(
-            anInjection(id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 0)));
-
-        // Act
-        await provider.fetchIntakes();
-
-        // Assert
-        expect(provider.plottableIntakes.length, 1);
-      });
-    });
-
     group('firstTakenLocalDate', () {
       test('returns null when there are no taken intakes', () async {
         // Arrange

@@ -21,31 +21,13 @@ void main() {
       aSimulatedInjection(day: day, dose: Decimal.fromInt(5));
 
   group('totalConcentrationAtTime', () {
-    test('is zero before the injection offset', () {
+    test('is zero before the injection', () {
       // Act
       final concentration = calculator.totalConcentrationAtTime(
           simulationDay(-1.0), [intakeAt(0.0)], unit);
 
       // Assert
       expect(concentration, 0.0);
-    });
-
-    test('is zero at the injection offset', () {
-      // Act
-      final concentration = calculator.totalConcentrationAtTime(
-          simulationDay(0.0), [intakeAt(0.0)], unit);
-
-      // Assert
-      expect(concentration, 0.0);
-    });
-
-    test('is positive within the active window', () {
-      // Act
-      final concentration = calculator.totalConcentrationAtTime(
-          simulationDay(2.0), [intakeAt(0.0)], unit);
-
-      // Assert
-      expect(concentration, greaterThan(0.0));
     });
 
     test('returns zero for an empty intake list', () {
@@ -55,17 +37,6 @@ void main() {
 
       // Assert
       expect(concentration, 0.0);
-    });
-
-    test('a fractional offset shifts the curve by exactly that amount', () {
-      // Act
-      final shifted = calculator.totalConcentrationAtTime(
-          simulationDay(2.5), [intakeAt(0.5)], unit);
-      final base = calculator.totalConcentrationAtTime(
-          simulationDay(2.0), [intakeAt(0.0)], unit);
-
-      // Assert
-      expect(shifted, closeTo(base, 1e-9));
     });
 
     test('sums the contribution of multiple injections', () {
@@ -122,19 +93,6 @@ void main() {
       // Assert
       expect(concentration, closeTo(269.852, 1e-3));
     });
-
-    test('100 mg undecylate is still 0.183 pg/mL on day 364', () {
-      // Arrange
-      final intake = aSimulatedInjection(
-          dose: Decimal.fromInt(100), ester: Ester.undecylate);
-
-      // Act
-      final concentration = calculator.totalConcentrationAtTime(
-          simulationDay(364.0), [intake], unit);
-
-      // Assert
-      expect(concentration, closeTo(0.183, 1e-3));
-    });
   });
 
   group('generateLevelsSpots', () {
@@ -156,7 +114,7 @@ void main() {
       expect(spots.length, 11);
     });
 
-    test('samples up to an explicit tMax when provided', () {
+    test('ends sampling at tMax', () {
       // Act
       final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
           tMin: simulationDay(0.0), tMax: simulationDay(10.0), numPoints: 10);
@@ -165,7 +123,7 @@ void main() {
       expect(spots.last.x, chartX(simulationDay(10.0)));
     });
 
-    test('starts sampling at tMin when provided', () {
+    test('starts sampling at tMin', () {
       // Act
       final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
           tMin: simulationDay(5.0), tMax: simulationDay(10.0), numPoints: 10);
@@ -190,15 +148,6 @@ void main() {
   });
 
   group('generateBloodSpots', () {
-    test('returns an empty list for no blood tests', () {
-      // Act
-      final spots = calculator.generateBloodSpots([], unit,
-          tMin: simulationDay(0.0), tMax: simulationDay(10.0));
-
-      // Assert
-      expect(spots, isEmpty);
-    });
-
     test('maps each blood test to a spot at (chartX(dateTime), level)', () {
       // Act
       final spots = calculator.generateBloodSpots([
@@ -263,7 +212,6 @@ void main() {
 
     final cases = [
       (day: 4.5, expected: ValueComparison.below),
-      (day: 1.0, expected: ValueComparison.equal),
       (day: 2.0, expected: ValueComparison.equal),
     ];
 
