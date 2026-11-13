@@ -8,7 +8,7 @@
   "addAnItem": "เพื่มสต็อก",
   "empty_home": "เริ่มด้วยการเพื่มตารางเวลาในการตั้งค่า",
   "allDone": "ครบหมดแล้ว!",
-  "noIntakesDue": "ไม่มียาที่ต้องทานวันนี้",
+  "noIntakesDue": "ไม่มีโดสที่ต้องรับเพิ่มในวันนี้",
   "upcoming": "เร็วๆนี้",
   "taken": "ทานแล้ว",
   "daysAgoCount_other": "{{count}} วันที่แล้ว",
@@ -248,5 +248,15 @@
   "onHrtForMonths_other": "เทคฮอร์โมนมาแล้ว {{count}} เดือน",
   "onHrtForYears_other": "เทคฮอร์โมนมาแล้ว {{count}} ปี",
   "intakesLoggedCount_other": "บันทึกไปแล้ว {{count}} ครั้ง",
-  "HrtCounterDescription": "แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง"
+  "HrtCounterDescription": "แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง",
+  "asNeeded": "ตามที่ต้องการ",
+  "scheduleFrequencyDailyDescription": "ทุกวัน ตามเวลาที่กำหนด",
+  "scheduleFrequencyAsNeeded": "ตามที่ต้องการ",
+  "reportBug": "รายงานข้อบกพร่อง",
+  "reportBugDescription": "รายงานปัญหาใน GitHub",
+  "translateApp": "ช่วยแปลแอปนี้",
+  "translateAppDescription": "ช่วยแปล Mona บน Weblate",
+  "missingTranslation": "มีการแปลตรงไหนบกพร่องไหม?",
+  "donate": "บริจาค",
+  "donateDescription": "สนับสนุน Mona บน Ko-fi"
 }
