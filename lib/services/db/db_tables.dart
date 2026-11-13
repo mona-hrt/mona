@@ -15,7 +15,7 @@ const String createSupplyItemsTable = '''
       administrationRoute TEXT,
       ester TEXT,
       amount INTEGER,
-      genericSupplyType TEXT,
+      otherSupplyType TEXT,
       deliveryForm TEXT,
       dosingBasis TEXT
     )
@@ -35,7 +35,7 @@ const String createMedicationIntakesTable = '''
       administrationRoute TEXT NOT NULL,
       ester TEXT,
       medicationSupplyItemId INTEGER,
-      genericSupplyItemIds TEXT NOT NULL,
+      consumableSupplyItemIds TEXT NOT NULL,
       notes TEXT,
       placements TEXT NOT NULL,
       dosingBasis TEXT NOT NULL,

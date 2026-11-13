@@ -69,13 +69,13 @@ void main() {
       );
     });
 
-    test('can insert and query generic supply_items', () async {
+    test('can insert and query other supply_items', () async {
       // Act
       final id = await db.insert('supply_items', {
-        'type': 'generic',
-        'name': 'Test generic Item',
+        'type': 'other',
+        'name': 'Test other Item',
         'amount': 5,
-        'genericSupplyType': 'syringe',
+        'otherSupplyType': 'wipe',
       });
 
       final item = await db.query(
@@ -88,9 +88,9 @@ void main() {
       expect(
           item.single,
           allOf(
-            containsPair('name', 'Test generic Item'),
+            containsPair('name', 'Test other Item'),
             containsPair('amount', 5),
-            containsPair('genericSupplyType', 'syringe'),
+            containsPair('otherSupplyType', 'wipe'),
           ));
     });
 
@@ -113,7 +113,7 @@ void main() {
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
         'medicationSupplyItemId': supplyItemId,
-        'genericSupplyItemIds': '[]',
+        'consumableSupplyItemIds': '[]',
         'dosingBasis': 'mass',
       });
 
@@ -150,7 +150,7 @@ void main() {
                 'molecule': '{"name":"estradiol","unit":"mg"}',
                 'administrationRoute': 'oral',
                 'medicationSupplyItemId': supplyItemId,
-                'genericSupplyItemIds': '[]',
+                'consumableSupplyItemIds': '[]',
                 'dosingBasis': 'mass',
               }),
           throwsA(
@@ -181,7 +181,7 @@ void main() {
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
         'medicationSupplyItemId': supplyItemId,
-        'genericSupplyItemIds': '[]',
+        'consumableSupplyItemIds': '[]',
         'dosingBasis': 'mass',
       });
 
@@ -213,7 +213,7 @@ void main() {
                 'molecule': '{"name":"estradiol","unit":"mg"}',
                 'administrationRoute': 'oral',
                 'scheduleId': scheduleId,
-                'genericSupplyItemIds': '[]',
+                'consumableSupplyItemIds': '[]',
                 'dosingBasis': 'mass',
               }),
           throwsA(
@@ -245,7 +245,7 @@ void main() {
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
         'scheduleId': scheduleId,
-        'genericSupplyItemIds': '[]',
+        'consumableSupplyItemIds': '[]',
         'dosingBasis': 'mass',
       });
 

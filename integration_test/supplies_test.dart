@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/ui/views/supplies/supply_item_card.dart';
+import 'package:mona/ui/widgets/dropdowns/consumable_type_dropdown.dart';
 import 'package:patrol/patrol.dart';
 
 import 'support/helpers.dart';
@@ -22,7 +22,7 @@ import 'support/helpers.dart';
 // New item (shared first page): name, type toggle, "Next".
 const _newItemName = ValueKey('newItemName');
 const _newItemNext = ValueKey('newItemNext');
-const _newItemTypeGeneric = ValueKey('newItemTypeGeneric');
+const _newItemTypeConsumable = ValueKey('newItemTypeConsumable');
 
 // New medication item specifics: amounts + "Add".
 const _newMedicationItemTotalAmount = ValueKey('newMedicationItemTotalAmount');
@@ -30,9 +30,9 @@ const _newMedicationItemConcentration =
     ValueKey('newMedicationItemConcentration');
 const _newMedicationItemAdd = ValueKey('newMedicationItemAdd');
 
-// New generic item specifics: amount + "Add".
-const _newGenericItemAmount = ValueKey('newGenericItemAmount');
-const _newGenericItemAdd = ValueKey('newGenericItemAdd');
+// New consumable item specifics: amount + "Add".
+const _newConsumableItemAmount = ValueKey('newConsumableItemAmount');
+const _newConsumableItemAdd = ValueKey('newConsumableItemAdd');
 
 // Edit medication item.
 const _editItemName = ValueKey('editItemName');
@@ -45,7 +45,7 @@ const _emptyState = 'No supplies. Add an item to get started.';
 // Dropdown options aren't keyed. They're selected by visible localized text.
 const _moleculeEstradiol = 'Estradiol';
 const _routeOral = 'Oral';
-const _genericTypeSyringe = 'Syringes';
+const _consumableTypeSyringe = 'Syringes';
 
 void main() {
   patrolTest('shows empty state when there are no supplies', ($) async {
@@ -72,7 +72,7 @@ void main() {
     await $.launchApp();
     await $.openSupplies();
 
-    await _createGenericItem($, name: 'Spare Syringes');
+    await _createConsumableItem($, name: 'Spare Syringes');
 
     await $('Spare Syringes').waitUntilVisible();
     expect($('Spare Syringes'), findsOneWidget);
@@ -131,18 +131,18 @@ Future<void> _createMedicationItem(
 
 /// From the Supplies tab: FAB -> first page (name, switch type to consumable)
 /// -> Next -> specifics (type + amount) -> Add. Returns to the supplies grid.
-Future<void> _createGenericItem(
+Future<void> _createConsumableItem(
   PatrolIntegrationTester $, {
   required String name,
 }) async {
   await $(Symbols.add_rounded).tap(); // FAB: "Add an item" -> NewItemPage
   await $(_newItemName).enterText(name);
-  await $(_newItemTypeGeneric).tap(); // switch from medication to consumable
-  await $(_newItemNext).tap(); // -> NewGenericItemSpecificsPage
+  await $(_newItemTypeConsumable).tap(); // switch from medication to consumable
+  await $(_newItemNext).tap(); // -> NewConsumableItemSpecificsPage
 
-  await $(DropdownButtonFormField<GenericSupplyType>).tap();
-  await $(_genericTypeSyringe).tap();
+  await $(DropdownButtonFormField<ConsumableType>).tap();
+  await $(_consumableTypeSyringe).tap();
 
-  await $(_newGenericItemAmount).enterText('5');
-  await $(_newGenericItemAdd).tap(); // pops back to the supplies grid
+  await $(_newConsumableItemAmount).enterText('5');
+  await $(_newConsumableItemAdd).tap(); // pops back to the supplies grid
 }

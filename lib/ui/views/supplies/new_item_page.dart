@@ -7,13 +7,13 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/views/supplies/new_generic_item_specifics_page.dart';
+import 'package:mona/ui/views/supplies/new_consumable_item_specifics_page.dart';
 import 'package:mona/ui/views/supplies/new_medication_item_specifics_page.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
 
-enum _ItemType { medication, genericSupply }
+enum _ItemType { medication, consumable }
 
 class NewItemPage extends StatefulWidget {
   @override
@@ -37,8 +37,8 @@ class _NewItemPageState extends State<NewItemPage> {
       _ItemType.medication => MaterialPageRoute<void>(
           builder: (context) => NewMedicationItemSpecificsPage(name: name),
         ),
-      _ItemType.genericSupply => MaterialPageRoute<void>(
-          builder: (context) => NewGenericItemSpecificsPage(name: name),
+      _ItemType.consumable => MaterialPageRoute<void>(
+          builder: (context) => NewConsumableItemSpecificsPage(name: name),
         ),
     };
     Navigator.of(context).push(route);
@@ -101,7 +101,7 @@ class _NewItemPageState extends State<NewItemPage> {
                   key: const ValueKey('newItemTypeMedication'))),
           M3EToggleButtonGroupAction(
               label: Text(t.genericItemType,
-                  key: const ValueKey('newItemTypeGeneric'))),
+                  key: const ValueKey('newItemTypeConsumable'))),
         ],
       ),
     );

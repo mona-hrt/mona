@@ -13,9 +13,9 @@ import 'dart:ui' as _i10;
 import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mona/data/model/administration_route.dart' as _i15;
+import 'package:mona/data/model/consumable_supply_item.dart' as _i13;
 import 'package:mona/data/model/date.dart' as _i9;
 import 'package:mona/data/model/ester.dart' as _i16;
-import 'package:mona/data/model/generic_supply_item.dart' as _i13;
 import 'package:mona/data/model/medication_intake.dart' as _i7;
 import 'package:mona/data/model/medication_supply_item.dart' as _i12;
 import 'package:mona/data/model/molecule.dart' as _i14;
@@ -339,11 +339,11 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as List<_i12.MedicationSupplyItem>);
 
   @override
-  List<_i13.GenericSupply> get genericItems => (super.noSuchMethod(
-        Invocation.getter(#genericItems),
-        returnValue: <_i13.GenericSupply>[],
-        returnValueForMissingStub: <_i13.GenericSupply>[],
-      ) as List<_i13.GenericSupply>);
+  List<_i13.ConsumableSupplyItem> get consumableItems => (super.noSuchMethod(
+        Invocation.getter(#consumableItems),
+        returnValue: <_i13.ConsumableSupplyItem>[],
+        returnValueForMissingStub: <_i13.ConsumableSupplyItem>[],
+      ) as List<_i13.ConsumableSupplyItem>);
 
   @override
   List<_i12.MedicationSupplyItem> get medicationItemsOrderedByRatio =>
@@ -368,8 +368,8 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as List<_i3.SupplyItem>);
 
   @override
-  List<_i3.SupplyItem> get genericItemsOrderedByName => (super.noSuchMethod(
-        Invocation.getter(#genericItemsOrderedByName),
+  List<_i3.SupplyItem> get consumableItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#consumableItemsOrderedByName),
         returnValue: <_i3.SupplyItem>[],
         returnValueForMissingStub: <_i3.SupplyItem>[],
       ) as List<_i3.SupplyItem>);

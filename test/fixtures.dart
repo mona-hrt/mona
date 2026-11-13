@@ -8,10 +8,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
@@ -130,7 +130,7 @@ MedicationIntake aMedicationIntake({
   DateTime? takenDateTime,
   bool taken = true,
   int? medicationSupplyItemId,
-  List<int> genericSupplyItemIds = const [],
+  List<int> consumableSupplyItemIds = const [],
   Decimal? wastedAmount,
   Decimal? deadSpace,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
@@ -155,7 +155,7 @@ MedicationIntake aMedicationIntake({
     administrationRoute: administrationRoute,
     scheduledTime: time,
     medicationSupplyItemId: medicationSupplyItemId,
-    genericSupplyItemIds: genericSupplyItemIds,
+    consumableSupplyItemIds: consumableSupplyItemIds,
     wastedAmount: wastedAmount,
     deadSpace: deadSpace,
     ester: ester,
@@ -254,19 +254,25 @@ MedicationSupplyItem aMedicationSupplyItem({
   );
 }
 
-GenericSupply aGenericSupplyItem({
+ConsumableSupplyItem aConsumableSupplyItem({
   int? id,
   String? name,
   int amount = 5,
-  GenericSupplyType genericSupplyType = GenericSupplyType.syringe,
 }) {
   final resolvedId = id ?? _generateId();
-  return GenericSupply(
-    id: resolvedId,
-    name: name ?? 'Generic-$resolvedId',
-    amount: amount,
-    genericSupplyType: genericSupplyType,
-  );
+  final resolvedName = name ?? 'Consumable-$resolvedId';
+  return switch (Random().nextInt(3)) {
+    0 => Syringe(id: resolvedId, name: resolvedName, amount: amount),
+    1 => Needle(id: resolvedId, name: resolvedName, amount: amount),
+    2 => OtherSupplyItem(
+        id: resolvedId,
+        name: resolvedName,
+        amount: amount,
+        otherSupplyType: OtherSupplyType
+            .values[Random().nextInt(OtherSupplyType.values.length)],
+      ),
+    _ => throw StateError('unreachable'),
+  };
 }
 
 SupplyItem aSupplyItem({
@@ -275,7 +281,7 @@ SupplyItem aSupplyItem({
 }) =>
     switch (Random().nextInt(2)) {
       0 => aMedicationSupplyItem(id: id, name: name),
-      1 => aGenericSupplyItem(id: id, name: name),
+      1 => aConsumableSupplyItem(id: id, name: name),
       _ => throw StateError('unreachable'),
     };
 

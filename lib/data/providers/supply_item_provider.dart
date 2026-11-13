@@ -4,8 +4,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
@@ -29,8 +29,8 @@ class SupplyItemProvider extends ChangeNotifier {
   List<MedicationSupplyItem> get medicationItems =>
       _items.whereType<MedicationSupplyItem>().toList();
 
-  List<GenericSupply> get genericItems =>
-      _items.whereType<GenericSupply>().toList();
+  List<ConsumableSupplyItem> get consumableItems =>
+      _items.whereType<ConsumableSupplyItem>().toList();
 
   List<MedicationSupplyItem> get medicationItemsOrderedByRatio =>
       [...medicationItems]..sort(
@@ -43,7 +43,7 @@ class SupplyItemProvider extends ChangeNotifier {
   List<SupplyItem> get medicationItemsOrderedByName => medicationItems
     ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
-  List<SupplyItem> get genericItemsOrderedByName => genericItems
+  List<SupplyItem> get consumableItemsOrderedByName => consumableItems
     ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
   SupplyItem? getItemById(int? id) {

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -56,7 +56,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   List<Placement> _selectedPlacements = [];
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
-  List<GenericSupply> _selectedGenerics = [];
+  List<ConsumableSupplyItem> _selectedConsumables = [];
   bool _hasInitializedSupplyItem = false;
   late TextEditingController _notesController;
   InjectionType? _injectionType;
@@ -108,7 +108,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
       medicationItem: _selectedSupplyItem is MedicationSupplyItem
           ? _selectedSupplyItem as MedicationSupplyItem
           : null,
-      genericItems: _selectedGenerics,
+      consumableItems: _selectedConsumables,
       injectionType: _injectionType,
       notes: notes,
     );
@@ -233,9 +233,9 @@ class _EditIntakePageState extends State<EditIntakePage> {
         if (!isLoading && !_hasInitializedSupplyItem) {
           _selectedSupplyItem = supplyItemProvider
               .getItemById(widget.intake.medicationSupplyItemId);
-          _selectedGenerics = supplyItemProvider
-              .getItemsByIds(widget.intake.genericSupplyItemIds)
-              .whereType<GenericSupply>()
+          _selectedConsumables = supplyItemProvider
+              .getItemsByIds(widget.intake.consumableSupplyItemIds)
+              .whereType<ConsumableSupplyItem>()
               .toList();
           _hasInitializedSupplyItem = true;
         }
@@ -312,19 +312,19 @@ class _EditIntakePageState extends State<EditIntakePage> {
               medicationItem: _selectedSupplyItem is MedicationSupplyItem
                   ? _selectedSupplyItem as MedicationSupplyItem
                   : null,
-              generics: _selectedGenerics,
+              consumables: _selectedConsumables,
               medicationOptions: supplyItemOptions,
-              genericOptions: supplyItemProvider.genericItems,
+              consumableOptions: supplyItemProvider.consumableItems,
               onRemoveMedication: () =>
                   setState(() => _selectedSupplyItem = null),
-              onRemoveGenericAt: (index) => setState(() {
-                final list = [..._selectedGenerics]..removeAt(index);
-                _selectedGenerics = list;
+              onRemoveConsumableAt: (index) => setState(() {
+                final list = [..._selectedConsumables]..removeAt(index);
+                _selectedConsumables = list;
               }),
               onAddMedication: (item) =>
                   setState(() => _selectedSupplyItem = item),
-              onAddGeneric: (generic) => setState(
-                  () => _selectedGenerics = [..._selectedGenerics, generic]),
+              onAddConsumable: (consumable) => setState(() =>
+                  _selectedConsumables = [..._selectedConsumables, consumable]),
             ),
             FormSpacer(),
             if (_isInjection) ...[

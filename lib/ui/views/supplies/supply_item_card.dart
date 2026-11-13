@@ -6,12 +6,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
-import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
-import 'package:mona/ui/views/supplies/edit_generic_item_page.dart' as generic;
+import 'package:mona/ui/extensions/consumable_type_icon.dart';
+import 'package:mona/ui/views/supplies/edit_consumable_item_page.dart'
+    as consumable;
 import 'package:mona/ui/views/supplies/edit_item_page.dart' as medication;
 
 class SupplyItemCard extends StatelessWidget {
@@ -22,9 +23,9 @@ class SupplyItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final isGeneric = item is GenericSupply;
+    final isConsumable = item is ConsumableSupplyItem;
     final heroBackground =
-        isGeneric ? colorScheme.secondary : colorScheme.primary;
+        isConsumable ? colorScheme.secondary : colorScheme.primary;
 
     return Card.filled(
       clipBehavior: Clip.antiAlias,
@@ -69,7 +70,7 @@ class SupplyItemCard extends StatelessWidget {
   void _openEditPage(BuildContext context) {
     final WidgetBuilder? builder = switch (item) {
       final MedicationSupplyItem m => (_) => medication.EditItemPage(item: m),
-      final GenericSupply g => (_) => generic.EditItemPage(item: g),
+      final ConsumableSupplyItem g => (_) => consumable.EditItemPage(item: g),
       _ => null,
     };
 
@@ -97,8 +98,8 @@ class SupplyItemCard extends StatelessWidget {
           size: size,
           color: colorScheme.onPrimary,
         ),
-      final GenericSupply g => Icon(
-          g.genericSupplyType.icon,
+      final ConsumableSupplyItem g => Icon(
+          g.icon,
           size: size,
           color: colorScheme.onSecondary,
         ),
