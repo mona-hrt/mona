@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
@@ -17,32 +17,32 @@ import 'package:mona/ui/widgets/tappable_list_tile.dart';
 
 class IntakeSupplyPicker extends StatelessWidget {
   final MedicationSupplyItem? medicationItem;
-  final List<GenericSupply> generics;
+  final List<ConsumableSupplyItem> consumables;
   final List<MedicationSupplyItem> medicationOptions;
-  final List<GenericSupply> genericOptions;
+  final List<ConsumableSupplyItem> consumableOptions;
   final VoidCallback onRemoveMedication;
-  final ValueChanged<int> onRemoveGenericAt;
+  final ValueChanged<int> onRemoveConsumableAt;
   final ValueChanged<MedicationSupplyItem> onAddMedication;
-  final ValueChanged<GenericSupply> onAddGeneric;
+  final ValueChanged<ConsumableSupplyItem> onAddConsumable;
 
   const IntakeSupplyPicker({
     super.key,
     required this.medicationItem,
-    required this.generics,
+    required this.consumables,
     required this.medicationOptions,
-    required this.genericOptions,
+    required this.consumableOptions,
     required this.onRemoveMedication,
-    required this.onRemoveGenericAt,
+    required this.onRemoveConsumableAt,
     required this.onAddMedication,
-    required this.onAddGeneric,
+    required this.onAddConsumable,
   });
 
   Future<void> _openAddSheet(BuildContext context) async {
     final addableMedications =
         medicationOptions.where((o) => o.id != medicationItem?.id).toList();
-    final addableGenerics = genericOptions;
+    final addableConsumables = consumableOptions;
 
-    final isEmpty = addableMedications.isEmpty && addableGenerics.isEmpty;
+    final isEmpty = addableMedications.isEmpty && addableConsumables.isEmpty;
 
     await showModalBottomSheet<void>(
       context: context,
@@ -74,7 +74,7 @@ class IntakeSupplyPicker extends StatelessWidget {
                   Navigator.of(sheetContext).pop();
                 },
               ),
-            for (final item in addableGenerics)
+            for (final item in addableConsumables)
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor:
@@ -86,7 +86,7 @@ class IntakeSupplyPicker extends StatelessWidget {
                 title: Text(item.name),
                 subtitle: Text(item.localizedSummary),
                 onTap: () {
-                  onAddGeneric(item);
+                  onAddConsumable(item);
                   Navigator.of(sheetContext).pop();
                 },
               ),
@@ -107,8 +107,8 @@ class IntakeSupplyPicker extends StatelessWidget {
                     builder: (_) => NewItemPage(),
                   ),
                 );
-                if (created is GenericSupply) {
-                  onAddGeneric(created);
+                if (created is ConsumableSupplyItem) {
+                  onAddConsumable(created);
                 } else if (created is MedicationSupplyItem) {
                   onAddMedication(created);
                 }
@@ -139,15 +139,15 @@ class IntakeSupplyPicker extends StatelessWidget {
             onPressed: onRemoveMedication,
           ),
         ),
-      for (final (index, generic) in generics.indexed)
+      for (final (index, consumable) in consumables.indexed)
         ListTile(
           leading: CircleAvatar(
             backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-            child: Icon(generic.genericSupplyType.icon),
+            child: Icon(consumable.genericSupplyType.icon),
           ),
-          title: Text(generic.name),
-          subtitle: Text(generic.localizedSummary),
+          title: Text(consumable.name),
+          subtitle: Text(consumable.localizedSummary),
           trailing: IconButton(
             style: IconButton.styleFrom(
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -155,7 +155,7 @@ class IntakeSupplyPicker extends StatelessWidget {
               padding: EdgeInsets.zero,
             ),
             icon: const Icon(Symbols.close_rounded),
-            onPressed: () => onRemoveGenericAt(index),
+            onPressed: () => onRemoveConsumableAt(index),
           ),
         ),
       TappableListTile(

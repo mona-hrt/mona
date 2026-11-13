@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
@@ -17,23 +17,23 @@ import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
-class NewGenericItemSpecificsPage extends StatefulWidget {
+class NewConsumableItemSpecificsPage extends StatefulWidget {
   final String name;
 
-  const NewGenericItemSpecificsPage({super.key, required this.name});
+  const NewConsumableItemSpecificsPage({super.key, required this.name});
 
   @override
-  State<NewGenericItemSpecificsPage> createState() =>
-      _NewGenericItemSpecificsPageState();
+  State<NewConsumableItemSpecificsPage> createState() =>
+      _NewConsumableItemSpecificsPageState();
 }
 
-class _NewGenericItemSpecificsPageState
-    extends State<NewGenericItemSpecificsPage> {
+class _NewConsumableItemSpecificsPageState
+    extends State<NewConsumableItemSpecificsPage> {
   late TextEditingController _amountController;
   GenericSupplyType? _genericSupplyType;
 
   String? get _amountError =>
-      GenericSupply.validateAmount(_amountController.text);
+      ConsumableSupplyItem.validateAmount(_amountController.text);
   String? get _genericSupplyTypeError =>
       _genericSupplyType == null ? t.requiredField : null;
 
@@ -49,7 +49,7 @@ class _NewGenericItemSpecificsPageState
   }
 
   void _addItem() async {
-    final item = GenericSupply(
+    final item = ConsumableSupplyItem(
       name: widget.name,
       amount: _amountController.text.toInt,
       genericSupplyType: _genericSupplyType!,
@@ -81,7 +81,7 @@ class _NewGenericItemSpecificsPageState
       title: widget.name,
       avatar: _genericSupplyType?.icon ?? Symbols.medication_rounded,
       submitButtonLabel: t.add,
-      submitButtonKey: const ValueKey('newGenericItemAdd'),
+      submitButtonKey: const ValueKey('newConsumableItemAdd'),
       isFormValid: _isFormValid,
       saveChanges: _addItem,
       closeAll: _closeAll,
@@ -95,7 +95,7 @@ class _NewGenericItemSpecificsPageState
         FormTextField(
           controller: _amountController,
           label: t.amount,
-          fieldKey: const ValueKey('newGenericItemAmount'),
+          fieldKey: const ValueKey('newConsumableItemAmount'),
           onChanged: _refresh,
           inputType: TextInputType.number,
           regexFormatter: RegexPatterns.intNumber,

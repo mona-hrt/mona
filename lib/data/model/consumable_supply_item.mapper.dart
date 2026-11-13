@@ -6,7 +6,7 @@
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
 
-part of 'generic_supply_item.dart';
+part of 'consumable_supply_item.dart';
 
 class GenericSupplyTypeMapper extends EnumMapper<GenericSupplyType> {
   GenericSupplyTypeMapper._();
@@ -66,13 +66,14 @@ extension GenericSupplyTypeMapperExtension on GenericSupplyType {
   }
 }
 
-class GenericSupplyMapper extends SubClassMapperBase<GenericSupply> {
-  GenericSupplyMapper._();
+class ConsumableSupplyItemMapper
+    extends SubClassMapperBase<ConsumableSupplyItem> {
+  ConsumableSupplyItemMapper._();
 
-  static GenericSupplyMapper? _instance;
-  static GenericSupplyMapper ensureInitialized() {
+  static ConsumableSupplyItemMapper? _instance;
+  static ConsumableSupplyItemMapper ensureInitialized() {
     if (_instance == null) {
-      MapperContainer.globals.use(_instance = GenericSupplyMapper._());
+      MapperContainer.globals.use(_instance = ConsumableSupplyItemMapper._());
       SupplyItemMapper.ensureInitialized().addSubMapper(_instance!);
       GenericSupplyTypeMapper.ensureInitialized();
     }
@@ -80,21 +81,31 @@ class GenericSupplyMapper extends SubClassMapperBase<GenericSupply> {
   }
 
   @override
-  final String id = 'GenericSupply';
+  final String id = 'ConsumableSupplyItem';
 
-  static int _$id(GenericSupply v) => v.id;
-  static const Field<GenericSupply, int> _f$id = Field('id', _$id, opt: true);
-  static String _$name(GenericSupply v) => v.name;
-  static const Field<GenericSupply, String> _f$name = Field('name', _$name);
-  static int _$amount(GenericSupply v) => v.amount;
-  static const Field<GenericSupply, int> _f$amount = Field('amount', _$amount);
-  static GenericSupplyType _$genericSupplyType(GenericSupply v) =>
+  static int _$id(ConsumableSupplyItem v) => v.id;
+  static const Field<ConsumableSupplyItem, int> _f$id = Field(
+    'id',
+    _$id,
+    opt: true,
+  );
+  static String _$name(ConsumableSupplyItem v) => v.name;
+  static const Field<ConsumableSupplyItem, String> _f$name = Field(
+    'name',
+    _$name,
+  );
+  static int _$amount(ConsumableSupplyItem v) => v.amount;
+  static const Field<ConsumableSupplyItem, int> _f$amount = Field(
+    'amount',
+    _$amount,
+  );
+  static GenericSupplyType _$genericSupplyType(ConsumableSupplyItem v) =>
       v.genericSupplyType;
-  static const Field<GenericSupply, GenericSupplyType> _f$genericSupplyType =
-      Field('genericSupplyType', _$genericSupplyType);
+  static const Field<ConsumableSupplyItem, GenericSupplyType>
+      _f$genericSupplyType = Field('genericSupplyType', _$genericSupplyType);
 
   @override
-  final MappableFields<GenericSupply> fields = const {
+  final MappableFields<ConsumableSupplyItem> fields = const {
     #id: _f$id,
     #name: _f$name,
     #amount: _f$amount,
@@ -108,8 +119,8 @@ class GenericSupplyMapper extends SubClassMapperBase<GenericSupply> {
   @override
   late final ClassMapperBase superMapper = SupplyItemMapper.ensureInitialized();
 
-  static GenericSupply _instantiate(DecodingData data) {
-    return GenericSupply(
+  static ConsumableSupplyItem _instantiate(DecodingData data) {
+    return ConsumableSupplyItem(
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       amount: data.dec(_f$amount),
@@ -120,65 +131,65 @@ class GenericSupplyMapper extends SubClassMapperBase<GenericSupply> {
   @override
   final Function instantiate = _instantiate;
 
-  static GenericSupply fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<GenericSupply>(map);
+  static ConsumableSupplyItem fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<ConsumableSupplyItem>(map);
   }
 
-  static GenericSupply fromJson(String json) {
-    return ensureInitialized().decodeJson<GenericSupply>(json);
+  static ConsumableSupplyItem fromJson(String json) {
+    return ensureInitialized().decodeJson<ConsumableSupplyItem>(json);
   }
 }
 
-mixin GenericSupplyMappable {
+mixin ConsumableSupplyItemMappable {
   String toJson() {
-    return GenericSupplyMapper.ensureInitialized().encodeJson<GenericSupply>(
-      this as GenericSupply,
-    );
+    return ConsumableSupplyItemMapper.ensureInitialized()
+        .encodeJson<ConsumableSupplyItem>(this as ConsumableSupplyItem);
   }
 
   Map<String, dynamic> toMap() {
-    return GenericSupplyMapper.ensureInitialized().encodeMap<GenericSupply>(
-      this as GenericSupply,
-    );
+    return ConsumableSupplyItemMapper.ensureInitialized()
+        .encodeMap<ConsumableSupplyItem>(this as ConsumableSupplyItem);
   }
 
-  GenericSupplyCopyWith<GenericSupply, GenericSupply, GenericSupply>
-      get copyWith => _GenericSupplyCopyWithImpl<GenericSupply, GenericSupply>(
-            this as GenericSupply,
-            $identity,
-            $identity,
-          );
+  ConsumableSupplyItemCopyWith<ConsumableSupplyItem, ConsumableSupplyItem,
+      ConsumableSupplyItem> get copyWith => _ConsumableSupplyItemCopyWithImpl<
+          ConsumableSupplyItem, ConsumableSupplyItem>(
+      this as ConsumableSupplyItem, $identity, $identity);
   @override
   String toString() {
-    return GenericSupplyMapper.ensureInitialized().stringifyValue(
-      this as GenericSupply,
+    return ConsumableSupplyItemMapper.ensureInitialized().stringifyValue(
+      this as ConsumableSupplyItem,
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return GenericSupplyMapper.ensureInitialized().equalsValue(
-      this as GenericSupply,
+    return ConsumableSupplyItemMapper.ensureInitialized().equalsValue(
+      this as ConsumableSupplyItem,
       other,
     );
   }
 
   @override
   int get hashCode {
-    return GenericSupplyMapper.ensureInitialized().hashValue(
-      this as GenericSupply,
+    return ConsumableSupplyItemMapper.ensureInitialized().hashValue(
+      this as ConsumableSupplyItem,
     );
   }
 }
 
-extension GenericSupplyValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, GenericSupply, $Out> {
-  GenericSupplyCopyWith<$R, GenericSupply, $Out> get $asGenericSupply =>
-      $base.as((v, t, t2) => _GenericSupplyCopyWithImpl<$R, $Out>(v, t, t2));
+extension ConsumableSupplyItemValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, ConsumableSupplyItem, $Out> {
+  ConsumableSupplyItemCopyWith<$R, ConsumableSupplyItem, $Out>
+      get $asConsumableSupplyItem => $base.as(
+            (v, t, t2) => _ConsumableSupplyItemCopyWithImpl<$R, $Out>(v, t, t2),
+          );
 }
 
-abstract class GenericSupplyCopyWith<$R, $In extends GenericSupply, $Out>
-    implements SupplyItemCopyWith<$R, $In, $Out> {
+abstract class ConsumableSupplyItemCopyWith<
+    $R,
+    $In extends ConsumableSupplyItem,
+    $Out> implements SupplyItemCopyWith<$R, $In, $Out> {
   @override
   $R call({
     int? id,
@@ -186,17 +197,19 @@ abstract class GenericSupplyCopyWith<$R, $In extends GenericSupply, $Out>
     int? amount,
     GenericSupplyType? genericSupplyType,
   });
-  GenericSupplyCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+  ConsumableSupplyItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  );
 }
 
-class _GenericSupplyCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, GenericSupply, $Out>
-    implements GenericSupplyCopyWith<$R, GenericSupply, $Out> {
-  _GenericSupplyCopyWithImpl(super.value, super.then, super.then2);
+class _ConsumableSupplyItemCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, ConsumableSupplyItem, $Out>
+    implements ConsumableSupplyItemCopyWith<$R, ConsumableSupplyItem, $Out> {
+  _ConsumableSupplyItemCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<GenericSupply> $mapper =
-      GenericSupplyMapper.ensureInitialized();
+  late final ClassMapperBase<ConsumableSupplyItem> $mapper =
+      ConsumableSupplyItemMapper.ensureInitialized();
   @override
   $R call({
     Object? id = $none,
@@ -213,7 +226,7 @@ class _GenericSupplyCopyWithImpl<$R, $Out>
         }),
       );
   @override
-  GenericSupply $make(CopyWithData data) => GenericSupply(
+  ConsumableSupplyItem $make(CopyWithData data) => ConsumableSupplyItem(
         id: data.get(#id, or: $value.id),
         name: data.get(#name, or: $value.name),
         amount: data.get(#amount, or: $value.amount),
@@ -224,8 +237,7 @@ class _GenericSupplyCopyWithImpl<$R, $Out>
       );
 
   @override
-  GenericSupplyCopyWith<$R2, GenericSupply, $Out2> $chain<$R2, $Out2>(
-    Then<$Out2, $R2> t,
-  ) =>
-      _GenericSupplyCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  ConsumableSupplyItemCopyWith<$R2, ConsumableSupplyItem, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _ConsumableSupplyItemCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

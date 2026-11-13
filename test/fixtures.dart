@@ -8,10 +8,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
@@ -254,16 +254,16 @@ MedicationSupplyItem aMedicationSupplyItem({
   );
 }
 
-GenericSupply aGenericSupplyItem({
+ConsumableSupplyItem aConsumableSupplyItem({
   int? id,
   String? name,
   int amount = 5,
   GenericSupplyType genericSupplyType = GenericSupplyType.syringe,
 }) {
   final resolvedId = id ?? _generateId();
-  return GenericSupply(
+  return ConsumableSupplyItem(
     id: resolvedId,
-    name: name ?? 'Generic-$resolvedId',
+    name: name ?? 'Consumable-$resolvedId',
     amount: amount,
     genericSupplyType: genericSupplyType,
   );
@@ -275,7 +275,7 @@ SupplyItem aSupplyItem({
 }) =>
     switch (Random().nextInt(2)) {
       0 => aMedicationSupplyItem(id: id, name: name),
-      1 => aGenericSupplyItem(id: id, name: name),
+      1 => aConsumableSupplyItem(id: id, name: name),
       _ => throw StateError('unreachable'),
     };
 

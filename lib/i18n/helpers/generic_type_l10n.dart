@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/i18n/translations.g.dart';
 
 extension GenericItemTypeL10n on GenericSupplyType {

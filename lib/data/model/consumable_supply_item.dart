@@ -7,7 +7,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/util/validators.dart';
 
-part 'generic_supply_item.mapper.dart';
+part 'consumable_supply_item.mapper.dart';
 
 @MappableEnum()
 enum GenericSupplyType {
@@ -19,7 +19,8 @@ enum GenericSupplyType {
 }
 
 @MappableClass(discriminatorValue: 'generic')
-class GenericSupply extends SupplyItem with GenericSupplyMappable {
+class ConsumableSupplyItem extends SupplyItem
+    with ConsumableSupplyItemMappable {
   @override
   final int id;
   @override
@@ -27,7 +28,7 @@ class GenericSupply extends SupplyItem with GenericSupplyMappable {
   final int amount;
   final GenericSupplyType genericSupplyType;
 
-  GenericSupply({
+  ConsumableSupplyItem({
     int? id,
     required this.name,
     required this.amount,

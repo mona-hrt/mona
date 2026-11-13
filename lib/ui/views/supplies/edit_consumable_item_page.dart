@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:flutter/material.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
@@ -20,7 +20,7 @@ import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
 class EditItemPage extends StatefulWidget {
-  final GenericSupply item;
+  final ConsumableSupplyItem item;
 
   EditItemPage({required this.item});
 
@@ -94,8 +94,8 @@ class _EditItemPageState extends State<EditItemPage> {
       title: t.editItem,
       avatar: _genericSupplyType.icon,
       submitButtonLabel: t.save,
-      submitButtonKey: const ValueKey('editGenericItemSave'),
-      deleteButtonKey: const ValueKey('editGenericItemDelete'),
+      submitButtonKey: const ValueKey('editConsumableItemSave'),
+      deleteButtonKey: const ValueKey('editConsumableItemDelete'),
       isFormValid: _isFormValid,
       saveChanges: _saveChanges,
       onDelete: _confirmDelete,
@@ -103,7 +103,7 @@ class _EditItemPageState extends State<EditItemPage> {
         FormTextField(
           controller: _nameController,
           label: t.name,
-          fieldKey: const ValueKey('editGenericItemName'),
+          fieldKey: const ValueKey('editConsumableItemName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,

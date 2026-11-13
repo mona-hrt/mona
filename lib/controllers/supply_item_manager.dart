@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import 'package:decimal/decimal.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import '../data/model/medication_supply_item.dart';
 import '../data/providers/supply_item_provider.dart';
 
@@ -32,8 +32,8 @@ class SupplyItemManager {
     ));
   }
 
-  /// Uses [quantity] units of the [GenericSupply] and updates the database.
-  Future<void> use(GenericSupply item, {int quantity = 1}) async {
+  /// Uses [quantity] units of the [ConsumableSupplyItem] and updates the database.
+  Future<void> use(ConsumableSupplyItem item, {int quantity = 1}) async {
     final updatedAmount =
         item.amount - quantity < 0 ? 0 : item.amount - quantity;
     await _supplyItemProvider.updateItem(item.copyWith(
@@ -41,8 +41,8 @@ class SupplyItemManager {
     ));
   }
 
-  /// Puts back [quantity] units of the [GenericSupply] and updates the database.
-  Future<void> putBack(GenericSupply item, {int quantity = 1}) async {
+  /// Puts back [quantity] units of the [ConsumableSupplyItem] and updates the database.
+  Future<void> putBack(ConsumableSupplyItem item, {int quantity = 1}) async {
     await _supplyItemProvider.updateItem(item.copyWith(
       amount: item.amount + quantity,
     ));

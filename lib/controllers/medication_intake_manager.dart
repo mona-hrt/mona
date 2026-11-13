@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -35,7 +35,7 @@ class MedicationIntakeManager {
     TimeOfDay? scheduledTime,
     required DateTime takenDateTime,
     MedicationSupplyItem? medicationItem,
-    List<GenericSupply> genericItems = const [],
+    List<ConsumableSupplyItem> consumableItems = const [],
     required MedicationSchedule schedule,
     Decimal? deadSpace, //in μL
     String? notes,
@@ -60,7 +60,7 @@ class MedicationIntakeManager {
       administrationRoute: schedule.administrationRoute,
       ester: schedule.ester,
       medicationSupplyItemId: medicationItem?.id,
-      genericSupplyItemIds: genericItems.map((item) => item.id).toList(),
+      genericSupplyItemIds: consumableItems.map((item) => item.id).toList(),
       notes: notes,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
@@ -71,7 +71,7 @@ class MedicationIntakeManager {
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    for (final group in genericItems.groupListsBy((g) => g.id).values) {
+    for (final group in consumableItems.groupListsBy((g) => g.id).values) {
       await itemManager.use(group.first, quantity: group.length);
     }
 
@@ -92,7 +92,7 @@ class MedicationIntakeManager {
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    for (final group in _genericItemsByIds(intake.genericSupplyItemIds)
+    for (final group in _consumableItemsByIds(intake.genericSupplyItemIds)
         .groupListsBy((g) => g.id)
         .values) {
       await itemManager.putBack(group.first, quantity: group.length);
@@ -118,7 +118,7 @@ class MedicationIntakeManager {
     required DateTime takenDateTime,
     required String takenTimeZone,
     MedicationSupplyItem? medicationItem,
-    List<GenericSupply> genericItems = const [],
+    List<ConsumableSupplyItem> consumableItems = const [],
     String? notes,
     List<Placement> placements = const [],
     InjectionType? injectionType,
@@ -130,23 +130,24 @@ class MedicationIntakeManager {
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
     final previousCounts = _countById(intake.genericSupplyItemIds);
-    final newCounts = _countById(genericItems.map((g) => g.id));
+    final newCounts = _countById(consumableItems.map((g) => g.id));
 
     final removedIds =
         previousCounts.keys.where((id) => !newCounts.containsKey(id)).toList();
     final itemById = {
-      for (final generic in genericItems) generic.id: generic,
-      for (final generic in _genericItemsByIds(removedIds)) generic.id: generic,
+      for (final consumable in consumableItems) consumable.id: consumable,
+      for (final consumable in _consumableItemsByIds(removedIds))
+        consumable.id: consumable,
     };
 
     for (final id in {...previousCounts.keys, ...newCounts.keys}) {
       final delta = (newCounts[id] ?? 0) - (previousCounts[id] ?? 0);
-      final generic = itemById[id];
-      if (generic == null || delta == 0) continue;
+      final consumable = itemById[id];
+      if (consumable == null || delta == 0) continue;
       if (delta > 0) {
-        await itemManager.use(generic, quantity: delta);
+        await itemManager.use(consumable, quantity: delta);
       } else {
-        await itemManager.putBack(generic, quantity: -delta);
+        await itemManager.putBack(consumable, quantity: -delta);
       }
     }
 
@@ -181,7 +182,7 @@ class MedicationIntakeManager {
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
       medicationSupplyItemId: medicationItem?.id,
-      genericSupplyItemIds: genericItems.map((item) => item.id).toList(),
+      genericSupplyItemIds: consumableItems.map((item) => item.id).toList(),
       notes: notes,
       placements: placements,
       injectionType: injectionType,
@@ -251,19 +252,20 @@ class MedicationIntakeManager {
     );
   }
 
-  List<GenericSupply> suggestGenericItems({
+  List<ConsumableSupplyItem> suggestConsumableItems({
     required MedicationSchedule schedule,
   }) {
     final lastIntake =
         _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
     if (lastIntake == null) return const [];
-    return _genericItemsByIds(lastIntake.genericSupplyItemIds);
+    return _consumableItemsByIds(lastIntake.genericSupplyItemIds);
   }
 
-  List<GenericSupply> _genericItemsByIds(List<int> ids) => _supplyItemProvider
-      .getItemsByIds(ids)
-      .whereType<GenericSupply>()
-      .toList();
+  List<ConsumableSupplyItem> _consumableItemsByIds(List<int> ids) =>
+      _supplyItemProvider
+          .getItemsByIds(ids)
+          .whereType<ConsumableSupplyItem>()
+          .toList();
 
   Map<int, int> _countById(Iterable<int> ids) {
     final counts = <int, int>{};

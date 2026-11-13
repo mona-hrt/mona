@@ -12,11 +12,11 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -54,15 +54,15 @@ class DemoData {
   int _nextId = 1;
 
   late final Date _hrtStart = _daysAgo(270);
-  late final GenericSupply _syringes;
-  late final GenericSupply _fillNeedles;
-  late final GenericSupply _imNeedles;
-  late final GenericSupply _scNeedles;
-  late final GenericSupply _wipes;
-  late final GenericSupply _bandages;
+  late final ConsumableSupplyItem _syringes;
+  late final ConsumableSupplyItem _fillNeedles;
+  late final ConsumableSupplyItem _imNeedles;
+  late final ConsumableSupplyItem _scNeedles;
+  late final ConsumableSupplyItem _wipes;
+  late final ConsumableSupplyItem _bandages;
 
   DemoData.generate(this._timeZone) {
-    _addGenericSupplies();
+    _addConsumableSupplies();
     final injections = [
       ..._addEstradiolValerate(),
       ..._addEstradiolEnanthate(),
@@ -77,14 +77,15 @@ class DemoData {
     _addBloodTests(injections);
   }
 
-  void _addGenericSupplies() {
-    _syringes = _generic('Syringes 1 mL', GenericSupplyType.syringe, 24);
-    _fillNeedles = _generic('Fill needles 18G', GenericSupplyType.needle, 31);
-    _imNeedles = _generic('Needles 23G', GenericSupplyType.needle, 6);
-    _scNeedles = _generic('Needles 27G', GenericSupplyType.needle, 3);
-    _wipes = _generic('Alcohol wipes', GenericSupplyType.wipe, 87);
-    _bandages = _generic('Bandages', GenericSupplyType.bandage, 12);
-    _generic('Nitrile gloves', GenericSupplyType.gloves, 0);
+  void _addConsumableSupplies() {
+    _syringes = _consumable('Syringes 1 mL', GenericSupplyType.syringe, 24);
+    _fillNeedles =
+        _consumable('Fill needles 18G', GenericSupplyType.needle, 31);
+    _imNeedles = _consumable('Needles 23G', GenericSupplyType.needle, 6);
+    _scNeedles = _consumable('Needles 27G', GenericSupplyType.needle, 3);
+    _wipes = _consumable('Alcohol wipes', GenericSupplyType.wipe, 87);
+    _bandages = _consumable('Bandages', GenericSupplyType.bandage, 12);
+    _consumable('Nitrile gloves', GenericSupplyType.gloves, 0);
   }
 
   List<MedicationIntake> _addEstradiolValerate() {
@@ -604,8 +605,9 @@ class DemoData {
     );
   }
 
-  GenericSupply _generic(String name, GenericSupplyType type, int amount) {
-    final item = GenericSupply(
+  ConsumableSupplyItem _consumable(
+      String name, GenericSupplyType type, int amount) {
+    final item = ConsumableSupplyItem(
         id: _id(), name: name, amount: amount, genericSupplyType: type);
     supplyItems.add(item);
     return item;

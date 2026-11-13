@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 
 extension GenericSupplyTypeIcon on GenericSupplyType {
   IconData get icon {

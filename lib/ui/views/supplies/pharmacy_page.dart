@@ -28,12 +28,12 @@ class _PharmacyPageState extends State<PharmacyPage> {
     return Consumer<SupplyItemProvider>(
       builder: (context, supplyItemProvider, child) {
         final hasMedication = supplyItemProvider.medicationItems.isNotEmpty;
-        final hasGeneric = supplyItemProvider.genericItems.isNotEmpty;
-        final shouldDisplayFilter = hasMedication && hasGeneric;
-        final effectiveFilter =
-            _filter.isAvailable(hasMed: hasMedication, hasGen: hasGeneric)
-                ? _filter
-                : _Filter.all;
+        final hasConsumable = supplyItemProvider.consumableItems.isNotEmpty;
+        final shouldDisplayFilter = hasMedication && hasConsumable;
+        final effectiveFilter = _filter.isAvailable(
+                hasMed: hasMedication, hasConsumable: hasConsumable)
+            ? _filter
+            : _Filter.all;
         final items = effectiveFilter.items(supplyItemProvider);
 
         return MainPageWrapper(
@@ -107,33 +107,33 @@ class _PharmacyPageState extends State<PharmacyPage> {
   }
 }
 
-enum _Filter { all, medication, generic }
+enum _Filter { all, medication, consumable }
 
 extension _FilterX on _Filter {
   String get label => switch (this) {
         _Filter.all => t.allItemsFilter,
         _Filter.medication => t.medicationItemsFilter,
-        _Filter.generic => t.genericItems,
+        _Filter.consumable => t.genericItems,
       };
 
   List<SupplyItem> items(SupplyItemProvider p) => switch (this) {
         _Filter.all => p.allItemsOrderedByName,
         _Filter.medication => p.medicationItemsOrderedByName,
-        _Filter.generic => p.genericItemsOrderedByName,
+        _Filter.consumable => p.consumableItemsOrderedByName,
       };
 
   M3EToggleButtonDecoration? decoration(ThemeData theme) => switch (this) {
-        _Filter.generic => M3EToggleButtonDecoration.styleFrom(
+        _Filter.consumable => M3EToggleButtonDecoration.styleFrom(
             checkedBackgroundColor: theme.colorScheme.secondary,
             checkedForegroundColor: theme.colorScheme.onSecondary,
           ),
         _ => null,
       };
 
-  bool isAvailable({required bool hasMed, required bool hasGen}) =>
+  bool isAvailable({required bool hasMed, required bool hasConsumable}) =>
       switch (this) {
         _Filter.all => true,
         _Filter.medication => hasMed,
-        _Filter.generic => hasGen,
+        _Filter.consumable => hasConsumable,
       };
 }

@@ -3,10 +3,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -203,14 +203,14 @@ Future<void> _insertSupplies(Database db) async {
     dosingBasis: DosingBasis.mass,
   );
 
-  final syringes = GenericSupply(
+  final syringes = ConsumableSupplyItem(
     id: 403,
     name: 'Syringes',
     amount: 30,
     genericSupplyType: GenericSupplyType.syringe,
   );
 
-  final needles = GenericSupply(
+  final needles = ConsumableSupplyItem(
     id: 404,
     name: 'Needles',
     amount: 25,
