@@ -328,6 +328,6 @@
   "unitNgPerL": "ng/L",
   "unitMicrogramPerL": "µg/L",
   "valueComparisonEqual": "برابر با",
-  "valueComparisonAbove": "مساوی یا بالاتر از آن",
-  "valueComparisonBelow": "مساوی یا پایین‌تر از آن"
+  "valueComparisonAbove": "بزرگ‌تر یا مساوی آن",
+  "valueComparisonBelow": "کوچک‌تر یا مساوی آن"
 }
