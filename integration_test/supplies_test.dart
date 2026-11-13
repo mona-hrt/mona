@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
-import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/ui/views/supplies/supply_item_card.dart';
+import 'package:mona/ui/widgets/dropdowns/consumable_type_dropdown.dart';
 import 'package:patrol/patrol.dart';
 
 import 'support/helpers.dart';
@@ -45,7 +45,7 @@ const _emptyState = 'No supplies. Add an item to get started.';
 // Dropdown options aren't keyed. They're selected by visible localized text.
 const _moleculeEstradiol = 'Estradiol';
 const _routeOral = 'Oral';
-const _genericTypeSyringe = 'Syringes';
+const _consumableTypeSyringe = 'Syringes';
 
 void main() {
   patrolTest('shows empty state when there are no supplies', ($) async {
@@ -140,8 +140,8 @@ Future<void> _createConsumableItem(
   await $(_newItemTypeConsumable).tap(); // switch from medication to consumable
   await $(_newItemNext).tap(); // -> NewConsumableItemSpecificsPage
 
-  await $(DropdownButtonFormField<GenericSupplyType>).tap();
-  await $(_genericTypeSyringe).tap();
+  await $(DropdownButtonFormField<ConsumableType>).tap();
+  await $(_consumableTypeSyringe).tap();
 
   await $(_newConsumableItemAmount).enterText('5');
   await $(_newConsumableItemAdd).tap(); // pops back to the supplies grid

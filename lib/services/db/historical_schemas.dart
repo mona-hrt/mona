@@ -450,6 +450,48 @@ const String _medicationIntakesV22 = '''
     )
     ''';
 
+const String _supplyItemsV24 = '''
+    CREATE TABLE supply_items(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      type TEXT NOT NULL,
+      name TEXT NOT NULL,
+      totalDose TEXT,
+      usedDose TEXT,
+      dosePerUnit TEXT,
+      molecule TEXT,
+      administrationRoute TEXT,
+      ester TEXT,
+      amount INTEGER,
+      otherSupplyType TEXT,
+      deliveryForm TEXT,
+      dosingBasis TEXT
+    )
+    ''';
+
+const String _medicationIntakesV24 = '''
+    CREATE TABLE medication_intakes(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      scheduledTime TEXT,
+      takenDateTime TEXT,
+      takenTimeZone TEXT,
+      takenDose TEXT NOT NULL,
+      wastedAmount TEXT,
+      deadSpace TEXT,
+      scheduleId INTEGER,
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      medicationSupplyItemId INTEGER,
+      consumableSupplyItemIds TEXT NOT NULL,
+      notes TEXT,
+      placements TEXT NOT NULL,
+      dosingBasis TEXT NOT NULL,
+      injectionType TEXT,
+      FOREIGN KEY (medicationSupplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL,
+      FOREIGN KEY (scheduleId) REFERENCES medication_schedules(id) ON DELETE SET NULL
+    )
+    ''';
+
 const Map<int, List<String>> _historicalSchemas = {
   4: [
     _supplyItemsV4,
@@ -568,6 +610,12 @@ const Map<int, List<String>> _historicalSchemas = {
   23: [
     _supplyItemsV21,
     _medicationIntakesV22,
+    _medicationSchedulesV21,
+    _bloodTestsV20,
+  ],
+  24: [
+    _supplyItemsV24,
+    _medicationIntakesV24,
     _medicationSchedulesV21,
     _bloodTestsV20,
   ],

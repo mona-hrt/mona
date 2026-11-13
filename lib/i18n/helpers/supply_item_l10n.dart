@@ -13,7 +13,6 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
 import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
-import 'package:mona/i18n/helpers/generic_type_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 
@@ -99,5 +98,14 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
 }
 
 extension ConsumableSupplyItemL10n on ConsumableSupplyItem {
-  String get localizedSummary => genericSupplyType.localizedRemaining(amount);
+  String get localizedSummary => switch (this) {
+        Syringe() => t.syringeRemaining(count: amount),
+        Needle() => t.needleRemaining(count: amount),
+        OtherSupplyItem(otherSupplyType: OtherSupplyType.wipe) =>
+          t.wipeRemaining(count: amount),
+        OtherSupplyItem(otherSupplyType: OtherSupplyType.gloves) =>
+          t.glovesRemaining(count: amount),
+        OtherSupplyItem(otherSupplyType: OtherSupplyType.bandage) =>
+          t.bandageRemaining(count: amount),
+      };
 }

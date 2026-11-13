@@ -60,7 +60,7 @@ class MedicationIntakeManager {
       administrationRoute: schedule.administrationRoute,
       ester: schedule.ester,
       medicationSupplyItemId: medicationItem?.id,
-      genericSupplyItemIds: consumableItems.map((item) => item.id).toList(),
+      consumableSupplyItemIds: consumableItems.map((item) => item.id).toList(),
       notes: notes,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
@@ -92,7 +92,7 @@ class MedicationIntakeManager {
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    for (final group in _consumableItemsByIds(intake.genericSupplyItemIds)
+    for (final group in _consumableItemsByIds(intake.consumableSupplyItemIds)
         .groupListsBy((g) => g.id)
         .values) {
       await itemManager.putBack(group.first, quantity: group.length);
@@ -129,7 +129,7 @@ class MedicationIntakeManager {
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    final previousCounts = _countById(intake.genericSupplyItemIds);
+    final previousCounts = _countById(intake.consumableSupplyItemIds);
     final newCounts = _countById(consumableItems.map((g) => g.id));
 
     final removedIds =
@@ -182,7 +182,7 @@ class MedicationIntakeManager {
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
       medicationSupplyItemId: medicationItem?.id,
-      genericSupplyItemIds: consumableItems.map((item) => item.id).toList(),
+      consumableSupplyItemIds: consumableItems.map((item) => item.id).toList(),
       notes: notes,
       placements: placements,
       injectionType: injectionType,
@@ -258,7 +258,7 @@ class MedicationIntakeManager {
     final lastIntake =
         _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
     if (lastIntake == null) return const [];
-    return _consumableItemsByIds(lastIntake.genericSupplyItemIds);
+    return _consumableItemsByIds(lastIntake.consumableSupplyItemIds);
   }
 
   List<ConsumableSupplyItem> _consumableItemsByIds(List<int> ids) =>

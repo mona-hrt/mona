@@ -234,7 +234,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
           _selectedSupplyItem = supplyItemProvider
               .getItemById(widget.intake.medicationSupplyItemId);
           _selectedConsumables = supplyItemProvider
-              .getItemsByIds(widget.intake.genericSupplyItemIds)
+              .getItemsByIds(widget.intake.consumableSupplyItemIds)
               .whereType<ConsumableSupplyItem>()
               .toList();
           _hasInitializedSupplyItem = true;

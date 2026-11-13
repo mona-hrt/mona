@@ -250,9 +250,9 @@ void main() {
           expect(addedIntake.medicationSupplyItemId, isNull);
         });
 
-        test('sets genericSupplyItemIds on the intake to empty', () {
+        test('sets consumableSupplyItemIds on the intake to empty', () {
           // Assert
-          expect(addedIntake.genericSupplyItemIds, isEmpty);
+          expect(addedIntake.consumableSupplyItemIds, isEmpty);
         });
 
         test('does not call the supply provider', () {
@@ -303,9 +303,9 @@ void main() {
           );
         });
 
-        test('sets genericSupplyItemIds on the intake', () {
+        test('sets consumableSupplyItemIds on the intake', () {
           // Assert
-          expect(addedIntake.genericSupplyItemIds, [syringe.id, needle.id]);
+          expect(addedIntake.consumableSupplyItemIds, [syringe.id, needle.id]);
         });
       });
 
@@ -551,7 +551,7 @@ void main() {
         final syringe = aConsumableSupplyItem(id: 7, amount: 5);
         final needle = aConsumableSupplyItem(id: 8, amount: 3);
         final intake = aMedicationIntake(
-          genericSupplyItemIds: [syringe.id, needle.id],
+          consumableSupplyItemIds: [syringe.id, needle.id],
         );
 
         setUp(() async {
@@ -589,7 +589,7 @@ void main() {
         final updatedItems = <ConsumableSupplyItem>[];
         final syringe = aConsumableSupplyItem(id: 7, amount: 5);
         final intake = aMedicationIntake(
-          genericSupplyItemIds: [syringe.id, syringe.id],
+          consumableSupplyItemIds: [syringe.id, syringe.id],
         );
 
         setUp(() async {
@@ -904,7 +904,7 @@ void main() {
         }) async {
           final intake = aMedicationIntake(
             medicationSupplyItemId: previousMedication?.id,
-            genericSupplyItemIds:
+            consumableSupplyItemIds:
                 previousConsumables.map((consumable) => consumable.id).toList(),
             dose: previousDose ?? Decimal.zero,
             wastedAmount: previousWasted,
@@ -1546,7 +1546,7 @@ void main() {
         final syringe = aConsumableSupplyItem(id: 7, amount: 5);
         final needle = aConsumableSupplyItem(id: 8, amount: 3);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
-            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7, 8]));
+            .thenReturn(aMedicationIntake(consumableSupplyItemIds: [7, 8]));
         when(mockSupplyItemProvider.getItemsByIds([7, 8]))
             .thenReturn([syringe, needle]);
 
@@ -1562,7 +1562,7 @@ void main() {
         final schedule = aMedicationSchedule(id: 42);
         final needle = aConsumableSupplyItem(id: 8, amount: 3);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
-            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7, 8]));
+            .thenReturn(aMedicationIntake(consumableSupplyItemIds: [7, 8]));
         when(mockSupplyItemProvider.getItemsByIds([7, 8])).thenReturn([needle]);
 
         // Act
@@ -1577,7 +1577,7 @@ void main() {
         final schedule = aMedicationSchedule(id: 42);
         final emptySyringe = aConsumableSupplyItem(id: 7, amount: 0);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
-            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7]));
+            .thenReturn(aMedicationIntake(consumableSupplyItemIds: [7]));
         when(mockSupplyItemProvider.getItemsByIds([7]))
             .thenReturn([emptySyringe]);
 

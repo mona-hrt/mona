@@ -11,7 +11,7 @@ import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
-import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
+import 'package:mona/ui/extensions/consumable_type_icon.dart';
 import 'package:mona/ui/views/supplies/new_item_page.dart';
 import 'package:mona/ui/widgets/tappable_list_tile.dart';
 
@@ -81,7 +81,7 @@ class IntakeSupplyPicker extends StatelessWidget {
                       Theme.of(sheetContext).colorScheme.secondaryContainer,
                   foregroundColor:
                       Theme.of(sheetContext).colorScheme.onSecondaryContainer,
-                  child: Icon(item.genericSupplyType.icon),
+                  child: Icon(item.icon),
                 ),
                 title: Text(item.name),
                 subtitle: Text(item.localizedSummary),
@@ -144,7 +144,7 @@ class IntakeSupplyPicker extends StatelessWidget {
           leading: CircleAvatar(
             backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-            child: Icon(consumable.genericSupplyType.icon),
+            child: Icon(consumable.icon),
           ),
           title: Text(consumable.name),
           subtitle: Text(consumable.localizedSummary),

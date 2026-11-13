@@ -203,18 +203,16 @@ Future<void> _insertSupplies(Database db) async {
     dosingBasis: DosingBasis.mass,
   );
 
-  final syringes = ConsumableSupplyItem(
+  final syringes = Syringe(
     id: 403,
     name: 'Syringes',
     amount: 30,
-    genericSupplyType: GenericSupplyType.syringe,
   );
 
-  final needles = ConsumableSupplyItem(
+  final needles = Needle(
     id: 404,
     name: 'Needles',
     amount: 25,
-    genericSupplyType: GenericSupplyType.needle,
   );
 
   for (final item in <SupplyItem>[vial, gel, syringes, needles]) {

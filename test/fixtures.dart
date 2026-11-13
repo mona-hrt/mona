@@ -130,7 +130,7 @@ MedicationIntake aMedicationIntake({
   DateTime? takenDateTime,
   bool taken = true,
   int? medicationSupplyItemId,
-  List<int> genericSupplyItemIds = const [],
+  List<int> consumableSupplyItemIds = const [],
   Decimal? wastedAmount,
   Decimal? deadSpace,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
@@ -155,7 +155,7 @@ MedicationIntake aMedicationIntake({
     administrationRoute: administrationRoute,
     scheduledTime: time,
     medicationSupplyItemId: medicationSupplyItemId,
-    genericSupplyItemIds: genericSupplyItemIds,
+    consumableSupplyItemIds: consumableSupplyItemIds,
     wastedAmount: wastedAmount,
     deadSpace: deadSpace,
     ester: ester,
@@ -258,15 +258,21 @@ ConsumableSupplyItem aConsumableSupplyItem({
   int? id,
   String? name,
   int amount = 5,
-  GenericSupplyType genericSupplyType = GenericSupplyType.syringe,
 }) {
   final resolvedId = id ?? _generateId();
-  return ConsumableSupplyItem(
-    id: resolvedId,
-    name: name ?? 'Consumable-$resolvedId',
-    amount: amount,
-    genericSupplyType: genericSupplyType,
-  );
+  final resolvedName = name ?? 'Consumable-$resolvedId';
+  return switch (Random().nextInt(3)) {
+    0 => Syringe(id: resolvedId, name: resolvedName, amount: amount),
+    1 => Needle(id: resolvedId, name: resolvedName, amount: amount),
+    2 => OtherSupplyItem(
+        id: resolvedId,
+        name: resolvedName,
+        amount: amount,
+        otherSupplyType: OtherSupplyType
+            .values[Random().nextInt(OtherSupplyType.values.length)],
+      ),
+    _ => throw StateError('unreachable'),
+  };
 }
 
 SupplyItem aSupplyItem({

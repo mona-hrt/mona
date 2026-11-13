@@ -10,32 +10,59 @@ import 'package:mona/util/validators.dart';
 part 'consumable_supply_item.mapper.dart';
 
 @MappableEnum()
-enum GenericSupplyType {
-  syringe,
+enum OtherSupplyType {
   wipe,
-  needle,
   gloves,
   bandage;
 }
 
-@MappableClass(discriminatorValue: 'generic')
-class ConsumableSupplyItem extends SupplyItem
+@MappableClass(includeSubClasses: [Syringe, Needle, OtherSupplyItem])
+sealed class ConsumableSupplyItem extends SupplyItem
     with ConsumableSupplyItemMappable {
   @override
   final int id;
   @override
   final String name;
   final int amount;
-  final GenericSupplyType genericSupplyType;
 
   ConsumableSupplyItem({
     int? id,
     required this.name,
     required this.amount,
-    required this.genericSupplyType,
   }) : id = id ?? clock.now().millisecondsSinceEpoch;
 
   // coverage:ignore-start
   static String? validateAmount(String? value) => requiredPositiveInt(value);
   // coverage:ignore-end
+}
+
+@MappableClass(discriminatorValue: 'syringe')
+class Syringe extends ConsumableSupplyItem with SyringeMappable {
+  Syringe({
+    super.id,
+    required super.name,
+    required super.amount,
+  });
+}
+
+@MappableClass(discriminatorValue: 'needle')
+class Needle extends ConsumableSupplyItem with NeedleMappable {
+  Needle({
+    super.id,
+    required super.name,
+    required super.amount,
+  });
+}
+
+@MappableClass(discriminatorValue: 'other')
+class OtherSupplyItem extends ConsumableSupplyItem
+    with OtherSupplyItemMappable {
+  final OtherSupplyType otherSupplyType;
+
+  OtherSupplyItem({
+    super.id,
+    required super.name,
+    required super.amount,
+    required this.otherSupplyType,
+  });
 }
