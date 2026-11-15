@@ -464,7 +464,9 @@ const String _supplyItemsV24 = '''
       amount INTEGER,
       otherSupplyType TEXT,
       deliveryForm TEXT,
-      dosingBasis TEXT
+      dosingBasis TEXT,
+      syringeType TEXT,
+      needleType TEXT
     )
     ''';
 

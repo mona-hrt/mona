@@ -8,6 +8,102 @@
 
 part of 'consumable_supply_item.dart';
 
+class SyringeTypeMapper extends EnumMapper<SyringeType> {
+  SyringeTypeMapper._();
+
+  static SyringeTypeMapper? _instance;
+  static SyringeTypeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = SyringeTypeMapper._());
+    }
+    return _instance!;
+  }
+
+  static SyringeType fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  SyringeType decode(dynamic value) {
+    switch (value) {
+      case r'standard':
+        return SyringeType.standard;
+      case r'lowDeadSpace':
+        return SyringeType.lowDeadSpace;
+      case r'fixedNeedle':
+        return SyringeType.fixedNeedle;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(SyringeType self) {
+    switch (self) {
+      case SyringeType.standard:
+        return r'standard';
+      case SyringeType.lowDeadSpace:
+        return r'lowDeadSpace';
+      case SyringeType.fixedNeedle:
+        return r'fixedNeedle';
+    }
+  }
+}
+
+extension SyringeTypeMapperExtension on SyringeType {
+  String toValue() {
+    SyringeTypeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<SyringeType>(this) as String;
+  }
+}
+
+class NeedleTypeMapper extends EnumMapper<NeedleType> {
+  NeedleTypeMapper._();
+
+  static NeedleTypeMapper? _instance;
+  static NeedleTypeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = NeedleTypeMapper._());
+    }
+    return _instance!;
+  }
+
+  static NeedleType fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  NeedleType decode(dynamic value) {
+    switch (value) {
+      case r'standard':
+        return NeedleType.standard;
+      case r'lowDeadSpace':
+        return NeedleType.lowDeadSpace;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(NeedleType self) {
+    switch (self) {
+      case NeedleType.standard:
+        return r'standard';
+      case NeedleType.lowDeadSpace:
+        return r'lowDeadSpace';
+    }
+  }
+}
+
+extension NeedleTypeMapperExtension on NeedleType {
+  String toValue() {
+    NeedleTypeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<NeedleType>(this) as String;
+  }
+}
+
 class OtherSupplyTypeMapper extends EnumMapper<OtherSupplyType> {
   OtherSupplyTypeMapper._();
 
@@ -154,6 +250,7 @@ class SyringeMapper extends SubClassMapperBase<Syringe> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SyringeMapper._());
       ConsumableSupplyItemMapper.ensureInitialized().addSubMapper(_instance!);
+      SyringeTypeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -167,12 +264,19 @@ class SyringeMapper extends SubClassMapperBase<Syringe> {
   static const Field<Syringe, String> _f$name = Field('name', _$name);
   static int _$amount(Syringe v) => v.amount;
   static const Field<Syringe, int> _f$amount = Field('amount', _$amount);
+  static SyringeType? _$syringeType(Syringe v) => v.syringeType;
+  static const Field<Syringe, SyringeType> _f$syringeType = Field(
+    'syringeType',
+    _$syringeType,
+    opt: true,
+  );
 
   @override
   final MappableFields<Syringe> fields = const {
     #id: _f$id,
     #name: _f$name,
     #amount: _f$amount,
+    #syringeType: _f$syringeType,
   };
 
   @override
@@ -188,6 +292,7 @@ class SyringeMapper extends SubClassMapperBase<Syringe> {
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       amount: data.dec(_f$amount),
+      syringeType: data.dec(_f$syringeType),
     );
   }
 
@@ -249,7 +354,7 @@ extension SyringeValueCopy<$R, $Out> on ObjectCopyWith<$R, Syringe, $Out> {
 abstract class SyringeCopyWith<$R, $In extends Syringe, $Out>
     implements ConsumableSupplyItemCopyWith<$R, $In, $Out> {
   @override
-  $R call({int? id, String? name, int? amount});
+  $R call({int? id, String? name, int? amount, SyringeType? syringeType});
   SyringeCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -262,11 +367,18 @@ class _SyringeCopyWithImpl<$R, $Out>
   late final ClassMapperBase<Syringe> $mapper =
       SyringeMapper.ensureInitialized();
   @override
-  $R call({Object? id = $none, String? name, int? amount}) => $apply(
+  $R call({
+    Object? id = $none,
+    String? name,
+    int? amount,
+    Object? syringeType = $none,
+  }) =>
+      $apply(
         FieldCopyWithData({
           if (id != $none) #id: id,
           if (name != null) #name: name,
           if (amount != null) #amount: amount,
+          if (syringeType != $none) #syringeType: syringeType,
         }),
       );
   @override
@@ -274,6 +386,7 @@ class _SyringeCopyWithImpl<$R, $Out>
         id: data.get(#id, or: $value.id),
         name: data.get(#name, or: $value.name),
         amount: data.get(#amount, or: $value.amount),
+        syringeType: data.get(#syringeType, or: $value.syringeType),
       );
 
   @override
@@ -289,6 +402,7 @@ class NeedleMapper extends SubClassMapperBase<Needle> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = NeedleMapper._());
       ConsumableSupplyItemMapper.ensureInitialized().addSubMapper(_instance!);
+      NeedleTypeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -302,12 +416,19 @@ class NeedleMapper extends SubClassMapperBase<Needle> {
   static const Field<Needle, String> _f$name = Field('name', _$name);
   static int _$amount(Needle v) => v.amount;
   static const Field<Needle, int> _f$amount = Field('amount', _$amount);
+  static NeedleType? _$needleType(Needle v) => v.needleType;
+  static const Field<Needle, NeedleType> _f$needleType = Field(
+    'needleType',
+    _$needleType,
+    opt: true,
+  );
 
   @override
   final MappableFields<Needle> fields = const {
     #id: _f$id,
     #name: _f$name,
     #amount: _f$amount,
+    #needleType: _f$needleType,
   };
 
   @override
@@ -323,6 +444,7 @@ class NeedleMapper extends SubClassMapperBase<Needle> {
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       amount: data.dec(_f$amount),
+      needleType: data.dec(_f$needleType),
     );
   }
 
@@ -373,7 +495,7 @@ extension NeedleValueCopy<$R, $Out> on ObjectCopyWith<$R, Needle, $Out> {
 abstract class NeedleCopyWith<$R, $In extends Needle, $Out>
     implements ConsumableSupplyItemCopyWith<$R, $In, $Out> {
   @override
-  $R call({int? id, String? name, int? amount});
+  $R call({int? id, String? name, int? amount, NeedleType? needleType});
   NeedleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -384,11 +506,18 @@ class _NeedleCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Needle, $Out>
   @override
   late final ClassMapperBase<Needle> $mapper = NeedleMapper.ensureInitialized();
   @override
-  $R call({Object? id = $none, String? name, int? amount}) => $apply(
+  $R call({
+    Object? id = $none,
+    String? name,
+    int? amount,
+    Object? needleType = $none,
+  }) =>
+      $apply(
         FieldCopyWithData({
           if (id != $none) #id: id,
           if (name != null) #name: name,
           if (amount != null) #amount: amount,
+          if (needleType != $none) #needleType: needleType,
         }),
       );
   @override
@@ -396,6 +525,7 @@ class _NeedleCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Needle, $Out>
         id: data.get(#id, or: $value.id),
         name: data.get(#name, or: $value.name),
         amount: data.get(#amount, or: $value.amount),
+        needleType: data.get(#needleType, or: $value.needleType),
       );
 
   @override

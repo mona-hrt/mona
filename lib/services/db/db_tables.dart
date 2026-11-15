@@ -17,7 +17,9 @@ const String createSupplyItemsTable = '''
       amount INTEGER,
       otherSupplyType TEXT,
       deliveryForm TEXT,
-      dosingBasis TEXT
+      dosingBasis TEXT,
+      syringeType TEXT,
+      needleType TEXT
     )
     ''';
 

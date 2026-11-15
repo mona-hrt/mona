@@ -27,7 +27,9 @@ class DbUpgradeV24 implements DbUpgrade {
         amount INTEGER,
         otherSupplyType TEXT,
         deliveryForm TEXT,
-        dosingBasis TEXT
+        dosingBasis TEXT,
+        syringeType TEXT,
+        needleType TEXT
       );
       ''');
 
