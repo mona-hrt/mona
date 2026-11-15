@@ -10,9 +10,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -24,7 +24,6 @@ import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/services/preferences_service.dart';
 
 import '../fixtures.dart';
-
 @GenerateNiceMocks([
   MockSpec<MedicationIntakeProvider>(),
   MockSpec<SupplyItemProvider>(),
@@ -251,9 +250,9 @@ void main() {
           expect(addedIntake.medicationSupplyItemId, isNull);
         });
 
-        test('sets genericSupplyItemIds on the intake to empty', () {
+        test('sets consumableSupplyItemIds on the intake to empty', () {
           // Assert
-          expect(addedIntake.genericSupplyItemIds, isEmpty);
+          expect(addedIntake.consumableSupplyItemIds, isEmpty);
         });
 
         test('does not call the supply provider', () {
@@ -262,11 +261,11 @@ void main() {
         });
       });
 
-      group('generic items', () {
+      group('consumable items', () {
         late MedicationIntake addedIntake;
-        final updatedItems = <GenericSupply>[];
-        final syringe = aGenericSupplyItem(id: 7, amount: 5);
-        final needle = aGenericSupplyItem(id: 8, amount: 3);
+        final updatedItems = <ConsumableSupplyItem>[];
+        final syringe = aConsumableSupplyItem(id: 7, amount: 5);
+        final needle = aConsumableSupplyItem(id: 8, amount: 3);
 
         setUp(() async {
           // Arrange
@@ -280,38 +279,39 @@ void main() {
             addedIntake = inv.positionalArguments.first as MedicationIntake;
           });
           when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
-            updatedItems.add(inv.positionalArguments.first as GenericSupply);
+            updatedItems
+                .add(inv.positionalArguments.first as ConsumableSupplyItem);
           });
 
           // Act
           await manager.takeMedication(
             takenDose: Decimal.parse('2'),
             takenDateTime: date,
-            genericItems: [syringe, needle],
+            consumableItems: [syringe, needle],
             schedule: schedule,
           );
         });
 
-        test('decrements each generic amount by 1', () {
+        test('decrements each consumable amount by 1', () {
           // Assert
           expect(
             updatedItems,
             unorderedMatches([
-              _generic(id: syringe.id, amount: syringe.amount - 1),
-              _generic(id: needle.id, amount: needle.amount - 1),
+              _consumable(id: syringe.id, amount: syringe.amount - 1),
+              _consumable(id: needle.id, amount: needle.amount - 1),
             ]),
           );
         });
 
-        test('sets genericSupplyItemIds on the intake', () {
+        test('sets consumableSupplyItemIds on the intake', () {
           // Assert
-          expect(addedIntake.genericSupplyItemIds, [syringe.id, needle.id]);
+          expect(addedIntake.consumableSupplyItemIds, [syringe.id, needle.id]);
         });
       });
 
-      group('duplicate generic items', () {
-        final updatedItems = <GenericSupply>[];
-        final syringe = aGenericSupplyItem(id: 7, amount: 5);
+      group('duplicate consumable items', () {
+        final updatedItems = <ConsumableSupplyItem>[];
+        final syringe = aConsumableSupplyItem(id: 7, amount: 5);
 
         setUp(() async {
           // Arrange
@@ -322,21 +322,22 @@ void main() {
           final date = DateTime.utc(2025, 9, 14, 12, 0);
 
           when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
-            updatedItems.add(inv.positionalArguments.first as GenericSupply);
+            updatedItems
+                .add(inv.positionalArguments.first as ConsumableSupplyItem);
           });
 
           // Act
           await manager.takeMedication(
             takenDose: Decimal.parse('2'),
             takenDateTime: date,
-            genericItems: [syringe, syringe],
+            consumableItems: [syringe, syringe],
             schedule: schedule,
           );
         });
 
-        test('decrements the generic amount once by the count', () {
+        test('decrements the consumable amount once by the count', () {
           // Assert
-          expect(updatedItems, [_generic(id: syringe.id, amount: 3)]);
+          expect(updatedItems, [_consumable(id: syringe.id, amount: 3)]);
         });
       });
 
@@ -545,12 +546,12 @@ void main() {
         });
       });
 
-      group('GenericSupply', () {
-        final updatedItems = <GenericSupply>[];
-        final syringe = aGenericSupplyItem(id: 7, amount: 5);
-        final needle = aGenericSupplyItem(id: 8, amount: 3);
+      group('ConsumableSupplyItem', () {
+        final updatedItems = <ConsumableSupplyItem>[];
+        final syringe = aConsumableSupplyItem(id: 7, amount: 5);
+        final needle = aConsumableSupplyItem(id: 8, amount: 3);
         final intake = aMedicationIntake(
-          genericSupplyItemIds: [syringe.id, needle.id],
+          consumableSupplyItemIds: [syringe.id, needle.id],
         );
 
         setUp(() async {
@@ -559,20 +560,21 @@ void main() {
           when(mockSupplyItemProvider.getItemsByIds([syringe.id, needle.id]))
               .thenReturn([syringe, needle]);
           when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
-            updatedItems.add(inv.positionalArguments.first as GenericSupply);
+            updatedItems
+                .add(inv.positionalArguments.first as ConsumableSupplyItem);
           });
 
           // Act
           await manager.deleteIntake(intake);
         });
 
-        test('increments each generic amount by 1', () {
+        test('increments each consumable amount by 1', () {
           // Assert
           expect(
             updatedItems,
             unorderedMatches([
-              _generic(id: syringe.id, amount: syringe.amount + 1),
-              _generic(id: needle.id, amount: needle.amount + 1),
+              _consumable(id: syringe.id, amount: syringe.amount + 1),
+              _consumable(id: needle.id, amount: needle.amount + 1),
             ]),
           );
         });
@@ -583,11 +585,11 @@ void main() {
         });
       });
 
-      group('duplicate GenericSupply', () {
-        final updatedItems = <GenericSupply>[];
-        final syringe = aGenericSupplyItem(id: 7, amount: 5);
+      group('duplicate ConsumableSupplyItem', () {
+        final updatedItems = <ConsumableSupplyItem>[];
+        final syringe = aConsumableSupplyItem(id: 7, amount: 5);
         final intake = aMedicationIntake(
-          genericSupplyItemIds: [syringe.id, syringe.id],
+          consumableSupplyItemIds: [syringe.id, syringe.id],
         );
 
         setUp(() async {
@@ -596,16 +598,17 @@ void main() {
           when(mockSupplyItemProvider.getItemsByIds([syringe.id, syringe.id]))
               .thenReturn([syringe, syringe]);
           when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
-            updatedItems.add(inv.positionalArguments.first as GenericSupply);
+            updatedItems
+                .add(inv.positionalArguments.first as ConsumableSupplyItem);
           });
 
           // Act
           await manager.deleteIntake(intake);
         });
 
-        test('increments the generic amount once by the count', () {
+        test('increments the consumable amount once by the count', () {
           // Assert
-          expect(updatedItems, [_generic(id: syringe.id, amount: 7)]);
+          expect(updatedItems, [_consumable(id: syringe.id, amount: 7)]);
         });
       });
 
@@ -890,8 +893,8 @@ void main() {
         Future<List<SupplyItem>> capture({
           MedicationSupplyItem? previousMedication,
           MedicationSupplyItem? nextMedication,
-          List<GenericSupply> previousGenerics = const [],
-          List<GenericSupply> nextGenerics = const [],
+          List<ConsumableSupplyItem> previousConsumables = const [],
+          List<ConsumableSupplyItem> nextConsumables = const [],
           Decimal? previousDose,
           Decimal? previousWasted,
           Decimal? previousDeadSpace,
@@ -901,8 +904,8 @@ void main() {
         }) async {
           final intake = aMedicationIntake(
             medicationSupplyItemId: previousMedication?.id,
-            genericSupplyItemIds:
-                previousGenerics.map((generic) => generic.id).toList(),
+            consumableSupplyItemIds:
+                previousConsumables.map((consumable) => consumable.id).toList(),
             dose: previousDose ?? Decimal.zero,
             wastedAmount: previousWasted,
             deadSpace: previousDeadSpace,
@@ -911,13 +914,14 @@ void main() {
             when(mockSupplyItemProvider.getItemById(previousMedication.id))
                 .thenReturn(previousMedication);
           }
-          final nextGenericIds = nextGenerics.map((generic) => generic.id);
-          final removedGenerics = previousGenerics
-              .where((generic) => !nextGenericIds.contains(generic.id))
+          final nextConsumableIds =
+              nextConsumables.map((consumable) => consumable.id);
+          final removedConsumables = previousConsumables
+              .where((consumable) => !nextConsumableIds.contains(consumable.id))
               .toList();
           when(mockSupplyItemProvider
-                  .getItemsByIds(removedGenerics.map((g) => g.id).toList()))
-              .thenReturn(removedGenerics);
+                  .getItemsByIds(removedConsumables.map((g) => g.id).toList()))
+              .thenReturn(removedConsumables);
           final updates = <SupplyItem>[];
           when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
             updates.add(inv.positionalArguments.first as SupplyItem);
@@ -931,92 +935,92 @@ void main() {
             takenDateTime: takenDate,
             takenTimeZone: 'Etc/UTC',
             medicationItem: nextMedication,
-            genericItems: nextGenerics,
+            consumableItems: nextConsumables,
           );
           return updates;
         }
 
-        test('no-op when there is no medication and no generics', () async {
+        test('no-op when there is no medication and no consumables', () async {
           expect(await capture(), isEmpty);
         });
 
-        group('generics', () {
-          test('no-op when the generic list is unchanged', () async {
-            final item = aGenericSupplyItem(amount: 5);
+        group('consumables', () {
+          test('no-op when the consumable list is unchanged', () async {
+            final item = aConsumableSupplyItem(amount: 5);
             expect(
               await capture(
-                previousGenerics: [item],
-                nextGenerics: [item],
+                previousConsumables: [item],
+                nextConsumables: [item],
               ),
               isEmpty,
             );
           });
 
-          test('added generic: decrements it', () async {
-            final added = aGenericSupplyItem(amount: 5);
+          test('added consumable: decrements it', () async {
+            final added = aConsumableSupplyItem(amount: 5);
             expect(
-              await capture(nextGenerics: [added]),
-              [_generic(id: added.id, amount: 4)],
+              await capture(nextConsumables: [added]),
+              [_consumable(id: added.id, amount: 4)],
             );
           });
 
-          test('removed generic: increments it', () async {
-            final removed = aGenericSupplyItem(amount: 5);
+          test('removed consumable: increments it', () async {
+            final removed = aConsumableSupplyItem(amount: 5);
             expect(
-              await capture(previousGenerics: [removed]),
-              [_generic(id: removed.id, amount: 6)],
+              await capture(previousConsumables: [removed]),
+              [_consumable(id: removed.id, amount: 6)],
             );
           });
 
-          test('swapped generic: puts back the removed, uses the added',
+          test('swapped consumable: puts back the removed, uses the added',
               () async {
-            final removed = aGenericSupplyItem(amount: 5);
-            final added = aGenericSupplyItem(amount: 2);
+            final removed = aConsumableSupplyItem(amount: 5);
+            final added = aConsumableSupplyItem(amount: 2);
             expect(
               await capture(
-                previousGenerics: [removed],
-                nextGenerics: [added],
+                previousConsumables: [removed],
+                nextConsumables: [added],
               ),
               unorderedMatches([
-                _generic(id: removed.id, amount: 6),
-                _generic(id: added.id, amount: 1),
+                _consumable(id: removed.id, amount: 6),
+                _consumable(id: added.id, amount: 1),
               ]),
             );
           });
 
-          test('keeps one generic while adding another', () async {
-            final kept = aGenericSupplyItem(amount: 5);
-            final added = aGenericSupplyItem(amount: 2);
+          test('keeps one consumable while adding another', () async {
+            final kept = aConsumableSupplyItem(amount: 5);
+            final added = aConsumableSupplyItem(amount: 2);
             expect(
               await capture(
-                previousGenerics: [kept],
-                nextGenerics: [kept, added],
+                previousConsumables: [kept],
+                nextConsumables: [kept, added],
               ),
-              [_generic(id: added.id, amount: 1)],
+              [_consumable(id: added.id, amount: 1)],
             );
           });
 
-          test('adding a duplicate of a kept generic: decrements once',
+          test('adding a duplicate of a kept consumable: decrements once',
               () async {
-            final generic = aGenericSupplyItem(amount: 5);
+            final consumable = aConsumableSupplyItem(amount: 5);
             expect(
               await capture(
-                previousGenerics: [generic],
-                nextGenerics: [generic, generic],
+                previousConsumables: [consumable],
+                nextConsumables: [consumable, consumable],
               ),
-              [_generic(id: generic.id, amount: 4)],
+              [_consumable(id: consumable.id, amount: 4)],
             );
           });
 
-          test('removing a duplicate of a kept generic: increments once',
+          test('removing a duplicate of a kept consumable: increments once',
               () async {
-            final generic = aGenericSupplyItem(amount: 5);
+            final consumable = aConsumableSupplyItem(amount: 5);
             expect(
               await capture(
-                previousGenerics: [generic, generic],
-                nextGenerics: [generic],
+                previousConsumables: [consumable, consumable],
+                nextConsumables: [consumable],
               ),
-              [_generic(id: generic.id, amount: 6)],
+              [_consumable(id: consumable.id, amount: 6)],
             );
           });
         });
@@ -1183,8 +1187,9 @@ void main() {
         });
 
         test(
-            'medication and generics change together: rolls back the old'
-            ' medication, uses the new one, and swaps the generic', () async {
+            'medication and consumables change together: rolls back the old'
+            ' medication, uses the new one, and swaps the consumable',
+            () async {
           final previousMedication = aMedicationSupplyItem(
             usedDose: Decimal.parse('10'),
             dosePerUnit: Decimal.parse('10'),
@@ -1193,16 +1198,16 @@ void main() {
             usedDose: Decimal.parse('4'),
             dosePerUnit: Decimal.parse('10'),
           );
-          final removedGeneric = aGenericSupplyItem(amount: 5);
-          final addedGeneric = aGenericSupplyItem(amount: 2);
+          final removedConsumable = aConsumableSupplyItem(amount: 5);
+          final addedConsumable = aConsumableSupplyItem(amount: 2);
           // previous medication: 10 - (2 + 0.5 x 10) = 3.
           // next medication: 4 + (3 + 0.2 x 10) = 9.
           expect(
             await capture(
               previousMedication: previousMedication,
               nextMedication: nextMedication,
-              previousGenerics: [removedGeneric],
-              nextGenerics: [addedGeneric],
+              previousConsumables: [removedConsumable],
+              nextConsumables: [addedConsumable],
               previousDose: Decimal.parse('2'),
               previousWasted: Decimal.parse('0.5'),
               newDose: Decimal.parse('3'),
@@ -1211,8 +1216,8 @@ void main() {
             unorderedMatches([
               _medication(id: previousMedication.id, usedDose: '3'),
               _medication(id: nextMedication.id, usedDose: '9'),
-              _generic(id: removedGeneric.id, amount: 6),
-              _generic(id: addedGeneric.id, amount: 1),
+              _consumable(id: removedConsumable.id, amount: 6),
+              _consumable(id: addedConsumable.id, amount: 1),
             ]),
           );
         });
@@ -1534,50 +1539,50 @@ void main() {
       });
     });
 
-    group('suggestGenericItems', () {
-      test('returns the previous intake generics', () {
+    group('suggestConsumableItems', () {
+      test('returns the previous intake consumables', () {
         // Arrange
         final schedule = aMedicationSchedule(id: 42);
-        final syringe = aGenericSupplyItem(id: 7, amount: 5);
-        final needle = aGenericSupplyItem(id: 8, amount: 3);
+        final syringe = aConsumableSupplyItem(id: 7, amount: 5);
+        final needle = aConsumableSupplyItem(id: 8, amount: 3);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
-            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7, 8]));
+            .thenReturn(aMedicationIntake(consumableSupplyItemIds: [7, 8]));
         when(mockSupplyItemProvider.getItemsByIds([7, 8]))
             .thenReturn([syringe, needle]);
 
         // Act
-        final suggestion = manager.suggestGenericItems(schedule: schedule);
+        final suggestion = manager.suggestConsumableItems(schedule: schedule);
 
         // Assert
         expect(suggestion, [syringe, needle]);
       });
 
-      test('drops generics that were deleted', () {
+      test('drops consumables that were deleted', () {
         // Arrange
         final schedule = aMedicationSchedule(id: 42);
-        final needle = aGenericSupplyItem(id: 8, amount: 3);
+        final needle = aConsumableSupplyItem(id: 8, amount: 3);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
-            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7, 8]));
+            .thenReturn(aMedicationIntake(consumableSupplyItemIds: [7, 8]));
         when(mockSupplyItemProvider.getItemsByIds([7, 8])).thenReturn([needle]);
 
         // Act
-        final suggestion = manager.suggestGenericItems(schedule: schedule);
+        final suggestion = manager.suggestConsumableItems(schedule: schedule);
 
         // Assert
         expect(suggestion, [needle]);
       });
 
-      test('keeps generics that are out of stock', () {
+      test('keeps consumables that are out of stock', () {
         // Arrange
         final schedule = aMedicationSchedule(id: 42);
-        final emptySyringe = aGenericSupplyItem(id: 7, amount: 0);
+        final emptySyringe = aConsumableSupplyItem(id: 7, amount: 0);
         when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
-            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7]));
+            .thenReturn(aMedicationIntake(consumableSupplyItemIds: [7]));
         when(mockSupplyItemProvider.getItemsByIds([7]))
             .thenReturn([emptySyringe]);
 
         // Act
-        final suggestion = manager.suggestGenericItems(schedule: schedule);
+        final suggestion = manager.suggestConsumableItems(schedule: schedule);
 
         // Assert
         expect(suggestion, [emptySyringe]);
@@ -1590,7 +1595,7 @@ void main() {
             .thenReturn(null);
 
         // Act
-        final suggestion = manager.suggestGenericItems(schedule: schedule);
+        final suggestion = manager.suggestConsumableItems(schedule: schedule);
 
         // Assert
         expect(suggestion, isEmpty);
@@ -1599,8 +1604,9 @@ void main() {
   });
 }
 
-TypeMatcher<GenericSupply> _generic({required int id, required int amount}) =>
-    isA<GenericSupply>()
+TypeMatcher<ConsumableSupplyItem> _consumable(
+        {required int id, required int amount}) =>
+    isA<ConsumableSupplyItem>()
         .having((g) => g.id, 'id', id)
         .having((g) => g.amount, 'amount', amount);
 
