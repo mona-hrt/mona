@@ -233,7 +233,7 @@
   "editItem": "تعديل العنصر",
   "usedAmount": "الكمية المستخدمة",
   "deleteItem": "هل تريد حذف {{name}}؟",
-  "remaining_zero": "المتبقي: {{count}} {{unit}}",
+  "remaining_zero": "لا يتبقى شيء",
   "remaining_one": "المتبقي: {{count}} {{unit}}",
   "remaining_two": "المتبقي: {{count}} {{unit}}",
   "remaining_few": "المتبقي: {{count}} {{unit}}",
