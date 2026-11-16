@@ -21,6 +21,7 @@ import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/levels/chart_time_axis.dart';
 import 'package:mona/ui/views/levels/graph_calculator.dart';
+import 'package:mona/ui/views/levels/level_calibration.dart';
 import 'package:provider/provider.dart';
 
 class _ChartConstants {
@@ -74,10 +75,11 @@ class _MainGraphState extends State<MainGraph> {
 
     final intakes = medicationIntakeProvider.intakes;
     List<BloodTest> bloodTests = bloodTestProvider.estradiolTestsSortedDesc;
-
+    final factor = calculateFactor(bloodTests, intakes);
     final List<FlSpot> spots = GraphCalculator().generateLevelsSpots(
       intakes,
       unit,
+      factor,
       tMin: widget.startDate,
       tMax: widget.endDate,
     );
@@ -90,8 +92,8 @@ class _MainGraphState extends State<MainGraph> {
     FlSpot? todaySpot;
 
     if (tNow >= tMin && tNow <= tMax) {
-      final todayConcentration =
-          GraphCalculator().totalConcentrationAtTime(now, intakes, unit);
+      final todayConcentration = GraphCalculator()
+          .totalConcentrationAtTime(now, intakes, unit, factor);
       todaySpot = FlSpot(tNow, todayConcentration);
     }
 

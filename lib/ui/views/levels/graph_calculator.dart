@@ -26,16 +26,17 @@ extension BloodTestLookup on List<BloodTest> {
 }
 
 class GraphCalculator {
-  double totalConcentrationAtTime(
-      DateTime t, List<MedicationIntake> intakes, EstradiolUnit unit) {
+  double totalConcentrationAtTime(DateTime t, List<MedicationIntake> intakes,
+      EstradiolUnit unit, double factor) {
     if (intakes.isEmpty) return 0.0;
 
     return _levelAt(
-        HormoneSimulation(intakes, defaultInjectionParams), t, unit);
+            HormoneSimulation(intakes, defaultInjectionParams), t, unit) *
+        factor;
   }
 
   List<FlSpot> generateLevelsSpots(
-      List<MedicationIntake> intakes, EstradiolUnit unit,
+      List<MedicationIntake> intakes, EstradiolUnit unit, double factor,
       {required DateTime tMin, required DateTime tMax, int numPoints = 1000}) {
     if (intakes.isEmpty) return <FlSpot>[];
 
@@ -44,7 +45,8 @@ class GraphCalculator {
 
     for (int i = 0; i <= numPoints; i++) {
       final t = tMin.add(tMax.difference(tMin) * (i / numPoints));
-      points.add(math.Point(chartX(t), _levelAt(simulation, t, unit)));
+      final level = _levelAt(simulation, t, unit) * factor;
+      points.add(math.Point(chartX(t), level));
     }
 
     return points.map((p) => FlSpot(p.x.toDouble(), p.y.toDouble())).toList();

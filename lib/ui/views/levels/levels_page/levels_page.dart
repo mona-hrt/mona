@@ -20,6 +20,7 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/levels/blood_test_chart_page/blood_tests_chart_page.dart';
 import 'package:mona/ui/views/levels/chart_time_axis.dart';
 import 'package:mona/ui/views/levels/graph_calculator.dart';
+import 'package:mona/ui/views/levels/level_calibration.dart';
 import 'package:mona/ui/views/levels/level_entry_spots.dart';
 import 'package:mona/ui/views/levels/levels_page/baby_bar_chart_graph.dart';
 import 'package:mona/ui/views/levels/levels_page/baby_main_chart_graph.dart';
@@ -132,14 +133,18 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final intakeProvider = context.watch<MedicationIntakeProvider>();
+    final bloodTestProvider = context.watch<BloodTestProvider>();
     final unit = context.watch<PreferencesService>().estradiolUnit;
     final intakes = intakeProvider.intakes;
+    final bloodTests = bloodTestProvider.bloodTestsSortedDesc;
     final now = clock.now();
-    final lastWeekSpots = GraphCalculator().generateLevelsSpots(intakes, unit,
+    final factor = calculateFactor(bloodTests, intakes);
+    final lastWeekSpots = GraphCalculator().generateLevelsSpots(
+        intakes, unit, factor,
         tMin: now.subtract(const Duration(days: 9)),
         tMax: now.add(const Duration(days: 5)));
     final nowLevel =
-        GraphCalculator().totalConcentrationAtTime(now, intakes, unit);
+        GraphCalculator().totalConcentrationAtTime(now, intakes, unit, factor);
     final showPreview =
         lastWeekSpots.peakY >= 10; // value meaningless under 10 whatever unit
 

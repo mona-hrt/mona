@@ -24,7 +24,7 @@ void main() {
     test('is zero before the injection', () {
       // Act
       final concentration = calculator.totalConcentrationAtTime(
-          simulationDay(-1.0), [intakeAt(0.0)], unit);
+          simulationDay(-1.0), [intakeAt(0.0)], unit, 1);
 
       // Assert
       expect(concentration, 0.0);
@@ -33,7 +33,7 @@ void main() {
     test('returns zero for an empty intake list', () {
       // Act
       final concentration =
-          calculator.totalConcentrationAtTime(simulationDay(2.0), [], unit);
+          calculator.totalConcentrationAtTime(simulationDay(2.0), [], unit, 1);
 
       // Assert
       expect(concentration, 0.0);
@@ -42,9 +42,9 @@ void main() {
     test('sums the contribution of multiple injections', () {
       // Act
       final single = calculator.totalConcentrationAtTime(
-          simulationDay(2.0), [intakeAt(0.0)], unit);
+          simulationDay(2.0), [intakeAt(0.0)], unit, 1);
       final two = calculator.totalConcentrationAtTime(
-          simulationDay(2.0), [intakeAt(0.0), intakeAt(0.0)], unit);
+          simulationDay(2.0), [intakeAt(0.0), intakeAt(0.0)], unit, 1);
 
       // Assert
       expect(two, closeTo(2 * single, 1e-6));
@@ -75,7 +75,7 @@ void main() {
 
         // Act
         final concentration = calculator.totalConcentrationAtTime(
-            simulationDay(c.day), [intake], unit);
+            simulationDay(c.day), [intake], unit, 1);
 
         // Assert
         expect(concentration, closeTo(c.level, 1e-3));
@@ -88,7 +88,7 @@ void main() {
 
       // Act
       final concentration = calculator.totalConcentrationAtTime(
-          simulationDay(1.6922), [intake], EstradiolUnit.pmol_L);
+          simulationDay(1.6922), [intake], EstradiolUnit.pmol_L, 1);
 
       // Assert
       expect(concentration, closeTo(269.852, 1e-3));
@@ -98,7 +98,7 @@ void main() {
   group('generateLevelsSpots', () {
     test('returns an empty list for no intakes', () {
       // Act
-      final spots = calculator.generateLevelsSpots([], unit,
+      final spots = calculator.generateLevelsSpots([], unit, 1,
           tMin: simulationDay(0.0), tMax: simulationDay(10.0));
 
       // Assert
@@ -107,7 +107,7 @@ void main() {
 
     test('produces numPoints + 1 spots', () {
       // Act
-      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit, 1,
           tMin: simulationDay(0.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
@@ -116,7 +116,7 @@ void main() {
 
     test('ends sampling at tMax', () {
       // Act
-      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit, 1,
           tMin: simulationDay(0.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
@@ -125,7 +125,7 @@ void main() {
 
     test('starts sampling at tMin', () {
       // Act
-      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit, 1,
           tMin: simulationDay(5.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
@@ -139,7 +139,7 @@ void main() {
       ];
 
       // Act
-      final spots = calculator.generateLevelsSpots(intakes, unit,
+      final spots = calculator.generateLevelsSpots(intakes, unit, 1,
           tMin: simulationDay(5.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
