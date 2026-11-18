@@ -1,8 +1,3 @@
-//for each usable lab i:  r_i = ln(lab_i / model_i)
-//ln(factor) = (r_1 + ... + r_n) / (n + λ)
-//factor     = clamp(exp(ln(factor)), 0.1, 10)
-
-// List<BloodTest> pr bloodtest provider
 import 'dart:math' as math;
 import 'package:mona/data/model/blood_test.dart';
 
