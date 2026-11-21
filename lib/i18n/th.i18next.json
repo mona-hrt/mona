@@ -254,7 +254,7 @@
   "scheduleFrequencyAsNeeded": "ตามที่ต้องการกำหนดเอง",
   "reportBug": "แจ้งบัคที่พบ",
   "reportBugDescription": "รายงานปัญหาใน GitHub",
-  "translateApp": "ช่วยแปลแอปนี้",
+  "translateApp": "ช่วยแปลแอพนี้",
   "translateAppDescription": "ช่วยแปล Mona บน Weblate",
   "missingTranslation": "มีการแปลตรงไหนบกพร่องไหม?",
   "donate": "บริจาค",
@@ -263,5 +263,7 @@
   "scheduleFrequencyWeeklyDescription": "ทุกสัปดาห์ ในวันที่กำหนด",
   "scheduleFrequencyMonthlyDescription": "ทุกเดือน ในวันที่กำหนด",
   "scheduleFrequencyAsNeededDescription": "ไม่กำหนดเวลา",
-  "anchorToLastIntake": "คำนวณจากโดสก่อนหน้า"
+  "anchorToLastIntake": "คำนวณจากโดสก่อนหน้า",
+  "getInvolved": "ช่วยเหลือเรา",
+  "backupSaved": "สำรองข้อมูลสำเร็จ"
 }
