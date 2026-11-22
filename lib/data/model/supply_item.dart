@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/util/validators.dart';
 
@@ -11,7 +11,7 @@ part 'supply_item.mapper.dart';
 
 @MappableClass(
   discriminatorKey: 'type',
-  includeSubClasses: [MedicationSupplyItem, GenericSupply],
+  includeSubClasses: [MedicationSupplyItem, ConsumableSupplyItem],
 )
 abstract class SupplyItem with SupplyItemMappable {
   int get id;

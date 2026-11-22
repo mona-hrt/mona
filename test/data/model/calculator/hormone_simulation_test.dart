@@ -32,24 +32,11 @@ void main() {
       };
 
       // Act
-      final level = HormoneSimulation(intakes, params, simulationOrigin)
-          .levelAt(Hormone.estradiol, 1.6922);
+      final level = HormoneSimulation(intakes, params)
+          .levelAt(Hormone.estradiol, simulationDay(1.6922));
 
       // Assert
       expect(level, closeTo(2 * 73.509, 1e-3));
-    });
-
-    test('counts the days from its origin', () {
-      // Arrange
-      final intakes = [aSimulatedInjection(day: 1.0)];
-
-      // Act
-      final level =
-          HormoneSimulation(intakes, defaultInjectionParams, simulationOrigin)
-              .levelAt(Hormone.estradiol, 2.6922);
-
-      // Assert
-      expect(level, closeTo(73.509, 1e-3));
     });
 
     test(
@@ -63,9 +50,8 @@ void main() {
       ];
 
       // Act
-      final level =
-          HormoneSimulation(intakes, defaultInjectionParams, simulationOrigin)
-              .levelAt(Hormone.estradiol, 1.6922);
+      final level = HormoneSimulation(intakes, defaultInjectionParams)
+          .levelAt(Hormone.estradiol, simulationDay(1.6922));
 
       // Assert
       expect(level, closeTo(73.509, 1e-3));
@@ -76,9 +62,8 @@ void main() {
       final intakes = [aSimulatedInjection(ester: Ester.valerate)];
 
       // Act
-      final level =
-          HormoneSimulation(intakes, defaultInjectionParams, simulationOrigin)
-              .levelAt(Hormone.testosterone, 1.6922);
+      final level = HormoneSimulation(intakes, defaultInjectionParams)
+          .levelAt(Hormone.testosterone, simulationDay(1.6922));
 
       // Assert
       expect(level, 0.0);

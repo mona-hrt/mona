@@ -72,7 +72,7 @@ class TranslationsTh extends Translations
   @override
   String get allDone => 'ครบหมดแล้ว!';
   @override
-  String get noIntakesDue => 'ไม่มียาที่ต้องทานวันนี้';
+  String get noIntakesDue => 'ไม่มีโดสที่ต้องรับเพิ่มในวันนี้';
   @override
   String get upcoming => 'เร็วๆนี้';
   @override
@@ -110,13 +110,13 @@ class TranslationsTh extends Translations
   @override
   String get language => 'ภาษา';
   @override
-  String get languageFollowDevice => 'ตามภาษาระบบ';
+  String get languageFollowDevice => 'ตามภาษาของระบบ';
   @override
   String get enableNotifications => 'เปิดการแจ้งเตือน';
   @override
   String get enableNotificationsDescription => 'ส่งการแจ้งเตือน';
   @override
-  String get notificationsDisabledTitle => 'การแจ้งเตือนได้ปิดอยู่';
+  String get notificationsDisabledTitle => 'การแจ้งเตือนถูกปิดไว้';
   @override
   String get clickToOpenSettings => 'แตะเพื่อเปิดการตั้งค่า';
   @override
@@ -127,7 +127,7 @@ class TranslationsTh extends Translations
   @override
   String get autoUpdate => 'อัพเดตอัตโนมัติ';
   @override
-  String get autoUpdateDescription => 'ตรวจหาอัพเดตอัตโนมัติตอนที่เปิดแอพ';
+  String get autoUpdateDescription => 'ตรวจหาอัพเดตโดยอัตโนมัติตอนเปิดแอพ';
   @override
   String get checkForUpdates => 'ตรวจหาอัพเดตใหม่';
   @override
@@ -530,6 +530,40 @@ class TranslationsTh extends Translations
   String get HrtCounterDescription =>
       'แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง';
   @override
+  String get asNeeded => 'ตามที่ต้องการ';
+  @override
+  String get scheduleFrequencyDailyDescription => 'ทุกวัน ตามเวลาที่กำหนด';
+  @override
+  String get scheduleFrequencyAsNeeded => 'ตามที่ต้องการกำหนดเอง';
+  @override
+  String get reportBug => 'แจ้งบัคที่พบ';
+  @override
+  String get reportBugDescription => 'รายงานปัญหาใน GitHub';
+  @override
+  String get translateApp => 'ช่วยแปลแอพนี้';
+  @override
+  String get translateAppDescription => 'ช่วยแปล Mona บน Weblate';
+  @override
+  String get missingTranslation => 'มีการแปลตรงไหนบกพร่องไหม?';
+  @override
+  String get donate => 'บริจาค';
+  @override
+  String get donateDescription => 'สนับสนุน Mona บน Ko-fi';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'วันเว้นวัน ตามที่กำหนด';
+  @override
+  String get scheduleFrequencyWeeklyDescription => 'ทุกสัปดาห์ ในวันที่กำหนด';
+  @override
+  String get scheduleFrequencyMonthlyDescription => 'ทุกเดือน ในวันที่กำหนด';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'ไม่กำหนดเวลา';
+  @override
+  String get anchorToLastIntake => 'คำนวณจากโดสก่อนหน้า';
+  @override
+  String get getInvolved => 'ช่วยเหลือเรา';
+  @override
+  String get backupSaved => 'สำรองข้อมูลสำเร็จ';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
@@ -687,7 +721,7 @@ extension on TranslationsTh {
       'addAnItem' => 'เพื่มสต็อก',
       'empty_home' => 'เริ่มด้วยการเพื่มตารางเวลาในการตั้งค่า',
       'allDone' => 'ครบหมดแล้ว!',
-      'noIntakesDue' => 'ไม่มียาที่ต้องทานวันนี้',
+      'noIntakesDue' => 'ไม่มีโดสที่ต้องรับเพิ่มในวันนี้',
       'upcoming' => 'เร็วๆนี้',
       'taken' => 'ทานแล้ว',
       'yesterday' => 'เมื่อวาน',
@@ -706,15 +740,15 @@ extension on TranslationsTh {
       'schedules' => 'ตารางเวลา',
       'noSchedules' => 'ไม่มีตารางเวลา',
       'language' => 'ภาษา',
-      'languageFollowDevice' => 'ตามภาษาระบบ',
+      'languageFollowDevice' => 'ตามภาษาของระบบ',
       'enableNotifications' => 'เปิดการแจ้งเตือน',
       'enableNotificationsDescription' => 'ส่งการแจ้งเตือน',
-      'notificationsDisabledTitle' => 'การแจ้งเตือนได้ปิดอยู่',
+      'notificationsDisabledTitle' => 'การแจ้งเตือนถูกปิดไว้',
       'clickToOpenSettings' => 'แตะเพื่อเปิดการตั้งค่า',
       'exactRemindersDisabled' => 'การแจ้งเตือนแบบตรงเวลาได้ปิดอยู่',
       'remindersDelayed' => 'การแจ้งเตือนอาจล่าช้าได้ แตะเพื่อเปิดการตั้งค่า',
       'autoUpdate' => 'อัพเดตอัตโนมัติ',
-      'autoUpdateDescription' => 'ตรวจหาอัพเดตอัตโนมัติตอนที่เปิดแอพ',
+      'autoUpdateDescription' => 'ตรวจหาอัพเดตโดยอัตโนมัติตอนเปิดแอพ',
       'checkForUpdates' => 'ตรวจหาอัพเดตใหม่',
       'checkForUpdatesDescription' =>
         'ตรวจหาอัพเดตใหม่\nต้องมีการเชื่อมต่ออินเทอร์เน็ต\n(ไม่มีข้อมูลใดๆออกนอกเครื่อง)',
@@ -925,6 +959,23 @@ extension on TranslationsTh {
       'mustBeBetween1And28' => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น',
       'HrtCounterDescription' =>
         'แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง',
+      'asNeeded' => 'ตามที่ต้องการ',
+      'scheduleFrequencyDailyDescription' => 'ทุกวัน ตามเวลาที่กำหนด',
+      'scheduleFrequencyAsNeeded' => 'ตามที่ต้องการกำหนดเอง',
+      'reportBug' => 'แจ้งบัคที่พบ',
+      'reportBugDescription' => 'รายงานปัญหาใน GitHub',
+      'translateApp' => 'ช่วยแปลแอพนี้',
+      'translateAppDescription' => 'ช่วยแปล Mona บน Weblate',
+      'missingTranslation' => 'มีการแปลตรงไหนบกพร่องไหม?',
+      'donate' => 'บริจาค',
+      'donateDescription' => 'สนับสนุน Mona บน Ko-fi',
+      'scheduleFrequencyIntervalDescription' => 'วันเว้นวัน ตามที่กำหนด',
+      'scheduleFrequencyWeeklyDescription' => 'ทุกสัปดาห์ ในวันที่กำหนด',
+      'scheduleFrequencyMonthlyDescription' => 'ทุกเดือน ในวันที่กำหนด',
+      'scheduleFrequencyAsNeededDescription' => 'ไม่กำหนดเวลา',
+      'anchorToLastIntake' => 'คำนวณจากโดสก่อนหน้า',
+      'getInvolved' => 'ช่วยเหลือเรา',
+      'backupSaved' => 'สำรองข้อมูลสำเร็จ',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,

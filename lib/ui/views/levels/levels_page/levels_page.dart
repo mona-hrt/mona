@@ -18,6 +18,7 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/levels/blood_test_chart_page/blood_tests_chart_page.dart';
+import 'package:mona/ui/views/levels/chart_time_axis.dart';
 import 'package:mona/ui/views/levels/graph_calculator.dart';
 import 'package:mona/ui/views/levels/level_entry_spots.dart';
 import 'package:mona/ui/views/levels/levels_page/baby_bar_chart_graph.dart';
@@ -25,7 +26,6 @@ import 'package:mona/ui/views/levels/levels_page/baby_main_chart_graph.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:mona/ui/widgets/minute_ticker.dart';
-import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
 class LevelsPage extends StatelessWidget {
@@ -133,14 +133,13 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
     final colorScheme = theme.colorScheme;
     final intakeProvider = context.watch<MedicationIntakeProvider>();
     final unit = context.watch<PreferencesService>().estradiolUnit;
-    final baseline = intakeProvider.getGraphLocalStart()!;
     final intakes = intakeProvider.intakes;
-    final tNow = timeDifferenceInDays(clock.now(), baseline);
-    final lastWeekSpots = GraphCalculator().generateLevelsSpots(
-        intakes, baseline, unit,
-        tMin: tNow - 9, tMax: tNow + 5);
-    final nowLevel = GraphCalculator()
-        .totalConcentrationAtTime(tNow, intakes, baseline, unit);
+    final now = clock.now();
+    final lastWeekSpots = GraphCalculator().generateLevelsSpots(intakes, unit,
+        tMin: now.subtract(const Duration(days: 9)),
+        tMax: now.add(const Duration(days: 5)));
+    final nowLevel =
+        GraphCalculator().totalConcentrationAtTime(now, intakes, unit);
     final showPreview =
         lastWeekSpots.peakY >= 10; // value meaningless under 10 whatever unit
 
@@ -190,7 +189,7 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
           SizedBox(
             height: 160,
             child: BabyMainChartGraph(
-                spots: lastWeekSpots, nowX: tNow, nowY: nowLevel),
+                spots: lastWeekSpots, nowX: chartX(now), nowY: nowLevel),
           ),
         ] else
           const SizedBox(height: 16),

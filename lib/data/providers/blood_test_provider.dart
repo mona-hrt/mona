@@ -8,12 +8,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
-import 'package:mona/data/model/graph_blood_test.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/services/repository.dart';
-import 'package:mona/util/time_difference.dart';
 
 class BloodTestProvider extends ChangeNotifier {
   List<BloodTest> _bloodTestsSortedDesc = [];
@@ -89,21 +87,6 @@ class BloodTestProvider extends ChangeNotifier {
   Future<void> updateBloodTest(BloodTest bloodtest) async {
     await repository.update(bloodtest, bloodtest.id);
     await fetchBloodTests();
-  }
-
-  List<GraphBloodTest> getBloodTestsForGraph(
-      DateTime tMin, EstradiolUnit unit) {
-    if (bloodTestsSortedDesc.isEmpty) return [];
-
-    return bloodTestsSortedDesc
-        .where((bloodtest) => bloodtest.estradiolLevels != null)
-        .where((bloodtest) => !bloodtest.dateTime.isBefore(tMin))
-        .map((bloodtest) => GraphBloodTest(
-              offset: timeDifferenceInDays(bloodtest.dateTime, tMin),
-              level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
-              comparison: bloodtest.estradiolLevels!.comparison,
-            ))
-        .toList();
   }
 
   static final _bloodTestRepository = Repository<BloodTest>(

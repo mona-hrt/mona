@@ -45,7 +45,7 @@ class MedicationIntake with MedicationIntakeMappable {
   final Ester? ester;
   final int? medicationSupplyItemId;
   @MappableField(hook: JsonStringHook())
-  final List<int> genericSupplyItemIds;
+  final List<int> consumableSupplyItemIds;
   final String? notes;
   @MappableField(hook: JsonStringHook())
   final List<Placement> placements;
@@ -65,7 +65,7 @@ class MedicationIntake with MedicationIntakeMappable {
     required this.administrationRoute,
     this.ester,
     this.medicationSupplyItemId,
-    this.genericSupplyItemIds = const [],
+    this.consumableSupplyItemIds = const [],
     this.notes,
     this.placements = const [],
     required this.dosingBasis,

@@ -12,11 +12,11 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';
 import 'package:mona/data/model/calculator/injection_params.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/injection_type.dart';
 import 'package:mona/data/model/medication_intake.dart';
@@ -27,7 +27,6 @@ import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/model/units.dart';
-import 'package:mona/util/time_difference.dart';
 
 const _morning = TimeOfDay(hour: 8, minute: 0);
 const _lateMorning = TimeOfDay(hour: 10, minute: 30);
@@ -55,15 +54,15 @@ class DemoData {
   int _nextId = 1;
 
   late final Date _hrtStart = _daysAgo(270);
-  late final GenericSupply _syringes;
-  late final GenericSupply _fillNeedles;
-  late final GenericSupply _imNeedles;
-  late final GenericSupply _scNeedles;
-  late final GenericSupply _wipes;
-  late final GenericSupply _bandages;
+  late final Syringe _syringes;
+  late final Needle _fillNeedles;
+  late final Needle _imNeedles;
+  late final Needle _scNeedles;
+  late final OtherSupplyItem _wipes;
+  late final OtherSupplyItem _bandages;
 
   DemoData.generate(this._timeZone) {
-    _addGenericSupplies();
+    _addConsumableSupplies();
     final injections = [
       ..._addEstradiolValerate(),
       ..._addEstradiolEnanthate(),
@@ -78,14 +77,16 @@ class DemoData {
     _addBloodTests(injections);
   }
 
-  void _addGenericSupplies() {
-    _syringes = _generic('Syringes 1 mL', GenericSupplyType.syringe, 24);
-    _fillNeedles = _generic('Fill needles 18G', GenericSupplyType.needle, 31);
-    _imNeedles = _generic('Needles 23G', GenericSupplyType.needle, 6);
-    _scNeedles = _generic('Needles 27G', GenericSupplyType.needle, 3);
-    _wipes = _generic('Alcohol wipes', GenericSupplyType.wipe, 87);
-    _bandages = _generic('Bandages', GenericSupplyType.bandage, 12);
-    _generic('Nitrile gloves', GenericSupplyType.gloves, 0);
+  void _addConsumableSupplies() {
+    _syringes =
+        _consumable(Syringe(id: _id(), name: 'Syringes 1 mL', amount: 24));
+    _fillNeedles =
+        _consumable(Needle(id: _id(), name: 'Fill needles 18G', amount: 31));
+    _imNeedles = _consumable(Needle(id: _id(), name: 'Needles 23G', amount: 6));
+    _scNeedles = _consumable(Needle(id: _id(), name: 'Needles 27G', amount: 3));
+    _wipes = _consumable(_other('Alcohol wipes', OtherSupplyType.wipe, 87));
+    _bandages = _consumable(_other('Bandages', OtherSupplyType.bandage, 12));
+    _consumable(_other('Nitrile gloves', OtherSupplyType.gloves, 0));
   }
 
   List<MedicationIntake> _addEstradiolValerate() {
@@ -110,7 +111,7 @@ class DemoData {
           linkSchedule: false,
           injectionType: InjectionType.intramuscular,
           placements: [i.isEven ? _leftThigh : _rightThigh],
-          genericSupplyItemIds: [
+          consumableSupplyItemIds: [
             _syringes.id,
             _fillNeedles.id,
             _imNeedles.id,
@@ -162,7 +163,7 @@ class DemoData {
         ],
         deadSpace: subcutaneous ? Decimal.fromInt(10) : null,
         wastedAmount: i == 20 ? Decimal.parse('0.05') : null,
-        genericSupplyItemIds: [
+        consumableSupplyItemIds: [
           _syringes.id,
           _fillNeedles.id,
           subcutaneous ? _scNeedles.id : _imNeedles.id,
@@ -358,7 +359,7 @@ class DemoData {
             _at(date, _lateMorning, jitter: 20),
             injectionType: InjectionType.intramuscular,
             placements: [i.isEven ? _leftButtock : _rightButtock],
-            genericSupplyItemIds: [
+            consumableSupplyItemIds: [
               _syringes.id,
               _imNeedles.id,
               _wipes.id,
@@ -410,9 +411,7 @@ class DemoData {
   }
 
   void _addBloodTests(List<MedicationIntake> injections) {
-    final origin = injections.first.takenDateTime!;
-    final simulation =
-        HormoneSimulation(injections, defaultInjectionParams, origin);
+    final simulation = HormoneSimulation(injections, defaultInjectionParams);
 
     const plan = [
       (
@@ -452,8 +451,7 @@ class DemoData {
       final dateTime = _at(_hrtStart.add(Duration(days: day)),
           const TimeOfDay(hour: 8, minute: 30),
           jitter: 15);
-      final predicted = simulation.levelAt(
-          Hormone.estradiol, timeDifferenceInDays(dateTime, origin));
+      final predicted = simulation.levelAt(Hormone.estradiol, dateTime);
       final estradiol = Decimal.parse(max(
         predicted * (0.85 + 0.3 * _random.nextDouble()),
         18 + 10 * _random.nextDouble(),
@@ -563,7 +561,7 @@ class DemoData {
     TimeOfDay? scheduledTime,
     InjectionType? injectionType,
     List<Placement> placements = const [],
-    List<int> genericSupplyItemIds = const [],
+    List<int> consumableSupplyItemIds = const [],
     Decimal? deadSpace,
     Decimal? wastedAmount,
     String? notes,
@@ -581,7 +579,7 @@ class DemoData {
         dosingBasis: schedule.dosingBasis,
         injectionType: injectionType,
         placements: placements,
-        genericSupplyItemIds: genericSupplyItemIds,
+        consumableSupplyItemIds: consumableSupplyItemIds,
         deadSpace: deadSpace,
         wastedAmount: wastedAmount,
         notes: notes,
@@ -608,12 +606,14 @@ class DemoData {
     );
   }
 
-  GenericSupply _generic(String name, GenericSupplyType type, int amount) {
-    final item = GenericSupply(
-        id: _id(), name: name, amount: amount, genericSupplyType: type);
+  T _consumable<T extends ConsumableSupplyItem>(T item) {
     supplyItems.add(item);
     return item;
   }
+
+  OtherSupplyItem _other(String name, OtherSupplyType type, int amount) =>
+      OtherSupplyItem(
+          id: _id(), name: name, amount: amount, otherSupplyType: type);
 
   DateTime _at(Date day, TimeOfDay time, {required int jitter}) => day
       .toDateTimeAt(time)

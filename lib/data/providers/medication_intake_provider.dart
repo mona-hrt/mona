@@ -83,22 +83,6 @@ class MedicationIntakeProvider extends ChangeNotifier {
     await fetchIntakes();
   }
 
-  DateTime? getFirstGraphIntakeInstant() {
-    if (plottableIntakes.isEmpty) return null;
-
-    return plottableIntakes
-        .reduce((a, b) => a.takenDateTime!.isBefore(b.takenDateTime!) ? a : b)
-        .takenDateTime;
-  }
-
-  DateTime? getGraphLocalStart() {
-    final firstInstant = getFirstGraphIntakeInstant();
-    if (firstInstant == null) return null;
-
-    final local = firstInstant.toLocal();
-    return DateTime(local.year, local.month, local.day);
-  }
-
   Date? getLastIntakeLocalDateFromList(List<MedicationIntake> intakes) {
     if (intakes.isEmpty) return null;
 
