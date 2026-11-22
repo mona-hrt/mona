@@ -53,7 +53,7 @@ void main() {
       test('returns only MedicationSupplyItem entries', () async {
         // Arrange
         await repo.insert(aMedicationSupplyItem(id: 1));
-        await repo.insert(aGenericSupplyItem(id: 2));
+        await repo.insert(aConsumableSupplyItem(id: 2));
         await provider.fetchItems();
 
         // Act
@@ -66,7 +66,7 @@ void main() {
       test('returns an empty list when no medication items are present',
           () async {
         // Arrange
-        await repo.insert(aGenericSupplyItem());
+        await repo.insert(aConsumableSupplyItem());
         await provider.fetchItems();
 
         // Act
@@ -77,27 +77,28 @@ void main() {
       });
     });
 
-    group('genericItems', () {
-      test('returns only GenericSupply entries', () async {
+    group('consumableItems', () {
+      test('returns only ConsumableSupplyItem entries', () async {
         // Arrange
         await repo.insert(aMedicationSupplyItem(id: 1));
-        await repo.insert(aGenericSupplyItem(id: 2));
+        await repo.insert(aConsumableSupplyItem(id: 2));
         await provider.fetchItems();
 
         // Act
-        final result = provider.genericItems;
+        final result = provider.consumableItems;
 
         // Assert
         expect(result.map((i) => i.id).toList(), [2]);
       });
 
-      test('returns an empty list when no generic items are present', () async {
+      test('returns an empty list when no consumable items are present',
+          () async {
         // Arrange
         await repo.insert(aMedicationSupplyItem());
         await provider.fetchItems();
 
         // Act
-        final result = provider.genericItems;
+        final result = provider.consumableItems;
 
         // Assert
         expect(result, isEmpty);
@@ -134,10 +135,10 @@ void main() {
         expect(ordered.map((i) => i.name).toList(), ['A', 'C', 'B']);
       });
 
-      test('ignores generic items', () async {
+      test('ignores consumable items', () async {
         // Arrange
         await repo.insert(aMedicationSupplyItem(id: 1));
-        await repo.insert(aGenericSupplyItem(id: 2));
+        await repo.insert(aConsumableSupplyItem(id: 2));
         await provider.fetchItems();
 
         // Act
@@ -153,7 +154,7 @@ void main() {
           () async {
         // Arrange
         await repo.insert(aMedicationSupplyItem(id: 1, name: 'Banana'));
-        await repo.insert(aGenericSupplyItem(id: 2, name: 'Apple'));
+        await repo.insert(aConsumableSupplyItem(id: 2, name: 'Apple'));
         await repo.insert(aMedicationSupplyItem(id: 3, name: 'Carrot'));
         await provider.fetchItems();
 
@@ -170,7 +171,7 @@ void main() {
           () async {
         // Arrange
         await repo.insert(aMedicationSupplyItem(id: 1, name: 'Banana'));
-        await repo.insert(aGenericSupplyItem(id: 2, name: 'Apple'));
+        await repo.insert(aConsumableSupplyItem(id: 2, name: 'Apple'));
         await repo.insert(aMedicationSupplyItem(id: 3, name: 'Carrot'));
         await provider.fetchItems();
 
@@ -182,16 +183,16 @@ void main() {
       });
 
       test(
-          'genericItemsOrderedByName orders only generic items alphabetically by name',
+          'consumableItemsOrderedByName orders only consumable items alphabetically by name',
           () async {
         // Arrange
         await repo.insert(aMedicationSupplyItem(id: 1, name: 'Banana'));
-        await repo.insert(aGenericSupplyItem(id: 2, name: 'Apple'));
-        await repo.insert(aGenericSupplyItem(id: 3, name: 'Carrot'));
+        await repo.insert(aConsumableSupplyItem(id: 2, name: 'Apple'));
+        await repo.insert(aConsumableSupplyItem(id: 3, name: 'Carrot'));
         await provider.fetchItems();
 
         // Act
-        final ordered = provider.genericItemsOrderedByName;
+        final ordered = provider.consumableItemsOrderedByName;
 
         // Assert
         expect(ordered.map((i) => i.name).toList(), ['Apple', 'Carrot']);

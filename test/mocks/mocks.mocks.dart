@@ -14,9 +14,9 @@ import 'package:decimal/decimal.dart' as _i19;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mona/controllers/supply_item_manager.dart' as _i18;
 import 'package:mona/data/model/administration_route.dart' as _i11;
+import 'package:mona/data/model/consumable_supply_item.dart' as _i8;
 import 'package:mona/data/model/date.dart' as _i15;
 import 'package:mona/data/model/ester.dart' as _i12;
-import 'package:mona/data/model/generic_supply_item.dart' as _i8;
 import 'package:mona/data/model/medication_intake.dart' as _i14;
 import 'package:mona/data/model/medication_schedule.dart' as _i17;
 import 'package:mona/data/model/medication_supply_item.dart' as _i7;
@@ -122,10 +122,10 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as List<_i7.MedicationSupplyItem>);
 
   @override
-  List<_i8.GenericSupply> get genericItems => (super.noSuchMethod(
-        Invocation.getter(#genericItems),
-        returnValue: <_i8.GenericSupply>[],
-      ) as List<_i8.GenericSupply>);
+  List<_i8.ConsumableSupplyItem> get consumableItems => (super.noSuchMethod(
+        Invocation.getter(#consumableItems),
+        returnValue: <_i8.ConsumableSupplyItem>[],
+      ) as List<_i8.ConsumableSupplyItem>);
 
   @override
   List<_i7.MedicationSupplyItem> get medicationItemsOrderedByRatio =>
@@ -147,8 +147,8 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as List<_i3.SupplyItem>);
 
   @override
-  List<_i3.SupplyItem> get genericItemsOrderedByName => (super.noSuchMethod(
-        Invocation.getter(#genericItemsOrderedByName),
+  List<_i3.SupplyItem> get consumableItemsOrderedByName => (super.noSuchMethod(
+        Invocation.getter(#consumableItemsOrderedByName),
         returnValue: <_i3.SupplyItem>[],
       ) as List<_i3.SupplyItem>);
 
@@ -666,7 +666,7 @@ class MockSupplyItemManager extends _i1.Mock implements _i18.SupplyItemManager {
 
   @override
   _i9.Future<void> use(
-    _i8.GenericSupply? item, {
+    _i8.ConsumableSupplyItem? item, {
     int? quantity = 1,
   }) =>
       (super.noSuchMethod(
@@ -681,7 +681,7 @@ class MockSupplyItemManager extends _i1.Mock implements _i18.SupplyItemManager {
 
   @override
   _i9.Future<void> putBack(
-    _i8.GenericSupply? item, {
+    _i8.ConsumableSupplyItem? item, {
     int? quantity = 1,
   }) =>
       (super.noSuchMethod(
