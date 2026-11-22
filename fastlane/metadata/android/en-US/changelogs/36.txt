@@ -1,0 +1,8 @@
+New:
+
+- New languages: Northern Kurdish, Pashto, Tajik, Turkish.
+
+
+Fix:
+
+- The estradiol graph now shows all blood tests.
