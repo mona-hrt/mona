@@ -103,12 +103,12 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$medicationSupplyItemId,
     opt: true,
   );
-  static List<int> _$genericSupplyItemIds(MedicationIntake v) =>
-      v.genericSupplyItemIds;
-  static const Field<MedicationIntake, List<int>> _f$genericSupplyItemIds =
+  static List<int> _$consumableSupplyItemIds(MedicationIntake v) =>
+      v.consumableSupplyItemIds;
+  static const Field<MedicationIntake, List<int>> _f$consumableSupplyItemIds =
       Field(
-    'genericSupplyItemIds',
-    _$genericSupplyItemIds,
+    'consumableSupplyItemIds',
+    _$consumableSupplyItemIds,
     opt: true,
     def: const [],
     hook: JsonStringHook(),
@@ -153,7 +153,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
     #medicationSupplyItemId: _f$medicationSupplyItemId,
-    #genericSupplyItemIds: _f$genericSupplyItemIds,
+    #consumableSupplyItemIds: _f$consumableSupplyItemIds,
     #notes: _f$notes,
     #placements: _f$placements,
     #dosingBasis: _f$dosingBasis,
@@ -174,7 +174,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
       medicationSupplyItemId: data.dec(_f$medicationSupplyItemId),
-      genericSupplyItemIds: data.dec(_f$genericSupplyItemIds),
+      consumableSupplyItemIds: data.dec(_f$consumableSupplyItemIds),
       notes: data.dec(_f$notes),
       placements: data.dec(_f$placements),
       dosingBasis: data.dec(_f$dosingBasis),
@@ -245,7 +245,8 @@ extension MedicationIntakeValueCopy<$R, $Out>
 abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   MoleculeCopyWith<$R, Molecule, Molecule> get molecule;
-  ListCopyWith<$R, int, ObjectCopyWith<$R, int, int>> get genericSupplyItemIds;
+  ListCopyWith<$R, int, ObjectCopyWith<$R, int, int>>
+      get consumableSupplyItemIds;
   ListCopyWith<$R, Placement, PlacementCopyWith<$R, Placement, Placement>>
       get placements;
   $R call({
@@ -261,7 +262,7 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     AdministrationRoute? administrationRoute,
     Ester? ester,
     int? medicationSupplyItemId,
-    List<int>? genericSupplyItemIds,
+    List<int>? consumableSupplyItemIds,
     String? notes,
     List<Placement>? placements,
     DosingBasis? dosingBasis,
@@ -285,10 +286,10 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
       $value.molecule.copyWith.$chain((v) => call(molecule: v));
   @override
   ListCopyWith<$R, int, ObjectCopyWith<$R, int, int>>
-      get genericSupplyItemIds => ListCopyWith(
-            $value.genericSupplyItemIds,
+      get consumableSupplyItemIds => ListCopyWith(
+            $value.consumableSupplyItemIds,
             (v, t) => ObjectCopyWith(v, $identity, t),
-            (v) => call(genericSupplyItemIds: v),
+            (v) => call(consumableSupplyItemIds: v),
           );
   @override
   ListCopyWith<$R, Placement, PlacementCopyWith<$R, Placement, Placement>>
@@ -311,7 +312,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
     Object? medicationSupplyItemId = $none,
-    List<int>? genericSupplyItemIds,
+    List<int>? consumableSupplyItemIds,
     Object? notes = $none,
     List<Placement>? placements,
     DosingBasis? dosingBasis,
@@ -333,8 +334,8 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           if (ester != $none) #ester: ester,
           if (medicationSupplyItemId != $none)
             #medicationSupplyItemId: medicationSupplyItemId,
-          if (genericSupplyItemIds != null)
-            #genericSupplyItemIds: genericSupplyItemIds,
+          if (consumableSupplyItemIds != null)
+            #consumableSupplyItemIds: consumableSupplyItemIds,
           if (notes != $none) #notes: notes,
           if (placements != null) #placements: placements,
           if (dosingBasis != null) #dosingBasis: dosingBasis,
@@ -361,9 +362,9 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           #medicationSupplyItemId,
           or: $value.medicationSupplyItemId,
         ),
-        genericSupplyItemIds: data.get(
-          #genericSupplyItemIds,
-          or: $value.genericSupplyItemIds,
+        consumableSupplyItemIds: data.get(
+          #consumableSupplyItemIds,
+          or: $value.consumableSupplyItemIds,
         ),
         notes: data.get(#notes, or: $value.notes),
         placements: data.get(#placements, or: $value.placements),

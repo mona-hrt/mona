@@ -16,7 +16,7 @@ class SupplyItemMapper extends ClassMapperBase<SupplyItem> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SupplyItemMapper._());
       MedicationSupplyItemMapper.ensureInitialized();
-      GenericSupplyMapper.ensureInitialized();
+      ConsumableSupplyItemMapper.ensureInitialized();
     }
     return _instance!;
   }
