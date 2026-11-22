@@ -68,7 +68,7 @@ class TranslationsKo extends Translations
   @override
   String get allDone => '모두 완료!';
   @override
-  String get noIntakesDue => '오늘 투여할 약이 없습니다';
+  String get noIntakesDue => '오늘 투여할 약이 없어요';
   @override
   String get upcoming => '예정';
   @override
@@ -90,24 +90,24 @@ class TranslationsKo extends Translations
   @override
   String get enableNotifications => '알림 활성화';
   @override
-  String get notificationsDisabledTitle => '알림이 비활성화되어 있습니다';
+  String get notificationsDisabledTitle => '알림이 비활성화되어 있어요';
   @override
   String get clickToOpenSettings => '설정을 열려면 누르세요';
   @override
-  String get exactRemindersDisabled => '정시 알림이 비활성화되어 있습니다';
+  String get exactRemindersDisabled => '정시 알림이 비활성화되어 있어요';
   @override
-  String get remindersDelayed => '알림이 약간 지연될 수 있습니다. 설정을 열려면 탭하세요.';
+  String get remindersDelayed => '알림이 약간 지연될 수 있어요. 설정을 열려면 누르세요.';
   @override
-  String get autoUpdate => '자동 업데이트';
+  String get autoUpdate => '자동 판올림';
   @override
-  String get autoUpdateDescription => '앱 실행 시 자동으로 새 업데이트를 확인합니다';
+  String get autoUpdateDescription => '앱 실행 시 자동으로 새 판을 확인합니다';
   @override
-  String get checkForUpdates => '업데이트 확인하기';
+  String get checkForUpdates => '판올림 확인하기';
   @override
   String get checkForUpdatesDescription =>
-      '최신 버전을 수동으로 확인합니다\n인터넷에 연결됩니다\n(데이터는 전송되지 않습니다)';
+      '최신 판을 수동으로 확인해요\n인터넷에 연결돼요\n(데이터는 전송되지 않아요)';
   @override
-  String appVersion({required Object version}) => 'Mona 버전 ${version}';
+  String appVersion({required Object version}) => 'Mona ${version} 판';
   @override
   String get addSchedule => '일정 추가';
   @override
@@ -125,11 +125,11 @@ class TranslationsKo extends Translations
   @override
   String get editSchedule => '일정 편집';
   @override
-  String deleteSchedule({required Object name}) => '${name}을(를) 삭제하시겠습니까?';
+  String deleteSchedule({required Object name}) => '${name}을(를) 삭제하시겠어요?';
   @override
   String get addNotification => '알림 추가';
   @override
-  String get empty_intakes => '투여 기록이 여기에 표시됩니다';
+  String get empty_intakes => '투여 기록이 여기에 표시돼요';
   @override
   String get chooseSchedule => '일정 선택';
   @override
@@ -147,7 +147,7 @@ class TranslationsKo extends Translations
   @override
   String get injectionSide => '주사 부위';
   @override
-  String get deleteIntake => '이 투여 기록을 삭제하시겠습니까?';
+  String get deleteIntake => '이 투여 기록을 삭제하시겠어요?';
   @override
   String takeMedication({required Object scheduleName}) => '${scheduleName} 투여';
   @override
@@ -171,7 +171,7 @@ class TranslationsKo extends Translations
   @override
   String get usedAmount => '사용량';
   @override
-  String deleteItem({required Object name}) => '${name}을(를) 삭제하시겠습니까?';
+  String deleteItem({required Object name}) => '${name}을(를) 삭제하시겠어요?';
   @override
   String get add => '추가';
   @override
@@ -227,9 +227,9 @@ class TranslationsKo extends Translations
   @override
   String get injection => '주사';
   @override
-  String get oral => '먹는 약';
+  String get oral => '경구';
   @override
-  String get sublingual => '혀 밑에 녹이는 약(설하)';
+  String get sublingual => '설하';
   @override
   String get patch => '패치';
   @override
@@ -245,7 +245,7 @@ class TranslationsKo extends Translations
   @override
   String get addAnItem => '항목 추가';
   @override
-  String get asNeeded => '필요시';
+  String get asNeeded => '필요 시';
   @override
   String get yesterday => '어제';
   @override
@@ -267,11 +267,11 @@ class TranslationsKo extends Translations
   @override
   String get scheduleFrequencyMonthlyDescription => '매달 같은 날에';
   @override
-  String get scheduleFrequencyAsNeeded => '필요시';
+  String get scheduleFrequencyAsNeeded => '필요 시';
   @override
-  String get scheduleFrequencyAsNeededDescription => '정해진 스케줄 없이';
+  String get scheduleFrequencyAsNeededDescription => '정해진 일정 없이';
   @override
-  String get newUpdateAvailable => '새 업데이트가 있습니다!';
+  String get newUpdateAvailable => '새 판올림이 있어요!';
   @override
   String get goToSettings => '설정으로 가기';
   @override
@@ -287,13 +287,13 @@ class TranslationsKo extends Translations
   @override
   String get anchorToLastIntakeDescription => '다음 투여 일정에 마지막 투여 후로부터의 간격을 적용함';
   @override
-  String get medicalSettings => '의료 정보 설정';
+  String get medicalSettings => '의료 설정';
   @override
   String get theme => '테마';
   @override
-  String get themeCustomizeColors => '앱 색상을 개인화하기';
+  String get themeCustomizeColors => '앱 색상 개인화';
   @override
-  String get customThemeEnabled => '사용자 테마';
+  String get customThemeEnabled => '사용자 지정 테마';
   @override
   String get themeGenerate => '생성';
   @override
@@ -309,17 +309,17 @@ class TranslationsKo extends Translations
   @override
   String get reportBug => '버그 제보하기';
   @override
-  String get reportBugDescription => '깃허브에 이슈를 엽니다';
+  String get reportBugDescription => 'GitHub에 이슈를 엽니다';
   @override
   String get translateApp => '앱 번역하기';
   @override
-  String get translateAppDescription => 'Weblate에서 Mona를 번역합니다';
+  String get translateAppDescription => 'Weblate에서 Mona를 번역하는 것을 도와주세요';
   @override
   String get missingTranslation => '빠진 번역이 있나요?';
   @override
   String get donate => '기부';
   @override
-  String get donateDescription => 'Ko-fi에서 Mona를 후원합니다';
+  String get donateDescription => 'Ko-fi에서 Mona를 지원해 주세요';
   @override
   String get backupSaved => '백업 저장됨';
   @override
@@ -327,10 +327,10 @@ class TranslationsKo extends Translations
   @override
   String get importDataTitle => '데이터 불러오기';
   @override
-  String get importDataSubtitle => 'JSON 백업에서 데이터를 불러옵니다';
+  String get importDataSubtitle => 'JSON 백업에서 데이터 복원';
   @override
   String get importDataOverwriteWarning =>
-      '이 작업은 현재 데이터를 모두 백업 데이터로 덮어쓰게 됩니다. 이 작업은 되돌릴 수 없습니다. 계속하겠습니까?';
+      '이 작업은 현재 데이터를 모두 백업으로 덮어쓰게 돼요. 이 작업은 되돌릴 수 없어요. 계속 하시겠어요?';
   @override
   String get importConfirm => '불러오기';
   @override
@@ -348,31 +348,31 @@ class TranslationsKo extends Translations
   @override
   String get exportDataTitle => '데이터 내보내기';
   @override
-  String get exportDataSubtitle => '데이터를 JSON 파일로 저장합니다';
+  String get exportDataSubtitle => '데이터를 JSON 파일로 저장';
   @override
   String get units => '단위';
   @override
-  String get updateNoCompatibleApk => '이 기기와 호환되는 업데이트가 없습니다.';
+  String get updateNoCompatibleApk => '이 기기와 호환되는 판올림이 없어요.';
   @override
-  String get updateAppUpToDate => '앱이 최신 버전입니다!';
+  String get updateAppUpToDate => '앱이 최신 판이에요!';
   @override
-  String get updateCheckNetworkError => '지금은 업데이트를 찾을 수 없습니다.';
+  String get updateCheckNetworkError => '지금은 판올림을 찾을 수 없어요.';
   @override
-  String get updateDialogTitle => '업데이트 가능';
+  String get updateDialogTitle => '판올림 가능';
   @override
   String updateDialogBody({required Object latest, required Object current}) =>
-      '버전 ${latest} 이(가) 출시되었습니다! (현재: ${current})\n\n이 기기와 호환되는 업데이트를 설치할 준비가 되었습니다.';
+      '${latest} 판을 사용할 수 있어요! (현재: ${current})\n\n이 기기와 호환되는 판올림을 설치할 준비가 되었어요.';
   @override
-  String get updateDownloadAndInstall => '다운로드 및 설치';
+  String get updateDownloadAndInstall => '내려받기 및 설치';
   @override
-  String get updateInstallPermissionRequired => '업데이트를 설치하려면 권한이 필요합니다.';
+  String get updateInstallPermissionRequired => '판올림을 설치하려면 권한이 필요합니다.';
   @override
-  String get updateDownloadingTitle => '업데이트 받는 중...';
+  String get updateDownloadingTitle => '판올림 받는 중...';
   @override
   String updateFailedOpenInstaller({required Object message}) =>
       '설치 관리자 열기 실패: ${message}';
   @override
-  String get updateDownloadFailed => '다운로드에 실패하였습니다. 인터넷 연결을 확인하세요.';
+  String get updateDownloadFailed => '내려받기에 실패했어요. 인터넷 연결을 확인하세요.';
   @override
   String get secretSettings => '비밀 설정';
   @override
@@ -395,14 +395,14 @@ class TranslationsKo extends Translations
   @override
   String get hrtWidgetPlaceholder => 'Mona를 열어 첫 투여 기록 남기기';
   @override
-  String get hrtWidgetPreviewSample => 'HRT 시작 후 8달';
+  String get hrtWidgetPreviewSample => 'HRT 시작 후 8 달';
   @override
-  String get hrtWidgetPreviewIntakeSample => '16건 투여 기록됨';
+  String get hrtWidgetPreviewIntakeSample => '16 건의 투여 기록됨';
   @override
   String get startOfDay => '하루 시작 시간';
   @override
   String startOfDayDescription({required Object time}) =>
-      '${time}시 이전 기록은 전날로 기록됩니다';
+      '${time}시 이전 기록은 전날로 기록돼요';
   @override
   String get takenAmount => '복용량';
   @override
@@ -432,23 +432,23 @@ class TranslationsKo extends Translations
   @override
   String get week => '주';
   @override
-  String get twoWeeks => '2주';
+  String get twoWeeks => '2 주';
   @override
-  String get threeMonths => '3개월';
+  String get threeMonths => '3 개월';
   @override
-  String get sixMonths => '6개월';
+  String get sixMonths => '6 개월';
   @override
   String get month => '개월';
   @override
   String get year => '년';
   @override
-  String get addBloodTest => '혈액검사 추가';
+  String get addBloodTest => '혈액 검사 추가';
   @override
-  String get editBloodTest => '혈액검사 수정';
+  String get editBloodTest => '혈액 검사 수정';
   @override
-  String get newBloodTest => '새 혈액검사';
+  String get newBloodTest => '새 혈액 검사';
   @override
-  String get deleteBloodTest => '이 혈액검사를 지울까요?';
+  String get deleteBloodTest => '이 혈액 검사를 지울까요?';
   @override
   String get estradiolLevelLabel => '에스트라디올 수치';
   @override
@@ -493,7 +493,7 @@ class TranslationsKo extends Translations
   @override
   String get deleteElement => '이 항목을 지울까요?';
   @override
-  String get irreversibleAction => '이 동작은 되돌릴 수 없습니다.';
+  String get irreversibleAction => '이 동작은 되돌릴 수 없어요.';
   @override
   String get dihydrotestosterone => '다이하이드로테스토스테론';
   @override
@@ -573,10 +573,42 @@ class TranslationsKo extends Translations
   @override
   String get themeVariant => '종류';
   @override
+  String notificationMedicationReminderBodyDate({required Object date}) =>
+      '${date}로 일정 저장됨';
+  @override
+  String notificationMedicationReminderBodyTime({required Object time}) =>
+      '${time}에 일정 저장됨';
+  @override
+  String get unitNgPerL => 'ng/L';
+  @override
+  String get unitMicrogramPerL => 'µg/L';
+  @override
+  String get addApplicationSite => '부위 추가';
+  @override
+  String get customSiteLabel => '사용자 지정 부위 이름';
+  @override
+  String get noApplicationSitesYet => '부위 없음';
+  @override
+  String get addSiteToGetStarted => '시작하려면 아래에 부위를 추가하세요.';
+  @override
+  String get placementSuggestionPerScheduleTitle => '일정에 따른 추천';
+  @override
+  String get requiredField => '필수 칸';
+  @override
+  String get mustBePositiveNumber => '양수여야 함';
+  @override
+  String get mustBeBetween1And28 => '1과 28 사이여야 함';
+  @override
+  String mustBeAtMost({required Object max}) => '최대 ${max}여야 함';
+  @override
+  String get invalidTotalAmount => '유효하지 않은 합계';
+  @override
+  String get cannotExceedTotalCapacity => '총량을 초과할 수 없음';
+  @override
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '${count}개 생성됨',
+        other: '${count} 개 생성됨',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -588,80 +620,80 @@ class TranslationsKo extends Translations
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '${count}일 전',
+        other: '${count} 일 전',
       );
   @override
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '${count}일 후',
+        other: '${count} 일 후',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '매 ${count}일',
+        other: '매 ${count} 일',
       );
   @override
   String scheduleFrequencyOnDayEveryNMonths(
           {required num count, required Object day}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '매 ${count}개월간 ${day}일에',
+        other: '매 ${count} 개월 간 ${day} 일에',
       );
   @override
   String onHrtForDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: 'HRT 시작 후 ${count}일',
+        other: 'HRT 시작 후 ${count} 일',
       );
   @override
   String onHrtForWeeks({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: 'HRT 시작 후 ${count}주',
+        other: 'HRT 시작 후 ${count} 주',
       );
   @override
   String onHrtForMonths({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: 'HRT 시작 후 ${count}달',
+        other: 'HRT 시작 후 ${count} 달',
       );
   @override
   String onHrtForYears({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: 'HRT 시작 후 ${count}년',
+        other: 'HRT 시작 후 ${count} 년',
       );
   @override
   String intakesLoggedCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '${count}건 투여 기록됨',
+        other: '${count} 건의 투여 기록됨',
       );
   @override
   String syringeRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '주사기 ${count}개 남음',
+        other: '주사기 ${count} 개 남음',
       );
   @override
   String needleRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '주사바늘 ${count}개 남음',
+        other: '주사바늘 ${count} 개 남음',
       );
   @override
   String glovesRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '장갑 ${count}개 남음',
+        other: '장갑 ${count} 개 남음',
       );
   @override
   String bandageRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
         count,
-        other: '밴드 ${count}개 남음',
+        other: '밴드 ${count} 개 남음',
       );
   @override
   String administrationRouteUnitMl({required num count}) =>
@@ -728,7 +760,7 @@ extension on TranslationsKo {
       'nav_supplies' => '보유량',
       'empty_home' => '시작하려면 설정에서 일정을 추가하세요',
       'allDone' => '모두 완료!',
-      'noIntakesDue' => '오늘 투여할 약이 없습니다',
+      'noIntakesDue' => '오늘 투여할 약이 없어요',
       'upcoming' => '예정',
       'taken' => '투여함',
       'lastTaken' => '마지막 투여',
@@ -739,16 +771,16 @@ extension on TranslationsKo {
       'noSchedules' => '일정 없음',
       'language' => '언어',
       'enableNotifications' => '알림 활성화',
-      'notificationsDisabledTitle' => '알림이 비활성화되어 있습니다',
+      'notificationsDisabledTitle' => '알림이 비활성화되어 있어요',
       'clickToOpenSettings' => '설정을 열려면 누르세요',
-      'exactRemindersDisabled' => '정시 알림이 비활성화되어 있습니다',
-      'remindersDelayed' => '알림이 약간 지연될 수 있습니다. 설정을 열려면 탭하세요.',
-      'autoUpdate' => '자동 업데이트',
-      'autoUpdateDescription' => '앱 실행 시 자동으로 새 업데이트를 확인합니다',
-      'checkForUpdates' => '업데이트 확인하기',
+      'exactRemindersDisabled' => '정시 알림이 비활성화되어 있어요',
+      'remindersDelayed' => '알림이 약간 지연될 수 있어요. 설정을 열려면 누르세요.',
+      'autoUpdate' => '자동 판올림',
+      'autoUpdateDescription' => '앱 실행 시 자동으로 새 판을 확인합니다',
+      'checkForUpdates' => '판올림 확인하기',
       'checkForUpdatesDescription' =>
-        '최신 버전을 수동으로 확인합니다\n인터넷에 연결됩니다\n(데이터는 전송되지 않습니다)',
-      'appVersion' => ({required Object version}) => 'Mona 버전 ${version}',
+        '최신 판을 수동으로 확인해요\n인터넷에 연결돼요\n(데이터는 전송되지 않아요)',
+      'appVersion' => ({required Object version}) => 'Mona ${version} 판',
       'addSchedule' => '일정 추가',
       'addScheduleToGetStarted' => '시작하려면 일정을 추가하세요.',
       'newSchedule' => '새 일정',
@@ -757,9 +789,9 @@ extension on TranslationsKo {
       'startDate' => '시작일',
       'editScheduleInfo' => '일정 정보 편집',
       'editSchedule' => '일정 편집',
-      'deleteSchedule' => ({required Object name}) => '${name}을(를) 삭제하시겠습니까?',
+      'deleteSchedule' => ({required Object name}) => '${name}을(를) 삭제하시겠어요?',
       'addNotification' => '알림 추가',
-      'empty_intakes' => '투여 기록이 여기에 표시됩니다',
+      'empty_intakes' => '투여 기록이 여기에 표시돼요',
       'chooseSchedule' => '일정 선택',
       'addSchedulesFirst' => '먼저 일정을 추가하세요.',
       'editIntake' => '투여 기록 편집',
@@ -768,7 +800,7 @@ extension on TranslationsKo {
       'none' => '없음',
       'supplyItem' => '보유 항목',
       'injectionSide' => '주사 부위',
-      'deleteIntake' => '이 투여 기록을 삭제하시겠습니까?',
+      'deleteIntake' => '이 투여 기록을 삭제하시겠어요?',
       'takeMedication' => ({required Object scheduleName}) =>
           '${scheduleName} 투여',
       'takeIntake' => '투여 기록',
@@ -781,7 +813,7 @@ extension on TranslationsKo {
       'concentration' => '농도',
       'editItem' => '항목 편집',
       'usedAmount' => '사용량',
-      'deleteItem' => ({required Object name}) => '${name}을(를) 삭제하시겠습니까?',
+      'deleteItem' => ({required Object name}) => '${name}을(를) 삭제하시겠어요?',
       'add' => '추가',
       'save' => '저장',
       'next' => '다음',
@@ -809,8 +841,8 @@ extension on TranslationsKo {
       'benzoate' => '벤조에이트',
       'cypionateSuspension' => '시피오네이트 현탁액',
       'injection' => '주사',
-      'oral' => '먹는 약',
-      'sublingual' => '혀 밑에 녹이는 약(설하)',
+      'oral' => '경구',
+      'sublingual' => '설하',
       'patch' => '패치',
       'gel' => '겔',
       'implant' => '체내 이식(임플란트)',
@@ -818,7 +850,7 @@ extension on TranslationsKo {
       'transdermalSpray' => '피부 스프레이',
       'takeAnIntake' => '투여 기록하기',
       'addAnItem' => '항목 추가',
-      'asNeeded' => '필요시',
+      'asNeeded' => '필요 시',
       'yesterday' => '어제',
       'tomorrow' => '내일',
       'scheduleFrequencyDaily' => '매일',
@@ -829,9 +861,9 @@ extension on TranslationsKo {
       'scheduleFrequencyWeeklyDescription' => '매주 특정한 날에',
       'scheduleFrequencyMonthly' => '매달',
       'scheduleFrequencyMonthlyDescription' => '매달 같은 날에',
-      'scheduleFrequencyAsNeeded' => '필요시',
-      'scheduleFrequencyAsNeededDescription' => '정해진 스케줄 없이',
-      'newUpdateAvailable' => '새 업데이트가 있습니다!',
+      'scheduleFrequencyAsNeeded' => '필요 시',
+      'scheduleFrequencyAsNeededDescription' => '정해진 일정 없이',
+      'newUpdateAvailable' => '새 판올림이 있어요!',
       'goToSettings' => '설정으로 가기',
       'schedulesAndNotifications' => '일정 및 알림',
       'general' => '일반',
@@ -839,10 +871,10 @@ extension on TranslationsKo {
       'enableNotificationsDescription' => '알림 받기',
       'anchorToLastIntake' => '마지막 투여 기준으로 계산',
       'anchorToLastIntakeDescription' => '다음 투여 일정에 마지막 투여 후로부터의 간격을 적용함',
-      'medicalSettings' => '의료 정보 설정',
+      'medicalSettings' => '의료 설정',
       'theme' => '테마',
-      'themeCustomizeColors' => '앱 색상을 개인화하기',
-      'customThemeEnabled' => '사용자 테마',
+      'themeCustomizeColors' => '앱 색상 개인화',
+      'customThemeEnabled' => '사용자 지정 테마',
       'themeGenerate' => '생성',
       'themeContrast' => '대비',
       'themeContrastStandard' => '보통',
@@ -850,18 +882,18 @@ extension on TranslationsKo {
       'themeContrastHigh' => '높음',
       'getInvolved' => '참여하기',
       'reportBug' => '버그 제보하기',
-      'reportBugDescription' => '깃허브에 이슈를 엽니다',
+      'reportBugDescription' => 'GitHub에 이슈를 엽니다',
       'translateApp' => '앱 번역하기',
-      'translateAppDescription' => 'Weblate에서 Mona를 번역합니다',
+      'translateAppDescription' => 'Weblate에서 Mona를 번역하는 것을 도와주세요',
       'missingTranslation' => '빠진 번역이 있나요?',
       'donate' => '기부',
-      'donateDescription' => 'Ko-fi에서 Mona를 후원합니다',
+      'donateDescription' => 'Ko-fi에서 Mona를 지원해 주세요',
       'backupSaved' => '백업 저장됨',
       'exportFailed' => ({required Object error}) => '내보내기 실패: ${error}',
       'importDataTitle' => '데이터 불러오기',
-      'importDataSubtitle' => 'JSON 백업에서 데이터를 불러옵니다',
+      'importDataSubtitle' => 'JSON 백업에서 데이터 복원',
       'importDataOverwriteWarning' =>
-        '이 작업은 현재 데이터를 모두 백업 데이터로 덮어쓰게 됩니다. 이 작업은 되돌릴 수 없습니다. 계속하겠습니까?',
+        '이 작업은 현재 데이터를 모두 백업으로 덮어쓰게 돼요. 이 작업은 되돌릴 수 없어요. 계속 하시겠어요?',
       'importConfirm' => '불러오기',
       'importSuccessfulTitle' => '불러오기 성공',
       'importRestartRequired' => '복구한 데이터를 적용하려면 앱을 다시 시작하세요.',
@@ -870,21 +902,21 @@ extension on TranslationsKo {
       'updates' => '업데이트',
       'dataManagement' => '데이터 관리',
       'exportDataTitle' => '데이터 내보내기',
-      'exportDataSubtitle' => '데이터를 JSON 파일로 저장합니다',
+      'exportDataSubtitle' => '데이터를 JSON 파일로 저장',
       'units' => '단위',
-      'updateNoCompatibleApk' => '이 기기와 호환되는 업데이트가 없습니다.',
-      'updateAppUpToDate' => '앱이 최신 버전입니다!',
-      'updateCheckNetworkError' => '지금은 업데이트를 찾을 수 없습니다.',
-      'updateDialogTitle' => '업데이트 가능',
+      'updateNoCompatibleApk' => '이 기기와 호환되는 판올림이 없어요.',
+      'updateAppUpToDate' => '앱이 최신 판이에요!',
+      'updateCheckNetworkError' => '지금은 판올림을 찾을 수 없어요.',
+      'updateDialogTitle' => '판올림 가능',
       'updateDialogBody' => (
               {required Object latest, required Object current}) =>
-          '버전 ${latest} 이(가) 출시되었습니다! (현재: ${current})\n\n이 기기와 호환되는 업데이트를 설치할 준비가 되었습니다.',
-      'updateDownloadAndInstall' => '다운로드 및 설치',
-      'updateInstallPermissionRequired' => '업데이트를 설치하려면 권한이 필요합니다.',
-      'updateDownloadingTitle' => '업데이트 받는 중...',
+          '${latest} 판을 사용할 수 있어요! (현재: ${current})\n\n이 기기와 호환되는 판올림을 설치할 준비가 되었어요.',
+      'updateDownloadAndInstall' => '내려받기 및 설치',
+      'updateInstallPermissionRequired' => '판올림을 설치하려면 권한이 필요합니다.',
+      'updateDownloadingTitle' => '판올림 받는 중...',
       'updateFailedOpenInstaller' => ({required Object message}) =>
           '설치 관리자 열기 실패: ${message}',
-      'updateDownloadFailed' => '다운로드에 실패하였습니다. 인터넷 연결을 확인하세요.',
+      'updateDownloadFailed' => '내려받기에 실패했어요. 인터넷 연결을 확인하세요.',
       'secretSettings' => '비밀 설정',
       'slimeMode' => '슬라임 모드',
       'notificationMedicationReminderTitle' =>
@@ -896,11 +928,11 @@ extension on TranslationsKo {
       'scheduling' => '일정',
       'HrtCounter' => 'HRT 기간',
       'hrtWidgetPlaceholder' => 'Mona를 열어 첫 투여 기록 남기기',
-      'hrtWidgetPreviewSample' => 'HRT 시작 후 8달',
-      'hrtWidgetPreviewIntakeSample' => '16건 투여 기록됨',
+      'hrtWidgetPreviewSample' => 'HRT 시작 후 8 달',
+      'hrtWidgetPreviewIntakeSample' => '16 건의 투여 기록됨',
       'startOfDay' => '하루 시작 시간',
       'startOfDayDescription' => ({required Object time}) =>
-          '${time}시 이전 기록은 전날로 기록됩니다',
+          '${time}시 이전 기록은 전날로 기록돼요',
       'takenAmount' => '복용량',
       'wastedAmount' => '폐기량',
       'chooseItem' => '항목을 선택하세요',
@@ -915,15 +947,15 @@ extension on TranslationsKo {
       'bloodTestsTitle' => '혈액검사',
       'estradiolLevelsTitle' => '에스트라디올 수치',
       'week' => '주',
-      'twoWeeks' => '2주',
-      'threeMonths' => '3개월',
-      'sixMonths' => '6개월',
+      'twoWeeks' => '2 주',
+      'threeMonths' => '3 개월',
+      'sixMonths' => '6 개월',
       'month' => '개월',
       'year' => '년',
-      'addBloodTest' => '혈액검사 추가',
-      'editBloodTest' => '혈액검사 수정',
-      'newBloodTest' => '새 혈액검사',
-      'deleteBloodTest' => '이 혈액검사를 지울까요?',
+      'addBloodTest' => '혈액 검사 추가',
+      'editBloodTest' => '혈액 검사 수정',
+      'newBloodTest' => '새 혈액 검사',
+      'deleteBloodTest' => '이 혈액 검사를 지울까요?',
       'estradiolLevelLabel' => '에스트라디올 수치',
       'testosteroneLevelLabel' => '테스토스테론 수치',
       'bloodTestDateLabel' => '검사 날짜',
@@ -946,7 +978,7 @@ extension on TranslationsKo {
       'cancel' => '취소',
       'delete' => '삭제',
       'deleteElement' => '이 항목을 지울까요?',
-      'irreversibleAction' => '이 동작은 되돌릴 수 없습니다.',
+      'irreversibleAction' => '이 동작은 되돌릴 수 없어요.',
       'dihydrotestosterone' => '다이하이드로테스토스테론',
       'pioglitazone' => '피오글리타존',
       'medicationEstradiolEnanthate' => '에스트라디올 에난테이트',
@@ -986,10 +1018,27 @@ extension on TranslationsKo {
       'placementRightAbdomen' => '오른쪽 복부',
       'applicationSites' => '투여 부위',
       'themeVariant' => '종류',
+      'notificationMedicationReminderBodyDate' => ({required Object date}) =>
+          '${date}로 일정 저장됨',
+      'notificationMedicationReminderBodyTime' => ({required Object time}) =>
+          '${time}에 일정 저장됨',
+      'unitNgPerL' => 'ng/L',
+      'unitMicrogramPerL' => 'µg/L',
+      'addApplicationSite' => '부위 추가',
+      'customSiteLabel' => '사용자 지정 부위 이름',
+      'noApplicationSitesYet' => '부위 없음',
+      'addSiteToGetStarted' => '시작하려면 아래에 부위를 추가하세요.',
+      'placementSuggestionPerScheduleTitle' => '일정에 따른 추천',
+      'requiredField' => '필수 칸',
+      'mustBePositiveNumber' => '양수여야 함',
+      'mustBeBetween1And28' => '1과 28 사이여야 함',
+      'mustBeAtMost' => ({required Object max}) => '최대 ${max}여야 함',
+      'invalidTotalAmount' => '유효하지 않은 합계',
+      'cannotExceedTotalCapacity' => '총량을 초과할 수 없음',
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '${count}개 생성됨',
+            other: '${count} 개 생성됨',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
@@ -999,68 +1048,68 @@ extension on TranslationsKo {
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '${count}일 전',
+            other: '${count} 일 전',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '${count}일 후',
+            other: '${count} 일 후',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '매 ${count}일',
+            other: '매 ${count} 일',
           ),
       'scheduleFrequencyOnDayEveryNMonths' => (
               {required num count, required Object day}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '매 ${count}개월간 ${day}일에',
+            other: '매 ${count} 개월 간 ${day} 일에',
           ),
       'onHrtForDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: 'HRT 시작 후 ${count}일',
+            other: 'HRT 시작 후 ${count} 일',
           ),
       'onHrtForWeeks' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: 'HRT 시작 후 ${count}주',
+            other: 'HRT 시작 후 ${count} 주',
           ),
       'onHrtForMonths' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: 'HRT 시작 후 ${count}달',
+            other: 'HRT 시작 후 ${count} 달',
           ),
       'onHrtForYears' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: 'HRT 시작 후 ${count}년',
+            other: 'HRT 시작 후 ${count} 년',
           ),
       'intakesLoggedCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '${count}건 투여 기록됨',
+            other: '${count} 건의 투여 기록됨',
           ),
       'syringeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '주사기 ${count}개 남음',
+            other: '주사기 ${count} 개 남음',
           ),
       'needleRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '주사바늘 ${count}개 남음',
+            other: '주사바늘 ${count} 개 남음',
           ),
       'glovesRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '장갑 ${count}개 남음',
+            other: '장갑 ${count} 개 남음',
           ),
       'bandageRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
             count,
-            other: '밴드 ${count}개 남음',
+            other: '밴드 ${count} 개 남음',
           ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ko'))(
