@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.2/mona-1.25.2.ipa",
-      "size": 11882599,
-      "version": "1.25.2",
-      "versionDate": "2026-11-08T18:20:12Z",
-      "versionDescription": "Fix:\n\n- Corrected a performance drop in the simulator.",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.3/mona-1.25.3.ipa",
+      "size": 11956975,
+      "version": "1.25.3",
+      "versionDate": "2026-11-22T17:36:38Z",
+      "versionDescription": "New:\n\n- New languages: Northern Kurdish, Pashto, Tajik, Turkish.\n\n\nFix:\n\n- The estradiol graph now shows all blood tests.",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.3/mona-1.25.3.ipa",
+          "size": 11956975,
+          "version": "1.25.3",
+          "buildVersion": "36",
+          "date": "2026-11-22T17:36:38Z",
+          "localizedDescription": "New:\n\n- New languages: Northern Kurdish, Pashto, Tajik, Turkish.\n\n\nFix:\n\n- The estradiol graph now shows all blood tests.",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.25.2/mona-1.25.2.ipa",
           "size": 11882599,
