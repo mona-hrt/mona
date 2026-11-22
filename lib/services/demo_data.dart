@@ -410,6 +410,7 @@ class DemoData {
 
   void _addBloodTests(List<MedicationIntake> injections) {
     final simulation = HormoneSimulation(injections, defaultInjectionParams);
+    const labScale = 1.6; // simulate labs being higher than model predictions
 
     const plan = [
       (
@@ -451,7 +452,7 @@ class DemoData {
           jitter: 15);
       final predicted = simulation.levelAt(Hormone.estradiol, dateTime);
       final estradiol = Decimal.parse(max(
-        predicted * (0.85 + 0.3 * _random.nextDouble()),
+        predicted * labScale * (0.75 + 0.5 * _random.nextDouble()),
         18 + 10 * _random.nextDouble(),
       ).toStringAsFixed(0));
 
