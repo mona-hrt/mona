@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">مدة العلاج الهرموني</string>
+    <string name="hrt_widget_description">اعرض المدة التي قضيتها في العلاج الهرموني وإجمالي الجرعات التي سجلتها</string>
+    <string name="hrt_home_widget_placeholder">افتح مونا لتسجيل جرعتك الأولى</string>
+    <string name="hrt_widget_preview_sample">مضت 8 أشهر على بدء العلاج الهرموني</string>
+    <string name="hrt_widget_preview_intake_sample">تم تسجيل 16 جرعة</string>
+</resources>

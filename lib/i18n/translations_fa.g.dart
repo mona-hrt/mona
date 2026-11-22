@@ -106,7 +106,7 @@ class TranslationsFa extends Translations
   @override
   String get unitNmolPerL => 'nmol/L';
   @override
-  String get unitNgPerMl => 'ng/ml';
+  String get unitNgPerMl => 'ng/mL';
   @override
   String get add => 'اضافه کردن';
   @override
@@ -205,7 +205,7 @@ class TranslationsFa extends Translations
   String get milliliters => 'mL';
   @override
   String get empty_levels =>
-      'یک آزمایش خون اضافه کنید یا تزریق استرادیول وارد کنید تا شروع به کار کنید';
+      'یک آزمایش خون اضافه کنید یا تزریق استرادیول ثبت کنید تا شروع به کار کنید';
   @override
   String get injectionType => 'نوع تزریق';
   @override
@@ -216,7 +216,7 @@ class TranslationsFa extends Translations
   String get microliters => 'μL';
   @override
   String get empty_blood_tests =>
-      'آزمایش های خون در اینجا ظاهر خواهند شد. با استفاده از گزینه (اضافه کردن) شروع کنید!';
+      'آزمایش های خون در اینجا ظاهر خواهند شد. با استفاده از گزینه (افزودن) شروع کنید!';
   @override
   String get addBloodTest => 'افزودن آزمایش خون';
   @override
@@ -238,7 +238,7 @@ class TranslationsFa extends Translations
   @override
   String get enableNotifications => 'فعال کردن اعلان‌ها';
   @override
-  String get upcoming => 'برنامهٔ پیش رو';
+  String get upcoming => 'موارد پیش رو';
   @override
   String get asNeeded => 'در صورت نیاز';
   @override
@@ -247,7 +247,7 @@ class TranslationsFa extends Translations
   String get updateDialogTitle => 'به‌روزرسانی موجود است';
   @override
   String updateDialogBody({required Object latest, required Object current}) =>
-      'نسخه ${latest} در دسترس است! (نسخه فعلی: ${current})\n\nیک به‌روزرسانی سازگار با دستگاه شما آماده نصب است.';
+      'نسخه ${latest} در دسترس است! (نسخه فعلی: ${current})\nیک به‌روزرسانی سازگار با دستگاه شما آماده نصب است.';
   @override
   String get importConfirm => 'وارد کردن';
   @override
@@ -270,7 +270,7 @@ class TranslationsFa extends Translations
   String get units => 'واحدهای اندازه‌گیری';
   @override
   String get updateNoCompatibleApk =>
-      '­هیچ به‌روزرسانی سازگاری، برای دستگاه شما یافت نشد.';
+      'هیچ به‌روزرسانی سازگاری، برای دستگاه شما یافت نشد.';
   @override
   String get updateAppUpToDate => 'برنامه شما به‌روز است!';
   @override
@@ -283,7 +283,7 @@ class TranslationsFa extends Translations
   String get importDataOverwriteWarning =>
       'این کار تمام داده‌های فعلی شما را با نسخهٔ پشتیبان جایگزین می‌کند. این عمل قابل بازگشت نیست. آیا می‌خواهید ادامه دهید؟';
   @override
-  String get reportBug => 'گزارش دادن مشکل';
+  String get reportBug => 'گزارش اشکال';
   @override
   String get neverTakenYet => 'هنوز مصرف نشده';
   @override
@@ -324,16 +324,16 @@ class TranslationsFa extends Translations
   @override
   String get goToSettings => 'به تنظیمات بروید';
   @override
-  String get HrtCounter => 'مدت زمان هورمون درمانی';
+  String get HrtCounter => 'مدت‌زمان سپری‌شده از آغاز هورمون‌درمانی';
   @override
   String get HrtCounterDescription =>
-      'مدت زمانی را که تحت هورمون درمانی بوده‌اید و مجموع مقادیر دریافتی شما را نشان می‌دهد.';
+      'زمان سپری‌شده از آغاز هورمون‌درمانی و مجموع مقدار داروهای مصرف‌شده را نشان می‌دهد.';
   @override
   String get hrtWidgetPreviewSample => '۸ ماه هورمون درمانی';
   @override
   String get hrtWidgetPreviewIntakeSample => '۱۶ مورد ثبت شده';
   @override
-  String get startOfDay => 'شروع از روز';
+  String get startOfDay => 'روز جدید از چه ساعتی شروع می‌شود؟';
   @override
   String get schedules => 'زمان‌بندی مصرف داروها';
   @override
@@ -350,7 +350,7 @@ class TranslationsFa extends Translations
   String get cannotExceedTotalCapacity => 'نمی‌توان از ظرفیت کل فراتر رفت';
   @override
   String get applicationSitesDescription =>
-      'محل‌هایی که به‌صورت متناوب از آنها استفاده می‌کنید را مدیریت کنید.';
+      'محل‌هایی که به‌صورت چرخشی از آنها استفاده می‌کنید را مدیریت کنید.';
   @override
   String get applicationSitesInstructions =>
       'محل‌هایی که به‌صورت متناوب از آنها استفاده می‌کنید را مدیریت کنید. محل‌های پیشنهادی بر اساس سوابق مصرف داروی شما نمایش داده می‌شوند. برای تغییر ترتیب، هر مورد را لمس کنید و نگه دارید.';
@@ -385,7 +385,7 @@ class TranslationsFa extends Translations
   @override
   String get scheduleFrequencyMonthlyDescription => 'همان روز در هر ماه';
   @override
-  String get scheduleFrequencyAsNeeded => 'در صورت نیاز';
+  String get scheduleFrequencyAsNeeded => 'درصورت نیاز';
   @override
   String get scheduleFrequencyAsNeededDescription => 'بدون زمان‌بندی ثابت';
   @override
@@ -429,12 +429,12 @@ class TranslationsFa extends Translations
   String get noItemsToAdd => 'هیچ موردی موجود نیست';
   @override
   String startOfDayDescription({required Object time}) =>
-      'زمانِ پیش از ${time} جزو روز قبل محسوب می‌شود';
+      'زمان‌های پیش از ${time} به روز قبل تعلق دارند.';
   @override
   String get chooseSchedule => 'یک زمان‌بندی انتخاب کنید';
   @override
   String get addSchedulesFirst =>
-      'ابتدا زمان‌بندی ها را از داخل تنظیمات اضافه کنید';
+      'ابتدا زمان‌بندی ها را از داخل تنظیمات بیافزایید';
   @override
   String get editIntake => 'ویرایش نوبت مصرف';
   @override
@@ -442,9 +442,9 @@ class TranslationsFa extends Translations
   @override
   String get amount => 'مقدار';
   @override
-  String get takenAmount => 'میزان برداشتی';
+  String get takenAmount => 'مقدار مصرف‌شده';
   @override
-  String get wastedAmount => 'مقدار هدر رفته';
+  String get wastedAmount => 'حجم هدر رفته';
   @override
   String get none => 'هیچ‌کدام';
   @override
@@ -456,7 +456,7 @@ class TranslationsFa extends Translations
   @override
   String get name => 'نام';
   @override
-  String get molecule => 'نام رسمی دارو';
+  String get molecule => 'نام ژنریک دارو';
   @override
   String get ester => 'نوع استر';
   @override
@@ -464,7 +464,7 @@ class TranslationsFa extends Translations
   @override
   String get raloxifene => 'رالوکسیفن';
   @override
-  String get pioglitazone => 'پی‌اوگلیتازون';
+  String get pioglitazone => 'پیوگلیتازون';
   @override
   String get medicationEstradiolUndecylate => 'استرادیول آندسیلات';
   @override
@@ -505,7 +505,7 @@ class TranslationsFa extends Translations
   @override
   String get needle => 'سوزن';
   @override
-  String get gloves => 'دستکش‌';
+  String get gloves => 'دستکش';
   @override
   String get bandage => 'بانداژ';
   @override
@@ -569,7 +569,7 @@ class TranslationsFa extends Translations
       'زمان‌بندی‌شده برای ${weekday}';
   @override
   String takeMedication({required Object scheduleName}) =>
-      '${scheduleName} را انتخاب کنید';
+      'ثبت مصرف ${scheduleName}';
   @override
   String get takeIntake => 'ثبت نوبت مصرف';
   @override
@@ -588,9 +588,9 @@ class TranslationsFa extends Translations
   String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
-  String get needleDeadSpace => 'حجم باقی‌مانده در سوزن و اتصال آن';
+  String get needleDeadSpace => 'حجم فضای مردهٔ سوزن';
   @override
-  String get notes => 'یادداشت‌';
+  String get notes => 'یادداشت‌‌ها';
   @override
   String get intakeRecorded => 'مصرف دارو ثبت شد';
   @override
@@ -618,7 +618,7 @@ class TranslationsFa extends Translations
   @override
   String get pickATime => 'انتخاب ساعت';
   @override
-  String get addIntakeTime => 'افزودن ساعت';
+  String get addIntakeTime => 'افزودن زمان';
   @override
   String get editScheduleInfo => 'ویرایش اطلاعات زمان‌بندی';
   @override
@@ -650,9 +650,9 @@ class TranslationsFa extends Translations
   @override
   String get valueComparisonEqual => 'برابر با';
   @override
-  String get valueComparisonAbove => 'مساوی یا بالاتر از آن';
+  String get valueComparisonAbove => 'بزرگ‌تر یا مساوی آن';
   @override
-  String get valueComparisonBelow => 'مساوی یا پایین‌تر از آن';
+  String get valueComparisonBelow => 'کوچک‌تر یا مساوی آن';
   @override
   String administrationRouteUnitImplant({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
@@ -671,29 +671,29 @@ class TranslationsFa extends Translations
   String onHrtForDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
         count,
-        one: 'یک روز تحت هورمون درمانی',
-        other: 'به مدت ${count} روز تحت هورمون درمانی',
+        one: 'یک روز از آغاز هورمون‌درمانی شما سپری شده',
+        other: '${count} روز از آغاز هورمون‌درمانی شما سپری شده',
       );
   @override
   String onHrtForWeeks({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
         count,
-        one: 'یک هفته تحت هورمون درمانی',
-        other: '${count} هفته تحت هورمون درمانی',
+        one: 'یک هفته از آغاز هورمون‌درمانی شما سپری شده',
+        other: '${count} هفته از آغاز هورمون‌درمانی شما سپری شده',
       );
   @override
   String onHrtForMonths({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
         count,
-        one: 'یک ماه تحت هورمون درمانی',
-        other: '${count} ماه تحت هورمون درمانی',
+        one: 'یک ماه از آغاز هورمون‌درمانی شما سپری شده',
+        other: '${count} ماه از آغاز هورمون‌درمانی شما سپری شده',
       );
   @override
   String onHrtForYears({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
         count,
-        one: 'یک سال تحت هورمون درمانی',
-        other: '${count} سال تحت هورمون درمانی',
+        one: 'یک سال از آغاز هورمون‌درمانی شما سپری شده',
+        other: '${count} سال از آغاز هورمون‌درمانی شما سپری شده',
       );
   @override
   String administrationRouteUnitMl({required num count}) =>
@@ -757,7 +757,7 @@ class TranslationsFa extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
         count,
         one: 'روز ${day}، هر ماه',
-        other: 'روز ${day}، هر ماه',
+        other: 'روز ${day}، هر ${count} ماه یک‌بار',
       );
   @override
   String administrationRouteUnitPatch({required num count}) =>
@@ -820,7 +820,7 @@ class TranslationsFa extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
         count,
         one: '${count} ${unit} باقی‌مانده',
-        other: '­${count} ${unit} باقی‌مانده',
+        other: '${count} ${unit} باقی‌مانده',
       );
   @override
   String intakesLoggedCount({required num count}) =>
@@ -865,7 +865,7 @@ extension on TranslationsFa {
       'customThemeEnabled' => 'تم شخصی',
       'themeGenerate' => 'تولید کردن',
       'unitNmolPerL' => 'nmol/L',
-      'unitNgPerMl' => 'ng/ml',
+      'unitNgPerMl' => 'ng/mL',
       'add' => 'اضافه کردن',
       'placementRightArm' => 'بازوی راست',
       'placementLeftArm' => 'بازوی چپ',
@@ -915,13 +915,13 @@ extension on TranslationsFa {
       'supplyType' => 'نوع',
       'milliliters' => 'mL',
       'empty_levels' =>
-        'یک آزمایش خون اضافه کنید یا تزریق استرادیول وارد کنید تا شروع به کار کنید',
+        'یک آزمایش خون اضافه کنید یا تزریق استرادیول ثبت کنید تا شروع به کار کنید',
       'injectionType' => 'نوع تزریق',
       'intramuscular' => 'ماهیچه‌ای',
       'subcutaneous' => 'زیرپوستی',
       'microliters' => 'μL',
       'empty_blood_tests' =>
-        'آزمایش های خون در اینجا ظاهر خواهند شد. با استفاده از گزینه (اضافه کردن) شروع کنید!',
+        'آزمایش های خون در اینجا ظاهر خواهند شد. با استفاده از گزینه (افزودن) شروع کنید!',
       'addBloodTest' => 'افزودن آزمایش خون',
       'yesterday' => 'دیروز',
       'takeAnIntake' => 'ثبت نوبت مصرف',
@@ -932,13 +932,13 @@ extension on TranslationsFa {
       'language' => 'زبان برنامه',
       'languageFollowDevice' => 'مطابق با زبان دستگاه',
       'enableNotifications' => 'فعال کردن اعلان‌ها',
-      'upcoming' => 'برنامهٔ پیش رو',
+      'upcoming' => 'موارد پیش رو',
       'asNeeded' => 'در صورت نیاز',
       'taken' => 'مصرف‌شده',
       'updateDialogTitle' => 'به‌روزرسانی موجود است',
       'updateDialogBody' => (
               {required Object latest, required Object current}) =>
-          'نسخه ${latest} در دسترس است! (نسخه فعلی: ${current})\n\nیک به‌روزرسانی سازگار با دستگاه شما آماده نصب است.',
+          'نسخه ${latest} در دسترس است! (نسخه فعلی: ${current})\nیک به‌روزرسانی سازگار با دستگاه شما آماده نصب است.',
       'importConfirm' => 'وارد کردن',
       'importSuccessfulTitle' => 'واردسازی با موفقیت انجام شد',
       'importRestartRequired' =>
@@ -951,7 +951,7 @@ extension on TranslationsFa {
       'exportDataSubtitle' => 'داده‌های خود را در یک فایل JSON ذخیره کنید',
       'units' => 'واحدهای اندازه‌گیری',
       'updateNoCompatibleApk' =>
-        '­هیچ به‌روزرسانی سازگاری، برای دستگاه شما یافت نشد.',
+        'هیچ به‌روزرسانی سازگاری، برای دستگاه شما یافت نشد.',
       'updateAppUpToDate' => 'برنامه شما به‌روز است!',
       'updateCheckNetworkError' =>
         'در حال حاضر نمی توان به‌روزرسانی‌ها را بررسی کرد.',
@@ -959,7 +959,7 @@ extension on TranslationsFa {
         'داده‌ها را از یک نسخهٔ پشتیبان JSON بازیابی کنید',
       'importDataOverwriteWarning' =>
         'این کار تمام داده‌های فعلی شما را با نسخهٔ پشتیبان جایگزین می‌کند. این عمل قابل بازگشت نیست. آیا می‌خواهید ادامه دهید؟',
-      'reportBug' => 'گزارش دادن مشکل',
+      'reportBug' => 'گزارش اشکال',
       'neverTakenYet' => 'هنوز مصرف نشده',
       'placementRightButtock' => 'باسن راست',
       'placementLeftButtock' => 'باسن چپ',
@@ -980,12 +980,12 @@ extension on TranslationsFa {
       'nav_supplies' => 'موجودی داروها',
       'newUpdateAvailable' => 'به‌روزرسانی جدید در دسترس است!',
       'goToSettings' => 'به تنظیمات بروید',
-      'HrtCounter' => 'مدت زمان هورمون درمانی',
+      'HrtCounter' => 'مدت‌زمان سپری‌شده از آغاز هورمون‌درمانی',
       'HrtCounterDescription' =>
-        'مدت زمانی را که تحت هورمون درمانی بوده‌اید و مجموع مقادیر دریافتی شما را نشان می‌دهد.',
+        'زمان سپری‌شده از آغاز هورمون‌درمانی و مجموع مقدار داروهای مصرف‌شده را نشان می‌دهد.',
       'hrtWidgetPreviewSample' => '۸ ماه هورمون درمانی',
       'hrtWidgetPreviewIntakeSample' => '۱۶ مورد ثبت شده',
-      'startOfDay' => 'شروع از روز',
+      'startOfDay' => 'روز جدید از چه ساعتی شروع می‌شود؟',
       'schedules' => 'زمان‌بندی مصرف داروها',
       'noSchedules' => 'بدون زمان‌بندی',
       'scheduling' => 'زمان‌بندی',
@@ -994,7 +994,7 @@ extension on TranslationsFa {
       'backupSaved' => 'نسخهٔ پشتیبان ذخیره شد',
       'cannotExceedTotalCapacity' => 'نمی‌توان از ظرفیت کل فراتر رفت',
       'applicationSitesDescription' =>
-        'محل‌هایی که به‌صورت متناوب از آنها استفاده می‌کنید را مدیریت کنید.',
+        'محل‌هایی که به‌صورت چرخشی از آنها استفاده می‌کنید را مدیریت کنید.',
       'applicationSitesInstructions' =>
         'محل‌هایی که به‌صورت متناوب از آنها استفاده می‌کنید را مدیریت کنید. محل‌های پیشنهادی بر اساس سوابق مصرف داروی شما نمایش داده می‌شوند. برای تغییر ترتیب، هر مورد را لمس کنید و نگه دارید.',
       'suppository' => 'شیاف',
@@ -1012,7 +1012,7 @@ extension on TranslationsFa {
       'scheduleFrequencyInterval' => 'فاصله مصرف',
       'scheduleFrequencyIntervalDescription' => 'هر چند روز یک‌بار',
       'scheduleFrequencyMonthlyDescription' => 'همان روز در هر ماه',
-      'scheduleFrequencyAsNeeded' => 'در صورت نیاز',
+      'scheduleFrequencyAsNeeded' => 'درصورت نیاز',
       'scheduleFrequencyAsNeededDescription' => 'بدون زمان‌بندی ثابت',
       'schedulesAndNotifications' => 'زمان‌بندی و اعلان‌ها',
       'general' => 'عمومی',
@@ -1036,24 +1036,24 @@ extension on TranslationsFa {
       'chooseItem' => 'یک مورد را انتخاب کنید',
       'noItemsToAdd' => 'هیچ موردی موجود نیست',
       'startOfDayDescription' => ({required Object time}) =>
-          'زمانِ پیش از ${time} جزو روز قبل محسوب می‌شود',
+          'زمان‌های پیش از ${time} به روز قبل تعلق دارند.',
       'chooseSchedule' => 'یک زمان‌بندی انتخاب کنید',
-      'addSchedulesFirst' => 'ابتدا زمان‌بندی ها را از داخل تنظیمات اضافه کنید',
+      'addSchedulesFirst' => 'ابتدا زمان‌بندی ها را از داخل تنظیمات بیافزایید',
       'editIntake' => 'ویرایش نوبت مصرف',
       'date' => 'تاریخ',
       'amount' => 'مقدار',
-      'takenAmount' => 'میزان برداشتی',
-      'wastedAmount' => 'مقدار هدر رفته',
+      'takenAmount' => 'مقدار مصرف‌شده',
+      'wastedAmount' => 'حجم هدر رفته',
       'none' => 'هیچ‌کدام',
       'injectionSide' => 'محل تزریق',
       'deleteIntake' => 'این ورودی حذف شود؟',
       'irreversibleAction' => 'این عمل قابل بازگشت نیست.',
       'name' => 'نام',
-      'molecule' => 'نام رسمی دارو',
+      'molecule' => 'نام ژنریک دارو',
       'ester' => 'نوع استر',
       'decapeptyl' => 'دکاپپتیل',
       'raloxifene' => 'رالوکسیفن',
-      'pioglitazone' => 'پی‌اوگلیتازون',
+      'pioglitazone' => 'پیوگلیتازون',
       'medicationEstradiolUndecylate' => 'استرادیول آندسیلات',
       'medicationTestosteroneUndecylate' => 'تستوسترون آندسیلات',
       'sublingual' => 'زیرزبانی',
@@ -1075,7 +1075,7 @@ extension on TranslationsFa {
       'syringe' => 'سرنگ',
       'wipe' => 'دستمال‌ مرطوب',
       'needle' => 'سوزن',
-      'gloves' => 'دستکش‌',
+      'gloves' => 'دستکش',
       'bandage' => 'بانداژ',
       'enableNotificationsDescription' => 'ارسال یادآوری‌ها',
       'anchorToLastIntake' => 'محاسبه مجدد بر اساس آخرین میزان دریافتی',
@@ -1112,7 +1112,7 @@ extension on TranslationsFa {
       'notificationMedicationReminderBodyWeekday' =>
         ({required Object weekday}) => 'زمان‌بندی‌شده برای ${weekday}',
       'takeMedication' => ({required Object scheduleName}) =>
-          '${scheduleName} را انتخاب کنید',
+          'ثبت مصرف ${scheduleName}',
       'takeIntake' => 'ثبت نوبت مصرف',
       'mustBeBetween1And28' => 'باید بین ۱ و ۲۸ باشد',
       'mustBeAtMost' => ({required Object max}) => 'باید حداکثر ${max} باشد',
@@ -1122,8 +1122,8 @@ extension on TranslationsFa {
         ({required Object date, required Object level}) => '${date}: ${level}',
       'chartLevelTooltip' => ({required Object date, required Object level}) =>
           '${date}: ${level}',
-      'needleDeadSpace' => 'حجم باقی‌مانده در سوزن و اتصال آن',
-      'notes' => 'یادداشت‌',
+      'needleDeadSpace' => 'حجم فضای مردهٔ سوزن',
+      'notes' => 'یادداشت‌‌ها',
       'intakeRecorded' => 'مصرف دارو ثبت شد',
       'addApplicationSite' => 'افزودن محل استعمال دارو',
       'customSiteLabel' => 'نام سفارشی محل مصرف دارو',
@@ -1136,7 +1136,7 @@ extension on TranslationsFa {
       'dayOfMonth' => 'روزِ ماه',
       'startDate' => 'تاریخ شروع',
       'pickATime' => 'انتخاب ساعت',
-      'addIntakeTime' => 'افزودن ساعت',
+      'addIntakeTime' => 'افزودن زمان',
       'editScheduleInfo' => 'ویرایش اطلاعات زمان‌بندی',
       'editSchedule' => 'ویرایش زمان‌بندی',
       'deleteSchedule' => ({required Object name}) => 'آیا ${name} حذف شود؟',
@@ -1152,8 +1152,8 @@ extension on TranslationsFa {
       'unitNgPerL' => 'ng/L',
       'unitMicrogramPerL' => 'µg/L',
       'valueComparisonEqual' => 'برابر با',
-      'valueComparisonAbove' => 'مساوی یا بالاتر از آن',
-      'valueComparisonBelow' => 'مساوی یا پایین‌تر از آن',
+      'valueComparisonAbove' => 'بزرگ‌تر یا مساوی آن',
+      'valueComparisonBelow' => 'کوچک‌تر یا مساوی آن',
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
             count,
@@ -1169,26 +1169,26 @@ extension on TranslationsFa {
       'onHrtForDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
             count,
-            one: 'یک روز تحت هورمون درمانی',
-            other: 'به مدت ${count} روز تحت هورمون درمانی',
+            one: 'یک روز از آغاز هورمون‌درمانی شما سپری شده',
+            other: '${count} روز از آغاز هورمون‌درمانی شما سپری شده',
           ),
       'onHrtForWeeks' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
             count,
-            one: 'یک هفته تحت هورمون درمانی',
-            other: '${count} هفته تحت هورمون درمانی',
+            one: 'یک هفته از آغاز هورمون‌درمانی شما سپری شده',
+            other: '${count} هفته از آغاز هورمون‌درمانی شما سپری شده',
           ),
       'onHrtForMonths' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
             count,
-            one: 'یک ماه تحت هورمون درمانی',
-            other: '${count} ماه تحت هورمون درمانی',
+            one: 'یک ماه از آغاز هورمون‌درمانی شما سپری شده',
+            other: '${count} ماه از آغاز هورمون‌درمانی شما سپری شده',
           ),
       'onHrtForYears' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
             count,
-            one: 'یک سال تحت هورمون درمانی',
-            other: '${count} سال تحت هورمون درمانی',
+            one: 'یک سال از آغاز هورمون‌درمانی شما سپری شده',
+            other: '${count} سال از آغاز هورمون‌درمانی شما سپری شده',
           ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
@@ -1243,7 +1243,7 @@ extension on TranslationsFa {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
             count,
             one: 'روز ${day}، هر ماه',
-            other: 'روز ${day}، هر ماه',
+            other: 'روز ${day}، هر ${count} ماه یک‌بار',
           ),
       'administrationRouteUnitPatch' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
@@ -1297,7 +1297,7 @@ extension on TranslationsFa {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
             count,
             one: '${count} ${unit} باقی‌مانده',
-            other: '­${count} ${unit} باقی‌مانده',
+            other: '${count} ${unit} باقی‌مانده',
           ),
       'intakesLoggedCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(

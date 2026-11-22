@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="zero">لم يمضِ أي يوم على بدء العلاج الهرموني</item>
+        <item quantity="one">مضى يوم واحد على بدء العلاج الهرموني</item>
+        <item quantity="two">مضى يومان على بدء العلاج الهرموني</item>
+        <item quantity="few">مضت %d أيام على بدء العلاج الهرموني</item>
+        <item quantity="many">مضى %d يومًا على بدء العلاج الهرموني</item>
+        <item quantity="other">مضى %d يومًا على بدء العلاج الهرموني</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="zero">لم يمضِ أي أسبوع على بدء العلاج الهرموني</item>
+        <item quantity="one">مضى أسبوع واحد على بدء العلاج الهرموني</item>
+        <item quantity="two">مضى أسبوعان على بدء العلاج الهرموني</item>
+        <item quantity="few">مضت %d أسابيع على بدء العلاج الهرموني</item>
+        <item quantity="many">مضى %d أسبوعًا على بدء العلاج الهرموني</item>
+        <item quantity="other">مضى %d أسبوعًا على بدء العلاج الهرموني</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="zero">لم يمضِ أي شهر على بدء العلاج الهرموني</item>
+        <item quantity="one">مضى شهر واحد على بدء العلاج الهرموني</item>
+        <item quantity="two">مضى شهران على بدء العلاج الهرموني</item>
+        <item quantity="few">مضت %d أشهر على بدء العلاج الهرموني</item>
+        <item quantity="many">مضى %d شهرًا على بدء العلاج الهرموني</item>
+        <item quantity="other">مضى %d شهرًا على بدء العلاج الهرموني</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="zero">لم تمضِ أي سنة على بدء العلاج الهرموني</item>
+        <item quantity="one">مضت سنة واحدة على بدء العلاج الهرموني</item>
+        <item quantity="two">مضت سنتان على بدء العلاج الهرموني</item>
+        <item quantity="few">مضت %d سنوات على بدء العلاج الهرموني</item>
+        <item quantity="many">مضت %d سنة على بدء العلاج الهرموني</item>
+        <item quantity="other">مضت %d سنة على بدء العلاج الهرموني</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="zero">لم تُسجّل أي جرعة</item>
+        <item quantity="one">تم تسجيل جرعة واحدة</item>
+        <item quantity="two">تم تسجيل جرعتين</item>
+        <item quantity="few">تم تسجيل %d جرعات</item>
+        <item quantity="many">تم تسجيل %d جرعة</item>
+        <item quantity="other">تم تسجيل %d جرعة</item>
+    </plurals>
+</resources>

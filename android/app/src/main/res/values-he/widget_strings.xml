@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">משך הטיפול ההורמונלי</string>
+    <string name="hrt_widget_description">הצגת משך הזמן שעבר מאז תחילת הטיפול ההורמונלי ומספר הנטילות הכולל</string>
+    <string name="hrt_home_widget_placeholder">יש לפתוח את Mona כדי לתעד את הנטילה הראשונה</string>
+    <string name="hrt_widget_preview_sample">8 חודשים בטיפול הורמונלי</string>
+    <string name="hrt_widget_preview_intake_sample">16 נטילות תועדו</string>
+</resources>

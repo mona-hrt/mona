@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">یه روز از شروع هورمون‌درمانی شما رد بیه</item>
+        <item quantity="other">%d روز از شروع هورمون‌درمانی شما رد بیه</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">یه هفته از شروع هورمون‌درمانی شما رد بیه</item>
+        <item quantity="other">%d هفته از شروع هورمون‌درمانی شما رد بیه</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">یه ماه از شروع هورمون‌درمانی شما رد بیه</item>
+        <item quantity="other">%d ماه از شروع هورمون‌درمانی شما رد بیه</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">یه سال از شروع هورمون‌درمانی شما رد بیه</item>
+        <item quantity="other">%d سال از شروع هورمون‌درمانی شما رد بیه</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">یه نوبت مصرف ثبت بی</item>
+        <item quantity="other">%d نوبت مصرف ثبت بی</item>
+    </plurals>
+</resources>
