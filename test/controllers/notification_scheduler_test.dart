@@ -169,10 +169,11 @@ void main() {
       final s = aMedicationSchedule();
       when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
           .thenReturn([
-        anOccurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        anOccurrencePlan(
+        aPlannedNotification(
+            schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aPlannedNotification(
             schedule: s, dateTime: DateTime.utc(2026, 6, 2, 14, 0)),
-        anOccurrencePlan(
+        aPlannedNotification(
             schedule: s, dateTime: DateTime.utc(2026, 6, 3, 20, 0)),
       ]);
       final sut = NotificationScheduler(planner, preferences);
@@ -184,10 +185,10 @@ void main() {
       verifyScheduled().called(3);
     });
 
-    test('PlannedOccurrence -> one-shot', () async {
+    test('schedules a one-shot alert', () async {
       // Arrange
       when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
-          .thenReturn([anOccurrencePlan(schedule: aMedicationSchedule())]);
+          .thenReturn([aPlannedNotification(schedule: aMedicationSchedule())]);
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
@@ -234,7 +235,7 @@ void main() {
         // Arrange
         when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
             .thenReturn([
-          anOccurrencePlan(
+          aPlannedNotification(
               schedule: aMedicationSchedule(scheduling: scheduling))
         ]);
         final sut = NotificationScheduler(planner, preferences);
@@ -264,7 +265,7 @@ void main() {
       // Arrange
       when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
           .thenReturn(
-              [anOccurrencePlan(schedule: aMedicationSchedule(id: 42))]);
+              [aPlannedNotification(schedule: aMedicationSchedule(id: 42))]);
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
@@ -296,10 +297,14 @@ void main() {
       final c = aMedicationSchedule();
       when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
           .thenReturn([
-        anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
-        anOccurrencePlan(schedule: b, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        anOccurrencePlan(schedule: c, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aPlannedNotification(
+            schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aPlannedNotification(
+            schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
+        aPlannedNotification(
+            schedule: b, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aPlannedNotification(
+            schedule: c, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
       ]);
       final sut = NotificationScheduler(planner, preferences);
 

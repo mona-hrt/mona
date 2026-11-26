@@ -6,19 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 
 @immutable
-sealed class PlannedNotification {
+class PlannedNotification {
   final MedicationSchedule schedule;
-
-  const PlannedNotification(this.schedule);
-
-  DateTime get firstFire;
-}
-
-class PlannedOccurrence extends PlannedNotification {
   final DateTime dateTime;
 
-  const PlannedOccurrence(super.schedule, {required this.dateTime});
-
-  @override
-  DateTime get firstFire => dateTime;
+  const PlannedNotification(this.schedule, {required this.dateTime});
 }

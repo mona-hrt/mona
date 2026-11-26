@@ -288,11 +288,11 @@ SupplyItem aSupplyItem({
 /// The day after [testNow] at 09:00 UTC.
 final _tomorrowMorning = DateTime.utc(2026, 6, 2, 9, 0);
 
-PlannedOccurrence anOccurrencePlan({
+PlannedNotification aPlannedNotification({
   MedicationSchedule? schedule,
   DateTime? dateTime,
 }) =>
-    PlannedOccurrence(
+    PlannedNotification(
       schedule ?? aMedicationSchedule(),
       dateTime: dateTime ?? _tomorrowMorning,
     );

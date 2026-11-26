@@ -8,7 +8,6 @@ import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 
@@ -54,8 +53,7 @@ void main() {
       });
     });
 
-    test('emits one PlannedOccurrence per (scheduled date, notificationTime)',
-        () {
+    test('emits one plan per (scheduled date, notificationTime)', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -75,7 +73,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 5);
 
         // Assert
-        expect(plans.map((plan) => plan.firstFire), [
+        expect(plans.map((plan) => plan.dateTime), [
           today.toDateTimeAt(afternoon), // today morning is past
           nextWeek.toDateTimeAt(morning),
           nextWeek.toDateTimeAt(afternoon),
@@ -98,7 +96,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
@@ -119,7 +117,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
       });
     });
@@ -157,9 +155,7 @@ void main() {
             .thenReturn(Date.today());
 
         // Act
-        final plans = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedOccurrence>();
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans.single.dateTime,
@@ -205,9 +201,7 @@ void main() {
             .thenReturn(null);
 
         // Act
-        final plans = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedOccurrence>();
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
@@ -232,8 +226,7 @@ void main() {
       });
     });
 
-    test('emits one PlannedOccurrence per (scheduled date, notificationTime)',
-        () {
+    test('emits one plan per (scheduled date, notificationTime)', () {
       withFixedClock(() {
         // testNow = 2026-06-01. First future occurrence 2026-06-21.
         // Arrange
@@ -253,7 +246,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 4);
 
         // Assert
-        expect(plans.map((plan) => plan.firstFire), [
+        expect(plans.map((plan) => plan.dateTime), [
           DateTime(2026, 6, 21, 9),
           DateTime(2026, 6, 21, 15),
           DateTime(2026, 7, 21, 9),
@@ -280,7 +273,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
@@ -301,7 +294,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, DateTime(2026, 7, 21, 15));
+        expect(plans.single.dateTime, DateTime(2026, 7, 21, 15));
       });
     });
   });
@@ -324,7 +317,7 @@ void main() {
       });
     });
 
-    test('emits one PlannedOccurrence per (date, intake time)', () {
+    test('emits one plan per (date, intake time)', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -340,7 +333,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 5);
 
         // Assert
-        expect(plans.map((plan) => plan.firstFire), [
+        expect(plans.map((plan) => plan.dateTime), [
           today.toDateTimeAt(afternoon), // today morning is past
           tomorrow.toDateTimeAt(morning),
           tomorrow.toDateTimeAt(afternoon),
@@ -363,7 +356,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
@@ -380,7 +373,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(morning));
       });
     });
@@ -400,7 +393,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(afternoon));
       });
     });
@@ -418,7 +411,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, DateTime(2026, 10, 25, 20, 30));
+        expect(plans.single.dateTime, DateTime(2026, 10, 25, 20, 30));
       });
     });
 
@@ -438,7 +431,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
@@ -457,7 +450,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
@@ -473,7 +466,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, start.toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, start.toDateTimeAt(afternoon));
       });
     });
   });
@@ -507,7 +500,7 @@ void main() {
       });
     });
 
-    test('emits one PlannedOccurrence per (date, notificationTime)', () {
+    test('emits one plan per (date, notificationTime)', () {
       withFixedClock(() {
         // Arrange
         // testNow = Mon. Mon, Wed and Fri -> today, +2, +4.
@@ -525,7 +518,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 5);
 
         // Assert
-        expect(plans.map((plan) => plan.firstFire), [
+        expect(plans.map((plan) => plan.dateTime), [
           today.toDateTimeAt(afternoon), // today morning is past
           wednesday.toDateTimeAt(morning),
           wednesday.toDateTimeAt(afternoon),
@@ -548,7 +541,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
@@ -565,7 +558,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(morning));
       });
     });
@@ -586,7 +579,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
       });
     });
@@ -605,7 +598,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, DateTime(2026, 10, 31, 20, 30));
+        expect(plans.single.dateTime, DateTime(2026, 10, 31, 20, 30));
       });
     });
 
@@ -622,7 +615,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 2)).toDateTimeAt(afternoon));
       });
     });
@@ -644,7 +637,7 @@ void main() {
         final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans.single.firstFire, start.toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, start.toDateTimeAt(afternoon));
       });
     });
   });

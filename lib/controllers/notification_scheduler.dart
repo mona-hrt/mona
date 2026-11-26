@@ -35,16 +35,6 @@ class NotificationScheduler {
   }
 
   Future<void> _schedule(PlannedNotification plan, String localeName) {
-    switch (plan) {
-      case PlannedOccurrence():
-        return _scheduleOccurrence(plan, localeName);
-    }
-  }
-
-  Future<void> _scheduleOccurrence(
-    PlannedOccurrence plan,
-    String localeName,
-  ) {
     return NotificationService().scheduleNotification(
       id: _notificationIdFor(plan.schedule.id, plan.dateTime),
       scheduleId: plan.schedule.id,
@@ -55,7 +45,7 @@ class NotificationScheduler {
     );
   }
 
-  String _body(PlannedOccurrence plan, String localeName) =>
+  String _body(PlannedNotification plan, String localeName) =>
       switch (plan.schedule.scheduling) {
         DailySchedule() => t.notificationMedicationReminderBodyTime(
             time: DateFormat.Hm(localeName).format(plan.dateTime),

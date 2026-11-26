@@ -73,7 +73,7 @@ class NotificationPlanner {
       for (final time in scheduling.notificationTimes) {
         final dateTime = date.toDateTimeAt(time);
         if (!dateTime.isAfter(now)) continue;
-        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+        plans.add(PlannedNotification(schedule, dateTime: dateTime));
       }
     }
 
@@ -93,7 +93,7 @@ class NotificationPlanner {
     for (final time in scheduling.notificationTimes) {
       final dateTime = date.toDateTimeAt(time);
       if (!dateTime.isAfter(now)) continue;
-      plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+      plans.add(PlannedNotification(schedule, dateTime: dateTime));
     }
 
     return plans;
@@ -117,7 +117,7 @@ class NotificationPlanner {
       for (final time in scheduling.notificationTimes) {
         final dateTime = date.toDateTimeAt(time);
         if (!dateTime.isAfter(now)) continue;
-        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+        plans.add(PlannedNotification(schedule, dateTime: dateTime));
       }
     }
 
@@ -144,7 +144,7 @@ class NotificationPlanner {
         final dateTime = date.toDateTimeAt(time);
         if (!dateTime.isAfter(now)) continue;
         if (takenDateTimesToday.contains(dateTime)) continue;
-        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+        plans.add(PlannedNotification(schedule, dateTime: dateTime));
       }
     }
 
@@ -170,7 +170,7 @@ class NotificationPlanner {
       for (final time in scheduling.notificationTimes) {
         final dateTime = date.toDateTimeAt(time);
         if (!dateTime.isAfter(now)) continue;
-        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+        plans.add(PlannedNotification(schedule, dateTime: dateTime));
       }
     }
 
