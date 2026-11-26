@@ -17,48 +17,41 @@ class NotificationPlanner {
   const NotificationPlanner(
       this._medicationIntakeProvider, this._medicationScheduleProvider);
 
-  List<PlannedNotification> planNotifications({required int daysAhead}) => [
-        for (final schedule in _medicationScheduleProvider.schedules)
-          if (schedule.scheduling.isNotifiable)
-            ...switch (schedule.scheduling) {
-              IntervalDaysSchedule scheduling =>
-                _intervalPlans(schedule, scheduling, daysAhead),
-              DynamicIntervalSchedule scheduling =>
-                _dynamicIntervalPlans(schedule, scheduling),
-              DailySchedule scheduling => _dailyPlans(schedule, scheduling),
-              WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
-              MonthlySchedule scheduling =>
-                _monthlyPlans(schedule, scheduling, daysAhead),
-              AsNeededSchedule _ => [],
-            },
+  List<PlannedNotification> planNotifications({required int maxScheduled}) {
+    final plansPerSchedule = [
+      for (final schedule in _medicationScheduleProvider.schedules)
+        if (schedule.scheduling.isNotifiable)
+          _plansForSchedule(
+              schedule, maxScheduled + 1), // + 1 in case today is dropped
+    ];
+
+    final plans = <PlannedNotification>[];
+    for (int round = 0; plans.length < maxScheduled; round++) {
+      final roundPlans = [
+        for (final schedulePlans in plansPerSchedule)
+          if (round < schedulePlans.length) schedulePlans[round],
       ];
+      if (roundPlans.isEmpty) break;
 
-  int daysAhead({required int maxScheduled}) {
-    int reserved = 0;
-    int perOccurrence = 0;
-
-    for (final schedule in _medicationScheduleProvider.schedules) {
-      switch (schedule.scheduling) {
-        case IntervalDaysSchedule scheduling:
-          perOccurrence += scheduling.notificationTimes.length;
-        case DynamicIntervalSchedule scheduling:
-          reserved += scheduling.notificationTimes.length;
-        case DailySchedule scheduling:
-          if (scheduling.notify) reserved += scheduling.intakeTimes.length;
-        case WeeklySchedule scheduling:
-          reserved += scheduling.daysOfWeek.length *
-              scheduling.notificationTimes.length;
-        case MonthlySchedule scheduling:
-          perOccurrence += scheduling.notificationTimes.length;
-        case AsNeededSchedule _:
-          continue;
-      }
+      plans.addAll(roundPlans.take(maxScheduled - plans.length));
     }
 
-    if (perOccurrence == 0) return 0;
-    final fit = (maxScheduled - reserved) ~/ perOccurrence;
-    return fit < 1 ? 1 : fit;
+    return plans;
   }
+
+  List<PlannedNotification> _plansForSchedule(
+          MedicationSchedule schedule, int daysAhead) =>
+      switch (schedule.scheduling) {
+        IntervalDaysSchedule scheduling =>
+          _intervalPlans(schedule, scheduling, daysAhead),
+        DynamicIntervalSchedule scheduling =>
+          _dynamicIntervalPlans(schedule, scheduling),
+        DailySchedule scheduling => _dailyPlans(schedule, scheduling),
+        WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
+        MonthlySchedule scheduling =>
+          _monthlyPlans(schedule, scheduling, daysAhead),
+        AsNeededSchedule _ => [],
+      };
 
   List<PlannedNotification> _intervalPlans(
     MedicationSchedule schedule,
