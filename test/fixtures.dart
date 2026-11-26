@@ -288,9 +288,6 @@ SupplyItem aSupplyItem({
 /// The day after [testNow] at 09:00 UTC.
 final _tomorrowMorning = DateTime.utc(2026, 6, 2, 9, 0);
 
-/// The next Monday after [testNow] at 09:00 UTC.
-final _nextMondayMorning = DateTime.utc(2026, 6, 8, 9, 0);
-
 PlannedOccurrence anOccurrencePlan({
   MedicationSchedule? schedule,
   DateTime? dateTime,
@@ -298,26 +295,4 @@ PlannedOccurrence anOccurrencePlan({
     PlannedOccurrence(
       schedule ?? aMedicationSchedule(),
       dateTime: dateTime ?? _tomorrowMorning,
-    );
-
-PlannedRepeating aDailyPlan({
-  MedicationSchedule? schedule,
-  DateTime? firstFire,
-}) =>
-    PlannedRepeating(
-      schedule ?? aMedicationSchedule(),
-      periodicity: Periodicity.daily,
-      firstFire: firstFire ?? _tomorrowMorning,
-    );
-
-PlannedRepeating aWeeklyPlan({
-  MedicationSchedule? schedule,
-  int dayOfWeek = 1,
-  DateTime? firstFire,
-}) =>
-    PlannedRepeating(
-      schedule ?? aMedicationSchedule(),
-      periodicity: Periodicity.weekly,
-      firstFire: firstFire ?? _nextMondayMorning,
-      dayOfWeek: dayOfWeek,
     );

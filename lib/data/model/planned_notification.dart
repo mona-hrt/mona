@@ -22,22 +22,3 @@ class PlannedOccurrence extends PlannedNotification {
   @override
   DateTime get firstFire => dateTime;
 }
-
-enum Periodicity { daily, weekly }
-
-class PlannedRepeating extends PlannedNotification {
-  final Periodicity periodicity;
-  @override
-  final DateTime firstFire;
-  final int? dayOfWeek;
-
-  const PlannedRepeating(
-    super.schedule, {
-    required this.periodicity,
-    required this.firstFire,
-    this.dayOfWeek,
-  }) : assert(
-          (periodicity == Periodicity.weekly) == (dayOfWeek != null),
-          'dayOfWeek must be set iff periodicity == weekly',
-        );
-}

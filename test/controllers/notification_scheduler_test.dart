@@ -170,11 +170,10 @@ void main() {
       when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
           .thenReturn([
         anOccurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        aDailyPlan(schedule: s, firstFire: DateTime.utc(2026, 6, 2, 14, 0)),
-        aWeeklyPlan(
-            schedule: s,
-            dayOfWeek: 3,
-            firstFire: DateTime.utc(2026, 6, 3, 20, 0)),
+        anOccurrencePlan(
+            schedule: s, dateTime: DateTime.utc(2026, 6, 2, 14, 0)),
+        anOccurrencePlan(
+            schedule: s, dateTime: DateTime.utc(2026, 6, 3, 20, 0)),
       ]);
       final sut = NotificationScheduler(planner, preferences);
 
@@ -199,36 +198,54 @@ void main() {
         matchDateTimeComponents: isNull,
       ).called(1);
     });
+  });
 
-    test('PlannedRepeating(daily) -> matches on time only', () async {
-      // Arrange
-      when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
-          .thenReturn([aDailyPlan(schedule: aMedicationSchedule())]);
-      final sut = NotificationScheduler(planner, preferences);
+  group('body', () {
+    final cases = [
+      (
+        'daily schedule -> shows the time',
+        aDailyStrategy(),
+        'Scheduled for 09:00'
+      ),
+      (
+        'weekly schedule -> shows the weekday',
+        aWeeklyStrategy(),
+        'Scheduled for Tuesday'
+      ),
+      (
+        'interval schedule -> shows the date',
+        anIntervalStrategy(),
+        'Scheduled for June 2'
+      ),
+      (
+        'dynamic interval schedule -> shows the date',
+        aDynamicIntervalStrategy(),
+        'Scheduled for June 2'
+      ),
+      (
+        'monthly schedule -> shows the date',
+        aMonthlyStrategy(),
+        'Scheduled for June 2'
+      ),
+    ];
 
-      // Act
-      await sut.regenerateAll('en');
+    for (final (name, scheduling, body) in cases) {
+      test(name, () async {
+        // Arrange
+        when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
+            .thenReturn([
+          anOccurrencePlan(
+              schedule: aMedicationSchedule(scheduling: scheduling))
+        ]);
+        final sut = NotificationScheduler(planner, preferences);
 
-      // Assert
-      verifyScheduled(
-        matchDateTimeComponents: equals(DateTimeComponents.time),
-      ).called(1);
-    });
+        // Act
+        await sut.regenerateAll('en');
 
-    test('PlannedRepeating(weekly) -> matches on dayOfWeek+time', () async {
-      // Arrange
-      when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
-          .thenReturn([aWeeklyPlan()]);
-      final sut = NotificationScheduler(planner, preferences);
-
-      // Act
-      await sut.regenerateAll('en');
-
-      // Assert
-      verifyScheduled(
-        matchDateTimeComponents: equals(DateTimeComponents.dayOfWeekAndTime),
-      ).called(1);
-    });
+        // Assert
+        verifyScheduled(body: equals(body)).called(1);
+      });
+    }
   });
 
   group('payload', () {
@@ -281,8 +298,8 @@ void main() {
           .thenReturn([
         anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
         anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
-        aDailyPlan(schedule: b, firstFire: DateTime.utc(2026, 6, 2, 9, 0)),
-        aWeeklyPlan(schedule: c, firstFire: DateTime.utc(2026, 6, 8, 9, 0)),
+        anOccurrencePlan(schedule: b, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        anOccurrencePlan(schedule: c, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
       ]);
       final sut = NotificationScheduler(planner, preferences);
 

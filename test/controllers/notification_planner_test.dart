@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -325,7 +324,7 @@ void main() {
       });
     });
 
-    test('emits one PlannedRepeating(daily) per intake time', () {
+    test('emits one PlannedOccurrence per (date, intake time)', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -333,20 +332,25 @@ void main() {
             scheduling: aDailyStrategy(intakeTimes: const [morning, afternoon]),
           )
         ]);
+        final today = Date.today();
+        final tomorrow = today.add(const Duration(days: 1));
+        final inTwoDays = today.add(const Duration(days: 2));
 
         // Act
-        final plans = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>();
+        final plans = planner.planNotifications(maxScheduled: 5);
 
         // Assert
-        expect(plans.where((p) => p.periodicity == Periodicity.daily),
-            hasLength(2));
+        expect(plans.map((plan) => plan.firstFire), [
+          today.toDateTimeAt(afternoon), // today morning is past
+          tomorrow.toDateTimeAt(morning),
+          tomorrow.toDateTimeAt(afternoon),
+          inTwoDays.toDateTimeAt(morning),
+          inTwoDays.toDateTimeAt(afternoon),
+        ]);
       });
     });
 
-    test('firstFire = today @ time when time is in the future and not taken',
-        () {
+    test('first alert is today when the time is ahead and not taken', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -356,17 +360,14 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire bumps by 1 day when today @ time is already past', () {
+    test('skips today when the time is already past', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -376,18 +377,15 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.firstFire,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(morning));
       });
     });
 
-    test('firstFire bumps by 1 day when this slot is already taken today', () {
+    test('skips today when this time slot is taken and its time is ahead', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -399,18 +397,15 @@ void main() {
             .thenReturn([aMedicationIntake(time: afternoon)]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.firstFire,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire keeps the correct time across a DST change', () {
+    test('keeps the correct time across a DST change', () {
       withFixedClock(at: DateTime(2026, 10, 24, 21, 0), () {
         // Arrange
         withSchedules([
@@ -420,13 +415,10 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, DateTime(2026, 10, 25, 20, 30));
+        expect(plans.single.firstFire, DateTime(2026, 10, 25, 20, 30));
       });
     });
 
@@ -443,18 +435,15 @@ void main() {
             .thenReturn([aMedicationIntake(time: null)]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
       });
     });
 
-    test('taken intake for a different slot does not advance this slot', () {
-      withFixedClock(() {
+    test('a taken intake for a different slot does not skip this slot', () {
+      withFixedClock(at: DateTime(2026, 6, 1, 8, 0), () {
         // Arrange
         withSchedules([
           aMedicationSchedule(
@@ -465,21 +454,14 @@ void main() {
             .thenReturn([aMedicationIntake(time: morning)]);
 
         // Act
-        final plans = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>();
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(
-            plans
-                .singleWhere(
-                    (p) => TimeOfDay.fromDateTime(p.firstFire) == afternoon)
-                .firstFire,
-            Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire = startDate when startDate is in the future', () {
+    test('no alert before startDate when startDate is in the future', () {
       withFixedClock(() {
         // Arrange
         final start = Date.today().add(const Duration(days: 5));
@@ -488,13 +470,10 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(Date.fromDateTime(plan.firstFire), start);
+        expect(plans.single.firstFire, start.toDateTimeAt(afternoon));
       });
     });
   });
@@ -528,28 +507,35 @@ void main() {
       });
     });
 
-    test('emits daysOfWeek x notificationTimes cross product', () {
+    test('emits one PlannedOccurrence per (date, notificationTime)', () {
       withFixedClock(() {
         // Arrange
+        // testNow = Mon. Mon, Wed and Fri -> today, +2, +4.
         withSchedules([
           aMedicationSchedule(
               scheduling: aWeeklyStrategy(
                   daysOfWeek: const [1, 3, 5],
                   notificationTimes: const [morning, afternoon]))
         ]);
+        final today = Date.today();
+        final wednesday = today.add(const Duration(days: 2));
+        final friday = today.add(const Duration(days: 4));
 
         // Act
-        final plans = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>();
+        final plans = planner.planNotifications(maxScheduled: 5);
 
         // Assert
-        expect(plans.where((p) => p.periodicity == Periodicity.weekly),
-            hasLength(6));
+        expect(plans.map((plan) => plan.firstFire), [
+          today.toDateTimeAt(afternoon), // today morning is past
+          wednesday.toDateTimeAt(morning),
+          wednesday.toDateTimeAt(afternoon),
+          friday.toDateTimeAt(morning),
+          friday.toDateTimeAt(afternoon),
+        ]);
       });
     });
 
-    test('firstFire on today when today matches and time is in the future', () {
+    test('first alert is today when today matches and the time is ahead', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -559,17 +545,14 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.firstFire, Date.today().toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire bumps by 7 days when today matches but time is past', () {
+    test('skips today when today matches but the time is past', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -579,18 +562,16 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.firstFire,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(morning));
       });
     });
 
-    test('firstFire bumps by 7 days when any taken intake exists today', () {
+    test('skips today when any intake is taken today and the time is ahead',
+        () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -602,18 +583,15 @@ void main() {
             .thenReturn([aMedicationIntake(time: morning)]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.firstFire,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire keeps the correct time across a DST change', () {
+    test('keeps the correct time across a DST change', () {
       withFixedClock(at: DateTime(2026, 10, 24, 21, 0), () {
         // Arrange
         withSchedules([
@@ -624,19 +602,14 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, DateTime(2026, 10, 31, 20, 30));
+        expect(plans.single.firstFire, DateTime(2026, 10, 31, 20, 30));
       });
     });
 
-    test(
-        'firstFire walks to the next matching weekday when today does not match',
-        () {
+    test('walks to the next matching weekday when today does not match', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -646,36 +619,32 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.firstFire,
             Date.today().add(const Duration(days: 2)).toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire from startDate when startDate is in the future', () {
+    test('no alert before startDate when startDate is in the future', () {
       withFixedClock(() {
         // Arrange
+        // startDate = Wed (+2). Mon and Wed -> Mon is skipped this week.
         final start = Date.today().add(const Duration(days: 2));
         withSchedules([
           aMedicationSchedule(
               scheduling: aWeeklyStrategy(
-                  daysOfWeek: const [3], notificationTimes: const [afternoon]),
+                  daysOfWeek: const [1, 3],
+                  notificationTimes: const [afternoon]),
               startDate: start)
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(maxScheduled: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, start.toDateTimeAt(afternoon));
+        expect(plans.single.firstFire, start.toDateTimeAt(afternoon));
       });
     });
   });

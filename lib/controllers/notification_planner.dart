@@ -46,8 +46,10 @@ class NotificationPlanner {
           _intervalPlans(schedule, scheduling, daysAhead),
         DynamicIntervalSchedule scheduling =>
           _dynamicIntervalPlans(schedule, scheduling),
-        DailySchedule scheduling => _dailyPlans(schedule, scheduling),
-        WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
+        DailySchedule scheduling =>
+          _dailyPlans(schedule, scheduling, daysAhead),
+        WeeklySchedule scheduling =>
+          _weeklyPlans(schedule, scheduling, daysAhead),
         MonthlySchedule scheduling =>
           _monthlyPlans(schedule, scheduling, daysAhead),
         AsNeededSchedule _ => [],
@@ -125,61 +127,53 @@ class NotificationPlanner {
   List<PlannedNotification> _dailyPlans(
     MedicationSchedule schedule,
     DailySchedule scheduling,
+    int days,
   ) {
     final today = Date.today();
     final now = clock.now();
-    final start = schedule.startDate.isAfterToday ? schedule.startDate : today;
     final takenDateTimesToday = _medicationIntakeProvider
         .getTakenIntakesForScheduleOn(schedule.id, today)
         .where((intake) => intake.scheduledTime != null)
         .map((intake) => Date.today().toDateTimeAt(intake.scheduledTime!))
         .toSet();
+    final dates = scheduling.getNextDates(schedule.startDate, days);
 
-    return [
-      for (final time in scheduling.intakeTimes)
-        () {
-          DateTime candidate = start.toDateTimeAt(time);
-          if (!candidate.isAfter(now) ||
-              takenDateTimesToday.contains(candidate)) {
-            candidate = start.add(const Duration(days: 1)).toDateTimeAt(time);
-          }
-          return PlannedRepeating(
-            schedule,
-            periodicity: Periodicity.daily,
-            firstFire: candidate,
-          );
-        }(),
-    ];
+    final plans = <PlannedNotification>[];
+    for (final date in dates) {
+      for (final time in scheduling.intakeTimes) {
+        final dateTime = date.toDateTimeAt(time);
+        if (!dateTime.isAfter(now)) continue;
+        if (takenDateTimesToday.contains(dateTime)) continue;
+        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+      }
+    }
+
+    return plans;
   }
 
   List<PlannedNotification> _weeklyPlans(
     MedicationSchedule schedule,
     WeeklySchedule scheduling,
+    int days,
   ) {
     final today = Date.today();
     final now = clock.now();
     final takenToday = _medicationIntakeProvider
         .getTakenIntakesForScheduleOn(schedule.id, today)
         .isNotEmpty;
+    final dates = scheduling.getNextDates(schedule.startDate, days);
 
-    return [
-      for (final dayOfWeek in scheduling.daysOfWeek)
-        for (final time in scheduling.notificationTimes)
-          () {
-            final nextDate =
-                scheduling.nextDateOn(dayOfWeek, schedule.startDate);
-            DateTime candidate = nextDate.toDateTimeAt(time);
-            if (nextDate.isToday && (!candidate.isAfter(now) || takenToday)) {
-              candidate =
-                  nextDate.add(const Duration(days: 7)).toDateTimeAt(time);
-            }
-            return PlannedRepeating(
-              schedule,
-              periodicity: Periodicity.weekly,
-              firstFire: candidate,
-              dayOfWeek: dayOfWeek,
-            );
-          }(),
-    ];
+    final plans = <PlannedNotification>[];
+    for (final date in dates) {
+      if (date.isToday && takenToday) continue;
+
+      for (final time in scheduling.notificationTimes) {
+        final dateTime = date.toDateTimeAt(time);
+        if (!dateTime.isAfter(now)) continue;
+        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+      }
+    }
+
+    return plans;
   }
 }
