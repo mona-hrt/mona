@@ -340,6 +340,22 @@ void main() {
       });
     });
 
+    group('hormone units', () {
+      test('default when nothing saved', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+
+        // Act
+        final units = [service.estradiolUnit, service.testosteroneUnit];
+
+        // Assert
+        expect(units, [
+          PreferencesService.defaultEstradiolUnit,
+          PreferencesService.defaultTestosteroneUnit,
+        ]);
+      });
+    });
+
     group('logicalDayStart', () {
       tearDown(() => logicalDayStartMinutes = 240);
 
