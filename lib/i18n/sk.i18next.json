@@ -318,5 +318,9 @@
   "slimeMode": "Slizový mód",
   "empty_levels": "Ak chcete začať, pridajte výsledok krvného testu alebo zaznamenajte injekciu estradiolu",
   "estradiolLevelsTitle": "Hodnoty estradiolu",
-  "unitNgPerMl": "ng/mL"
+  "unitNgPerMl": "ng/mL",
+  "getInvolved": "Zapojte sa",
+  "reportBug": "Nahlásiť chybu",
+  "reportBugDescription": "Otvorte problém na GitHub",
+  "translateApp": "Preložiť aplikáciu"
 }
