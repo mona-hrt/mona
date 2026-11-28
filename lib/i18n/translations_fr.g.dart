@@ -309,6 +309,11 @@ class TranslationsFr extends Translations
   @override
   String get empty_intakes => 'Les prises enregistrées apparaîtront ici';
   @override
+  String get LevelsCalibration => 'Calibration';
+  @override
+  String get LevelsCalibrationDescription =>
+      'Calibre le simulateur en se basant sur les prises de sang';
+  @override
   String get HrtCounter => 'Temps sous THS';
   @override
   String get HrtCounterDescription =>
@@ -1006,6 +1011,9 @@ extension on TranslationsFr {
       'deleteSchedule' => ({required Object name}) => 'Supprimer ${name} ?',
       'addNotification' => 'Ajouter une notification',
       'empty_intakes' => 'Les prises enregistrées apparaîtront ici',
+      'LevelsCalibration' => 'Calibration',
+      'LevelsCalibrationDescription' =>
+        'Calibre le simulateur en se basant sur les prises de sang',
       'HrtCounter' => 'Temps sous THS',
       'HrtCounterDescription' =>
         'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises',

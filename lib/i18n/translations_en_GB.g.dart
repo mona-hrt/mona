@@ -301,6 +301,11 @@ class TranslationsEnGb extends Translations
   @override
   String get empty_intakes => 'Taken intakes will appear here';
   @override
+  String get LevelsCalibration => 'Calibration';
+  @override
+  String get LevelsCalibrationDescription =>
+      'Calibrate simulator based on blood tests';
+  @override
   String get HrtCounter => 'Time on HRT';
   @override
   String get HrtCounterDescription =>
@@ -963,6 +968,9 @@ extension on TranslationsEnGb {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
+      'LevelsCalibration' => 'Calibration',
+      'LevelsCalibrationDescription' =>
+        'Calibrate simulator based on blood tests',
       'HrtCounter' => 'Time on HRT',
       'HrtCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',

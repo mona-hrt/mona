@@ -144,6 +144,8 @@
   "intakesLoggedCount_one": "1 prise enregistrée",
   "intakesLoggedCount_many": "{{count}} de prises enregistrées",
   "intakesLoggedCount_other": "{{count}} prises enregistrées",
+  "LevelsCalibration": "Calibration",
+  "LevelsCalibrationDescription": "Calibre le simulateur en se basant sur les prises de sang",
   "HrtCounter": "Temps sous THS",
   "HrtCounterDescription": "Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises",
   "hrtWidgetPlaceholder": "Ouvrir Mona pour enregistrer votre première prise",

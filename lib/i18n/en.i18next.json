@@ -134,6 +134,8 @@
   "onHrtForYears_other": "On HRT for {{count}} years",
   "intakesLoggedCount_one": "1 intake logged",
   "intakesLoggedCount_other": "{{count}} intakes logged",
+  "LevelsCalibration": "Calibration",
+  "LevelsCalibrationDescription": "Calibrate simulator based on blood tests",
   "HrtCounter": "Time on HRT",
   "HrtCounterDescription": "Show how long you've been on HRT and your total intakes",
   "hrtWidgetPlaceholder": "Open Mona to log your first intake",

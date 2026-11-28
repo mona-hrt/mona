@@ -413,6 +413,13 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Taken intakes will appear here'
   String get empty_intakes => 'Taken intakes will appear here';
 
+  /// en: 'Calibration'
+  String get LevelsCalibration => 'Calibration';
+
+  /// en: 'Calibrate simulator based on blood tests'
+  String get LevelsCalibrationDescription =>
+      'Calibrate simulator based on blood tests';
+
   /// en: 'Time on HRT'
   String get HrtCounter => 'Time on HRT';
 
@@ -1266,6 +1273,9 @@ extension on Translations {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
+      'LevelsCalibration' => 'Calibration',
+      'LevelsCalibrationDescription' =>
+        'Calibrate simulator based on blood tests',
       'HrtCounter' => 'Time on HRT',
       'HrtCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
