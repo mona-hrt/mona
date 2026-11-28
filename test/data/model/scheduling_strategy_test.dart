@@ -652,6 +652,64 @@ void main() {
       });
     });
 
+    group('DailySchedule.getNextDates', () {
+      test('startDate < today -> returns consecutive days from today', () {
+        withFixedClock(() {
+          // Arrange
+          final start = Date.today().subtract(const Duration(days: 4));
+          final s = aDailyStrategy();
+          final today = Date.today();
+
+          // Act
+          final dates = s.getNextDates(start, 3);
+
+          // Assert
+          expect(dates, [
+            today,
+            today.add(const Duration(days: 1)),
+            today.add(const Duration(days: 2)),
+          ]);
+        });
+      });
+
+      test('startDate > today -> first returned date is startDate', () {
+        withFixedClock(() {
+          // Arrange
+          final start = Date.today().add(const Duration(days: 5));
+          final s = aDailyStrategy();
+
+          // Act
+          final dates = s.getNextDates(start, 2);
+
+          // Assert
+          expect(dates.first, start);
+        });
+      });
+
+      test('count = 0 -> returns empty list', () {
+        withFixedClock(() {
+          // Arrange
+          final s = aDailyStrategy();
+
+          // Act
+          final dates = s.getNextDates(Date.today(), 0);
+
+          // Assert
+          expect(dates, isEmpty);
+        });
+      });
+
+      test('count < 0 -> throws ArgumentError', () {
+        withFixedClock(() {
+          // Arrange
+          final s = aDailyStrategy();
+
+          // Act & Assert
+          expect(() => s.getNextDates(Date.today(), -1), throwsArgumentError);
+        });
+      });
+    });
+
     group('DailySchedule.statusFor', () {
       final s = aDailyStrategy(intakeTimes: const [morning]);
 
@@ -814,94 +872,76 @@ void main() {
       });
     });
 
-    group('WeeklySchedule.nextDateOn', () {
-      const s = WeeklySchedule(daysOfWeek: [1]);
-
-      test('weekday == today and startDate in past -> returns today', () {
-        withFixedClock(() {
-          // Arrange
-          final start = Date.today().subtract(const Duration(days: 14));
-
-          // Act
-          final next = s.nextDateOn(1, start); // testNow = Mon
-
-          // Assert
-          expect(next, Date.today());
-        });
-      });
-
-      test('weekday is later this week -> returns that day this week', () {
-        withFixedClock(() {
-          // Arrange
-          // testNow Mon. Target Wed = +2.
-          final start = Date.today().subtract(const Duration(days: 14));
-
-          // Act
-          final next = s.nextDateOn(3, start);
-
-          // Assert
-          expect(next, Date.today().add(const Duration(days: 2)));
-        });
-      });
-
-      test('weekday already passed this week -> wraps to next week', () {
-        withFixedClock(() {
-          // Arrange
-          // testNow Mon. Target Sun = +6 (wraps Mon->Tue->...->Sun).
-          final start = Date.today().subtract(const Duration(days: 14));
-
-          // Act
-          final next = s.nextDateOn(7, start);
-
-          // Assert
-          expect(next, Date.today().add(const Duration(days: 6)));
-        });
-      });
-
-      test('startDate in the future and matches weekday -> returns startDate',
+    group('WeeklySchedule.getNextDates', () {
+      test('startDate < today -> returns the next matching days from today',
           () {
         withFixedClock(() {
           // Arrange
-          // startDate Wed (+2). Target Wed = startDate.
+          // testNow = Mon. Mon and Wed -> today, +2, +7.
+          final start = Date.today().subtract(const Duration(days: 14));
+          const s = WeeklySchedule(daysOfWeek: [1, 3]);
+          final today = Date.today();
+
+          // Act
+          final dates = s.getNextDates(start, 3);
+
+          // Assert
+          expect(dates, [
+            today,
+            today.add(const Duration(days: 2)),
+            today.add(const Duration(days: 7)),
+          ]);
+        });
+      });
+
+      test('startDate > today -> returns no date before startDate', () {
+        withFixedClock(() {
+          // Arrange
+          // startDate = Wed (+2). Mon and Wed -> +2, +7.
           final start = Date.today().add(const Duration(days: 2));
+          const s = WeeklySchedule(daysOfWeek: [1, 3]);
 
           // Act
-          final next = s.nextDateOn(3, start);
+          final dates = s.getNextDates(start, 2);
 
           // Assert
-          expect(next, start);
+          expect(dates, [start, Date.today().add(const Duration(days: 7))]);
         });
       });
 
-      test(
-          'startDate in the future, does not match weekday -> walks from startDate',
-          () {
+      test('empty daysOfWeek -> returns empty list', () {
         withFixedClock(() {
           // Arrange
-          // startDate Wed (+2). Target Fri = startDate + 2 = +4.
-          final start = Date.today().add(const Duration(days: 2));
+          const s = WeeklySchedule(daysOfWeek: []);
 
           // Act
-          final next = s.nextDateOn(5, start);
+          final dates = s.getNextDates(Date.today(), 3);
 
           // Assert
-          expect(next, Date.today().add(const Duration(days: 4)));
+          expect(dates, isEmpty);
         });
       });
 
-      test('ignores daysOfWeek - target weekday is honoured even if not in it',
-          () {
+      test('count = 0 -> returns empty list', () {
         withFixedClock(() {
           // Arrange
-          // Schedule says daysOfWeek=[Mon], but caller asks for Wed.
-          const monOnly = WeeklySchedule(daysOfWeek: [1]);
-          final start = Date.today().subtract(const Duration(days: 14));
+          const s = WeeklySchedule(daysOfWeek: [1]);
 
           // Act
-          final next = monOnly.nextDateOn(3, start);
+          final dates = s.getNextDates(Date.today(), 0);
 
           // Assert
-          expect(next, Date.today().add(const Duration(days: 2)));
+          expect(dates, isEmpty);
+        });
+      });
+
+      test('count < 0 -> throws ArgumentError', () {
+        withFixedClock(() {
+          // Arrange
+          const s = WeeklySchedule(daysOfWeek: [1]);
+
+          // Act & Assert
+          expect(() => s.getNextDates(Date.today(), -1), throwsArgumentError);
         });
       });
     });

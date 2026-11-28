@@ -52,9 +52,7 @@ void main() {
     NotificationService.createPlugin = () => plugin;
 
     when(preferences.notificationsEnabled).thenReturn(true);
-    when(planner.daysAhead(maxScheduled: anyNamed('maxScheduled')))
-        .thenReturn(0);
-    when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+    when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
         .thenReturn(const []);
     when(plugin.zonedSchedule(
       id: anyNamed('id'),
@@ -152,8 +150,8 @@ void main() {
 
       await sut.regenerateAll('en');
 
-      verifyNever(planner.daysAhead(maxScheduled: anyNamed('maxScheduled')));
-      verifyNever(planner.planNotifications(daysAhead: anyNamed('daysAhead')));
+      verifyNever(
+          planner.planNotifications(maxScheduled: anyNamed('maxScheduled')));
       verifyNever(plugin.zonedSchedule(
         id: anyNamed('id'),
         title: anyNamed('title'),
@@ -169,14 +167,14 @@ void main() {
     test('schedules one zonedSchedule call per plan', () async {
       // Arrange
       final s = aMedicationSchedule();
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+      when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
           .thenReturn([
-        anOccurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        aDailyPlan(schedule: s, firstFire: DateTime.utc(2026, 6, 2, 14, 0)),
-        aWeeklyPlan(
-            schedule: s,
-            dayOfWeek: 3,
-            firstFire: DateTime.utc(2026, 6, 3, 20, 0)),
+        aPlannedNotification(
+            schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aPlannedNotification(
+            schedule: s, dateTime: DateTime.utc(2026, 6, 2, 14, 0)),
+        aPlannedNotification(
+            schedule: s, dateTime: DateTime.utc(2026, 6, 3, 20, 0)),
       ]);
       final sut = NotificationScheduler(planner, preferences);
 
@@ -187,10 +185,10 @@ void main() {
       verifyScheduled().called(3);
     });
 
-    test('PlannedOccurrence -> one-shot', () async {
+    test('schedules a one-shot alert', () async {
       // Arrange
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([anOccurrencePlan(schedule: aMedicationSchedule())]);
+      when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
+          .thenReturn([aPlannedNotification(schedule: aMedicationSchedule())]);
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
@@ -201,82 +199,54 @@ void main() {
         matchDateTimeComponents: isNull,
       ).called(1);
     });
+  });
 
-    test('PlannedRepeating(daily) -> matches on time only', () async {
-      // Arrange
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([aDailyPlan(schedule: aMedicationSchedule())]);
-      final sut = NotificationScheduler(planner, preferences);
+  group('body', () {
+    final cases = [
+      (
+        'daily schedule -> shows the time',
+        aDailyStrategy(),
+        'Scheduled for 09:00'
+      ),
+      (
+        'weekly schedule -> shows the weekday',
+        aWeeklyStrategy(),
+        'Scheduled for Tuesday'
+      ),
+      (
+        'interval schedule -> shows the date',
+        anIntervalStrategy(),
+        'Scheduled for June 2'
+      ),
+      (
+        'dynamic interval schedule -> shows the date',
+        aDynamicIntervalStrategy(),
+        'Scheduled for June 2'
+      ),
+      (
+        'monthly schedule -> shows the date',
+        aMonthlyStrategy(),
+        'Scheduled for June 2'
+      ),
+    ];
 
-      // Act
-      await sut.regenerateAll('en');
+    for (final (name, scheduling, body) in cases) {
+      test(name, () async {
+        // Arrange
+        when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
+            .thenReturn([
+          aPlannedNotification(
+              schedule: aMedicationSchedule(scheduling: scheduling))
+        ]);
+        final sut = NotificationScheduler(planner, preferences);
 
-      // Assert
-      verifyScheduled(
-        matchDateTimeComponents: equals(DateTimeComponents.time),
-      ).called(1);
-    });
+        // Act
+        await sut.regenerateAll('en');
 
-    test('PlannedRepeating(weekly) -> matches on dayOfWeek+time', () async {
-      // Arrange
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn([aWeeklyPlan()]);
-      final sut = NotificationScheduler(planner, preferences);
-
-      // Act
-      await sut.regenerateAll('en');
-
-      // Assert
-      verifyScheduled(
-        matchDateTimeComponents: equals(DateTimeComponents.dayOfWeekAndTime),
-      ).called(1);
-    });
-
-    test('schedules at most 60 notifications', () async {
-      // Arrange
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn(List.generate(
-        100,
-        (i) => anOccurrencePlan(),
-      ));
-      final sut = NotificationScheduler(planner, preferences);
-
-      // Act
-      await sut.regenerateAll('en');
-
-      // Assert
-      verifyScheduled().called(60);
-    });
-
-    test('keeps the earliest plans when more than 60 are returned', () async {
-      // Arrange
-      final start = DateTime.utc(2026, 6, 2, 9, 0);
-      final plans = List.generate(
-        100,
-        (i) => anOccurrencePlan(dateTime: start.add(Duration(days: 100 - i))),
-      );
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
-          .thenReturn(plans);
-      final sut = NotificationScheduler(planner, preferences);
-
-      // Act
-      await sut.regenerateAll('en');
-
-      // Assert
-      final scheduledDates = verify(plugin.zonedSchedule(
-        id: anyNamed('id'),
-        title: anyNamed('title'),
-        body: anyNamed('body'),
-        scheduledDate: captureAnyNamed('scheduledDate'),
-        notificationDetails: anyNamed('notificationDetails'),
-        androidScheduleMode: anyNamed('androidScheduleMode'),
-        matchDateTimeComponents: anyNamed('matchDateTimeComponents'),
-        payload: anyNamed('payload'),
-      )).captured.cast<tz.TZDateTime>();
-      final latest = scheduledDates.reduce((a, b) => a.isAfter(b) ? a : b);
-      expect(latest,
-          tz.TZDateTime.from(start.add(const Duration(days: 60)), tz.local));
-    });
+        // Assert
+        verifyScheduled(body: equals(body)).called(1);
+      });
+    }
   });
 
   group('payload', () {
@@ -293,9 +263,9 @@ void main() {
 
     test('embeds the schedule id in the scheduled payload', () async {
       // Arrange
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+      when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
           .thenReturn(
-              [anOccurrencePlan(schedule: aMedicationSchedule(id: 42))]);
+              [aPlannedNotification(schedule: aMedicationSchedule(id: 42))]);
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
@@ -325,12 +295,16 @@ void main() {
       final a = aMedicationSchedule();
       final b = aMedicationSchedule();
       final c = aMedicationSchedule();
-      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+      when(planner.planNotifications(maxScheduled: anyNamed('maxScheduled')))
           .thenReturn([
-        anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        anOccurrencePlan(schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
-        aDailyPlan(schedule: b, firstFire: DateTime.utc(2026, 6, 2, 9, 0)),
-        aWeeklyPlan(schedule: c, firstFire: DateTime.utc(2026, 6, 8, 9, 0)),
+        aPlannedNotification(
+            schedule: a, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aPlannedNotification(
+            schedule: a, dateTime: DateTime.utc(2026, 6, 3, 9, 0)),
+        aPlannedNotification(
+            schedule: b, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
+        aPlannedNotification(
+            schedule: c, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
       ]);
       final sut = NotificationScheduler(planner, preferences);
 

@@ -241,6 +241,15 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
   /// A daily schedule has no meaningful "previous" intake date.
   Date? previousDate(Date startDate) => null;
 
+  List<Date> getNextDates(Date startDate, int count) {
+    if (count < 0) {
+      throw ArgumentError('Count must be a positive integer');
+    }
+
+    final first = nextDate(startDate);
+    return [for (int i = 0; i < count; i++) first.add(Duration(days: i))];
+  }
+
   ScheduleStatus statusFor({
     required Date startDate,
     MedicationIntake? matchedIntake,
@@ -290,15 +299,21 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
     return candidate;
   }
 
-  /// Returns the next date matching [weekday] (ISO 1=Monday..7=Sunday) on or
-  /// after the schedule's effective start date.
-  Date nextDateOn(int weekday, Date startDate) {
+  List<Date> getNextDates(Date startDate, int count) {
+    if (count < 0) {
+      throw ArgumentError('Count must be a positive integer');
+    }
+    if (daysOfWeek.isEmpty) {
+      return [];
+    }
+
+    final dates = <Date>[];
     Date candidate = startDate.isAfterToday ? startDate : Date.today();
-    for (int i = 0; i < 7; i++) {
-      if (candidate.weekday == weekday) return candidate;
+    while (dates.length < count) {
+      if (daysOfWeek.contains(candidate.weekday)) dates.add(candidate);
       candidate = candidate.add(const Duration(days: 1));
     }
-    return candidate;
+    return dates;
   }
 
   /// Returns the most recent scheduled date strictly before today, restricted
