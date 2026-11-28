@@ -28,10 +28,12 @@ class PreferencesService extends ChangeNotifier {
   static const _hrtCounterEnabledKey = 'intake_counter_enabled';
   static const _logicalDayStartMinutesKey = 'logical_day_start_minutes';
   static const _slimeModeEnabledKey = 'slime_mode_enabled';
+  static const _calibrationEnabledKey = 'calibration_enabled';
 
   static const bool defaultNotificationsEnabled = false;
   static const bool defaultAutoCheckUpdates = false;
   static const bool defaultHrtCounterEnabled = true;
+  static const bool defaultCalibrationEnabled = true;
   static const int defaultLogicalDayStartMinutes = 240;
   static const bool defaultSlimeModeEnabled = false;
   static const List<Placement> defaultPlacementsList = [
@@ -222,6 +224,14 @@ class PreferencesService extends ChangeNotifier {
 
   Future<void> setHrtCounterEnabled(bool isEnabled) async {
     await _prefs.setBool(_hrtCounterEnabledKey, isEnabled);
+    notifyListeners();
+  }
+
+  bool get calibrationEnabled =>
+      _prefs.getBool(_calibrationEnabledKey) ?? defaultCalibrationEnabled;
+
+  Future<void> setCalibrationEnabled(bool isEnabled) async {
+    await _prefs.setBool(_calibrationEnabledKey, isEnabled);
     notifyListeners();
   }
 

@@ -299,6 +299,13 @@ class _SettingsPageState extends State<SettingsPage>
                   }
                 },
               ),
+              SwitchTile(
+                title: t.LevelsCalibration,
+                subtitle: t.LevelsCalibrationDescription,
+                value: preferencesService.calibrationEnabled,
+                onChanged: (value) =>
+                    preferencesService.setCalibrationEnabled(value),
+              ),
             ],
           ),
           SizedBox(height: borderPadding),
