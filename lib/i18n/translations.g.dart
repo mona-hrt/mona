@@ -3,8 +3,8 @@
 /// Source: lib/i18n/generated
 /// To regenerate, run: `dart run slang`
 ///
-/// Locales: 33
-/// Strings: 7239 (219 per locale)
+/// Locales: 37
+/// Strings: 8385 (226 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -30,18 +30,22 @@ import 'translations_hu.g.dart' as l_hu;
 import 'translations_id.g.dart' as l_id;
 import 'translations_is.g.dart' as l_is;
 import 'translations_it.g.dart' as l_it;
+import 'translations_kmr.g.dart' as l_kmr;
 import 'translations_ko.g.dart' as l_ko;
 import 'translations_lrc.g.dart' as l_lrc;
 import 'translations_nl.g.dart' as l_nl;
 import 'translations_pl.g.dart' as l_pl;
 import 'translations_prs.g.dart' as l_prs;
+import 'translations_ps.g.dart' as l_ps;
 import 'translations_pt.g.dart' as l_pt;
 import 'translations_ru.g.dart' as l_ru;
 import 'translations_sk.g.dart' as l_sk;
 import 'translations_sq.g.dart' as l_sq;
 import 'translations_sv.g.dart' as l_sv;
+import 'translations_tg.g.dart' as l_tg;
 import 'translations_th.g.dart' as l_th;
 import 'translations_tok.g.dart' as l_tok;
+import 'translations_tr.g.dart' as l_tr;
 import 'translations_uk.g.dart' as l_uk;
 import 'translations_ur.g.dart' as l_ur;
 import 'translations_en_GB.g.dart' as l_en_GB;
@@ -72,18 +76,22 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
   id(languageCode: 'id'),
   icelandic(languageCode: 'is'),
   it(languageCode: 'it'),
+  kmr(languageCode: 'kmr'),
   ko(languageCode: 'ko'),
   lrc(languageCode: 'lrc'),
   nl(languageCode: 'nl'),
   pl(languageCode: 'pl'),
   prs(languageCode: 'prs'),
+  ps(languageCode: 'ps'),
   pt(languageCode: 'pt'),
   ru(languageCode: 'ru'),
   sk(languageCode: 'sk'),
   sq(languageCode: 'sq'),
   sv(languageCode: 'sv'),
+  tg(languageCode: 'tg'),
   th(languageCode: 'th'),
   tok(languageCode: 'tok'),
+  tr(languageCode: 'tr'),
   uk(languageCode: 'uk'),
   ur(languageCode: 'ur'),
   enGb(languageCode: 'en', countryCode: 'GB'),
@@ -219,6 +227,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,
         );
+      case AppLocale.kmr:
+        return l_kmr.TranslationsKmr(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
       case AppLocale.ko:
         return l_ko.TranslationsKo(
           overrides: overrides,
@@ -245,6 +259,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
         );
       case AppLocale.prs:
         return l_prs.TranslationsPrs(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.ps:
+        return l_ps.TranslationsPs(
           overrides: overrides,
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,
@@ -279,6 +299,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,
         );
+      case AppLocale.tg:
+        return l_tg.TranslationsTg(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
       case AppLocale.th:
         return l_th.TranslationsTh(
           overrides: overrides,
@@ -287,6 +313,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
         );
       case AppLocale.tok:
         return l_tok.TranslationsTok(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.tr:
+        return l_tr.TranslationsTr(
           overrides: overrides,
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,

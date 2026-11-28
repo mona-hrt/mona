@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">مدت هورمون‌درمانی</string>
+    <string name="hrt_widget_description">نشون می‌ده از شروع هورمون‌درمانی شما چقدر گذشته و روی هم چند نوبت مصرف ثبت بیه.</string>
+    <string name="hrt_home_widget_placeholder">سی ثبت اولین نوبت مصرف، مونا باز بکنین</string>
+    <string name="hrt_widget_preview_sample">۸ ماه هورمون‌درمانی</string>
+    <string name="hrt_widget_preview_intake_sample">۱۶ نوبت ثبت‌بیه</string>
+</resources>

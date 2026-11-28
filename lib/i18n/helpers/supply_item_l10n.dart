@@ -5,15 +5,14 @@
 
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/consumable_supply_item.dart';
 import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/dosing_basis.dart';
-import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
 import 'package:mona/i18n/helpers/delivery_form_l10n.dart';
-import 'package:mona/i18n/helpers/generic_type_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 
@@ -55,7 +54,7 @@ extension SupplyItemL10n on SupplyItem {
   String get localizedSummary {
     return switch (this) {
       final MedicationSupplyItem m => m.localizedSummary,
-      final GenericSupply g => g.localizedSummary,
+      final ConsumableSupplyItem g => g.localizedSummary,
       _ => '',
     };
   }
@@ -98,6 +97,15 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
   }
 }
 
-extension GenericSupplyL10n on GenericSupply {
-  String get localizedSummary => genericSupplyType.localizedRemaining(amount);
+extension ConsumableSupplyItemL10n on ConsumableSupplyItem {
+  String get localizedSummary => switch (this) {
+        Syringe() => t.syringeRemaining(count: amount),
+        Needle() => t.needleRemaining(count: amount),
+        OtherSupplyItem(otherSupplyType: OtherSupplyType.wipe) =>
+          t.wipeRemaining(count: amount),
+        OtherSupplyItem(otherSupplyType: OtherSupplyType.gloves) =>
+          t.glovesRemaining(count: amount),
+        OtherSupplyItem(otherSupplyType: OtherSupplyType.bandage) =>
+          t.bandageRemaining(count: amount),
+      };
 }

@@ -1,5 +1,11 @@
+// SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
+// SPDX-FileContributor: 2026 Délia Cheminot <delia@cheminot.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'dart:math' as math;
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/units.dart';
 
 enum LabExclusion { notExact, notPositive, lowModel }
 
@@ -11,15 +17,15 @@ class RatioCalibration {
 }
 
 RatioCalibration fitRatio(
-    List<BloodTest> labs, // same unit as model
-    double Function(DateTime t) level, // level at day t
+    List<BloodTest> labs,
+    double Function(DateTime t) level, // pg/mL
     {required double minModel,
     double lambda = 0.2}) {
   var rSum = 0.0;
 
   for (final lab in usableLabs(labs, minModel)) {
-    rSum +=
-        math.log(lab.estradiolLevels!.value.toDouble() / level(lab.dateTime));
+    final value = lab.estradiolLevels!.inUnit(EstradiolUnit.pg_mL).toDouble();
+    rSum += math.log(value / level(lab.dateTime));
   }
   final lnfactor = rSum / (usableLabsCount(labs, minModel) + lambda);
   final factor = math.exp(lnfactor).clamp(0.1, 10.0);
@@ -29,7 +35,7 @@ RatioCalibration fitRatio(
 
 bool isUsable(BloodTest test, double minModel) =>
     test.estradiolLevels != null &&
-    test.estradiolLevels!.value.toDouble() > minModel;
+    test.estradiolLevels!.inUnit(EstradiolUnit.pg_mL).toDouble() > minModel;
 
 List<BloodTest> usableLabs(List<BloodTest> bloodTests, double minModel) =>
     bloodTests.where((test) => isUsable(test, minModel)).toList();

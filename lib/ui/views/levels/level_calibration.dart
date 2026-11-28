@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Alice Lorido "yakissa" <alice@lori.do>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/calculator/calibration.dart';
 import 'package:mona/data/model/calculator/hormone_simulation.dart';

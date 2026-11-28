@@ -6,16 +6,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-// Flutter has no built-in Material/Cupertino/Widgets localizations for these
+// Flutter lacks some or all built-in Material/Cupertino/Widgets localizations
+// for these
 const Map<String, Locale> _fallbackLocales = {
   'ckb': Locale('fa'),
+  'kmr': Locale('en'),
   'lrc': Locale('fa'),
   'prs': Locale('fa'),
+  'ps': Locale('fa'),
+  'tg': Locale('ru'),
   'tok': Locale('en'),
 };
 
-bool _hasFallback(Locale locale) =>
-    _fallbackLocales.containsKey(locale.languageCode);
+bool _hasFallback(Locale locale, LocalizationsDelegate<dynamic> builtIn) =>
+    _fallbackLocales.containsKey(locale.languageCode) &&
+    !builtIn.isSupported(locale);
 
 Locale _fallbackOf(Locale locale) => _fallbackLocales[locale.languageCode]!;
 
@@ -24,7 +29,8 @@ class FallbackMaterialLocalizationsDelegate
   const FallbackMaterialLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => _hasFallback(locale);
+  bool isSupported(Locale locale) =>
+      _hasFallback(locale, GlobalMaterialLocalizations.delegate);
 
   @override
   Future<MaterialLocalizations> load(Locale locale) =>
@@ -39,7 +45,8 @@ class FallbackCupertinoLocalizationsDelegate
   const FallbackCupertinoLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => _hasFallback(locale);
+  bool isSupported(Locale locale) =>
+      _hasFallback(locale, GlobalCupertinoLocalizations.delegate);
 
   @override
   Future<CupertinoLocalizations> load(Locale locale) =>
@@ -54,7 +61,8 @@ class FallbackWidgetsLocalizationsDelegate
   const FallbackWidgetsLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => _hasFallback(locale);
+  bool isSupported(Locale locale) =>
+      _hasFallback(locale, GlobalWidgetsLocalizations.delegate);
 
   @override
   Future<WidgetsLocalizations> load(Locale locale) =>
