@@ -36,8 +36,11 @@ class GraphCalculator {
   }
 
   List<FlSpot> generateLevelsSpots(
-      List<MedicationIntake> intakes, EstradiolUnit unit, double factor,
-      {required DateTime tMin, required DateTime tMax, int numPoints = 1000}) {
+      List<MedicationIntake> intakes, EstradiolUnit unit,
+      {double factor = 1.0,
+      required DateTime tMin,
+      required DateTime tMax,
+      int numPoints = 1000}) {
     if (intakes.isEmpty) return <FlSpot>[];
 
     final simulation = HormoneSimulation(intakes, defaultInjectionParams);
