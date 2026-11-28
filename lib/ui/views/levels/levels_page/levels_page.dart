@@ -135,12 +135,14 @@ class _GraphTileState extends State<_GraphTile> with MinuteTicker {
     final intakeProvider = context.watch<MedicationIntakeProvider>();
     final bloodTestProvider = context.watch<BloodTestProvider>();
     final unit = context.watch<PreferencesService>().estradiolUnit;
+    final doCalibration =
+        context.watch<PreferencesService>().calibrationEnabled;
     final intakes = intakeProvider.intakes;
     final bloodTests = bloodTestProvider.bloodTestsSortedDesc;
     final now = clock.now();
-    final factor = calculateFactor(bloodTests, intakes);
-    final lastWeekSpots = GraphCalculator().generateLevelsSpots(
-        intakes, unit, factor,
+    final factor = calculateFactor(bloodTests, intakes, doCalibration);
+    final lastWeekSpots = GraphCalculator().generateLevelsSpots(intakes, unit,
+        factor: factor,
         tMin: now.subtract(const Duration(days: 9)),
         tMax: now.add(const Duration(days: 5)));
     final nowLevel =

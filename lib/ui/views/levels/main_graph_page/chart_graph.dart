@@ -60,6 +60,8 @@ class _MainGraphState extends State<MainGraph> {
   Widget build(BuildContext context) {
     final medicationIntakeProvider = context.watch<MedicationIntakeProvider>();
     final preferencesProvider = context.watch<PreferencesService>();
+    final doCalibration =
+        context.watch<PreferencesService>().calibrationEnabled;
     final bloodTestProvider = context.watch<BloodTestProvider>();
     final theme = Theme.of(context);
     final unit = preferencesProvider.estradiolUnit;
@@ -75,11 +77,11 @@ class _MainGraphState extends State<MainGraph> {
 
     final intakes = medicationIntakeProvider.intakes;
     List<BloodTest> bloodTests = bloodTestProvider.estradiolTestsSortedDesc;
-    final factor = calculateFactor(bloodTests, intakes);
+    final factor = calculateFactor(bloodTests, intakes, doCalibration);
     final List<FlSpot> spots = GraphCalculator().generateLevelsSpots(
       intakes,
       unit,
-      factor,
+      factor: factor,
       tMin: widget.startDate,
       tMax: widget.endDate,
     );

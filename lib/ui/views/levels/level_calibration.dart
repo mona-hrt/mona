@@ -9,8 +9,11 @@ import 'package:mona/data/model/calculator/injection_params.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/medication_intake.dart';
 
-double calculateFactor(List<BloodTest> labs, List<MedicationIntake> intakes) {
+double calculateFactor(
+    List<BloodTest> labs, List<MedicationIntake> intakes, bool doCalibration) {
   final simulation = HormoneSimulation(intakes, defaultInjectionParams);
+
+  if (labs.isEmpty || !doCalibration) return 1.0;
   return fitRatio(labs, (t) => simulation.levelAt(Hormone.estradiol, t),
           minModel: 0.0)
       .factor;
