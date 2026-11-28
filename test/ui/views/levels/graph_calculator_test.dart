@@ -98,7 +98,7 @@ void main() {
   group('generateLevelsSpots', () {
     test('returns an empty list for no intakes', () {
       // Act
-      final spots = calculator.generateLevelsSpots([], unit, 1,
+      final spots = calculator.generateLevelsSpots([], unit,
           tMin: simulationDay(0.0), tMax: simulationDay(10.0));
 
       // Assert
@@ -107,7 +107,7 @@ void main() {
 
     test('produces numPoints + 1 spots', () {
       // Act
-      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit, 1,
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
           tMin: simulationDay(0.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
@@ -116,7 +116,7 @@ void main() {
 
     test('ends sampling at tMax', () {
       // Act
-      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit, 1,
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
           tMin: simulationDay(0.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
@@ -125,7 +125,7 @@ void main() {
 
     test('starts sampling at tMin', () {
       // Act
-      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit, 1,
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
           tMin: simulationDay(5.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
@@ -139,7 +139,7 @@ void main() {
       ];
 
       // Act
-      final spots = calculator.generateLevelsSpots(intakes, unit, 1,
+      final spots = calculator.generateLevelsSpots(intakes, unit,
           tMin: simulationDay(5.0), tMax: simulationDay(10.0), numPoints: 10);
 
       // Assert
