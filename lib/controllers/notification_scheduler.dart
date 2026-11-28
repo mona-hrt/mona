@@ -5,6 +5,7 @@
 import 'package:intl/intl.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/data/model/planned_notification.dart';
+import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -29,76 +30,35 @@ class NotificationScheduler {
       return;
     }
 
-    final daysAhead = planner.daysAhead(maxScheduled: _maxScheduled);
-    final plans = [...planner.planNotifications(daysAhead: daysAhead)]
-      ..sort((a, b) => a.firstFire.compareTo(b.firstFire));
-
-    await Future.wait(
-        plans.take(_maxScheduled).map((plan) => _schedule(plan, localeName)));
+    final plans = planner.planNotifications(maxScheduled: _maxScheduled);
+    await Future.wait(plans.map((plan) => _schedule(plan, localeName)));
   }
 
   Future<void> _schedule(PlannedNotification plan, String localeName) {
-    switch (plan) {
-      case PlannedOccurrence():
-        return _scheduleOccurrence(plan, localeName);
-      case PlannedRepeating():
-        switch (plan.periodicity) {
-          case Periodicity.daily:
-            return _scheduleDaily(plan, localeName);
-          case Periodicity.weekly:
-            return _scheduleWeekly(plan, localeName);
-        }
-    }
-  }
-
-  Future<void> _scheduleOccurrence(
-    PlannedOccurrence plan,
-    String localeName,
-  ) {
-    final dateFormat = DateFormat.MMMMd(localeName);
     return NotificationService().scheduleNotification(
       id: _notificationIdFor(plan.schedule.id, plan.dateTime),
       scheduleId: plan.schedule.id,
       title: t.notificationMedicationReminderTitle(
           scheduleName: plan.schedule.name),
-      body: t.notificationMedicationReminderBodyDate(
-        date: dateFormat.format(plan.dateTime),
-      ),
+      body: _body(plan, localeName),
       scheduledTime: plan.dateTime,
     );
   }
 
-  Future<void> _scheduleDaily(
-    PlannedRepeating plan,
-    String localeName,
-  ) {
-    final timeFormat = DateFormat.Hm(localeName);
-    return NotificationService().scheduleDailyNotification(
-      id: _notificationIdFor(plan.schedule.id, plan.firstFire),
-      scheduleId: plan.schedule.id,
-      title: t.notificationMedicationReminderTitle(
-          scheduleName: plan.schedule.name),
-      body: t.notificationMedicationReminderBodyTime(
-        time: timeFormat.format(plan.firstFire),
-      ),
-      firstOccurrence: plan.firstFire,
-    );
-  }
-
-  Future<void> _scheduleWeekly(
-    PlannedRepeating plan,
-    String localeName,
-  ) {
-    final weekdayFormat = DateFormat.EEEE(localeName);
-    return NotificationService().scheduleWeeklyNotification(
-      id: _notificationIdFor(plan.schedule.id, plan.firstFire),
-      scheduleId: plan.schedule.id,
-      title: t.notificationMedicationReminderTitle(
-          scheduleName: plan.schedule.name),
-      body: t.notificationMedicationReminderBodyWeekday(
-        weekday: weekdayFormat.format(plan.firstFire),
-      ),
-      firstOccurrence: plan.firstFire,
-    );
-  }
+  String _body(PlannedNotification plan, String localeName) =>
+      switch (plan.schedule.scheduling) {
+        DailySchedule() => t.notificationMedicationReminderBodyTime(
+            time: DateFormat.Hm(localeName).format(plan.dateTime),
+          ),
+        WeeklySchedule() => t.notificationMedicationReminderBodyWeekday(
+            weekday: DateFormat.EEEE(localeName).format(plan.dateTime),
+          ),
+        IntervalDaysSchedule() ||
+        DynamicIntervalSchedule() ||
+        MonthlySchedule() ||
+        AsNeededSchedule() =>
+          t.notificationMedicationReminderBodyDate(
+            date: DateFormat.MMMMd(localeName).format(plan.dateTime),
+          ),
+      };
 }

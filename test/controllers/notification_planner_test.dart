@@ -2,14 +2,12 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only AND LicenseRef-Proxy AND LicenseRef-Digital-storefront-exception-1.2
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 
@@ -48,15 +46,14 @@ void main() {
         ]);
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 30);
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans, isEmpty);
       });
     });
 
-    test('emits one PlannedOccurrence per (scheduled date, notificationTime)',
-        () {
+    test('emits one plan per (scheduled date, notificationTime)', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -68,12 +65,21 @@ void main() {
         ]);
         when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
             .thenReturn(null);
+        final today = Date.today();
+        final nextWeek = today.add(const Duration(days: 7));
+        final inTwoWeeks = today.add(const Duration(days: 14));
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 3);
+        final plans = planner.planNotifications(maxScheduled: 5);
 
-        // today morning is filtered
-        expect(plans.whereType<PlannedOccurrence>().length, 5);
+        // Assert
+        expect(plans.map((plan) => plan.dateTime), [
+          today.toDateTimeAt(afternoon), // today morning is past
+          nextWeek.toDateTimeAt(morning),
+          nextWeek.toDateTimeAt(afternoon),
+          inTwoWeeks.toDateTimeAt(morning),
+          inTwoWeeks.toDateTimeAt(afternoon),
+        ]);
       });
     });
 
@@ -87,11 +93,10 @@ void main() {
         ]);
 
         // Act
-        final plans =
-            planner.planNotifications(daysAhead: 1).cast<PlannedOccurrence>();
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans, hasLength(1)); // afternoon is kept
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
@@ -109,10 +114,11 @@ void main() {
             .thenReturn(Date.today());
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 1);
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans, isEmpty);
+        expect(plans.single.dateTime,
+            Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
       });
     });
   });
@@ -127,7 +133,7 @@ void main() {
         ]);
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 30);
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans, isEmpty);
@@ -149,8 +155,7 @@ void main() {
             .thenReturn(Date.today());
 
         // Act
-        final plans =
-            planner.planNotifications(daysAhead: 30).cast<PlannedOccurrence>();
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans.single.dateTime,
@@ -173,7 +178,7 @@ void main() {
             .thenReturn(Date.today().subtract(const Duration(days: 20)));
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 30);
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans, isEmpty);
@@ -196,8 +201,7 @@ void main() {
             .thenReturn(null);
 
         // Act
-        final plans =
-            planner.planNotifications(daysAhead: 30).cast<PlannedOccurrence>();
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
@@ -215,15 +219,14 @@ void main() {
         ]);
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 3);
+        final plans = planner.planNotifications(maxScheduled: 3);
 
         // Assert
         expect(plans, isEmpty);
       });
     });
 
-    test('emits one PlannedOccurrence per (scheduled date, notificationTime)',
-        () {
+    test('emits one plan per (scheduled date, notificationTime)', () {
       withFixedClock(() {
         // testNow = 2026-06-01. First future occurrence 2026-06-21.
         // Arrange
@@ -240,10 +243,15 @@ void main() {
             .thenReturn(null);
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 2);
+        final plans = planner.planNotifications(maxScheduled: 4);
 
         // Assert
-        expect(plans.whereType<PlannedOccurrence>().length, 4);
+        expect(plans.map((plan) => plan.dateTime), [
+          DateTime(2026, 6, 21, 9),
+          DateTime(2026, 6, 21, 15),
+          DateTime(2026, 7, 21, 9),
+          DateTime(2026, 7, 21, 15),
+        ]);
       });
     });
 
@@ -262,17 +270,15 @@ void main() {
         ]);
 
         // Act
-        final plans =
-            planner.planNotifications(daysAhead: 1).cast<PlannedOccurrence>();
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans, hasLength(1)); // afternoon is kept
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
     test('skips today when status is taken', () {
       withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
-        // today (2026-06-21) is the only scheduled occurrence in range.
         // Arrange
         withSchedules([
           aMedicationSchedule(
@@ -285,10 +291,10 @@ void main() {
             .thenReturn(Date.today());
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 1);
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plans, isEmpty);
+        expect(plans.single.dateTime, DateTime(2026, 7, 21, 15));
       });
     });
   });
@@ -304,14 +310,14 @@ void main() {
         ]);
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 30);
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans, isEmpty);
       });
     });
 
-    test('emits one PlannedRepeating(daily) per intake time', () {
+    test('emits one plan per (date, intake time)', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -319,19 +325,25 @@ void main() {
             scheduling: aDailyStrategy(intakeTimes: const [morning, afternoon]),
           )
         ]);
+        final today = Date.today();
+        final tomorrow = today.add(const Duration(days: 1));
+        final inTwoDays = today.add(const Duration(days: 2));
 
         // Act
-        final plans =
-            planner.planNotifications(daysAhead: 30).cast<PlannedRepeating>();
+        final plans = planner.planNotifications(maxScheduled: 5);
 
         // Assert
-        expect(plans.where((p) => p.periodicity == Periodicity.daily),
-            hasLength(2));
+        expect(plans.map((plan) => plan.dateTime), [
+          today.toDateTimeAt(afternoon), // today morning is past
+          tomorrow.toDateTimeAt(morning),
+          tomorrow.toDateTimeAt(afternoon),
+          inTwoDays.toDateTimeAt(morning),
+          inTwoDays.toDateTimeAt(afternoon),
+        ]);
       });
     });
 
-    test('firstFire = today @ time when time is in the future and not taken',
-        () {
+    test('first alert is today when the time is ahead and not taken', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -341,17 +353,14 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire bumps by 1 day when today @ time is already past', () {
+    test('skips today when the time is already past', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -361,18 +370,15 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(morning));
       });
     });
 
-    test('firstFire bumps by 1 day when this slot is already taken today', () {
+    test('skips today when this time slot is taken and its time is ahead', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -384,18 +390,15 @@ void main() {
             .thenReturn([aMedicationIntake(time: afternoon)]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 1)).toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire keeps the correct time across a DST change', () {
+    test('keeps the correct time across a DST change', () {
       withFixedClock(at: DateTime(2026, 10, 24, 21, 0), () {
         // Arrange
         withSchedules([
@@ -405,13 +408,10 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, DateTime(2026, 10, 25, 20, 30));
+        expect(plans.single.dateTime, DateTime(2026, 10, 25, 20, 30));
       });
     });
 
@@ -428,18 +428,15 @@ void main() {
             .thenReturn([aMedicationIntake(time: null)]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
-    test('taken intake for a different slot does not advance this slot', () {
-      withFixedClock(() {
+    test('a taken intake for a different slot does not skip this slot', () {
+      withFixedClock(at: DateTime(2026, 6, 1, 8, 0), () {
         // Arrange
         withSchedules([
           aMedicationSchedule(
@@ -450,20 +447,14 @@ void main() {
             .thenReturn([aMedicationIntake(time: morning)]);
 
         // Act
-        final plans =
-            planner.planNotifications(daysAhead: 30).cast<PlannedRepeating>();
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(
-            plans
-                .singleWhere(
-                    (p) => TimeOfDay.fromDateTime(p.firstFire) == afternoon)
-                .firstFire,
-            Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire = startDate when startDate is in the future', () {
+    test('no alert before startDate when startDate is in the future', () {
       withFixedClock(() {
         // Arrange
         final start = Date.today().add(const Duration(days: 5));
@@ -472,208 +463,11 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(Date.fromDateTime(plan.firstFire), start);
+        expect(plans.single.dateTime, start.toDateTimeAt(afternoon));
       });
-    });
-  });
-
-  group('daysAhead', () {
-    test('single interval schedule with one time gets the full budget', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 64);
-    });
-
-    test('single interval schedule with two times halves the budget', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(
-                notificationTimes: const [morning, afternoon])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 32);
-    });
-
-    test('budget is shared across all interval schedules', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(
-                notificationTimes: const [morning, afternoon])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 21); // 64 ~/ (1 + 2)
-    });
-
-    test('daily schedules with notify reserve one slot per intake time', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
-        aMedicationSchedule(
-            scheduling:
-                aDailyStrategy(intakeTimes: const [morning, afternoon])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 62); // 64 - 2
-    });
-
-    test('daily schedules with notify=false reserve nothing', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
-        aMedicationSchedule(
-            scheduling: aDailyStrategy(
-                intakeTimes: const [morning, afternoon], notify: false)),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 64);
-    });
-
-    test('dynamic interval schedules reserve one slot per notification time',
-        () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
-        aMedicationSchedule(
-            scheduling: aDynamicIntervalStrategy(
-                notificationTimes: const [morning, afternoon])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 62); // 64 - 2
-    });
-
-    test('weekly schedules reserve daysOfWeek x notificationTimes slots', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
-        aMedicationSchedule(
-            scheduling: aWeeklyStrategy(
-                daysOfWeek: const [1, 3, 5],
-                notificationTimes: const [morning, afternoon])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 58); // 64 - 6
-    });
-
-    test(
-        'returns 1 when daily/weekly reservations exhaust the budget but interval schedules exist',
-        () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
-        aMedicationSchedule(
-            scheduling: aWeeklyStrategy(
-                daysOfWeek: const [1, 2, 3, 4, 5, 6, 7],
-                notificationTimes: const [morning, afternoon])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 14);
-
-      // Assert
-      expect(daysAhead, 1);
-    });
-
-    test('returns 1 when remaining budget is smaller than perOccurrence', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(
-                notificationTimes: const [morning, afternoon, morning])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 2);
-
-      // Assert
-      expect(daysAhead, 1); // 2 ~/ 3 = 0 -> clamped to 1.
-    });
-
-    test('monthly schedules count toward perOccurrence like interval', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: aMonthlyStrategy(
-                notificationTimes: const [morning, afternoon])),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 32); // 64 ~/ 2
-    });
-
-    test('as-needed schedules do not affect the budget', () {
-      // Arrange
-      withSchedules([
-        aMedicationSchedule(
-            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
-        aMedicationSchedule(scheduling: anAsNeededStrategy()),
-      ]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 64);
-    });
-
-    test('only as-needed schedules -> zero days ahead', () {
-      // Arrange
-      withSchedules([aMedicationSchedule(scheduling: anAsNeededStrategy())]);
-
-      // Act
-      final daysAhead = planner.daysAhead(maxScheduled: 64);
-
-      // Assert
-      expect(daysAhead, 0);
     });
   });
 
@@ -684,7 +478,7 @@ void main() {
         withSchedules([aMedicationSchedule(scheduling: anAsNeededStrategy())]);
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 30);
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans, isEmpty);
@@ -699,34 +493,42 @@ void main() {
         withSchedules([aMedicationSchedule(scheduling: aWeeklyStrategy())]);
 
         // Act
-        final plans = planner.planNotifications(daysAhead: 30);
+        final plans = planner.planNotifications(maxScheduled: 30);
 
         // Assert
         expect(plans, isEmpty);
       });
     });
 
-    test('emits daysOfWeek x notificationTimes cross product', () {
+    test('emits one plan per (date, notificationTime)', () {
       withFixedClock(() {
         // Arrange
+        // testNow = Mon. Mon, Wed and Fri -> today, +2, +4.
         withSchedules([
           aMedicationSchedule(
               scheduling: aWeeklyStrategy(
                   daysOfWeek: const [1, 3, 5],
                   notificationTimes: const [morning, afternoon]))
         ]);
+        final today = Date.today();
+        final wednesday = today.add(const Duration(days: 2));
+        final friday = today.add(const Duration(days: 4));
 
         // Act
-        final plans =
-            planner.planNotifications(daysAhead: 30).cast<PlannedRepeating>();
+        final plans = planner.planNotifications(maxScheduled: 5);
 
         // Assert
-        expect(plans.where((p) => p.periodicity == Periodicity.weekly),
-            hasLength(6));
+        expect(plans.map((plan) => plan.dateTime), [
+          today.toDateTimeAt(afternoon), // today morning is past
+          wednesday.toDateTimeAt(morning),
+          wednesday.toDateTimeAt(afternoon),
+          friday.toDateTimeAt(morning),
+          friday.toDateTimeAt(afternoon),
+        ]);
       });
     });
 
-    test('firstFire on today when today matches and time is in the future', () {
+    test('first alert is today when today matches and the time is ahead', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -736,17 +538,14 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire bumps by 7 days when today matches but time is past', () {
+    test('skips today when today matches but the time is past', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -756,18 +555,16 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(morning));
       });
     });
 
-    test('firstFire bumps by 7 days when any taken intake exists today', () {
+    test('skips today when any intake is taken today and the time is ahead',
+        () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -779,18 +576,15 @@ void main() {
             .thenReturn([aMedicationIntake(time: morning)]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 7)).toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire keeps the correct time across a DST change', () {
+    test('keeps the correct time across a DST change', () {
       withFixedClock(at: DateTime(2026, 10, 24, 21, 0), () {
         // Arrange
         withSchedules([
@@ -801,19 +595,14 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, DateTime(2026, 10, 31, 20, 30));
+        expect(plans.single.dateTime, DateTime(2026, 10, 31, 20, 30));
       });
     });
 
-    test(
-        'firstFire walks to the next matching weekday when today does not match',
-        () {
+    test('walks to the next matching weekday when today does not match', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -823,36 +612,90 @@ void main() {
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 2)).toDateTimeAt(afternoon));
       });
     });
 
-    test('firstFire from startDate when startDate is in the future', () {
+    test('no alert before startDate when startDate is in the future', () {
       withFixedClock(() {
         // Arrange
+        // startDate = Wed (+2). Mon and Wed -> Mon is skipped this week.
         final start = Date.today().add(const Duration(days: 2));
         withSchedules([
           aMedicationSchedule(
               scheduling: aWeeklyStrategy(
-                  daysOfWeek: const [3], notificationTimes: const [afternoon]),
+                  daysOfWeek: const [1, 3],
+                  notificationTimes: const [afternoon]),
               startDate: start)
         ]);
 
         // Act
-        final plan = planner
-            .planNotifications(daysAhead: 30)
-            .cast<PlannedRepeating>()
-            .single;
+        final plans = planner.planNotifications(maxScheduled: 1);
 
         // Assert
-        expect(plan.firstFire, start.toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, start.toDateTimeAt(afternoon));
+      });
+    });
+  });
+
+  group('planNotifications - allocation', () {
+    test('two schedules share the slots in equal rounds', () {
+      withFixedClock(() {
+        // Arrange
+        final everyDay = aMedicationSchedule(
+            scheduling: anIntervalStrategy(
+                intervalDays: 1, notificationTimes: const [afternoon]));
+        final monthly = aMedicationSchedule(
+            scheduling: aMonthlyStrategy(notificationTimes: const [afternoon]));
+        withSchedules([everyDay, monthly]);
+
+        // Act
+        final plans = planner.planNotifications(maxScheduled: 6);
+
+        // Assert
+        expect(plans.where((plan) => plan.schedule == monthly), hasLength(3));
+      });
+    });
+
+    test('a schedule that runs out of dates leaves its slots to the others',
+        () {
+      withFixedClock(() {
+        // Arrange
+        final everyDay = aMedicationSchedule(
+            scheduling: anIntervalStrategy(
+                intervalDays: 1, notificationTimes: const [afternoon]));
+        final nextDoseOnly = aMedicationSchedule(
+            scheduling:
+                aDynamicIntervalStrategy(notificationTimes: const [afternoon]));
+        withSchedules([everyDay, nextDoseOnly]);
+
+        // Act
+        final plans = planner.planNotifications(maxScheduled: 6);
+
+        // Assert
+        expect(plans.where((plan) => plan.schedule == everyDay), hasLength(5));
+      });
+    });
+
+    test('never returns more than maxScheduled plans', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+              scheduling: aWeeklyStrategy(
+                  daysOfWeek: const [1, 3, 5],
+                  notificationTimes: const [morning, afternoon]))
+        ]);
+
+        // Act
+        final plans = planner.planNotifications(maxScheduled: 4);
+
+        // Assert
+        expect(plans, hasLength(4));
       });
     });
   });

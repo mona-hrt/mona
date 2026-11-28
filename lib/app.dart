@@ -147,7 +147,6 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
 
     final notificationId = payload.notificationId;
     if (notificationId != null) NotificationService().cancel(notificationId);
-    if (payload.isRepeating) _regenerateNotifications();
   }
 
   void _checkTimezoneChange() {

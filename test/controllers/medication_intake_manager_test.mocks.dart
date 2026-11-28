@@ -559,13 +559,6 @@ class MockPreferencesService extends _i1.Mock
       ) as bool);
 
   @override
-  _i18.Units get units => (super.noSuchMethod(
-        Invocation.getter(#units),
-        returnValue: _i18.Units.pg_mL_ng_dL,
-        returnValueForMissingStub: _i18.Units.pg_mL_ng_dL,
-      ) as _i18.Units);
-
-  @override
   _i18.EstradiolUnit get estradiolUnit => (super.noSuchMethod(
         Invocation.getter(#estradiolUnit),
         returnValue: _i18.EstradiolUnit.pg_mL,

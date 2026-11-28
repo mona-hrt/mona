@@ -30,6 +30,9 @@ class PreferencesService extends ChangeNotifier {
   static const _slimeModeEnabledKey = 'slime_mode_enabled';
 
   static const bool defaultNotificationsEnabled = false;
+  static const EstradiolUnit defaultEstradiolUnit = EstradiolUnit.pg_mL;
+  static const TestosteroneUnit defaultTestosteroneUnit =
+      TestosteroneUnit.ng_dL;
   static const bool defaultAutoCheckUpdates = false;
   static const bool defaultHrtCounterEnabled = true;
   static const int defaultLogicalDayStartMinutes = 240;
@@ -111,13 +114,10 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
-  Units get units => Units.values[_prefs.getInt(_unitsTagKey) ?? 0];
-
-  // hormone-specific getters
   EstradiolUnit get estradiolUnit => EstradiolUnit
-      .values[_prefs.getInt(_estradiolUnitKey) ?? units.estradiol.index];
-  TestosteroneUnit get testosteroneUnit => TestosteroneUnit
-      .values[_prefs.getInt(_testosteroneUnitKey) ?? units.testosterone.index];
+      .values[_prefs.getInt(_estradiolUnitKey) ?? defaultEstradiolUnit.index];
+  TestosteroneUnit get testosteroneUnit => TestosteroneUnit.values[
+      _prefs.getInt(_testosteroneUnitKey) ?? defaultTestosteroneUnit.index];
 
   Future<void> setEstradiolUnit(EstradiolUnit unit) async {
     await _prefs.setInt(_estradiolUnitKey, unit.index);
@@ -251,6 +251,22 @@ class PreferencesService extends ChangeNotifier {
 
   static Future<PreferencesService> init() async {
     final prefs = await SharedPreferences.getInstance();
+    await _migrateLegacyUnits(prefs);
     return PreferencesService._(prefs);
+  }
+
+  // TODO: remove in later release
+  static Future<void> _migrateLegacyUnits(SharedPreferences prefs) async {
+    final legacy = prefs.getInt(_unitsTagKey);
+    if (legacy == null) return;
+
+    final units = Units.values[legacy];
+    if (!prefs.containsKey(_estradiolUnitKey)) {
+      await prefs.setInt(_estradiolUnitKey, units.estradiol.index);
+    }
+    if (!prefs.containsKey(_testosteroneUnitKey)) {
+      await prefs.setInt(_testosteroneUnitKey, units.testosterone.index);
+    }
+    await prefs.remove(_unitsTagKey);
   }
 }

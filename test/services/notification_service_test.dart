@@ -247,75 +247,6 @@ void main() {
     });
   });
 
-  test(
-      'triggerPastPendingNotifications does not re-show recurring notifications',
-      () async {
-    await withFixedClockAsync(() async {
-      // Arrange
-      final payload = jsonEncode({
-        'scheduledTime':
-            clock.now().subtract(Duration(days: 1)).toIso8601String(),
-        'isRepeating': true,
-      });
-      fakePlugin.scheduled.add({
-        'id': 1,
-        'title': 'Recurring',
-        'body': 'B',
-        'date': clock.now(),
-        'payload': payload,
-      });
-
-      // Act
-      await service.triggerPastPendingNotifications();
-
-      // Assert
-      expect(fakePlugin.shown, isEmpty);
-    });
-  });
-
-  test('scheduleDailyNotification matches on time only and marks repeating',
-      () async {
-    // Arrange
-    final firstFire = DateTime.utc(2026, 2, 8, 10, 30);
-
-    // Act
-    await service.scheduleDailyNotification(
-      id: 7,
-      scheduleId: 7,
-      title: 'D',
-      body: 'B',
-      firstOccurrence: firstFire,
-    );
-
-    // Assert
-    final n = fakePlugin.scheduled.single;
-    final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
-    expect(n['matchDateTimeComponents'], DateTimeComponents.time);
-    expect(payload['isRepeating'], isTrue);
-  });
-
-  test(
-      'scheduleWeeklyNotification matches on dayOfWeek+time and marks repeating',
-      () async {
-    // Arrange
-    final firstFire = DateTime.utc(2026, 2, 9, 8, 0); // Mon
-
-    // Act
-    await service.scheduleWeeklyNotification(
-      id: 9,
-      scheduleId: 9,
-      title: 'W',
-      body: 'B',
-      firstOccurrence: firstFire,
-    );
-
-    // Assert
-    final n = fakePlugin.scheduled.single;
-    final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
-    expect(n['matchDateTimeComponents'], DateTimeComponents.dayOfWeekAndTime);
-    expect(payload['isRepeating'], isTrue);
-  });
-
   group('notification taps', () {
     test('initialize forwards a parsed tap to onTap', () async {
       // Arrange
@@ -336,7 +267,6 @@ void main() {
       expect(capturedPayload, (
         scheduleId: 5,
         scheduledTime: DateTime(2026, 2, 8, 9, 0),
-        isRepeating: false,
         notificationId: 99,
       ));
     });
@@ -353,7 +283,6 @@ void main() {
           payload: jsonEncode({
             'scheduleId': 3,
             'scheduledTime': DateTime(2026, 2, 8, 9, 0).toIso8601String(),
-            'isRepeating': true,
           }),
         ),
       );
@@ -365,7 +294,6 @@ void main() {
       expect(payload, (
         scheduleId: 3,
         scheduledTime: DateTime(2026, 2, 8, 9, 0),
-        isRepeating: true,
         notificationId: 7,
       ));
     });

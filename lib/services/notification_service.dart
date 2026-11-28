@@ -16,7 +16,6 @@ import 'package:timezone/timezone.dart' as tz;
 typedef NotificationPayload = ({
   int scheduleId,
   DateTime scheduledTime,
-  bool isRepeating,
   int? notificationId,
 });
 
@@ -93,17 +92,15 @@ class NotificationService {
 
   static const _scheduleIdKey = 'scheduleId';
   static const _scheduledTimeKey = 'scheduledTime';
-  static const _isRepeatingKey = 'isRepeating';
+  static const _isRepeatingKey = 'isRepeating'; // TODO: remove
 
   String _encodePayload({
     required int scheduleId,
     required DateTime scheduledTime,
-    required bool isRepeating,
   }) =>
       jsonEncode({
         _scheduleIdKey: scheduleId,
         _scheduledTimeKey: scheduledTime.toIso8601String(),
-        if (isRepeating) _isRepeatingKey: true,
       });
 
   NotificationPayload? _decodePayload(String? raw, {int? notificationId}) {
@@ -119,7 +116,6 @@ class NotificationService {
     return (
       scheduleId: scheduleId,
       scheduledTime: scheduledTime,
-      isRepeating: decoded[_isRepeatingKey] == true,
       notificationId: notificationId,
     );
   }
@@ -212,59 +208,10 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime scheduledTime,
-  }) =>
-      _schedule(
-        id: id,
-        scheduleId: scheduleId,
-        title: title,
-        body: body,
-        scheduledTime: scheduledTime,
-      );
-
-  Future<void> scheduleDailyNotification({
-    required int id,
-    required int scheduleId,
-    required String title,
-    required String body,
-    required DateTime firstOccurrence,
-  }) =>
-      _schedule(
-        id: id,
-        scheduleId: scheduleId,
-        title: title,
-        body: body,
-        scheduledTime: firstOccurrence,
-        matchComponents: DateTimeComponents.time,
-      );
-
-  Future<void> scheduleWeeklyNotification({
-    required int id,
-    required int scheduleId,
-    required String title,
-    required String body,
-    required DateTime firstOccurrence,
-  }) =>
-      _schedule(
-        id: id,
-        scheduleId: scheduleId,
-        title: title,
-        body: body,
-        scheduledTime: firstOccurrence,
-        matchComponents: DateTimeComponents.dayOfWeekAndTime,
-      );
-
-  Future<void> _schedule({
-    required int id,
-    required int scheduleId,
-    required String title,
-    required String body,
-    required DateTime scheduledTime,
-    DateTimeComponents? matchComponents,
   }) async {
     final payload = _encodePayload(
       scheduleId: scheduleId,
       scheduledTime: scheduledTime,
-      isRepeating: matchComponents != null,
     );
     final dateTime = tz.TZDateTime(
         tz.local,
@@ -281,7 +228,6 @@ class NotificationService {
       scheduledDate: dateTime,
       notificationDetails: _notificationDetails(),
       androidScheduleMode: await scheduleMode(),
-      matchDateTimeComponents: matchComponents,
       payload: payload,
     );
   }
@@ -305,7 +251,7 @@ class NotificationService {
 
     return pendingNotifications.where((notification) {
       final payload = jsonDecode(notification.payload ?? '{}');
-      if (payload[_isRepeatingKey] == true) return false;
+      if (payload[_isRepeatingKey] == true) return false; // TODO: remove
       final scheduledTime =
           (payload[_scheduledTimeKey] as String?)?.toDateTimeOrNull;
       if (scheduledTime == null) return false;

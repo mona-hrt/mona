@@ -74,27 +74,17 @@ class _FakeTimeOfDay_1 extends _i1.SmartFake implements _i3.TimeOfDay {
 class MockNotificationPlanner extends _i1.Mock
     implements _i4.NotificationPlanner {
   @override
-  List<_i5.PlannedNotification> planNotifications({required int? daysAhead}) =>
+  List<_i5.PlannedNotification> planNotifications(
+          {required int? maxScheduled}) =>
       (super.noSuchMethod(
         Invocation.method(
           #planNotifications,
           [],
-          {#daysAhead: daysAhead},
+          {#maxScheduled: maxScheduled},
         ),
         returnValue: <_i5.PlannedNotification>[],
         returnValueForMissingStub: <_i5.PlannedNotification>[],
       ) as List<_i5.PlannedNotification>);
-
-  @override
-  int daysAhead({required int? maxScheduled}) => (super.noSuchMethod(
-        Invocation.method(
-          #daysAhead,
-          [],
-          {#maxScheduled: maxScheduled},
-        ),
-        returnValue: 0,
-        returnValueForMissingStub: 0,
-      ) as int);
 }
 
 /// A class which mocks [PreferencesService].
@@ -135,13 +125,6 @@ class MockPreferencesService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
-
-  @override
-  _i7.Units get units => (super.noSuchMethod(
-        Invocation.getter(#units),
-        returnValue: _i7.Units.pg_mL_ng_dL,
-        returnValueForMissingStub: _i7.Units.pg_mL_ng_dL,
-      ) as _i7.Units);
 
   @override
   _i7.EstradiolUnit get estradiolUnit => (super.noSuchMethod(
